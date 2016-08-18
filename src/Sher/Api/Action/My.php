@@ -161,7 +161,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if(isset($this->stash['assets']) && !empty($this->stash['assets']) && in_array($this->stash['assets'], array('A','B','C','D','E','F'))){
 		  $data['profile.assets'] = $this->stash['assets'];
 		}
-        // 感兴趣的情景主题
+        // 感兴趣的情境主题
 		if(isset($this->stash['interest_scene_cate']) && !empty($this->stash['interest_scene_cate'])){
             $interest_scene_cate_arr = explode(',', $this->stash['interest_scene_cate']);
             for($i=0;$i<count($interest_scene_cate_arr);$i++){
@@ -1199,6 +1199,63 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		return $this->api_json('请求成功', 0, $result);
   }
+
+    /**
+     * 添加感兴趣的情境主题
+     */
+    public function add_interest_scene_id(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);  
+        }
+        $user_id = $this->current_user_id;
+        $user_model = new Sher_Core_Model_User();
+
+        $user = $user_model->load($user_id);
+        if(isset($user['profile']['interest_scene_cate']) && !empty($user['profile']['interest_scene_cate'])){
+            $arr = $user['profile']['interest_scene_cate'];
+        }else{
+            $arr = array();
+        }
+
+        if(in_array($id, $arr)){
+            return $this->api_json('success', 0, array('id'=>$id));       
+        }
+        array_push($arr, $id);
+        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
+        if(!$ok){
+            return $this->api_json('操作失败！', 3002);
+        }
+        return $this->api_json('success', 0, array('id'=>$id));  
+    }
+
+    /**
+     * 删除感兴趣的情境主题
+     */
+    public function remove_interest_scene_id(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);  
+        }
+        $user_id = $this->current_user_id;
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($user_id);
+        $arr = array();
+        if(isset($user['profile']['interest_scene_cate']) && !empty($user['profile']['interest_scene_cate'])){
+            $arr = $user['profile']['interest_scene_cate'];
+        }
+        if(empty($arr) || !in_array($id, $arr)){
+            return $this->api_json('success', 0, array('id'=>$id)); 
+        }
+
+        unset($arr[array_search($id, $arr)]);
+        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
+        if(!$ok){
+            return $this->api_json('操作失败！', 3002);           
+        }
+        return $this->api_json('success', 0, array('id'=>$id)); 
+    
+    }
 
 
 }

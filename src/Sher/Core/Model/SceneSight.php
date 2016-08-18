@@ -63,8 +63,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'wap_view_count' => 0,
 		# app 浏览数
 		'app_view_count' => 0,
-        # 活动ID
-        'subject_id' => 0,
+        # 活动IDs
+        'subject_ids' => array(),
 		
     # 推荐
     'stick' => 0,
@@ -79,7 +79,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id', 'subject_id');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
@@ -117,8 +117,21 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
                     }           
                 }           
             }
-
             $data['category_ids'] = $category_arr;
+	    }
+
+        // 活动ID转换
+        if (isset($data['subject_ids']) && !is_array($data['subject_ids'])) {
+            $subject_arr = array();
+            if(!empty($data['subject_ids'])){
+                $subject_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['subject_ids'])));
+                if(!empty($subject_arr)){
+                    for($i=0;$i<count($subject_arr);$i++){
+                        $subject_arr[$i] = (int)$subject_arr[$i];
+                    }           
+                }           
+            }
+            $data['subject_ids'] = $subject_arr;
 	    }
 
 	    parent::before_save($data);
@@ -143,16 +156,19 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         //$model = new Sher_Core_Model_SceneScene();
         //$model->inc_counter('sight_count',1, $this->data['scene_id']);
 
-        if(isset($this->data['subject_id']) && !empty($this->data['subject_id'])){
-            $model = new Sher_Core_Model_SceneSubject();
-            $model->inc_counter('attend_count',1, $this->data['subject_id']);       
-        }
-
         // 更新分类数量
         if(isset($this->data['category_ids']) && !empty($this->data['category_ids'])){
             $model = new Sher_Core_Model_Category();
             for($i=0;$i<count($this->data['category_ids']);$i++){
                 $model->inc_counter('total_count',1, (int)$this->data['category_ids'][$i]);       
+            }
+        }
+
+        // 更新活动数量
+        if(isset($this->data['subject_ids']) && !empty($this->data['subject_ids'])){
+            $model = new Sher_Core_Model_SceneSubject();
+            for($i=0;$i<count($this->data['subject_ids']);$i++){
+                $model->inc_counter('attend_count',1, $this->data['subject_ids'][$i]);       
             }
         }
 

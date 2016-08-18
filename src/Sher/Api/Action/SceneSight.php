@@ -254,6 +254,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         );
 
 		$products = isset($this->stash['products']) ? $this->stash['products'] : null;
+		$subject_ids = isset($this->stash['subject_ids']) ? $this->stash['subject_ids'] : null;
+
+        if(!empty($subject_ids)){
+            $data['subject_ids'] = $subject_ids;
+        }
 		
 		if(!$data['title']){
 			return $this->api_json('请求标题不能为空', 3001);
