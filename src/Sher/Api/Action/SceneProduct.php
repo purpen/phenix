@@ -36,6 +36,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$ignore_sight_id = isset($this->stash['ignore_sight_id']) ? (int)$this->stash['ignore_sight_id'] : 0;
+		$title = isset($this->stash['title']) ? $this->stash['title'] : null;
 
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,
@@ -132,6 +133,10 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
     if($user_id){
       $query['user_id'] = (int)$user_id;
+    }
+
+    if($title){
+            $query['title'] = array('$regex'=>$title);
     }
 		
 		// 分页参数
