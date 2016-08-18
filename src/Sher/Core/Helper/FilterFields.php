@@ -53,15 +53,19 @@ class Sher_Core_Helper_FilterFields {
         }
 
         if(!isset($data['interest_scene_cate'])){
-            $dat['interest_scene_cate'] = array();
+            $data['interest_scene_cate'] = array();
         }
 
         if(!isset($data['age_group'])){
-            $dat['age_group'] = '';
+            $data['age_group'] = '';
         }
 
         if(!isset($data['assets'])){
-            $dat['assets'] = '';
+            $data['assets'] = '';
+        }
+
+        if(!isset($data['summary']) || empty($data['summary'])){
+            $data['summary'] = '';
         }
 
         if(!isset($data['province_id'])){
