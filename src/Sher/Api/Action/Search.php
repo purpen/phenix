@@ -214,7 +214,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $user = $user_model->load((int)$oid);       
             if(!empty($user)){
                 $result['data'][$k]['nickname'] = $user['nickname'];
-                $result['data'][$k]['summary'] = $user['summary'];
+                $result['data'][$k]['summary'] = $user['summary']==null ? '' : $user['summary'];
                 $result['data'][$k]['avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($user['avatar']['medium'], 'avm.jpg');
             }         
         }
