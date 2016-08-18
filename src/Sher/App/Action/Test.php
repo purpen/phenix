@@ -393,7 +393,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
    * 测试数组去重
    */
   public function arr(){
-    $a = array(1,2,1,3,5,1);
+    $a = array('a','b','a','c','b','d');
     $a = array_keys(array_count_values($a));
     print_r($a);
   }
