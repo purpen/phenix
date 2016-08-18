@@ -40,7 +40,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -69,8 +69,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 
         $query['is_check'] = 1;
 
-        if($category_id){
-            $query['category_ids'] = array('$in'=>$category_id);
+        if($category_ids){
+            $cate_arr = explode(',', $category_ids);
+            for($j=0;$j<count($cate_arr);$j++){
+                $cate_arr[$j] = (int)$cate_arr[$j];
+            }
+            $query['category_ids'] = array('$in'=>$cate_arr);
         }
 		
 		if($stick){
