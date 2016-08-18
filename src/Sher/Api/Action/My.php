@@ -208,6 +208,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			
 			$ok = $user->update_set($user_id, $data);
       if($ok){
+
+        // 更新订阅数量
+          if(isset($data['profile.interest_scene_cate'])){
+            $category_model = new Sher_Core_Model_Category();
+            for($j=0;$j<count($data['profile.interest_scene_cate']);$j++){
+                $category_model->inc_counter('sub_count', 1, $data['profile.interest_scene_cate'][$j]);         
+            }
+          }
+
             // 更新全文索引
             Sher_Core_Helper_Search::record_update_to_dig($user_id, 15);
         $user_data = $user->load($user_id);
@@ -1227,6 +1236,11 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         if(!$ok){
             return $this->api_json('操作失败！', 3002);
         }
+
+        // 更新订阅数量
+        $category_model = new Sher_Core_Model_Category();
+        $category_model->inc_counter('sub_count', 1, $id);
+
         return $this->api_json('success', 0, array('id'=>$id));  
     }
 
@@ -1258,6 +1272,11 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
         if(!$ok){
             return $this->api_json('操作失败！', 3002);           
         }
+
+        // 更新订阅数量
+        $category_model = new Sher_Core_Model_Category();
+        $category_model->dec_counter('sub_count', 1, $id);
+
         return $this->api_json('success', 0, array('id'=>$id)); 
     
     }
