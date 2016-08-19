@@ -382,6 +382,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['page_description_suffix'] = Sher_Core_Helper_View::meta_category_obj($current_category, 3);
             
             $tpl = 'page/topic/list.html';
+            //$tpl = 'page/topic/index.html';
 		}else{
 		    $tpl = 'page/topic/index.html';
 		}

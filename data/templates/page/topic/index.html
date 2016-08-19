@@ -11,6 +11,62 @@
     font{
         display: none;
     }
+    .ui.containermain .conright {
+  margin-bottom: 20px;
+  margin-left: 10px;
+  width: calc(25% - 10px);
+  display: inline-block;
+  vertical-align: top;
+}
+.ui.containermain .conright .sellwrap {
+  background: #fff;
+  margin: 0 0 20px;
+  text-align: left;
+  padding: 0 20px 20px;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border {
+  margin: 0 auto;
+  padding: 20px 0;
+  position: relative;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border a.magenta.button {
+  font-size: 14px;
+  width: 110px;
+  text-align: center;
+  padding: 9px 0;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border .add {
+  position: absolute;
+  top: 20px;
+  text-align: center;
+  left: 0;
+  color: transparent;
+  width: 110px;
+  font-size: 14px;
+  opacity: 1;
+  z-index: -1;
+  -webkit-transition: all 1.5s ease 0s;
+  -moz-transition: all 1.5s ease 0s;
+  -o-transition: all 1.5s ease 0s;
+  -ms-transition: all 1.5s ease 0s;
+  transition: all 1.5s ease 0s;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border .add.add-active {
+  top: -10px;
+  z-index: 3;
+  color: #000;
+  transition-delay: .3s;
+  -webkit-animation: arrow 1.5s ease both;
+  -moz-animation: arrow 1.5s ease both;
+  animation: arrow 1.5s ease both;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border .adreg {
+  padding: 0 10px;
+  display: inline-block;
+}
+.ui.containermain .conright .sellwrap.usersign .reg-border .adreg b {
+  color: #f36;
+}
 </style>
 {% endblock %}
 
@@ -68,25 +124,6 @@
         position : 'top center',
       });
 
-    // ajax加载更多(滚动条接近底部加载)
-    /*$(window).scroll(function(){
-        var scrollTop = $(this).scrollTop();
-        var scrollHeight = $(document).height();
-        var windowHeight = $(this).height();
-        if(scrollTop + windowHeight > scrollHeight - 240){
-            var stat = $('#topic-more').data('status');
-            var page = parseInt($('#topic-more').data('page')) + 1;
-            var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
-            
-            // 防止频繁请求(在没加载完成时只允许请求一次)
-            if(stat == 0){
-                $('#topic-more').data('status', 1);
-                $('#topic-more').show();
-                ajax_load_more(page,type,time,sort);
-            }
-        }
-    });*/
-
 {% endblock %}
 
 {% block content %}
@@ -133,6 +170,16 @@
         <div class="row">
             <div class="column">
                 <div class="ui inverted secondary pointing menu">
+                <!--
+                    {% category_list var:'category' only_open:1 domain:2 pid:topic_category_comprehensive size:15 %}
+                    {% for cat in category.rows %}
+                        {% if cat.pid %}
+                        <a class="item" href="{{ cat.view_url }}">
+                            {{ cat.title }}
+                        </a>
+                        {% endif %}
+                    {% endfor %}
+                    -->
                     <a class="item active">最新话题</a>
                     <a class="item">深度解析</a>
                     <a class="item">行业资讯</a>
@@ -176,7 +223,10 @@
                        
                         
                     </div>
-                    <div class="conright" style="height: 200px;background-color: #000"></div>
+                    <div class="conright">
+                        {% include "page/topic/usersign.html" %}
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,37 +329,6 @@
                     </div>
                     -->
                 </div>
-                
-				{% topic_list var:'list' is_top:1 time:time sort:sort type:type published:1 page:1 size:20 %}
-				<div class="ui computer tablet only block">
-					<table class="ui basic topic table">
-                        <tbody id="topic_list_box">
-						{% if dig_list %}
-							{% for topic in dig_list %}
-								{% if topic %}
-									<!-- 判断话题是否可以显示 -->
-									{% if topic.published %}
-										{% include "block/topic_item.html" %}
-									{% endif %}
-								{% endif %}
-							{% endfor %}
-						{% endif %}
-            
-						{% for topic in list.rows %}
-							{% if !topic.top==1 %}<!--过滤置顶帖子-->
-								{% include "block/topic_item.html" %}
-							{% endif %}
-						{% endfor %}
-                        </tbody>
-					</table>
-				</div>
-                
-                {% if list.total_page > 1 %}
-                    <div id="topic-more" data-page="1" data-status="0" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}" style="text-align:center;margin:10px auto;display:none;">
-                        <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
-                        加载中...
-                    </div>
-                {% endif %}
 			</div>
         </div>
 
