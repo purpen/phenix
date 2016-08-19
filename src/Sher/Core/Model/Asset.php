@@ -95,7 +95,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 专辑封面
 	const TYPE_SPECIAL_COVER = 98;
 
-	#情景图片
+	#情境图片
 	const TYPE_GPRODUCT = 97;
 	const TYPE_GPRODUCT_EDITOR = 99;
 	

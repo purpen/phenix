@@ -115,7 +115,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
         $some_fields = array(
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
-          'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'shight_ids', 'product_ids',
+          'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count',
         );
 		
@@ -152,8 +152,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         $sight_arr = array();
         if(!empty($data['sight_ids'])){
             $sight_model = new Sher_Core_Model_SceneSight();
-            for($i=0;$i<count($sight_arr);$i++){
-                $sight = $sight_model->extend_load($sight_arr[$i]);
+            for($i=0;$i<count($data['sight_ids']);$i++){
+                $sight = $sight_model->extend_load($data['sight_ids'][$i]);
                 if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
                 $row = array(
                     '_id' => $sight['_id'],
@@ -186,14 +186,15 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         $product_arr = array();
         if(!empty($data['product_ids'])){
             $product_model = new Sher_Core_Model_SceneProduct();
-            for($i=0;$i<count($product_arr);$i++){
-                $product = $product_model->extend_load($product_arr[$i]);
+            for($i=0;$i<count($data['product_ids']);$i++){
+                $product = $product_model->extend_load($data['product_ids'][$i]);
                 if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
                 $row = array(
-                    '_id' => $product['_id'];
-                    'title' => $product['short_title'];
+                    '_id' => $product['_id'],
+                    'title' => $product['short_title'],
+                    'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
                 );
-
+                array_push($product_arr, $row);
             }
         }
         $data['products'] = $product_arr;
