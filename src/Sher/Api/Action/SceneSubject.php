@@ -111,7 +111,13 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		if(empty($id)){
 			return $this->api_json('访问的专题不存在！', 3000);
 		}
-        $user_id = $this->current_user_id;
+        $current_user_id = $this->current_user_id;
+
+        $some_fields = array(
+          '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
+          'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'shight_ids', 'product_ids',
+          'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+        );
 		
 		$model = new Sher_Core_Model_SceneSubject();
 		$scene_subject = $model->load($id);
@@ -128,11 +134,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			return $this->api_json('访问的专题已禁用！', 3003);
 		}
 
-        $some_fields = array(
-          '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind',
-          'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id',
-          'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
-        );
+        $follow_model = new Sher_Core_Model_Follow();
 
 		$scene_subject = $model->extended_model_row($scene_subject);
 		$scene_subject['content'] = null;
@@ -146,11 +148,61 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // 封面图url
         $data['cover_url'] = $scene_subject['cover']['thumbnails']['aub']['view_url'];
 
+        // 情境
+        $sight_arr = array();
+        if(!empty($data['sight_ids'])){
+            $sight_model = new Sher_Core_Model_SceneSight();
+            for($i=0;$i<count($sight_arr);$i++){
+                $sight = $sight_model->extend_load($sight_arr[$i]);
+                if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
+                $row = array(
+                    '_id' => $sight['_id'],
+                    'title' => $sight['title'],
+                    'cover_url' => $sight['cover']['thumbnails']['huge']['view_url'],
+                    'created_at' => Sher_Core_Helper_Util::relative_datetime($sight['created_on']),
+                );
+
+                $user = array(
+                    '_id' => $sight['user']['_id'],
+                    'nickname' => $sight['user']['nickname'],
+                );
+
+                // 当前用户是否关注创建者
+                $user['is_follow'] = 0;
+                if($current_user_id){
+                    if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
+						$user['is_follow'] = 1;
+					}
+                }
+                $row['user'] = $user;
+                
+                array_push($sight_arr, $row);
+            }
+        
+        }
+        $data['sights'] = $sight_arr;
+
+        // 产品
+        $product_arr = array();
+        if(!empty($data['product_ids'])){
+            $product_model = new Sher_Core_Model_SceneProduct();
+            for($i=0;$i<count($product_arr);$i++){
+                $product = $product_model->extend_load($product_arr[$i]);
+                if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                $row = array(
+                    '_id' => $product['_id'];
+                    'title' => $product['short_title'];
+                );
+
+            }
+        }
+        $data['products'] = $product_arr;
+
         //验证是否收藏或喜欢
         $data['is_love'] = 0;
-        if(!empty($user_id)){
+        if(!empty($current_user_id)){
             $favorite_model = new Sher_Core_Model_Favorite();
-            $data['is_love'] = $favorite_model->check_loved($user_id, $scene_subject['_id'], 13) ? 1 : 0;       
+            $data['is_love'] = $favorite_model->check_loved($current_user_id, $scene_subject['_id'], 13) ? 1 : 0;       
         }
 
         $data['content_view_url'] = sprintf('%s/view/scene_subject_show?id=%d', Doggy_Config::$vars['app.url.api'], $scene_subject['_id']);

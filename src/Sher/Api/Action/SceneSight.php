@@ -136,6 +136,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $user_model = new Sher_Core_Model_User();
 
 		$favorite_model = new Sher_Core_Model_Favorite();
+
+        $follow_model = new Sher_Core_Model_Follow();
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -163,6 +165,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
 				$user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
 				$user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
+                // 当前用户是否关注创建者
+                $user['is_follow'] = 0;
+                if($current_user_id){
+                    if($follow_model->has_exist_ship($this->current_user_id, $user['user_id'])){
+						$user['is_follow'] = 1;
+					}
+                }
+
 		  }
 			
 			//$result['rows'][$k]['scene_title'] = '';

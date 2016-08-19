@@ -79,7 +79,10 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
         $tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+        $sight_ids = isset($this->stash['sight_ids']) ? $this->stash['sight_ids'] : null;
+        $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
 		
 		// 验证内容
 		if(!$scene_subject_html){
@@ -103,8 +106,11 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 			'cover_id' => $cover_id,
 			'banner_id' => $banner_id,
 			'kind' => $kind,
+            'evt' => $evt,
             'type' => $type,
             'summary' => $this->stash['summary'],
+            'sight_ids' => $sight_ids,
+            'product_ids' => $product_ids,
 		);
 		
 		try{
