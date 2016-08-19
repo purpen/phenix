@@ -11,18 +11,22 @@
     font{
         display: none;
     }
-    .ui.containermain .conright {
+   .ui.containermain .conright {
   margin-bottom: 20px;
   margin-left: 10px;
   width: calc(25% - 10px);
   display: inline-block;
   vertical-align: top;
+  padding:0;
 }
 .ui.containermain .conright .sellwrap {
   background: #fff;
   margin: 0 0 20px;
   text-align: left;
   padding: 0 20px 20px;
+}
+.ui.containermain .conright .sellwrap.usersign {
+  font-size: 12px;
 }
 .ui.containermain .conright .sellwrap.usersign .reg-border {
   margin: 0 auto;
@@ -63,9 +67,7 @@
 .ui.containermain .conright .sellwrap.usersign .reg-border .adreg {
   padding: 0 10px;
   display: inline-block;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border .adreg b {
-  color: #f36;
+  font-size: 14px;
 }
 </style>
 {% endblock %}
