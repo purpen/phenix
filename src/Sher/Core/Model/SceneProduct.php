@@ -191,6 +191,8 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		}
 		// 获取封面图
 		$row['cover'] = $this->cover($row);
+		// 获取Banner图
+		$row['banner'] = $this->banner($row);
         
     $row['created_at'] = Doggy_Dt_Filters_DateTime::relative_datetime($row['created_on']);
 
@@ -240,6 +242,27 @@ class Sher_Core_Model_SceneProduct extends Sher_Core_Model_Base {
 		$query = array(
 			'parent_id'  => (int)$row['_id'],
 			'asset_type' => Sher_Core_Model_Asset::TYPE_GPRODUCT,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+	}
+
+	/**
+	 * 获取Banner图
+	 */
+	protected function banner(&$row){
+		// 已设置封面图
+		if(!empty($row['banner_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['banner_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_GPRODUCT_BANNER,
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){

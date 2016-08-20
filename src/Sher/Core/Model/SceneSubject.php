@@ -47,6 +47,15 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         'share_count' => 0,     // 分享数
         'attend_count' => 0,    // 参与数
 
+        ## 进度
+        # 活动 0.未开始；1.进行中；2.结束
+        'evt' => 0,
+
+        ## 情境列表
+        'sight_ids' => array(),
+        # 产品列表
+        'product_ids' => array(),
+
         # 真实浏览数
         'true_view_count' => 0,
 
@@ -60,7 +69,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 
 	protected $required_fields = array('user_id', 'title');
   
-	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on');
+	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt');
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 
@@ -112,6 +121,14 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		    $row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
         }
 
+        if(isset($row['sight_ids']) && !empty($row['sight_ids'])){
+		    $row['sight_ids_s'] = !empty($row['sight_ids']) ? implode(',', $row['sight_ids']) : '';
+        }
+
+        if(isset($row['product_ids']) && !empty($row['product_ids'])){
+		    $row['product_ids_s'] = !empty($row['product_ids']) ? implode(',', $row['product_ids']) : '';
+        }
+
 	}
 
 	/**
@@ -120,9 +137,39 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	protected function before_save(&$data) {
 	    parent::before_save($data);
 
-	    if (isset($data['tags']) && !is_array($data['tags'])) {
+        // 标签
+	    if (isset($data['tags']) && !empty($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
 	    }
+
+        // 情境
+	    if (isset($data['sight_ids']) && !is_array($data['sight_ids'])) {
+            $sight_arr = array();
+            if(!empty($data['sight_ids'])){
+                $sight_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['sight_ids'])));
+                if(!empty($sight_arr)){
+                    for($i=0;$i<count($sight_arr);$i++){
+                        $sight_arr[$i] = (int)$sight_arr[$i];
+                    }           
+                }           
+            }
+            $data['sight_ids'] = $sight_arr;
+	    }
+
+        // 情境产品
+	    if (isset($data['product_ids']) && !is_array($data['product_ids'])) {
+            $product_arr = array();
+            if(!empty($data['product_ids'])){
+                $product_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['product_ids'])));
+                if(!empty($product_arr)){
+                    for($i=0;$i<count($product_arr);$i++){
+                        $product_arr[$i] = (int)$product_arr[$i];
+                    }           
+                }           
+            }
+            $data['product_ids'] = $product_arr;
+	    }
+
 
 	}
 

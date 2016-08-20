@@ -136,6 +136,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $user_model = new Sher_Core_Model_User();
 
 		$favorite_model = new Sher_Core_Model_Favorite();
+
+        $follow_model = new Sher_Core_Model_Follow();
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -163,6 +165,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
 				$user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
 				$user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
+                // 当前用户是否关注创建者
+                $user['is_follow'] = 0;
+                if($current_user_id){
+                    if($follow_model->has_exist_ship($this->current_user_id, $user['user_id'])){
+						$user['is_follow'] = 1;
+					}
+                }
+
 		  }
 			
 			//$result['rows'][$k]['scene_title'] = '';
@@ -366,6 +377,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
+
+        $current_user_id = $this->current_user_id;
         
 		$model = new Sher_Core_Model_SceneSight();
         $result  = $model->extend_load((int)$id);
@@ -373,6 +386,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if (empty($result) || $result['deleted']==1) {
             return $this->api_json('情景不存在或已删除!', 3002);
         }
+
+        $follow_model = new Sher_Core_Model_Follow();
+        // 评论
+        $comment_model = new Sher_Core_Model_Comment();
 
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
@@ -398,6 +415,14 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $user['label'] = isset($result['user']['profile']['label']) ? $result['user']['profile']['label'] : '';
         $user['expert_label'] = isset($result['user']['profile']['expert_label']) ? $result['user']['profile']['expert_label'] : '';
         $user['expert_info'] = isset($result['user']['profile']['expert_info']) ? $result['user']['profile']['expert_info'] : '';
+
+        // 当前用户是否关注创建者
+        $user['is_follow'] = 0;
+        if($current_user_id){
+            if($follow_model->has_exist_ship($$current_user_id, $user['user_id'])){
+                $user['is_follow'] = 1;
+            }
+        }
 		
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
@@ -424,6 +449,31 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}else{
 			$result['is_love'] = 0;
 		}
+
+        // 获取评论(2条)
+        $comments = array();
+        $comment_query = array('target_id'=>(string)$result['_id'], 'type'=>12, 'deleted'=>0);
+        $comment_options = array('page'=>1, 'size'=>2, 'sort'=>array('created_on'=>-1));
+        $comment_list = $comment_model->find($comment_query, $comment_options);
+        if($comment_list){
+            $comments = array();
+            for($j=0;$j<count($comment_list);$j++){
+                $comment_user = $user_model->extend_load($comment_list[$j]['user_id']);
+                if($comment_user){
+                    $comment_row = array(
+                        '_id' => (string)$comment_list[$j]['_id'],
+                        'content' => $comment_list[$j]['content'],
+                        'user_id' => $comment_user['_id'],
+                        'user_nickname' => $comment_user['nickname'],
+                        'user_avatar_url' => $comment_user['mini_avatar_url'],
+                    );
+                    array_push($comments, $comment_row);
+                }
+            }   // endfor
+
+        }   // endif comment_list
+
+        $result['comments'] = $comments;
         
         //print_r($result);exit;
         return $this->api_json('请求成功', false, $result);

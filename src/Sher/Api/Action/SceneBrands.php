@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
-		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
         $title = isset($this->stash['title']) ? $this->stash['title'] : null;
 		
 		$some_fields = array(

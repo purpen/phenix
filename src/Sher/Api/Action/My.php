@@ -167,7 +167,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             for($i=0;$i<count($interest_scene_cate_arr);$i++){
                 $data['profile.interest_scene_cate'][$i] = (int)$interest_scene_cate_arr[$i];
             }
-            $data['profile.interest_scene_cate'] = array_unique($data['profile.interest_scene_cate']);
+            $data['profile.interest_scene_cate'] = array_keys(array_count_values($data['profile.interest_scene_cate']));
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
@@ -1232,6 +1232,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             return $this->api_json('success', 0, array('id'=>$id));       
         }
         array_push($arr, $id);
+        $arr = array_keys(array_count_values($arr));
         $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
         if(!$ok){
             return $this->api_json('操作失败！', 3002);
@@ -1263,19 +1264,19 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             return $this->api_json('success', 0, array('id'=>$id)); 
         }
 
-        $new_arr = array();
         for($i=0;$i<count($arr);$i++){
-            if($arr[$i]!=$id) array_push($new_arr, $id);
+            if($arr[$i]==$id) unset($arr[$i]);
         }
+        $arr = array_values($arr);
 
-        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$new_arr));
+        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
         if(!$ok){
             return $this->api_json('操作失败！', 3002);           
         }
 
         // 更新订阅数量
         $category_model = new Sher_Core_Model_Category();
-        $category_model->dec_counter('sub_count', 1, $id);
+        $category_model->dec_counter('sub_count', $id);
 
         return $this->api_json('success', 0, array('id'=>$id)); 
     

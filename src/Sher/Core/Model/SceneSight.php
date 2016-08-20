@@ -103,8 +103,13 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
-	    if (isset($data['tags']) && !empty($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+            if(!empty($data['tags'])){
+	            $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            }else{
+                $tag_arr = array();
+            }
+            $data['tags'] = $tag_arr;
 	    }
 
         if (isset($data['category_ids']) && !is_array($data['category_ids'])) {
