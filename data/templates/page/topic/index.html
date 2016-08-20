@@ -2,73 +2,6 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
-    .sorts.filter {
-        background-color: #fff;
-        margin-bottom: 0;
-        padding-bottom: 40px;
-        padding-top: 20px;
-    }
-    font{
-        display: none;
-    }
-   .ui.containermain .conright {
-  margin-bottom: 20px;
-  margin-left: 10px;
-  width: calc(25% - 10px);
-  display: inline-block;
-  vertical-align: top;
-  padding:0;
-}
-.ui.containermain .conright .sellwrap {
-  background: #fff;
-  margin: 0 0 20px;
-  text-align: left;
-  padding: 0 20px 20px;
-}
-.ui.containermain .conright .sellwrap.usersign {
-  font-size: 12px;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border {
-  margin: 0 auto;
-  padding: 20px 0;
-  position: relative;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border a.magenta.button {
-  font-size: 14px;
-  width: 110px;
-  text-align: center;
-  padding: 9px 0;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border .add {
-  position: absolute;
-  top: 20px;
-  text-align: center;
-  left: 0;
-  color: transparent;
-  width: 110px;
-  font-size: 14px;
-  opacity: 1;
-  z-index: -1;
-  -webkit-transition: all 1.5s ease 0s;
-  -moz-transition: all 1.5s ease 0s;
-  -o-transition: all 1.5s ease 0s;
-  -ms-transition: all 1.5s ease 0s;
-  transition: all 1.5s ease 0s;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border .add.add-active {
-  top: -10px;
-  z-index: 3;
-  color: #000;
-  transition-delay: .3s;
-  -webkit-animation: arrow 1.5s ease both;
-  -moz-animation: arrow 1.5s ease both;
-  animation: arrow 1.5s ease both;
-}
-.ui.containermain .conright .sellwrap.usersign .reg-border .adreg {
-  padding: 0 10px;
-  display: inline-block;
-  font-size: 14px;
-}
 </style>
 {% endblock %}
 
@@ -227,135 +160,17 @@
                     </div>
                     <div class="conright">
                         {% include "page/topic/usersign.html" %}
-
+                        {% include "page/topic/login_user.html" %}
+                        {% include "page/topic/rightbar.html" %}
+                        {% include "page/topic/right_active.html" %}
+                        {% include "page/topic/top_user.html" %}
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- 话题推荐位 -->
-<div class="mainwrap social" id="topics" style="display:none;">
-    <div class="social topstick">
-        <div class="slidebox">
-            
-            {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
-            <div id="minslider" class="flexslider flex-single">
-                <ul class="slides">                    
-	                {% for ad in adslide.rows %}
-                        <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
-                                <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
-                            </a>
-                        </li>
-					{% endfor %}
-                  </ul>
-            </div>
-            <div class="controls-dots"></div>
-		</div>
-    </div>
-    
-    <div class="mainleftwrap">
-        <div class="mainleft">
-            <!--最新话题-->
-            <div class="ui topics segment">
-                <div class="ordby">
-
-                  <div class="ui text menu" style="margin:0;">
-                    <div class=" item"><i class="flag icon"></i>条件:</div>
-                    <a href="{{ links.all_url }}" class="item magenta {{ css_type_all }}">全部 </a>
-                    <a href="{{ links.stick_url }}" class="item magenta {{ css_type_stick }}">编辑推荐 </a>
-                    <a href="{{ links.fine_url }}" class="item magenta {{ css_type_fine }}">精华主题 </a>
-                    <a href="{{ links.active_url }}" class="item magenta {{ css_type_active }}">热门活动 </a>
-                  </div>
-
-                  <div class="ui text menu" style="margin:0;">
-                    <div class=" item"><i class="time icon"></i>排序:</div>
-                    <a href="{{ links.sort_updated_url }}" class="item magenta {{ css_sort_update }}">最新回复 </a>
-                    <a href="{{ links.sort_default_url }}" class="item magenta {{ css_sort_default }}">最新主题 </a>
-                    <a href="{{ links.sort_comment_url }}" class="item magenta {{ css_sort_comment }}">回复最多 </a>
-                  </div>
-
-<!--
-                    <div class="ui secondary menu">
-                        <a class="{{ css_type_all }} item" href="{{ app_url_topic }}">
-                            <i class="time icon"></i> 最新主题
-                        </a>
-                        <a class="{{ css_type_stick }} item" href="{{ app_url_topic }}?type=1">
-                            <i class="checkered flag icon"></i> 编辑推荐
-                        </a>
-                        <a class="{{ css_type_fine }} item" href="{{ app_url_topic }}?type=2">
-                            <i class="diamond icon"></i> 精华主题
-                        </a>
-                    </div>
-                    <div class="rightmenu">
-                        <div class="ui icon top right pointing dropdown button">
-                            <span class="text"><i class="filter icon"></i> 筛选主题</span>
-                            <div class="menu">
-                                <div class="header">
-                                    <i class="sort content descending icon"></i>
-                                    排序
-                                </div>
-                                <a class="{{ css_sort_default }} item" href="{{ links.sort_default_url }}">
-                                    <div class="ui red empty circular label"></div> 发帖时间
-                                </a>
-                                <a class="{{ css_sort_view }} item" href="{{ links.sort_view_url }}">
-                                    <div class="ui orange empty circular label"></div> 查看数
-                                </a>
-                                <a class="{{ css_sort_comment }} item" href="{{ links.sort_comment_url }}">
-                                    <div class="ui blue empty circular label"></div> 回复数
-                                </a>
-                                <a class="{{ css_sort_update }} item" href="{{ links.sort_updated_url }}">
-                                    <div class="ui green empty circular label"></div> 最后回复
-                                </a>
-                                <div class="divider"></div>
-                                <div class="header">
-                                    <i class="calendar icon"></i>
-                                    全部时间
-                                </div>
-                                <a class="{{ css_time_week }} item" href="{{ links.time_week_url }}">
-                                    <i class="olive circle icon"></i>
-                                    一周之内
-                                </a>
-                                <a class="{{ css_time_month }} item" href="{{ links.time_mouth_url }}">
-                                    <i class="violet circle icon"></i>
-                                    一月之内
-                                </a>
-                                <a class="{{ css_time_year }} item" href="{{ links.time_year_url }}">
-                                    <i class="grey circle icon"></i>
-                                    一年之内
-                                </a>
-                            </div>
-                        </div>
-                                                
-                    </div>
-                    -->
-                </div>
-			</div>
-        </div>
-
-    </div>
-    <div class="mainright">
-        {% include "page/topic/usersign.html" %}
-        {% include "page/topic/login_user.html" %}
-        {% include "page/topic/rightbar.html" %}
-        {% include "page/topic/right_active.html" %}
-        {% include "page/topic/top_user.html" %}
-        {% include "page/topic/stick_list.html" %}
-        {% include "page/topic/adwrap.html" %}
-        <div class="sellwrap">
-			<div class="block title">
-				太火鸟微信号
-            </div>
-            <div class="product aption">
-			    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国火爆的智能硬件孵化平台" />
-			    <p>关注太火鸟有惊喜！</p>
             </div>
         </div>
     </div>
 </div>
 {% endblock %}
-
 {% block templates %}
 {% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
 {% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topicbox.mustache' %}

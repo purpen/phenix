@@ -1,6 +1,8 @@
 <div class="card" id="product-{{ d._id }}">
     <div class="problock">
-        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb"></a>
+        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" class="thumb">
+        <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
+        </a>
         <div class="ribbons">
             {% if d.newest %}
             <a class="ribbon newest" href="{{ app_url_shop }}/collections/newest" target="_blank">NEW</a>
@@ -36,7 +38,7 @@
             所需鸟币：{{ d.max_bird_coin }}
             {%endif%}
         </div>
-        <span class="counter">
+        <span class="counter" style="right: 20px;">
             <i class="heart icon"></i> {{ d.love_count }}
         </span>
     </div>
