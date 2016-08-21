@@ -26,7 +26,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
-			'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'evt'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 'stick_on'=>1, 'fine_on'=>1,
+            'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'evt'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 
+            'stick_on'=>1, 'fine_on'=>1, 'begin_time'=>1, 'end_time'=>1,
 			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'attend_count'=>1, 'share_count'=>1,
 		);
 		
@@ -91,6 +92,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		// 开启查询
 		$service = Sher_Core_Service_SceneSubject::instance();
 		$result = $service->get_scene_subject_list($query, $options);
+
+        $product_model = new Sher_Core_Model_SceneProduct();
 		
 		// 重建数据结果
         $data = array();
@@ -102,6 +105,24 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
 			// Banner url
 			//$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
+
+            // 产品
+            $product_arr = array();
+            if($data[$i]['type']==2 && !empty($data[$i]['product_ids'])){
+                for($j=0;$j<count($data[$i]['product_ids']);$j++){
+                    $product = $product_model->extend_load($data[$i]['product_ids'][$j]);
+                    if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                    $row = array(
+                        '_id' => $product['_id'],
+                        'title' => $product['short_title'],
+                        'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                        'summary' => $product['summary'],
+                    );
+                    array_push($product_arr, $row);
+                }
+            }
+            $data['products'] = $product_arr;
+
 		}
 		$result['rows'] = $data;
 		
@@ -122,6 +143,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+          'begin_time', 'end_time',
         );
 		
 		$model = new Sher_Core_Model_SceneSubject();
@@ -198,6 +220,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     '_id' => $product['_id'],
                     'title' => $product['short_title'],
                     'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                    'summary' => $product['summary'],
                 );
                 array_push($product_arr, $row);
             }

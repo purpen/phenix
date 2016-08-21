@@ -83,6 +83,9 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
         $tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
         $sight_ids = isset($this->stash['sight_ids']) ? $this->stash['sight_ids'] : null;
         $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
+
+        $begin_time = isset($this->stash['begin_time']) ? $this->stash['begin_time'] : null;
+        $end_time = isset($this->stash['end_time']) ? $this->stash['end_time'] : null;
 		
 		// 验证内容
 		if(!$scene_subject_html){
@@ -111,6 +114,8 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'summary' => $this->stash['summary'],
             'sight_ids' => $sight_ids,
             'product_ids' => $product_ids,
+            'begin_time' => $begin_time,
+            'end_time' => $end_time,
 		);
 		
 		try{

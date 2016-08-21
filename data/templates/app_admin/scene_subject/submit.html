@@ -671,6 +671,19 @@
                   <div class="description">产品列表: 多个ID用“,”分隔</div>
 			  </div>
 
+            <div class="two fields">
+			  <div class="field">
+				  <label>开始时间：</label>
+				  <input type="text" name="begin_time" value="{{ scene_subject.begin_time|date 'Y-m-d' }}" />
+                  <div class="description">格式：2015-12-12</div>
+			  </div>
+			  <div class="field">
+				  <label>结束时间：</label>
+				  <input type="text" name="end_time" value="{{ scene_subject.end_time|date 'Y-m-d' }}" />
+                  <div class="description">格式：2015-12-12</div>
+			  </div>
+            </div>
+
             <h4 class="ui stage header">活动进度:</h4>
             <div class="grouped inline fields">
               <div class="field">
