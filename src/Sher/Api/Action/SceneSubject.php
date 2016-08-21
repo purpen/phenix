@@ -36,6 +36,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
 			
 		$query   = array();
 		$options = array();
@@ -47,6 +48,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		// 查询条件
 		if($user_id){
 			$query['user_id'] = $user_id;
+		}
+
+		if($type){
+			$query['type'] = $type;
 		}
 		
 		if($stick){
