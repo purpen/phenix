@@ -106,6 +106,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			// Banner url
 			//$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 
+            $data[$i]['begin_time_at'] = date('Y-m-d', $data[$i]['begin_time']);
+            $data[$i]['end_time_at'] = date('Y-m-d', $data[$i]['end_time']);
+
             // 产品
             $product_arr = array();
             if($data[$i]['type']==2 && !empty($data[$i]['product_ids'])){
@@ -121,7 +124,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     array_push($product_arr, $row);
                 }
             }
-            $data['products'] = $product_arr;
+            $data[$i]['products'] = $product_arr;
 
 		}
 		$result['rows'] = $data;

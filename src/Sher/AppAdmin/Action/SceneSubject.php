@@ -119,7 +119,9 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		);
 		
 		try{
+
 			$model = new Sher_Core_Model_SceneSubject();
+
 			if(empty($id)){
 				// add
                 $date['user_id'] = $this->visitor->id;
@@ -131,7 +133,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 				$date['_id'] = $id;
 				$ok = $model->apply_and_update($date);
 			}
-			
+
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
