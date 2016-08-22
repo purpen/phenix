@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1, 'city'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1, 'category_ids'=>1,
-			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'subject_ids'=>1,
 		);
 
 		$current_user_id = $this->current_user_id;
@@ -41,6 +41,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
+		$subject_id = isset($this->stash['subject_id']) ? (int)$this->stash['subject_id'] : 0;
+
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -105,6 +107,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if($user_id){
 			$query['user_id']  = $user_id;
 		}
+
+        if($subject_id){
+            $query['subject_ids'] = array('$in'=> $subject_id);
+        }
 
     $query['deleted'] = 0;
 		
