@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert', 'sight_click_stat');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'outside_search', 'tb_view', 'jd_view', 'jd_item_price', 'item_url_convert', 'sight_click_stat', 'index_new');
 
 	/**
 	 * 入口
@@ -41,7 +41,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'short_title'=>1, 'oid'=>1, 'sale_price'=>1, 'market_price'=>1,
 			'kind'=>1, 'cover_id'=>1, 'category_id'=>1, 'fid'=>1, 'summary'=>1, 'link'=>1, 
-			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1, 'cover_url'=>1, 'banner_id'=>1,
+			'stick'=>1, 'summary'=>1, 'fine'=>1, 'brand_id'=>1, 'brand'=>1, 'cover_url'=>1, 'banner_id'=>1,
 			'view_count'=>1, 'favorite_count'=>1, 'love_count'=>1, 'comment_count'=>1,'buy_count'=>1, 'deleted'=>1,
 			'published'=>1, 'attrbute'=>1, 'state'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
 			'category_tags'=>1,
@@ -191,7 +191,14 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
       $asset_options['size'] = 8;
       $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
-      $data[$i]['banner_id'] = isset($data[$i]['banner_id']) ? $data[$i]['banner_id'] : null;
+      $data[$i]['banner_id'] = isset($data[$i]['banner_id']) ? $data[$i]['banner_id'] : '';
+      $brand = array();
+      if(isset($data[$i]['brand']) && !empty($data[$i]['brand'])){
+          $brand['_id'] = (string)$data[$i]['brand']['_id'];
+        $brand['cover_url'] = isset($data[$i]['brand']['cover']['thumbnails']['ava']['view_url']) ? $data[$i]['brand']['cover']['thumbnails']['ava']['view_url'] : null;
+      }
+      $data[$i]['brand'] = $brand;
+
       $banner_asset_obj = false;
       if(!empty($asset_result['rows'])){
         foreach($asset_result['rows'] as $key=>$value){
@@ -676,6 +683,37 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
   }
+
+    /**
+    * 好货最好产品
+    *
+    */
+    public function index_new(){
+        $conf = Sher_Core_Util_View::load_block('fiu_product_new', 1);
+        $active_arr = array('items'=>array());
+        if(empty($conf)){
+            return $this->api_json('数据不存在!', 0, $active_arr); 
+        }
+		$scene_product = new Sher_Core_Model_SceneProduct();
+        $arr = explode(',', $conf);
+        for($i=0;$i<count($arr);$i++){
+            $product = $scene_product->extend_load((int)$arr[$i]);
+            if(empty($product)) continue;
+
+            $row = array();
+			$row['_id'] = $product['_id'];
+			$row['title'] = $product['short_title'];
+			// 封面图url
+			$row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+            $row['brand_id'] = isset($product['brand_id']) ? $product['brand_id'] : '';
+            $row['brand_cover_url'] = isset($product['brand']['cover']['thumbnails']['ava']['view_url']) ? $product['brand']['cover']['thumbnails']['ava']['view_url'] : '';
+            
+            array_push($active_arr['items'], $row);
+        } 
+
+        return $this->api_json('success', 0, $active_arr);
+    }
 	
 
 }
