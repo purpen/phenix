@@ -56,6 +56,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         # 产品列表
         'product_ids' => array(),
 
+        # 关联产品ID
+        'product_id' => 0,
+
         # 真实浏览数
         'true_view_count' => 0,
 
@@ -65,11 +68,15 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         'wap_view_count' => 0,
         # app 浏览数
         'app_view_count' => 0,
+
+        # 开始/结束时间
+        'begin_time' => 0,
+        'end_time' => 0,
 	);
 
 	protected $required_fields = array('user_id', 'title');
   
-	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt');
+	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt', 'product_id');
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 
@@ -137,6 +144,15 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	protected function before_save(&$data) {
 	    parent::before_save($data);
 
+		// 活动开始时间－转换为时间戳
+		if(isset($data['begin_time'])){
+			$data['begin_time'] = strtotime($data['begin_time']);
+		}
+		// 活动结束时间－转换为时间戳
+		if(isset($data['end_time'])){
+			$data['end_time'] = strtotime($data['end_time']);
+		}
+
         // 标签
 	    if (isset($data['tags']) && !empty($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
@@ -169,7 +185,6 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
             }
             $data['product_ids'] = $product_arr;
 	    }
-
 
 	}
 
