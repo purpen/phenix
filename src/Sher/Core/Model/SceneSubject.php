@@ -56,6 +56,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         # 产品列表
         'product_ids' => array(),
 
+        # 关联产品ID
+        'product_id' => 0,
+
         # 真实浏览数
         'true_view_count' => 0,
 
@@ -73,7 +76,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 
 	protected $required_fields = array('user_id', 'title');
   
-	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt');
+	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt', 'product_id');
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 

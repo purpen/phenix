@@ -146,7 +146,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count',
-          'begin_time', 'end_time',
+          'begin_time', 'end_time', 'product_id',
         );
 		
 		$model = new Sher_Core_Model_SceneSubject();
@@ -169,6 +169,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$scene_subject = $model->extended_model_row($scene_subject);
 		$scene_subject['content'] = null;
 
+
         // 重建数据结果
         $data = array();
         for($i=0;$i<count($some_fields);$i++){
@@ -177,6 +178,23 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         // 封面图url
         $data['cover_url'] = $scene_subject['cover']['thumbnails']['aub']['view_url'];
+
+        $product = null;
+        if(!empty($data['product_id'])){
+            $product_model = new Sher_Core_Model_Product();
+            $row = $product_model->load((int)$data['product_id']);
+            if(!empty($row)){
+                $product['_id'] = $row['_id'];
+                $product['is_favorite'] = 0;
+                //验证是否收藏或喜欢
+                if(!empty($current_user_id)){
+                    $favorite_model = new Sher_Core_Model_Favorite();
+                    $product['is_favorite'] = $favorite_model->check_favorite($current_user_id, $row['_id'], 1) ? 1 : 0;
+                }
+
+            }
+        }
+        $data['product'] = $product;
 
         // 情境
         $sight_arr = array();
@@ -215,9 +233,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // 产品
         $product_arr = array();
         if(!empty($data['product_ids'])){
-            $product_model = new Sher_Core_Model_SceneProduct();
+            $scene_product_model = new Sher_Core_Model_SceneProduct();
             for($i=0;$i<count($data['product_ids']);$i++){
-                $product = $product_model->extend_load($data['product_ids'][$i]);
+                $product = $scene_product_model->extend_load($data['product_ids'][$i]);
                 if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
                 $row = array(
                     '_id' => $product['_id'],

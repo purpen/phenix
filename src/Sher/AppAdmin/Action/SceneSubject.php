@@ -83,6 +83,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
         $tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
         $sight_ids = isset($this->stash['sight_ids']) ? $this->stash['sight_ids'] : null;
         $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
+        $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
 
         $begin_time = isset($this->stash['begin_time']) ? $this->stash['begin_time'] : null;
         $end_time = isset($this->stash['end_time']) ? $this->stash['end_time'] : null;
@@ -116,6 +117,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'product_ids' => $product_ids,
             'begin_time' => $begin_time,
             'end_time' => $end_time,
+            'product_id' => $product_id,
 		);
 		
 		try{
