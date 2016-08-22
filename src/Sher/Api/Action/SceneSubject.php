@@ -145,7 +145,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         $some_fields = array(
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
-          'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count',
+          'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'share_count',
           'begin_time', 'end_time', 'product_id',
         );
 		
@@ -249,6 +249,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
             }
         }
         $data['products'] = $product_arr;
+
+        $data['begin_time_at'] = date('Y-m-d', $data['begin_time']);
+        $data['end_time_at'] = date('Y-m-d', $data['end_time']);
 
         //验证是否收藏或喜欢
         $data['is_love'] = 0;
