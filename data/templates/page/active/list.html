@@ -33,7 +33,7 @@
 </div>
 <div class="ui activenew page">
     <div class="ui responsive grid">
-        <div class="row pt-0">
+        <!--<div class="row pt-0">
             <div class="column">
                 <div class="ui one cat cards">
                     {% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
@@ -46,8 +46,8 @@
                     {%endfor%}
                 </div>
             </div>
-        </div>
-        <div class="row">
+        </div>-->
+        <div class="row pt-0">
             <div class="column">
                 <div class="ui activecard three cards">
                     {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
