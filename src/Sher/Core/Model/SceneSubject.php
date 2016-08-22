@@ -17,6 +17,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	const TYPE_ACTIVE = 2;
 	const TYPE_HOT = 3;
 	const TYPE_NEW = 4;
+    const TYPE_BRAND = 5;   # 好货
 	  
 	protected $schema = array(
 		'title' => null,
@@ -119,6 +120,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
                     break;
                 case 4:
                     $row['type_label'] = '新品';
+                    break;
+                case 5:
+                    $row['type_label'] = '好货';
                     break;
             }
         }
