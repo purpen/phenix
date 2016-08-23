@@ -708,6 +708,7 @@ class Sher_Api_Action_SceneProduct extends Sher_Api_Action_Base {
 
             $row['brand_id'] = isset($product['brand_id']) ? $product['brand_id'] : '';
             $row['brand_cover_url'] = isset($product['brand']['cover']['thumbnails']['ava']['view_url']) ? $product['brand']['cover']['thumbnails']['ava']['view_url'] : '';
+            $row['sale_price'] = $product['sale_price'];
             
             array_push($active_arr['items'], $row);
         } 

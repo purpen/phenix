@@ -304,7 +304,7 @@
 				<div class="ui center aligned column">
 					<div class="ui compact menu">
             <a href="{{ app_url_contest }}/qsyd_list2" class="item {%if category_id==0%}active{%endif%}">
-							全部作品
+							Top100
 						</a>
             {% for d in category.rows %}
             <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">
@@ -314,7 +314,7 @@
 					</div>
 				</div>
 					
-				{% stuff_list var:'list' category_id:category_id page:page size:16 %}
+				{% stuff_list var:'list' category_id:category_id page:page size:16 is_prize:is_prize sort:sort %}
 				<div class="column">
 					<div class="ui four items">
 
