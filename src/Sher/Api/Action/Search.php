@@ -21,7 +21,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
         $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
-        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 3;
         $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
         $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
@@ -52,9 +52,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       $asset_model = new Sher_Core_Model_Asset();
       $product_model = new Sher_Core_Model_Product();
       $topic_model = new Sher_Core_Model_Topic();
-      $scene_model = new Sher_Core_Model_SceneScene();
+      //$scene_model = new Sher_Core_Model_SceneScene();
       $scene_sight_model = new Sher_Core_Model_SceneSight();
-      $scene_product_model = new Sher_Core_Model_SceneProduct();
+      //$scene_product_model = new Sher_Core_Model_SceneProduct();
       $scene_context_model = new Sher_Core_Model_SceneContext();
       $scene_subject_model = new Sher_Core_Model_SceneSubject();
       $scene_brand_model = new Sher_Core_Model_SceneBrands();
@@ -100,6 +100,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='Scene'){  // 地盘
+            /**
           $obj = $scene_model->load((int)$oid);
           $result['data'][$k]['address'] = '';
           if($obj){
@@ -110,7 +111,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];
           }
-        
+
+             */
         }elseif($kind=='Sight'){  // 情境
           $obj = $scene_sight_model->extend_load((int)$oid);
           if($obj){
@@ -143,7 +145,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='SProduct'){ // 情景产品
-
+            /**
           // 图片尺寸
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
@@ -183,6 +185,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
           $result['data'][$k]['banners'] = $assets;
 
+             */
         }elseif($kind=='SContext'){ // 场景分享语境
           $scene_context = $scene_context_model->load($oid);
           if(!empty($scene_context)){
