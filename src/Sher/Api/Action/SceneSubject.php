@@ -119,6 +119,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                         'title' => $product['short_title'],
                         'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
                         'summary' => $product['summary'],
+                        'sale_price' => $product['sale_price'],
                     );
                     array_push($product_arr, $row);
                 }
