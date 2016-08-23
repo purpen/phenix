@@ -45,10 +45,10 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 	}
 
 	public function qsyd_list2(){
-    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
-    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
-		$this->stash['cid'] = $top_category_id;
-    $this->stash['category_id'] = $category_id;
+        $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+        $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+            $this->stash['cid'] = $top_category_id;
+        $this->stash['category_id'] = $category_id;
 
 		return $this->to_html_page('wap/contest/qsyd_list2.html');
     }
