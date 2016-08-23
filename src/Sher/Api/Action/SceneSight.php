@@ -109,7 +109,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 
         if($subject_id){
-            $query['subject_ids'] = array('$in'=> $subject_id);
+            $query['subject_ids'] = $subject_id;
         }
 
     $query['deleted'] = 0;
