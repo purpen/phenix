@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'view');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'record_share_count');
 	
 	/**
 	 * 入口
