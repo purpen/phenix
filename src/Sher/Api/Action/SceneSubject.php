@@ -178,6 +178,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         // 封面图url
         $data['cover_url'] = $scene_subject['cover']['thumbnails']['aub']['view_url'];
+        // Banner url
+        $data['banner_url'] = $scene_subject['banner']['thumbnails']['aub']['view_url'];
 
         $product = null;
         if(!empty($data['product_id'])){
