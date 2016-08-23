@@ -145,8 +145,14 @@
     var from_to = 0;
     function ajax_load_more(page, type, category_id, from_to, sort, size){
         var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
+        var is_prize = 0;
+        if(category_id==0){
+            is_prize = 1;
+            sort = 8;
+        }
+        
         if(page != 'no'){
-            $.get(url, { page:page, type:type, category_id:category_id, from_to:from_to, sort:sort, size:size }, function(rs){
+            $.get(url, { page:page, type:type, category_id:category_id, from_to:from_to, is_prize:is_prize, sort:sort, size:size }, function(rs){
                 rs.data['phenix'] = phenix.url;
                 var rendered = phenix.ajax_render_result('#fetch_more_stuff_qsyd2_tpl', rs.data);
                 if(page==1){
@@ -241,7 +247,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
             <ul class="navfelx" style="padding-bottom: 4px;">
               <li class="childcell">
               <a href="javascript:void(0);" category_id="0" class="menuicon category-btn {%if category_id==0%}active{%endif%}">
-                  全部作品
+                  Top100
                 </a> 
               </li>
             {% for d in category.rows %}
