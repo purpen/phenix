@@ -97,6 +97,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         if(isset($row['category_ids']) && !empty($row['category_ids']) && is_array($row['category_ids'])){
             $row['category_ids_s'] = implode(',', $row['category_ids']);
         }
+
+        $row['subject_ids_s'] = !empty($row['subject_ids']) ? implode(',',$row['subject_ids']) : '';
 	}
 	
 	/**

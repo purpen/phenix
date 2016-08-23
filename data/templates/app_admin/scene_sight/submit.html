@@ -331,6 +331,11 @@
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ sight.tags_s }}" />
 			</div>
 
+            <div class="field">
+                <label>参与的活动</label>
+				<input type="text" name="subject_ids" placeholder="参与的活动IDs" value="{{ sight.subject_ids_s }}" />
+			</div>
+
 			<div class="field" style="display:none;">
                 <label>所属标签</label>
 				{% for tags in scene_tags %}

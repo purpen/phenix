@@ -197,6 +197,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
+        $data['subject_ids'] = isset($this->stash['subject_ids']) ? $this->stash['subject_ids'] : null;
 		
 		if(empty($data['title']) || empty($data['des'])){
 			return $this->ajax_json('请求参数不能为空', true);
