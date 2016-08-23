@@ -24,13 +24,6 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
-		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
-            'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'evt'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 
-            'stick_on'=>1, 'fine_on'=>1, 'begin_time'=>1, 'end_time'=>1,
-			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'attend_count'=>1, 'share_count'=>1,
-		);
-		
 		// 请求参数
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
@@ -41,8 +34,14 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			
 		$query   = array();
 		$options = array();
-		
 
+		$some_fields = array(
+			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
+            'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'evt'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 
+            'stick_on'=>1, 'fine_on'=>1, 'begin_time'=>1, 'end_time'=>1,
+			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'attend_count'=>1, 'share_count'=>1,
+		);
+		
 		$query['publish'] = 1;
         $query['status'] = 1;
 
@@ -271,6 +270,20 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
 		return $this->api_json('请求成功', 0, $data);
 	}
+
+    /**
+     * 增加分享数
+     */
+    public function record_share_count(){
+        // 增加浏览量
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+			return $this->api_json('缺少请求参数!', 3001);
+        }
+        $model = new Sher_Core_Model_SceneSubject();
+		$model->inc_counter('share_count', 1, $id);
+    	return $this->api_json('操作成功!', 0, array('id'=>$id));
+    }
 	
 }
 
