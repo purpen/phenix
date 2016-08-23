@@ -49,7 +49,13 @@
 		
 		$frame.sly('reload');
 	});
-	
+	$('#minslider').flexslider({
+        animation: "fade",
+        controlNav: false,
+        slideshow: true,
+		slideshowSpeed: 4500,
+		animationDuration: 800,
+    });
 	$('.ui.cart.button').click(function(){
 		$.get($(this).attr('href'));
 		return false;
@@ -65,43 +71,70 @@
 {% endblock %}
 
 {% block content %}
-<div id="fixedslide" class="frame">
-    {% cache cache_key:'web_shop_slide' ttl:600 disable_cache:app_disable_cached %}
-    
-	{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
-	<div class="ui slide">
-		{% for ad in adslide.rows %}
-		<div class="item">
-			<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
-				{% if ad.mode == 2 %}
-				<div class="overlay">
-					{% if ad.cate_title %}
-					<h3>{{ ad.cate_title }}</h3>
-					{% endif %}
-					<h1>{{ ad.title }}</h1>
-					<p class="snippet">
-						{{ ad.sub_title }}
-					</p>
-					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+<!--
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div id="fixedslide" class="frame">
+			    {% cache cache_key:'web_shop_slide' ttl:600 disable_cache:app_disable_cached %}
+			    
+				{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
+				<div class="ui slide">
+					{% for ad in adslide.rows %}
+					<div class="item">
+						<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+							{% if ad.mode == 2 %}
+							<div class="overlay">
+								{% if ad.cate_title %}
+								<h3>{{ ad.cate_title }}</h3>
+								{% endif %}
+								<h1>{{ ad.title }}</h1>
+								<p class="snippet">
+									{{ ad.sub_title }}
+								</p>
+								<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+							</div>
+							{% else %}
+							<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+							{% endif %}
+						</div>
+					</div>
+					{% endfor %}
 				</div>
-				{% else %}
-				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
-				{% endif %}
+				<div class="pages"></div>
+				<a class="prev" href="#">
+					<i class="angle left icon"></i>
+				</a>
+				<a class="next" href="#">
+					<i class="angle right icon"></i>
+				</a>
+			    
+			    {% endcache %}
 			</div>
 		</div>
-		{% endfor %}
 	</div>
-	<div class="pages"></div>
-	<a class="prev" href="#">
-		<i class="angle left icon"></i>
-	</a>
-	<a class="next" href="#">
-		<i class="angle right icon"></i>
-	</a>
-    
-    {% endcache %}
+</div>-->
+<div class="ui topicnew shopnew page">
+	<div class="ui responsive grid slidebox">
+        <div class="row">
+            <div class="column">
+				{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
+                <div id="minslider" class="flexslider flex-single">
+                    <ul class="slides">                    
+                        {% for ad in adslide.rows %}
+                            <li style="background-image: url('{{ ad.cover.fileurl }}');">
+                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
+                                    <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+                                </a>
+                            </li>
+                        {% endfor %}
+                      </ul>
+                </div>
+                <div class="controls-dots"></div>
+            </div>
+        </div>
+    </div>
 </div>
-
 
 
 
@@ -207,7 +240,7 @@
 	</div>
 	
 	<!-- 全部分类 -->
-	<ul class="nav-categories" style="width:1180px !important;">
+	<ul class="nav-categories">
 	    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
 		<li class="category">
 	        <a href="{{ app_url_shop }}/c0">
