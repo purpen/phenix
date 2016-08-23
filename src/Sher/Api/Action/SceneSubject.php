@@ -208,6 +208,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'title' => $sight['title'],
                     'cover_url' => $sight['cover']['thumbnails']['huge']['view_url'],
                     'created_at' => Sher_Core_Helper_Util::relative_datetime($sight['created_on']),
+                    'address' => $sight['address'],
+                    'city' => !empty($sight['city']) ? $sight['city'] : '',
+                    'address' => !empty($sight['address']) ? $sight['address'] : '',
+                    'location' => $sight['location'],
                 );
 
                 $user = array(
