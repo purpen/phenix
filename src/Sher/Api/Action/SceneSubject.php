@@ -36,7 +36,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$options = array();
 
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
+			'_id'=>1, 'title'=>1, 'short_title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
             'cover_id'=>1, 'banner_id'=>1, 'tags'=>1, 'summary'=>1, 'user_id'=>1, 'evt'=>1, 'kind'=>1, 'stick'=>1, 'fine'=>1, 
             'stick_on'=>1, 'fine_on'=>1, 'begin_time'=>1, 'end_time'=>1,
 			'status'=>1, 'view_count'=>1, 'comment_count'=>1, 'love_count'=>1, 'favorite_count'=>1, 'attend_count'=>1, 'share_count'=>1,

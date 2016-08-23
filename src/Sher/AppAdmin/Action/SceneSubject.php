@@ -74,6 +74,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$scene_subject_html = $this->stash['scene_subject_html'];
 		$scene_subject_title = $this->stash['title'];
+		$scene_subject_short_title = $this->stash['short_title'];
 		$scene_subject_tag = $this->stash['tags'];
 		$cover_id = $this->stash['cover_id'];
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
@@ -105,6 +106,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		
 		$date = array(
 			'title' => $scene_subject_title,
+            'short_title' => $scene_subject_short_title,
 			'tags' => $tags,
 			'content' => $scene_subject_html,
 			'cover_id' => $cover_id,

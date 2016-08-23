@@ -184,6 +184,11 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
     $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
     $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
 
+    if(empty($category_id)){
+        $this->stash['is_prize'] = 1;
+        $this->stash['sort'] = 8;
+    }
+
 		$this->stash['cid'] = $top_category_id;
     $this->stash['category_id'] = $category_id;
 		$pager_url = sprintf('%s/qsyd_list2?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.contest'], $category_id);
