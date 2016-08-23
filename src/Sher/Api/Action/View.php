@@ -168,6 +168,39 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		
 		$model = new Sher_Core_Model_SceneSubject();
 		$result = $model->extend_load($id);
+
+        $type = $result['type'];
+
+        // 新品
+        $product = null;
+        if(!empty($result['product_id'])){
+            $product_model = new Sher_Core_Model_Product();
+            $product = $product_model->load((int)$result['product_id']);
+        }
+        $result['product'] = $product;
+
+        // 促销
+        $product_arr = array();
+        if(!empty($result['product_ids'])){
+            $scene_product_model = new Sher_Core_Model_SceneProduct();
+            for($i=0;$i<count($result['product_ids']);$i++){
+                $product = $scene_product_model->extend_load($result['product_ids'][$i]);
+                if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                $row = array(
+                    '_id' => $product['_id'],
+                    'title' => $product['short_title'],
+                    'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                    'summary' => $product['summary'],
+                    'market_price' => $product['market_price'],
+                    'sale_price' => $product['sale_price'],
+                );
+                array_push($product_arr, $row);
+            }
+        }
+        $result['products'] = $product_arr;
+        
+
+        $this->stash['subject'] = $result;
 		
 		$this->stash['content'] = $result['content'];
 		return $this->to_html_page('page/scene_subject/api_show.html');

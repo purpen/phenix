@@ -164,6 +164,12 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			return $this->api_json('访问的专题已禁用！', 3003);
 		}
 
+		// 增加pv++
+        $rand = rand(1, 5);
+		$model->inc_counter('view_count', $rand, $id);
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('app_view_count', 1, $id);
+
         $follow_model = new Sher_Core_Model_Follow();
 
 		$scene_subject = $model->extended_model_row($scene_subject);
@@ -205,6 +211,25 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
             for($i=0;$i<count($data['sight_ids']);$i++){
                 $sight = $sight_model->extend_load($data['sight_ids'][$i]);
                 if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
+                switch($i){
+                    case 0:
+                        $prize = "一等奖";
+                        break;
+                    case 1:
+                        $prize = "二等奖";
+                        break;
+                    case 2:
+                        $prize = "三等奖";
+                        break;
+                    case 3:
+                        $prize = "四等奖";
+                        break;
+                    case 4:
+                        $prize = "五等奖";
+                        break;
+                    default:
+                        $prize = "";
+                }
                 $row = array(
                     '_id' => $sight['_id'],
                     'title' => $sight['title'],
@@ -214,6 +239,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'city' => !empty($sight['city']) ? $sight['city'] : '',
                     'address' => !empty($sight['address']) ? $sight['address'] : '',
                     'location' => $sight['location'],
+                    'prize' => $prize,
                 );
 
                 $user = array(
@@ -273,9 +299,6 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // 分享内容
         $data['share_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data['_id']);
         $data['share_desc'] = Doggy_Dt_Filters_String::truncate(strip_tags($data['summary']), 80);
-		
-		// 增加pv++
-		$model->inc_counter('view_count', 1, $id);
 
 		return $this->api_json('请求成功', 0, $data);
 	}
