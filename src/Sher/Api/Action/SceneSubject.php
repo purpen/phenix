@@ -92,7 +92,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_SceneSubject::instance();
 		$result = $service->get_scene_subject_list($query, $options);
 
-        $product_model = new Sher_Core_Model_SceneProduct();
+        $product_model = new Sher_Core_Model_Product();
 		
 		// 重建数据结果
         $data = array();
@@ -267,9 +267,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // 产品
         $product_arr = array();
         if(!empty($data['product_ids'])){
-            $scene_product_model = new Sher_Core_Model_SceneProduct();
+            $product_model = new Sher_Core_Model_Product();
             for($i=0;$i<count($data['product_ids']);$i++){
-                $product = $scene_product_model->extend_load($data['product_ids'][$i]);
+                $product = $product_model->extend_load($data['product_ids'][$i]);
                 if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
                 $row = array(
                     '_id' => $product['_id'],
