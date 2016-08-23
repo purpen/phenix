@@ -106,6 +106,11 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 			$row['cover'] = $this->cover($row);
 		}
 
+		// 获取Banner图
+		if(isset($row['banner_id'])){
+			$row['banner'] = $this->banner($row);
+		}
+
         $row['type_label'] = '';
         if(isset($row['type'])){
             switch($row['type']){
