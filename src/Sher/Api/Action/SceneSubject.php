@@ -213,6 +213,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                 $user = array(
                     '_id' => $sight['user']['_id'],
                     'nickname' => $sight['user']['nickname'],
+                    'avatar_url' => $sight['user']['medium_avatar_url'],
+                    'is_expert' => isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0,
                 );
 
                 // 当前用户是否关注创建者
