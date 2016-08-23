@@ -110,7 +110,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
             // 产品
             $product_arr = array();
-            if($data[$i]['type']==2 && !empty($data[$i]['product_ids'])){
+            if(!empty($data[$i]['product_ids'])){
                 for($j=0;$j<count($data[$i]['product_ids']);$j++){
                     $product = $product_model->extend_load($data[$i]['product_ids'][$j]);
                     if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
