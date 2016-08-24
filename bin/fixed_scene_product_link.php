@@ -85,6 +85,7 @@ while(!$is_end){
             'png_asset_ids' => $row['png_asset_ids'],
             'sale_price' => $row['sale_price'],
             'market_price' => $row['market_price'],
+            'view_count' => $row['view_count'],
         );
 
         
