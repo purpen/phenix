@@ -32,7 +32,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 			return $this->api_json('请输入关键词！', 3000);
 		}
 
-    $user_id = $this->current_user_id;
+    $current_user_id = $this->current_user_id;
 
     // 全文搜索/标签搜索
 
@@ -214,11 +214,19 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }
         }elseif($kind=='User'){     // 用户
-            $user = $user_model->load((int)$oid);       
+            $user = $user_model->extend_load((int)$oid);       
             if(!empty($user)){
                 $result['data'][$k]['nickname'] = $user['nickname'];
                 $result['data'][$k]['summary'] = $user['summary']==null ? '' : $user['summary'];
                 $result['data'][$k]['avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($user['avatar']['medium'], 'avm.jpg');
+                $result['data'][$k]['is_export'] = isset($user['identify']['is_expert']) ? (int)$user['identify']['is_expert'] : 0;
+                $result['data'][$k]['is_follow'] = 0;
+                if($current_user_id){
+                    if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
+                        $result['data'][$k]['is_follow'] = 1;
+					}
+                }
+
             }         
         }
 
