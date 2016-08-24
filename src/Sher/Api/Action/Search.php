@@ -58,6 +58,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       $scene_context_model = new Sher_Core_Model_SceneContext();
       $scene_subject_model = new Sher_Core_Model_SceneSubject();
       $scene_brand_model = new Sher_Core_Model_SceneBrands();
+        $follow_model = new Sher_Core_Model_Follow();
 
       $asset_service = Sher_Core_Service_Asset::instance();
 
@@ -227,7 +228,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 					}
                 }
 
-            }         
+            }
         }
 
         // 获取用户信息
