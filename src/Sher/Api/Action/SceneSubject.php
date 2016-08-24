@@ -239,6 +239,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'city' => !empty($sight['city']) ? $sight['city'] : '',
                     'address' => !empty($sight['address']) ? $sight['address'] : '',
                     'location' => $sight['location'],
+                    'product' => $sight['product'],
                     'prize' => $prize,
                 );
 
@@ -247,6 +248,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'nickname' => $sight['user']['nickname'],
                     'avatar_url' => $sight['user']['medium_avatar_url'],
                     'is_expert' => isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0,
+                    'label' => isset($sight['user']['profile']['label']) ? (int)$sight['user']['profile']['label'] : '',
+                    'expert_label' => isset($sight['user']['profile']['expert_label']) ? $sight['user']['profile']['expert_label'] : '',
+                    'expert_info' => isset($sight['user']['profile']['expert_info']) ? $sight['user']['profile']['expert_info'] : '',
                 );
 
                 // 当前用户是否关注创建者
