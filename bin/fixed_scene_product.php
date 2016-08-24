@@ -25,14 +25,15 @@ echo "fixed scene product category_id fields ...\n";
 
 $scene_product_model = new Sher_Core_Model_SceneProduct();
 $product_model = new Sher_Core_Model_Product();
-$tag_model = new Sher_Core_Model_SceneTags();
+$asset_service = Sher_Core_Service_Asset::instance();
+$asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array('kind'=>1, 'deleted'=>0);
+	$query = array('attrbute'=>array('$ne'=>1), 'kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -42,60 +43,36 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
         $item = $list[$i];
-        $row = array();
-        $row['png_asset_ids'] = $item['png_asset_ids'];
 
-        $new_tag_arr = array();
-        if(isset($item['category_tags']) && !empty($item['category_tags'])){
-            for($j=0;$j<count($item['category_tags']);$j++){
-                $tag = $tag_model->load((int)$item['category_tags'][$j]);
-                if(empty($tag)) continue;
-                array_push($new_tag_arr, $tag['title_cn']);
-            }       
+        //返回图片数据
+        $assets = array();
+        $asset_query = array('parent_id'=>$item['_id'], 'asset_type'=>121);
+        $asset_options['page'] = 1;
+        $asset_options['size'] = 5;
+        $asset_options['sort_field'] = 'latest';
+
+        $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+        if(!empty($asset_result['rows'])){
+          foreach($asset_result['rows'] as $key=>$value){
+            array_push($assets, (string)$value['_id']);
+          }
         }
 
-        $product = $product_model->load((int)$item['oid']);
-        if(empty($product)) continue;
-        $tag_arr = array();
-        if(isset($product['category_tags']) && !empty($product['category_tags'])){
-            $tag_arr = $product['category_tags'];
+        $product = $product_model->first(array('stage'=>16, 'title'=>$item['title']));
+        if(empty($product)){
+            echo "is empty!.\n";
+            continue;
         }
-        if(!empty($new_tag_arr)){
-            for($k=0;$k<count($new_tag_arr);$k++){
-                if(!empty($new_tag_arr[$k])) array_push($tag_arr, $new_tag_arr[$k]);
+        for($j=0;$j<count($assets);$j++){
+            $ok = true;
+            //$ok = $asset_model->update_set($assets[$j], array('parent_id'=>$product['_id'], 'asset_type'=>12));
+            if($ok){
+                echo "update success! \n";
+                $total++;
             }
         }
-        $tag_arr = array_keys(array_count_values($tag_arr));
-        $row['category_tags'] = $tag_arr;
-        $tag_arr_s = implode(',', $tag_arr);
-        echo "category_tags: $tag_arr_s.\n";
 
-        $tags = $product['tags'];
-        $new_tags = $item['tags'];
-        for($k=0;$k<count($new_tags);$k++){
-            array_push($tags, $new_tags[$k]);
-        }
-        $tags = array_keys(array_count_values($tags));
-        $row['tags'] = $tags;
-        $tags_s = implode(',', $tags);
-        echo "tags: $tags_s. \n";
-
-        if(!empty($item['brand_id'])){
-            $row['brand_id'] = $item['brand_id'];
-        }
-
-        $ok = true;
-        //$ok = $product_model->update_set($product['_id'], $row);
-        $new_id = 0;
-        //$new_id = $product['_id'];
-        if($ok){
-          // 更新全文索引
-          //Sher_Core_Helper_Search::record_update_to_dig($new_id, 3); 
-            echo "update product success! $new_id \n";
-            $total++;
-        }else{
-            echo "update fail!!";
-        }
 	}   // endfor
 	if($max < $size){
 		break;
