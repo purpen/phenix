@@ -221,13 +221,15 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
                 $result['data'][$k]['summary'] = $user['summary']==null ? '' : $user['summary'];
                 $result['data'][$k]['avatar_url'] = Sher_Core_Helper_Url::avatar_cloud_view_url($user['avatar']['medium'], 'avm.jpg');
                 $result['data'][$k]['is_export'] = isset($user['identify']['is_expert']) ? (int)$user['identify']['is_expert'] : 0;
+                $result['data'][$k]['label'] => isset($user['profile']['label']) ? $user['profile']['label'] : '';
+                $result['data'][$k]['expert_label'] => isset($user['profile']['expert_label']) ? $user['profile']['expert_label'] : '';
+                $result['data'][$k]['expert_info'] => isset($user['profile']['expert_info']) ? $user['profile']['expert_info'] : '';
                 $result['data'][$k]['is_follow'] = 0;
                 if($current_user_id){
                     if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
                         $result['data'][$k]['is_follow'] = 1;
 					}
                 }
-
             }
         }
 
