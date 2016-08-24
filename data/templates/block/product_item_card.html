@@ -1,12 +1,16 @@
 <div class="card" id="product-{{ item.product._id }}">
     <div class="problock">
-        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" style="background-image: url({{ item.product.cover.thumbnails.apc.view_url }});" class="thumb" target="_blank"></a>
+        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" class="thumb" target="_blank">
+        <img class="lazy" data-original="{{ item.product.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
+        </a>
         <div class="ribbons">
             {% if item.product.newest %}
-            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
+            <a class="ribbon xinpin" href="javascript:void(0);"></a>
+            <p class="ribbonp">新品</p>
             {% endif %}
             {% if item.product.hot %}
-            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
+            <a class="ribbon remai" href="javascript:void(0);"></a>
+            <p class="ribbonp">热卖</p>
             {% endif %}
             {% if item.product.featured %}
             <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
