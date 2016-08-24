@@ -20,13 +20,14 @@ ini_set('memory_limit','512M');
 
 echo "Prepare to fix product stage ...\n";
 $product = new Sher_Core_Model_Product();
+$tag_model = new Sher_Core_Model_SceneTags();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array();
-	$options = array('field' => array('_id','presale_start_time','presale_finish_time','voted_start_time','voted_finish_time','snatched_time'),'page'=>$page,'size'=>$size);
+	$query = array('stage'=>16);
+	$options = array('field' => array('_id','category_tags', 'stage'),'page'=>$page,'size'=>$size);
 	$list = $product->find($query,$options);
 	if(empty($list)){
 		echo "get product list is null,exit......\n";
@@ -34,37 +35,28 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
-		$updated = array();
 		
-		$data = $list[$i];
+        $data = $list[$i];
+        $id = $data['_id'];
+        if(empty($data['category_tags'])) continue;
+        $new_tag_arr = array();
+        for($j=0;$j<count($data['category_tags']);$j++){
+            $tag = $tag_model->load((int)$data['category_tags'][$j]);
+            if(empty($tag)) continue;
+            array_push($new_tag_arr, $tag['title_cn']);
+        }
+        print_r($new_tag_arr);
+        if(!empty($new_tag_arr)){
+            $ok = true;
+            //$ok = $product->update_set($id, array('category_tags'=>$new_tag_arr));
+            if($ok){
+                echo "update ok $id .\n";
+		        $total++;
+            }else{
+                echo "update fail $id .\n";
+            }
+        }
 		
-		// 转换为时间戳, +12小时
-		if(isset($data['snatched_time']) && !empty($data['snatched_time'])){
-			$updated['snatched_time'] = strtotime($data['snatched_time']) + 12*60*60;
-		}
-		// 预售开始时间，结束时间
-		if(isset($data['presale_start_time'])){
-			$updated['presale_start_time'] = strtotime($data['presale_start_time']);
-		}
-		if(isset($data['presale_finish_time']) && !empty($data['presale_finish_time'])){
-			$updated['presale_finish_time'] = strtotime($data['presale_finish_time']) + 24*60*60 - 1;
-		}
-		// 投票开始时间，结束时间
-		if(isset($data['voted_start_time'])){
-			$updated['voted_start_time'] = strtotime($data['voted_start_time']);
-		}
-		if(isset($data['voted_finish_time'])  && !empty($data['voted_finish_time'])){
-			$updated['voted_finish_time'] = strtotime($data['voted_finish_time']) + 24*60*60 - 1;
-		}
-		
-		$new_product = new Sher_Core_Model_Product();
-		$new_product->update_set($list[$i]['_id'], $updated);
-		
-		echo "fix product [".$list[$i]['_id']."] ..........\n";
-		
-		$total++;
-		
-		unset($new_product);
 	}
 	
 	if($max < $size){
