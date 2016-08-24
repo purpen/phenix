@@ -321,6 +321,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     'hatched' => 0,
     # 孵化产品封面
     'hatched_cover_url' => null,
+
     );
 	
 	protected $required_fields = array('user_id','title');
