@@ -61,9 +61,9 @@ while(!$is_end){
 }
  */
 
-/**
+
 while(!$is_end){
-	$query = array('deleted'=>1);
+	$query = array('');
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -89,7 +89,6 @@ while(!$is_end){
 	$page++;
 	echo "page [$page] updated---------\n";
 }
-**/
 
 echo "fix scene product link count: $total is OK! \n";
 

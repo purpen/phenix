@@ -157,7 +157,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	}
 
 	/**
-	 * 情境详情页面显示
+	 * 情境专题
 	 */
 	public function scene_subject_show(){
 		
@@ -203,7 +203,19 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
         $this->stash['subject'] = $result;
 		
 		$this->stash['content'] = $result['content'];
-		return $this->to_html_page('page/scene_subject/api_show.html');
+
+        if($scene_subject['type']==1){
+            $tpl = 'page/scene_subject/api_show.html';
+        }elseif($scene_subject['type']==3){
+            $tpl = 'page/scene_subject/api_hot.html';       
+        }elseif($scene_subject['type']==4){
+            $tpl = 'page/scene_subject/api_new.html';
+        }elseif($scene_subject['type']==5){
+            $tpl = 'page/scene_subject/api_hot.html';            
+        }else{
+            $tpl = 'page/scene_subject/api_show.html';       
+        }
+		return $this->to_html_page($tpl);
 	}
 
 	/**
