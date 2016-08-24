@@ -112,7 +112,7 @@ class Sher_AppAdmin_Action_SceneTags extends Sher_AppAdmin_Action_Base implement
 		
 		$page = (int)$this->stash['page'];
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?type=%d&title_cn=%s&title_en=%s&page=#p#',$type, $this->stash['title_cn'], $this->stash['title_en']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_tags/get_list?type=%d&title_cn=%s&title_en=%s&parent_id=%d&page=#p#',$type, $this->stash['title_cn'], $this->stash['title_en'], $this->stash['parent_id']);
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_tags/list.html');
 	}
