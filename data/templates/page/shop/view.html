@@ -501,28 +501,6 @@
       .sticky({
           context: '.conleft',
       });
-	  
-		
-	$(window).scroll(function(){
-		var scrollTop = $(this).scrollTop();
-		var Hsticky = $('.ui.sticky').height();
-		var productpromo = $('.product-promo').offset().top;
-		var Hmainleft = $('.mainleft').height();
-		if (scrollTop > (productpromo - Hsticky) ){
-			$('.product-promo').css({'position':'fixed','top':Hsticky+20,'width':'300px' });
-		}
-		if (scrollTop < 400 || scrollTop > Hmainleft - 400 ){
-			$('.product-promo').removeAttr('style');
-		}
-		
-	});
-				
-				
-			
-		
-	  
-	  
-	  
       
 {% endblock %}
 
@@ -1044,7 +1022,13 @@
 		</div>
 	</div>
 </div>
-<div id="product_guess_list" class="product white guess"></div>
+<div class="ui responsive grid">
+	<div class="row">
+		<div class="column">
+			<div id="product_guess_list" class="product white guess"></div>
+		</div>
+	</div>
+</div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}
