@@ -26,7 +26,6 @@ echo "fixed scene sight ...\n";
 $scene_product_link_model = new Sher_Core_Model_SceneProductLink();
 $scene_sight_model = new Sher_Core_Model_SceneSight();
 $scene_product_model = new Sher_Core_Model_SceneProduct();
-$product_model = new Sher_Core_Model_Product();
 $page = 1;
 $size = 200;
 $is_end = false;
@@ -62,9 +61,9 @@ while(!$is_end){
 }
  */
 
-
+/**
 while(!$is_end){
-	$query = array('attrbute'=>array('$ne'=>1), 'kind'=>1, 'deleted'=>0);
+	$query = array('deleted'=>1);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -73,29 +72,24 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-        $item = $list[$i];
-        $row = array(
-            'title' => $row['title'],
-            'short_title' => $row['short_title'],
-            'cover_id' => $row['cover_id'],
-            'banner_id' => $row['banner_id'],
-            'user_id' => $row['user_id'],
-            'brand_id' => $row['brand_id'],
-            'tags' => $row['tags'],
-            'png_asset_ids' => $row['png_asset_ids'],
-            'sale_price' => $row['sale_price'],
-            'market_price' => $row['market_price'],
-            'view_count' => $row['view_count'],
-        );
-
-        
-	}   // endfor
+        $id = $list[$i]['_id'];
+        $links = $scene_product_link_model->find(array('product_id'=>$id));
+        for($j=0;$j<count($links);$j++){
+            $l_id = (string)$links[$j]['_id'];
+            $ok = true;
+            //$ok = $scene_product_link_model->remove($l_id);
+            if($ok){
+                $total++;
+            }
+        }
+	}
 	if($max < $size){
 		break;
 	}
 	$page++;
 	echo "page [$page] updated---------\n";
 }
+**/
 
 echo "fix scene product link count: $total is OK! \n";
 
