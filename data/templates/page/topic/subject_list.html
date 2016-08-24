@@ -13,6 +13,7 @@
 <style type="text/css">
     #subject {
         margin-bottom: 30px;
+        margin-top: 25px;
     }
     .container {
         border-top: 1px solid rgba(224, 224, 224, 0.46);
@@ -48,7 +49,12 @@
     .container.replybox {
         margin-top: 20px;
     }
-    
+    .ui.containermain .conleft{
+    	padding: 0;
+    }
+    .ui.containermain .conright .sellwrap.userinfo{
+    	margin-top: 0;
+    }
 </style>
 {% endblock %}
 
@@ -255,247 +261,258 @@
 		$('input[name=published]').val(0); // 设置topic里面published的值
 		$(this).submit(); // 调用此表单的提交方法
 	});
+	$('.ui.sticky')
+      .sticky({
+          context: '.conleft',
+      });
 	
 {% endblock %}
 
 {% block content %}
 
-<div class="mainwrap social" id="subject">
-    <div class="mainleftwrap">
-        <div class="mainleft">
-            <div class="container">
-    			<div class="block title">
-    				所属产品
-                </div>
-                <div class="product subject">
-					<a href="{{ product.view_url }}" title="{{ product.title }}" class="cover">
-			      		<img src="{{ product.cover.thumbnails.small.view_url }}" class="ui image" />
-					</a>
-				  	<div class="content">
-                        <h3>
-    						<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
-    							{{ product.title }}
-    						</a>
-                        </h3>
-						<p class="author">
-							<label>设计师：</label> <a href="{{ product.designer.home_url }}" class="ui link" target="_blank">{{ product.designer.nickname|default '太火鸟' }}</a>
-						</p>
-						<p class="summary">
-							{{ product.summary }}
-						</p>
-                        
-						{% if product.approved %}
-							{% if product.stage == 1%}
-							<div class="ui danger message" id="votetips">
-								<div class="ui header">
-									<div class="picicon">
-										<i class="thumbs up outline icon"></i>
-									</div>
-									<div class="content">
-										投票截止时间
-										<div class="sub header">
-												<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-						{% endif %}
-				  	</div>
-                </div>
-            </div>
-            
-            <div class="container replybox">
-    			<div class="block title">
-    				评测列表
-                </div>
-    			{% topic_list var:'list' published:1 page:page target_id:id %}
-          {% if list.total_rows %}
-            <div class="ui topics segment">
-              <table class="ui basic topic table">
-                <tbody class="ui topic list">
-                  {% for topic in list.rows %}
-                    <!-- 判断话题是否可以显示 -->
-                    {% if topic.published %}
-                      {% include "block/topic_item.html" %}
-                    {% endif %}
-                  {% endfor %}
-                </tbody>
-              </table>
-                  
-                <a name="newtopic"></a>
-        
-                {% if list.total_page>1 %}
-                <div class="ui pagination">
-                  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-                  {%include 'block/pager.html'%}
-                </div>
-                {% endif %}
-            </div>
-          {%endif%}
-                
-    			<div class="ui big reply segment">
-    				<div class="post comment">
-                      	<p class="comment-title">
-                    		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评测
-                    	</p>
-			
-					<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
-						<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
-						<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
-						<input type="hidden" name="file_count" id="file_count" />
-						<input type="hidden" name="try_id" value="{{ try_id }}" />
-						<input type="hidden" name="published" value="1" />
-            <input type="hidden" name="newadd_asset_ids" id="newadd_asset_ids" />
-            <input type="hidden" name="old_published" value="{{ topic.published|default 0 }}" />
-
-            <input type="hidden" name="target_id" value="{{ id }}" />
-            <input type="hidden" name="type" value="1" />
-            <input type="hidden" name="category_id" value="{{ category_id }}" />
-						
-						<div class="field">
-							<label for="title">标题</label>
-						  	<input type="text" name="title" value="{{ topic.title }}" />
-						</div>
-            
-						{% if visitor.can_admin %}
-						<div class="three fields">
-						  <div class="field">
-							<label for="title">{{ label_title }}短标题</label>
-							  <input type="text" name="short_title" value="{{ topic.short_title }}" />
-						  </div>
-			
-						  <div class="field">
-							  <label for="t_color">标题颜色</label>
-							<div class="ui fluid selection dropdown">
-							  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
-								<div class="default text">请选择</div>
-								<i class="angle down icon"></i>
-								<div class="menu" style="z-index:9999;">
-								  <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
-								  <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
-								  <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
-								</div>
-							  </div>
-						  </div>
-			
-						</div>
-			
-						{%endif%}
-
-						<div class="three fields">
-						  <div class="field">
-							  <label for="t_color">属性</label>
-							<div class="ui fluid selection dropdown">
-							  <input type="hidden" name="attrbute" value="{{ topic.attrbute|default 0 }}" />
-								<div class="default text">请选择</div>
-								<i class="angle down icon"></i>
-								<div class="menu" style="z-index:9999;">
-								  <div data-value="0" class="{% if topic.attrbute == 0 %}active {% endif %}item">--请选择--</div>
-								  <div data-value="1" class="{% if topic.attrbute == 1 %}active {% endif %}item">原创</div>
-								  <div data-value="2" class="{% if topic.attrbute == 2 %}active {% endif %}item">转载</div>
-								</div>
-							  </div>
-						  </div>
-
-						  <div class="field">
-							<label for="title">来源</label>
-							  <input type="text" name="source" value="{{ topic.source|default '太火鸟官网' }}" />
-						  </div>
-						</div>
-			
-						<div class="field">
-							<label for="description">话题内容</label>
-						  	<textarea name="description" placeholder="评测内容不得少于500字，评测图片不得少5张" id="editor">{{ topic.description }}</textarea>
-						</div>
-						
-						<div class="field">
-							<label>关键词</label>
-						  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
-							<div class="description">关键词之间使用，逗号隔开</div>
-						</div>
-						
-						<div class="field">
-							<label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small> <small class="ui magenta text"><i class="announcement icon"></i>好看的图片更容易加精兑换鸟币</small></label>
-							<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
-							<div id="phenix-uploader"></div>
-						
-							<div id="asset-list" class="ui six blocks">
-								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
-									{% for asset in assets.rows %}
-									<div class="thumb card block" id="{{ asset._id }}">
-										<div class="image">
-											<img src="{{ asset.thumbnails.mini.view_url }}" />
-											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
-										</div>
-										<div class="buttons">
-											<div class="ui large links">
-												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
-													<i class="remove icon"></i>
-												</a>
-												<a href="javascript:void(0);" class="ui link ajax-cover {% if topic.cover_id == asset._id %}active{% endif %} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
-													<i class="checkered flag icon"></i>
-												</a>
+<div class="mainwrap social ui responsive grid" id="subject">
+	<div class="row">
+		<div class="column">
+		
+		    <div class="ui containermain">
+		        <div class="conleft">
+		            <div class="container">
+		    			<div class="block title">
+		    				所属产品
+		                </div>
+		                <div class="product subject">
+							<a href="{{ product.view_url }}" title="{{ product.title }}" class="cover">
+					      		<img src="{{ product.cover.thumbnails.small.view_url }}" class="ui image" />
+							</a>
+						  	<div class="content">
+		                        <h3>
+		    						<a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line">
+		    							{{ product.title }}
+		    						</a>
+		                        </h3>
+								<p class="author">
+									<label>设计师：</label> <a href="{{ product.designer.home_url }}" class="ui link" target="_blank">{{ product.designer.nickname|default '太火鸟' }}</a>
+								</p>
+								<p class="summary">
+									{{ product.summary }}
+								</p>
+		                        
+								{% if product.approved %}
+									{% if product.stage == 1%}
+									<div class="ui danger message" id="votetips">
+										<div class="ui header">
+											<div class="picicon">
+												<i class="thumbs up outline icon"></i>
+											</div>
+											<div class="content">
+												投票截止时间
+												<div class="sub header">
+														<div class="ui divided horizontal timer list" data-countdown="{{ product.voted_finish_time|date 'Y/m/d H:i:s' }}"></div>
+												</div>
 											</div>
 										</div>
 									</div>
-									{% endfor %}
+									{% endif %}
 								{% endif %}
-							</div>
-						</div>
+						  	</div>
+		                </div>
+		            </div>
+		            
+		            <div class="container replybox">
+		    			<div class="block title">
+		    				评测列表
+		                </div>
+		    			{% topic_list var:'list' published:1 page:page target_id:id %}
+		          {% if list.total_rows %}
+		            <div class="ui topics segment">
+		              <table class="ui basic topic table">
+		                <tbody class="ui topic list">
+		                  {% for topic in list.rows %}
+		                    <!-- 判断话题是否可以显示 -->
+		                    {% if topic.published %}
+		                      {% include "block/topic_item.html" %}
+		                    {% endif %}
+		                  {% endfor %}
+		                </tbody>
+		              </table>
+		                  
+		                <a name="newtopic"></a>
+		        
+		                {% if list.total_page>1 %}
+		                <div class="ui pagination">
+		                  {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		                  {%include 'block/pager.html'%}
+		                </div>
+		                {% endif %}
+		            </div>
+		          {%endif%}
+		                
+		    			<div class="ui big reply segment">
+		    				<div class="post comment">
+		                      	<p class="comment-title">
+		                    		<a href="{{ visitor.home_url }}" class="ui magenta link">{{ visitor.nickname }}</a> 发表评测
+		                    	</p>
+					
+							<form action="{{ app_url_action_base }}/topic/save" class="ui form" method="post" id="topic-form">
+								<input type="hidden" name="_id" value="{{ topic._id }}" id="topic_id" />
+								<input type="hidden" name="file_id" value="{{ editor_pid }}" id="file_id" />
+								<input type="hidden" name="file_count" id="file_count" />
+								<input type="hidden" name="try_id" value="{{ try_id }}" />
+								<input type="hidden" name="published" value="1" />
+		            <input type="hidden" name="newadd_asset_ids" id="newadd_asset_ids" />
+		            <input type="hidden" name="old_published" value="{{ topic.published|default 0 }}" />
 
-                        {% if visitor.can_edit %}
-						<div class="field">
-							<label>上传附件 <small class="description">(小于10M)</small></label>
-							<input type="hidden" name="asset_file_id" id="topic_file_id" value="{{ topic.file_id }}" />
-							<div id="phenix-file-uploader"></div>
-						
-							<div id="file-list" class="ui six blocks">
-								{% if mode == 'edit' %}
-									{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
-									{% for asset in assets.rows %}
-											<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
-									<div class="thumb card block" id="{{ asset._id }}">
-										<div class="buttons">
-											<div class="ui large links">
-                        <span>{{ asset.filename|truncate 15, '' }}</span>
-												<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除" data-variation="inverted">
-													<i class="remove icon"></i>
-												</a>
-											</div>
+		            <input type="hidden" name="target_id" value="{{ id }}" />
+		            <input type="hidden" name="type" value="1" />
+		            <input type="hidden" name="category_id" value="{{ category_id }}" />
+								
+								<div class="field">
+									<label for="title">标题</label>
+								  	<input type="text" name="title" value="{{ topic.title }}" />
+								</div>
+		            
+								{% if visitor.can_admin %}
+								<div class="three fields">
+								  <div class="field">
+									<label for="title">{{ label_title }}短标题</label>
+									  <input type="text" name="short_title" value="{{ topic.short_title }}" />
+								  </div>
+					
+								  <div class="field">
+									  <label for="t_color">标题颜色</label>
+									<div class="ui fluid selection dropdown">
+									  <input type="hidden" name="t_color" value="{{ topic.t_color }}" />
+										<div class="default text">请选择</div>
+										<i class="angle down icon"></i>
+										<div class="menu" style="z-index:9999;">
+										  <div data-value="0" class="{% if topic.t_color == 0 %}active {% endif %}item">无</div>
+										  <div data-value="1" class="{% if topic.t_color == 1 %}active {% endif %}item">红色</div>
+										  <div data-value="2" class="{% if topic.t_color == 2 %}active {% endif %}item">蓝色</div>	
 										</div>
+									  </div>
+								  </div>
+					
+								</div>
+					
+								{%endif%}
+
+								<div class="three fields">
+								  <div class="field">
+									  <label for="t_color">属性</label>
+									<div class="ui fluid selection dropdown">
+									  <input type="hidden" name="attrbute" value="{{ topic.attrbute|default 0 }}" />
+										<div class="default text">请选择</div>
+										<i class="angle down icon"></i>
+										<div class="menu" style="z-index:9999;">
+										  <div data-value="0" class="{% if topic.attrbute == 0 %}active {% endif %}item">--请选择--</div>
+										  <div data-value="1" class="{% if topic.attrbute == 1 %}active {% endif %}item">原创</div>
+										  <div data-value="2" class="{% if topic.attrbute == 2 %}active {% endif %}item">转载</div>
+										</div>
+									  </div>
+								  </div>
+
+								  <div class="field">
+									<label for="title">来源</label>
+									  <input type="text" name="source" value="{{ topic.source|default '太火鸟官网' }}" />
+								  </div>
+								</div>
+					
+								<div class="field">
+									<label for="description">话题内容</label>
+								  	<textarea name="description" placeholder="评测内容不得少于500字，评测图片不得少5张" id="editor">{{ topic.description }}</textarea>
+								</div>
+								
+								<div class="field">
+									<label>关键词</label>
+								  	<input type="text" name="tags" value="{{ topic.tags_s }}" />
+									<div class="description">关键词之间使用，逗号隔开</div>
+								</div>
+								
+								<div class="field">
+									<label>上传封面图片 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small> <small class="ui magenta text"><i class="announcement icon"></i>好看的图片更容易加精兑换鸟币</small></label>
+									<input type="hidden" name="cover_id" id="topic_cover_id" value="{{ topic.cover_id }}" />
+									<div id="phenix-uploader"></div>
+								
+									<div id="asset-list" class="ui six blocks">
+										{% if mode == 'edit' %}
+											{% asset_list var:'assets' parent_id:topic._id asset_type:50 %}
+											{% for asset in assets.rows %}
+											<div class="thumb card block" id="{{ asset._id }}">
+												<div class="image">
+													<img src="{{ asset.thumbnails.mini.view_url }}" />
+													<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+												</div>
+												<div class="buttons">
+													<div class="ui large links">
+														<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+															<i class="remove icon"></i>
+														</a>
+														<a href="javascript:void(0);" class="ui link ajax-cover {% if topic.cover_id == asset._id %}active{% endif %} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+															<i class="checkered flag icon"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										{% endif %}
 									</div>
-									{% endfor %}
-								{% endif %}
-							</div>
-						</div>
-                        {%endif%}
-						<div class="ui grid">
-                            <div class="row">
-    							<div class="right aligned column">
-    								<div class="ui grey large cancel inverted button">取消</div>
-                                    {% if visitor.can_edit %}
-									<div class="ui green large inverted save button">
-                                        <i class="save icon"></i> 保存为草稿
-                                    </div>
-                                    {%endif%}
-    								<div class="ui magenta large active inverted submit button">
-                                        <i class="edit icon"></i> 确认提交
-                                    </div>
-    							</div>
-                            </div>
-						</div>
-					</form>
-    				</div>
-    			</div>
-                
-            </div>            
-        </div>
-    </div>
-    <div class="mainright">
-        {% include "page/topic/rightbar.html" %}
-    </div>
+								</div>
+
+		                        {% if visitor.can_edit %}
+								<div class="field">
+									<label>上传附件 <small class="description">(小于10M)</small></label>
+									<input type="hidden" name="asset_file_id" id="topic_file_id" value="{{ topic.file_id }}" />
+									<div id="phenix-file-uploader"></div>
+								
+									<div id="file-list" class="ui six blocks">
+										{% if mode == 'edit' %}
+											{% asset_list var:'assets' parent_id:topic._id asset_type:56 %}
+											{% for asset in assets.rows %}
+													<input type="hidden" class="file_id_list" name="file_asset[]" value="{{ asset._id }}" />
+											<div class="thumb card block" id="{{ asset._id }}">
+												<div class="buttons">
+													<div class="ui large links">
+		                        <span>{{ asset.filename|truncate 15, '' }}</span>
+														<a href="{{ app_url_topic }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除" data-variation="inverted">
+															<i class="remove icon"></i>
+														</a>
+													</div>
+												</div>
+											</div>
+											{% endfor %}
+										{% endif %}
+									</div>
+								</div>
+		                        {%endif%}
+								<div class="ui grid">
+		                            <div class="row">
+		    							<div class="right aligned column">
+		    								<div class="ui grey large cancel inverted button">取消</div>
+		                                    {% if visitor.can_edit %}
+											<div class="ui green large inverted save button">
+		                                        <i class="save icon"></i> 保存为草稿
+		                                    </div>
+		                                    {%endif%}
+		    								<div class="ui magenta large active inverted submit button">
+		                                        <i class="edit icon"></i> 确认提交
+		                                    </div>
+		    							</div>
+		                            </div>
+								</div>
+							</form>
+		    				</div>
+		    			</div>
+		                
+		            </div>            
+		        </div>
+		        <div class="conright">
+		        	<div class="ui sticky">
+		        		{% include "page/topic/rightbar.html" %}
+		        	</div>
+		    	</div>
+		    </div>
+    	</div>
+	</div>
 </div>
 {% endblock %}
 {% block templates %}
