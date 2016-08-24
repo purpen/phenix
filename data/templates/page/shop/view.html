@@ -407,6 +407,9 @@
 	$.get('{{ app_url_shop }}/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
         var rendered = phenix.ajax_render_result('#guess_products_tpl', rs.data);
         $('#product_guess_list').html(rendered);
+        $("img.lazy").lazyload({
+            effect : "show"
+        });
     }, 'json');
 	
 	// 显示私信框
@@ -1022,13 +1025,7 @@
 		</div>
 	</div>
 </div>
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-			<div id="product_guess_list" class="product white guess"></div>
-		</div>
-	</div>
-</div>
+<div id="product_guess_list" class="product white guess"></div>
 {% include "block/sharebox.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}
