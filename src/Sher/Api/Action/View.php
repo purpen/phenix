@@ -182,9 +182,9 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
         // 促销
         $product_arr = array();
         if(!empty($result['product_ids'])){
-            $scene_product_model = new Sher_Core_Model_SceneProduct();
+            $product_model = new Sher_Core_Model_Product();
             for($i=0;$i<count($result['product_ids']);$i++){
-                $product = $scene_product_model->extend_load($result['product_ids'][$i]);
+                $product = $product_model->extend_load($result['product_ids'][$i]);
                 if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
                 $row = array(
                     '_id' => $product['_id'],
