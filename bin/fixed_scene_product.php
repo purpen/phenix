@@ -84,37 +84,41 @@ while(!$is_end){
 
 function category_change($id){
     switch($id){
-        case 67:
+        case 146:
             $new_id = 32;
             break;
-        case 68:
-            $new_id = 30;
+        case 147:
+            $new_id = 76;
             break;
-        case 69:
+        case 148:
             $new_id = 34;
             break;
-        case 70:
-            $new_id = 33;
-            break;
-        case 71:
-            $new_id = 52;
-            break;
-        case 72:
+        case 151:
             $new_id = 31;
             break;
-        case 74:
-            $new_id = 53;
+        case 152:
+            $new_id = 81;
             break;
-        case 79:
-            $new_id = 54;
+        case 150:
+            $new_id = 78;
             break;
-        case 75:
-            $new_id = 48;
+        case 149:
+            $new_id = 30;
+            break;
+        case 173:
+            $new_id = 33;
+            break;
+        case 153:
+            $new_id = 82;
+            break;
+        case 236:
+            $new_id = 79;
             break;
         default:
             $new_id = 0;
 
     }
+    return $new_id;
 }
 
 echo "create product count: $total is OK! \n";
