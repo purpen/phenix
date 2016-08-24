@@ -153,7 +153,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en type:type size:size %}
+			{% scene_tags_list var:'list' page:page title_cn:title_cn title_en:title_en type:type parent_id:parent_id size:size %}
 
 			{% for date in list.rows %}
 			<tr id="{{ date._id }}">
