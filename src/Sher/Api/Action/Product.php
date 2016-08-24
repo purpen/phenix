@@ -295,7 +295,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['share_desc'] = $data['advantage'];
 
     $asset_service = Sher_Core_Service_Asset::instance();
-    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     //返回图片数据
     $assets = array();
@@ -303,6 +302,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $asset_options['page'] = 1;
     $asset_options['size'] = 5;
     $asset_options['sort_field'] = 'latest';
+
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     if(!empty($asset_result['rows'])){
       foreach($asset_result['rows'] as $key=>$value){
