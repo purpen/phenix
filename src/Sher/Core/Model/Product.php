@@ -331,7 +331,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
 		'designer' => array('designer_id'  => 'Sher_Core_Model_User'),
-	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'category' => array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
@@ -367,6 +366,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     if(isset($row['style_ids']) && !empty($row['style_ids'])){
  		  $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
     }
+
+    // 封面图
+    $row['cover'] = $this->cover($row);
+    $row['banner'] = $this->banner($row);
 
 
         if(isset($row['vote_favor_count']) && isset($row['vote_oppose_count'])){
@@ -746,6 +749,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['score']['content_int'] = $this->explode_point($row['score']['content'], 0);
 			$row['score']['content_dec'] = $this->explode_point($row['score']['content'], 1);
 		}
+	}
+
+	/**
+	 * 获取封面图
+	 */
+	public function cover(&$row){
+		// 已设置封面图
+		if(isset($row['cover_id']) && !empty($row['cover_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['cover_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_PRODUCT,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return null;
 	}
 
 	/**
