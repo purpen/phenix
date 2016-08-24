@@ -21,14 +21,16 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
-		$kind = isset($this->stash['kind'])?(int)$this->stash['kind']:1;
+		$kind = isset($this->stash['kind'])?(int)$this->stash['kind']:0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+        $title = isset($this->stash['title']) ? $this->stash['title'] : null;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1, 'self_run'=>1,
+			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1, 'self_run'=>1, 'from_to'=>1,
 		);
 		
 		$query   = array();
@@ -45,6 +47,15 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 			}
 		}
 
+		if($from_to){
+			if($from_to == 1){
+				$query['from_to'] = 1;
+			}
+			if($from_to == -1){
+				$query['from_to'] = 0;
+			}
+		}
+
         // 首字母索引
         if(!empty($mark)){
             $query['mark'] = $mark;
@@ -57,6 +68,11 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
             }else{
                 $query['self_run'] = 1;
             }
+        }
+
+        // 模糊查标签
+        if(!empty($title)){
+            $query['title'] = array('$regex'=>$title);
         }
 		
 		// 状态
@@ -131,5 +147,41 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 
 		return $this->api_json('请求成功', 0, $data);
 	}
+
+    /**
+     * 添加品牌
+     */
+    public function submit(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $user_id = $this->current_user_id;
+        $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+        if(empty($title)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+		$model = new Sher_Core_Model_SceneBrands();
+
+        $row = array();
+        $row['title'] = $title;
+
+        if(empty($id)){
+            $row['user_id'] = $user_id;
+            $row['from_to'] = 2;
+            $ok = $model->apply_and_save($row);
+        }else{
+            $ok = $model->apply_and_update($row);
+        }
+
+        if(!$ok){
+            return $this->api_json('保存失败!', 3002);
+        }
+
+        if(empty($id)){
+            $brand = $model->get_data();
+            $id = (string)$brand['_id'];       
+        }
+
+        return $this->api_json('success', 0, array('id'=>$id));
+    
+    }
 }
 

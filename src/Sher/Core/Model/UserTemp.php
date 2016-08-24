@@ -1,40 +1,51 @@
 <?php
 /**
- * 产品关联 Model
- * @ author caowei@taihuoniao.com
+ * 用户标签临时库 Model
+ * @author tianshuai
  */
-class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
+class Sher_Core_Model_UserTemp extends Sher_Core_Model_Base {
 
-    protected $collection = "scene_product_link";
+    protected $collection = "user_temp";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_SEQ;
 	
     protected $schema = array(
-		# 场景id
-		'sight_id' => 0,
-        # 产品id
-        'product_id' => 0,
-        'product_kind' => 0,
-        'product_attrbute' => 0,
-        'brand_id' => null,
+		# 专辑名称
+		'title' => '',
+        # 类型：1.产品；2.品牌
+        'type' => 1,
+		'target_id' => 0,
         # 是否启用
 		'status' => 1,
+        'is_check' => 1,
+        'view_count' => 0,
+        'user_id' => 0,
     );
 	
-	protected $required_fields = array('product_id', 'sight_id');
-	protected $int_fields = array('status','sight_id','product_id','product_kind','product_attrbute');
+	protected $required_fields = array('title', 'user_id');
+	protected $int_fields = array('status', 'user_id', 'type');
 	protected $float_fields = array();
-	protected $counter_fields = array();
+	protected $counter_fields = array('view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-		'sight' =>  array('sight_id' => 'Sher_Core_Model_SceneSight'),
-		'product' =>  array('product_id' => 'Sher_Core_Model_SceneProduct'),
-		'brand' =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
+
 	);
 	
 	/**
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+
+        switch($row['type']){
+            case 1:
+                $row['type_label'] = '产品';
+                break;
+            case 2:
+                $row['type_label'] = '品牌';
+                break;
+            default:
+                $row['type_label'] = '--';
+        }
         
 	}
 	
@@ -91,4 +102,13 @@ class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
 		
 		return $this->dec($id, $field_name, $count);
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+		
+		return true;
+	}
+
 }

@@ -51,7 +51,7 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         $some_fields = array(
           '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
           'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
-          'tags'=>1, 'back_url'=>1,
+          'tags'=>1, 'back_url'=>1, 'stick'=>1,
         );
 		
         $options['some_fields'] = $some_fields;
@@ -125,7 +125,8 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
             'name' => 'all',
             'tag_id' => 0,
             'domain' => $domain,
-            'app_cover_url' => 'http://frbird.qiniudn.com/asset/160607/5756b69dfc8b12a1478ba705-1-hu.jpg',
+            //'app_cover_url' => 'http://frbird.qiniudn.com/asset/160607/5756b69dfc8b12a1478ba705-1-hu.jpg',
+            'app_cover_url' => 'http://frbird.qiniudn.com/asset/160823/57bbaf7cfc8b1283608bcf87-7-hu.jpg',
             //'back_url' => 'http://frbird.qiniudn.com/asset/160707/577e1b74fc8b12b31c8b6de5-10-hu.jpg',
             'back_url' => 'http://frbird.qiniudn.com/asset/160711/5783332afc8b12b11c8ba757-10-hu.jpg',
             'order_by' => 0,

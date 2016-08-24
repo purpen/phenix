@@ -33,6 +33,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_PRODUCT = 10;
   # 产品banner图
   const TYPE_PRODUCT_BANNER = 11;
+    # 产品png图
+    const TYPE_PRODUCT_PNG = 12;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
 	const TYPE_STORE = 25; // 店铺
@@ -95,7 +97,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	# 专辑封面
 	const TYPE_SPECIAL_COVER = 98;
 
-	#情景图片
+	#情境图片
 	const TYPE_GPRODUCT = 97;
 	const TYPE_GPRODUCT_EDITOR = 99;
 	
@@ -114,6 +116,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     # 情境专题封面
     const TYPE_SCENE_SUBJECT = 130;
+    const TYPE_SCENE_SUBJECT_BANNER = 131;
 
     # Fiu 主题
     const TYPE_THEME = 134;

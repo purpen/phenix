@@ -161,12 +161,13 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if(isset($this->stash['assets']) && !empty($this->stash['assets']) && in_array($this->stash['assets'], array('A','B','C','D','E','F'))){
 		  $data['profile.assets'] = $this->stash['assets'];
 		}
-        // 感兴趣的情景主题
+        // 感兴趣的情境主题
 		if(isset($this->stash['interest_scene_cate']) && !empty($this->stash['interest_scene_cate'])){
             $interest_scene_cate_arr = explode(',', $this->stash['interest_scene_cate']);
             for($i=0;$i<count($interest_scene_cate_arr);$i++){
                 $data['profile.interest_scene_cate'][$i] = (int)$interest_scene_cate_arr[$i];
             }
+            $data['profile.interest_scene_cate'] = array_keys(array_count_values($data['profile.interest_scene_cate']));
 		}
 			
 		if(isset($this->stash['nickname']) && !empty($this->stash['nickname'])){
@@ -207,6 +208,17 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 			
 			$ok = $user->update_set($user_id, $data);
       if($ok){
+
+        // 更新订阅数量
+          if(isset($data['profile.interest_scene_cate'])){
+            $category_model = new Sher_Core_Model_Category();
+            for($j=0;$j<count($data['profile.interest_scene_cate']);$j++){
+                $category_model->inc_counter('sub_count', 1, $data['profile.interest_scene_cate'][$j]);         
+            }
+          }
+
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig($user_id, 15);
         $user_data = $user->load($user_id);
         // 过滤用户字段
         $user_data = $user->extended_model_row($user_data);
@@ -1197,6 +1209,78 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
     $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		return $this->api_json('请求成功', 0, $result);
   }
+
+    /**
+     * 添加感兴趣的情境主题
+     */
+    public function add_interest_scene_id(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);  
+        }
+        $user_id = $this->current_user_id;
+        $user_model = new Sher_Core_Model_User();
+
+        $user = $user_model->load($user_id);
+        if(isset($user['profile']['interest_scene_cate']) && !empty($user['profile']['interest_scene_cate'])){
+            $arr = $user['profile']['interest_scene_cate'];
+        }else{
+            $arr = array();
+        }
+
+        if(in_array($id, $arr)){
+            return $this->api_json('success', 0, array('id'=>$id));       
+        }
+        array_push($arr, $id);
+        $arr = array_keys(array_count_values($arr));
+        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
+        if(!$ok){
+            return $this->api_json('操作失败！', 3002);
+        }
+
+        // 更新订阅数量
+        $category_model = new Sher_Core_Model_Category();
+        $category_model->inc_counter('sub_count', 1, $id);
+
+        return $this->api_json('success', 0, array('id'=>$id));  
+    }
+
+    /**
+     * 删除感兴趣的情境主题
+     */
+    public function remove_interest_scene_id(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);  
+        }
+        $user_id = $this->current_user_id;
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($user_id);
+        $arr = array();
+        if(isset($user['profile']['interest_scene_cate']) && !empty($user['profile']['interest_scene_cate'])){
+            $arr = $user['profile']['interest_scene_cate'];
+        }
+        if(empty($arr) || !in_array($id, $arr)){
+            return $this->api_json('success', 0, array('id'=>$id)); 
+        }
+
+        for($i=0;$i<count($arr);$i++){
+            if($arr[$i]==$id) unset($arr[$i]);
+        }
+        $arr = array_values($arr);
+
+        $ok = $user_model->update_set($user_id, array('profile.interest_scene_cate'=>$arr));
+        if(!$ok){
+            return $this->api_json('操作失败！', 3002);           
+        }
+
+        // 更新订阅数量
+        $category_model = new Sher_Core_Model_Category();
+        $category_model->dec_counter('sub_count', $id);
+
+        return $this->api_json('success', 0, array('id'=>$id)); 
+    
+    }
 
 
 }

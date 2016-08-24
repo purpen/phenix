@@ -1,33 +1,30 @@
 <?php
 /**
- * 产品关联 Model
- * @ author caowei@taihuoniao.com
+ * 情景品牌关联表 Model --- 暂时没用，共用SceneProductLink表
+ * @ author tianshuai
  */
-class Sher_Core_Model_SceneProductLink extends Sher_Core_Model_Base {
+class Sher_Core_Model_SceneBrandLink extends Sher_Core_Model_Base {
 
-    protected $collection = "scene_product_link";
+    protected $collection = "scene_brand_link";
 	
     protected $schema = array(
-		# 场景id
+		# 情境id
 		'sight_id' => 0,
-        # 产品id
-        'product_id' => 0,
-        'product_kind' => 0,
-        'product_attrbute' => 0,
+        # 品牌id
         'brand_id' => null,
-        # 是否启用
+        'brand_kind' => 0,
+        # 状态
 		'status' => 1,
     );
 	
-	protected $required_fields = array('product_id', 'sight_id');
-	protected $int_fields = array('status','sight_id','product_id','product_kind','product_attrbute');
+	protected $required_fields = array('brand_id', 'sight_id');
+	protected $int_fields = array('status','sight_id','brand_kind','status');
 	protected $float_fields = array();
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
 		'sight' =>  array('sight_id' => 'Sher_Core_Model_SceneSight'),
-		'product' =>  array('product_id' => 'Sher_Core_Model_SceneProduct'),
 		'brand' =>  array('brand_id' => 'Sher_Core_Model_SceneBrands'),
 	);
 	

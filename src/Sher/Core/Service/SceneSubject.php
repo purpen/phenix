@@ -7,7 +7,8 @@
 	  
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-        'stick' => array('stick' => -1),
+        'stick' => array('stick_on' => -1),
+        'fine' => array('fine_on' => -1),
 		'view' => array('view_count' => -1),
 	);
 	protected static $instance;

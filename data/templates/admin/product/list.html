@@ -50,12 +50,14 @@
 		<a href="{{ app_url_admin_base }}/product" class="{% if !stage %}active{%endif%} item">
 			全部
 		</a>
+        <!--
 		<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active{%endif%} item">
 			投票
 		</a>
 		<a href="{{ app_url_admin_base }}/product?stage=5" class="{% if stage == 5 %}active{%endif%} item">
 			预售
 		</a>
+        -->
 		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
 			商店
 		</a>
@@ -64,6 +66,9 @@
 		</a>
 		<a href="{{ app_url_admin_base }}/product?stage=15" class="{% if stage == 15 %}active{%endif%} item">
 			产品灵感
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=16" class="{% if stage == 16 %}active{%endif%} item">
+			情境产品
 		</a>
 	  	<div class="right menu">
 	    	<a href="{{ app_url_admin_base }}/product/update_onsale" class="item publish-onsale">
@@ -74,9 +79,11 @@
 				<i class="add icon"></i> 新增产品
 			</a>
 			
+            <!--
 			<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
 				<i class="remove icon"></i> 批量删除
 			</a>
+            -->
 	    </div>
 	</div>
 	
@@ -122,9 +129,9 @@
 		</thead>
 		<tbody>
 	      {% if is_search %}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q size:30 %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q size:100 %}
 	      {%else%}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage size:30 %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage size:100 %}
 	      {%endif%}
 
 			{% for product in list.rows %}
@@ -180,6 +187,9 @@
 					{% endif %}
 					{% if product.stage==15 %}
 					<span>灵感</span>
+					{% endif %}
+					{% if product.stage==16 %}
+					<span>情境</span>
 					{% endif %}
 				</td>
 				<td>

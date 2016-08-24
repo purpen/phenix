@@ -1,6 +1,6 @@
 <?php
 /**
- * 场景
+ * 情境
  * @author caowei@taihuoniao.com
  */
 class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
@@ -21,6 +21,8 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
 		$title = '';
         $type = 0;
         $deleted = 0;
+        $category_id = 0;
+        $show_cate = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -35,6 +37,14 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         $size = (int)$size;
 		
 		$query = array();
+
+        if($category_id){
+            if((int)$category_id==-1){
+                $query['category_ids'] = array();
+            }else{
+                $query['category_ids'] = array('$in'=>(int)$category_id);
+            }
+        }
 
         if($deleted){
             $query['deleted'] = 1;
@@ -56,6 +66,37 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         $options['size'] = $size;
 		$options['sort_field'] = $sort_field;
         $result = $service->get_scene_sight_list($query,$options);
+
+        if($show_cate){
+            $category_model = new Sher_Core_Model_Category();
+        }
+
+        for($i=0;$i<count($result['rows']);$i++){
+
+            if($show_cate){
+                $categories = array();
+                if(isset($result['rows']['category_ids']) && !empty($result['rows']['category_ids'])){
+                    foreach($result['rows']['category_ids'] as $v){
+                        $category = $category_model->load($v);
+                        if($category) array_push($categories, $category);
+                    }
+                }
+                $result['rows'][$i]['categories'] = $categories;
+            }
+
+            if(isset($result['rows'][$i]['from_to']) && $result['rows'][$i]['from_to'] != 4){
+                continue;
+            }
+            $contest_id = isset($result['rows'][$i]['contest_id'])?$result['rows'][$i]['contest_id']:0;
+            if(empty($contest_id)){
+                continue;
+            }
+            $contest = $contest_model->find_by_id((int)$contest_id);
+            if($contest){
+                $result['rows'][$i]['contest'] = $contest;              
+            }
+        }
+
 		//var_dump($result);
         $context->set($var, $result);
 		

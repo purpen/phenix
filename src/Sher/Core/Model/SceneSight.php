@@ -22,7 +22,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'scene_id' => 0,
         # 分类
         'category_id' => 0,
-
+        # 分类new
+        'category_ids' => array(),
 		# 标签
 		'tags' => array(),
 		# 产品
@@ -62,6 +63,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'wap_view_count' => 0,
 		# app 浏览数
 		'app_view_count' => 0,
+        # 活动IDs
+        'subject_ids' => array(),
 		
     # 推荐
     'stick' => 0,
@@ -75,7 +78,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     'deleted' => 0,
     );
 	
-	protected $required_fields = array('title', 'user_id');
+	protected $required_fields = array('user_id');
 	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
@@ -83,9 +86,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
-		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
-		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
 	
 	/**
@@ -93,6 +94,11 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
         $row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+        if(isset($row['category_ids']) && !empty($row['category_ids']) && is_array($row['category_ids'])){
+            $row['category_ids_s'] = implode(',', $row['category_ids']);
+        }
+
+        $row['subject_ids_s'] = !empty($row['subject_ids']) ? implode(',',$row['subject_ids']) : '';
 	}
 	
 	/**
@@ -100,7 +106,39 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	 */
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            if(!empty($data['tags'])){
+	            $tag_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            }else{
+                $tag_arr = array();
+            }
+            $data['tags'] = $tag_arr;
+	    }
+
+        if (isset($data['category_ids']) && !is_array($data['category_ids'])) {
+            $category_arr = array();
+            if(!empty($data['category_ids'])){
+                $category_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['category_ids'])));
+                if(!empty($category_arr)){
+                    for($i=0;$i<count($category_arr);$i++){
+                        $category_arr[$i] = (int)$category_arr[$i];
+                    }           
+                }           
+            }
+            $data['category_ids'] = $category_arr;
+	    }
+
+        // 活动ID转换
+        if (isset($data['subject_ids']) && !is_array($data['subject_ids'])) {
+            $subject_arr = array();
+            if(!empty($data['subject_ids'])){
+                $subject_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['subject_ids'])));
+                if(!empty($subject_arr)){
+                    for($i=0;$i<count($subject_arr);$i++){
+                        $subject_arr[$i] = (int)$subject_arr[$i];
+                    }           
+                }           
+            }
+            $data['subject_ids'] = $subject_arr;
 	    }
 
 	    parent::before_save($data);
@@ -116,40 +154,66 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
       // 如果是新的记录
       if($this->insert_mode) {
 
-		$model = new Sher_Core_Model_Tags();
-		$model->record_count(3, $tags);
+          if(!empty($tags)){
+            $model = new Sher_Core_Model_Tags();
+            $model->record_count($tags, 3, $this->data['_id']);         
+          }
+
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
         
-        $model = new Sher_Core_Model_SceneScene();
-        $model->inc_counter('sight_count',1, $this->data['scene_id']);
+        //$model = new Sher_Core_Model_SceneScene();
+        //$model->inc_counter('sight_count',1, $this->data['scene_id']);
+
+        // 更新分类数量
+        if(isset($this->data['category_ids']) && !empty($this->data['category_ids'])){
+            $model = new Sher_Core_Model_Category();
+            for($i=0;$i<count($this->data['category_ids']);$i++){
+                $model->inc_counter('total_count',1, (int)$this->data['category_ids'][$i]);       
+            }
+        }
+
+        // 更新活动数量
+        if(isset($this->data['subject_ids']) && !empty($this->data['subject_ids'])){
+            $model = new Sher_Core_Model_SceneSubject();
+            for($i=0;$i<count($this->data['subject_ids']);$i++){
+                $model->inc_counter('attend_count',1, $this->data['subject_ids'][$i]);       
+            }
+        }
 
         // 更新全文索引
         Sher_Core_Helper_Search::record_update_to_dig($this->data['_id'], 5);
         
+        if(isset($this->data['product']) && !empty($this->data['product'])){
+        
+        }
         // 关联为场景产品关联表增加数据
         $model = new Sher_Core_Model_SceneProductLink();
-        $product = $this->data['product'];
+
+        $product = isset($this->data['product']) ? $this->data['product'] : array();
         if(count($product)){
-          $scene_product_model = new Sher_Core_Model_SceneProduct();
+          $product_model = new Sher_Core_Model_Product();
           foreach($product as $k => $v){
-            $scene_product = $scene_product_model->load((int)$v['id']);
-            if($scene_product){
+            $product = $product_model->load((int)$v['id']);
+            if($product){
               $data = array();
               $data['sight_id'] = (int)$this->data['_id'];
               $data['product_id'] = (int)$v['id'];
-              $data['product_kind'] = $scene_product['kind'];
-              $data['product_attrbute'] = $scene_product['attrbute'];
+              $data['product_kind'] = $product['stage'];
+              $data['brand_id'] = $product['brand_id'];
               $model->create($data);
             }
-          }
+          } // endfor
+
         }
 
-        // 添加到用户最近使用过的标签
-        $user_tag_model = new Sher_Core_Model_UserTags();
-        for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+        if(!empty($tags)){
+            // 添加到用户最近使用过的标签
+            $user_tag_model = new Sher_Core_Model_UserTags();
+            for($i=0;$i<count($this->data['tags']);$i++){
+              $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+            }       
         }
 
         // 增长积分
@@ -284,5 +348,14 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		$ok = $this->update_set($id, array('fine' => 0));
         return $ok;
 	}
+
+    /**
+     * 自动更新分类
+     */
+    public function update_category($id, $category_ids){
+        $ok = true;
+        $ok = $this->update_set((int)$id, array('category_ids'=>$category_ids));
+        return $ok;
+    }
 
 }

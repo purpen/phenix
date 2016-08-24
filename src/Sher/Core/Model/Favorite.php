@@ -15,9 +15,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     const TYPE_COOPERATE = 6;
 	const TYPE_ALBUMS = 8;
 	const TYPE_APP_SUBJECT = 9; // app专题
-	const TYPE_APP_SCENE_PRODUCT = 10; // 情景产品
-	const TYPE_APP_SCENE_SCENE = 11; // 情境
-	const TYPE_APP_SCENE_SIGHT = 12; // 场景
+	const TYPE_APP_SCENE_PRODUCT = 10; // 情境产品
+	const TYPE_APP_SCENE_SCENE = 11; // 地盘
+	const TYPE_APP_SCENE_SIGHT = 12; // 情境
 	const TYPE_APP_SCENE_SUBJECT = 13; // 情境专题
 	
 	// event

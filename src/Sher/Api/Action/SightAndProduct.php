@@ -1,6 +1,6 @@
 <?php
 /**
- * 商品场景关系表
+ * 情境商品/品牌关系表
  * @author caowei＠taihuoniao.com
  */
 class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
@@ -25,7 +25,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
 		
 		$some_fields = array(
-			'_id'=>1, 'sight_id'=>1, 'product_id'=>1, 'product_kind'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'_id'=>1, 'sight_id'=>1, 'product_id'=>1, 'product_kind'=>1, 'brand_id'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 
 		$product_some_fields = array(

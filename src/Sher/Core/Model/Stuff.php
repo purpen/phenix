@@ -144,10 +144,12 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 
         # 团队或个人: 1.个人；2.团队
         'attr' => 1,
+        # 是否获奖
+        'is_prize' => 0,
     );
 	
 	protected $required_fields = array('user_id', 'title');
-	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id','attr','true_view_count','app_view_count','web_view_count','wap_view_count');
+	protected $int_fields = array('user_id','category_id','asset_count','deleted','view_count','favorite_count','comment_count','love_count','invented_love_count','province_id','city_id','college_id','school_id','cooperate_id','contest_id','attr','true_view_count','app_view_count','web_view_count','wap_view_count','is_prize');
 	
 	protected $joins = array(
 	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),

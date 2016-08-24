@@ -43,6 +43,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
         $is_shop = 0;
         // 搜索类型
         $s_type = 0;
+        # 是否获奖
+        $is_prize = 0;
 
         // 加载大赛
         $load_contest = 0;
@@ -124,6 +126,10 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
     
     if($cooperate_id){
         $query['cooperate_id'] = (int)$cooperate_id;
+    }
+
+    if($is_prize){
+        $query['is_prize'] = 1;
     }
 		
 		// 限制时间

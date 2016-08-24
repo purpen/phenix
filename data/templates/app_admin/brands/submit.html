@@ -162,6 +162,24 @@
 		});
 	});
 
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
 {% endblock %}
 
 {% block content %}
@@ -222,10 +240,32 @@
                 <label>品牌介绍</label>
                 <textarea name="des" placeholder="品牌介绍">{{ date.des }}</textarea>
             </div>
+            <!--
             <div class="field">
                 <label>索引</label>
                 <input type="text" name="mark" placeholder="索引" value="{{ date.mark }}" />
                 <div class="description">品牌名首字母小写</div>
+            </div>
+            -->
+
+            <div class="field">
+                <label>标签</label>
+				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ date.tags_s }}" />
+			</div>
+
+            <h4 class="ui stage header">来源:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="from_to" value="1" {% if date.from_to == 1 %}checked="checked"{% endif %} /> 
+                  <label>官网</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="from_to" value="2" {% if date.from_to == 2 %}checked="checked"{% endif %} /> 
+                  <label>用户</label>
+                </div>
+
+              </div>
             </div>
 
             <h4 class="ui stage header">是否自营:</h4>

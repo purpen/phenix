@@ -259,139 +259,16 @@
 	$('body').on('click', '.category.button', function(){
 		var id = $(this).attr('data-value');
 		if ($(this).hasClass('active')){
-			$(this)
-				.removeClass('active');
-				
-			$('#sight-category').val('');
-          // 清空标签
-          $('#category_tags_box span').html('');
+			$(this).removeClass('active');
+            phenix.remove_asset_id('sight-category', id);
 		}else{
-			$(this)
-				.siblings('.category.button').removeClass('active')
-				.end()
-				.addClass('active');
-			$('#sight-category').val(id);
-          // 加载该类别下的标签库
-          load_category_tag(id, '');
+			$(this).addClass('active');
+            phenix.record_asset_id('sight-category', id);
 		}
 		
         return false;
 	});
 
-    // 选择分类标签
-  $('.category-tags.button').livequery(function(){
-    $(this).click(function(){
-      var id = $(this).attr('data-value');
-      if ($(this).hasClass('active')){
-        $(this)
-          .removeClass('active');
-          
-        $('#sight-category-tags').val('');
-      }else{
-        $(this)
-          .siblings('.category-tags.button').removeClass('active')
-          .end()
-          .addClass('active');
-        $('#sight-category-tags').val(id);
-      }
-      return false;
-    }); 
-  });
-
-  // 初始化标签
-  var current_category_id = $('#sight-category').val();
-  var current_category_tags = $('#sight-category-tags').val();
-  if(current_category_id){
-    // 加载该类别下的标签库
-    if(current_category_id){
-      load_category_tag(current_category_id, current_category_tags); 
-    }
-  }
-	
-	$('.tags_content').each(function(){
-		var id = $(this).attr('id');
-		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(date){
-			var data = eval('('+date+')');
-			var html = '';
-			if(data.data){
-				for(var item in data.data){
-					html += '<h3 class="ui dashed header" date-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</h3>';
-					if(data.data[item]['children']){
-						for(var items in data.data[item]['children']){
-							//console.log(data.data[item]['children'][items]);
-							html += '<a class="ui green label scene_tags" date-val="'+data.data[item]['children'][items]['_id']+'">'+data.data[item]['children'][items]['title_cn']+'</a>';
-						}
-					}
-				}
-			}
-			$('#'+id).html(html);
-		});
-	});
-	
-	//查看字符串是否在数组中存在
-	var in_array = function(arr, val) {
-		var i;
-		for (i = 1; i <= arr.length; i++) {
-			if (val == arr[i-1]) {
-				return i;
-			}
-		}
-		return 0;
-	}; // 返回0表示没找到，返回其他值表示找到的索引
-	
-	// 判断标签是否被选中
-	var tags = $('input[name=tags]').val();
-	tags = tags.split(',');
-	for (i = 0; i < tags.length; i++) {
-		tags[i] = parseInt(tags[i]);
-	}
-	$('.scene_tags').livequery(function(){
-		$(this).each(function(){
-			var tag = $(this).attr('date-val');
-			tag = parseInt(tag);
-			if(in_array(tags,tag)){
-				$('a[date-val='+tag+']').addClass('purple');
-			}
-		});
-	});
-	
-	// 选择标签
-	$('.scene_tags').livequery(function(){
-		$(this).click(function(){
-			var id = $(this).attr('date-val');
-			if ($(this).hasClass('purple')){
-				$(this).removeClass('purple');
-			}else{
-				$(this).addClass('purple');
-			}
-			
-			var tags = '';
-			$(".purple").each(function(i){
-				var value = $(this).attr('date-val');
-				tags += value + ',';
-			});
-			tags = tags.substring(0,tags.length-1);
-			$('input[name=tags]').val(tags);
-		});
-	});
-
-    // 标签
-    $('#tags').tagsInput({
-       //'autocomplete_url': url_to_autocomplete_api,
-        //'autocomplete': { option: value, option: value},
-       'height':'60px',
-       'width':'auto',
-       'interactive':true,
-       'defaultText':'添加标签',
-       //'onAddTag':callback_function,
-       //'onRemoveTag':callback_function,
-       //'onChange' : callback_function,
-       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
-       'removeWithBackspace' : true,
-       'minChars' : 2,
-       'maxChars' : 15, // if not provided there is no limit
-       'placeholderColor' : '#666666'
-    });
 	
 {% endblock %}
 
@@ -426,8 +303,8 @@
 
             <div class="field">
               <label>分类:</label>
-              <input type="hidden" name="category_id" value="{{ sight.category_id }}" id="sight-category" />
-              {% category_list var:'category' only_open:1 domain:13 pid:fid current:sight.category_id %}
+              <input type="hidden" name="category_ids" value="{{ sight.category_ids_s }}" id="sight-category" />
+              {% category_list var:'category' only_open:1 domain:13 pid:fid current:sight.category_ids %}
               {% for cat in category.rows %}
               <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
               {% endfor %}
@@ -452,6 +329,11 @@
             <div class="field">
                 <label>标签</label>
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ sight.tags_s }}" />
+			</div>
+
+            <div class="field">
+                <label>参与的活动</label>
+				<input type="text" name="subject_ids" placeholder="参与的活动IDs" value="{{ sight.subject_ids_s }}" />
 			</div>
 
 			<div class="field" style="display:none;">
