@@ -25,13 +25,14 @@ echo "fixed scene product category_id fields ...\n";
 
 $scene_product_model = new Sher_Core_Model_SceneProduct();
 $product_model = new Sher_Core_Model_Product();
+$tag_model = new Sher_Core_Model_SceneTags();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array('attrbute'=>array('$ne'=>1), 'kind'=>1, 'deleted'=>0);
+	$query = array('attrbute'=>1, 'kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -41,39 +42,60 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
         $item = $list[$i];
-        $row = array(
-            'title' => $item['title'],
-            'short_title' => $item['short_title'],
-            'cover_id' => $item['cover_id'],
-            'banner_id' => isset($item['banner_id']) ? $item['banner_id'] : '',
-            'user_id' => $item['user_id'],
-            'brand_id' => $item['brand_id'],
-            'tags' => $item['tags'],
-            'png_asset_ids' => $item['png_asset_ids'],
-            'sale_price' => $item['sale_price'],
-            'market_price' => $item['market_price'],
-            'view_count' => $item['view_count'],
-            'category_id' => category_change($item['category_id']),
-            'category_tags' => $item['category_tags'],
-            'advantage' => $item['summary'],
-            'published' => 1,
-            'approved' => 1,
-            'stage' => 16,
-        );
+        $row = array();
+        $row['png_asset_ids'] = $item['png_asset_ids'];
+
+        $new_tag_arr = array();
+        if(isset($item['category_tags']) && !empty($item['category_tags'])){
+            for($j=0;$j<count($item['category_tags']);$j++){
+                $tag = $tag_model->load((int)$item['category_tags'][$j]);
+                if(empty($tag)) continue;
+                array_push($new_tag_arr, $tag['title_cn']);
+            }       
+        }
+
+        $product = $product_model->load((int)$item['oid']);
+        if(empty($product)) continue;
+        $tag_arr = array();
+        if(isset($product['category_tags']) && !empty($product['category_tags'])){
+            $tag_arr = $product['category_tags'];
+        }
+        if(!empty($new_tag_arr)){
+            for($k=0;$k<count($new_tag_arr);$k++){
+                if(!empty($new_tag_arr[$k])) array_push($tag_arr, $new_tag_arr[$k]);
+            }
+        }
+        $tag_arr = array_keys(array_count_values($tag_arr));
+        $row['category_tags'] = $tag_arr;
+        $tag_arr_s = implode(',', $tag_arr);
+        echo "category_tags: $tag_arr_s.\n";
+
+        $tags = $product['tags'];
+        $new_tags = $item['tags'];
+        for($k=0;$k<count($new_tags);$k++){
+            array_push($tags, $new_tags[$k]);
+        }
+        $tags = array_keys(array_count_values($tags));
+        $row['tags'] = $tags;
+        $tags_s = implode(',', $tags);
+        echo "tags: $tags_s. \n";
+
+        if(!empty($item['brand_id'])){
+            $row['brand_id'] = $item['brand_id'];
+        }
+
         $ok = true;
-        //$ok = $product_model->create($row);
-        //$product = $product_model->get_data();
+        //$ok = $product_model->update_set($product['_id'], $row);
         $new_id = 0;
         //$new_id = $product['_id'];
         if($ok){
           // 更新全文索引
           //Sher_Core_Helper_Search::record_update_to_dig($new_id, 3); 
-            echo "create product success! $new_id \n";
+            echo "update product success! $new_id \n";
             $total++;
         }else{
-            echo "create fail!!";
+            echo "update fail!!";
         }
-
 	}   // endfor
 	if($max < $size){
 		break;
@@ -82,6 +104,7 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 
+/*
 function category_change($id){
     switch($id){
         case 146:
@@ -120,6 +143,7 @@ function category_change($id){
     }
     return $new_id;
 }
+ */
 
 echo "create product count: $total is OK! \n";
 
