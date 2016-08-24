@@ -294,14 +294,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['share_view_url'] = $data['wap_view_url'];
     $data['share_desc'] = $data['advantage'];
 
+    $asset_service = Sher_Core_Service_Asset::instance();
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
     //返回图片数据
     $assets = array();
     $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
     $asset_options['page'] = 1;
-    $asset_options['size'] = 10;
+    $asset_options['size'] = 5;
     $asset_options['sort_field'] = 'latest';
-    $asset_service = Sher_Core_Service_Asset::instance();
-    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     if(!empty($asset_result['rows'])){
       foreach($asset_result['rows'] as $key=>$value){
@@ -310,6 +311,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
     $data['asset'] = $assets;
     $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+    //返回褪底图片数据
+    $assets = array();
+    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>12);
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, array('url'=>$value['thumbnails']['hd']['view_url'],'width'=>$value['width'],'height'=>$value['height']));
+      }
+    }
+    $data['png_asset'] = $assets;
 		
 		// 验证是否还有库存
 		$data['can_saled'] = $model->app_can_saled($product);

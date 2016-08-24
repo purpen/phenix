@@ -32,7 +32,7 @@ $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array('attrbute'=>1, 'kind'=>1, 'deleted'=>0);
+	$query = array('kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
