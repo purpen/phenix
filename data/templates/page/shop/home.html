@@ -240,21 +240,27 @@
 	</div>
 	
 	<!-- 全部分类 -->
-	<ul class="nav-categories">
-	    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-		<li class="category">
-	        <a href="{{ app_url_shop }}/c0">
-	            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
-	        </a>
-	    </a>
-		{% for cat in category.rows %}
-	    <li class="category {{ cat.active}}">
-	      	<a href="{{ cat.view_url }}">
-	            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
-	        </a>
-	    </li>
-		{% endfor %}
-	</ul>
+	<div class="ui responsive grid">
+    	<div class="row">
+        	<div class="column">
+				<ul class="nav-categories" style="width: 100%;">
+				    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+					<li class="category">
+				        <a href="{{ app_url_shop }}/c0">
+				            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
+				        </a>
+				    </a>
+					{% for cat in category.rows %}
+				    <li class="category {{ cat.active}}">
+				      	<a href="{{ cat.view_url }}">
+				            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+				        </a>
+				    </li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
 	
 	<!-- 推荐产品 -->
 	<div class="ui newest responsive grid">
