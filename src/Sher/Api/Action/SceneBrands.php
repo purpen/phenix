@@ -151,6 +151,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
     /**
      * 添加品牌
      */
+    /*
     public function submit(){
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $user_id = $this->current_user_id;
@@ -183,5 +184,6 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, array('id'=>$id));
     
     }
+     */
 }
 

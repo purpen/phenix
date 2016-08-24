@@ -340,6 +340,7 @@ if(!empty($sight_ids) && !empty($sight_ids['items'])){
 }//endif
 
 
+/**
 //获取情境产品更新的ID数组
 $scene_product_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_PRODUCT_UPDATE_IDS);
 if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
@@ -398,7 +399,7 @@ if(!empty($scene_product_ids) && !empty($scene_product_ids['items'])){
   echo "success update scene product $total .\n";
   echo "-------------//////////////-------------\n";
 }//endif
-
+ */
 
 //获取情境分享语句更新的ID数组
 $scene_context_ids = $digged->load(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS);

@@ -33,7 +33,7 @@ $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array('attrbute'=>array('$ne'=>1), 'kind'=>1, 'deleted'=>0);
+	$query = array('attrbute'=>1, 'kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -59,7 +59,7 @@ while(!$is_end){
           }
         }
 
-        $product = $product_model->first(array('stage'=>16, 'title'=>$item['title']));
+        $product = $product_model->load((int)$item['oid']);
         if(empty($product)){
             echo "is empty!.\n";
             continue;
