@@ -24,12 +24,14 @@ ini_set('memory_limit','512M');
 echo "fixed scene product category_id fields ...\n";
 
 $scene_product_model = new Sher_Core_Model_SceneProduct();
+$product_model = new Sher_Core_Model_Product();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
+
 while(!$is_end){
-	$query = array();
+	$query = array('attrbute'=>array('$ne'=>1), 'kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -38,48 +40,41 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-    $id = $list[$i]['_id'];
-    /**
-    $category_id = $list[$i]['category_id'];
-    switch($category_id){
-    case 146:
-      $new_category_id = 67;
-      break;
-    case 147:
-      $new_category_id = 68;
-      break;
-    case 148:
-      $new_category_id = 69;
-      break;
-    case 149:
-      $new_category_id = 70;
-      break;
-    case 150:
-      $new_category_id = 71;
-      break;
-    case 151:
-      $new_category_id = 72;
-      break;
-    case 152:
-      $new_category_id = 74;
-      break;
-    case 153:
-      $new_category_id = 75;
-      break;
-    default:
-      $new_category_id = 0;
-    }
-     */
+        $item = $list[$i];
+        $row = array(
+            'title' => $item['title'],
+            'short_title' => $item['short_title'],
+            'cover_id' => $item['cover_id'],
+            'banner_id' => isset($item['banner_id']) ? $item['banner_id'] : '',
+            'user_id' => $item['user_id'],
+            'brand_id' => $item['brand_id'],
+            'tags' => $item['tags'],
+            'png_asset_ids' => $item['png_asset_ids'],
+            'sale_price' => $item['sale_price'],
+            'market_price' => $item['market_price'],
+            'view_count' => $item['view_count'],
+            'category_id' => category_change($item['category_id']),
+            'category_tags' => $item['category_tags'],
+            'advantage' => $item['summary'],
+            'published' => 1,
+            'approved' => 1,
+            'stage' => 16,
+        );
+        $ok = true;
+        //$ok = $product_model->create($row);
+        //$product = $product_model->get_data();
+        $new_id = 0;
+        //$new_id = $product['_id'];
+        if($ok){
+          // 更新全文索引
+          //Sher_Core_Helper_Search::record_update_to_dig($new_id, 3); 
+            echo "create product success! $new_id \n";
+            $total++;
+        }else{
+            echo "create fail!!";
+        }
 
-    if(isset($list[$i]['category_id'])){
-      $ok = true;
-      //$ok = $scene_product_model->update_set($id, array('category_id'=>$new_category_id));
-      if($ok){
-        $total++;
-      }
-    }
-    
-	}
+	}   // endfor
 	if($max < $size){
 		break;
 	}
@@ -87,5 +82,44 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 
-echo "fix scene product category_id fields count: $total is OK! \n";
+function category_change($id){
+    switch($id){
+        case 146:
+            $new_id = 32;
+            break;
+        case 147:
+            $new_id = 76;
+            break;
+        case 148:
+            $new_id = 34;
+            break;
+        case 151:
+            $new_id = 31;
+            break;
+        case 152:
+            $new_id = 81;
+            break;
+        case 150:
+            $new_id = 78;
+            break;
+        case 149:
+            $new_id = 30;
+            break;
+        case 173:
+            $new_id = 33;
+            break;
+        case 153:
+            $new_id = 82;
+            break;
+        case 236:
+            $new_id = 79;
+            break;
+        default:
+            $new_id = 0;
+
+    }
+    return $new_id;
+}
+
+echo "create product count: $total is OK! \n";
 

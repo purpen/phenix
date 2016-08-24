@@ -216,8 +216,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 
             $result['rows'][$k]['comments'] = $comments;
 
-            // 用户是否点赞
+            // 用户是否点赞/收藏
             $is_love = 0;
+            $is_favorite = 0;
             if($current_user_id){
                 $fav_query = array(
                     'target_id' => (int)$result['rows'][$k]['_id'],
@@ -227,8 +228,19 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 );
                 $has_love = $favorite_model->first($fav_query);
                 if($has_love) $is_love = 1;
+
+                $fav_query = array(
+                    'target_id' => (int)$result['rows'][$k]['_id'],
+                    'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                    'event' => Sher_Core_Model_Favorite::EVENT_FAVORITE,
+                    'user_id' => $current_user_id
+                );
+                $has_favorite = $favorite_model->first($fav_query);
+                if($has_favorite) $is_favorite = 1;
+
             }
             $result['rows'][$k]['is_love'] = $is_love;
+            $result['rows'][$k]['is_favorite'] = $is_favorite;
 
         }   // endfor $result['rows']
 		
@@ -436,13 +448,14 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		//$result['scene_title'] = $result['scene']['title'];
         
-    for($i=0;$i<count($filter_fields);$i++){
-        $key = $filter_fields[$i];
-        unset($result[$key]);
-    }
+        for($i=0;$i<count($filter_fields);$i++){
+            $key = $filter_fields[$i];
+            unset($result[$key]);
+        }
 		
 		
-		// 用户是否订阅该情景
+		// 用户是否点赞、收藏
+        $result['is_love'] = $result['is_favorite'] = 0;
 		$user_id = $this->current_user_id;
 		$model = new Sher_Core_Model_Favorite();
 		$query = array(
@@ -451,12 +464,17 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
 			'user_id' => $user_id
 		);
-		$res = $model->find($query);
-		if($res){
-			$result['is_love'] = 1;
-		}else{
-			$result['is_love'] = 0;
-		}
+		$res = $model->first($query);
+		if($res) $result['is_love'] = 1;
+
+		$query = array(
+			'target_id' => (int)$id,
+			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+			'event' => Sher_Core_Model_Favorite::EVENT_FAVORITE,
+			'user_id' => $user_id
+		);
+		$res = $model->first($query);
+		if($res) $result['is_favorite'] = 1;
 
         // 获取评论(2条)
         $comments = array();
