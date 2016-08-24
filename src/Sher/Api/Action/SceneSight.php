@@ -304,6 +304,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                     $data['product'][$i]['y'] = (float)$arr['y'];
                     // 位置; 1.左；2.右；  
                     $data['product'][$i]['loc'] = (int)$arr['loc'];
+                    // 类型: 1.自建；2.产品；3.--
+                    $data['product'][$i]['type'] = (int)$arr['type'];
                 }           
             }
         }

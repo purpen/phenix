@@ -120,6 +120,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
+        $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
 
 		//短标题
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
@@ -129,7 +130,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['voted_finish_time'] = isset($this->stash['voted_finish_time']) ? $this->stash['voted_finish_time'] : null;
 		
 		// 产品阶段
-		$data['stage'] = (int)$this->stash['stage'];
+		$data['stage'] = isset($this->stash['stage']) ? (int)$this->stash['stage'] : 0;
+        if(empty($data['stage'])){
+ 		    return $this->ajax_json('请选择产品当前阶段！', true);       
+        }
 		$data['process_voted'] = isset($this->stash['process_voted']) ? 1 : 0;
 		$data['process_presaled'] = isset($this->stash['process_presaled']) ? 1 : 0;
 		$data['process_saled'] = isset($this->stash['process_saled']) ? 1 : 0;
@@ -156,8 +160,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['app_snatched_price'] = (float)$this->stash['app_snatched_price'];
 		$data['app_snatched_count'] = (int)$this->stash['app_snatched_count'];
 		$data['app_snatched_total_count'] = (int)$this->stash['app_snatched_total_count'];
-    $data['app_snatched_img'] = $this->stash['app_snatched_img'];
-    $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
+        $data['app_snatched_img'] = $this->stash['app_snatched_img'];
+        $data['app_snatched_limit_count'] = (int)$this->stash['app_snatched_limit_count'];
 
 		// 积分兑换
 		$data['exchanged'] = isset($this->stash['exchanged']) ? 1 : 0;
@@ -207,6 +211,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];
+        // Banner图
+        $data['banner_id'] = $this->stash['banner_id'];
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -286,6 +292,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			// 上传成功后，更新所属的附件(Banner)
 			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
 				$asset->update_batch_assets($this->stash['banner_asset'], $id);
+			}
+
+			// 上传成功后，更新所属的附件(png)
+			if(isset($this->stash['png_asset']) && !empty($this->stash['png_asset'])){
+				$asset->update_batch_assets($this->stash['png_asset'], $id);
 			}
 
 			// 保存成功后，更新编辑器图片
@@ -548,10 +559,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['png_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
+		$this->stash['png_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PNG;
 		
 		return $this->to_html_page('admin/product/edit.html');
 	}
