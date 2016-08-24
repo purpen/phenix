@@ -197,6 +197,13 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $scene_subject = $scene_subject_model->load((int)$oid);       
             if(!empty($scene_subject)){
                 $result['data'][$k]['title'] = $scene_subject['title'];
+                $result['data'][$k]['short_title'] = $scene_subject['short_title'];
+                $result['data'][$k]['short_title'] = $scene_subject['short_title'];
+                $result['data'][$k]['attend_count'] = $scene_subject['attend_count'];
+                $result['data'][$k]['view_count'] = $scene_subject['view_count'];
+                $result['data'][$k]['type'] = $scene_subject['type'];
+                $result['data'][$k]['begin_time_at'] = !empty($scene_subject['begin_time']) ? date('Y-m-d', $scene_subject['begin_time']) : '';
+                $result['data'][$k]['end_time_at'] = !empty($scene_subject['end_time']) ? date('Y-m-d', $scene_subject['end_time']) : '';
             } 
 
           // 图片尺寸
