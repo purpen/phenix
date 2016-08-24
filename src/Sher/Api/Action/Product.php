@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list', 'index_stick_list');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list', 'index_stick_list', 'index_new');
 
 	/**
 	 * 入口
@@ -939,7 +939,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     * 好货最好产品
     *
     */
-    /*
     public function index_new(){
         $conf = Sher_Core_Util_View::load_block('fiu_product_new', 1);
         $active_arr = array('items'=>array());
@@ -968,7 +967,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, $active_arr);
     }
 
-     */
 	
 
 }
