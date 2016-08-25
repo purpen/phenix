@@ -83,6 +83,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $result['data'][$k]['title'] = $obj['short_title'];
               $result['data'][$k]['market_price'] = $obj['market_price'];
               $result['data'][$k]['sale_price'] = $obj['sale_price'];
+              $result['data'][$k]['stage'] = $obj['stage'];
               $result['data'][$k]['tips_label'] = 0;
             }else{
               $result['data'][$k]['market_price'] = 0;
