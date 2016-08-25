@@ -175,7 +175,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
         $product = null;
         if(!empty($scene_subject['product_id'])){
             $product_model = new Sher_Core_Model_Product();
-            $product = $product_model->load((int)$scene_subject['product_id']);
+            $product = $product_model->extend_load((int)$scene_subject['product_id']);
         }
         $scene_subject['product'] = $product;
 
