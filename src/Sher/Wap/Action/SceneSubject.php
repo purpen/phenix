@@ -33,7 +33,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         $user_id = $this->visitor->id;
 
 		$model = new Sher_Core_Model_SceneSubject();
-		$scene_subject = $model->load($id);
+		$scene_subject = $model->extend_load($id);
 
 		if(empty($scene_subject)) {
             return $this->show_message_page('访问的专题不存在！', $redirect_url);
