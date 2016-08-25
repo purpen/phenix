@@ -445,6 +445,8 @@ echo "Total $total sight rows updated.\n";
 
 echo "-------------//////////////-------------\n";
 
+/**
+
 echo "Prepare to build scene product xun_search fulltext index...\n";
 $scene_product_model = new Sher_Core_Model_SceneProduct();
 $page = 1;
@@ -518,6 +520,8 @@ while(!$is_end){
 	echo "Page $page scene product updated---------\n";
 }
 echo "Total $total scene product rows updated.\n";
+
+ */
 
 
 echo "-------------//////////////-------------\n";
