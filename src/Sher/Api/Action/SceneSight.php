@@ -144,6 +144,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$favorite_model = new Sher_Core_Model_Favorite();
 
         $follow_model = new Sher_Core_Model_Follow();
+
+        $scene_sight_model = new Sher_Core_Model_SceneSight();
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
@@ -155,6 +157,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			if($v['product']){
 				$result['rows'][$k]['product'] =$v['product'];
 			}
+
+            // 添加浏览量
+            $rand = rand(1, 5);
+            $scene_sight_model->inc($v['_id'], 'view_count', $rand);
+            $scene_sight_model->inc($v['_id'], 'true_view_count', 1);
+            $scene_sight_model->inc($v['_id'], 'app_view_count', 1);
 			
 			$user = array();
 			
@@ -414,7 +422,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
 		
 		// 增加浏览量
-    $rand = rand(1, 5);
+        $rand = rand(1, 5);
 		$model->inc((int)$id, 'view_count', $rand);
 		$model->inc((int)$id, 'true_view_count', 1);
 		$model->inc((int)$id, 'app_view_count', 1);
