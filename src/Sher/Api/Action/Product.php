@@ -371,7 +371,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
 
     // 品牌
-    $data['brand'] = '';
+    $data['brand'] = null;
     if(isset($data['brand_id']) && !empty($data['brand_id'])){
         $brand_model = new Sher_Core_Model_SceneBrands();
         $brand = $brand_model->extend_load($data['brand_id']);
