@@ -1,6 +1,6 @@
 <?php
 /**
- * 情境商品/品牌关系表
+ * 商品/品牌关系表
  * @author caowei＠taihuoniao.com
  */
 class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
@@ -71,6 +71,10 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       if(empty($product) || empty($sight)){
         //continue;
       }
+
+      $current_user_id = $this->current_user_id;
+
+		$favorite_model = new Sher_Core_Model_Favorite();
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
@@ -127,6 +131,23 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
         $data[$i]['sight']['title'] = $sight['title'];
         $data[$i]['sight']['address'] = $sight['address'];
         $data[$i]['sight']['scene_title'] = isset($sight['scene']) ? $sight['scene']['title'] : null;
+
+
+        // 用户是否点赞/收藏
+        $is_love = 0;
+        if($current_user_id){
+            $fav_query = array(
+                'target_id' => $sight['_id'],
+                'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                'user_id' => $current_user_id
+            );
+            $has_love = $favorite_model->first($fav_query);
+            if($has_love) $is_love = 1;
+
+        }
+        $data[$i]['sight']['is_love'] = $is_love;
+
       }
 
 		} // endfor
