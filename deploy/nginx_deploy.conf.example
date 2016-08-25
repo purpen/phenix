@@ -180,7 +180,7 @@ server {
 			rewrite ^/stuff(.*)$ /app/wap/stuff$1 last;
 		}
 
-	  location /birdegg {
+	    location /birdegg {
 		  rewrite ^/birdegg(\/*)$ /app/wap/birdegg last;
 			rewrite ^/birdegg/c(\d+)[/]?$ /app/wap/birdegg/zlist?cid=$1 last;
 			rewrite ^/birdegg/c(\d+)/p(\d+)[/]?$ /app/wap/birdegg/zlist?cid=$1&page=$2 last;
@@ -191,20 +191,25 @@ server {
 			rewrite ^/birdegg(.*)$ /app/wap/birdegg$1 last;
 		}
 
-    location /d3in {
-        rewrite ^/d3in[/]?$ /app/wap/d3in last;
-        rewrite ^/d3in/(.*)$ /app/wap/d3in/$1 last;
-    }
+        location /d3in {
+            rewrite ^/d3in[/]?$ /app/wap/d3in last;
+            rewrite ^/d3in/(.*)$ /app/wap/d3in/$1 last;
+        }
 
         location /fiu {
             rewrite ^/fiu[/]?$ /app/wap/index/fiu last;
             rewrite ^/fiu/(.*)$ /app/wap/index/fiu/$1 last;
         }
 
-    location /special_subject {
-        rewrite ^/special_subject[/]?$ /app/wap/special_subject last;
-        rewrite ^/special_subject/(.*)$ /app/wap/special_subject/$1 last;
-    }
+        location /special_subject {
+            rewrite ^/special_subject[/]?$ /app/wap/special_subject last;
+            rewrite ^/special_subject/(.*)$ /app/wap/special_subject/$1 last;
+        }
+
+        location /scene_subject {
+            rewrite ^/scene_subject[/]?$ /app/wap/scene_subject last;
+            rewrite ^/scene_subject/(.*)$ /app/wap/scene_subject/$1 last;
+        }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/wap/search last;
@@ -288,6 +293,11 @@ server {
         location /fiu {
             rewrite ^/fiu[/]?$ /app/site/index/fiu last;
             rewrite ^/fiu/(.*)$ /app/site/index/fiu/$1 last;
+        }
+
+        location /scene_subject {
+            rewrite ^/scene_subject[/]?$ /app/site/scene_subject last;
+            rewrite ^/scene_subject/(.*)$ /app/site/scene_subject/$1 last;
         }
 		
         location /dream {

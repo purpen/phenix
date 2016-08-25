@@ -131,25 +131,28 @@
                     <div class="ui big topic segment">
                         <div class="ui title header">
                             <div class="content">
-                                与强者同行，才能踏上赢家之路
+                                {{ scene_subject.title }}
                             </div>
                         </div>
                         <h4 class="ui header authsub">
-                            <img class="ui mini circular image" src="{{ topic.user.small_avatar_url }}"
-                            alt="{{ topic.user.nickname }}" />
+                            <img class="ui mini circular image" src="{{ scene_subject.user.small_avatar_url }}"
+                            alt="{{ scene_subject.user.nickname }}" />
                             <div class="content">
                                 <a class="ui magenta link" href="javascript:void(0);">
-                                    @taihuoniao
+                                    @{{ scene_subject.user.nickname }}
                                 </a>
-                                 &nbsp; 2016-01-01 
+                                 &nbsp; {{ scene_subject.created_on|relative_datetime }}
                                 <div class="sub header">
-                                    浏览数: 123 &nbsp; 回复数: 123
+                                    浏览数: {{ scene_subject.view_count }} &nbsp; 回复数: {{ scene_subject.comment_count }}
                                 </div>
                             </div>
                         </h4>
+                        <!--
                         <div class="post froala-view froala-element clearfix">
-                            <p style="text-align: center;">只有你赢过，</p><p style="text-align: center;">你才能证明你是强者；</p><p style="text-align: center;">只有你知道自己能赢，</p><p style="text-align: center;">你才能无视周遭的一切怀疑；</p><p style="text-align: center;">面对云计算的滚滚大潮，</p><p style="text-align: center;"><strong>与强者同行，才能踏上赢家之路。</strong></p><p><br></p><p style="text-align: center;"><span style="font-size: 16px;">&nbsp;相信我，与亚马逊<span style="color: #F37934;">AWS</span>携手，</span></p><p style="text-align: center;">——————————————————</p><p style="text-align: center;"><strong><span style="font-size: 20px;">你，能赢！</span></strong></p><p><img alt="太火鸟" class="fr-fin fr-dib" src="http://frbird.qiniudn.com/topic/160818/57b5c901fc8b12b4388b4ac3-1-hdw.jpg"></p><p style="text-align: center;"><strong><span style="font-size: 20px;">AWS技术峰会2016·北京</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 20px;">将于2016年9月7日-8日在北京举行</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 20px;">——————————————————</span></strong></p><p style="text-align: center;">Sept07-08</p><p style="text-align: center;">十年云计算之路，破浪前行。</p><p style="text-align: center;">在这个每天都在上演奇迹的国度，</p><p style="text-align: center;">在这个国家的中心，</p><p style="text-align: center;">亚马逊AWS邀请诸位，</p><p style="text-align: center;">与强者同行！</p><p><br></p><p style="text-align: center;"><strong><span style="font-size: 20px;">在这里，你将体验到</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 20px;">————————————————</span></strong></p><p style="text-align: center;">最新的产品与服务</p><p style="text-align: center;">最领先的解决方案</p><p style="text-align: center;"><strong><span style="color: rgb(41, 105, 176); font-size: 16px;">一目了然</span></strong></p><p><br></p><p style="text-align: center;">最牛的行业大咖</p><p style="text-align: center;">最前沿的云技术与观点</p><p style="text-align: center;"><span style="color: rgb(226, 80, 65); font-size: 16px;"><strong>一网打尽</strong></span></p><p><br></p><p style="text-align: center;">最给力的行业合作伙伴</p><p style="text-align: center;">最专注的行业解决方案</p><p style="text-align: center;"><strong><span style="color: rgb(0, 168, 133); font-size: 16px;">一览无余</span></strong></p><p><br></p><p style="text-align: center;">最土豪的免费培训课程</p><p style="text-align: center;">最海量的技术干货</p><p style="text-align: center;"><span style="color: rgb(147, 101, 184); font-size: 16px;"><strong>一步到位</strong></span></p><p><br></p><p style="text-align: center;"><strong><span style="font-size: 20px;">更重要的是</span></strong></p><p style="text-align: center;"><strong><span style="font-size: 20px;">——————————</span></strong></p><p style="text-align: center;">&nbsp; &nbsp;现在报名，</p><p style="text-align: center;">就有机会获得价值<strong><span style="font-size: 18px;"><span style="color: #D14841;">50</span>美元</span></strong>的</p><p style="text-align: center;">亚马逊AWS服务抵扣券！</p><p><br></p><p style="text-align: center;"><span style="font-size: 20px;"><strong>报名方式</strong></span></p><p style="text-align: center;"><span style="font-size: 14px;">截止至9月5日前 私信小编您的基本信息（姓名 职业 公司 联系方式）</span></p><p style="text-align: center;"><span style="font-size: 14px;">15个现场参加名额等你来领</span></p><p style="text-align: center;"><span style="font-size: 14px;">数量有限~还不快来！！</span></p>
+                            
                         </div>
+                        -->
+                        {{ scene_subject.content }}
                         <!--
                         <div class="post froala-view froala-element clearfix">
                             
