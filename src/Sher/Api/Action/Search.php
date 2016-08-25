@@ -76,11 +76,11 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 
         // 产品
         if($kind=='Product'){ // 产品
-          if($cid==9){
-            $obj = $product_model->find_by_id((int)$oid);
+            $obj = $product_model->extend_load((int)$oid);
             // 商品不需要显示详情
             $result['data'][$k]['content'] = null;
             if($obj){
+              $result['data'][$k]['title'] = $obj['short_title'];
               $result['data'][$k]['market_price'] = $obj['market_price'];
               $result['data'][$k]['sale_price'] = $obj['sale_price'];
               $result['data'][$k]['tips_label'] = 0;
@@ -88,7 +88,6 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $result['data'][$k]['market_price'] = 0;
               $result['data'][$k]['sale_price'] = 0; 
             }
-          }
 
           // 图片尺寸
           if($asset_obj){
