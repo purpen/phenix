@@ -199,22 +199,7 @@
         font-size: 12px;
         color: #565656;
         padding-left: 5px;
-    }  
-    .flexbuy {
-	    position: fixed;
-	    bottom: 0;
-	    left: 0;
-	    width: 100%;
-	    height: 50px;
-	    z-index: 3;
-	    line-height: 50px;
-	    background: #000;
-	    color: #fff;
-	    font-size: 18px;
-	    text-align: center;
-	    letter-spacing: 2px;
-        text-decoration: none;
-	} 
+    }   
 
 	.gridster {
 		margin: 0 auto;
@@ -263,9 +248,9 @@
         </div>
     </div>
     <div class="pingp">
-        <img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}">
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}"><img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}"></a>
         <div class="content">
-            {{ scene_subject.product.brand.title }}
+            <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}" >{{ scene_subject.product.brand.title }}</a>
             <div class="sub header">
                 {{ scene_subject.product.brand.des }}
             </div>
@@ -273,15 +258,13 @@
     </div>
     <div class="biaoq">
         {% for d in scene_subject.tags %}
-        <a href="javascript:void(0);" class="biao">＃{{ d }}</a>
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=20&infoId=12&infoTag={{d}}" class="biao">＃{{ d }}</a>
         {%endfor%}
         <!--
         <a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a>
         <span>@AMD</span>
         -->
     </div>
-    <a class="flexbuy" href="{{ scene_subject.product.wap_view_url }}">
-        去购买
-    </a>
+
 </div>
 {% endblock %}

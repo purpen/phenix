@@ -101,7 +101,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
-      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
+      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
@@ -262,7 +262,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'extra_info',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
@@ -371,16 +371,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
 
     // 品牌
-    $data['brand'] = null;
-    if(isset($data['brand_id']) && !empty($data['brand_id'])){
-        $brand_model = new Sher_Core_Model_SceneBrands();
-        $brand = $brand_model->extend_load($data['brand_id']);
-        if(!empty($brand)){
-            $data['brand']['_id'] = (string)$brand['_id'];
-            $data['brand']['title'] = $brand['title'];
-            $data['brand']['cover_url'] = $brand['cover']['thumbnails']['ava']['view_url'];
-        }
+    $brand = null;
+    if(isset($data['brand']) && !empty($data['brand'])){
+        $brand = array();
+        $brand['_id'] = (string)$data['brand']['_id'];
+        $brand['title'] = $data['brand']['title'];
+        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['ava']['view_url'];
     }
+    $data['brand'] = $brand;
 
     $data['extra_info'] = isset($data['extra_info']) ? $data['extra_info'] : '';
 

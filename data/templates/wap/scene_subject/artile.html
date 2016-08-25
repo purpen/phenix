@@ -1,10 +1,20 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title></title>
-   <style type="text/css">
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+    .appiosload{
+    	display: none !important;
+    	visibility: hidden;
+    }
 	body{
 	   -webkit-tap-highlight-color:rgba(0,0,0,0);
 	   -webkit-tap-highlight-color:transparent;
@@ -21,7 +31,7 @@
 		word-break: break-all;
 		word-wrap: break-word;
 		padding-bottom: 10px;
-    	color: #5d6266;
+    	color: #222;
     	font-size: 14px;
 	}
 	.cont p {
@@ -38,6 +48,7 @@
 	.cont img{
 		padding: 0;
 		width:100%;
+		vertical-align: middle;
 	}
 	.cont a{
 		border-bottom: 1px solid rgba(0,0,0,.1);
@@ -72,6 +83,9 @@
 		list-style-type: none;
 		padding: 0;
 		margin: 0;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
 	}
 	
 	.gridster_ul li {
@@ -104,25 +118,46 @@
   		  width: 100%;
   	  }
     }
-	</style>
-</head>
-<body>
-	<div class="course">
-		<div class="cont">
-				{{ content }}
-		</div>					
-	</div>
-	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
-	<script>
-	$('ul[class=gridster_ul]').css('width','100%');
-	$('ul[class=gridster_ul]').css('height','');
-	$('.gs-w').css('position','');
-	
-	function JavascriptHandler(obj) {
-        var target_id = $(obj).attr('target_id');
-        var target_type = $(obj).attr('target_type');
-		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
-	}
-	</script>				
-</body>
-<html>
+    #mfrbird{
+    	margin: 0;
+    }
+</style>
+{% endblock %}
+{% block layout_js %}
+{% endblock %}
+{% block content %}
+<div id="postpage">
+    <section class="ui big block">
+        <div class="ui responsive grid">
+            <div class="row pt-0 pb-0">
+                <div class="column" style="padding:0;">
+                    <div class="ui big topic segment">
+                        <div class="ui title header">
+                            <div class="content">
+                                {{ scene_subject.title }}
+                            </div>
+                        </div>
+                        <h4 class="ui header authsub">
+                            <img class="ui mini circular image" src="{{ scene_subject.user.small_avatar_url }}"
+                            alt="{{ scene_subject.user.nickname }}" />
+                            <div class="content">
+                                <a class="ui magenta link" href="javascript:void(0);">
+                                    @{{ scene_subject.user.nickname }}
+                                </a>
+                                 &nbsp; {{ scene_subject.created_on|relative_datetime }}
+                                <div class="sub header">
+                                    浏览数: {{ scene_subject.view_count }} &nbsp; 回复数: {{ scene_subject.comment_count }}
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="post froala-view froala-element clearfix">
+                            {{ content }}
+                        </div>
+
+                   	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+{% endblock %}

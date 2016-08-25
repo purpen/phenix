@@ -33,7 +33,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         $user_id = $this->visitor->id;
 
 		$model = new Sher_Core_Model_SceneSubject();
-		$scene_subject = $model->load($id);
+		$scene_subject = $model->extend_load($id);
 
 		if(empty($scene_subject)) {
             return $this->show_message_page('访问的专题不存在！', $redirect_url);
@@ -47,13 +47,11 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             return $this->show_message_page('访问的专题已禁用！', $redirect_url);
 		}
 
+        // 新品
         $product = null;
         if(!empty($scene_subject['product_id'])){
             $product_model = new Sher_Core_Model_Product();
-            $row = $product_model->load((int)$scene_subject['product_id']);
-            if(!empty($row)){
-                $product['_id'] = $row['_id'];
-            }
+            $product = $product_model->extend_load((int)$scene_subject['product_id']);
         }
         $scene_subject['product'] = $product;
 
@@ -71,6 +69,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
                     'summary' => $product['summary'],
                     'market_price' => $product['market_price'],
                     'sale_price' => $product['sale_price'],
+                    'wap_view_url' => $product['wap_view_url'],
                 );
                 array_push($product_arr, $row);
             }
@@ -78,6 +77,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         $scene_subject['products'] = $product_arr;
 
         $this->stash['scene_subject'] = $scene_subject;
+        $this->stash['content'] = $scene_subject['content'];
 
         if($scene_subject['type']==1){  // 文章
             $tpl = 'wap/scene_subject/artile.html';

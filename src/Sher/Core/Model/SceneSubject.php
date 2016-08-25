@@ -82,7 +82,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 
 	protected $joins = array(
-
+	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
 	);
 
 	/**
@@ -163,8 +163,12 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		}
 
         // 标签
-	    if (isset($data['tags']) && !empty($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+            if(!empty($data['tags'])){
+	            $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            }else{
+                $data['tags'] = array();
+            }
 	    }
 
         // 情境
