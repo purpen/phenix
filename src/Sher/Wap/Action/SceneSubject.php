@@ -47,13 +47,11 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             return $this->show_message_page('访问的专题已禁用！', $redirect_url);
 		}
 
+        // 新品
         $product = null;
         if(!empty($scene_subject['product_id'])){
             $product_model = new Sher_Core_Model_Product();
-            $row = $product_model->extend_load((int)$scene_subject['product_id']);
-            if(!empty($row)){
-                $product['_id'] = $row['_id'];
-            }
+            $product = $product_model->extend_load((int)$scene_subject['product_id']);
         }
         $scene_subject['product'] = $product;
 
