@@ -213,7 +213,32 @@
 	    font-size: 18px;
 	    text-align: center;
 	    letter-spacing: 2px;
+        text-decoration: none;
 	} 
+
+	.gridster {
+		margin: 0 auto;
+		width: 100%;
+	}
+	
+	.gridster_ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+	}
+	
+	.gridster_ul li {
+		font-size: 1em;
+		font-weight: bold;
+		text-align: center;
+		line-height: 100%;
+		border: 1px;
+		position: relative;
+		float: left;
+	}
 </style>
 {% endblock %}
 {% block content %}
@@ -255,8 +280,8 @@
         <span>@AMD</span>
         -->
     </div>
-    <a class="flexbuy">
-        <a href="{{ scene_subject.product.wap_view_url }}">去购买</a>
+    <a class="flexbuy" href="{{ scene_subject.product.wap_view_url }}">
+        去购买
     </a>
 </div>
 {% endblock %}
