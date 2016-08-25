@@ -1,128 +1,214 @@
-<!DOCTYPE HTML>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title></title>
-   <style type="text/css">
-	body{
-	   -webkit-tap-highlight-color:rgba(0,0,0,0);
-	   -webkit-tap-highlight-color:transparent;
-	}
-	*{
-		margin:0;
-		padding:0;
-	}
-	.course {
-		margin: 0px;
-		padding: 0px;
-	}
-	.cont {
-		word-break: break-all;
-		word-wrap: break-word;
-		padding-bottom: 10px;
-    	color: #5d6266;
-    	font-size: 14px;
-	}
-	.cont p {
-	    line-height: 24px;
-	    margin-bottom: 20px;
-		margin-top: 0;
-	}
-	.cont p br {
-	    content: '';
-	    display: block;
-	    padding: 1px;
-	    margin-top: -20px;
-	}
-	.cont img{
-		padding: 0;
-		width:100%;
-	}
-	.cont a{
-		border-bottom: 1px solid rgba(0,0,0,.1);
-		color: #f36;
-		cursor: pointer;
-		text-decoration: none;
-	}
-    @media only screen and (max-width: 320px){
-  	  .f-video-editor>*{
-  		  height:210px;
-  		  width: 100%;
-  	  }
+{%extends 'layout/fiu.html'%}
+{% block page_css %}
+<style type="text/css">
+    html {
+        box-sizing: border-box;
+        font-family: sans-serif;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        font-size: 14px;
     }
-    @media only screen and (min-width: 321px) and (max-width: 375px){
-  	  .f-video-editor>*{
-  		  height:240px;
-  		  width: 100%;
-  	  }
+    *, :after, :before {
+        box-sizing: inherit;
     }
-    @media only screen and (min-width: 376px){
-  	  .f-video-editor>*{
-  		  height:280px;
-  		  width: 100%;
-  	  }
+    .ui.grid {
+        display: block;
+        text-align: left;
+        font-size: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        margin: -10px;
     }
-	.gridster {
-		margin: 0 auto;
-		width: 100%;
-	}
-	
-	.gridster_ul {
-		list-style-type: none;
-		padding: 0;
-		margin: 0;
-	}
-	
-	.gridster_ul li {
-		font-size: 1em;
-		font-weight: bold;
-		text-align: center;
-		line-height: 100%;
-		border: 1px;
-		position: relative;
-		float: left;
-	}
-	
-    @media only screen and (max-width: 320px){
-  	  .f-video-editor>*{
-  		  height:210px;
-  		  width: 100%;
-  	  }
+    .ui.responsive.grid, .ui.wap {
+        margin: 0 auto;
+        padding: 0;
+        min-width: initial!important;
     }
-	
-    @media only screen and (min-width: 321px) and (max-width: 375px){
-  	  .f-video-editor>*{
-  		  height:240px;
-  		  width: 100%;
-  	  }
+    .ui.grid>.row {
+        display: block;
+        position: relative;
+        width: 100%!important;
+        padding: 10px 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        font-size: 0;
     }
-	
-    @media only screen and (min-width: 376px){
-  	  .f-video-editor>*{
-  		  height:280px;
-  		  width: 100%;
-  	  }
+    .ui.grid>.row>.column {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+        font-size: 1rem;
+        padding-left: 10px;
+        padding-right: 10px;
+        vertical-align: top;
+        margin-top: 0;
+        margin-bottom: 0;
     }
-	</style>
-</head>
-<body>
-	<div class="course">
-		<div class="cont">
-				{{ content }}
-		</div>					
-	</div>
-	<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.js"></script>
-	<script>
-	$('ul[class=gridster_ul]').css('width','100%');
-	$('ul[class=gridster_ul]').css('height','');
-	$('.gs-w').css('position','');
-	
-	function JavascriptHandler(obj) {
-        var target_id = $(obj).attr('target_id');
-        var target_type = $(obj).attr('target_type');
-		return window.location.href = 'http://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
-	}
-	</script>				
-</body>
-<html>
+    .ui.responsive.hot.grid{
+        padding-top: 5px;
+        margin-bottom: 20px;
+    }
+    .ui.grid>.row>.column:only-child{
+        width: 100%;
+    }
+    .ui.banner{
+        background:url({{ app_url_packaged }}/images/hotbanner.jpg) center center no-repeat;
+        padding: 25.239% 0;
+        background-size:100%;
+        position: relative;
+    }
+    .ui.header{
+        font-weight: 400;
+    }
+    .ui.banner h3{
+        position: absolute;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+        letter-spacing: 2px;
+        color: #fff;
+        text-align: center;
+        left: 0;
+        top: 50%;
+        margin: -15px 0 0;
+        padding: 0 10px;
+        font-size: 16px;
+    }
+    p {
+        margin: 0;
+        line-height: 16px;
+        word-break: break-word;
+        color: #222;
+        font-size: 12px;
+    }
+    .pt-0{
+        padding-top: 0 !important;
+    }
+    .pt-r{
+        padding-top: 8px !important;
+    }
+    h2.ui.header{
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 5px;
+        color: #222;
+        text-align: center;
+    }
+    .block{
+        margin-top: 10px;
+        position: relative;
+        background: #fff;
+        box-shadow: 0px 0 2px 0px rgba(0,0,0,0.2);
+    }
+    .images img{
+        margin: 0;
+        width: 100%;
+        vertical-align: middle;
+    }
+    .content{
+        padding: 15px 10px;
+    }
+    .price{
+        color: #be8914;
+        font-size: 14px;
+    }
+    .oldprice{
+        color: #999;
+        font-size: 12px;
+        text-decoration: line-through;
+        margin-left: 5px;
+    }
+    i.icon {
+        display: inline-block;
+        opacity: 1;
+        margin: 0 .25rem 0 0;
+        width: 1.18em;
+        height: 1em;
+        font-family: Icons;
+        font-style: normal;
+        font-weight: 400;
+        text-decoration: inherit;
+        text-align: center;
+        speak: none;
+        font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+    i.buys.icon:before{
+        content: "\f07a";
+    }
+    .buy.btn{
+        color: #fff;
+        font-size: 12px;
+        background: #000;
+        text-decoration: none;
+        float: right;
+        margin-top: -3px;
+        height: 25px;
+        width: 75px;
+        line-height: 25px;
+        text-align: center;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="hotpage">
+    <div class="ui banner">
+        <h3 class="ui header">一次骑行的约定</h3>
+    </div>
+    <div class="ui responsive hot grid">
+        <div class="row">
+            <div class="column">
+                <p>
+                There are moments in life when you miss someone so much that you just want to pick them from your dreams and hug them for real! Dream what you want to dream;go where you want to go;be what you want to be,because you have only one life and one chance to do all the things you want to do.
+                </p>
+            </div>
+        </div>
+        <!-- 循环 -->
+        <div class="row pt-r">
+            <div class="column">
+                <h2 class="ui header">云马mini 自行车</h2>
+                <p>May you have enough happiness to make you sweet,enough trials to make you strong,enough sorrow to keep you human,enough hope to make you happy?</p>
+                <div class="block">
+                    <a href="" class="images">
+                        <img src="http://frbird.qiniudn.com/product/160126/56a718823ffca26e098baed2-6-p750x422.jpg">
+                    </a>
+                    <div class="content">
+                        <span class="price">¥6998</span>
+                        <span class="oldprice">原价¥20000</span>
+                        <a href="" class="buy btn"><i class="buys icon"></i>去购买 </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end -->
+        <div class="row pt-r">
+            <div class="column">
+                <h2 class="ui header">云马mini 自行车</h2>
+                <p>May you have enough happiness to make you sweet,enough trials to make you strong,enough sorrow to keep you human,enough hope to make you happy?</p>
+                <div class="block">
+                    <a href="" class="images">
+                        <img src="http://frbird.qiniudn.com/product/160126/56a718823ffca26e098baed2-6-p750x422.jpg">
+                    </a>
+                    <div class="content">
+                        <span class="price">¥6998</span>
+                        <span class="oldprice">原价¥20000</span>
+                        <a href="" class="buy btn"><i class="buys icon"></i>去购买 </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
