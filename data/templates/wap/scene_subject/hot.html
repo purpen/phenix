@@ -59,7 +59,7 @@
         width: 100%;
     }
     .ui.banner{
-        background:url({{ app_url_packaged }}/images/hotbanner.jpg) center center no-repeat;
+        background:url({{ scene_subject.banner.thumbnails.aub.view_url }}) center center no-repeat;
         padding: 25.239% 0;
         background-size:100%;
         position: relative;
@@ -164,51 +164,38 @@
 {% block content %}
 <div class="hotpage">
     <div class="ui banner">
-        <h3 class="ui header">一次骑行的约定</h3>
+        <h3 class="ui header">{{ scene_subject.title }}</h3>
     </div>
     <div class="ui responsive hot grid">
         <div class="row">
             <div class="column">
                 <p>
-                There are moments in life when you miss someone so much that you just want to pick them from your dreams and hug them for real! Dream what you want to dream;go where you want to go;be what you want to be,because you have only one life and one chance to do all the things you want to do.
+                    {{ scene_subject.summary }}
                 </p>
             </div>
         </div>
-        <!-- 循环 -->
-        <div class="row pt-r">
-            <div class="column">
-                <h2 class="ui header">云马mini 自行车</h2>
-                <p>May you have enough happiness to make you sweet,enough trials to make you strong,enough sorrow to keep you human,enough hope to make you happy?</p>
-                <div class="block">
-                    <a href="" class="images">
-                        <img src="http://frbird.qiniudn.com/product/160126/56a718823ffca26e098baed2-6-p750x422.jpg">
-                    </a>
-                    <div class="content">
-                        <span class="price">¥6998</span>
-                        <span class="oldprice">原价¥20000</span>
-                        <a href="" class="buy btn"><i class="buys icon"></i>去购买 </a>
+
+        {% for d in scene_subject.products %}
+            <!-- 循环 -->
+            <div class="row pt-r">
+                <div class="column">
+                    <h2 class="ui header">{{ d.title }}</h2>
+                    <p>{{ d.summary }}</p>
+                    <div class="block">
+                        <a href="" class="images">
+                            <img src="{{ d.banner_url }}">
+                        </a>
+                        <div class="content">
+                            <span class="price">¥{{ d.market_price }}</span>
+                            <span class="oldprice">原价¥{{ d.sale_price }}</span>
+                            <a href="{{ d.wap_view_url }}" class="buy btn"><i class="buys icon"></i>去购买 </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end -->
-        <div class="row pt-r">
-            <div class="column">
-                <h2 class="ui header">云马mini 自行车</h2>
-                <p>May you have enough happiness to make you sweet,enough trials to make you strong,enough sorrow to keep you human,enough hope to make you happy?</p>
-                <div class="block">
-                    <a href="" class="images">
-                        <img src="http://frbird.qiniudn.com/product/160126/56a718823ffca26e098baed2-6-p750x422.jpg">
-                    </a>
-                    <div class="content">
-                        <span class="price">¥6998</span>
-                        <span class="oldprice">原价¥20000</span>
-                        <a href="" class="buy btn"><i class="buys icon"></i>去购买 </a>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
+            <!-- end -->
+        {%endfor%}
+
     </div>
 </div>
 {% endblock %}

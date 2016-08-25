@@ -69,6 +69,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
                     'summary' => $product['summary'],
                     'market_price' => $product['market_price'],
                     'sale_price' => $product['sale_price'],
+                    'wap_view_url' => $product['wap_view_url'],
                 );
                 array_push($product_arr, $row);
             }
