@@ -9,8 +9,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 
     ## 常量
     # 类型
-    const KIND_FIU = 1; // Fiu
-    const KIND_STORE = 2;   // 商城
+    const KIND_FIU = 1; // 所有
+    const KIND_STORE = 2;   // 商城展示
 	
     protected $schema = array(
 		# 标题
@@ -65,32 +65,6 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		if(isset($row['banner_id'])){
 			$row['banner'] = $this->banner($row);
 		}
-
-        // 类型
-        $kind = isset($row['kind']) ? $row['kind'] : 0;
-        switch($kind){
-            case 1:
-                $row['kind_label'] = 'Fiu';
-                break;
-            case 2:
-                $row['kind_label'] = 'Store';
-                break;
-            default:
-                $row['kind_label'] = '--';
-        }
-
-        // 类型
-        $from_to = isset($row['from_to']) ? $row['from_to'] : 1;
-        switch($from_to){
-            case 1:
-                $row['from_label'] = '官网';
-                break;
-            case 2:
-                $row['from_label'] = '用户';
-                break;
-            default:
-                $row['from_label'] = '--';
-        }
 
         $row['tags_s'] = '';
         if(isset($row['tags']) && !empty($row['tags'])){
