@@ -582,7 +582,7 @@ if(!empty($user_ids) && !empty($user_ids['items'])){
       'kind' => 'User',
       'oid' => (string)$item['_id'],
       'cid' => $item['from_site'],
-      'title' => $item['title'],
+      'title' => $item['nickname'],
       'cover_id' => '',
       'content' => strip_tags(htmlspecialchars_decode($item['summary'])),
       'user_id' => $item['_id'],
