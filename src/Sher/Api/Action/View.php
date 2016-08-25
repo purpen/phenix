@@ -167,24 +167,24 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_SceneSubject();
-		$result = $model->extend_load($id);
+		$scene_subject = $model->extend_load($id);
 
-        $type = $result['type'];
+        $type = $scene_subject['type'];
 
         // 新品
         $product = null;
-        if(!empty($result['product_id'])){
+        if(!empty($scene_subject['product_id'])){
             $product_model = new Sher_Core_Model_Product();
-            $product = $product_model->load((int)$result['product_id']);
+            $product = $product_model->load((int)$scene_subject['product_id']);
         }
-        $result['product'] = $product;
+        $scene_subject['product'] = $product;
 
         // 促销
         $product_arr = array();
-        if(!empty($result['product_ids'])){
+        if(!empty($scene_subject['product_ids'])){
             $product_model = new Sher_Core_Model_Product();
-            for($i=0;$i<count($result['product_ids']);$i++){
-                $product = $product_model->extend_load($result['product_ids'][$i]);
+            for($i=0;$i<count($scene_subject['product_ids']);$i++){
+                $product = $product_model->extend_load($scene_subject['product_ids'][$i]);
                 if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
                 $row = array(
                     '_id' => $product['_id'],
@@ -197,12 +197,12 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
                 array_push($product_arr, $row);
             }
         }
-        $result['products'] = $product_arr;
+        $scene_subject['products'] = $product_arr;
         
 
-        $this->stash['subject'] = $result;
+        $this->stash['subject'] = $scene_subject;
 		
-		$this->stash['content'] = $result['content'];
+		$this->stash['content'] = $scene_subject['content'];
 
         if($scene_subject['type']==1){
             $tpl = 'page/scene_subject/api_show.html';

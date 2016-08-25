@@ -209,9 +209,9 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
       // 过滤用户字段
       $item = Sher_Core_Helper_FilterFields::wap_user($user);
 			// 判断是否被关注
-			$item['is_love'] = 0;
-			if($follow_model->has_exist_ship($user_id, $user['_id'])){
-				$item['is_love'] = 1;
+			$item['is_love'] = $item['is_follow'] = 0;
+			if(!empty($user_id) && $follow_model->has_exist_ship($user_id, $user['_id'])){
+				$item['is_love'] = $item['is_follow'] = 1;
 			}
       $item['scene_sight'] = array();
       if($sight_count){
