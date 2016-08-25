@@ -163,8 +163,12 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		}
 
         // 标签
-	    if (isset($data['tags']) && !empty($data['tags']) && !is_array($data['tags'])) {
-	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+            if(!empty($data['tags'])){
+	            $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            }else{
+                $data['tags'] = array();
+            }
 	    }
 
         // 情境

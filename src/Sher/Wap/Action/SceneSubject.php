@@ -50,7 +50,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         $product = null;
         if(!empty($scene_subject['product_id'])){
             $product_model = new Sher_Core_Model_Product();
-            $row = $product_model->load((int)$scene_subject['product_id']);
+            $row = $product_model->extend_load((int)$scene_subject['product_id']);
             if(!empty($row)){
                 $product['_id'] = $row['_id'];
             }

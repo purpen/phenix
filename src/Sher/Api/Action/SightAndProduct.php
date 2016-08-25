@@ -80,10 +80,11 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 			}
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
 
-      $data[$i]['product'] = array();
-      $data[$i]['sight'] = array();
+      $data[$i]['product'] = null;
+      $data[$i]['sight'] = null;
       if(!empty($product)){
         // 重建商品数据结果
+        $data[$i]['product'] = array();
         for($j=0;$j<count($product_some_fields);$j++){
           $product_key = $product_some_fields[$j];
           $data[$i]['product'][$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
@@ -107,6 +108,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       }
 
       if(!empty($sight)){
+        $data[$i]['sight'] = array();
         // 过滤用户
         $user = array();
         

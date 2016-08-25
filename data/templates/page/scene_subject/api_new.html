@@ -57,7 +57,7 @@
         width: 100%;
     }
     .ui.banner{
-        background:url({{ app_url_packaged }}/images/hotbanner.jpg) center center no-repeat;
+        background:url({{ scene_subject.banner.thumbnails.aub.view_url }}) center center no-repeat;
         padding: 25.239% 0;
         background-size:100%;
         position: relative;
@@ -205,10 +205,10 @@
 {% block content %}
 <div class="hotpage">
     <div class="ui banner">
-        <h3 class="ui header">一次骑行的约定</h3>
+        <h3 class="ui header">{{ scene_subject.title }}</h3>
     </div>
     <div class="title">
-        <h3 class="ui header">云马c1电动自行车<div class="pricet">¥1999</div></h3>
+        <h3 class="ui header">{{ scene_subject.product.short_title }}<div class="pricet">¥{{ scene_subject.product.sale_price }}</div></h3>
     </div>
     <div class="ui responsive new grid pt-r">
         <div class="row">
@@ -216,9 +216,9 @@
                 <div class="course">
                     <div class="cont">
                         <p>
-                        There are moments in life when you miss someone so much that you just want to pick them from your dreams and hug them for real! Dream what you want to dream;go where you want to go;be what you want to be,because you have only one life and one chance to do all the things you want to do.
+                            {{ scene_subject.summary }}
                         </p>
-                        <p><img src="http://frbird.qiniudn.com/product/160126/56a718823ffca26e098baed2-6-p750x422.jpg"></p>
+                        <p><img src="{{ scene_subject.product.banner.thumbnails.aub.view_url }}"></p>
                     </div>
                 </div>
             </div>
@@ -234,7 +234,12 @@
         </div>
     </div>
     <div class="biaoq">
+        {% for d in scene_subject.tags %}
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=20&infoId=12&infoTag={{d}}" class="biao">＃{{ d }}</a>
+        {%endfor%}
+        <!--
         <a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a>
+        -->
         <span>@AMD</span>
     </div>
 
