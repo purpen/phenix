@@ -216,7 +216,7 @@
                 <div class="course">
                     <div class="cont">
                         <p>
-                            {{ scene_subject.summary }}
+                            {{ content }}
                         </p>
                         <p><img src="{{ scene_subject.product.banner.thumbnails.aub.view_url }}"></p>
                     </div>
@@ -225,11 +225,11 @@
         </div>
     </div>
     <div class="pingp">
-        <img src="http://frbird.qiniudn.com/avatar/160127/56a86aa9fc8b12cc2d8bc589-avs.jpg">
+        <img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}">
         <div class="content">
-            太火鸟社区活动
+            {{ scene_subject.product.brand.title }}
             <div class="sub header">
-                AMD公司专门为计算机、通信和消费电子行业设计和制造各
+                {{ scene_subject.product.brand.des }}
             </div>
         </div>
     </div>
@@ -239,8 +239,8 @@
         {%endfor%}
         <!--
         <a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a>
-        -->
         <span>@AMD</span>
+        -->
     </div>
 
 </div>

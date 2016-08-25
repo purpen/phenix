@@ -200,7 +200,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
         $scene_subject['products'] = $product_arr;
         
 
-        $this->stash['subject'] = $scene_subject;
+        $this->stash['scene_subject'] = $scene_subject;
 		
 		$this->stash['content'] = $scene_subject['content'];
 
