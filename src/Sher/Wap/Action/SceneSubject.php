@@ -78,6 +78,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         $scene_subject['products'] = $product_arr;
 
         $this->stash['scene_subject'] = $scene_subject;
+        $this->stash['content'] = $special_subject['content'];
 
         if($scene_subject['type']==1){  // 文章
             $tpl = 'wap/scene_subject/artile.html';

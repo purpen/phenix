@@ -82,7 +82,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
 
 	protected $joins = array(
-
+	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
 	);
 
 	/**
