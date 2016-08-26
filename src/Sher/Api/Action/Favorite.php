@@ -233,6 +233,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $spl_model = new Sher_Core_Model_SceneProductLink();
         $sight_model = new Sher_Core_Model_SceneSight();
         $follow_model = new Sher_Core_Model_Follow();
+		$favorite_model = new Sher_Core_Model_Favorite();
 
 
         $current_user_id = $this->current_user_id;
@@ -339,8 +340,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                         $sight['_id'] = $result['rows'][$k]['sight']['_id'];
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
-                        $user = array();
+                        $user = null;
                         if($result['rows'][$k]['sight']['user']){
+                            $user = array();
                             $user['user_id'] = $v['sight']['user']['_id'];
                             $user['nickname'] = $v['sight']['user']['nickname'];
                             $user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
@@ -352,10 +354,21 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 
                         }
                         $sight['user_info'] = $user;
-                        $sight['scene_title'] = $result['rows'][$k]['sight']['title'];
-                        if($result['rows'][$k]['sight']['scene']){
-                            $sight['scene_title'] = $v['sight']['scene']['title'];
+
+                        // 用户是否点赞/收藏
+                        $is_love = 0;
+                        if($current_user_id){
+                            $fav_query = array(
+                                'target_id' => $sight['_id'],
+                                'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                                'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                                'user_id' => $current_user_id
+                            );
+                            $has_love = $favorite_model->first($fav_query);
+                            if($has_love) $is_love = 1;
+
                         }
+                        $sight['is_love'] = $is_love;
                     }
                     $result['rows'][$k]['sight'] = $sight;
                     break;
