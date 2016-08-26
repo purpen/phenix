@@ -173,6 +173,7 @@
         overflow: hidden;
         color: #222;
         left: 0;
+        text-decoration: none;
     }
     .sub.header {
         margin-top: 5px;
@@ -248,13 +249,13 @@
         </div>
     </div>
     <div class="pingp">
-        <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}"><img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}"></a>
-        <div class="content">
-            <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}" >{{ scene_subject.product.brand.title }}</a>
+        <img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}">
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}" class="content">
+            {{ scene_subject.product.brand.title }}
             <div class="sub header">
                 {{ scene_subject.product.brand.des }}
             </div>
-        </div>
+        </a>
     </div>
     <div class="biaoq">
         {% for d in scene_subject.tags %}
