@@ -339,8 +339,9 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                         $sight['_id'] = $result['rows'][$k]['sight']['_id'];
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
-                        $user = array();
+                        $user = null;
                         if($result['rows'][$k]['sight']['user']){
+                            $user = array();
                             $user['user_id'] = $v['sight']['user']['_id'];
                             $user['nickname'] = $v['sight']['user']['nickname'];
                             $user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
