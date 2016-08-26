@@ -415,6 +415,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             return $this->api_json('情景不存在或已删除!', 3002);
         }
 
+        $user_model = new Sher_Core_Model_User();
+
         $follow_model = new Sher_Core_Model_Follow();
         // 评论
         $comment_model = new Sher_Core_Model_Comment();
