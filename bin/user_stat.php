@@ -50,7 +50,8 @@ while(!$is_end){
       //$user_model->update_set($id, array('sight_count'=>0));
     }
 
-    $ok = $user_model->update_set($id, array('identify.is_scene_subscribe'=>0));
+    $ok = true;
+    //$ok = $user_model->update_set($id, array('identify.is_scene_subscribe'=>0));
     if($ok){
         echo "update scene_subscribe: $id.\n";
         $total++;
