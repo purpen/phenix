@@ -49,39 +49,10 @@
 		}
 		
 		
-		.product.content.froala-element p{
-		    line-height: 24px;
-		    margin-bottom: 10px;
-			margin-top: 0;
-		}
-		.product.content.froala-element p br {
-		    content: '';
-		    display: block;
-		    margin-bottom: 2px;
-		    padding-top: 15px;
-		}
-		#product-apply-people{
-			text-align:left;
-		}
-		#product-apply-people .ui.horizontal.list:not(.celled)>.item:first-child{
-			margin-left:1rem !important;
-		}
-		#product-apply-people .ui.horizontal.list>.item{
-			margin: 0 1rem;
-			text-align: center;
-			min-width: 110px;
-		}
-		#product-apply-people .ui.horizontal.list>.item .ui.avatar.image{
-			margin-right:0;
-		}
-		#product-apply-people .ui.horizontal.list>.item .content{
-			padding: 10px 0;
-			display: block;
-			max-width: 110px;
-			overflow: hidden;
-			white-space: nowrap;
-		}
 		
+		font{
+			display: none;
+		}
 </style>
 {% endblock %}
 
@@ -281,7 +252,7 @@
 	
 	$('.ui.sticky')
     .sticky({
-        context: '.mainleft',
+        context: '.conleft',
     });
 
     // 想要
@@ -412,274 +383,277 @@
     </div>
 </div>
 
-<div class="mainwrap" id="trypage">
-    <div class="mainleftwrap">
-        <div class="mainleft">
-            <div class="container">
-				<div class="ui tabox">
-					<div class="ui four tabs">
-						<a href="#.overview" class="active tab">试用介绍</a>
-						<a href="#.people" class="tab">试用名单</a>
-						<a href="#comment_top" class="tab">讨论 <small>（{{ try.comment_count||default 0 }}）</small></a>
-						<a href="#.report" class="tab">试用报告</a>
-					</div>
-				</div>
-                
-				<div class="product overview">
-					<div class="product content froala-element">
-						{{ try.content }}
-					</div>
-				</div>
-				
-				<div class="bar"></div>
-                
-				<div class="product people">
-                	<div class="block title">
-                		试用名单
-                    </div>
-					{% if try.pass_users %}
-					<div class="avatars" id="product-apply-people">
-						{% user_list var:'userlist' user_ids:try.pass_users %}
-					    <div class="ui horizontal list">
-							{% for user in userlist  %}
-							<div class="item">
-								<a class="ui line" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
-									<img class="ui small avatar pop image" src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
-									<div class="content">
-										{{ user.nickname }}
-									</div>
-								</a>
+<div class="ui responsive grid tryvpage" id="trypage">
+	<div class="row">
+		<div class="column">
+			<div class="ui containermain">
+		        <div class="conleft">
+		            <div class="container topnew">
+						<div class="ui tabox">
+							<div class="ui four tabs">
+								<a href="#.overview" class="active tab">试用介绍</a>
+								<a href="#.people" class="tab">试用名单</a>
+								<a href="#comment_top" class="tab">讨论 <small>（{{ try.comment_count||default 0 }}）</small></a>
+								<a href="#.report" class="tab">试用报告</a>
 							</div>
-							{% endfor %}
+						</div>
+		                
+						<div class="product overview">
+							<div class="product content froala-element">
+								{{ try.content }}
+							</div>
 						</div>
 					</div>
-					{% else %}
-					<p class="resultbox">没有你的支持，这世界将失去一个伟大的产品!<p>
-					{% endif %}
-				</div>
-                
-				<div class="bar"></div>
-                
-				<div class="product report">
-                	<div class="block title">
-                		试用报告
-                    </div>
-                    {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
-                    {% if list.rows %}
-					<div class="social">
-						<table class="ui topic table">
-							<tbody>
-							
-							{% for topic in list.rows %}
-								{% include "block/report_item.html" %}
-							{% endfor %}
-							</tbody>
-						</table>
-					</div>
-                    {% else %}
-                    <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
-                    {% endif %}
-					<div class="ui center aligned reportbtn">
-						<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
-	                        <i class="tasks icon"></i> 全部报告
-	                    </a>
-						<!--通过审核的用户才能提交报告-->
-						{% if visitor.is_login %}
-						<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
-	                        <i class="edit icon"></i> 提交报告
-	                    </a>
-						{% endif %}
-					</div>
-				</div>
-                
-            </div>
-            <div class="container">
-                
-				<div class="product reviews">
-                	<a name="comment_top"></a>
-                    <div class="reply box">
-                    	<div class="block title">
-                    		讨论 <small>（{{ try.comment_count||default 0 }}）</small>
-                            
-                            <div class="quick goto">
-                                直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ try.comment_count }}" data-url="{{ app_url_try }}/view/{{ try._id }}/{{ page }}" title="跳转到指定楼层" />
-                            </div>
-                        </div>
-                        <div id="comment-list">
-                            {% comment_list var:'comments' page:1 target_id:try._id type:3 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
-                            {% if comments.rows %}
-                            <div class="ui threaded hotest comments">
-                                <a class="ui red ribbon label">热门评论</a>
-                        		{% for comment in comments.rows %}
-                        			{%include 'block/comment_item.html'%}
-                        		{% endfor %}
-                                <hr>
-                            </div>
-                            {% endif %}
-                            <div class="ui threaded comments is-comment"></div>
-                            <div class="ui pagination pagerbox"></div>
-                        </div>
-                        {% include "block/comment_box_site.html" %}
 
-                    </div>
-				</div>
-                
-            </div>
-        </div>
-    </div>
-    <div class="mainright">
-
-    {% if has_product_parameter %}
-    <div class="ui sticky">
-        <div class="sellwrap">
-          <div class="block title">
-    				产品参数
-          </div>
-          {% if try.price %}
-            <p class="user action">市场参考价： <b class="big">{{ try.price }}</b> 元
-          {%endif%}
-          {% if try.buy_url %}
-            <p class="user action">
-                <a href="{{ try.buy_url }}" class="ui magenta inverted button" target="_blank" style="width:100%;">
-                  <i class="cart icon"></i> 购买链接
-                </a>
-            </p>
-          {%endif%}
-        </div>
-    </div>
-    {%endif%}
-        
-        {% if img_asset.qr_ios %}
-        <div class="sellwrap">
-            <div class="block title">
-                厂商公众号
-            </div>
-            {% if img_asset.qr_ios %}
-			    <img src="{{ img_asset.qr_ios.fileurl }}" style="width: 50%;margin: 20px 25% 0;" alt="厂商公众号">
-            {%endif%}
-           <!-- {% if img_asset.qr_android %}
-				<img src="{{ img_asset.qr_android.fileurl }}" style="width: 47%;">
-            {%endif%}
-            {% if img_asset.qr_ios %}
-				<p style="width: 47%;margin-right: 6%;display: inline-block;float: left;text-align:center;">iphone</p>
-            {%endif%}
-            {% if img_asset.qr_android %}
-				<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
-            {%endif%}-->
-        </div>
-        {%endif%}
-
-        {% if try.brand_introduce %}
-        <div class="sellwrap">
-			<div class="block title">
-				品牌介绍
-            </div>
-            <div class="ui center aligned brand products">
-                <div class="author">
-                    {% if img_asset.brand_avatar %}
-                        <img src="{{ img_asset.brand_avatar.fileurl }}" alt="{{ try.short_title }}" />
-                    {%endif%}
-                    <p class="desc">
-                        {{ try.brand_introduce }}
-                    </p>
-                </div>
-            </div>
-        </div>
-        {%endif%}
-        
-        <div class="sellwrap">
-			<div class="block title">
-				厂商合作申请
-            </div>
-            <p class="user action">邮箱: bianluyao@taihuoniao.com</p>
-        </div>
-        <div class="sellwrap">
-          <div class="user share" style="border-top:none;">
-          	<span><i class="share alternate icon"></i>分享：</span>
-          	<a href="javascript:void(0);" id="sina-share-1" title="新浪微博" class="ui red icon btn">
-          		<i class="weibo icon large circular red inverted"></i>
-          	</a>
-          	<a href="javascript:void(0);" id="wechat-share-1" class="ui green icon btn" title="微信">
-          		<i class="weixin icon large circular green inverted"></i>
-          	</a>
-          	<a href="javascript:void(0);" id="tencent-share-1" title="腾讯微博" class="ui blue icon btn">
-          		<i class="tencent weibo icon large circular blue inverted"></i>
-          	</a>
-          	<a href="javascript:void(0);" id="renren-share-1" title="人人网" class="ui blue icon btn">
-          		<i class="icon renren large circular blue inverted"></i>
-          	</a>
-          </div>
-        </div>
-
-      {% if !cannot_apply %}
-        <div class="sellwrap">
-			<div class="block title">
-				这些人在申请
-            </div>
-            {% apply_list var:'list' target_id:try._id type:1 page:1 size:8 %}
-			<div class="product appli">
-				<table class="ui table">
-					<tbody>
-                        {% for t in list.rows %}
-						<tr>
-							<td class="author">
-								<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
-									<img src="{{ t.user.small_avatar_url }}" alt="{{ t.user.nickname }}">
-								</a>
-								<div class="content">
-									<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
+					<div class="container peonew">
+		                
+						<div class="product people">
+		                	<div class="block title">
+		                		试用名单
+		                    </div>
+							{% if try.pass_users %}
+							<div class="avatars" id="product-apply-people">
+								{% user_list var:'userlist' user_ids:try.pass_users %}
+							    <div class="ui horizontal list">
+									{% for user in userlist  %}
+									<div class="item">
+										<a class="ui line" href="{{ user.home_url }}"  data-content="{{ user.summary|truncate 38 }}" data-variation="inverted">
+											<img class="ui small avatar pop image" src="{{ user.medium_avatar_url }}" alt="{{ user.nickname }}" />
+											<div class="content">
+												{{ user.nickname }}
+											</div>
+										</a>
+									</div>
+									{% endfor %}
 								</div>
-							</td>
-							<td class="nine wide">
-                                {{ t.created_on|relative_date }}
-							</td>
-						</tr>
-                        {%endfor%}
-					</tbody>
-				</table>
-            </div>    
-        </div>
-        {%endif%}
-        
-    {% if !cannot_apply %}
-    <div class="ui sticky">
-        <div class="sellwrap">
-          <div class="block title">
-    				我要试用
-          </div>
-          <p class="user action">
-          {% if !try.is_end %}
-                        {% if is_applied %}
-                          <a href="javascript:void(0);" class="ui magenta lapiao-btn inverted button" style="width:100%;">
-                            <i class="ticket icon"></i> 求好友支持
-                          </a>
-                        {%else%}
-                          <a href="javascript:void(0);" class="ui magenta applytry inverted button" style="width:100%;">
-                            <i class="ticket icon"></i> 申请试用
-                          </a>
-                        {%endif%}
-			    {% else %}
-					<a href="javascript:void(0);" class="ui active black inverted button" style="width:100%;">
-						<i class="lock icon"></i> 已结束
-					</a>
-					{% endif %}
-					</p>
-          <p class="user action">产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</p>
-        </div>
-    </div>
-    {%endif%}
-    
-    <div class="sellwrap">
-		<div class="block title">
-			关注太火鸟
-        </div>
-        <div class="product aption">
-		    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国火爆的智能硬件孵化平台">
-		    <p>关注太火鸟有惊喜！</p>
-        </div>
-    </div>
-        
-    </div>
+							</div>
+							{% else %}
+							<p class="resultbox">没有你的支持，这世界将失去一个伟大的产品!<p>
+							{% endif %}
+						</div>
+		            </div>   
+					<div class="container repornew">
+						<div class="product report">
+		                	<div class="block title">
+		                		试用报告
+		                    </div>
+		                    {% topic_list var:'list' published:1 try_id:try._id time:'latest' %}
+		                    {% if list.rows %}
+							<div class="social">
+								<table class="ui topic table">
+									<tbody>
+									
+									{% for topic in list.rows %}
+										{% include "block/report_item.html" %}
+									{% endfor %}
+									</tbody>
+								</table>
+							</div>
+		                    {% else %}
+		                    <p class="resultbox">还没有人为 <a href="{{ try.view_url }}" class="ui link">{{ try.title }}</a> 撰写评测，你想做第一个为它写评测的人么？</p>
+		                    {% endif %}
+							<div class="ui center aligned reportbtn">
+								<a href="{{ app_url_topic }}/report?tid={{ try._id }}" class="ui blue inverted button" target="_blank">
+			                        <i class="tasks icon"></i> 全部报告
+			                    </a>
+								<!--通过审核的用户才能提交报告-->
+								{% if visitor.is_login %}
+								<a href="{{ app_url_topic }}/submit?cid={{ report_category_id }}&tid={{ try._id }}" class="ui magenta inverted button" target="_blank">
+			                        <i class="edit icon"></i> 提交报告
+			                    </a>
+								{% endif %}
+							</div>
+						</div>
+		                
+		            </div>
+		            <div class="container reviewns">
+		                
+						<div class="product reviews">
+		                	<a name="comment_top"></a>
+		                    <div class="reply box">
+		                    	<div class="block title">
+		                    		讨论 <small>（{{ try.comment_count||default 0 }}）</small>
+		                            
+		                            <div class="quick goto">
+		                                直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ try.comment_count }}" data-url="{{ app_url_try }}/view/{{ try._id }}/{{ page }}" title="跳转到指定楼层" />
+		                            </div>
+		                        </div>
+		                        <div class="ui big reply segment" id="comment-list">
+		                            {% comment_list var:'comments' page:1 target_id:try._id type:3 check_loved:1 only_hotest:1 current_user_id:visitor.id %}
+		                            {% if comments.rows %}
+		                            <div class="ui threaded hotest comments">
+		                                <a class="ui red ribbon label">热门评论</a>
+		                        		{% for comment in comments.rows %}
+		                        			{%include 'block/comment_item.html'%}
+		                        		{% endfor %}
+		                                <hr>
+		                            </div>
+		                            {% endif %}
+		                            <div class="ui threaded comments is-comment"></div>
+		                            <div class="ui pagination pagerbox"></div>
+		                        </div>
+		                        {% include "block/comment_box_site.html" %}
+
+		                    </div>
+						</div>
+		                
+		            </div>
+		        </div>
+		        <div class="conright">
+
+				    {% if has_product_parameter %}
+				    <div class="ui sticky chans">
+				        <div class="sellwrap">
+				          <div class="block title">
+				    				产品参数
+				          </div>
+				          {% if try.price %}
+				            <p class="user action">市场参考价： <b class="big">{{ try.price }}</b> 元
+				          {%endif%}
+				          {% if try.buy_url %}
+				            <p class="user action">
+				                <a href="{{ try.buy_url }}" class="ui magenta inverted button" target="_blank" style="width:100%;">
+				                  <i class="cart icon"></i> 购买链接
+				                </a>
+				            </p>
+				          {%endif%}
+				        </div>
+				    </div>
+				    {%endif%}
+				        
+				        {% if img_asset.qr_ios %}
+				        <div class="sellwrap">
+				            <div class="block title">
+				                厂商公众号
+				            </div>
+				            {% if img_asset.qr_ios %}
+							    <img src="{{ img_asset.qr_ios.fileurl }}" style="width: 50%;margin: 20px 25% 0;" alt="厂商公众号">
+				            {%endif%}
+				           <!-- {% if img_asset.qr_android %}
+								<img src="{{ img_asset.qr_android.fileurl }}" style="width: 47%;">
+				            {%endif%}
+				            {% if img_asset.qr_ios %}
+								<p style="width: 47%;margin-right: 6%;display: inline-block;float: left;text-align:center;">iphone</p>
+				            {%endif%}
+				            {% if img_asset.qr_android %}
+								<p style="width: 47%;display: inline-block;float: left;text-align:center;">andriod</p>
+				            {%endif%}-->
+				        </div>
+				        {%endif%}
+
+				        {% if try.brand_introduce %}
+				        <div class="sellwrap">
+							<div class="block title">
+								品牌介绍
+				            </div>
+				            <div class="ui center aligned brand products">
+				                <div class="author">
+				                    {% if img_asset.brand_avatar %}
+				                        <img src="{{ img_asset.brand_avatar.fileurl }}" alt="{{ try.short_title }}" />
+				                    {%endif%}
+				                    <p class="desc">
+				                        {{ try.brand_introduce }}
+				                    </p>
+				                </div>
+				            </div>
+				        </div>
+				        {%endif%}
+				        
+				        <div class="sellwrap">
+							<div class="block title">
+								厂商合作申请
+				            </div>
+				            <p class="user action">邮箱: bianluyao@taihuoniao.com</p>
+				        </div>
+				        <div class="sellwrap">
+				          <div class="user share" style="border-top:none;">
+				          	<span><i class="share alternate icon"></i>分享：</span>
+				          	<a href="javascript:void(0);" id="sina-share-1" title="新浪微博" class="ui red icon btn">
+				          		<i class="weibo icon large circular red inverted"></i>
+				          	</a>
+				          	<a href="javascript:void(0);" id="wechat-share-1" class="ui green icon btn" title="微信">
+				          		<i class="weixin icon large circular green inverted"></i>
+				          	</a>
+				          	<a href="javascript:void(0);" id="tencent-share-1" title="腾讯微博" class="ui blue icon btn">
+				          		<i class="tencent weibo icon large circular blue inverted"></i>
+				          	</a>
+				          	<a href="javascript:void(0);" id="renren-share-1" title="人人网" class="ui blue icon btn">
+				          		<i class="icon renren large circular blue inverted"></i>
+				          	</a>
+				          </div>
+				        </div>
+
+				      {% if !cannot_apply %}
+				        <div class="sellwrap">
+							<div class="block title">
+								这些人在申请
+				            </div>
+				            {% apply_list var:'list' target_id:try._id type:1 page:1 size:8 %}
+							<div class="product appli">
+								<table class="ui table">
+									<tbody>
+				                        {% for t in list.rows %}
+										<tr>
+											<td class="author">
+												<a class="ui small avatar image" href="{{ t.user.home_url }}" title="{{ t.user.nickname }}" target="_blank">
+													<img src="{{ t.user.small_avatar_url }}" alt="{{ t.user.nickname }}">
+												</a>
+												<div class="content">
+													<a class="ui link" href="{{ t.user.home_url }}" target="_blank">{{ t.user.nickname }}</a>
+												</div>
+											</td>
+											<td class="nine wide">
+				                                {{ t.created_on|relative_date }}
+											</td>
+										</tr>
+				                        {%endfor%}
+									</tbody>
+								</table>
+				            </div>    
+				        </div>
+				        {%endif%}
+				        
+				    {% if !cannot_apply %}
+				    <div class="ui sticky">
+				        <div class="sellwrap">
+				          <div class="block title">
+				    				我要试用
+				          </div>
+				          <p class="user action">
+				          {% if !try.is_end %}
+				                        {% if is_applied %}
+				                          <a href="javascript:void(0);" class="ui magenta lapiao-btn inverted button" style="width:100%;">
+				                            <i class="ticket icon"></i> 求好友支持
+				                          </a>
+				                        {%else%}
+				                          <a href="javascript:void(0);" class="ui magenta applytry inverted button" style="width:100%;">
+				                            <i class="ticket icon"></i> 申请试用
+				                          </a>
+				                        {%endif%}
+							    {% else %}
+									<a href="javascript:void(0);" class="ui active black inverted button" style="width:100%;">
+										<i class="lock icon"></i> 已结束
+									</a>
+									{% endif %}
+									</p>
+				          <p class="user action">产品数量：<b class="big">{{ try.try_count }}</b>个,&nbsp;<b class="big">{{ try.apply_count }}</b> 人已预约</p>
+				        </div>
+				    </div>
+				    {%endif%}
+				    
+				    <div class="sellwrap fllow">
+						<div class="block title">
+							关注太火鸟
+				        </div>
+				        <div class="product aption">
+						    <img src="http://frstatic.qiniudn.com/images/weixin-220.jpg" alt="太火鸟-中国火爆的智能硬件孵化平台">
+						    <p>关注太火鸟有惊喜！</p>
+				        </div>
+				    </div>
+			    </div>
+		    </div>
+		</div>
+	</div>
 </div>
 
 <div id="show-support-box">
