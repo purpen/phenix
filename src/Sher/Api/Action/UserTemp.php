@@ -23,11 +23,15 @@ class Sher_Api_Action_UserTemp extends Sher_Api_Action_Base {
     $title = isset($this->stash['title']) ? $this->stash['title'] : null;
     // 类型：1.产品；2.品牌
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
+    $brand_name = isset($this->stash['brand_name']) ? $this->stash['brand_name'] : '';
 
     $rows = array(
       'user_id' => $user_id,
       'title' => $title,
       'type' => $type,
+      'brand_id' => $brand_id,
+      'brand_name' => $brand_name,
     );
 
     $user_temp_model = new Sher_Core_Model_UserTemp();
