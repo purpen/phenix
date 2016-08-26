@@ -29,7 +29,7 @@ $is_end = false;
 $total = 0;
 
 while(!$is_end){
-	$query = array();
+	$query = array('identify.is_scene_subscribe'=>1);
 	$options = array('page'=>$page, 'size'=>$size);
 	$list = $user_model->find($query, $options);
 	if(empty($list)){
@@ -50,7 +50,14 @@ while(!$is_end){
       //$user_model->update_set($id, array('sight_count'=>0));
     }
 
-    $total++;
+    $ok = $user_model->update_set($id, array('identify.is_scene_subscribe'=>0));
+    if($ok){
+        echo "update scene_subscribe: $id.\n";
+        $total++;
+    }else{
+        echo "update fail: $id.\n";
+    }
+
 	}
 	if($max < $size){
 		echo "user list is end!!!!!!!!!,exit.\n";

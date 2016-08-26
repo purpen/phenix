@@ -119,7 +119,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
-		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+		$stage = isset($this->stash['stage']) ? $this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 
         // 3C类ID
 		$pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
@@ -154,8 +154,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
-		// 状态
-		$query['stage'] = $stage;
+        // 阶段
+        if($stage){
+            $stage_arr = explode(',', $stage);
+            for($i=0;$i<count($stage_arr);$i++){
+                $stage_arr[$i] = (int)$stage_arr[$i];
+            }
+            $query['stage'] = array('$in'=>$stage_arr);
+        }
+
 		// 已审核
 		$query['approved']  = 1;
 		// 已发布上线
