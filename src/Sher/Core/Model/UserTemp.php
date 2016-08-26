@@ -19,6 +19,8 @@ class Sher_Core_Model_UserTemp extends Sher_Core_Model_Base {
         'is_check' => 1,
         'view_count' => 0,
         'user_id' => 0,
+        'brand_id' => null,
+        'brand_name' => null,
     );
 	
 	protected $required_fields = array('title', 'user_id');
