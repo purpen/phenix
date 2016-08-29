@@ -105,8 +105,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 			// Banner url
 			//$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 
-            $data[$i]['begin_time_at'] = date('Y-m-d', $data[$i]['begin_time']);
-            $data[$i]['end_time_at'] = date('Y-m-d', $data[$i]['end_time']);
+            $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
+            $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
 
             // 产品
             $product_arr = array();
@@ -290,8 +290,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         $data['products'] = $product_arr;
 
-        $data['begin_time_at'] = date('Y-m-d', $data['begin_time']);
-        $data['end_time_at'] = date('Y-m-d', $data['end_time']);
+        $data['begin_time_at'] = date('m/d', $data['begin_time']);
+        $data['end_time_at'] = date('m/d', $data['end_time']);
 
         //验证是否收藏或喜欢
         $data['is_love'] = 0;
