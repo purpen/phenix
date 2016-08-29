@@ -23,6 +23,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$sight_id = isset($this->stash['sight_id']) ? (int)$this->stash['sight_id'] : 0;
 		$product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		
 		$some_fields = array(
 			'_id'=>1, 'sight_id'=>1, 'product_id'=>1, 'product_kind'=>1, 'brand_id'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -39,7 +40,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 		
-		if(!$sight_id && !$product_id){
+		if(!$sight_id && !$product_id && !$brand_id){
 			return $this->api_json('请求失败，缺少必要参数!', 3001);
 		}
 		
@@ -49,6 +50,10 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		
 		if($product_id){
 			$query['product_id'] = $product_id;
+		}
+
+		if($brand_id){
+			$query['brand_id'] = $brand_id;
 		}
 		
 		// 分页参数
