@@ -152,6 +152,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			
 			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+            $result['rows'][$k]['title'] = !empty($v['title']) ? $v['title'] : '';
 			
 			$result['rows'][$k]['product'] = array();
 			if($v['product']){
@@ -422,6 +423,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $comment_model = new Sher_Core_Model_Comment();
 
 		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
+        $result['title'] = !empty($result['title']) ? $result['title'] : '';
 		
 		// 增加浏览量
         $rand = rand(1, 5);
