@@ -636,8 +636,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if (!$model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->add_love($user_id, $id, $love_info);
-            }else{
-                return $this->api_json('不能重复操作!', 3005);
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
@@ -672,15 +670,17 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if ($model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->cancel_love($user_id, $id, $type);
+
+                $love_count = $this->remath_count($id, $type, 'love_count');
 			    if($ok){
 				// 获取计数
-                  $love_count = $this->remath_count($id, $type, 'love_count');
                   return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
                 }else{
-                  return $this->api_json('操作失败', 3003);
+                    // 因为前端会出现缓存，也置为成功状态
+                  return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
                 }
 			}else{
-			  return $this->api_json('已点赞', 3004);     
+			  return $this->api_json('操作成功!', 3004);     
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3005);
