@@ -13,8 +13,23 @@
 	<h3 class="ui header">专题管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_subject" class="active item">
+        <a href="{{ app_url_app_admin_base }}/scene_subject" class="item {{ css_all }}">
 			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_subject/get_list?type=1" class="item {{ css_article }}">
+			文章
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_subject/get_list?type=2" class="item {{ css_active }}">
+			活动
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_subject/get_list?type=3" class="item {{ css_hot }}">
+			促销
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_subject/get_list?type=4" class="item {{ css_new }}">
+			新品
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_subject/get_list?type=5" class="item {{ css_goods }}">
+			好货
 		</a>
 
 	  	<div class="right menu">

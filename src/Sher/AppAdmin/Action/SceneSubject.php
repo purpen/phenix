@@ -30,7 +30,29 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	 */
 	public function get_list() {
 
-		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?page=#p#');
+        $type = isset($this->stash['type']) ? $this->stash['type'] : 0;
+
+        switch($type){
+          case 1:
+            $this->set_target_css_state('article');
+            break;
+          case 2:
+            $this->set_target_css_state('active');
+            break;
+          case 3:
+            $this->set_target_css_state('hot');
+            break;
+          case 4:
+            $this->set_target_css_state('new');
+            break;
+          case 5:
+            $this->set_target_css_state('goods');
+            break;
+          default:
+            $this->set_target_css_state('all');
+        }
+
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?type=%d&page=#p#', $type);
 		return $this->to_html_page('app_admin/scene_subject/list.html');
 	}
 	
