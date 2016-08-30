@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_SceneSubjectList extends Doggy_Dt_Tag {
         $pager_var = 'pager';
         $kind = 0;
         $publish = 0;
+        $type = 0;
 
         extract($this->resolve_args($context,$this->argstring,EXTR_IF_EXISTS));
 
@@ -35,6 +36,10 @@ class Sher_Core_ViewTag_SceneSubjectList extends Doggy_Dt_Tag {
 
         if($kind){
             $query['kind'] = (int)$kind;
+        }
+
+        if($type){
+            $query['type'] = (int)$type;
         }
         
         if($publish){
