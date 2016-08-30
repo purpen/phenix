@@ -120,6 +120,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? $this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+		$title = isset($this->stash['title']) ? $this->stash['title'] : null;
 
         // 3C类ID
 		$pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
@@ -171,6 +172,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		if($stick){
 			$query['stick'] = $stick;
 		}
+
+        // 模糊查标签
+        if(!empty($title)){
+            $query['title'] = array('$regex'=>$title);
+        }
 		
 		// 分页参数
         $options['page'] = $page;
