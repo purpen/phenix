@@ -75,8 +75,8 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
 
             if($show_cate){
                 $categories = array();
-                if(isset($result['rows']['category_ids']) && !empty($result['rows']['category_ids'])){
-                    foreach($result['rows']['category_ids'] as $v){
+                if(isset($result['rows'][$i]['category_ids']) && !empty($result['rows'][$i]['category_ids'])){
+                    foreach($result['rows'][$i]['category_ids'] as $v){
                         $category = $category_model->load((int)$v);
                         if($category) array_push($categories, $category);
                     }
