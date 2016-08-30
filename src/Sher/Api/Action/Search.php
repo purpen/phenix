@@ -69,6 +69,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           $asset_obj = $asset_model->extend_load($v['cover_id']);
         }
 
+        //描述内容过滤
+        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
+
         $kind = $result['data'][$k]['kind'];
         $cid = $result['data'][$k]['cid'];
         $oid = $result['data'][$k]['oid'];
@@ -215,6 +218,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $scene_brand = $scene_brand_model->load($oid);       
             if(!empty($scene_brand)){
                 $result['data'][$k]['title'] = $scene_brand['title'];
+                $result['data'][$k]['content'] = $scene_brand['summary'];
             }
           
           // 图片尺寸
@@ -248,9 +252,6 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           $result['data'][$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
         }
         */
-
-        //描述内容过滤
-        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
 
         // 获取对象属性
         $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($kind, $cid);
