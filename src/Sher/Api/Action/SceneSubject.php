@@ -30,7 +30,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+		$type = isset($this->stash['type']) ? $this->stash['type'] : null;
 			
 		$query   = array();
 		$options = array();
@@ -51,7 +51,13 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		}
 
 		if($type){
-			$query['type'] = $type;
+            $type_arr = explode(',', $type);
+            for($i=0;$i<count($type_arr);$i++){
+                $type_arr[$i] = (int)$type_arr[$i];
+            }
+            if(!empty($type_arr)){
+			    $query['type'] = array('$in'=>$type_arr);
+            }
 		}
 		
 		if($stick){
