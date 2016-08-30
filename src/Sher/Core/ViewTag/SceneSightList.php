@@ -18,11 +18,12 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         
 		$page = 1;
         $size = 10;
-		$title = '';
+		$s_title = '';
         $type = 0;
         $deleted = 0;
         $category_id = 0;
         $show_cate = 0;
+        $user_id = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -51,6 +52,10 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
         }else{
             $query['deleted'] = 0;
         }
+
+        if($user_id){
+            $query['user_id'] = (int)$user_id;
+        }
         
         switch($type){
             case 1:
@@ -59,6 +64,11 @@ class Sher_Core_ViewTag_SceneSightList extends Doggy_Dt_Tag {
             case 2:
                $query['is_check'] = 0;
                break;
+        }
+
+        // 模糊查标签
+        if(!empty($s_title)){
+            $query['title'] = array('$regex'=>$s_title);
         }
 		
         $service = Sher_Core_Service_SceneSight::instance();
