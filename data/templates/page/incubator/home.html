@@ -1,0 +1,592 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+	.servicenew{
+		padding-top: 15px;
+	}    
+	.tbgnow .content{
+		background: url(http://static.taihuoniao.me/images/service/tbg.jpg) center center no-repeat;
+    	padding-top: 44.2553%;
+    	position:relative;
+    	background-size: 100%;
+	}
+	.descript{
+		position: absolute;
+	    bottom: 20px;
+	    left: 10%;
+	    width: 80%;
+	    color: #fff;
+	}
+	.descript .ui.header{
+		color: #fff;
+	}
+	.descript p{
+		line-height: 26px;
+	}
+	@media only screen and (min-width: 1500px){
+		.descript{
+			bottom: 40px;
+		}
+	}
+	@media only screen and (max-width: 1200px) and (min-width: 992px){
+		.descript {
+		    bottom: 10px;
+		    left: 5%;
+		    width: 90%;
+		}
+	}
+	.bgf1.background {
+	    background: -ms-linear-gradient(top, #f5f5f5, rgba(255,255,255,0.85));
+	    background: -moz-linear-gradient(top,#f5f5f5,rgba(255,255,255,0.85));
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%,from(#f5f5f5), to(rgba(255,255,255,0.85)));
+	    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f5f5f5), to(rgba(255,255,255,0.85)));
+	    background: -webkit-linear-gradient(top, #f5f5f5, rgba(255,255,255,0.85));
+	    background: -o-linear-gradient(top, #f5f5f5, rgba(255,255,255,0.85));
+	}
+	.row.bglist{
+		padding: 0 10px !important;
+	}
+	.row.bglist .column{
+		background-color: #f0426d;
+	}
+	p.list{
+		color: #fff;
+    	padding: 10px 20px;
+    	display: inline-block;
+    	margin: 0;
+	}
+	.ui.biao{
+		padding-top: 40px;
+	}
+	.ui.biao h2.ui.header{
+		color: #f36;
+	}
+	.ui.fuhua{
+		padding-top: 30px;
+	}
+	.ui.fuhua h2.ui.header{
+		color: #f36;
+	}
+	.ui.fuhua h3.ui.header{
+		color: #595757;
+		margin: 15px 0 10px;
+	}
+	.ui.fuhua .row{
+		padding: 0 10px !important;
+	}
+	.ui.fuhua .column{
+		/*background: #fff;*/
+    	padding: 50px 0 40px;
+	}
+	.timg{
+		display: inline-block;
+	    max-width: 280px;
+	    vertical-align: top;
+	    color: #f36;
+	    padding: 10px 20px 30px;
+	}
+	.timg p{
+		margin-top: 8px;
+	}
+	.fslide.column{
+		padding:0 !important;
+	}
+	.carousel li {
+		margin-right: 20px;
+		height: auto !important;
+	}
+	.flexslider .slides{
+		height: auto !important;
+	}
+	.flexslider .slides>li img{
+		border-radius: 0;
+	}
+	.flexslider .flex-direction-nav .flex-prev {
+	    left: -50px !important;
+	    width: 24px;
+	    height: 44px;
+	    background-image: url({{ app_url_packaged }}/images/fiu/prev.png);
+	    background-size: 24px 44px;
+	    opacity: 1;
+	    font-size: 0;
+	}
+	.flex-direction-nav a {
+	    margin: -12px 0 0;
+	    top: 50%;
+	}
+	.flexslider .flex-direction-nav .flex-next {
+	    right: -50px !important;
+	    width: 24px;
+	    height: 44px;
+	    background-image: url({{ app_url_packaged }}/images/fiu/next.png);
+	    background-size: 24px 44px;
+	    opacity: 1;
+	    font-size: 0;
+	}
+	.flexslider .flex-direction-nav .flex-next:before, .flexslider .flex-direction-nav .flex-prev:before {
+	    content: "";
+	}
+	.ui.fuwu{
+		padding-top: 60px;
+	}
+	.ui.fuwu h2.ui.header{
+		color: #f36;
+	}
+	.ui.fuwu h3.ui.header{
+		color: #595757;
+		margin: 15px 0 10px;
+	}
+	p.fcolor{
+		color: #f36;
+		margin: 15px 0 30px;
+	}
+	.ui.three.column.grid{
+		font-size: 0;
+		padding-top: 25px;
+	}
+	.ui.three.column.grid .column .content{
+		position: absolute;
+		bottom: 20px;
+    	left: 25px;
+	}
+	.ui.three.column.grid .column .content h3{
+		font-size: 14px;
+		margin-bottom: 5px;
+	}
+	.ui.three.column.grid .column .content p{
+		font-size: 12px;
+	}
+	.ui.three.column.grid .column .content p span{
+		font-size: 18px;
+		margin-right: 5px;
+	}
+	.ui.yinx{
+		padding-top: 40px;
+	}
+	.ui.yinx h2.ui.header{
+		color: #f36;
+	}
+	.ui.yinx h3.ui.header{
+		color: #595757;
+		margin: 15px 0 10px;
+	}
+	.ui.qudao{
+		padding-top: 30px;
+		background-color: #fff;
+	}
+	.ui.qudao h2.ui.header{
+		color: #f36;
+	}
+	.ui.qudao h3.ui.header{
+		color: #595757;
+		margin: 15px 0 10px;
+	}
+	.qdbg{
+		position:relative;
+		background: url({{ app_url_packaged }}/images/service/qudaobg.jpg) center center no-repeat;
+		background-size: 100%;
+		padding-top: 23.404%;
+		margin-top: 20px;
+	}
+	.qdbg .contaner{
+		width: 50%;
+		right: 0;
+		padding:0 6%;
+		top: 50%;
+		transform: translateY(-50%);
+		-webkit-transform:translateY(-50%);
+		color: #fff;
+		position: absolute;
+	}
+	.qdbg .contaner h3{
+		font-size: 14px;
+	}
+	.qdbg .contaner p{
+		font-size: 12px;
+		line-height: 20px;
+    	letter-spacing: 1px;
+	}
+	.ui.wshop{
+		padding-top: 50px;
+		background-color: #fff;
+	}
+	.ui.wshop h2.ui.header{
+		color: #f36;
+	}
+	.ui.wshop .ui.shiyan.column{
+		padding-top: 40px;
+		padding-bottom: 10px;
+	}
+	.ui.fiu{
+		padding-top: 30px;
+		padding-bottom: 60px;
+	}
+	.ui.fiu .contaner{
+		background: url({{ app_url_packaged }}/images/service/fiubg.jpg) center center no-repeat;
+		background-size: 100%;
+		padding-top: 49.3617%;
+		position: relative;
+	}
+	.ui.fiu .contaner .content{
+		position:absolute;
+		width:100%;
+		padding: 0 5%;
+		left: 0;
+		top: 50%;
+		transform: translateY(-50%);
+		-webkit-transform:translateY(-50%);
+	}
+	p.p1{
+		padding-top: 50px;
+	    line-height: 26px;
+	    font-size: 12px;
+	}
+	p.p2{
+		padding-top: 5px;
+	    line-height: 26px;
+	    font-size: 12px;
+	}
+	p.color-be{
+		padding-top: 5px;
+		color: #be8914;
+		padding-bottom: 20px;
+	}
+	.ui.fiu .contaner .content .two.wide.column{
+		display: inline-block;
+	    padding: 0 15px 10px 0;
+	    text-align: center;
+	    font-size: 12px;
+	}
+	.ui.fiu .eight.wide.column p{
+		padding-left: 150px;
+		text-align: left;
+		color:#be8914;
+	}
+	.ui.fiu .eight.wide.column p span{
+		font-weight: 500;
+	}
+</style>
+{% endblock %}
+{% block jquery %}
+$(function() {
+    $(".flexslider").flexslider({
+		animation: "slide",
+        animationLoop: true,
+        itemWidth: ($('.fslide.column').width() - 40)/3,
+        slideshow: true,
+        itemMargin: 20,
+		minItems: 2,
+        maxItems: 3,
+        move: 1,
+        controlNav: false
+	});
+});	
+
+
+{% endblock %}
+{% block content %}
+<div class="ui servicenew page bgf1 background">
+	<div class="ui tbgnow">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<div class="content">
+						<div class="descript">
+							<h2 class="ui header">
+							科技美学情境式电商平台
+							</h2>
+							<p>太火鸟科技 Taihuoniao.com 是一个科技美学情景式电商平台。太火鸟重构产品研发创新流程，从广泛的创意中寻找具有「创新价值」且可以被称为
+							「性感设计」的产品，并通过线下体验，线上消费的形式，帮助设计师和创意者实现商业价值，全力打造一个完美的创意生态系统。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row bglist">
+				<div class="ui center aligned column">
+					<p class="list">
+						科技美学 
+					</p>
+					<p class="list">
+						投资孵化 
+					</p>
+					<p class="list">
+						众筹服务 
+					</p>
+					<p class="list">
+						品牌营销 
+					</p>
+					<p class="list">
+						渠道分发 
+					</p>
+					<p class="list">
+						D3IN铟立方 
+					</p>
+					<p class="list">
+						Fiu浮游 
+					</p>
+				</div>
+			</div>
+			<div class="row" style="padding: 0;">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/ttban.jpg" width="100%" align="absmiddle">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui biao">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header">
+						科技美学
+					</h2>
+					<p>
+					技术、模式、设计，是驱动创新的三驾马车，在中产阶级消费升级的背景下，<br>
+					消费者对设计创新的美学产品需求日渐增长，因此在太火鸟成立之初，就提出“科技美学”概念，<br>
+					意在整合行业资源，实现技术、模式和设计的结合，打造一个完美的创意生态系统！   
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/biao.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<a href="" class="ui magenta inverted active large more button">产品合作</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui fuhua">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header">投资孵化</h2>
+					<h3 class="ui header">多项孵化基金，助创业团队解决资金困扰</h3>
+					<p>
+					太火鸟设专项基金支持种子项目，单笔投入100万以内美金。目前，太火鸟成功孵化近30个团队，项目总估值超20亿。<br>
+					同时，太火鸟与鑫游资本合作成立 蓝翡·翠鸟科技美学基金 AESTECH (Aesthetics + Technology),<br>
+					首批资金1亿人民币，专业投向以“科技”为驱动力的智能硬件产品及以“创意美学”<br>
+					为驱动力的消费升级产品。投资阶段：种子至A轮。
+					</p>
+					<div class="timg">
+						<img src="{{ app_url_packaged }}/images/service/fu1.png" align="absmiddle">
+						<p>单笔100万以内美金种子基金</p>
+					</div>
+					<div class="timg">
+						<img src="{{ app_url_packaged }}/images/service/fu2.png" align="absmiddle">
+						<p>中国首支AESTECH科技美学基金1亿人民币种子至A轮投资基金</p>
+					</div>
+					<div>
+						<a href="" class="ui magenta inverted active large more button">孵化合作</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column fslide">
+					<div class="flexslider carousel">
+						<div class="flex-viewport">
+							<ul class="slides">
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa1.jpg" align="absmiddle">
+								</li>
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa2.jpg" align="absmiddle">
+								</li>
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa3.jpg" align="absmiddle">
+								</li>
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa4.jpg" align="absmiddle">
+								</li>
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa5.jpg" align="absmiddle">
+								</li>
+								<li>
+									<img src="{{ app_url_packaged }}/images/service/fa6.jpg" align="absmiddle">
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui fuwu">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header">众筹服务</h2>
+					<h3 class="ui header">玩转科技美学生态圈，权威众筹服务</h3>
+					<p>太火鸟整合行业资源，为智能硬件产品及创意美学产品提供众筹服务，结合自身整合运作能力，<br>
+					针对产品属性进行市场分析、营销策划、创意设计、媒体报道、试用评测、众筹运营等全网营销服务。</p>
+					<img src="{{ app_url_packaged }}/images/service/fuwu.png" width="100%" align="absmiddle">
+					<p class="fcolor">太火鸟众筹项目超 80 个，成功打造千万级众筹项目 3 个；<br>
+					众筹额超 ¥100,000,000，渠道销售额超 ¥300,000,000；</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<a href="" class="ui magenta inverted active large more button">众筹合作</a>
+				</div>
+			</div>
+			<div class="ui three column grid">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/fw1.jpg" width="100%" align="absmiddle">
+					<div class="content">
+						<h3>云造智行车</h3>
+						<p>云马C1众筹额突破￥<span>1,159Ｗ</span>  渠道直采4万台</p>
+					</div>
+				</div>
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/fw2.jpg" width="100%" align="absmiddle">
+					<div class="content">
+						<h3>小蚁智能行车记录仪</h3>
+						<p>众筹额突破￥<span>1,619Ｗ </span>   单品类排名行业No.1</p>
+					</div>
+				</div>
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/fw3.jpg" width="100%" align="absmiddle">
+					<div class="content">
+						<h3>造梦者恒氧新风机</h3>
+						<p>淘宝众筹第一个千万级项目 &nbsp;&nbsp;&nbsp;众筹额突破￥<span>1,205W</span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui yinx">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header">品牌营销</h2>
+					<h3 class="ui header">整合营销传播 全方位品牌曝光</h3>
+					<p>太火鸟整合营销传播，结合产品特色与人群，将制定独特的营销推广策略，<br>
+包括社区、内容、设计、众筹、媒体、B D、活动等进行全方位曝光；数百家垂直媒体及自媒体、数千万极客发烧友，确保商品上线的影响力。</p>
+					<img src="{{ app_url_packaged }}/images/service/yinx.png" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<a href="" class="ui magenta inverted active large more button">营销合作</a>
+				</div>
+			</div>
+			<div class="row" style="padding: 40px 0 20px;">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/yinxi.jpg" width="100%" align="absmiddle">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui qudao">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header">渠道分发</h2>
+					<h3 class="ui header">全面的渠道销售网，销售范围遍及全球</h3>
+					<p>太火鸟线上销售包括淘宝店、天猫专营店、京东专营店、京东3C店四个主营店铺以及FIU商城和太火鸟商城APP，并与国内外超过600家
+销售渠道建立战略联盟，销售范围遍及全球，同时，太火鸟还为创业团队提供专业的电商运营、ERP管理系统、用户转化、美誉度提升及售前售后服务等。</p>
+					<img src="{{ app_url_packaged }}/images/service/qudao.jpg" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<a href="" class="ui magenta inverted active large more button">渠道合作</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<div class="qdbg">
+						<div class="contaner">
+							<h3>中国创新产品出海计划</h3>
+							<p>作为太火鸟探索全球化市场的第一步，“毕方鸟”致力于将国内科技创新产品带向全球市场，将中国创新的智造发挥到最大价值。“毕方鸟”自2016年初启动以来，已经帮助云马智能电单车、小米生态链小蚁科技、Goluk极路客、Wowstick等团队和产品开拓了包括东南亚、俄罗斯、沙特、美国和欧洲等区域市场，独家签署了超过1000万美金的订单。</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui wshop">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="ui center aligned column">
+					<h2 class="ui header"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方·未来店</h2>
+					<p style="margin-bottom: 30px;"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span> Store是首个国内科技美学产品的场景式O2O体验店，致力于通过高舒适度、高自由度、高品质的生活场景促进销售。<br>
+					<span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span> Store 具有产品新、速度快、品质好的等特色，并有旗舰店、店中店、快闪店三种形态，其设计高度模组化、组合化、年轻化。
+					</p>
+					<img src="{{ app_url_packaged }}/images/service/wshop.jpg" width="100%" align="absmiddle">
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column">
+					<a href="" class="ui magenta inverted active large more button"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>合作</a>
+				</div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned column shiyan">
+					<h2 class="ui header"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方·未来实验室</h2>
+					<p>太火鸟铟立方D3IN未来实验室致力于打造一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，<br>
+为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column">
+					<img src="{{ app_url_packaged }}/images/service/shiyan.jpg" width="100%" align="absmiddle">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui fiu">
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="contaner">
+						<div class="content">
+							<img src="{{ app_url_packaged }}/images/fiu/logo.png" align="absmiddle">
+							<p class="p1">Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片电商平台。<br>
+							Fiu浮游™通过大千世界碎片美的情境大片重构，为新中产的生活方式带来全新的诗意体验。</p>
+							<p class="p2">每个人心中都有一个不曾到过的美景，<br>
+							每个人心中都有一个不曾拥有的美物，<br>
+							Fiu浮游™带你发现美学科技的力量和感性生活的温度！</p>
+							<p class="color-be">
+								科技美学情境式电商平台
+							</p>
+							<div class="ui two wide column">
+								<img src="{{ app_url_packaged }}/images/fiu/iosewm.jpg" width="90">
+								<p>Apple iOS下载</p>
+							</div>
+							<div class="ui two wide column">
+								<img src="{{ app_url_packaged }}/images/fiu/andewm.jpg" width="90">
+								<p>Android下载</p>
+							</div>
+							<div class="ui center aligned column">
+								<a href="" class="ui magenta inverted active large more button">Fiu合作</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row" style="padding-top: 20px;">
+				<div class="ui center aligned eight wide column"><p><span>科技美学</span>｜质感碰撞性感的生活态度</p></div>
+				<div class="ui center aligned eight wide column"><p><span>情境体验</span>｜大千世界碎片美的情境如大片呈现，内容好到尖叫</p></div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned eight wide column"><img src="{{ app_url_packaged }}/images/service/line.png" width="100%" align="absmiddle"align=""></div>
+				<div class="ui center aligned eight wide column"><img src="{{ app_url_packaged }}/images/service/line2.png" width="100%" align="absmiddle"></p></div>
+			</div>
+			<div class="row">
+				<div class="ui center aligned eight wide column"><p><span>社群互动</span>｜发现同路人，并让分享变现原创价值</p></div>
+				<div class="ui center aligned eight wide column"><p><span>地盘定位</span>｜我的地盘我做主，开好店搞主题都随意</p></div>
+			</div>
+		</div>
+	</div>
+
+	
+
+</div>
+
+{% endblock %}
