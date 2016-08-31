@@ -71,49 +71,6 @@
 {% endblock %}
 
 {% block content %}
-<!--
-<div class="ui responsive grid">
-	<div class="row">
-		<div class="column">
-			<div id="fixedslide" class="frame">
-			    {% cache cache_key:'web_shop_slide' ttl:600 disable_cache:app_disable_cached %}
-			    
-				{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
-				<div class="ui slide">
-					{% for ad in adslide.rows %}
-					<div class="item">
-						<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
-							{% if ad.mode == 2 %}
-							<div class="overlay">
-								{% if ad.cate_title %}
-								<h3>{{ ad.cate_title }}</h3>
-								{% endif %}
-								<h1>{{ ad.title }}</h1>
-								<p class="snippet">
-									{{ ad.sub_title }}
-								</p>
-								<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
-							</div>
-							{% else %}
-							<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
-							{% endif %}
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-				<div class="pages"></div>
-				<a class="prev" href="#">
-					<i class="angle left icon"></i>
-				</a>
-				<a class="next" href="#">
-					<i class="angle right icon"></i>
-				</a>
-			    
-			    {% endcache %}
-			</div>
-		</div>
-	</div>
-</div>-->
 <div class="ui topicnew shopnew page">
 	<div class="ui responsive grid slidebox">
         <div class="row">
@@ -136,54 +93,6 @@
     </div>
 </div>
 
-
-
-<!--
-<ul class="nav-categories">
-    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-	<li class="category">
-        <a href="{{ app_url_shop }}/c0">
-            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
-        </a>
-    </a>
-	{% for cat in category.rows %}
-    <li class="category {{ cat.active}}">
-      	<a href="{{ cat.view_url }}">
-            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
-        </a>
-    </li>
-	{% endfor %}
-</ul>
-
-
-<div class="adstick shop list">
-	<div class="ui adverts responsive grid">
-		<div class="row">
-			<div class="column">
-        		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'shop_home_stick' %}
-                {% if adslide2.rows %}
-                <div class="ui four adverts cards">
-                    {% for ad in adslide2.rows %}
-                    <div class="card">
-                        <div class="advblock">
-                            <div class="image" style="background-image: url('{{ ad.cover.fileurl }}');padding:30% 0;">
-                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank"></a>
-                            </div>
-                            <div class="desc">
-                                <h2>
-                                    
-                                </h2>
-                            </div>
-                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="link wrap" target="_blank"></a>
-                        </div>
-                    </div>
-                    {%endfor%}
-                </div>
-                {%endif%}
-            </div>
-        </div>
-    </div>
-</div>-->
 
 {% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:4 sort:4 %}
 <div class="shop list" id="shoplist" style="margin-bottom:0;">
@@ -245,15 +154,10 @@
         	<div class="column">
 				<ul class="nav-categories" style="width: 100%;">
 				    {% category_list var:'category' only_open:1 domain:domain show_all:0 %}
-					<li class="category">
-				        <a href="{{ app_url_shop }}/c0">
-				            <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
-				        </a>
-				    </a>
 					{% for cat in category.rows %}
 				    <li class="category {{ cat.active}}">
 				      	<a href="{{ cat.view_url }}">
-				            <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+				            <div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/icon/{{ cat.name }}.png)"></div> <span class="computer only">{{ cat.title }}</span>
 				        </a>
 				    </li>
 					{% endfor %}

@@ -94,17 +94,11 @@
 </div>
 
 <div class="categorybox">
-    <ul class="nav-categories list">
+    <ul class="nav-categories list" style="width: 100%;">
         {% category_list var:'category' only_open:1 domain:domain show_all:0 current:category_id %}
-    	<li class="category {% if !category_id %} active{% endif %}">
-            <a href="{{ app_url_shop }}/c0">
-                <i class="sidebar icon"></i> <span class="computer only">全部分类</span>
-            </a>
-        </a>
-    	{% for cat in category.rows %}
-        <li class="category {{ cat.active}}">
-          	<a href="{{ cat.view_url }}">
-                <i class="{{ cat.name }} icon"></i> <span class="computer only">{{ cat.title }}</span>
+    	 <li class="category {{ cat.active}}">
+            <a href="{{ cat.view_url }}">
+                <div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/icon/{{ cat.name }}.png)"></div> <span class="computer only">{{ cat.title }}</span>
             </a>
         </li>
     	{% endfor %}
