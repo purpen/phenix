@@ -253,76 +253,20 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
             $result['rows'][$k]['is_follow'] = $is_follow;
 
             switch($type){
-                case 10:
-                    $scene_product = null;
-                    if(isset($result['rows'][$k]['scene_product'])){
-                        $scene_product['_id'] = $result['rows'][$k]['scene_product']['_id'];
-                        $scene_product['title'] = $result['rows'][$k]['scene_product']['title'];
+                case 1:
+                    $product = null;
+                    if(isset($result['rows'][$k]['product'])){
+                        $product['_id'] = $result['rows'][$k]['product']['_id'];
+                        $product['title'] = $result['rows'][$k]['product']['short_title'];
                         // 封面图url
-                        $scene_product['cover_url'] = $result['rows'][$k]['scene_product']['cover']['thumbnails']['apc']['view_url'];
-                        $scene_product['attrbute'] = $result['rows'][$k]['scene_product']['attrbute'];
-                        // 用户信息
-                        $user = array();
-                        if(isset($result['rows'][$k]['scene_product']['user'])){
-                            $user['_id'] = $result['rows'][$k]['scene_product']['user']['_id'];
-                            $user['nickname'] = $result['rows'][$k]['scene_product']['user']['nickname'];
-                            $user['avatar_url'] = $result['rows'][$k]['scene_product']['user']['small_avatar_url'];     
-                        }
-                        $scene_product['user'] = $user;
-
-                      //返回Banner图片数据
-                      $assets = array();
-                      $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
-                      $asset_options['page'] = 1;
-                      $asset_options['size'] = 8;
-                      $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
-
-                      $scene_product['banner_id'] = isset($result['rows'][$k]['scene_product']['banner_id']) ? $result['rows'][$k]['scene_product']['banner_id'] : null;
-                      $banner_asset_obj = false;
-                      if(!empty($asset_result['rows'])){
-                        foreach($asset_result['rows'] as $key=>$value){
-                          if($scene_product['banner_id']==(string)$value['_id']){
-                            $banner_asset_obj = $value;
-                          }else{
-                            array_push($assets, $value['thumbnails']['aub']['view_url']);
-                          }
-                        }
-                        // 如果存在封面图，追加到第一个
-                        if($banner_asset_obj){
-                          array_unshift($assets, $banner_asset_obj['thumbnails']['aub']['view_url']);
-                        }
-                      }
-                      $scene_product['banner_asset'] = $assets;
+                        $product['cover_url'] = $result['rows'][$k]['product']['cover']['thumbnails']['apc']['view_url'];
 
                       // 保留2位小数
-                      $scene_product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['sale_price']);
+                      $product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['product']['sale_price']);
                       // 保留2位小数
-                      $scene_product['market_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['market_price']);
-
-                      $sights = array();
-                      // 取一张场景图
-                      $ignore_sight_id = 0;
-                      if($ignore_sight_id){
-                        $sight_query['sight_id'] = array('$ne'=>$ignore_sight_id);
-                      }
-                      $sight_query['product_id'] = $scene_product['_id'];
-
-                      $sight_options['page'] = 1;
-                      $sight_options['size'] = 1;
-                      $sight_options['sort'] = array('created_on'=>-1);
-                      $sqls = $spl_model->find($sight_query, $sight_options);
-                      if($sqls){
-                        for($j=0;$j<count($sqls);$j++){
-                          $sight_id = $sqls[$j]['sight_id'];
-                          $sight = $sight_model->extend_load((int)$sight_id);
-                          if(!empty($sight) && isset($sight['cover'])){
-                            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['asc']['view_url']));
-                          }
-                        }
-                      } // endif
-                      $scene_product['sights'] = $sights;
+                      $product['market_price'] = sprintf('%.2f', $result['rows'][$k]['product']['market_price']);
                     }
-                    $result['rows'][$k]['scene_product'] = $scene_product;
+                    $result['rows'][$k]['product'] = $product;
                     break;
                 case 11:
                     $scene = null;
