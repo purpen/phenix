@@ -56,6 +56,7 @@
     	padding: 10px 20px;
     	display: inline-block;
     	margin: 0;
+    	cursor: pointer;
 	}
 	.ui.biao{
 		padding-top: 40px;
@@ -283,8 +284,27 @@ $(function() {
         controlNav: false
 	});
 });	
-
-
+$('.pagebiao').click(function(){
+	$('html,body').animate({scrollTop:$('.biao').offset().top },800);
+});
+$('.pagefuhua').click(function(){
+	$('html,body').animate({scrollTop:$('.fuhua').offset().top },800);
+});
+$('.pagefuwu').click(function(){
+	$('html,body').animate({scrollTop:$('.fuwu').offset().top },800);
+});
+$('.pageyinx').click(function(){
+	$('html,body').animate({scrollTop:$('.yinx').offset().top },800);
+});
+$('.pagequdao').click(function(){
+	$('html,body').animate({scrollTop:$('.qudao').offset().top },800);
+});
+$('.pagewshop').click(function(){
+	$('html,body').animate({scrollTop:$('.wshop').offset().top },800);
+});
+$('.pagefiu').click(function(){
+	$('html,body').animate({scrollTop:$('.fiu').offset().top },800);
+});
 {% endblock %}
 {% block content %}
 <div class="ui servicenew page bgf1 background">
@@ -305,25 +325,25 @@ $(function() {
 			</div>
 			<div class="row bglist">
 				<div class="ui center aligned column">
-					<p class="list">
+					<p class="list pagebiao">
 						科技美学 
 					</p>
-					<p class="list">
+					<p class="list pagefuhua">
 						投资孵化 
 					</p>
-					<p class="list">
+					<p class="list pagefuwu">
 						众筹服务 
 					</p>
-					<p class="list">
+					<p class="list pageyinx">
 						品牌营销 
 					</p>
-					<p class="list">
+					<p class="list pagequdao">
 						渠道分发 
 					</p>
-					<p class="list">
+					<p class="list pagewshop">
 						D3IN铟立方 
 					</p>
-					<p class="list">
+					<p class="list pagefiu">
 						Fiu浮游 
 					</p>
 				</div>
@@ -356,7 +376,7 @@ $(function() {
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="" class="ui magenta inverted active large more button">产品合作</a>
+					<a href="mailto:chanpin@taihuoniao.com" class="ui magenta inverted active large more button">产品合作</a>
 				</div>
 			</div>
 		</div>
@@ -382,7 +402,7 @@ $(function() {
 						<p>中国首支AESTECH科技美学基金1亿人民币种子至A轮投资基金</p>
 					</div>
 					<div>
-						<a href="" class="ui magenta inverted active large more button">孵化合作</a>
+						<a href="mailto:fuhua@taihuoniao.com" class="ui magenta inverted active large more button">孵化合作</a>
 					</div>
 				</div>
 			</div>
@@ -431,7 +451,7 @@ $(function() {
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="" class="ui magenta inverted active large more button">众筹合作</a>
+					<a href="mailto:zhongchou@taihuoniao.com" class="ui magenta inverted active large more button">众筹合作</a>
 				</div>
 			</div>
 			<div class="ui three column grid">
@@ -472,7 +492,7 @@ $(function() {
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="" class="ui magenta inverted active large more button">营销合作</a>
+					<a href="mailto:yingxiao@taihuoniao.com" class="ui magenta inverted active large more button">营销合作</a>
 				</div>
 			</div>
 			<div class="row" style="padding: 40px 0 20px;">
@@ -495,7 +515,7 @@ $(function() {
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="" class="ui magenta inverted active large more button">渠道合作</a>
+					<a href="mailto:qudao@taihuoniao.com" class="ui magenta inverted active large more button">渠道合作</a>
 				</div>
 			</div>
 			<div class="row">
@@ -523,7 +543,7 @@ $(function() {
 			</div>
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="" class="ui magenta inverted active large more button"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>合作</a>
+					<a href="mailto:shangdian@taihuoniao.com" class="ui magenta inverted active large more button"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>合作</a>
 				</div>
 			</div>
 			<div class="row">
@@ -564,7 +584,7 @@ $(function() {
 								<p>Android下载</p>
 							</div>
 							<div class="ui center aligned column">
-								<a href="" class="ui magenta inverted active large more button">Fiu合作</a>
+								<a href="mailto:fiu@taihuoniao.com" class="ui magenta inverted active large more button">Fiu合作</a>
 							</div>
 						</div>
 					</div>
