@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute','get_list','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love', 'get_new_list');
+	protected $filter_user_method_list = array('execute','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love', 'get_new_list');
 
 	/**
 	 * 入口
@@ -14,7 +14,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function execute(){
 		return $this->get_list();
 	}
-
 	/**
 	 * 通用列表--new
 	 */
