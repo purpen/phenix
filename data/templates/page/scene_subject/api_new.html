@@ -89,6 +89,9 @@
     .pt-r{
         padding-top: 8px !important;
     }
+    .pt-0{
+        padding-top: 0 !important;
+    }
     .title{
         width: 100%;
         background:#fff;
@@ -119,27 +122,10 @@
         color: #222;
         font-size: 14px;
     }
-    .cont p {
-        line-height: 24px;
-        margin-bottom: 20px;
-        margin-top: 0;
-    }
-    .cont p br {
-        content: '';
-        display: block;
-        padding: 1px;
-        margin-top: -20px;
-    }
     .cont img{
         padding: 0;
         width:100%;
         vertical-align: middle;
-    }
-    .cont a{
-        border-bottom: 1px solid rgba(0,0,0,.1);
-        color: #f36;
-        cursor: pointer;
-        text-decoration: none;
     }
     .pingp{
         position: relative;
@@ -238,13 +224,7 @@
     <div class="ui responsive new grid pt-r">
         <div class="row">
             <div class="column">
-                <div class="course">
-                    <div class="cont">
-                        <p>
-                            {{ content }}
-                        </p>
-                    </div>
-                </div>
+                {{ content }}
             </div>
         </div>
     </div>
