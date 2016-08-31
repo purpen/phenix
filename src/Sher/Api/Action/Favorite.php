@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love', 'get_new_list');
+	protected $filter_user_method_list = array('execute','get_list','ajax_subscription','ajax_sight_love','ajax_cancel_subscription','ajax_cancel_sight_love', 'get_new_list');
 
 	/**
 	 * 入口
@@ -14,6 +14,163 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 	public function execute(){
 		return $this->get_list();
 	}
+
+	/**
+	 * 通用列表
+	 */
+	public function get_list(){
+		
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		
+		$some_fields = array(
+			'_id'=>1, 'user_id'=>1, 'target_id'=>1, 'type'=>1, 'event'=>1, 'ip'=>1, 'created_on'=>1, 'updated_on'=>1,
+		);
+		
+		$query   = array();
+		$options = array();
+		
+		// 请求参数
+		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+		$target_id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$type = isset($this->stash['type']) ? $this->stash['type'] : '';
+		$event = isset($this->stash['event']) ? $this->stash['event'] : '';
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		
+		if($type){
+			switch($type){
+				case 'scene':
+					$query['type'] = Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE;
+					break;
+				case 'sight':
+					$query['type'] = Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT;
+					break;
+				default:
+					return $this->api_json('参数不合法', 3003);
+			}
+		}else{
+			return $this->api_json('参数不能为空', 3003);
+		}
+		
+		if($event){
+			switch($event){
+				case 'love':
+					$query['event'] = Sher_Core_Model_Favorite::EVENT_LOVE;
+					break;
+				case 'subscription':
+					$query['event'] = Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION;
+					break;
+				case 'favorite':
+					$query['event'] = Sher_Core_Model_Favorite::EVENT_LOVE;
+					break;
+				case 'follow':
+					$query['event'] = Sher_Core_Model_Favorite::EVENT_FOLLOW;
+					break;
+			}
+		}else{
+			return $this->api_json('参数不能为空', 3003);
+		}
+		
+		if($user_id){
+			$query['user_id'] = $user_id;
+		}
+		
+		if($target_id){
+			$query['target_id'] = $target_id;
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'time';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_Favorite::instance();
+        $result = $service->get_like_list($query, $options);
+		
+		// 重建数据结果
+		if($user_id){
+			foreach($result['rows'] as $k => $v){
+				$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+				switch($type){
+					case 'scene':
+						if(isset($result['rows'][$k]['scene'])){
+							$result['rows'][$k]['scene']['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
+							$result['rows'][$k]['scene']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
+							$result['rows'][$k] = $result['rows'][$k]['scene'];
+						} else {
+							$result['rows'][$k] = array();
+						}
+						break;
+					case 'sight':
+						if(isset($result['rows'][$k]['sight'])){
+							$result['rows'][$k]['sight']['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
+							$result['rows'][$k]['sight']['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
+							$user = array();
+							if($result['rows'][$k]['sight']['user']){
+								$user['user_id'] = $v['sight']['user']['_id'];
+								$user['nickname'] = $v['sight']['user']['nickname'];
+								$user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
+								$user['summary'] = $v['sight']['user']['summary'];
+                                $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+                                $user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
+                                $user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
+                                $user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
+							}
+							$result['rows'][$k]['sight']['user_info'] = $user;
+							$result['rows'][$k]['sight']['scene_title'] = '';
+							if($result['rows'][$k]['sight']['scene']){
+								$result['rows'][$k]['sight']['scene_title'] = $v['sight']['scene']['title'];
+							}
+							$result['rows'][$k] = $result['rows'][$k]['sight'];
+						} else {
+							$result['rows'][$k] = array();
+						}
+						break;
+					default:
+						return $this->api_json('暂不支持的参数！', 3003);
+				}
+			}
+			
+			// 过滤多余属性
+			$filter_fields  = array('scene', 'sight','cover', 'cover_id', 'user', 'user_ext', 'tag_s','__extend__');
+			$result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		}
+			
+		if($target_id){
+			foreach($result['rows'] as $k => $v){
+				$result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+				$user = array();
+				$user['user_id'] = $result['rows'][$k]['user']['_id'];
+				$user['nickname'] = $result['rows'][$k]['user']['nickname'];
+				$user['avatar_url'] = $result['rows'][$k]['user']['medium_avatar_url'];
+				$user['summary'] = $result['rows'][$k]['user']['summary'];
+                $user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
+                $user['label'] = isset($result['rows'][$k]['user']['profile']['label']) ? $result['rows'][$k]['user']['profile']['label'] : '';
+                $user['expert_label'] = isset($result['rows'][$k]['user']['profile']['expert_label']) ? $result['rows'][$k]['user']['profile']['expert_label'] : '';
+                $user['expert_info'] = isset($result['rows'][$k]['user']['profile']['expert_info']) ? $result['rows'][$k]['user']['profile']['expert_info'] : '';
+				$user['is_expert'] = isset($result['rows'][$k]['user']['identify']['is_expert']) ? (int)$result['rows'][$k]['user']['identify']['is_expert'] : 0;
+				
+				$result['rows'][$k]['user'] = $user;
+			}
+			
+			// 过滤多余属性
+			$filter_fields  = array('tag_s','__extend__');
+			$result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		}	
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
+
 	/**
 	 * 通用列表--new
 	 */
