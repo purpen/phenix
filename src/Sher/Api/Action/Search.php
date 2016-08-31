@@ -59,6 +59,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       $scene_subject_model = new Sher_Core_Model_SceneSubject();
       $scene_brand_model = new Sher_Core_Model_SceneBrands();
         $follow_model = new Sher_Core_Model_Follow();
+        $favorite_model = new Sher_Core_Model_Favorite();
 
       $asset_service = Sher_Core_Service_Asset::instance();
 
@@ -141,7 +142,21 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $user_info = array();
             }
             $result['data'][$k]['user_info'] = $user_info;
-          
+
+            // 用户是否点赞/收藏
+            $is_love = 0;
+            if($current_user_id){
+                $fav_query = array(
+                    'target_id' => $obj['_id'],
+                    'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                    'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                    'user_id' => $current_user_id
+                );
+                $has_love = $favorite_model->first($fav_query);
+                if($has_love) $is_love = 1;
+            }
+            $result['data'][$k]['is_love'] = $is_love;
+
           }
           // 图片尺寸
           if($asset_obj){
