@@ -451,7 +451,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         // 当前用户是否关注创建者
         $user['is_follow'] = 0;
         if($current_user_id){
-            if($follow_model->has_exist_ship($$current_user_id, $user['user_id'])){
+            if($follow_model->has_exist_ship($current_user_id, $user['user_id'])){
                 $user['is_follow'] = 1;
             }
         }
