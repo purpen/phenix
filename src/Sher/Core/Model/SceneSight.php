@@ -15,8 +15,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		'user_id' => 0,
 		# 描述
 		'des' => '',
-        # 分类
-        'type' => '',
+        # 类型
+        'type' => 1,
 		
 		# 所属情景
 		'scene_id' => 0,
@@ -79,7 +79,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id', 'type');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
