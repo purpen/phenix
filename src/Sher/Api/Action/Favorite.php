@@ -338,6 +338,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                     $sight = null;
                     if(isset($result['rows'][$k]['sight'])){
                         $sight['_id'] = $result['rows'][$k]['sight']['_id'];
+                        $sight['title'] = $result['rows'][$k]['sight']['title'];
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
                         $user = null;
