@@ -155,7 +155,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
         if(empty($dig) || empty($dig['items'])){
           return $this->api_json('empty', 0, array('users'=>$result));
         }
-        $users = $dig['items'];   
+        $users = $dig['items'];
     }elseif($edit_stick==1){
 
         // 从块获取信息
@@ -206,6 +206,7 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
       if(empty($user)){
         continue;
       }
+        if($user_id==$user_arr[$i]) continue;
       // 过滤用户字段
       $item = Sher_Core_Helper_FilterFields::wap_user($user);
 			// 判断是否被关注
