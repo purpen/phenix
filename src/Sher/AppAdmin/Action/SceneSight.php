@@ -201,7 +201,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
         );
         $data['subject_ids'] = isset($this->stash['subject_ids']) ? $this->stash['subject_ids'] : null;
 		
-		if(empty($data['title']))){
+		if(empty($data['title'])){
 			return $this->ajax_json('请求参数不能为空', true);
 		}
 		
