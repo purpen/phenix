@@ -84,6 +84,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	 * 查看评测
 	 */
 	public function view(){
+    $this->set_target_css_state('page_try');
 		$id = (int)$this->stash['id'];
 		$tpl = 'page/try/view.html';
 		

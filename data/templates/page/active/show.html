@@ -257,207 +257,207 @@
     <span><i class="users icon"></i> 活动人数：{{ active.max_number_count }}人</span>
     <span><i class="unhide icon"></i> 参与度：{{ active.view_count }}</span>
 </div>
-          
-<div class="mainwrap" id="activitypage">
-    <div class="mainleftwrap">
-        <div class="mainleft">
-            <div class="container">
-                <div class="product froala-view activity overview">
-                    <p>
-                        {{ active.content }}
-                    </p>
-                </div>
-                
-                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
-                <div class="activity people {% if active._id == 12032 %} ui-12032 hide {% endif%}">
-                	<div class="block title">
-						{% if active._id == 12031 %}
-                			活动流程
-						{% else %}
-							活动嘉宾
-						{% endif%}
+
+<div class="ui responsive grid activepage">
+    <div class="row">
+        <div class="column">
+            <div class="ui containermain" id="activitypage">
+                <div class="conleft">
+                    <div class="product froala-view activity overview">
+                        <p>
+                            {{ active.content }}
+                        </p>
                     </div>
-					
-                    {% if active.process %}
-                        {% for p in active.process %}
-                        <div class="rundown-timeline-container">
-                            <div class="timeline-block">
-                                <div class="timeline-red-dot"></div>
-                                <div class="timeline-content right">
-									<div class="time" {% if active._id == 12031 %} style="left: 32%;" {% endif %}>{{ p.time }}</div>
-                                    <p class="name">{{ p.title }}</p>
-                                    <div class="title">
-                                        {% if p.img %}
-                                        <img src="{{ p.img }}" alt="{{ p.name }}" />
-                                        {% endif %}
-                                        <div class="content">
-                                            {{ p.name }}  
-                                            <div class="text">
-                                                {{ p.position }}
-                                            </div>
-                                        </div>	
+                    
+                    <div class="activity people {% if active._id == 12032 %} ui-12032 hide {% endif%}">
+                        <div class="block title">
+                            {% if active._id == 12031 %}
+                                活动流程
+                            {% else %}
+                                活动嘉宾
+                            {% endif%}
+                        </div>
+                        
+                        {% if active.process %}
+                            {% for p in active.process %}
+                            <div class="rundown-timeline-container">
+                                <div class="timeline-block">
+                                    <div class="timeline-red-dot"></div>
+                                    <div class="timeline-content right">
+                                        <div class="time" {% if active._id == 12031 %} style="left: 32%;" {% endif %}>{{ p.time }}</div>
+                                        <p class="name">{{ p.title }}</p>
+                                        <div class="title">
+                                            {% if p.img %}
+                                            <img src="{{ p.img }}" alt="{{ p.name }}" />
+                                            {% endif %}
+                                            <div class="content">
+                                                {{ p.name }}  
+                                                <div class="text">
+                                                    {{ p.position }}
+                                                </div>
+                                            </div>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        {%endfor%}
-                        
-              			<div class="rundown-timeline-container bottom">
-              				<div class="timeline-block">
-              					<div class="timeline-red-dot"></div>
-              				</div>
-              			</div>
-                    {%endif%}
-                </div>
-                
-                {% if active.step_stat == 2 %}
-                <div class="bar {% if active._id == 12032 %} ui-12032 hide {% endif%}"></div>
-                <div class="activity pictures {% if active._id == 12032 %} ui-12032 hide {% endif%}">
-                	<div class="block title">
-                		现场照片
-                    </div>
-                    {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
-                    
-          	      	<div class="flexslider">
-                        <ul class="slides">
-                            {% for asset in assets.rows %}
-                            <li>
-                                <img src="{{ asset.thumbnails.big.view_url }}" />
-                                <p>&nbsp;&nbsp;{{ asset.desc }}</p>
-                            </li>
                             {%endfor%}
-                        </ul>
-          	        </div>
-                </div>
-                {% endif %}
-                
-                <!--<div class="bar"></div>
-                <div class="activity people">
-                	<div class="block title">
-                		活动报道
+                            
+                            <div class="rundown-timeline-container bottom">
+                                <div class="timeline-block">
+                                    <div class="timeline-red-dot"></div>
+                                </div>
+                            </div>
+                        {%endif%}
                     </div>
-                </div>-->
-                
-                <div class="bar"></div>
-                
-                <div class="activity report">
-                	<div class="block title">
-                		活动报名
-                    </div>
-                    <!--ajax获取报名者头像-->
-                    <div id="signup-avatar">
-                        {% for i in avatar_loop %}
-                        <div class="image avatar-list">
-                            <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
+                    
+                    {% if active.step_stat == 2 %}
+                    <div class="activity pictures {% if active._id == 12032 %} ui-12032 hide {% endif%}">
+                        <div class="block title">
+                            现场照片
                         </div>
-                        {% endfor %}
-                    </div>
-                    <div class="aettend-box">
-                        {% if !active.step_stat == 1 %}
-                            <a class="ui active grey inverted button" href="javascript:void(0);">
-                                <span>活动结束</span>
-                            </a>
-                        {% else %}
-      			          {% if is_attend %}
-      			            <a class="ui big magenta active inverted button" href="javascript:void(0);">
-      			                <i class="smile icon"></i> 已报名，感谢参与！
-      			            </a>
-      			          {% else %}
-      			            <a class="ui big magenta attend inverted button" href="javascript:void(0);">
-      			                <i class="ticket icon"></i> 立即报名
-      			            </a>
-      			          {% endif %}
-              		    {% endif %}
-                        <p>共有 <span>{{ active.signup_count }}</span> 人报名</p>
-                    </div>
-                </div>
-                
-                <div class="bar"></div>
-                
-                <div class="product activity reviews">
-                    <a name="comment_top"></a>
-                	<div class="block title">
-                		全部讨论 <small>（{{ topic_comment_count }}）</small>
+                        {% asset_list var:'assets' parent_id:active._id asset_type:67 size:30 %}
                         
-                        <div class="quick goto">
-                            直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic_comment_count }}" data-url="{{ app_url_active }}/view/{{ active._id }}/{{ page }}" title="跳转到指定楼层" />
+                        <div class="flexslider">
+                            <ul class="slides">
+                                {% for asset in assets.rows %}
+                                <li>
+                                    <img src="{{ asset.thumbnails.big.view_url }}" />
+                                    <p>&nbsp;&nbsp;{{ asset.desc }}</p>
+                                </li>
+                                {%endfor%}
+                            </ul>
                         </div>
                     </div>
-                    {% if active.topic_ids %}
-                        <!--ajax comment-->
-                        <div class="ui big reply segment" id="comment-list">
-                            <div class="ui threaded comments is-comment"></div>
-                            <div class="ui pagination pagerbox"></div>
-                        </div>
-                        {% include "block/comment_box_site.html" %}
                     {% endif %}
+                    
+                    <!--<div class="bar"></div>
+                    <div class="activity people">
+                        <div class="block title">
+                            活动报道
+                        </div>
+                    </div>-->
+                    
+                    
+                    
+                    <div class="activity report">
+                        <div class="block title">
+                            活动报名
+                        </div>
+                        <!--ajax获取报名者头像-->
+                        <div id="signup-avatar">
+                            {% for i in avatar_loop %}
+                            <div class="image avatar-list">
+                                <img src="http://frstatic.qiniudn.com/images/avatar_default_small.jpg">
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="aettend-box">
+                            {% if !active.step_stat == 1 %}
+                                <a class="ui active grey inverted button" href="javascript:void(0);">
+                                    <span>活动结束</span>
+                                </a>
+                            {% else %}
+                              {% if is_attend %}
+                                <a class="ui big magenta active inverted button" href="javascript:void(0);">
+                                    <i class="smile icon"></i> 已报名，感谢参与！
+                                </a>
+                              {% else %}
+                                <a class="ui big magenta attend inverted button" href="javascript:void(0);">
+                                    <i class="ticket icon"></i> 立即报名
+                                </a>
+                              {% endif %}
+                            {% endif %}
+                            <p>共有 <span>{{ active.signup_count }}</span> 人报名</p>
+                        </div>
+                    </div>
+                    
+                    <div class="product activity reviews">
+                        <a name="comment_top"></a>
+                        <div class="block title">
+                            全部讨论 <small>（{{ topic_comment_count }}）</small>
+                            
+                            <div class="quick goto">
+                                直达楼层：<input type="text" name="floor" class="gotofloor" data-max="{{ topic_comment_count }}" data-url="{{ app_url_active }}/view/{{ active._id }}/{{ page }}" title="跳转到指定楼层" />
+                            </div>
+                        </div>
+                        {% if active.topic_ids %}
+                            <!--ajax comment-->
+                            <div class="ui big reply segment" id="comment-list">
+                                <div class="ui threaded comments is-comment"></div>
+                                <div class="ui pagination pagerbox"></div>
+                            </div>
+                            {% include "block/comment_box_site.html" %}
+                        {% endif %}
+                    </div>
+                        
+                </div>
+                <div class="conright">
+                    
+                    <div class="sellwrap">
+                        <div class="block title">
+                            合作品牌
+                        </div>
+                        <div class="tryfirm">
+                            {% if active.partner %}
+                                {% for p in active.partner %}
+                                <a href="{{ p.url }}" title="{{ p.title }}" target="_blank">
+                                    <img src="{{ p.img }}" alt="{{ p.title }}" />
+                                </a>
+                                {%endfor%}
+                            {%endif%}
+                        </div>
+                    </div>
+                    
+                    <!--
+                    <div class="sellwrap">
+                        <div class="block title">
+                            礼品赞助
+                        </div>
+                    </div>
+                    
+                    <div class="sellwrap">
+                        <div class="block title">
+                            活动场地
+                        </div>
+                    </div>
+                    -->
+                    
+                    <!--百度地图容器-->
+                    <div class="sellwrap">
+                        <div class="block title">
+                            活动地址
+                        </div>
+                        <div class="rbox">
+                            <div style="height:300px;border:#ccc solid 1px;" id="map"></div>
+                            <p>{{ active.map_info.title }}</p>
+                            <p><i class="marker icon"></i>{{ active.address }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sellwrap">
+                        <div class="user noline share">
+                            <span><i class="share alternate icon"></i>分享：</span>
+                            <a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+                                <i class="weibo icon large circular red inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+                                <i class="weixin icon large circular green inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+                                <i class="tencent weibo icon large circular blue inverted"></i>
+                            </a>
+                            <a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+                                <i class="icon renren large circular blue inverted"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-    <div class="mainright">
-        
-        <div class="sellwrap">
-        	<div class="block title">
-        		合作品牌
-            </div>
-			<div class="tryfirm">
-                {% if active.partner %}
-                    {% for p in active.partner %}
-                    <a href="{{ p.url }}" title="{{ p.title }}" target="_blank">
-                        <img src="{{ p.img }}" alt="{{ p.title }}" />
-                    </a>
-                    {%endfor%}
-                {%endif%}
-			</div>
-        </div>
-        
-        <!--
-        <div class="sellwrap">
-        	<div class="block title">
-        		礼品赞助
-            </div>
-        </div>
-        
-        <div class="sellwrap">
-        	<div class="block title">
-        		活动场地
-            </div>
-        </div>
-        -->
-        
-        <!--百度地图容器-->
-        <div class="sellwrap">
-        	<div class="block title">
-        		活动地址
-            </div>
-            <div class="rbox">
-    		    <div style="height:300px;border:#ccc solid 1px;" id="map"></div>
-                <p>{{ active.map_info.title }}</p>
-			    <p><i class="marker icon"></i>{{ active.address }}</p>
-            </div>
-        </div>
-        
-        <div class="sellwrap">
-            <div class="user noline share">
-            	<span><i class="share alternate icon"></i>分享：</span>
-            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
-            		<i class="weibo icon large circular red inverted"></i>
-            	</a>
-            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
-            		<i class="weixin icon large circular green inverted"></i>
-            	</a>
-            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
-            		<i class="tencent weibo icon large circular blue inverted"></i>
-            	</a>
-            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
-            		<i class="icon renren large circular blue inverted"></i>
-            	</a>
-            </div>
-        </div>
-        
-    </div>
-</div>
+</div>         
+
 {% include "block/attend_user_info.html" %}
 {% include "block/qrcode.html" %}
 {% endblock %}

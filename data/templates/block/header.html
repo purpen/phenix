@@ -1,4 +1,35 @@
-<div class="ui responsive grid" style="position:relative">
+<div class="ui newnav responsive grid">
+    <a href="{{ app_url_domain }}" title="首页" class="logobar">太火鸟</a>
+    <div class="navbar-collapse">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="{{ app_url_domain }}/home" class="{{ css_page_home }}">首页</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ app_url_domain }}/fiu" class="{{ css_page_fiu }}">Fiu</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ app_url_shop }}" class="{{ css_page_shop }}">商城</a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ app_url_incubator }}/service" class="{{ css_page_incubator }}">服务</a>
+            </li>
+        </ul>
+    </div>
+    <form class="search item" method="post" action="javascript:void(0);" id="searchbar">
+        
+        <div class="ui icon input">
+            <input name="q" type="text" value="{{ q }}" />
+        </div>
+        <i class="search icon"></i>
+    </form>
+
+    {% include "block/header_rightside.html" %}
+</div>
+<!--<div class="ui responsive grid" style="position:relative">
     <div class="two column row">
         <div class="column">
         	<a href="{{ app_url_domain }}" title="首页" class="logo">
@@ -15,7 +46,7 @@
         </div>
 
         <div class="column">
-        	{% include "block/header_rightside.html" %}
+        	
         </div>
     </div>
 </div>
@@ -49,13 +80,8 @@
       <a href="{{ app_url_d3in }}" class="{{ css_page_d3in }} item">
         <span style="letter-spacing: 1px;">D<span style="font-size: 10px;vertical-align: top;line-height: 4px;">3</span>IN</span>实验室
       </a>
-      <!--
-      <a href="{{ app_url_contest }}" class="{{ css_page_custom }} item">
-        反向定制
-      </a>
-      -->
     </div>
   </div>
-</div>
+</div>-->
 
 
