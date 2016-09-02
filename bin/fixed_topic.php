@@ -29,34 +29,46 @@ $categories = array(
     // 产品评测
     array(
         'old' => 18,
-        'new' => 114,
+        'new' => 242,
+        'fid' => 238,
     ),
     // 七嘴八舌
     array(
-        'old' => 19,
-        'new' => 115,
+        'old' => 61,
+        'new' => 243,
+        'fid' => 238,
+    ),
+    array(
+        'old' => 59,
+        'new' => 243,
+        'fid' => 238,
     ),
     // 深度解析
     array(
-        'old' => 62,
-        'new' => 112,
+        'old' => 121,
+        'new' => 240,
+        'fid' => 237,
     ),
     array(
-        'old' => 63,
-        'new' => 112,
+        'old' => 122,
+        'new' => 240,
+        'fid' => 237,
     ),
-    // 行业次讯
+    // 行业资讯
+    array(
+        'old' => 21,
+        'new' => 239,
+        'fid' => 237,
+    ),
+    array(
+        'old' => 87,
+        'new' => 239,
+        'fid' => 237,
+    ),
     array(
         'old' => 15,
-        'new' => 111,
-    ),
-    array(
-        'old' => 16,
-        'new' => 111,
-    ),
-    array(
-        'old' => 17,
-        'new' => 111,
+        'new' => 239,
+        'fid' => 237,
     ),
 );
 
@@ -67,53 +79,26 @@ for($i=0;$i<count($categories);$i++){
     );
     $updated = array(
         'category_id' => (int)$cate['new'],
+        'fid' => (int)$cate['fid'],
     );
 
-    $ok = $topic->update_set($criteria, $updated, false, true, true);
+    $ok = true;
+    //$ok = $topic->update_set($criteria, $updated, false, true, true);
 }
 echo "Topic child category merge ok.\n";
 
-// 合并父类别
-$parent = array(
-    //官网
-    array(
-        'cid' => 60,
-        'fid' => 109,
-    ),
-    //用户
-    array(
-        'cid' => 61,
-        'fid' => 110,
-    ),
-);
-
-for($i=0;$i<count($parent);$i++){
-    $cate = $parent[$i];
-    $criteria = array(
-        'category_id' => (int)$cate['cid'],
-    );
-    $updated = array(
-        'fid' => (int)$cate['fid'],
-    );
-    $ok = $topic->update_set($criteria, $updated, false, true, true);
-    
-    $ok = $category->update_set((int)$cate['cid'], array('pid'=>(int)$cate['fid']), false, true, true);
-}
-
-echo "All topic merge ok.\n";
 
 // 重算分类计数
 $category = new Sher_Core_Model_Category();
 $rows = $category->find(array('domain'=>Sher_Core_Util_Constant::TYPE_TOPIC));
 for($i=0;$i<count($rows);$i++){
     $row = $rows[$i];
-    $topic = new Sher_Core_Model_Topic();
     if(!empty($row['pid'])){
         $total = $topic->count(array('category_id' => (int)$row['_id']));
     }else{
         $total = $topic->count(array('fid' => (int)$row['_id']));
     }
-    $category->update_set((int)$row['_id'], array('total_count' => (int)$total));
+    //$category->update_set((int)$row['_id'], array('total_count' => (int)$total));
     
 }
 
