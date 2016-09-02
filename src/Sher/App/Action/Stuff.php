@@ -943,6 +943,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
     $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
     $verified = isset($this->stash['verified']) ? (int)$this->stash['verified'] : 0;
     $show_top = isset($this->stash['show_top']) ? (int)$this->stash['show_top'] : 0;
+    $is_prize = isset($this->stash['is_prize']) ? (int)$this->stash['is_prize'] : 0;
         
     $query = array();
     $options = array();
@@ -1000,6 +1001,11 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		// 类别
     if($type){
     
+    }
+
+    // 是否中奖
+    if($is_prize){
+        $query['is_prize'] = $is_prize;
     }
         
     $options['page'] = $page;

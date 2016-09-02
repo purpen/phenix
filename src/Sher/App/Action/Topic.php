@@ -10,6 +10,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		'id' => '',
 		'cover_id' => 0,
 		'category_id' => 0,
+        'page' => 1,
+        'size' => 8,
 		'type' => 0,
 		'time' => 0,
 		'page' => 1,
@@ -62,13 +64,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
         $time = $this->stash['time'];
-		    $sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 7;
+		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 7;
         $page = $this->stash['page'];
 
 		// 综合分类
-		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
+		$this->stash['topic_category_official'] = Doggy_Config::$vars['app.topic_category_official'];
 		// 产品分类
-		$this->stash['topic_category_product'] = Doggy_Config::$vars['app.topic_category_product'];
+		$this->stash['topic_category_user'] = Doggy_Config::$vars['app.topic_category_user'];
         
 		// 获取置顶列表
 		$diglist = array();
@@ -104,8 +106,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $category_id = (int)$this->stash['category_id'];
 		$type = (int)$this->stash['type'];
         $time = (int)$this->stash['time'];
-		    $sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $page = (int)$this->stash['page'];
+        $size = (int)$this->stash['size'];
         
 		$page = $this->stash['page'];
         $service = Sher_Core_Service_Topic::instance();
@@ -150,7 +153,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
         $options['page'] = $page;
-        $options['size'] = 20;
+        $options['size'] = $size;
         
 		// 排序
 		switch ((int)$sort) {
@@ -310,9 +313,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$parent_category = array();
 
 		// 综合分类
-		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
+		$this->stash['topic_category_official'] = Doggy_Config::$vars['app.topic_category_official'];
 		// 产品分类
-		$this->stash['topic_category_product'] = Doggy_Config::$vars['app.topic_category_product'];
+		$this->stash['topic_category_user'] = Doggy_Config::$vars['app.topic_category_user'];
 		
 		$digged = new Sher_Core_Model_DigList();
 		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
@@ -410,7 +413,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$links = array();
 		
 		// 类别
-    $links['all_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 0, $time, $sort, $page);
+        $links['all_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 0, $time, $sort, $page);
 		$links['reply_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 3, $time, 7, $page);
 		$links['stick_url'] = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 1, $time, $sort, $page);
 		$links['fine_url']  = Sher_Core_Helper_Url::topic_advance_list_url($category_id, 2, $time, $sort, $page);
@@ -604,9 +607,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         }
 		
 		// 综合分类
-		$this->stash['topic_category_comprehensive'] = Doggy_Config::$vars['app.topic_category_comprehensive'];
+		$this->stash['topic_category_official'] = Doggy_Config::$vars['app.topic_category_official'];
 		// 产品分类
-		$this->stash['topic_category_product'] = Doggy_Config::$vars['app.topic_category_product'];
+		$this->stash['topic_category_user'] = Doggy_Config::$vars['app.topic_category_user'];
 
 		//添加网站meta标签
 		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智能硬件社区", $topic['title']);

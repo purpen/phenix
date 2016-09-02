@@ -8,6 +8,8 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	public $stash = array(
 		'page' => 1,
 		'size' => 100,
+        'kind' => '',
+        'type' => '',
 	);
 	
 	public function _init() {
@@ -28,7 +30,29 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	 */
 	public function get_list() {
 
-		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?page=#p#');
+        $type = isset($this->stash['type']) ? $this->stash['type'] : 0;
+
+        switch($type){
+          case 1:
+            $this->set_target_css_state('article');
+            break;
+          case 2:
+            $this->set_target_css_state('active');
+            break;
+          case 3:
+            $this->set_target_css_state('hot');
+            break;
+          case 4:
+            $this->set_target_css_state('new');
+            break;
+          case 5:
+            $this->set_target_css_state('goods');
+            break;
+          default:
+            $this->set_target_css_state('all');
+        }
+
+		$this->stash['pager_url'] = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_subject/get_list?type=%d&page=#p#', $type);
 		return $this->to_html_page('app_admin/scene_subject/list.html');
 	}
 	
@@ -39,7 +63,8 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 
-		$redirect_url = Doggy_Config::$vars['app.url.app_admin'].'/scene_subject';
+        // 记录上一步来源地址
+        $this->stash['return_url'] = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : Doggy_Config::$vars['app.url.app_admin']."/scene_subject";
 		if(empty($id)){
             $this->stash['mode'] = 'create';
         }else{
@@ -53,9 +78,12 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
         }
 
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SUBJECT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT;
+
+		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SUBJECT_BANNER;
 		
 		return $this->to_html_page('app_admin/scene_subject/submit.html');
 	}
@@ -68,9 +96,20 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$scene_subject_html = $this->stash['scene_subject_html'];
 		$scene_subject_title = $this->stash['title'];
+		$scene_subject_short_title = $this->stash['short_title'];
 		$scene_subject_tag = $this->stash['tags'];
 		$cover_id = $this->stash['cover_id'];
+		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+        $tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+        $sight_ids = isset($this->stash['sight_ids']) ? $this->stash['sight_ids'] : null;
+        $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
+        $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+
+        $begin_time = isset($this->stash['begin_time']) ? $this->stash['begin_time'] : null;
+        $end_time = isset($this->stash['end_time']) ? $this->stash['end_time'] : null;
 		
 		// 验证内容
 		if(!$scene_subject_html){
@@ -87,21 +126,28 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 			return $this->ajax_json('标签不能为空！', true);
 		}
 		
-		$tags_arr = array();
-		$tags_arr = explode(',',$scene_subject_tag);
-		
-		
 		$date = array(
 			'title' => $scene_subject_title,
-			'tags' => $tags_arr,
+            'short_title' => $scene_subject_short_title,
+			'tags' => $tags,
 			'content' => $scene_subject_html,
 			'cover_id' => $cover_id,
+			'banner_id' => $banner_id,
 			'kind' => $kind,
+            'evt' => $evt,
+            'type' => $type,
             'summary' => $this->stash['summary'],
+            'sight_ids' => $sight_ids,
+            'product_ids' => $product_ids,
+            'begin_time' => $begin_time,
+            'end_time' => $end_time,
+            'product_id' => $product_id,
 		);
 		
 		try{
+
 			$model = new Sher_Core_Model_SceneSubject();
+
 			if(empty($id)){
 				// add
                 $date['user_id'] = $this->visitor->id;
@@ -113,7 +159,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 				$date['_id'] = $id;
 				$ok = $model->apply_and_update($date);
 			}
-			
+
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
@@ -121,6 +167,10 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
 				$model->update_batch_assets($this->stash['asset'], $id);
+			}
+			// 上传成功后，更新所属的附件(Banner)
+			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
+				$model->update_batch_assets($this->stash['banner_asset'], $id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
@@ -163,7 +213,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	*/
 	public function ajax_publish(){
 		
-		$id = $this->stash['id'];
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
 		
 		if(empty($id)){
@@ -171,10 +221,14 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		}
 		
 		$model = new Sher_Core_Model_SceneSubject();
-		$result = $model->mark_as_publish((int)$id, $evt);
+        if(!empty($evt)){
+		    $ok = $model->mark_as_publish($id);
+        }else{
+		    $ok = $model->mark_cancel_publish($id);
+        }
 		
-		if(!$result['status']){
-			return $this->ajax_notification($result['msg'], true);
+		if(!$ok){
+			return $this->ajax_notification('操作失败!', true);
 		}
 		
 		return $this->to_taconite_page('app_admin/scene_subject/publish_ok.html');
@@ -185,7 +239,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 	*/
 	public function ajax_stick(){
 		
-		$id = $this->stash['id'];
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
 		
 		if(empty($id)){
@@ -193,13 +247,48 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		}
 		
 		$model = new Sher_Core_Model_SceneSubject();
-		$result = $model->mark_as_stick((int)$id, $evt);
+        if(!empty($evt)){
+		    $ok = $model->mark_as_stick($id);
+        }else{
+		    $ok = $model->mark_cancel_stick($id);
+        }
 		
-		if(!$result['status']){
-			return $this->ajax_notification($result['msg'], true);
+		if(!$ok){
+			return $this->ajax_notification('操作失败!', true);
 		}
 		
 		return $this->to_taconite_page('app_admin/scene_subject/stick_ok.html');
 	}
+
+	/**
+	 * 精选
+	 */
+	public function ajax_fine() {
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_SceneSubject();
+            if(!empty($evt)){
+                $ok = $model->mark_as_fine($id);
+            }else{
+                $ok = $model->mark_cancel_fine($id);
+            }
+            
+            if(!$ok){
+                return $this->ajax_notification('操作失败!', true);
+            }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('请求操作失败，请检查后重试！', true);
+		}
+		
+		return $this->to_taconite_page('app_admin/scene_subject/fine_ok.html');
+	}
+
+
+
 }
 

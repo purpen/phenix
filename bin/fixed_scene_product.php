@@ -24,12 +24,16 @@ ini_set('memory_limit','512M');
 echo "fixed scene product category_id fields ...\n";
 
 $scene_product_model = new Sher_Core_Model_SceneProduct();
+$product_model = new Sher_Core_Model_Product();
+$asset_service = Sher_Core_Service_Asset::instance();
+$asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
+
 while(!$is_end){
-	$query = array();
+	$query = array('attrbute'=>1, 'kind'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $scene_product_model->find($query, $options);
 	if(empty($list)){
@@ -38,48 +42,38 @@ while(!$is_end){
 	}
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
-    $id = $list[$i]['_id'];
-    /**
-    $category_id = $list[$i]['category_id'];
-    switch($category_id){
-    case 146:
-      $new_category_id = 67;
-      break;
-    case 147:
-      $new_category_id = 68;
-      break;
-    case 148:
-      $new_category_id = 69;
-      break;
-    case 149:
-      $new_category_id = 70;
-      break;
-    case 150:
-      $new_category_id = 71;
-      break;
-    case 151:
-      $new_category_id = 72;
-      break;
-    case 152:
-      $new_category_id = 74;
-      break;
-    case 153:
-      $new_category_id = 75;
-      break;
-    default:
-      $new_category_id = 0;
-    }
-     */
+        $item = $list[$i];
 
-    if(isset($list[$i]['category_id'])){
-      $ok = true;
-      //$ok = $scene_product_model->update_set($id, array('category_id'=>$new_category_id));
-      if($ok){
-        $total++;
-      }
-    }
-    
-	}
+        //返回图片数据
+        $assets = array();
+        $asset_query = array('parent_id'=>$item['_id'], 'asset_type'=>121);
+        $asset_options['page'] = 1;
+        $asset_options['size'] = 5;
+        $asset_options['sort_field'] = 'latest';
+
+        $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+        if(!empty($asset_result['rows'])){
+          foreach($asset_result['rows'] as $key=>$value){
+            array_push($assets, (string)$value['_id']);
+          }
+        }
+
+        $product = $product_model->load((int)$item['oid']);
+        if(empty($product)){
+            echo "is empty!.\n";
+            continue;
+        }
+        for($j=0;$j<count($assets);$j++){
+            $ok = true;
+            //$ok = $asset_model->update_set($assets[$j], array('parent_id'=>$product['_id'], 'asset_type'=>12));
+            if($ok){
+                echo "update success! \n";
+                $total++;
+            }
+        }
+
+	}   // endfor
 	if($max < $size){
 		break;
 	}
@@ -87,5 +81,46 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 
-echo "fix scene product category_id fields count: $total is OK! \n";
+/*
+function category_change($id){
+    switch($id){
+        case 146:
+            $new_id = 32;
+            break;
+        case 147:
+            $new_id = 76;
+            break;
+        case 148:
+            $new_id = 34;
+            break;
+        case 151:
+            $new_id = 31;
+            break;
+        case 152:
+            $new_id = 81;
+            break;
+        case 150:
+            $new_id = 78;
+            break;
+        case 149:
+            $new_id = 30;
+            break;
+        case 173:
+            $new_id = 33;
+            break;
+        case 153:
+            $new_id = 82;
+            break;
+        case 236:
+            $new_id = 79;
+            break;
+        default:
+            $new_id = 0;
+
+    }
+    return $new_id;
+}
+ */
+
+echo "create product count: $total is OK! \n";
 

@@ -233,6 +233,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
         $spl_model = new Sher_Core_Model_SceneProductLink();
         $sight_model = new Sher_Core_Model_SceneSight();
         $follow_model = new Sher_Core_Model_Follow();
+		$favorite_model = new Sher_Core_Model_Favorite();
 
 
         $current_user_id = $this->current_user_id;
@@ -252,80 +253,26 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
             $result['rows'][$k]['is_follow'] = $is_follow;
 
             switch($type){
-                case 10:
-                    $scene_product = null;
-                    if(isset($result['rows'][$k]['scene_product'])){
-                        $scene_product['_id'] = $result['rows'][$k]['scene_product']['_id'];
-                        $scene_product['title'] = $result['rows'][$k]['scene_product']['title'];
+                case 1:
+                    $product = null;
+                    if(isset($result['rows'][$k]['product'])){
+                        $product['_id'] = $result['rows'][$k]['product']['_id'];
+                        $product['title'] = $result['rows'][$k]['product']['short_title'];
                         // 封面图url
-                        $scene_product['cover_url'] = $result['rows'][$k]['scene_product']['cover']['thumbnails']['apc']['view_url'];
-                        $scene_product['attrbute'] = $result['rows'][$k]['scene_product']['attrbute'];
-                        // 用户信息
-                        $user = array();
-                        if(isset($result['rows'][$k]['scene_product']['user'])){
-                            $user['_id'] = $result['rows'][$k]['scene_product']['user']['_id'];
-                            $user['nickname'] = $result['rows'][$k]['scene_product']['user']['nickname'];
-                            $user['avatar_url'] = $result['rows'][$k]['scene_product']['user']['small_avatar_url'];     
-                        }
-                        $scene_product['user'] = $user;
-
-                      //返回Banner图片数据
-                      $assets = array();
-                      $asset_query = array('parent_id'=>$scene_product['_id'], 'asset_type'=>120);
-                      $asset_options['page'] = 1;
-                      $asset_options['size'] = 8;
-                      $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
-
-                      $scene_product['banner_id'] = isset($result['rows'][$k]['scene_product']['banner_id']) ? $result['rows'][$k]['scene_product']['banner_id'] : null;
-                      $banner_asset_obj = false;
-                      if(!empty($asset_result['rows'])){
-                        foreach($asset_result['rows'] as $key=>$value){
-                          if($scene_product['banner_id']==(string)$value['_id']){
-                            $banner_asset_obj = $value;
-                          }else{
-                            array_push($assets, $value['thumbnails']['aub']['view_url']);
-                          }
-                        }
-                        // 如果存在封面图，追加到第一个
-                        if($banner_asset_obj){
-                          array_unshift($assets, $banner_asset_obj['thumbnails']['aub']['view_url']);
-                        }
-                      }
-                      $scene_product['banner_asset'] = $assets;
+                        $product['cover_url'] = $result['rows'][$k]['product']['cover']['thumbnails']['apc']['view_url'];
 
                       // 保留2位小数
-                      $scene_product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['sale_price']);
+                      $product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['product']['sale_price']);
                       // 保留2位小数
-                      $scene_product['market_price'] = sprintf('%.2f', $result['rows'][$k]['scene_product']['market_price']);
-
-                      $sights = array();
-                      // 取一张场景图
-                      $ignore_sight_id = 0;
-                      if($ignore_sight_id){
-                        $sight_query['sight_id'] = array('$ne'=>$ignore_sight_id);
-                      }
-                      $sight_query['product_id'] = $scene_product['_id'];
-
-                      $sight_options['page'] = 1;
-                      $sight_options['size'] = 1;
-                      $sight_options['sort'] = array('created_on'=>-1);
-                      $sqls = $spl_model->find($sight_query, $sight_options);
-                      if($sqls){
-                        for($j=0;$j<count($sqls);$j++){
-                          $sight_id = $sqls[$j]['sight_id'];
-                          $sight = $sight_model->extend_load((int)$sight_id);
-                          if(!empty($sight) && isset($sight['cover'])){
-                            array_push($sights, array('id'=>$sight['_id'], 'title'=>$sight['title'], 'cover_url'=>$sight['cover']['thumbnails']['asc']['view_url']));
-                          }
-                        }
-                      } // endif
-                      $scene_product['sights'] = $sights;
+                      $product['market_price'] = sprintf('%.2f', $result['rows'][$k]['product']['market_price']);
                     }
-                    $result['rows'][$k]['scene_product'] = $scene_product;
+                    $result['rows'][$k]['product'] = $product;
                     break;
                 case 11:
                     $scene = null;
                     if(isset($result['rows'][$k]['scene'])){
+                        $scene['_id'] = $result['rows'][$k]['scene']['_id'];
+                        $scene['title'] = $result['rows'][$k]['scene']['title'];
                         $scene['cover_url'] = $result['rows'][$k]['scene']['cover']['thumbnails']['huge']['view_url'];
                         $scene['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['scene']['created_on']);
                     }
@@ -334,10 +281,13 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                 case 12:
                     $sight = null;
                     if(isset($result['rows'][$k]['sight'])){
+                        $sight['_id'] = $result['rows'][$k]['sight']['_id'];
+                        $sight['title'] = $result['rows'][$k]['sight']['title'];
                         $sight['cover_url'] = $result['rows'][$k]['sight']['cover']['thumbnails']['huge']['view_url'];
                         $sight['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['sight']['created_on']);
-                        $user = array();
+                        $user = null;
                         if($result['rows'][$k]['sight']['user']){
+                            $user = array();
                             $user['user_id'] = $v['sight']['user']['_id'];
                             $user['nickname'] = $v['sight']['user']['nickname'];
                             $user['avatar_url'] = $v['sight']['user']['medium_avatar_url'];
@@ -349,10 +299,21 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 
                         }
                         $sight['user_info'] = $user;
-                        $sight['scene_title'] = '';
-                        if($result['rows'][$k]['sight']['scene']){
-                            $sight['scene_title'] = $v['sight']['scene']['title'];
+
+                        // 用户是否点赞/收藏
+                        $is_love = 0;
+                        if($current_user_id){
+                            $fav_query = array(
+                                'target_id' => $sight['_id'],
+                                'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                                'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                                'user_id' => $current_user_id
+                            );
+                            $has_love = $favorite_model->first($fav_query);
+                            if($has_love) $is_love = 1;
+
                         }
+                        $sight['is_love'] = $is_love;
                     }
                     $result['rows'][$k]['sight'] = $sight;
                     break;
@@ -620,8 +581,6 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if (!$model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->add_love($user_id, $id, $love_info);
-            }else{
-                return $this->api_json('不能重复操作!', 3005);
             }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3003);
@@ -656,15 +615,17 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
 			if ($model->check_loved($user_id, $id, $type)) {
 				$love_info = array('type' => $type);
 				$ok = $model->cancel_love($user_id, $id, $type);
+
+                $love_count = $this->remath_count($id, $type, 'love_count');
 			    if($ok){
 				// 获取计数
-                  $love_count = $this->remath_count($id, $type, 'love_count');
                   return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
                 }else{
-                  return $this->api_json('操作失败', 3003);
+                    // 因为前端会出现缓存，也置为成功状态
+                  return $this->api_json('操作成功', 0, array('love_count'=>$love_count));
                 }
 			}else{
-			  return $this->api_json('已点赞', 3004);     
+			  return $this->api_json('操作成功!', 3004);     
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->api_json('操作失败:'.$e->getMessage(), 3005);

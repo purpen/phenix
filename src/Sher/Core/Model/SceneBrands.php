@@ -9,12 +9,14 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 
     ## 常量
     # 类型
-    const KIND_FIU = 1; // ＦＩＵ
-    const KIND_STORE = 2;   // 商城
+    const KIND_FIU = 1; // 所有
+    const KIND_STORE = 2;   // 商城展示
 	
     protected $schema = array(
 		# 标题
 		'title' => '',
+        # 创建人
+        'user_id' => 0,
         # 描述
         'des' => '',
 		# 封面
@@ -25,6 +27,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'kind' => self::KIND_FIU,
         # 是否是自营品牌
         'self_run' => 0,
+        # 标签
+        'tags' => array(),
         # 首字母索引
         'mark' => '',
         # 来源: 1.官方；2.用户
@@ -39,8 +43,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		'status' => 1,
     );
 	
-	protected $required_fields = array('title','des','cover_id');
-	protected $int_fields = array('status', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
+	protected $required_fields = array('title');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
@@ -62,30 +66,9 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 			$row['banner'] = $this->banner($row);
 		}
 
-        // 类型
-        $kind = isset($row['kind']) ? $row['kind'] : 0;
-        switch($kind){
-            case 1:
-                $row['kind_label'] = 'Fiu';
-                break;
-            case 2:
-                $row['kind_label'] = 'Store';
-                break;
-            default:
-                $row['kind_label'] = '--';
-        }
-
-        // 类型
-        $from_to = isset($row['from_to']) ? $row['from_to'] : 1;
-        switch($from_to){
-            case 1:
-                $row['from_label'] = '官网';
-                break;
-            case 2:
-                $row['from_label'] = '用户';
-                break;
-            default:
-                $row['from_label'] = '--';
+        $row['tags_s'] = '';
+        if(isset($row['tags']) && !empty($row['tags'])){
+		    $row['tags_s'] = !empty($row['tags']) ? implode(',', $row['tags']) : '';
         }
 	}
 	
@@ -93,12 +76,16 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	 * 保存之前,处理标签中的逗号,空格等
 	 */
 	protected function before_save(&$data) {
+	    parent::before_save($data);
 
 	    if (!empty($data['title']) && empty($data['mark'])) {
 	        $data['mark'] = Sher_Core_Helper_Pinyin::str2py($data['title']);
 	    }
 
-	    parent::before_save($data);
+	    if (isset($data['tags']) && !is_array($data['tags'])) {
+	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
+
 	}
 	
     /**
@@ -202,4 +189,15 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 			return $asset->extended_model_row($data);
 		}
 	}
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('scene_brand_'.(string)$id);
+		
+		return true;
+	}
+
 }

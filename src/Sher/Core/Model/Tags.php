@@ -71,7 +71,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
                 $row['category_ids']['sight_to_s'] = implode(',', $row['category_ids']['sight']);
             }
             if(isset($row['category_ids']['scene_product']) && !empty($row['category_ids']['scene_product'])){
-                $row['category_ids']['product_to_s'] = implode(',', $row['category_ids']['scene_product']);
+                $row['category_ids']['scene_product_to_s'] = implode(',', $row['category_ids']['scene_product']);
             }
         }
     }
@@ -82,6 +82,29 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
     protected function before_insert(&$data) {
 		
 		parent::before_insert($data);
+
+    }
+
+	/**
+	 * 保存之前,处理标签中的逗号,空格等
+	 */
+	protected function before_save(&$data) {
+
+	    parent::before_save($data);
+
+	    if (!empty($data['name'])) {
+	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
+	    }
+
+        $layer = 0;
+        if(!empty($data['fid'])){
+            $tags_model = new Sher_Core_Model_Tags();
+            $f_tag = $tags_model->load((int)$data['fid']);
+            if($f_tag){
+                $layer = (int)$f_tag['layer'] + 1;
+            }
+        }
+        $data['layer'] = $layer;
 
         if(isset($data['category_ids'])){
             if(isset($data['category_ids']['sight'])){
@@ -98,7 +121,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
             if(isset($data['category_ids']['scene_product'])){
                 $product_arr = array();
                 if(!empty($data['category_ids']['scene_product'])){
-                    $sight_arr = explode(',', $data['category_ids']['scene_product']);
+                    $product_arr = explode(',', $data['category_ids']['scene_product']);
                     for($i=0;$i<count($product_arr);$i++){
                         $product_arr[$i] = (int)$product_arr[$i];
                     }
@@ -107,27 +130,6 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
             }
         }
 
-
-    }
-
-	/**
-	 * 保存之前,处理标签中的逗号,空格等
-	 */
-	protected function before_save(&$data) {
-	    if (!empty($data['name'])) {
-	        $data['index'] = Sher_Core_Helper_Pinyin::str2py($data['name']);
-	    }
-
-        $layer = 0;
-        if(!empty($data['fid'])){
-            $tags_model = new Sher_Core_Model_Tags();
-            $f_tag = $tags_model->load((int)$data['fid']);
-            if($f_tag){
-                $layer = (int)$f_tag['layer'] + 1;
-            }
-        }
-        $data['layer'] = $layer;
-	    parent::before_save($data);
 	}
 	
 	/**
@@ -136,7 +138,7 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
     protected function validate() {
 		// 新建记录
 		if($this->insert_mode){
-			if (!$this->_check_name()){
+			if (!$this->check_name()){
 				throw new Sher_Core_Model_Exception('关键词已存在，请更换！');
 			}
 		}
@@ -147,8 +149,10 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 	/**
 	 * 检测关键词是否唯一
 	 */
-	protected function _check_name() {
-		$name = $this->data['name'];
+	public function check_name($name=null) {
+        if(empty($name)){
+		    $name = $this->data['name'];
+        }
 		if(empty($name)){
 			return false;
 		}
@@ -241,13 +245,29 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
     /**
      * 统计数量
      */
-    public function record_count($evt, $tags=array()){
+    public function record_count($tags, $evt, $target_id){
+        if(empty($tags) || !is_array($tags)) return false;
         $tag_ids = array();
         $temp_tags = array();
+        $category_ids = array();
         foreach($tags as $v){
             $has_one = $this->first(array('name'=>$v));
             if($has_one){
                 array_push($tag_ids, $has_one['_id']);
+                // 更新情境分类
+                if($evt==3 && 
+                    isset($has_one['apply_to']) && 
+                    isset($has_one['apply_to']['category']) && 
+                    !empty($has_one['apply_to']['category']) &&
+                    isset($has_one['category_ids']) &&
+                    isset($has_one['category_ids']['sight']) &&
+                    !empty($has_one['category_ids']['sight']) &&
+                    is_array($has_one['category_ids']['sight'])
+                ){
+                    for($i=0;$i<count($has_one['category_ids']['sight']);$i++){
+                        array_push($category_ids, (int)$has_one['category_ids']['sight'][$i]);
+                    }  
+                }
             }else{
                 array_push($temp_tags, $v);
             }
@@ -276,8 +296,15 @@ class Sher_Core_Model_Tags extends Sher_Core_Model_Base  {
 
         if(!empty($temp_tags)){
             $temp_tags_model = new Sher_Core_Model_TempTags();
-            $temp_tags_model->record_count($evt, $temp_tags);
-        }     
+            $temp_tags_model->record_count($temp_tags, $evt);
+        }
+
+        // 更新情境分类
+        if(!empty($category_ids) && !empty($target_id)){
+            $category_ids = array_unique($category_ids);
+            $scene_sight_model = new Sher_Core_Model_SceneSight();
+            $scene_sight_model->update_category($target_id, $category_ids);
+        }
 
     }
 	

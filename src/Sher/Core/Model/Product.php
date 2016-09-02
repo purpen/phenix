@@ -14,6 +14,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_SHOP     = 9;
     const STAGE_EXCHANGE = 12;
     const STAGE_IDEA     = 15;
+    const STAGE_SCENE    = 16;
 	
     protected $schema = array(
 		'_id'     => null,
@@ -52,7 +53,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'banner_id' => '',
 		'asset' => array(),
 		# 附件图片数
-		'asset_count' => 0,
+        'asset_count' => 0,
+        # 去底图
+        'png_asset_ids' => array(),
 		
 		# 类别支持多选
 		'category_id' => 0,
@@ -293,8 +296,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+        'stick_on' => 0,
         # 精选
         'featured' => 0,
+        'featured_on' => 0,
 		# 是否成功案例产品
 		'okcase' => 0,
 
@@ -316,18 +321,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     'hatched' => 0,
     # 孵化产品封面
     'hatched_cover_url' => null,
+
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
 		'designer' => array('designer_id'  => 'Sher_Core_Model_User'),
-	    'cover' => array('cover_id' => 'Sher_Core_Model_Asset'),
 		'category' => array('category_id' => 'Sher_Core_Model_Category'),
+		'brand' => array('brand_id' => 'Sher_Core_Model_SceneBrands'),
 	);
 	
 	/**
@@ -363,6 +369,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
  		  $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
     }
 
+    // 封面图
+    $row['cover'] = $this->cover($row);
+    $row['banner'] = $this->banner($row);
+
 
         if(isset($row['vote_favor_count']) && isset($row['vote_oppose_count'])){
             $row['vote_count'] = $row['vote_favor_count'] + $row['vote_oppose_count'];
@@ -386,6 +396,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             }else if ($row['stage'] == self::STAGE_IDEA){
                 $row['stage_label'] = '产品灵感';
                 $row['idea'] = 1;
+            }else if ($row['stage'] == self::STAGE_SCENE){
+                $row['stage_label'] = '情境产品';
             }else{
                 $row['stage_label'] = '未设置1'; // 未知
             }
@@ -589,6 +601,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	protected function before_save(&$data) {
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+            $data['tags'] = array_keys(array_count_values($data['tags']));
 	    }
 
         // 库存数量不为能负数
@@ -741,6 +754,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	}
 
 	/**
+	 * 获取封面图
+	 */
+	public function cover(&$row){
+		// 已设置封面图
+		if(isset($row['cover_id']) && !empty($row['cover_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['cover_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_PRODUCT,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return null;
+	}
+
+	/**
 	 * 获取Banner图
 	 */
 	public function banner(&$row){
@@ -813,7 +848,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id) {
-        return $this->update_set((int)$id, array('stick' => 1));
+        return $this->update_set((int)$id, array('stick' => 1, 'stick_on'=>time()));
     }
 	
     /**
@@ -827,7 +862,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
      * 标记为精选
      */
     public function mark_as_featured($id) {
-        return $this->update_set((int)$id, array('featured' => 1));
+        return $this->update_set((int)$id, array('featured' => 1, 'featured_on'=>time()));
     }
 	
     /**

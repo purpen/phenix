@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist');
+	protected $filter_user_method_list = array('execute', 'getlist', 'expanded');
 
 	/**
 	 * 入口
@@ -20,19 +20,19 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	 */
 	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
-    $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
-    $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
-    $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
-    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
-    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
-    $asc = isset($this->stash['asc']) ? 1 : 0;
-    $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
+        $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 3;
+        $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+        $asc = isset($this->stash['asc']) ? 1 : 0;
+        $cid = isset($this->stash['cid']) ? (int)$this->stash['cid'] : 0;
 
 		if(empty($q)){
 			return $this->api_json('请输入关键词！', 3000);
 		}
 
-    $user_id = $this->current_user_id;
+    $current_user_id = $this->current_user_id;
 
     // 全文搜索/标签搜索
 
@@ -48,14 +48,18 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
     
     $result = Sher_Core_Util_XunSearch::search($q, $options);
     if($result['success']){
-      //$user_model = new Sher_Core_Model_User();
+      $user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
       $product_model = new Sher_Core_Model_Product();
       $topic_model = new Sher_Core_Model_Topic();
-      $scene_model = new Sher_Core_Model_SceneScene();
+      //$scene_model = new Sher_Core_Model_SceneScene();
       $scene_sight_model = new Sher_Core_Model_SceneSight();
-      $scene_product_model = new Sher_Core_Model_SceneProduct();
+      //$scene_product_model = new Sher_Core_Model_SceneProduct();
       $scene_context_model = new Sher_Core_Model_SceneContext();
+      $scene_subject_model = new Sher_Core_Model_SceneSubject();
+      $scene_brand_model = new Sher_Core_Model_SceneBrands();
+        $follow_model = new Sher_Core_Model_Follow();
+        $favorite_model = new Sher_Core_Model_Favorite();
 
       $asset_service = Sher_Core_Service_Asset::instance();
 
@@ -66,6 +70,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           $asset_obj = $asset_model->extend_load($v['cover_id']);
         }
 
+        //描述内容过滤
+        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
+
         $kind = $result['data'][$k]['kind'];
         $cid = $result['data'][$k]['cid'];
         $oid = $result['data'][$k]['oid'];
@@ -73,19 +80,19 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 
         // 产品
         if($kind=='Product'){ // 产品
-          if($cid==9){
-            $obj = $product_model->find_by_id((int)$oid);
+            $obj = $product_model->extend_load((int)$oid);
             // 商品不需要显示详情
             $result['data'][$k]['content'] = null;
             if($obj){
+              $result['data'][$k]['title'] = $obj['short_title'];
               $result['data'][$k]['market_price'] = $obj['market_price'];
               $result['data'][$k]['sale_price'] = $obj['sale_price'];
+              $result['data'][$k]['stage'] = $obj['stage'];
               $result['data'][$k]['tips_label'] = 0;
             }else{
               $result['data'][$k]['market_price'] = 0;
               $result['data'][$k]['sale_price'] = 0; 
             }
-          }
 
           // 图片尺寸
           if($asset_obj){
@@ -97,7 +104,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }
         
-        }elseif($kind=='Scene'){  // 情景
+        }elseif($kind=='Scene'){  // 地盘
+            /**
           $obj = $scene_model->load((int)$oid);
           $result['data'][$k]['address'] = '';
           if($obj){
@@ -108,8 +116,9 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['huge']['view_url'];
           }
-        
-        }elseif($kind=='Sight'){  // 场景
+
+             */
+        }elseif($kind=='Sight'){  // 情境
           $obj = $scene_sight_model->extend_load((int)$oid);
           if($obj){
             $result['data'][$k]['view_count'] = $obj['view_count'];
@@ -133,7 +142,21 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
               $user_info = array();
             }
             $result['data'][$k]['user_info'] = $user_info;
-          
+
+            // 用户是否点赞/收藏
+            $is_love = 0;
+            if($current_user_id){
+                $fav_query = array(
+                    'target_id' => $obj['_id'],
+                    'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                    'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                    'user_id' => $current_user_id
+                );
+                $has_love = $favorite_model->first($fav_query);
+                if($has_love) $is_love = 1;
+            }
+            $result['data'][$k]['is_love'] = $is_love;
+
           }
           // 图片尺寸
           if($asset_obj){
@@ -141,7 +164,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
         
         }elseif($kind=='SProduct'){ // 情景产品
-
+            /**
           // 图片尺寸
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
@@ -181,11 +204,59 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           }
           $result['data'][$k]['banners'] = $assets;
 
+             */
         }elseif($kind=='SContext'){ // 场景分享语境
           $scene_context = $scene_context_model->load($oid);
           if(!empty($scene_context)){
             $result['data'][$k]['des'] = $scene_context['des'];
           }
+        }elseif($kind=='SSubject'){ // 情境主题
+
+            $scene_subject = $scene_subject_model->load((int)$oid);       
+            if(!empty($scene_subject)){
+                $result['data'][$k]['title'] = $scene_subject['title'];
+                $result['data'][$k]['short_title'] = $scene_subject['short_title'];
+                $result['data'][$k]['short_title'] = $scene_subject['short_title'];
+                $result['data'][$k]['attend_count'] = $scene_subject['attend_count'];
+                $result['data'][$k]['view_count'] = $scene_subject['view_count'];
+                $result['data'][$k]['type'] = $scene_subject['type'];
+                $result['data'][$k]['begin_time_at'] = !empty($scene_subject['begin_time']) ? date('Y-m-d', $scene_subject['begin_time']) : '';
+                $result['data'][$k]['end_time_at'] = !empty($scene_subject['end_time']) ? date('Y-m-d', $scene_subject['end_time']) : '';
+            } 
+
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
+          }
+        
+        }elseif($kind=='SBrand'){   // 情境品牌
+            $scene_brand = $scene_brand_model->load($oid);       
+            if(!empty($scene_brand)){
+                $result['data'][$k]['title'] = $scene_brand['title'];
+                $result['data'][$k]['content'] = $scene_brand['des'];
+            }
+          
+          // 图片尺寸
+          if($asset_obj){
+            $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
+          }
+        }elseif($kind=='User'){     // 用户
+            $user = $user_model->extend_load((int)$oid);       
+            if(!empty($user)){
+                $result['data'][$k]['nickname'] = $user['nickname'];
+                $result['data'][$k]['summary'] = $user['summary']==null ? '' : $user['summary'];
+                $result['data'][$k]['avatar_url'] = $user['medium_avatar_url'];
+                $result['data'][$k]['is_export'] = isset($user['identify']['is_expert']) ? (int)$user['identify']['is_expert'] : 0;
+                $result['data'][$k]['label'] = isset($user['profile']['label']) ? $user['profile']['label'] : '';
+                $result['data'][$k]['expert_label'] = isset($user['profile']['expert_label']) ? $user['profile']['expert_label'] : '';
+                $result['data'][$k]['expert_info'] = isset($user['profile']['expert_info']) ? $user['profile']['expert_info'] : '';
+                $result['data'][$k]['is_follow'] = 0;
+                if($current_user_id){
+                    if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
+                        $result['data'][$k]['is_follow'] = 1;
+					}
+                }
+            }
         }
 
         // 获取用户信息
@@ -196,9 +267,6 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
           $result['data'][$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
         }
         */
-
-        //描述内容过滤
-        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
 
         // 获取对象属性
         $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($kind, $cid);
@@ -217,7 +285,24 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, $result);
 	}
 
+    /**
+     * 搜索建议
+     */
+    public function expanded(){
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+        $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+        if(empty($q)) {
+            return $this->api_json('缺少请求参数!', 3001);          
+        }
 
-	
+        $result = Sher_Core_Util_XunSearch::expanded($q, $size);
+
+        if($result['success']){
+		    return $this->api_json('请求成功', 0, $result);
+        }else{
+            return $this->api_json($result['msg'], 3002);       
+        }
+
+    }
 }
 

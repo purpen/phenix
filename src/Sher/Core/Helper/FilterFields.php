@@ -52,6 +52,22 @@ class Sher_Core_Helper_FilterFields {
             $data['expert_info'] = '';   
         }
 
+        if(!isset($data['interest_scene_cate'])){
+            $data['interest_scene_cate'] = array();
+        }
+
+        if(!isset($data['age_group'])){
+            $data['age_group'] = '';
+        }
+
+        if(!isset($data['assets'])){
+            $data['assets'] = '';
+        }
+
+        if(!isset($data['summary']) || empty($data['summary'])){
+            $data['summary'] = '';
+        }
+
         if(!isset($data['province_id'])){
             $data['province_id'] = 0;
         }
@@ -97,6 +113,7 @@ class Sher_Core_Helper_FilterFields {
           $data['identify']['is_scene_subscribe'] = 0;
           $data['identify']['is_expert'] = 0;
         }
+
 
         if(isset($data['counter'])){
           unset($data['counter']['notice_count']);

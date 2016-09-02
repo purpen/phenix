@@ -5,12 +5,12 @@
 {% endblock %}
 {% block jquery %}
 	$('#tags-form').form({
-		name: {
-			identifier  : 'name',
+		names: {
+			identifier  : 'names',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '名称不能为空'
+					prompt : '标签不能为空'
 				}
 			]
 		}
@@ -28,24 +28,19 @@
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_admin_base }}/tags" class="{{css_all_category}} item">全部列表</a>
 	  	<div class="right menu">
-			<a href="{{ app_url_admin_base }}/tags/edit" class="active item">
+			<a href="{{ app_url_admin_base }}/tags/edit" class="item">
 				+新增标签
 			</a>
-			<a href="{{ app_url_admin_base }}/tags/batch_add" class="item">
+			<a href="{{ app_url_admin_base }}/tags/batch_add" class="active item">
 				+批量添加
 			</a>
 	    </div>
 	</div>
 	
 	<div class="ui form segment">
-		{% if mode == 'create' %}
-		<h4>新增标签</h4>
-		{% else %}
-		<h4>编辑标签</h4>
-		{% endif %}
+		<h4>批量添加</h4>
 		
-		<form action="{{ app_url_admin_base }}/tags/save" class="ajax-form" method="post" id="tags-form">
-			<input type="hidden" name="id" value="{{ tag._id }}" />
+		<form action="{{ app_url_admin_base }}/tags/batch_save" class="ajax-form" method="post" id="tags-form">
 			<input type="hidden" name="return_url" value="{{ return_url }}" />
 
             <div class="five fields">
@@ -77,8 +72,9 @@
 				<input type="text" name="fid" value="{{ tag.fid }}" />
 			</div>	
 			<div class="field">
-			  	<label for="name">名称：</label>
-				<input type="text" name="name" value="{{ tag.name }}" />
+			  	<label for="names">名称：</label>
+                <textarea name="names"></textarea>
+                <div class="description">多个标签用,或;分隔</div>
 			</div>			
 			<input type="submit" class="ui active magenta button" value="确认保存">
 			<input type="button" class="ui gray cancel button" value="取消">

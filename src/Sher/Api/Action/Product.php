@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list', 'index_stick_list');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'comments', 'fetch_relation_product', 'product_category_stick', 'search', 'snatched_list', 'index_category_list', 'index_stick_list', 'index_new');
 
 	/**
 	 * 入口
@@ -101,7 +101,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
-      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
+      'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1,
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
@@ -119,7 +119,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
-		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+		$stage = isset($this->stash['stage']) ? $this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
+		$title = isset($this->stash['title']) ? $this->stash['title'] : null;
 
         // 3C类ID
 		$pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
@@ -154,8 +155,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
-		// 状态
-		$query['stage'] = $stage;
+        // 阶段
+        if($stage){
+            $stage_arr = explode(',', $stage);
+            for($i=0;$i<count($stage_arr);$i++){
+                $stage_arr[$i] = (int)$stage_arr[$i];
+            }
+            $query['stage'] = array('$in'=>$stage_arr);
+        }
+
 		// 已审核
 		$query['approved']  = 1;
 		// 已发布上线
@@ -164,6 +172,11 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		if($stick){
 			$query['stick'] = $stick;
 		}
+
+        // 模糊查标签
+        if(!empty($title)){
+            $query['title'] = array('$regex'=>$title);
+        }
 		
 		// 分页参数
         $options['page'] = $page;
@@ -262,7 +275,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'extra_info',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
@@ -294,13 +307,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['share_view_url'] = $data['wap_view_url'];
     $data['share_desc'] = $data['advantage'];
 
+    $asset_service = Sher_Core_Service_Asset::instance();
+
     //返回图片数据
     $assets = array();
     $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
     $asset_options['page'] = 1;
-    $asset_options['size'] = 10;
+    $asset_options['size'] = 5;
     $asset_options['sort_field'] = 'latest';
-    $asset_service = Sher_Core_Service_Asset::instance();
+
     $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
     if(!empty($asset_result['rows'])){
@@ -310,6 +325,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
     $data['asset'] = $assets;
     $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+    //返回褪底图片数据
+    $assets = array();
+    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>12);
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, array('url'=>$value['thumbnails']['hd']['view_url'],'width'=>$value['width'],'height'=>$value['height']));
+      }
+    }
+    $data['png_asset'] = $assets;
 		
 		// 验证是否还有库存
 		$data['can_saled'] = $model->app_can_saled($product);
@@ -357,16 +384,14 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     }
 
     // 品牌
-    $data['brand'] = '';
-    if(isset($data['brand_id']) && !empty($data['brand_id'])){
-        $brand_model = new Sher_Core_Model_SceneBrands();
-        $brand = $brand_model->extend_load($data['brand_id']);
-        if(!empty($brand)){
-            $data['brand']['_id'] = (string)$brand['_id'];
-            $data['brand']['title'] = $brand['title'];
-            $data['brand']['cover_url'] = $brand['cover']['thumbnails']['ava']['view_url'];
-        }
+    $brand = null;
+    if(isset($data['brand']) && !empty($data['brand'])){
+        $brand = array();
+        $brand['_id'] = (string)$data['brand']['_id'];
+        $brand['title'] = $data['brand']['title'];
+        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['ava']['view_url'];
     }
+    $data['brand'] = $brand;
 
     $data['extra_info'] = isset($data['extra_info']) ? $data['extra_info'] : '';
 
@@ -933,6 +958,40 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         
 		return $this->api_json('请求成功', 0, $result);
     }
+
+
+    /**
+    * 好货最好产品
+    *
+    */
+    public function index_new(){
+        $conf = Sher_Core_Util_View::load_block('fiu_product_new', 1);
+        $active_arr = array('items'=>array());
+        if(empty($conf)){
+            return $this->api_json('数据不存在!', 0, $active_arr); 
+        }
+		$product_model = new Sher_Core_Model_Product();
+        $arr = explode(',', $conf);
+        for($i=0;$i<count($arr);$i++){
+            $product = $product_model->extend_load((int)$arr[$i]);
+            if(empty($product)) continue;
+
+            $row = array();
+			$row['_id'] = $product['_id'];
+			$row['title'] = $product['short_title'];
+			// 封面图url
+			$row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+            $row['brand_id'] = isset($product['brand_id']) ? $product['brand_id'] : '';
+            $row['brand_cover_url'] = isset($product['brand']['cover']['thumbnails']['ava']['view_url']) ? $product['brand']['cover']['thumbnails']['ava']['view_url'] : '';
+            $row['sale_price'] = $product['sale_price'];
+            
+            array_push($active_arr['items'], $row);
+        } 
+
+        return $this->api_json('success', 0, $active_arr);
+    }
+
 	
 
 }

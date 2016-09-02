@@ -162,6 +162,24 @@
 		});
 	});
 
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
 {% endblock %}
 
 {% block content %}
@@ -172,11 +190,9 @@
         <a href="{{ app_url_app_admin_base }}/brands" class="item {{ css_all }}">
 			全部
 		</a>
-        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=1" class="item {{ css_fiu }}">
-			Fiu
-		</a>
+
         <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=2" class="item {{ css_store }}">
-		    Store
+		    App商城展示
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/brands/add" class="item">
@@ -199,21 +215,6 @@
 
 			<h3 class="ui dividing header">填写品牌信息</h3>
 
-            <h4 class="ui stage header">类型:</h4>
-            <div class="grouped inline fields">
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="kind" value="1" {% if date.kind == 1 %}checked="checked"{% endif %} /> 
-                  <label>Fiu</label>
-                </div>
-                <div class="ui radio checkbox">
-                  <input type="radio" name="kind" value="2" {% if date.kind == 2 %}checked="checked"{% endif %} /> 
-                  <label>Store</label>
-                </div>
-
-              </div>
-            </div>
-
             <div class="field">
                 <label>品牌名称</label>
                 <input type="text" name="title" placeholder="品牌名称" value="{{ date.title }}" />
@@ -230,20 +231,10 @@
             </div>
             -->
 
-            <h4 class="ui stage header">来源:</h4>
-            <div class="grouped inline fields">
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="from_to" value="1" {% if date.from_to == 1 %}checked="checked"{% endif %} /> 
-                  <label>官网</label>
-                </div>
-                <div class="ui radio checkbox">
-                  <input type="radio" name="from_to" value="2" {% if date.from_to == 2 %}checked="checked"{% endif %} /> 
-                  <label>用户</label>
-                </div>
-
-              </div>
-            </div>
+            <div class="field">
+                <label>标签</label>
+				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ date.tags_s }}" />
+			</div>
 
             <h4 class="ui stage header">是否自营:</h4>
             <div class="grouped inline fields">
@@ -255,6 +246,17 @@
                 <div class="ui radio checkbox">
                   <input type="radio" name="self_run" value="1" {% if date.self_run == 1 %}checked="checked"{% endif %} /> 
                   <label>是</label>
+                </div>
+
+              </div>
+            </div>
+
+            <h4 class="ui stage header">位置:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui checkbox">
+                  <input type="checkbox" name="kind" value="2" {% if date.kind == 2 %}checked="checked"{% endif %} /> 
+                  <label>在App商城展示</label>
                 </div>
 
               </div>

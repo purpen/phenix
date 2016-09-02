@@ -70,6 +70,20 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 		$this->stash['mode'] = $mode;
 		return $this->to_html_page('admin/tags/edit.html');
 	}
+
+    /**
+     * 批量添加
+     */
+    public function batch_add() {
+ 		// 判断左栏类型
+		$this->stash['show_type'] = "system";
+
+        // 记录上一步来源地址
+        $this->stash['return_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+	
+		return $this->to_html_page('admin/tags/batch_add.html');   
+        
+    }
 	
 	/**
 	 * 保存关键词
@@ -114,6 +128,66 @@ class Sher_Admin_Action_Tags extends Sher_Admin_Action_Base implements DoggyX_Ac
 			if(!$ok){
 				return $this->ajax_note('关键词保存失败,请重新提交', true);
 			}			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_note('关键词保存失败:'.$e->getMessage(), true);
+		}
+		
+        if(!$redirect_url){
+		    $redirect_url = Doggy_Config::$vars['app.url.admin'].'/tags';
+        }
+		
+		return $this->ajax_notification('关键词保存成功.', false, $redirect_url);
+	}
+
+	/**
+	 * 批量保存
+	 */
+	public function batch_save() {
+		// 验证数据
+		if(!isset($this->stash['names']) || empty($this->stash['names'])){
+			return $this->ajax_note('关键词不能为空！', true);
+		}
+
+        $redirect_url = isset($this->stash['return_url']) ? htmlspecialchars_decode($this->stash['return_url']) : null;
+
+        $data = array();
+        $names = $this->stash['names'];
+        $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+        $data['fid'] = isset($this->stash['fid']) ? (int)$this->stash['fid'] : 0;
+
+        //$data['apply_to']['default'] = isset($this->stash['apply_default']) ? 1 : 0;
+        $data['apply_to']['category'] = isset($this->stash['apply_category']) ? 1 : 0;
+
+        if(isset($this->stash['category_sight'])){
+            $data['category_ids']['sight'] = $this->stash['category_sight'];
+        }
+
+        if(isset($this->stash['category_product'])){
+            $data['category_ids']['scene_product'] = $this->stash['category_product'];       
+        }
+		
+
+        $name_arr = array_values(array_unique(preg_split('/[,，;；\s]+/u',$names)));
+        if(empty($name_arr)){
+ 		    return $this->ajax_note('关键词不能为空', true);           
+        }
+
+		try{
+		    $model = new Sher_Core_Model_Tags();
+
+            for($i=0;$i<count($name_arr);$i++){
+                $name = $name_arr[$i];
+                if(!$model->check_name($name)){
+                    continue;
+                }
+                $data['name'] = $name;
+			    $ok = $model->create($data);
+                if(!$ok){
+                    continue;
+                }	
+            
+            }   // endfor
+			
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_note('关键词保存失败:'.$e->getMessage(), true);
 		}

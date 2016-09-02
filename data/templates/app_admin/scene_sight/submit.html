@@ -103,25 +103,8 @@
 					prompt : '名称不能为空'
 				}
 			]
-		},
-		address: {
-			identifier  : 'address',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '地址不能为空'
-				}
-			]
-		},
-		lat: {
-			identifier  : 'lat',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '请选择地址'
-				}
-			]
 		}
+
 	}, {
 		inline : true,
 		onSuccess: function(event){
@@ -329,6 +312,11 @@
             <div class="field">
                 <label>标签</label>
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ sight.tags_s }}" />
+			</div>
+
+            <div class="field">
+                <label>参与的活动</label>
+				<input type="text" name="subject_ids" placeholder="参与的活动IDs" value="{{ sight.subject_ids_s }}" />
 			</div>
 
 			<div class="field" style="display:none;">

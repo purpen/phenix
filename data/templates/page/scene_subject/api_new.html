@@ -1,0 +1,251 @@
+{%extends 'layout/fiu.html'%}
+{% block page_css %}
+<style type="text/css">
+    html {
+        box-sizing: border-box;
+        font-family: sans-serif;
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+        font-size: 14px;
+        -webkit-tap-highlight-color:rgba(0,0,0,0);
+       -webkit-tap-highlight-color:transparent;
+    }
+    *, :after, :before {
+        box-sizing: inherit;
+    }
+    .ui.grid {
+        display: block;
+        text-align: left;
+        font-size: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        margin: -10px;
+    }
+    .ui.responsive.grid, .ui.wap {
+        margin: 0 auto;
+        padding: 0;
+        min-width: initial!important;
+    }
+    .ui.grid>.row {
+        display: block;
+        position: relative;
+        width: 100%!important;
+        padding: 10px 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        font-size: 0;
+    }
+    .ui.grid>.row>.column {
+        position: relative;
+        display: inline-block;
+        text-align: left;
+        font-size: 1rem;
+        padding-left: 10px;
+        padding-right: 10px;
+        vertical-align: top;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .ui.grid>.row>.column:only-child{
+        width: 100%;
+    }
+    .ui.banner{
+        background:url({{ scene_subject.banner.thumbnails.aub.view_url }}) center center no-repeat;
+        padding: 25.239% 0;
+        background-size:100%;
+        position: relative;
+    }
+    .ui.header{
+        font-weight: 400;
+    }
+    .ui.banner h3{
+        position: absolute;
+        height: 48px;
+        line-height: 45px;
+        letter-spacing: 2px;
+        color: #fff;
+        text-align: center;
+        left: 50%;
+        top: 50%;
+        margin: -24px 0 0;
+        font-size: 17px;
+        background: #000;
+        padding: 0 20px;
+        transform: translateX(-50%);
+        --webkit-transform: translateX(-50%);
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border-bottom: 3px solid #BE8914;
+    }
+    .pt-r{
+        padding-top: 8px !important;
+    }
+    .pt-0{
+        padding-top: 0 !important;
+    }
+    .title{
+        width: 100%;
+        background:#fff;
+        border-bottom:1px solid rgba(0,0,0,0.2);
+        position:relative;
+        padding:10px;
+    }
+    .title h3.ui.header{
+        color: #222;
+        font-size: 17px;
+        margin: 0;
+    }
+    .title .pricet{
+        color: #BE8914;
+        font-size: 16px;
+        float: right;
+        vertical-align: middle;
+        margin-top: 1px;
+    }
+    .course {
+        margin: 0px;
+        padding: 0px;
+    }
+    .cont {
+        word-break: break-all;
+        word-wrap: break-word;
+        padding-bottom: 10px;
+        color: #222;
+        font-size: 14px;
+    }
+    .cont img{
+        padding: 0;
+        width:100%;
+        vertical-align: middle;
+    }
+    .pingp{
+        position: relative;
+        margin-top: 5px;
+        margin-bottom: 0;
+        padding: 10px;
+        background:#fff;
+        border-top: 1px solid rgba(0,0,0,0.2);
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+    }
+    .pingp img{
+        display: inline-block;
+        margin-top: .14285em;
+        width: 50px;
+        height: 50px;
+        border-radius: 30px;
+        border: 1px solid rgba(0,0,0,0.1);
+        vertical-align: middle;
+    }
+    .pingp .content{
+        font-size: 14px;
+        font-weight: 400;
+        width: 100%;
+        padding-left: 70px;
+        display: block;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(0,-50%,0);
+        -webkit-transform: translate3d(0,-50%,0);
+        max-height: 72px;
+        overflow: hidden;
+        color: #222;
+        left: 0;
+        text-decoration: none;
+    }
+    .sub.header {
+        margin-top: 5px;
+        font-size: 12px ;
+        line-height: 16px;
+        color: #666;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .biaoq{
+        background-color: #fff;
+        padding: 10px;
+        border-bottom: 1px solid rgba(0,0,0,0.2);
+        margin-bottom: 10px;
+    }
+    .biao{
+        color: #BE8914;
+        font-size: 12px;
+        text-decoration: none;
+        padding: 0 3px;
+    }
+    .biaoq span{
+        font-size: 12px;
+        color: #565656;
+        padding-left: 5px;
+    }   
+
+	.gridster {
+		margin: 0 auto;
+		width: 100%;
+	}
+	
+	.gridster_ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+	}
+	
+	.gridster_ul li {
+		font-size: 1em;
+		font-weight: bold;
+		text-align: center;
+		line-height: 100%;
+		border: 1px;
+		position: relative;
+		float: left;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="hotpage">
+    <div class="ui banner">
+        <h3 class="ui header">{{ scene_subject.title }}</h3>
+    </div>
+    <div class="title">
+        <h3 class="ui header">{{ scene_subject.product.short_title }}<div class="pricet">¥{{ scene_subject.product.sale_price }}</div></h3>
+    </div>
+    <div class="ui responsive new grid pt-r">
+        <div class="row">
+            <div class="column">
+                {{ content }}
+            </div>
+        </div>
+    </div>
+    <div class="pingp">
+        <img src="{{ scene_subject.product.brand.cover.thumbnails.ava.view_url }}">
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=15&infoId={{scene_subject.product.brand._id}}" class="content">
+            {{ scene_subject.product.brand.title }}
+            <div class="sub header">
+                {{ scene_subject.product.brand.des }}
+            </div>
+        </a>
+    </div>
+    <div class="biaoq">
+        {% for d in scene_subject.tags %}
+        <a href="http://m.taihuoniao.com/guide/fiu?infoType=20&infoId=12&infoTag={{d}}" class="biao">＃{{ d }}</a>
+        {%endfor%}
+        <!--
+        <a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a><a href="" class="biao">＃办公</a>
+        <span>@AMD</span>
+        -->
+    </div>
+
+</div>
+{% endblock %}

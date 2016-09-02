@@ -1,0 +1,163 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+
+{% block layout_css %}
+	{% if css_use_bundle %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+	{% else %}
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+	{% endif %}
+{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+    .appiosload{
+    	display: none !important;
+    	visibility: hidden;
+    }
+	body{
+	   -webkit-tap-highlight-color:rgba(0,0,0,0);
+	   -webkit-tap-highlight-color:transparent;
+	}
+	*{
+		margin:0;
+		padding:0;
+	}
+	.course {
+		margin: 0px;
+		padding: 0px;
+	}
+	.cont {
+		word-break: break-all;
+		word-wrap: break-word;
+		padding-bottom: 10px;
+    	color: #222;
+    	font-size: 14px;
+	}
+	.cont p {
+	    line-height: 24px;
+	    margin-bottom: 20px;
+		margin-top: 0;
+	}
+	.cont p br {
+	    content: '';
+	    display: block;
+	    padding: 1px;
+	    margin-top: -20px;
+	}
+	.cont img{
+		padding: 0;
+		width:100%;
+		vertical-align: middle;
+	}
+	.cont a{
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		color: #f36;
+		cursor: pointer;
+		text-decoration: none;
+	}
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
+	.gridster {
+		margin: 0 auto;
+		width: 100%;
+	}
+	
+	.gridster_ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+        width: 100% !important;
+        height: 100% !important;
+        padding: 0 !important;
+	}
+	
+	.gridster_ul li {
+		font-size: 1em;
+		font-weight: bold;
+		text-align: center;
+		line-height: 100%;
+		border: 1px;
+		position: relative;
+		float: left;
+	}
+	
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+	
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+	
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
+    #mfrbird{
+    	margin: 0;
+    }
+</style>
+{% endblock %}
+{% block layout_js %}
+{% endblock %}
+{% block content %}
+<div id="postpage">
+    <section class="ui big block">
+        <div class="ui responsive grid">
+            <div class="row pt-0 pb-0">
+                <div class="column" style="padding:0;">
+                    <div class="ui big topic segment">
+                        <div class="ui title header">
+                            <div class="content">
+                                {{ scene_subject.title }}
+                            </div>
+                        </div>
+                        <h4 class="ui header authsub">
+                            <img class="ui mini circular image" src="{{ scene_subject.user.small_avatar_url }}"
+                            alt="{{ scene_subject.user.nickname }}" />
+                            <div class="content">
+                                <a class="ui magenta link" href="javascript:void(0);">
+                                    @{{ scene_subject.user.nickname }}
+                                </a>
+                                 &nbsp; {{ scene_subject.created_on|relative_datetime }}
+                                <div class="sub header">
+                                    浏览数: {{ scene_subject.view_count }} &nbsp; 回复数: {{ scene_subject.comment_count }}
+                                </div>
+                            </div>
+                        </h4>
+                        <div class="post froala-view froala-element clearfix">
+                            {{ content }}
+                        </div>
+
+                   	</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+{% endblock %}

@@ -1,6 +1,6 @@
 <?php
 /**
- * 情境商品/品牌关系表
+ * 商品/品牌关系表
  * @author caowei＠taihuoniao.com
  */
 class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
@@ -23,6 +23,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$sight_id = isset($this->stash['sight_id']) ? (int)$this->stash['sight_id'] : 0;
 		$product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		
 		$some_fields = array(
 			'_id'=>1, 'sight_id'=>1, 'product_id'=>1, 'product_kind'=>1, 'brand_id'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -39,7 +40,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		$query   = array();
 		$options = array();
 		
-		if(!$sight_id && !$product_id){
+		if(!$sight_id && !$product_id && !$brand_id){
 			return $this->api_json('请求失败，缺少必要参数!', 3001);
 		}
 		
@@ -49,6 +50,10 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 		
 		if($product_id){
 			$query['product_id'] = $product_id;
+		}
+
+		if($brand_id){
+			$query['brand_id'] = $brand_id;
 		}
 		
 		// 分页参数
@@ -71,15 +76,20 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       if(empty($product) || empty($sight)){
         //continue;
       }
+
+      $current_user_id = $this->current_user_id;
+
+		$favorite_model = new Sher_Core_Model_Favorite();
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
 			}
 			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
 
-      $data[$i]['product'] = array();
-      $data[$i]['sight'] = array();
+      $data[$i]['product'] = null;
+      $data[$i]['sight'] = null;
       if(!empty($product)){
         // 重建商品数据结果
+        $data[$i]['product'] = array();
         for($j=0;$j<count($product_some_fields);$j++){
           $product_key = $product_some_fields[$j];
           $data[$i]['product'][$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
@@ -103,6 +113,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
       }
 
       if(!empty($sight)){
+        $data[$i]['sight'] = array();
         // 过滤用户
         $user = array();
         
@@ -127,6 +138,23 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
         $data[$i]['sight']['title'] = $sight['title'];
         $data[$i]['sight']['address'] = $sight['address'];
         $data[$i]['sight']['scene_title'] = isset($sight['scene']) ? $sight['scene']['title'] : null;
+
+
+        // 用户是否点赞/收藏
+        $is_love = 0;
+        if($current_user_id){
+            $fav_query = array(
+                'target_id' => $sight['_id'],
+                'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SIGHT,
+                'event' => Sher_Core_Model_Favorite::EVENT_LOVE,
+                'user_id' => $current_user_id
+            );
+            $has_love = $favorite_model->first($fav_query);
+            if($has_love) $is_love = 1;
+
+        }
+        $data[$i]['sight']['is_love'] = $is_love;
+
       }
 
 		} // endfor

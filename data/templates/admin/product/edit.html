@@ -57,6 +57,17 @@
       text-decoration: none;
   }
 
+  #asset-png-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-png-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-png-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+
 </style>
 {% endblock %}
 
@@ -185,7 +196,7 @@
 			identifier  : 'stage',
 			rules: [
 				{
-					type   : 'empty',
+					type   : 'checked',
 					prompt : '产品阶段不能为空'
 				}
 			]
@@ -261,7 +272,7 @@
   var current_category_tags = $('#product-category-tags').val();
   if(current_category_id){
     // 加载该类别下的标签库
-    if(current_category_id){
+    if(current_category_id != 0){
       load_category_tag(current_category_id, current_category_tags); 
     }
   }
@@ -356,7 +367,7 @@
   // 初始化3C分类
   var current_pid_category_id = $('#app-pid-category').val();
   var current_app_category_id = $('#app-product-category').val();
-  if(current_pid_category_id){
+  if(current_pid_category_id != 0){
     // 加载该类别下的子分类
     load_sub_category(current_pid_category_id, current_app_category_id); 
   }
@@ -532,6 +543,38 @@
 		}
 	});
 
+  // 上传去底图
+	$('#phenix-png-uploader').fineUploader({
+		debug: false,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ png_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ png_asset_type }},'x:parent_id': '{{ product._id }}','file_id': '{{ png_pid }}' },
+        	endpoint: '{{ app_url_upload }}/product_png'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=3', {'id': '{{ product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
 	
 	// 设置封面图
 	$('#asset-list .ajax-cover').livequery(function(){
@@ -543,6 +586,20 @@
 			$(this).addClass('active');
 			
 			$('#product_cover_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置Banner封底面图
+	$('#asset-banner-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-banner-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#product_banner_id').val(id);
 			return false;
 		});
 	});
@@ -597,6 +654,27 @@
         todayButton:false    //关闭选择今天按钮
   });
 
+    // 标签
+    $('#tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
+    // 下拉搜索
+  $('.js-example-basic-single').select2();
+
 {% endblock %}
 
 {% block content %}
@@ -607,14 +685,25 @@
 		<a href="{{ app_url_admin_base }}/product" class="item">
 			全部
 		</a>
+        <!--
 		<a href="{{ app_url_admin_base }}/product?stage=1" class="{% if stage == 1 %}active{%endif%} item">
 			投票
 		</a>
 		<a href="{{ app_url_admin_base }}/product?stage=5" class="{% if stage == 5 %}active{%endif%} item">
 			预售
 		</a>
+        -->
 		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
 			商店
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=12" class="{% if stage == 12 %}active{%endif%} item">
+			积分兑换
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=15" class="{% if stage == 15 %}active{%endif%} item">
+			产品灵感
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=16" class="{% if stage == 16 %}active{%endif%} item">
+			情境产品
 		</a>
 	  	<div class="right menu">
 			{% if mode == 'edit' %}
@@ -634,21 +723,65 @@
 
     <input type="hidden" name="old_scene_ids_to_s" value="{{ product.scene_ids_to_s }}" />
     <input type="hidden" name="old_style_ids_to_s" value="{{ product.style_ids_to_s }}" />
+
 		
 		<div class="ui segment">
+
+            <div class="ui segment">
+			<h3 class="ui dividing header">产品当前阶段</h3>
+			<div class="grouped inline fields">
+				<div class="inline field">
+          <!--
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
+						<label>投票阶段</label>
+					</div>
+
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
+						<label>预售阶段</label>
+					</div>
+          -->
+
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
+						<label>商店销售 <small>直接商店销售</small></label>
+					</div>
+
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="12" {% if product.stage == 12 %}checked="checked"{% endif %} /> 
+						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
+					</div>
+
+          <!--
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="15" {% if product.stage == 15 %}checked="checked"{% endif %} /> 
+						<label>产品灵感 <small>非购买商品</small></label>
+					</div>
+          -->
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="16" {% if product.stage == 16 %}checked="checked"{% endif %} /> 
+						<label>情境产品 <small>非购买商品</small></label>
+					</div>
+				</div>
+			</div>
+
+        </div>
+
 		<div class="ui segment">
+
 			<h3 class="ui dividing header">基本信息</h3>
 			<div class="field">
-				<label>产品名称</label>
+				<label>名称</label>
 			  	<input type="text" name="title" value="{{ product.title }}" />
 			</div>
 			<div class="field">
-				<label>简短名称</label>
+				<label>短名称</label>
 			  	<input type="text" name="short_title" value="{{ product.short_title }}" />
                 <div class="description">简短名称用于移动端显示</div>
 			</div>
 			<div class="field">
-				<label>产品亮点</label>
+				<label>亮点</label>
 			  	<input type="text" name="advantage" value="{{ product.advantage }}" />
 			</div>
 			<div class="field">
@@ -657,38 +790,38 @@
 				<div class="description">设计师的用户ID</div>
 			</div>
 			<div class="field">
-				<label>产品简述</label>
+				<label>简述</label>
 			  	<textarea name="summary" class="small">{{ product.summary }}</textarea>
 				<div class="description">请详细的描述</div>
 			</div>
-			
-			<div class="field">
-				<label>产品标签</label>
-			  	<input type="text" name="tags" value="{{ product.tags_s }}" />
-				<div class="description">关键词之间使用“ ”、“,”或“;”隔开</div>
-			</div>
-			
+
 			<div class="field">
 				<label>产品链接</label>
 			  	<input type="text" name="view_url" value="{{ product.view_url }}" />
 			</div>
 
-      <div class="field">
-        <label for="video">视频链接</label>
-				{% if product.video %}
-					{% for video in product.video %}
-				  	<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
-					{% endfor %}
-				{% else %}
-					<input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
-				{% endif %}
-      </div>
+          <div class="field">
+            <label for="video">视频链接</label>
+                    {% if product.video %}
+                        {% for video in product.video %}
+                        <input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享" value="{{ video }}" />
+                        {% endfor %}
+                    {% else %}
+                        <input type="text" name="video[]" placeholder="支持优酷/腾讯视频分享：http://player.youku.com/embed/********* 链接格式" />
+                    {% endif %}
+          </div>
+			
+			<div class="field">
+				<label>产品标签</label>
+			  	<input type="text" id="tags" name="tags" value="{{ product.tags_s }}" />
+				<div class="description">关键词之间使用“ ”、“,”或“;”隔开</div>
+			</div>
 
       <div class="three fields">
         <div class="field">
           <label for="brand_id">所属品牌：</label>
 
-          {% scene_brands_list var:'brand_list' kind:2 page:1 size:1000 %}
+          {% scene_brands_list var:'brand_list' page:1 size:1000 %}
           <select name="brand_id" class="js-example-basic-single">
             <option value="">--无--</option>
             {% for d in brand_list.rows %}
@@ -797,43 +930,10 @@
     </div>
 
 			
-			<h3 class="ui dividing stage header">产品当前阶段</h3>
-			<div class="grouped inline fields">
-				<div class="inline field">
-          <!--
-					<div class="ui radio checkbox">
-						<input type="radio" name="stage" value="1" {% if product.stage == 1 %}checked="checked"{% endif %} /> 
-						<label>投票阶段</label>
-					</div>
 
-					<div class="ui radio checkbox">
-						<input type="radio" name="stage" value="5" {% if product.stage == 5 %}checked="checked"{% endif %} /> 
-						<label>预售阶段</label>
-					</div>
-          -->
-
-					<div class="ui radio checkbox">
-						<input type="radio" name="stage" value="9" {% if product.stage == 9 %}checked="checked"{% endif %} /> 
-						<label>商店销售 <small>直接商店销售</small></label>
-					</div>
-
-					<div class="ui radio checkbox">
-						<input type="radio" name="stage" value="12" {% if product.stage == 12 %}checked="checked"{% endif %} /> 
-						<label>积分兑换 <small>只可用于鸟币或鸟币+差价兑换</small></label>
-					</div>
-
-          <!--
-					<div class="ui radio checkbox">
-						<input type="radio" name="stage" value="15" {% if product.stage == 15 %}checked="checked"{% endif %} /> 
-						<label>产品灵感 <small>非购买商品</small></label>
-					</div>
-          -->
-				</div>
-			</div>
-			
+        <!--
 			<h3 class="ui dividing stage header">产品历属设置</h3>
 			<div class="inline field">
-        <!--
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_voted" {% if product.process_voted %}checked="checked"{% endif %} />
 		          	<label>投票</label>
@@ -842,18 +942,17 @@
 		          	<input type="checkbox" name="process_presaled" {% if product.process_presaled %}checked="checked"{% endif %} />
 		          	<label>预售</label>
 		        </div>
-            -->
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_saled" {% if product.process_saled %}checked="checked"{% endif %} />
 		          	<label>商店 <small class="ui magenta text">（可销售产品）</small></label>
 		        </div>
-            <!--
 				<div class="ui checkbox">
 		          	<input type="checkbox" name="process_idea" {% if product.process_idea %}checked="checked"{% endif %} />
 		          	<label>灵感 <small class="ui magenta text">（非购买商品）</small></label>
 		        </div>
-            -->
 			</div>
+
+            -->
 
 			<h3 class="ui stage header">高级设置</h3>
 			<div class="four fields">
@@ -1197,6 +1296,35 @@
 							<div class="image">
 								<img src="{{ asset.thumbnails.small.view_url }}" />
 								<input type="hidden" class="asset_id_list" name="banner_asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									<a href="javascript:void(0);" class="ui link ajax-banner {%if asset._id == product.banner_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="field">
+        <label>上传去底图: <small>图片尺寸: </small></label>
+			  	<div id="phenix-png-uploader"></div>
+			
+				<div id="asset-png-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'png_assets' parent_id:product._id asset_type:12 size:5 %}
+						{% for asset in png_assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="png_asset[]" value="{{ asset._id }}" />
 							</div>
 							<div class="buttons">
 								<div class="ui large links">

@@ -89,6 +89,35 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
 		if(!isset($row['mode'])){
 			$row['mode'] = self::MODE_TXTANDIMA;
 		}
+
+        switch($row['type']){
+            case 1:
+                $row['type_label'] = '链接';
+                break;
+            case 2:
+                $row['type_label'] = '商品';
+                break;
+            case 3:
+                $row['type_label'] = '关键词';
+                break;
+            case 4:
+                $row['type_label'] = '专题';
+                break;
+            case 5:
+                $row['type_label'] = '--';
+                break;
+            case 6:
+                $row['type_label'] = '评测';
+                break;
+            case 8:
+                $row['type_label'] = '情境(Fiu)';
+                break;
+            case 11:
+                $row['type_label'] = '专题(Fiu)';
+                break;
+            default:
+                $row['type_label'] = '';
+        }
     }
 	
 	/**

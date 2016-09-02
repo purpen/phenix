@@ -157,7 +157,7 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 	}
 
 	/**
-	 * 情境详情页面显示
+	 * 情境专题
 	 */
 	public function scene_subject_show(){
 		
@@ -167,10 +167,55 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_SceneSubject();
-		$result = $model->extend_load($id);
+		$scene_subject = $model->extend_load($id);
+
+        $type = $scene_subject['type'];
+
+        // 新品
+        $product = null;
+        if(!empty($scene_subject['product_id'])){
+            $product_model = new Sher_Core_Model_Product();
+            $product = $product_model->extend_load((int)$scene_subject['product_id']);
+        }
+        $scene_subject['product'] = $product;
+
+        // 促销
+        $product_arr = array();
+        if(!empty($scene_subject['product_ids'])){
+            $product_model = new Sher_Core_Model_Product();
+            for($i=0;$i<count($scene_subject['product_ids']);$i++){
+                $product = $product_model->extend_load($scene_subject['product_ids'][$i]);
+                if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                $row = array(
+                    '_id' => $product['_id'],
+                    'title' => $product['short_title'],
+                    'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                    'summary' => $product['summary'],
+                    'market_price' => $product['market_price'],
+                    'sale_price' => $product['sale_price'],
+                );
+                array_push($product_arr, $row);
+            }
+        }
+        $scene_subject['products'] = $product_arr;
+        
+
+        $this->stash['scene_subject'] = $scene_subject;
 		
-		$this->stash['content'] = $result['content'];
-		return $this->to_html_page('page/scene_subject/api_show.html');
+		$this->stash['content'] = $scene_subject['content'];
+
+        if($scene_subject['type']==1){
+            $tpl = 'page/scene_subject/api_show.html';
+        }elseif($scene_subject['type']==3){
+            $tpl = 'page/scene_subject/api_hot.html';       
+        }elseif($scene_subject['type']==4){
+            $tpl = 'page/scene_subject/api_new.html';
+        }elseif($scene_subject['type']==5){
+            $tpl = 'page/scene_subject/api_hot.html';            
+        }else{
+            $tpl = 'page/scene_subject/api_show.html';       
+        }
+		return $this->to_html_page($tpl);
 	}
 
 	/**
