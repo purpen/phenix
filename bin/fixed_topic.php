@@ -20,31 +20,43 @@ ini_set('memory_limit','512M');
 
 echo "Prepare to merge topic category...\n";
 
+
+$category = new Sher_Core_Model_Category();
+$topic = new Sher_Core_Model_Topic();
+
 // 合并子类别
 $categories = array(
+    // 产品评测
     array(
-        'old' => 21,
-        'new' => 59,
+        'old' => 18,
+        'new' => 114,
+    ),
+    // 七嘴八舌
+    array(
+        'old' => 19,
+        'new' => 115,
+    ),
+    // 深度解析
+    array(
+        'old' => 62,
+        'new' => 112,
+    ),
+    array(
+        'old' => 63,
+        'new' => 112,
+    ),
+    // 行业次讯
+    array(
+        'old' => 15,
+        'new' => 111,
     ),
     array(
         'old' => 16,
-        'new' => 59,
+        'new' => 111,
     ),
     array(
-        'old' => 60,
-        'new' => 61,
-    ),
-    array(
-        'old' => 19,
-        'new' => 61,
-    ),
-    array(
-        'old' => 24,
-        'new' => 15,
-    ),
-    array(
-        'old' => 28,
-        'new' => 15,
+        'old' => 17,
+        'new' => 111,
     ),
 );
 
@@ -56,7 +68,7 @@ for($i=0;$i<count($categories);$i++){
     $updated = array(
         'category_id' => (int)$cate['new'],
     );
-    $topic = new Sher_Core_Model_Topic();
+
     $ok = $topic->update_set($criteria, $updated, false, true, true);
     unset($topic);
 }
@@ -64,30 +76,15 @@ echo "Topic child category merge ok.\n";
 
 // 合并父类别
 $parent = array(
-    //硬道理/智囊团
+    //官网
     array(
-        'cid' => 59,
-        'fid' => 58,
+        'cid' => 60,
+        'fid' => 109,
     ),
-    //硬道理/智囊团
+    //用户
     array(
         'cid' => 61,
-        'fid' => 58,
-    ),
-    //最新动态
-    array(
-        'cid' => 15,
-        'fid' => 11,
-    ),
-    //活动吐槽
-    array(
-        'cid' => 27,
-        'fid' => 14,
-    ),
-    //产品专区
-    array(
-        'cid' => 18,
-        'fid' => 12,
+        'fid' => 110,
     ),
 );
 
@@ -99,11 +96,9 @@ for($i=0;$i<count($parent);$i++){
     $updated = array(
         'fid' => (int)$cate['fid'],
     );
-    $topic = new Sher_Core_Model_Topic();
     $ok = $topic->update_set($criteria, $updated, false, true, true);
     unset($topic);
     
-    $category = new Sher_Core_Model_Category();
     $ok = $category->update_set((int)$cate['cid'], array('pid'=>(int)$cate['fid']), false, true, true);
 }
 

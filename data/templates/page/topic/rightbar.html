@@ -18,7 +18,7 @@
     </div>
     
     <div class="fluid ui large vertical category menu">
-        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_comprehensive size:15 %}
+        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_official size:15 %}
         {% for cat in category.rows %}
             {% if cat.pid %}
             <a class="item" href="{{ cat.view_url }}">
@@ -38,7 +38,7 @@
     </div>
     
     <div class="fluid ui large vertical category menu">
-        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_product size:15 %}
+        {% category_list var:'category' only_open:1 domain:2 pid:topic_category_user size:15 %}
         {% for cat in category.rows %}
             {% if cat.pid %}
             <a class="item" href="{{ cat.view_url }}">

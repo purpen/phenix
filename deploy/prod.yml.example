@@ -123,10 +123,10 @@ app.high_admin_ids: '20448|10'
 # 评测报告类别
 app.try.report_category_id: 18
 
-# 话题综合版块ID
-app.topic_category_comprehensive: 16
-# 话题产品版块ID
-app.topic_category_product: 17
+# 话题官方版块ID
+app.topic_category_official: 16
+# 话题用户版块ID
+app.topic_category_user: 17
 
 app.url.action_base:    '{$app.domain.app}'
 
