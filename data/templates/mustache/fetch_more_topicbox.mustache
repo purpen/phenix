@@ -1,0 +1,33 @@
+{{#results.rows}}
+<div class="topicbox" id="{{ _id }}">
+    <a href="{{ view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+    {{^has_asset}}
+        {{#cover}}
+        <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}" />
+        {{/cover}}
+    {{/has_asset}}
+    {{#has_asset}}
+        <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}" />
+    {{/has_asset}}
+        <span class="flei">{{ category.title }}</span>
+    </a>
+    <div class="content">
+        <h2 class="title {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}">
+            <a href="{{ view_url }}" title="{{ title }}" class="ui line" target="_blank">
+                {{ attr_str }}
+                {{ title }}
+            </a>
+        </h2>
+        <p class="description">
+            {{ strip_description }}
+        </p>
+        <p class="author">
+            <span class="mesg">
+                <a href="{{ user.home_url }}" class="ui link">@{{ user.nickname }}</a>
+                <i class="time icon"></i>{{ r_created_on }}
+            </span>
+            <i class="unhide icon"></i> <span>{{ view_count }}</span> <i class="comments outline icon"></i> <span>{{ comment_count }}</span>
+        </p>
+    </div>
+</div>
+{{/results.rows}}

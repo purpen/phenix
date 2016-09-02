@@ -2,7 +2,7 @@
 {% cache cache_key:'topic_page_top_user' ttl:3600 disable_cache:app_disable_cached %}
 {% user_point_stat_list var:'top_user_list' sort:1 day:yesterday kind:1 state:1 page:1 size:20 %}
 {% if top_user_list.rows %}
-<div class="sellwrap">
+<div class="sellwrap rank">
 	<h2 class="block title">
 		活跃用户排行
 	</h2>

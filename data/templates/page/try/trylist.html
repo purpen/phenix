@@ -6,6 +6,147 @@
 </style>
 {% endblock %}
 {% block content %}
+<div class="ui topicnew-nav page">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui  link">话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui active link">免费试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui  link">活动</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui trypagenew page">
+    <div class="ui responsive grid">
+        <div class="row pt-0">
+            <div class="column">
+                <div class="container">
+                    <label><i class="cubes icon"></i>选项：</label>
+                    <div class="ui horizontal list">
+                      <a class="{% if step == 0 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=0">
+                            全部
+                        </a>
+                        <a class="{% if step == '-1' %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=-1">
+                           预热中
+                        </a>
+                        <a class="{% if step == 1 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=1">
+                            申请中
+                        </a>
+                        <a class="{% if step == 2 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=2">
+                            审核中
+                        </a>
+                        <a class="{% if step == 3 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=3">
+                            回收报告中
+                        </a>
+                        <a class="{% if step == 5 %}active{% endif %} item" href="{{ app_url_try }}/trylist?step=5">
+                            结束
+                        </a>
+                    </div>
+                </div>
+          </div>  
+        </div>
+        <div class="row">
+            <div class="column">
+                <div class="ui trycard three cards">
+                    {% try_list var:'list' ignore_id:try_latest.rows.0._id step_stat:step page:page state:1 size:12 %}
+                    {% for t in list.rows %}
+                    <div class="card">
+                        <div class="problock">
+                            <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" target="_blank">
+                                <img class="lazy" data-original="{{ t.cover.thumbnails.resp.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg" >
+                            </a>
+                            <div class="ribbons">
+                                {% if t.season %}
+                                <span class="ribbon season">
+                                    {{ t.kind_label }}
+                                </span>
+                                {%endif%}
+                                {%if t.step_stat == 0%}
+                                <span class="ribbon recoe">
+                                    预热中
+                                </span>
+                                {%endif%}
+                                {%if t.step_stat == 1%}
+                                <span class="ribbon apply">
+                                    申请中
+                                </span>
+                                {%endif%}
+                                {%if t.step_stat == 2%}
+                                <span class="ribbon recoe">
+                                    名单审核中
+                                </span>
+                                {%endif%}
+                                {%if t.step_stat == 3%}
+                                <span class="ribbon callback">
+                                    报告回收中
+                                </span>
+                                {%endif%}
+                                {%if t.step_stat == 5%}
+                                <span class="ribbon end">
+                                    已结束
+                                </span>
+                                {%endif%}
+                            </div>
+                            <div class="ui equal width center aligned padded grid">
+                                <div class="row">
+                                    {% if t.step_stat==0 %}
+                                    <div class="column">{{ t.want_count|default 0 }}人想要</div>
+                                    {%else%}
+                                    <div class="column">{{ t.try_count }}个产品</div>
+                                    <div class="column">{{ t.apply_count }}人申请</div>
+                                    {%endif%}
+                                </div>
+                            </div>
+                            <h2>
+                                <a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+                                    {{ t.title }}<br>{% if t.price %}¥{{ t.price }}{%endif%}
+                                </a>
+                            </h2>
+                            <div class="cats">
+                                {% if t.step_stat == 0 %}
+                                  预热中 敬请期待!
+                                {%endif%}
+                                {% if t.step_stat == 1 %}
+                                <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
+                                {%endif%}
+                                {% if t.step_stat == 2 %}
+                                <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
+                                {% if t.step_stat == 3 %}
+                                  {% if t.report_count==0 %}
+                                    <i class="tasks icon"></i> 试用报告正在回收中...
+                                  {%else%}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                  {%endif%}
+                                {% endif %}
+                                {% if t.step_stat == 5 %}
+                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                {% endfor %}
+                </div>
+                {% if list.total_rows %}
+                <div class="ui pagination">
+                    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                    {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<!--
 <div class="mainwrap social" id="triespage">
     <div class="social topstick">
 			<div class="ui three products cards">
@@ -215,5 +356,5 @@
     	{% endif %}
   		
   	</div>
-  </div>
+  </div>-->
 {% endblock %}

@@ -1,7 +1,8 @@
 
 <div class="card" id="item-{{ d._id }}">
     <div class="problock">
-        <a title="{{ d.title }}" href="{{ d.view_url }}" style="background-image: url({{ d.cover.thumbnails.hm.view_url }});" class="thumb" target="_blank">
+        <a title="{{ d.title }}" href="{{ d.view_url }}" class="thumb" target="_blank" style="padding-top: 59.524%;">
+        <img class="lazy" data-original="{{ d.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
         </a>
         <div class="ribbons">
             {% if d.from_to == 1 %}
