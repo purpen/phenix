@@ -1022,6 +1022,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
             $current_category = 0;
         }
 
+		// 产品分类
+		$this->stash['topic_category_product'] = Doggy_Config::$vars['app.topic_category_product'];
+
 		$this->stash['is_top'] = $is_top;
 		$this->stash['current_category'] = $current_category;
 		$this->stash['parent_category'] = $parent_category;
