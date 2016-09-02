@@ -293,13 +293,14 @@ h4 a.seemore{
 
 <!-- 社区推荐位 500x330 -->
 <div class="recommend-topic">
+	<!--
 	<div class="ui responsive grid">
 		<div class="row pb-0 pt-4r">
 			<div class="column">
 				<h4 class="ui header mb-2r">话题推荐</h4>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<div class="recom-item">
     {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
         
@@ -340,6 +341,7 @@ h4 a.seemore{
 </div>
 
 <!-- fiu -->
+<!--
 <div class="fiupage">
 	<div class="ui responsive grid">
 		<div class="row pb-0 pt-4r">
@@ -364,6 +366,7 @@ h4 a.seemore{
 		</div>
 	</div>
 </div>
+-->
 
 {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
 {% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
@@ -417,6 +420,7 @@ h4 a.seemore{
 			
 			</div>
 		</div>
+		<!--
 		<div class="row pb-0 pt-4r">
 			<div class="column">
 				<h4 class="ui header">太火鸟服务
@@ -427,7 +431,7 @@ h4 a.seemore{
 			<a href="{{ app_url_wap }}/incubator/service">
 				<img src="{{ app_url_packaged }}/images/fiu/fiufw.jpg" width="100%" align="absmiddle">
 			</a>
-		</div>
+		</div>-->
 		
 		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
 		{% for d in adbanner.rows %}
