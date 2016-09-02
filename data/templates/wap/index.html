@@ -59,6 +59,21 @@ h4 a.seemore{
 	top:15px;
 	left:10px;
 }
+.row.fiulist{
+	background: #fff;
+	margin-top: 7px; 
+}
+.row.fiulist p.colorbe{
+	color: #BE8914;
+	font-size: 12px;
+    padding-top: 10px;
+    margin-bottom: 5px;
+}
+.row.fiulist p{
+	font-size: 12px;
+    line-height: 20px;
+    margin-bottom: 4px;
+}
 </style>
 {% endblock %}
 
@@ -269,6 +284,13 @@ h4 a.seemore{
 
 <!-- 社区推荐位 500x330 -->
 <div class="recommend-topic">
+	<div class="ui responsive grid">
+		<div class="row pb-0 pt-4r">
+			<div class="column">
+				<h4 class="ui header mb-2r">话题推荐</h4>
+			</div>
+		</div>
+	</div>
 	<div class="recom-item">
     {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
         
@@ -306,6 +328,28 @@ h4 a.seemore{
 		
 	</div>
 	
+</div>
+
+<!-- fiu -->
+<div class="fiupage">
+	<div class="ui responsive grid">
+		<div class="row pb-0 pt-4r">
+			<div class="column">
+				<h4 class="ui header mb-2r">Fiu简介</h4>
+			</div>
+		</div>
+		<div class="row fiulist">
+			<div class="column pt-r">
+				<img src="{{ app_url_packaged }}/images/fiu/logo.png" width="75px">
+				<p class="colorbe">科技美学情境式电商</p>
+				<p>Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片电商平台。</p>
+				<p>Fiu浮游™通过大千世界碎片美的情境大片重构，为新中产的生活方式带来全新的诗意体验。</p>
+				<p class="pt-r">每个人心中都有一个不曾到过的美景，<br>
+				每个人心中都有一个不曾拥有的美物，<br>
+				Fiu浮游™带你发现美学科技的力量和感性生活的温度！</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
