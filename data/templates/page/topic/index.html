@@ -42,12 +42,50 @@
 {% endblock %}
 
 {% block jquery %} 
-    $('#minslider').flexslider({
-        animation: "fade",
-        controlNav: false,
-        slideshow: true,
-		slideshowSpeed: 4500,
-		animationDuration: 800,
+    var $frame = $('#fixedslide');
+    // Call Sly on frame
+    $frame.sly({
+        horizontal: 1,
+        itemNav: 'basic',
+        smart: 1,
+        activateMiddle: 1,
+        activateOn: 'click',
+        
+        // Automated cycling
+        cycleBy: "items",
+        cycleInterval: 3500,
+        pauseOnHover: 1,
+        
+        // Dragging
+        mouseDragging: 1,
+        touchDragging: 1,
+        releaseSwing: 1,
+        
+        prev: "#fixedslide .prev",
+        next: "#fixedslide .next",
+        
+        pagesBar: $frame.find('.pages'),
+        pageItem: 'items',
+        activatePageOn: 'click',
+        pageBuilder: function(index){
+            return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+        },
+        
+        // Mixed options
+        startAt: 0,
+        speed: 300,
+        elasticBounds: 1,
+        easing: 'easeInOutExpo',
+        dragHandle: 1,
+        dynamicHandle: 1,
+        clickBar: 1,
+    });
+    
+    $(window).resize(function() {
+        var s=$(window).width();
+        e("#fixedslide > .ui.slide > .item").width(s);
+        
+        $frame.sly('reload');
     });
 	
     // ajax加载签到数据
@@ -97,24 +135,24 @@
     </div>
 </div>
 <div class="ui topicnew page">
-    <div class="ui responsive grid slidebox">
-        <div class="row pt-0">
-            <div class="column">
-                {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
-                <div id="minslider" class="flexslider flex-single">
-                    <ul class="slides">                    
-                        {% for ad in adslide.rows %}
-                            <li style="background-image: url('{{ ad.cover.fileurl }}');">
-                                <a href="{{ ad.view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}" target="_blank">
-                                    <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
-                                </a>
-                            </li>
-                        {% endfor %}
-                      </ul>
+    <div id="fixedslide" class="frame" style="margin-bottom: 10px;">
+        {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+        <div class="ui slide">
+            {% for ad in adslide.rows %}
+            <div class="item">
+                <div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+                    <a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>
                 </div>
-                <div class="controls-dots"></div>
             </div>
+            {% endfor %}
         </div>
+        <div class="pages"></div>
+        <a class="prev" href="#">
+            <i class="angle left icon"></i>
+        </a>
+        <a class="next" href="#">
+            <i class="angle right icon"></i>
+        </a>
     </div>
     <div class="ui responsive grid">
         <div class="row">
