@@ -70,7 +70,6 @@ for($i=0;$i<count($categories);$i++){
     );
 
     $ok = $topic->update_set($criteria, $updated, false, true, true);
-    unset($topic);
 }
 echo "Topic child category merge ok.\n";
 
@@ -97,7 +96,6 @@ for($i=0;$i<count($parent);$i++){
         'fid' => (int)$cate['fid'],
     );
     $ok = $topic->update_set($criteria, $updated, false, true, true);
-    unset($topic);
     
     $ok = $category->update_set((int)$cate['cid'], array('pid'=>(int)$cate['fid']), false, true, true);
 }
@@ -117,7 +115,6 @@ for($i=0;$i<count($rows);$i++){
     }
     $category->update_set((int)$row['_id'], array('total_count' => (int)$total));
     
-    unset($topic);
 }
 
 echo "All category remath ok.\n";
