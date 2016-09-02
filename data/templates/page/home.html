@@ -396,7 +396,7 @@
             						{% if topic.published %}
                                         <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
                     						
-                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank" style="background-color: #eee;">
+                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank" style="background-color: #eee;height: 120px;">
                                                 {% if topic.cover %}
                     						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
                                                 <span class="flei">{{ topic.category.title }}</span>
