@@ -1,41 +1,1 @@
-
-<div class="card" id="item-{{ d._id }}">
-    <div class="problock">
-        <a title="{{ d.title }}" href="{{ d.view_url }}" class="thumb" target="_blank" style="padding-top: 59.524%;">
-        <img class="lazy" data-original="{{ d.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
-        </a>
-        <div class="ribbons">
-            {% if d.from_to == 1 %}
-            <a class="ribbon presale">十万火计</a>
-            {% endif %}
-            {% if d.from_to == 2 %}
-            <a class="ribbon presale">蛋年</a>
-            {% endif %}
-            {% if d.from_to == 3 %}
-            <a class="ribbon presale">奇思甬动</a>
-            {% endif %}
-            {% if d.from_to == 4 %}
-            <a class="ribbon presale">反向定制</a>
-            {% endif %}
-
-        </div>
-        <h2>
-            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">
-			    {{ d.title|truncate, 32, '' }}
-		    </a>
-        </h2>
-        <!--
-        <div class="excerpt">
-            <p></p>
-        </div>
-        -->
-        <div class="cats admin">
-            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ d._id }}">
-                <i class="edit icon"></i> 编辑
-            </a>
-            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ d._id }}">
-                <i class="remove icon"></i> 删除
-            </a>
-        </div>
-    </div>
-</div>
+<div class="card" id="item-{{ d._id }}">    <div class="problock">        <a title="{{ d.title }}" href="{{ d.view_url }}" class="thumb" target="_blank" style="padding-top: 59.524%;">        <img class="lazy" data-original="{{ d.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">        </a>        <div class="ribbons">            {% if d.from_to == 1 %}            <a class="ribbon presale">十万火计</a>            {% endif %}            {% if d.from_to == 2 %}            <a class="ribbon presale">蛋年</a>            {% endif %}            {% if d.from_to == 3 %}            <a class="ribbon presale">奇思甬动</a>            {% endif %}            {% if d.from_to == 4 %}            <a class="ribbon presale">反向定制</a>            {% endif %}        </div>        <h2>            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">			    {{ d.title|truncate, 32, '' }}		    </a>        </h2>        <!--        <div class="excerpt">            <p></p>        </div>        -->        <div class="cats admin">            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ d._id }}">                <i class="edit icon"></i> 编辑            </a>            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ d._id }}">                <i class="remove icon"></i> 删除            </a>        </div>    </div></div>

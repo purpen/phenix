@@ -53,7 +53,7 @@
                     {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
                     {% for active in old_list.rows %}
                     <div class="card">
-                        <a title="{{ active.title }}" href="{{ active.view_url }}" class="thumb bglazy" target="_blank" data-original="{{ active.cover.thumbnails.md.view_url }}" style="background-color: rgba(0,0,0,0.1);background-size: cover;">
+                        <a title="{{ active.title }}" href="{{ active.view_url }}" class="thumb bglazy" target="_blank" data-original="{{ active.cover.thumbnails.md.view_url }}" style="background-color: #eee;background-size: cover;">
                             <div class="ribbons">
                                 {% if active.step_stat == 2 %}
                                     <span class="ribbon end">已结束</span>
