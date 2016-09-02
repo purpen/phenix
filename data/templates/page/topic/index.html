@@ -42,6 +42,8 @@
 {% endblock %}
 
 {% block jquery %} 
+    var s = e(window).width();
+    e("#fixedslide > .ui.slide > .item").width(s);
     var $frame = $('#fixedslide');
     // Call Sly on frame
     $frame.sly({
