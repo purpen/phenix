@@ -326,6 +326,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         $model = new Sher_Core_Model_SceneSubject();
 		$model->inc_counter('share_count', 1, $id);
+		$model->inc_counter('true_share_count', 1, $id);
     	return $this->api_json('操作成功!', 0, array('id'=>$id));
     }
 	
