@@ -303,43 +303,6 @@
 	</div>
 </div>
 
-{% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
-{% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
-{% if tries.rows %}
-<!-- 试用推荐 -->
-<div class="games page try" id="triespage">
-	<div class="ui responsive grid">
-		<div class="row pb-0 pt-4r">
-			<div class="column">
-				<h4 class="ui header">免费试用
-				<a href="{{ app_url_wap }}/try" title="查看更多" class="ui seemore line link" >查看更多</a>
-				</h4>
-			</div>
-		</div>
-	 </div>
-     <div class="recom-item">
-      {% for d in tries.rows %}
-        <div class="recom-cell">
-          <a href="{{ d.wap_view_url }}" title="{{ d.short_title }}">
-            <img class="lazy" data-original="{{ d.cover.thumbnails.resp.view_url }}" alt="{{ d.short_title }}" src="{{ app_url_packaged }}/images/icon/load373-298.png">
-            <div class="desc">
-			  <h2>
-      			    {{ d.short_title }}
-              </h2>
-			  <div class="excerpt">
-	             <p>数量:<span class="count">{{ d.try_count}}</span>  申请人数:<span class="count">{{ d.apply_count }}</span>
-	             </p>
-	          </div>
-			  
-            </div>
-          </a>
-        </div>
-      {%endfor%}
-	</div>
-</div>
-{%endif%}
-{% endcache %}
-
 <!--商品-->
 <div id="mpresale">
 	<div class="ui responsive grid">
@@ -420,27 +383,7 @@
 			</a>
 		</div>
 		
-		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
-		{% for d in adbanner.rows %}
-		<div class="row ptb-r">
-			<div class="column p-0">
-				<a href="{{ d.view_url }}">
-					<img src="{{ d.cover.fileurl }}" title="{{ d.title }}" width="100%" align="absmiddle">
-				</a>
-			</div>
-		</div>
-		{%endfor%}
-		
 		<div class="row pt-r">
-			<div class="column p-0">
-				<a href="{{ app_url_wap }}/shop/shop" class="qbfl" title="全部分类">
-				<img src="{{ app_url_packaged }}/images/shopflbg.png" align="absmiddle">
-					<h3 class="ui header">全部分类</h3>
-				</a>
-			</div>
-		</div>
-		
-		<div class="row">
 			<div class="column">
 				<img src="{{ app_url_packaged }}/images/fiu/copyright.jpg" width="100%" align="absmiddle">
 			</div>
