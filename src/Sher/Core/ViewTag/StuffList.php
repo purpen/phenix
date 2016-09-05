@@ -102,8 +102,8 @@ class Sher_Core_ViewTag_StuffList extends Doggy_Dt_Tag {
 
     // 类型
     if($type){
-      if((int)$type==8){  // 十万火计、反向定制
-        $query['from_to'] = array('$in'=>array(1, 4));
+      if((int)$type==8){  // 十万火计、反向定制、奇思甬动
+        $query['from_to'] = array('$in'=>array(1, 4, 3, 6));
       }
     }
         
