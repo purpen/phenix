@@ -13,18 +13,24 @@ body{
 	border-bottom:  none;
 }
 .ui.horizontal.list >.item{
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 	vertical-align: bottom;
-	margin-left: 16px;
+	margin-left: 18px;
 }
 .ui.horizontal.list >.item:first-child,.ui.horizontal.list >.item:last-child{
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding-top: 12px;
+	padding-bottom: 12px;
 }
 .ui.horizontal.list >.item.active{
 	border-bottom: 1px solid #f36;
-	padding-bottom: 9px;
+	padding-bottom: 11px;
+}
+.ui.horizontal.list >.item.active>.ui.link{
+	color: #f36;
+}
+.ui.horizontal.list >.item>.ui.link{
+	color: #000;
 }
 </style>
 {% endblock %}
@@ -58,13 +64,13 @@ body{
 			<div class="ui center aligned column">
 				<div class="ui horizontal list">
                     <div class="item active">
-                        <a href="{{ app_url_wap }}/topic" class="ui active link">话题</a>
+                        <a href="{{ app_url_wap }}/topic" class="ui link">话题</a>
                     </div>
                     <div class="item">
                         <a href="{{ app_url_wap }}/try" class="ui link">免费试用</a>
                     </div>
                     <div class="item">
-                        <a href="{{ app_url_wap }}/active" class="ui  link">活动</a>
+                        <a href="{{ app_url_wap }}/active" class="ui link">活动</a>
                     </div>
                 </div>
 			</div>
