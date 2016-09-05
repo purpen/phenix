@@ -230,7 +230,7 @@
             </div>
             <div class="row white background">
                 <div class="column">
-                    <img src="{{ app_url_packaged }}/images/homelogo.png" width="144">
+                    <img src="{{ app_url_packaged }}/images/homelogo.png" width="144" height="60">
                     <p>Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片电商平台。<br>
                        Fiu浮游™通过大千世界碎片美的情境大片重构，为新中产的生活方式带来全新的诗意体验。</p>
                     <p>每个人心中都有一个不曾到过的美景，<br>
@@ -248,28 +248,24 @@
             <div class="row white fourcards">
                 <div class="column">
                     <div class="ui four cards">
-                        <div class="card">
-                            <img class="lazy" data-original="{{ app_url_packaged }}/images/fium1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium1.jpg">
                             <p>
                             科技美学
                             <span>质感碰撞性感的生活态度</span>
                             </p>
                         </div>
-                        <div class="card">
-                            <img class="lazy" data-original="{{ app_url_packaged }}/images/fium2.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium2.jpg">
                             <p>
                             情景体验
                             <span>大千世界碎片美的场景<br>
                             如大片呈现，内容好到尖叫<span>
                             </p>
                         </div>
-                        <div class="card">
-                            <img class="lazy" data-original="{{ app_url_packaged }}/images/fium3.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium3.jpg">
                             <p>社群互动
                             <span>发现同路人，并让分享变现原创价值</span></p>
                         </div>
-                        <div class="card">
-                            <img class="lazy" data-original="{{ app_url_packaged }}/images/fium4.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium4.jpg">
                             <p>地盘定位
                             <span>我的地盘我做主，开好店搞主题都随意</span></p>
                         </div>
@@ -396,7 +392,7 @@
             						{% if topic.published %}
                                         <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
                     						
-                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank" style="background-color: #eee;height: 120px;">
+                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
                                                 {% if topic.cover %}
                     						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
                                                 <span class="flei">{{ topic.category.title }}</span>
