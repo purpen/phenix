@@ -1,0 +1,97 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}社区{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body{
+	background:#fff;
+}
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
+
+</style>
+.topic-nav{
+	border-bottom:  none;
+}
+.ui.horizontal.list >.item{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	vertical-align: bottom;
+	margin-left: 16px;
+}
+.ui.horizontal.list >.item:first-child,.ui.horizontal.list >.item:last-child{
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+.ui.horizontal.list >.item.active{
+	border-bottom: 1px solid #f36;
+	padding-bottom: 9px;
+}
+{% endblock %}
+
+{% block layout_js %}
+	<script type="text/javascript" >
+
+	</script>
+
+{% endblock %}
+
+{% block jquery %}
+	$('#slider').flexslider({
+		animation: "slide",
+		directionNav: false, 
+		controlNav: true,
+		animationLoop: true,
+		slideshow: true,
+		slideshowSpeed: 5000,
+		animationDuration: 300,
+		animationSpeed: 300,
+    });
+	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+{% endblock %}
+{% block content %}
+<div class="topic-nav">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+                    <div class="item active">
+                        <a href="{{ app_url_wap }}/topic" class="ui active link">话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/try" class="ui link">免费试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/active" class="ui  link">活动</a>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui topicnew page">
+	{% ad_list var:'ad' state:2 size:5 name:'wap_index_slide' %}
+	<div id="slider" class="flexslider flex-single">
+	  <ul class="slides">
+	    {% for ad in ad.rows %}
+	      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+	        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+	            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+	        </a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+
+
+
+</div>
+
+
+{% endblock %}
+{% block templates %}
+  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+{% endblock %}
