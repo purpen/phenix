@@ -21,7 +21,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
         $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
-        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 3;
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
         $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
         $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
