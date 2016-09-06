@@ -95,10 +95,9 @@
             if(page==1){
                 $('#topic-box').html(rendered);
             }else{
-                $('#topic-box').append(rendered);
-
+                $('#topic-box').append(rendered);          
             }
-            $('#topic-more').before(rendered);
+            //$('#topic-more').before(rendered);
             if (rs.data.nex_page != 'no'){
                 $('#topic-more').data('status', 0);
                 $('#topic-more').data('page', page);
@@ -162,7 +161,8 @@
     html += '<div style="text-align:center;margin:10px auto;">';
     html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
     html += '</div>';
-    $('#topic-more').html(html).show();
+                
+    $('#topic-more').show();
     $('#topic-more').attr({'status': 0, 'page': 1});
     ajax_load_more(category_id, 1, type, sort);
   })
@@ -279,10 +279,10 @@
 			<div class="ui center aligned column">
 				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
 			        <div class="resultbox">
-                        <a href="javascript:void(0);" class="ui magenta inverted large more button">
-                           <i class="search icon"></i> 查看更多话题 
-                        </a>
-                    </div>
+			            <a href="javascript:void(0);" class="ui magenta inverted large more button">
+			               <i class="search icon"></i> 查看更多话题 
+			            </a>
+			        </div>
 			    </div>
 			</div>
 		</div>
