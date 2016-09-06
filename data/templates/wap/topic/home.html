@@ -162,17 +162,9 @@
     html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
     html += '</div>';
                 
-    $('#topic-more').html(html).show();
+    $('#topic-more').show();
     $('#topic-more').attr({'status': 0, 'page': 1});
     ajax_load_more(category_id, 1, type, sort);
-
-    var html2='';
-    html +='<div class="resultbox">'
-	html +='<a href="javascript:void(0);" class="ui magenta inverted large more button">'
-	html +='<i class="search icon"></i> 查看更多话题 '
-	html +='</a>'
-	html +='</div>'
-	$('#topic-more').html(html2).show();
   })
 
 {% endblock %}
