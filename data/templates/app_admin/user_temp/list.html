@@ -1,0 +1,191 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">品牌/产品临时库</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+        <a href="{{ app_url_app_admin_base }}/user_temp" class="item {{ css_all }}">
+			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/user_temp/get_list?type=1" class="item {{ css_product }}">
+		    产品
+		</a>
+        <a href="{{ app_url_app_admin_base }}/user_temp/get_list?type=2" class="item {{ css_brand }}">
+		    品牌
+		</a>
+
+	  	<div class="right menu">
+            <!--
+			<a href="{{ app_url_app_admin_base }}/user_temp/add" class="item">
+				<i class="add icon"></i>新增
+			</a>
+			<a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_app_admin_base }}/user_temp/get_list" id="search-form" method="get">
+			<label>搜索：</label>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <div class="default text">选择类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">产品</div>
+              <div class="item" data-value="2">品牌</div>
+            </div>
+          </div>
+			<div class="ui input">
+                <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
+                <input placeholder="情境ID" type="text" name="target_id" value="{{ target_id }}" />
+			</div>
+			<div class="ui input">
+                <input placeholder="标题" type="text" name="title" value="{{ title }}" />
+			</div>
+            <div class="ui input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>用户ID</th>
+                <th>情境ID</th>
+                <th>品牌ID</th>
+                <th>品牌名称</th>
+                <th>是否推荐</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% user_temp_list var:'list' page:page title:title type:type user_id:user_id target_id:target_id title:title page:page size:size %}
+
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				 <td>
+                  {{ d.title }}
+                </td>
+                <td>
+                    {% if d.type==1 %}
+                        产品
+                    {%endif%}
+                    {% if d.type==2 %}
+                        品牌
+                    {%endif%}
+                </td>
+                <td>{{ d.user_id }}</td>
+                <td>{{ d.target_id }}</td>
+                <td>{{ d.brand_id }}</td>
+                <td>{{ d.brand_name }}</td>
+                <td>
+ 					{% if d.stick == 1 %}
+					<label class="ui green label">是</label>
+                    {%else%}
+					<label class="ui orange label">否</label>
+					{% endif %}
+				</td>              
+
+				<td>
+					{% if d.status %}
+					可用
+					{% else %}
+                    不可用
+					{% endif %}
+                 </td>
+				<td>
+                    <!--
+                    {% if d.stick == 1 %}
+                    <a href="{{ app_url_app_admin_base }}/user_temp/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
+                    {% else %}
+                    <a href="{{ app_url_app_admin_base }}/user_temp/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
+                    {% endif %}
+					<a href="{{ app_url_app_admin_base }}/user_temp/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          	<a href="{{ app_url_app_admin_base }}/user_temp/delete?id={{ d._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+                    -->
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+    <label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}

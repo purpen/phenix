@@ -13,10 +13,11 @@ class Sher_Core_Model_UserTemp extends Sher_Core_Model_Base {
 		'title' => '',
         # 类型：1.产品；2.品牌
         'type' => 1,
-		'target_id' => 0,
+		'target_id' => null,
         # 是否启用
 		'status' => 1,
         'is_check' => 1,
+        'stick' => 0,
         'view_count' => 0,
         'user_id' => 0,
         'brand_id' => null,
@@ -24,7 +25,7 @@ class Sher_Core_Model_UserTemp extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'user_id', 'type');
+	protected $int_fields = array('status', 'user_id', 'type', 'stick');
 	protected $float_fields = array();
 	protected $counter_fields = array('view_count');
 	protected $retrieve_fields = array();

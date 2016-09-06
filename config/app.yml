@@ -170,6 +170,7 @@ app.dt.extension_lib.sher_app:
     'app_store_user_stat_list':'Sher_Core_ViewTag_AppStoreUserStatList'
     'app_fiu_user_stat_list':'Sher_Core_ViewTag_AppFiuUserStatList'
     'ip_black_list':'Sher_Core_ViewTag_IpBlackListList'
+    'user_temp_list':'Sher_Core_ViewTag_UserTempList'
   filters: []
 
 app.js.use_bundle: false
