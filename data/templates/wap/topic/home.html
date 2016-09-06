@@ -50,8 +50,6 @@
 .ui.inverted.magenta.button{
 	box-shadow: 0 0 0 1px #f36 inset!important;
     font-weight: 400;
-    background: rgba(0,0,0,0) !important;
-    color: #f36 !important;
 }
 </style>
 {% endblock %}
@@ -253,7 +251,7 @@
 			<div class="ui center aligned column">
 				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
 			        <div class="resultbox">
-			            <a href="javascript:void(0);" class="ui magenta inverted large more button">
+			            <a href="javascript:void(0);" class="ui magenta inverted large more button" style="background: rgba(0,0,0,0) !important;color: #f36 !important;">
 			               <i class="search icon"></i> 查看更多话题 
 			            </a>
 			        </div>
