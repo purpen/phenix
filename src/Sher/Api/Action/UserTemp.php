@@ -62,5 +62,36 @@ class Sher_Api_Action_UserTemp extends Sher_Api_Action_Base {
     }
 
 
+  /**
+   * 删除产品
+   */
+  public function deleted(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $user_id = $this->current_user_id;
+
+		try{
+			$user_temp_model = new Sher_Core_Model_UserTemp();
+			
+      $user_temp = $user_temp_model->load($id);
+      if(empty($user_temp)){
+        return $this->api_json('删除的内容不存在！', 3001);       
+      }
+      if($user_temp['user_id'] != $user_id){
+        return $this->api_json('没有权限！', 3002);        
+      }
+      
+      $user_temp_model->remove($id);
+      $user_temp_model->mock_after_remove($id, $user_temp);
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试', 3004);
+		}
+		return $this->api_json('删除成功！', 0, array('id'=>$id));
+  }
+
+
 }
 
