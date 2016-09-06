@@ -194,16 +194,24 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         $product = isset($this->data['product']) ? $this->data['product'] : array();
         if(count($product)){
           $product_model = new Sher_Core_Model_Product();
+          $user_temp_model = new Sher_Core_Model_UserTemp();
           foreach($product as $k => $v){
-            $product = $product_model->load((int)$v['id']);
-            if($product){
-              $data = array();
-              $data['sight_id'] = (int)$this->data['_id'];
-              $data['product_id'] = (int)$v['id'];
-              $data['product_kind'] = $product['stage'];
-              $data['brand_id'] = $product['brand_id'];
-              $model->create($data);
-            }
+              if(!isset($v['type']) continue;
+              if($v['type']==1){
+                  $user_temp = $user_temp_model->load((int)$v['id']);
+                  if(empty($user_temp)) continue;
+                  $user_temp_model->update_set((int)$v['id'], array('target_id'=>$this->data['_id']));
+              }elseif($v['type']==2){
+                $product = $product_model->load((int)$v['id']);
+                if(empty($product)) continue;
+                $data = array();
+                $data['sight_id'] = (int)$this->data['_id'];
+                $data['product_id'] = (int)$v['id'];
+                $data['product_kind'] = $product['stage'];
+                $data['brand_id'] = $product['brand_id'];
+                $model->create($data);
+              }
+
           } // endfor
 
         }
