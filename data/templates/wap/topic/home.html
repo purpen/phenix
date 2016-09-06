@@ -36,13 +36,76 @@ body{
 .ui.horizontal.list >.item>.ui.link{
 	color: #000;
 }
+
+#tmenu{
+  	width: 100%;
+  	height: 42px;
+  	overflow: hidden;
+	position:relative;
+	background:#fff;
+}
+#tmenu:before {
+	content: '';
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	height: 1px;
+	background: rgba(34,36,38,.15);
+}
+#tmenu .swiper-slide {
+	padding: 0 10px;
+	width:auto;
+	line-height: 42px;
+}
+#tmenu .swiper-slide a{
+	color: #5d6266;
+	text-decoration: none;
+	padding: 11px 10px;
+	font-weight: 400;
+	font-size: 14px;
+}
+.swiper-slide a.ui.active.item {
+    color: #f36 !important;
+}
+.swiper-slide a.ui.active.item:before{
+	content: '';
+	width: 58.333%;
+	height: 1px;
+	position: absolute;
+	bottom: 0;
+	left: 20.8335%;
+	background: #f36;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
 	<script type="text/javascript" >
+    var show_type = "{{ show_type }}";
+    var type = "{{ type }}";
+    var sort = "{{ sort }}";
 
-	</script>
+    // 话题加载
+    function ajax_load_topic(type, sort, page, size){
+        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
+        $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_page > rs.data.results.current_page){
+                $('#topic-more')
+                    .hide()
+                    .attr({'status': 0, 'page': rs.data.page});
+            }else{
+            $('#topic-more').html('<div style="text-align:center;">没有更多</div>').show();
+            }
+            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#topic-box').html(rendered);          
+            }else{
+              $('#topic-box').append(rendered);
+            }
+        }, 'json');
+    }
+  </script>
 
 {% endblock %}
 
@@ -59,6 +122,42 @@ body{
     });
 	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+	window.onload = function() {
+		var mySwiper2 = new Swiper('#tmenu',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+	}
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#topic-more').attr('status');
+      page = parseInt($('#topic-more').attr('page')) + 1;
+      category_id = $('#topic-more').attr('category_id');
+
+      if(stat==0){
+        ajax_load_topic(show_type, type, sort);
+      }
+　　}
+  });
+
+  // 初始加载
+  ajax_load_topic(show_type, type, sort);
+
+  // 选择分类
+  $('.childcell').click(function(){
+    $('.childcell').removeClass('active');
+    $(this).addClass('active');
+    show_type = $(this).attr('show_type');
+    $('#topic-more').attr('show_type', show_type);
+    $('#topic-box').html('');
+    ajax_load_topic( show_type, type, sort, 1);
+  });
 
 {% endblock %}
 {% block content %}
@@ -140,8 +239,41 @@ body{
 		
 	</div>
 
+	<div id="tmenu">
+		<div class="swiper-wrapper">
+			{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+	      <div class="swiper-slide">
+	        <a class="ui childcell item {%if category_id==0%}active{%endif%}" href="javascript:void(0);" show_type="0">全部话题</a>
+	      </div>
+			{% for cat in category.rows %}
+	      {% if cat.sub_count>0 %}
+	        <div class="swiper-slide">
+	           <a class="ui childcell item {%if category_id==cat._id%}active{%endif%}" href="javascript:void(0);" show_type="{{ cat._id }}">{{ cat.title }}</a>
+	        </div>
+	      {%endif%}
+			{% endfor %}
+		</div>
+	</div>
 
-</div>
+	<div class="ui responsive grid" style="padding:0;margin:0">
+		<div class="row" style="padding-top:0!important;">
+			<div class="column" style="padding:0;">
+				<div class="ui topiclist segment">
+						
+						<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
+              <!--ajax load-->
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="topic-more" category_id="{{ cid }}" page="1" status="0">
+        <div style="text-align:center;margin:10px auto;">
+          <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
+        </div>
+      </div>
+	</div>
 
 
 {% endblock %}
