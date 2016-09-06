@@ -82,27 +82,30 @@ body{
 
 {% block layout_js %}
 	<script type="text/javascript" >
-    var show_type = "{{ show_type }}";
+    var category_id = "{{ category_id }}";
     var type = "{{ type }}";
     var sort = "{{ sort }}";
-
-    // 话题加载
-    function ajax_load_topic(type, sort, page, size){
+    function ajax_load_more(category_id, page, type, time, sort){
         var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
-        $.get(url, { type:type, sort:sort, page:page, size:size }, function(rs){
-            if(rs.data.results.total_page > rs.data.results.current_page){
-                $('#topic-more')
-                    .hide()
-                    .attr({'status': 0, 'page': rs.data.page});
+        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
+            rs.data['phenix'] = phenix.url;
+            var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+            if(page==1){
+                $('#topic-box').html(rendered);
             }else{
-            $('#topic-more').html('<div style="text-align:center;">没有更多</div>').show();
+                $('#topic-box').append(rendered);          
             }
-            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
-            if(rs.data.page==1){
-              $('#topic-box').html(rendered);          
+            //$('#topic-more').before(rendered);
+            if (rs.data.nex_page != 'no'){
+                $('#topic-more').data('status', 0);
+                $('#topic-more').data('page', page);
+                $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }else{
-              $('#topic-box').append(rendered);
+                $('.ui.more.button').hide();
             }
+            $("div.bglazy").lazyload({
+                effect : "show"
+            });
         }, 'json');
     }
   </script>
@@ -130,34 +133,37 @@ body{
 	  });
 	}
 
-	//ajax加载更多(滚动条接近底部加载)
-  $(window).scroll(function(){
-　　var scrollTop = $(this).scrollTop();
-　　var scrollHeight = $(document).height();
-　　var windowHeight = $(this).height();
-　　if(scrollTop + windowHeight > scrollHeight-100){
-      var stat = $('#topic-more').attr('status');
-      page = parseInt($('#topic-more').attr('page')) + 1;
-      category_id = $('#topic-more').attr('category_id');
-
-      if(stat==0){
-        ajax_load_topic(show_type, type, sort);
-      }
-　　}
-  });
+  // 加载更多动态
+    $('.ui.more.button').bind('click',function(){
+        var stat = $('#topic-more').data('status');
+        var page = parseInt($('#topic-more').data('page')) + 1;
+        var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
+        if(stat == 0){
+            $('#topic-more').data('status', 1);
+            $('.ui.more.button').html('加载中...')
+            ajax_load_more(category_id, page,type,time,sort);
+        }
+    })
 
   // 初始加载
-  ajax_load_topic(show_type, type, sort);
+    ajax_load_more(category_id, 1, type, sort);
 
-  // 选择分类
+  // 标签切换
   $('.childcell').click(function(){
-    $('.childcell').removeClass('active');
     $(this).addClass('active');
-    show_type = $(this).attr('show_type');
-    $('#topic-more').attr('show_type', show_type);
-    $('#topic-box').html('');
-    ajax_load_topic( show_type, type, sort, 1);
-  });
+    $(this).parent().siblings().children().removeClass('active');
+    category_id = parseInt($(this).attr('category_id'));
+    sort = parseInt($(this).attr('show_sort'));
+    $('#topic-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+                
+    $('#topic-more').html(html).show();
+    $('#topic-more').attr({'status': 0, 'page': 1});
+    ajax_load_more(category_id, 1, type, sort);
+  })
 
 {% endblock %}
 {% block content %}
@@ -241,38 +247,35 @@ body{
 
 	<div id="tmenu">
 		<div class="swiper-wrapper">
-			{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+			{% category_list var:'category' only_open:1 domain:2 size:15 %}
 	      <div class="swiper-slide">
-	        <a class="ui childcell item {%if category_id==0%}active{%endif%}" href="javascript:void(0);" show_type="0">全部话题</a>
+	        <a class="ui childcell item {%if category_id==0%}active{%endif%}" href="javascript:void(0);">全部话题</a>
 	      </div>
+
 			{% for cat in category.rows %}
-	      {% if cat.sub_count>0 %}
+             {% if cat.pid %}
 	        <div class="swiper-slide">
-	           <a class="ui childcell item {%if category_id==cat._id%}active{%endif%}" href="javascript:void(0);" show_type="{{ cat._id }}">{{ cat.title }}</a>
+	           <a class="ui childcell item {%if category_id==cat._id%}active{%endif%}" href="javascript:void(0);" category_id={{ cat._id }}>{{ cat.title }}</a>
 	        </div>
 	      {%endif%}
 			{% endfor %}
 		</div>
 	</div>
 
-	<div class="ui responsive grid" style="padding:0;margin:0">
-		<div class="row" style="padding-top:0!important;">
-			<div class="column" style="padding:0;">
-				<div class="ui topiclist segment">
-						
-						<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
-              <!--ajax load-->
-						</div>
-				</div>
+	<div id="topic-box"><!--ajax-list--></div>
+
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="ui center aligned column">
+				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
+			        <div class="resultbox">
+			            <a href="javascript:void(0);" class="ui magenta inverted large more button">
+			               <i class="search icon"></i> 查看更多话题 
+			            </a>
+			        </div>
+			    </div>
 			</div>
 		</div>
-	</div>
-
-	<div id="topic-more" category_id="{{ cid }}" page="1" status="0">
-        <div style="text-align:center;margin:10px auto;">
-          <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
-        </div>
-      </div>
 	</div>
 
 
