@@ -57,6 +57,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
             }
             if(!empty($type_arr)){
 			    $query['type'] = array('$in'=>$type_arr);
+            }else{
+                $query['type'] = array('$ne'=>5);
             }
 		}
 		
