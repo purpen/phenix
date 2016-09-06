@@ -91,7 +91,7 @@
         var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
         $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
             rs.data['phenix'] = phenix.url;
-            var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(page==1){
                 $('#topic-box').html(rendered);
             }else{
