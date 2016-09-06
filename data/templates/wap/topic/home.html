@@ -2,9 +2,6 @@
 {% block title %}社区{% endblock %}
 {% block page_css %}
 <style type="text/css">
-body{
-	background:#fff;
-}
 #mfrbird{
 	margin-top:0;
 	margin-bottom:2em;
@@ -76,6 +73,11 @@ body{
 	bottom: 0;
 	left: 20.8335%;
 	background: #f36;
+}
+
+.ui.inverted.magenta.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+    font-weight: 400;
 }
 </style>
 {% endblock %}
@@ -201,48 +203,49 @@ body{
 	</div>
 	<!-- 话题推荐 -->
 	<div class="recommend-topic">
-	<div class="ui responsive grid">
-		<div class="row pb-0 pt-4r">
-			<div class="column">
-				<h4 class="ui header mb-2r">话题推荐</h4>
+		<div class="ui responsive grid">
+			<div class="row pb-0 pt-4r">
+				<div class="column">
+					<h4 class="ui header mb-2r">话题推荐</h4>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="recom-item">
-    {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
-        
-		{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
-        {% if adslide2.rows %}
-		
-		{% for ad in adslide2.rows %}
-		<div class="recom-cell">
-			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
-				<div class="desc">
-					{{ ad.title }}
-				</div>
-			</a>
+		<div class="recom-item">
+	    {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+	        
+			{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+	        {% if adslide2.rows %}
+			
+			{% for ad in adslide2.rows %}
+			<div class="recom-cell">
+				<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+					<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+					<div class="desc">
+						{{ ad.title }}
+					</div>
+				</a>
+			</div>
+			 {%endfor%}
+	         {%endif%}
+	         
+	         {% endcache %}
+			 
+	         {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+	         
+	         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
+			 {% for ad in adslide3.rows %}
+			<div class="recom-cell">
+				<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+					<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+					<div class="desc">
+	                        {{ ad.title }}
+	                </div>
+				</a>
+			</div>
+			{% endfor %}
+			{% endcache %}
+			
 		</div>
-		 {%endfor%}
-         {%endif%}
-         
-         {% endcache %}
-		 
-         {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
-         
-         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
-		 {% for ad in adslide3.rows %}
-		<div class="recom-cell">
-			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
-				<div class="desc">
-                        {{ ad.title }}
-                </div>
-			</a>
-		</div>
-		{% endfor %}
-		{% endcache %}
-		
 	</div>
 
 	<div id="tmenu">
@@ -262,10 +265,53 @@ body{
 		</div>
 	</div>
 
-	<div id="topic-box"><!--ajax-list--></div>
-
-	<div class="ui responsive grid">
-		<div class="row">
+	<div class="ui responsive grid" style="background: #fff;">
+		<div class="row ptb-0">
+			<div class="ui topics cards">
+				<div class="card group">
+					{% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
+	                
+	                <!--推荐话题-->
+	                {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:6 %}
+	                <div class="problock">
+						{% for topic in topics.rows %}
+							{% if topic.published %}
+	                            <div class="topicbox {% if loop.counter == 6 %}noborder{% endif %}">
+	        						
+	                                <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
+	                                    {% if topic.cover %}
+	        						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
+	                                    <span class="flei">{{ topic.category.title }}</span>
+	                                    {% endif %}
+	                                </a>
+	                                <div class="content">
+	                                    <h2>
+	                                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+	                            			    {{ topic.title }}
+	                            		    </a>
+	                                    </h2>
+	                                    <!--
+	                					<p class="description">
+	                						{{ topic.strip_description }}
+	                					</p>-->
+	                    
+	                    				<p class="author">
+	                                        <span class="mesg">
+	                                            <a href="javascript:void(0);" class="ui link">@{{ topic.user.nickname }}</a>
+	                                            <!--{{ topic.created_on|relative_datetime }}-->
+	                                        </span>
+	                                        <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+	                    				</p>
+	                                </div>
+	                            </div>
+	                        {% endif %}
+	                    {% endfor %}
+	                </div>
+	                {% endcache %}
+				</div>
+			</div>
+		</div>
+		<div class="row pb-4r pt-0">
 			<div class="ui center aligned column">
 				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
 			        <div class="resultbox">
