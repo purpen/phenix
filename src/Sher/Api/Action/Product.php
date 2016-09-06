@@ -389,7 +389,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $brand = array();
         $brand['_id'] = (string)$data['brand']['_id'];
         $brand['title'] = $data['brand']['title'];
-        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['ava']['view_url'];
+        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['huge']['view_url'];
     }
     $data['brand'] = $brand;
 
