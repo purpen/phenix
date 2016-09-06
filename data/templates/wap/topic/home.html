@@ -269,45 +269,9 @@
 		<div class="row ptb-0">
 			<div class="ui topics cards">
 				<div class="card group">
-					{% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
-	                
-	                <!--推荐话题-->
-	                {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:6 %}
-	                <div class="problock">
-						{% for topic in topics.rows %}
-							{% if topic.published %}
-	                            <div class="topicbox {% if loop.counter == 6 %}noborder{% endif %}">
-	        						
-	                                <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
-	                                    {% if topic.cover %}
-	        						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
-	                                    <span class="flei">{{ topic.category.title }}</span>
-	                                    {% endif %}
-	                                </a>
-	                                <div class="content">
-	                                    <h2>
-	                                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-	                            			    {{ topic.title }}
-	                            		    </a>
-	                                    </h2>
-	                                    <!--
-	                					<p class="description">
-	                						{{ topic.strip_description }}
-	                					</p>-->
-	                    
-	                    				<p class="author">
-	                                        <span class="mesg">
-	                                            <a href="javascript:void(0);" class="ui link">@{{ topic.user.nickname }}</a>
-	                                            <!--{{ topic.created_on|relative_datetime }}-->
-	                                        </span>
-	                                        <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-	                    				</p>
-	                                </div>
-	                            </div>
-	                        {% endif %}
-	                    {% endfor %}
+	                <div class="problock" id="topic-box">
+						
 	                </div>
-	                {% endcache %}
 				</div>
 			</div>
 		</div>
@@ -327,5 +291,5 @@
 
 {% endblock %}
 {% block templates %}
-  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topicnew.mustache' %}
 {% endblock %}
