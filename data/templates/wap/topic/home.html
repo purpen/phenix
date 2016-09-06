@@ -94,7 +94,7 @@
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(page==1){
                 $('#topic-box').html(rendered);
-                $('#topic-more').show();
+                $('#topic-more').html('<div class="resultbox">','<a href="javascript:void(0);" class="ui magenta inverted large more button">','<i class="search icon"></i> 查看更多话题 ','</a>','</div>');
             }else{
                 $('#topic-box').append(rendered);          
             }
@@ -162,9 +162,9 @@
     html += '<div style="text-align:center;margin:10px auto;">';
     html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
     html += '</div>';
+    $('#topic-more').html(html).show();
     $('#topic-more').attr({'status': 0, 'page': 1});
     ajax_load_more(category_id, 1, type, sort);
-    $('#topic-more').show();
   })
 
 {% endblock %}
