@@ -95,9 +95,10 @@
             if(page==1){
                 $('#topic-box').html(rendered);
             }else{
-                $('#topic-box').append(rendered);          
+                $('#topic-box').append(rendered);
+
             }
-            //$('#topic-more').before(rendered);
+            $('#topic-more').before(rendered);
             if (rs.data.nex_page != 'no'){
                 $('#topic-more').data('status', 0);
                 $('#topic-more').data('page', page);
@@ -135,21 +136,17 @@
 	  });
 	}
 
-  //ajax加载更多(滚动条接近底部加载)
-  $(window).scroll(function(){
-　　var scrollTop = $(this).scrollTop();
-　　var scrollHeight = $(document).height();
-　　var windowHeight = $(this).height();
-　　if(scrollTop + windowHeight > scrollHeight-100){
-      $('#topic-more').show();
-      var stat = $('#topic-more').attr('status');
-      page = parseInt($('#topic-more').attr('page')) + 1;
-
-      if(stat==0){
-        ajax_load_more(type, sort, page, 8);
-      }
-　　}
-  });
+  // 加载更多动态
+    $('.ui.more.button').bind('click',function(){
+        var stat = $('#topic-more').data('status');
+        var page = parseInt($('#topic-more').data('page')) + 1;
+        var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
+        if(stat == 0){
+            $('#topic-more').data('status', 1);
+            $('.ui.more.button').html('加载中...')
+            ajax_load_more(category_id, page,type,time,sort);
+        }
+    })
 
   // 初始加载
     ajax_load_more(category_id, 1, type, sort);
@@ -279,10 +276,14 @@
 			</div>
 		</div>
 		<div class="row pb-4r pt-0">
-			<div id="topic-more" page="1" status="0">
-				<div style="text-align:center;margin:10px auto;">
-				  <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
-				</div>
+			<div class="ui center aligned column">
+				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
+			        <div class="resultbox">
+                        <a href="javascript:void(0);" class="ui magenta inverted large more button">
+                           <i class="search icon"></i> 查看更多话题 
+                        </a>
+                    </div>
+			    </div>
 			</div>
 		</div>
 	</div>
