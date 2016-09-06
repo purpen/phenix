@@ -77,7 +77,7 @@ class Sher_Api_Action_UserTemp extends Sher_Api_Action_Base {
 			
       $user_temp = $user_temp_model->load($id);
       if(empty($user_temp)){
-        return $this->api_json('删除的内容不存在！', 3001);       
+        return $this->api_json('删除的内容不存在！', 3001);
       }
       if($user_temp['user_id'] != $user_id){
         return $this->api_json('没有权限！', 3002);        
