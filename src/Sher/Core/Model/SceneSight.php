@@ -191,12 +191,12 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         // 关联为场景产品关联表增加数据
         $model = new Sher_Core_Model_SceneProductLink();
 
-        $product = isset($this->data['product']) ? $this->data['product'] : array();
-        if(count($product)){
+        $products = isset($this->data['product']) ? $this->data['product'] : array();
+        if(count($products)){
           $product_model = new Sher_Core_Model_Product();
           $user_temp_model = new Sher_Core_Model_UserTemp();
-          foreach($product as $k => $v){
-              if(!isset($v['type']) continue;
+          foreach($products as $k => $v){
+              if(!isset($v['type'])) continue;
               if($v['type']==1){
                   $user_temp = $user_temp_model->load((int)$v['id']);
                   if(empty($user_temp)) continue;
