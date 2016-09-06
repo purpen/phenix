@@ -94,7 +94,7 @@
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(page==1){
                 $('#topic-box').html(rendered);
-                $('#topic-more').html('<div class="resultbox">','<a href="javascript:void(0);" class="ui magenta inverted large more button">','<i class="search icon"></i> 查看更多话题 ','</a>','</div>');
+                $('#topic-more').html('<div class="resultbox">','<a href="javascript:void(0);" class="ui magenta inverted large more button">','<i class="search icon"></i> 查看更多话题 ','</a>','</div>').show();
             }else{
                 $('#topic-box').append(rendered);          
             }
