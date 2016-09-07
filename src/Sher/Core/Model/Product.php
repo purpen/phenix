@@ -703,7 +703,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             // 更新品牌数量
             if(!empty($this->data['brand_id'])){
                 $brand_model = new Sher_Core_Model_SceneBrands();
-                $brand_model->inc_counter('used_count', 1, $this->data['brand_id']);
+                $brand_model->inc_counter('item_count', 1, $this->data['brand_id']);
                 unset($brand_model);
             }
             

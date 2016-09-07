@@ -97,6 +97,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             }
 
           // 图片尺寸
+            $result['data'][$k]['cover_url'] = '';
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
           }
@@ -239,6 +240,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             }
           
           // 图片尺寸
+            $result['data'][$k]['cover_url'] = '';
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }
