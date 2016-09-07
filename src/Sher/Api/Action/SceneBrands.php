@@ -184,6 +184,9 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
             $id = (string)$brand['_id'];       
         }
 
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig($id, 14);
+
         return $this->api_json('success', 0, array('id'=>$id));
     
     }
