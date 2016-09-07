@@ -107,6 +107,7 @@ public function __construct() {
     $t = isset($options['t'])?(int)$options['t']:0;
     $oid = isset($options['oid'])?(string)$options['oid']:0;
     $cid = isset($options['cid'])?(string)$options['cid']:0;
+    $tid = isset($options['tid'])?(string)$options['tid']:null;
     $type = isset($options['type'])?(int)$options['type']:0;
     // 网页版与APP版查询分开
     $from_to = isset($options['from_to'])?(int)$options['from_to']:1;
@@ -133,7 +134,11 @@ public function __construct() {
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 3:
-            $condition .= 'kind:Product (cid:9 OR cid:16) ';
+              if(!empty($tid)){
+                $condition .= sprintf('kind:Product (cid:9 OR cid:16) tid:%s ', $tid);
+              }else{
+                $condition .= 'kind:Product (cid:9 OR cid:16) ';
+              }
             $str_f = sprintf('%s%s', $condition, $str);
             break;
           case 6:

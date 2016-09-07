@@ -123,6 +123,7 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
       'kind' => 'Product',
       'oid' => $item['_id'],
       'cid' => $stage,
+      'tid' => $item['brand_id'],
       'title' => $item['title'],
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['content'])),
