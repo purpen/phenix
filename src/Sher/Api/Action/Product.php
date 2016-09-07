@@ -164,8 +164,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $query['stage'] = array('$in'=>$stage_arr);
         }
 
-		// 已审核
-		$query['approved']  = 1;
 		// 已发布上线
 		$query['published'] = 1;
 		
