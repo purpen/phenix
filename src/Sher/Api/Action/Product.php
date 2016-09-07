@@ -1041,6 +1041,38 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     
     }
 	
+  /**
+   * 删除
+   */
+  public function deleted(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $user_id = $this->current_user_id;
+
+		try{
+			$product_model = new Sher_Core_Model_Product();
+			
+      $product = $product_model->load($id);
+      if(empty($product)){
+        return $this->api_json('删除的内容不存在！', 3001);       
+      }
+      if($product['user_id'] != $user_id){
+        return $this->api_json('没有权限！', 3002);        
+      }
+      if($product['stage'] == 9){
+        return $this->api_json('不允许删除操作！', 3003);        
+      }
+      
+      $product_model->remove($id);
+      $product_model->mock_after_remove($id, $product);
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试', 3004);
+		}
+		return $this->api_json('删除成功！', 0, array('id'=>$id));
+  }
 
 }
 

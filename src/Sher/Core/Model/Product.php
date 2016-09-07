@@ -1240,7 +1240,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $options=array()) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
 		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(10,11,15))));
@@ -1250,6 +1250,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$comment = new Sher_Core_Model_Comment();
 		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_PRODUCT));
 		unset($comment);
+
+        // 删除商品情境关联表数据
+        $spl_model = new Sher_Core_Model_SceneProductLink();
+        $spl_list = $spl_model->find(array('product_id'=>(int)$id));
+        for($i=0;$i<count($spl_list);$i++){
+            $spl_model->remove((string)$spl_list[$i]['_id']);
+        }
 		
 		// 删除TextIndex
 		$textindex = new Sher_Core_Model_TextIndex();
