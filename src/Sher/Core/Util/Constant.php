@@ -172,7 +172,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_XUN_SEARCH_RECORD_SCENE_SUBJECT_UPDATE_IDS = 'xun_search_record_scene_subject_update_ids';
     const DIG_XUN_SEARCH_RECORD_SCENE_SUBJECT_FAIL_IDS = 'xun_search_record_scene_subject_fail_ids';
     # 搜索任务记录更新的对象ID,以便定时更新到索引-----情境品牌
-    const DIG_XUN_SEARCH_RECORD_SCENE_BRAND_UPDATE_IDS = 'xun_search_record_scene_context_update_ids';
+    const DIG_XUN_SEARCH_RECORD_SCENE_BRAND_UPDATE_IDS = 'xun_search_record_scene_brand_update_ids';
     const DIG_XUN_SEARCH_RECORD_SCENE_BRAND_FAIL_IDS = 'xun_search_record_scene_brand_fail_ids';
     # 搜索任务记录更新的对象ID,以便定时更新到索引-----用户
     const DIG_XUN_SEARCH_RECORD_USER_UPDATE_IDS = 'xun_search_record_user_update_ids';
