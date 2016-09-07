@@ -992,6 +992,54 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, $active_arr);
     }
 
+    /**
+     * 添加
+     */
+    public function submit(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $user_id = $this->current_user_id;
+        $title = isset($this->stash['title']) ? trim($this->stash['title']) : null;
+        $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
+        if(empty($title)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+		$model = new Sher_Core_Model_Product();
+
+        if(!$model->check_title($title)){
+            return $this->api_json('商品已存在!', 3002);
+        }
+
+        $row = array();
+        $row['title'] = $title;
+        $row['brand_id'] = $brand_id;
+        $row['from_to'] = 2;
+
+        if(empty($id)){
+            $row['user_id'] = $user_id;
+            $row['stage'] = 16;
+            $row['published'] = 1;
+            $ok = $model->apply_and_save($row);
+        }else{
+            $ok = $model->apply_and_update($row);
+        }
+
+        if(!$ok){
+            return $this->api_json('保存失败!', 3003);
+        }
+
+        if(empty($id)){
+            $product = $model->get_data();
+            $id = (string)$product['_id'];       
+        }
+
+        // 更新全文索引
+        if($row['published'] == 1){
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3);
+        }
+
+        return $this->api_json('success', 0, array('id'=>$id));
+    
+    }
 	
 
 }

@@ -39,12 +39,14 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'item_count' => 0,
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+        # 推荐时间
+        'stick_on' => 0,
         # 是否启用
 		'status' => 1,
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick_on');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
@@ -197,6 +199,20 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         // 删除索引
         Sher_Core_Util_XunSearch::del_ids('scene_brand_'.(string)$id);
 		
+		return true;
+	}
+
+	/**
+	 * 检测标题是否重复
+	 */
+	public function check_title($title, $type=1) {
+		if(empty($title)){
+			return false;
+		}
+		$row = $this->first(array('title' => (string)trim($title)));
+		if(!empty($row)){
+			return false;
+		}
 		return true;
 	}
 

@@ -321,11 +321,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     'hatched' => 0,
     # 孵化产品封面
     'hatched_cover_url' => null,
+    # 来源: 1.编辑；2.用户；3.--
+    'from_to' => 1,
 
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -1250,6 +1252,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     //删除索引
     Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
 		
+		return true;
+	}
+
+	/**
+	 * 检测标题是否重复
+	 */
+	public function check_title($title, $type=1) {
+		if(empty($title)){
+			return false;
+		}
+		$row = $this->first(array('title' => (string)$title));
+		if(!empty($row)){
+			return false;
+		}
 		return true;
 	}
 	
