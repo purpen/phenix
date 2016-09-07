@@ -33,7 +33,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'mark' => '',
         # 来源: 1.官方；2.用户
         'from_to' => 1,
-        # 点击次数
+        # 使用次数
         'used_count' => 0,
         # 产品数量
         'item_count' => 0,
