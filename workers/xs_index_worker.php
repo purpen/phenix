@@ -684,7 +684,7 @@ while(!$is_end){
             'pid' => 'scene_brand_'.(string)$item['_id'],
             'kind' => 'SBrand',
             'oid' => (string)$item['_id'],
-            'cid' => $item['kind'],
+            'cid' => $item['from_to'],
             'title' => $item['title'],
             'cover_id' => $item['cover_id'],
             'content' => strip_tags(htmlspecialchars_decode($item['des'])),
