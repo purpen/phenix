@@ -1,0 +1,267 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}社区{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+	margin-bottom:2em;
+}
+#tmenu{
+  	width: 100%;
+  	height: 42px;
+  	overflow: hidden;
+	position:relative;
+	background:#fff;
+}
+#tmenu:before {
+	content: '';
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+	left: 0;
+	height: 1px;
+	background: rgba(34,36,38,.15);
+}
+#tmenu .swiper-slide {
+	padding: 0 10px;
+	width:auto;
+	line-height: 42px;
+}
+#tmenu .swiper-slide a{
+	color: #5d6266;
+	text-decoration: none;
+	padding: 11px 10px;
+	font-weight: 400;
+	font-size: 14px;
+}
+.swiper-slide a.ui.active.item {
+    color: #f36 !important;
+}
+.swiper-slide a.ui.active.item:before{
+	content: '';
+	width: 58.333%;
+	height: 1px;
+	position: absolute;
+	bottom: 0;
+	left: 20.8335%;
+	background: #f36;
+}
+
+.ui.inverted.magenta.button{
+	box-shadow: 0 0 0 1px #f36 inset!important;
+    font-weight: 400;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script type="text/javascript" >
+    var category_id = "{{ category_id }}";
+    var type = "{{ type }}";
+    var sort = "{{ sort }}";
+    function ajax_load_more(category_id, page, type, time, sort){
+        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
+        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
+            rs.data['phenix'] = phenix.url;
+            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
+            if(page==1){
+                $('#topic-box').html(rendered);
+            }else{
+                $('#topic-box').append(rendered);          
+            }
+            //$('#topic-more').before(rendered);
+            if (rs.data.nex_page != 'no'){
+                $('#topic-more').data('status', 0);
+                $('#topic-more').data('page', page);
+                $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
+            }else{
+                $('.ui.more.button').hide();
+            }
+            $("div.bglazy").lazyload({
+                effect : "show"
+            });
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+{% block jquery %}
+	$('#slider').flexslider({
+		animation: "slide",
+		directionNav: false, 
+		controlNav: true,
+		animationLoop: true,
+		slideshow: true,
+		slideshowSpeed: 5000,
+		animationDuration: 300,
+		animationSpeed: 300,
+    });
+	var flexheight = Math.floor($('#mfrbird').width()*9/16)+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+	window.onload = function() {
+		var mySwiper2 = new Swiper('#tmenu',{
+		  freeMode : true,
+		  slidesPerView : 'auto',
+	  });
+	}
+
+  // 加载更多动态
+    $('.ui.more.button').bind('click',function(){
+        var stat = $('#topic-more').data('status');
+        var page = parseInt($('#topic-more').data('page')) + 1;
+        var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
+        if(stat == 0){
+            $('#topic-more').data('status', 1);
+            $('.ui.more.button').html('加载中...')
+            ajax_load_more(category_id, page,type,time,sort);
+        }
+    })
+
+  // 初始加载
+    ajax_load_more(category_id, 1, type, sort);
+
+  // 标签切换
+  $('.childcell').click(function(){
+    $(this).addClass('active');
+    $(this).parent().siblings().children().removeClass('active');
+    category_id = parseInt($(this).attr('category_id'));
+    sort = parseInt($(this).attr('show_sort'));
+    $('#topic-box').html(''); 
+    var html = '';
+    html += '<div style="text-align:center;margin:10px auto;">';
+    html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
+    html += '</div>';
+                
+    $('#topic-more').show();
+    $('#topic-more').attr({'status': 0, 'page': 1});
+    ajax_load_more(category_id, 1, type, sort);
+  })
+
+{% endblock %}
+{% block content %}
+<div class="topic-nav">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+                    <div class="item active">
+                        <a href="{{ app_url_wap }}/topic" class="ui link">话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/try" class="ui link">免费试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/active" class="ui link">活动</a>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="ui topicnew page">
+	{% ad_list var:'ad' state:2 size:5 name:'wap_topic_slide' %}
+	<div id="slider" class="flexslider flex-single">
+	  <ul class="slides">
+	    {% for ad in ad.rows %}
+	      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+	        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+	            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+	        </a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	<!-- 话题推荐 -->
+	<div class="recommend-topic">
+		<div class="ui responsive grid">
+			<div class="row pb-0 pt-4r">
+				<div class="column">
+					<h4 class="ui header mb-2r">话题推荐</h4>
+				</div>
+			</div>
+		</div>
+		<div class="recom-item">
+	    {% cache cache_key:'wap_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+	        
+			{% ad_list var:'adslide2' page:1 size:4 state:2 name:'web_index_product_stick_slide' %}
+	        {% if adslide2.rows %}
+			
+			{% for ad in adslide2.rows %}
+			<div class="recom-cell">
+				<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+					<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+					<div class="desc">
+						{{ ad.title }}
+					</div>
+				</a>
+			</div>
+			 {%endfor%}
+	         {%endif%}
+	         
+	         {% endcache %}
+			 
+	         {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
+	         
+	         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
+			 {% for ad in adslide3.rows %}
+			<div class="recom-cell">
+				<a href="{{ ad.view_url }}" title="{{ ad.title }}">
+					<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
+					<div class="desc">
+	                        {{ ad.title }}
+	                </div>
+				</a>
+			</div>
+			{% endfor %}
+			{% endcache %}
+			
+		</div>
+	</div>
+
+	<div id="tmenu">
+		<div class="swiper-wrapper">
+			{% category_list var:'category' only_open:1 domain:2 size:15 %}
+	      <div class="swiper-slide">
+	        <a class="ui childcell item {%if category_id==0%}active{%endif%}" href="javascript:void(0);">全部话题</a>
+	      </div>
+
+			{% for cat in category.rows %}
+             {% if cat.pid %}
+	        <div class="swiper-slide">
+	           <a class="ui childcell item {%if category_id==cat._id%}active{%endif%}" href="javascript:void(0);" category_id={{ cat._id }}>{{ cat.title }}</a>
+	        </div>
+	      {%endif%}
+			{% endfor %}
+		</div>
+	</div>
+
+	<div class="ui responsive grid" style="background: #fff;">
+		<div class="row ptb-0">
+			<div class="ui topics cards">
+				<div class="card group">
+	                <div class="problock" id="topic-box">
+						
+	                </div>
+				</div>
+			</div>
+		</div>
+		<div class="row pb-4r pt-0">
+			<div class="ui center aligned column">
+				<div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
+			        <div class="resultbox">
+			            <a href="javascript:void(0);" class="ui magenta inverted large more button" style="background: rgba(0,0,0,0) !important;color: #f36 !important;">
+			               <i class="search icon"></i> 查看更多话题 
+			            </a>
+			        </div>
+			    </div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
+{% block templates %}
+  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topicnew.mustache' %}
+{% endblock %}

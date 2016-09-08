@@ -74,15 +74,17 @@
 	  border-radius: 0;
 	}
 	.content .i-stats{
-		background: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0)),to(#fff 26%) repeat scroll 0 0 rgba(0,0,0,));
-		  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
-		  background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
-		  bottom: .5rem;
-		  left: 1rem;
-		  padding-top: 15px;
-		  position: absolute;
-		  right: 1rem;
-		}
+	background: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0)),to(#fff 26%) repeat scroll 0 0 rgba(0,0,0,));
+	  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  bottom: .5rem;
+	  left: 1rem;
+	  padding-top: 15px;
+	  position: absolute;
+	  right: 1rem;
+	}
+	#mfrbird{
+		margin-top: 0;
 	}
 </style>
 {% endblock %}
@@ -138,7 +140,26 @@
 {% endblock %}
 
 {% block content %}
-<div class='games page try' id="triespage">
+<div class="topic-nav">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/topic" class="ui link">话题</a>
+                    </div>
+                    <div class="item active">
+                        <a href="{{ app_url_wap }}/try" class="ui link">免费试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/active" class="ui link">活动</a>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='games page try mt-2r' id="triespage">
 	<div class="ui responsive grid">
 		<!--<div class="row">
 			<div class="column">

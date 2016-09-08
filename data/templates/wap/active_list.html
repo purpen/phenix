@@ -53,6 +53,9 @@
 	  top: .75rem;
 	  z-index: 9;
 	}
+	#mfrbird{
+		margin-top: 0;
+	}
 </style>
 {% endblock %}
 
@@ -103,7 +106,26 @@
 {% endblock %}
 
 {% block content %}
-<div class='active page' id="activitypage">
+<div class="topic-nav">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/topic" class="ui link">话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_wap }}/try" class="ui link">免费试用</a>
+                    </div>
+                    <div class="item active">
+                        <a href="{{ app_url_wap }}/active" class="ui link">活动</a>
+                    </div>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='active page mt-2r' id="activitypage">
 	<div class="ui responsive grid">
 		<!--<div class="row">
 			<div class="column">
