@@ -1,48 +1,1 @@
-<div class="card" id="product-{{ item.product._id }}">
-    <div class="problock">
-        <a title="{{ item.product.title }}" alt="{{ item.product.title }}" href="{{ item.product.view_url }}" class="thumb" target="_blank" style="padding-top: 59.524%;"><img class="lazy" data-original="{{ item.product.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-        <div class="ribbons">
-            {% if item.product.newest %}
-            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
-            {% endif %}
-            {% if item.product.hot %}
-            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
-            {% endif %}
-            {% if item.product.featured %}
-            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
-            {% endif %}
-            {% if item.product.stick %}
-            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
-            {% endif %}
-            {% if item.product.snatched %}
-            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
-            {% endif %}
-            {% if item.product.stage == 5 %}
-            <a class="ribbon presale" href="{{ app_url_sale }}" target="_blank">正在预售</a>
-            {% endif %}
-            {% if item.product.stage == 12 %}
-            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
-            {% endif %}
-        </div>
-        <h2>
-            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line" target="_blank">
-			    {{ item.product.title|truncate, 32, '' }}
-		    </a>
-        </h2>
-        <div class="excerpt">
-            <p>{{ item.product.advantage }}</p>
-        </div>
-        <div class="cats admin">
-            {% if box_type == 'fav' %}
-            <a class="ui pop favorite link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">
-                <i class="remove icon"></i> 取消关注
-            </a>
-            {% endif %}
-            {% if box_type == 'love' %}
-            <a class="ui pop love link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">
-                <i class="remove icon"></i> 取消点赞
-            </a>
-            {% endif %}
-        </div>
-    </div>
-</div>
+<div class="card" id="product-{{ item.product._id }}">    <div class="problock">        <a title="{{ item.product.title }}" alt="{{ item.product.title }}" href="{{ item.product.view_url }}" class="thumb" target="_blank" style="padding-top: 59.524%;"><img class="lazy" data-original="{{ item.product.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>        <div class="ribbons">            {% if item.product.newest %}            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>            {% endif %}            {% if item.product.hot %}            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>            {% endif %}            {% if item.product.featured %}            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>            {% endif %}            {% if item.product.stick %}            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>            {% endif %}            {% if item.product.snatched %}            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>            {% endif %}            {% if item.product.stage == 5 %}            <a class="ribbon presale" href="{{ app_url_sale }}" target="_blank">正在预售</a>            {% endif %}            {% if item.product.stage == 12 %}            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>            {% endif %}        </div>        <h2>            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line" target="_blank">			    {{ item.product.title|truncate, 32, '' }}		    </a>        </h2>        <div class="excerpt">            <p>{{ item.product.advantage }}</p>        </div>        <div class="cats admin">            {% if box_type == 'fav' %}            <a class="ui pop favorite link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">                <i class="remove icon"></i> 取消关注            </a>            {% endif %}            {% if box_type == 'love' %}            <a class="ui pop love link" href="javascript:void(0);" data-type="1" data-id="{{ item.product._id }}">                <i class="remove icon"></i> 取消点赞            </a>            {% endif %}        </div>    </div></div>

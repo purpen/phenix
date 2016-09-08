@@ -1,51 +1,1 @@
-<div class="card" id="product-{{ product._id }}">
-    <div class="problock">
-        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" class="thumb" target="_blank">
-            <img class="lazy" data-original="{{ product.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
-            {% if product.video %}
-            <span class="videomark">
-                <i class="icon video play"></i>
-            </span>
-            {% endif %}
-        </a>
-        <div class="ribbons">
-            {% if product.newest %}
-            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>
-            {% endif %}
-            {% if product.hot %}
-            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>
-            {% endif %}
-            {% if product.featured %}
-            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
-            {% endif %}
-            {% if product.stick %}
-            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
-            {% endif %}
-            {% if product.snatched %}
-            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
-            {% endif %}
-            {% if product.stage == 5 %}
-            <a class="ribbon presale" href="{{ app_url_shop }}/list-c0-t7-s0-p1" target="_blank">正在预售</a>
-            {% endif %}
-            {% if product.stage == 12 %}
-            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
-            {% endif %}
-        </div>
-        <h2>
-            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">
-			    {{ product.title|truncate, 32, '' }}
-		    </a>
-        </h2>
-        <div class="excerpt">
-            <p>{{ product.advantage }}</p>
-        </div>
-        <div class="cats admin">
-            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ product._id }}">
-                <i class="edit icon"></i> 编辑
-            </a>
-            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ product._id }}">
-                <i class="remove icon"></i> 删除
-            </a>
-        </div>
-    </div>
-</div>
+<div class="card" id="product-{{ product._id }}">    <div class="problock">        <a title="{{ product.title }}" alt="{%if product_alt_tag%}{{ product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ product.view_url }}" class="thumb" target="_blank">            <img class="lazy" data-original="{{ product.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">            {% if product.video %}            <span class="videomark">                <i class="icon video play"></i>            </span>            {% endif %}        </a>        <div class="ribbons">            {% if product.newest %}            <a class="ribbon newest" href="{{ app_url_shop }}/list-c0-t0-s0-p1" target="_blank">NEW</a>            {% endif %}            {% if product.hot %}            <a class="ribbon hot" href="{{ app_url_shop }}/list-c0-t0-s2-p1" target="_blank">HOT</a>            {% endif %}            {% if product.featured %}            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>            {% endif %}            {% if product.stick %}            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>            {% endif %}            {% if product.snatched %}            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>            {% endif %}            {% if product.stage == 5 %}            <a class="ribbon presale" href="{{ app_url_shop }}/list-c0-t7-s0-p1" target="_blank">正在预售</a>            {% endif %}            {% if product.stage == 12 %}            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>            {% endif %}        </div>        <h2>            <a href="{{ product.view_url }}" title="{{ product.title }}" class="ui line" target="_blank">			    {{ product.title|truncate, 32, '' }}		    </a>        </h2>        <div class="excerpt">            <p>{{ product.advantage }}</p>        </div>        <div class="cats admin">            <a class="ui pop edit link" href="javascript:void(0);" data-id="{{ product._id }}">                <i class="edit icon"></i> 编辑            </a>            <a class="ui pop remove link" href="javascript:void(0);" data-id="{{ product._id }}">                <i class="remove icon"></i> 删除            </a>        </div>    </div></div>

@@ -1,48 +1,1 @@
-<div class="card" id="product-{{ item.product._id }}">
-    <div class="problock">
-        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" class="thumb" target="_blank">
-        <img class="lazy" data-original="{{ item.product.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
-        </a>
-        <div class="ribbons">
-            {% if item.product.newest %}
-            <a class="ribbon xinpin" href="javascript:void(0);"></a>
-            <p class="ribbonp">新品</p>
-            {% endif %}
-            {% if item.product.hot %}
-            <a class="ribbon remai" href="javascript:void(0);"></a>
-            <p class="ribbonp">热卖</p>
-            {% endif %}
-            {% if item.product.featured %}
-            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>
-            {% endif %}
-            {% if item.product.stick %}
-            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>
-            {% endif %}
-            {% if item.product.snatched %}
-            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>
-            {% endif %}
-            {% if item.product.stage == 5 %}
-            <a class="ribbon presale" href="{{ app_url_sale }}" target="_blank">正在预售</a>
-            {% endif %}
-            {% if item.product.stage == 12 %}
-            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>
-            {% endif %}
-        </div>
-        <h2>
-            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line" target="_blank">
-			    {{ item.product.title|truncate, 32, '' }}
-		    </a>
-        </h2>
-        <div class="excerpt">
-            <p>{{ item.product.advantage }}</p>
-        </div>
-        <div class="cats">
-            {% if item.product.sale_price %}
-            <i class="yen icon"></i>{{ item.product.sale_price }}
-            {% endif %}
-        </div>
-        <span class="counter">
-            <i class="heart icon"></i> {{ item.product.love_count }}
-        </span>
-    </div>
-</div>
+<div class="card" id="product-{{ item.product._id }}">    <div class="problock">        <a title="{{ item.product.title }}" alt="{%if item.product_alt_tag%}{{ item.product.tags.0 }}-太火鸟智能硬件商店{%else%}{{ item.product.title }}-太火鸟智能硬件商店{%endif%}" href="{{ item.product.view_url }}" class="thumb" target="_blank">        <img class="lazy" data-original="{{ item.product.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">        </a>        <div class="ribbons">            {% if item.product.newest %}            <a class="ribbon xinpin" href="javascript:void(0);"></a>            <p class="ribbonp">新品</p>            {% endif %}            {% if item.product.hot %}            <a class="ribbon remai" href="javascript:void(0);"></a>            <p class="ribbonp">热卖</p>            {% endif %}            {% if item.product.featured %}            <a class="ribbon featured" href="{{ app_url_shop }}/list-c0-t5-s0-p1" target="_blank">编辑精选</a>            {% endif %}            {% if item.product.stick %}            <a class="ribbon stick" href="{{ app_url_shop }}/list-c0-t4-s0-p1" target="_blank">店长推荐</a>            {% endif %}            {% if item.product.snatched %}            <a class="ribbon snatched" href="{{ app_url_shop }}/list-c0-t6-s0-p1" target="_blank">限时抢购</a>            {% endif %}            {% if item.product.stage == 5 %}            <a class="ribbon presale" href="{{ app_url_sale }}" target="_blank">正在预售</a>            {% endif %}            {% if item.product.stage == 12 %}            <a class="ribbon exchange" href="{{ app_url_shop }}/list-c0-t3-s0-p1" target="_blank">积分兑换</a>            {% endif %}        </div>        <h2>            <a href="{{ item.product.view_url }}" title="{{ item.product.title }}" class="ui line" target="_blank">			    {{ item.product.title|truncate, 32, '' }}		    </a>        </h2>        <div class="excerpt">            <p>{{ item.product.advantage }}</p>        </div>        <div class="cats">            {% if item.product.sale_price %}            <i class="yen icon"></i>{{ item.product.sale_price }}            {% endif %}        </div>        <span class="counter">            <i class="heart icon"></i> {{ item.product.love_count }}        </span>    </div></div>

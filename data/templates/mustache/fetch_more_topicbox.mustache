@@ -3,11 +3,11 @@
     <a href="{{ view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
     {{^has_asset}}
         {{#cover}}
-        <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}" />
+        <div class="ui image bglazy" data-original="{{ cover.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
         {{/cover}}
     {{/has_asset}}
     {{#has_asset}}
-        <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}" />
+        <div class="ui image bglazy" data-original="{{ cover.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
     {{/has_asset}}
         <span class="flei">{{ category.title }}</span>
     </a>

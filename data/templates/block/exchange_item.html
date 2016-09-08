@@ -1,45 +1,1 @@
-<div class="card" id="product-{{ d._id }}">
-    <div class="problock">
-        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" class="thumb">
-        <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
-        </a>
-        <div class="ribbons">
-            {% if d.newest %}
-            <a class="ribbon newest" href="{{ app_url_shop }}/collections/newest" target="_blank">NEW</a>
-            {% endif %}
-            {% if d.hot %}
-            <a class="ribbon hot" href="{{ app_url_shop }}/collections/hot" target="_blank">HOT</a>
-            {% endif %}
-            {% if d.featured %}
-            <a class="ribbon featured" href="{{ app_url_shop }}/collections/featured" target="_blank">精选</a>
-            {% endif %}
-            {% if d.stick %}
-            <a class="ribbon stick" href="{{ app_url_shop }}/collections/stick" target="_blank">推荐</a>
-            {% endif %}
-            {% if d.snatched %}
-            <a class="ribbon snatched" href="{{ app_url_shop }}/collections/snatched" target="_blank">限时抢购</a>
-            {% endif %}
-            {% if d.stage == 12 %}
-            <a class="ribbon exchange" href="{{ app_url_shop }}/pmall" target="_blank">积分兑换</a>
-            {% endif %}
-        </div>
-        <h2>
-            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line">
-			    {{ d.title|truncate, 32, '' }}
-		    </a>
-        </h2>
-        <div class="excerpt">
-            <p>{{ d.advantage }}</p>
-        </div>
-        <div class="cats">
-            {% if d.exchange_price %}
-            兑换价：<small>￥</small>{{ d.exchange_price }} + {{ d.max_bird_coin }}鸟币
-            {%else%}
-            所需鸟币：{{ d.max_bird_coin }}
-            {%endif%}
-        </div>
-        <span class="counter" style="right: 20px;">
-            <i class="heart icon"></i> {{ d.love_count }}
-        </span>
-    </div>
-</div>
+<div class="card" id="product-{{ d._id }}">    <div class="problock">        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" class="thumb">        <img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">        </a>        <div class="ribbons">            {% if d.newest %}            <a class="ribbon newest" href="{{ app_url_shop }}/collections/newest" target="_blank">NEW</a>            {% endif %}            {% if d.hot %}            <a class="ribbon hot" href="{{ app_url_shop }}/collections/hot" target="_blank">HOT</a>            {% endif %}            {% if d.featured %}            <a class="ribbon featured" href="{{ app_url_shop }}/collections/featured" target="_blank">精选</a>            {% endif %}            {% if d.stick %}            <a class="ribbon stick" href="{{ app_url_shop }}/collections/stick" target="_blank">推荐</a>            {% endif %}            {% if d.snatched %}            <a class="ribbon snatched" href="{{ app_url_shop }}/collections/snatched" target="_blank">限时抢购</a>            {% endif %}            {% if d.stage == 12 %}            <a class="ribbon exchange" href="{{ app_url_shop }}/pmall" target="_blank">积分兑换</a>            {% endif %}        </div>        <h2>            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line">			    {{ d.title|truncate, 32, '' }}		    </a>        </h2>        <div class="excerpt">            <p>{{ d.advantage }}</p>        </div>        <div class="cats">            {% if d.exchange_price %}            兑换价：<small>￥</small>{{ d.exchange_price }} + {{ d.max_bird_coin }}鸟币            {%else%}            所需鸟币：{{ d.max_bird_coin }}            {%endif%}        </div>        <span class="counter" style="right: 20px;">            <i class="heart icon"></i> {{ d.love_count }}        </span>    </div></div>
