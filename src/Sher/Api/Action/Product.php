@@ -164,8 +164,6 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $query['stage'] = array('$in'=>$stage_arr);
         }
 
-		// 已审核
-		$query['approved']  = 1;
 		// 已发布上线
 		$query['published'] = 1;
 		
@@ -389,7 +387,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $brand = array();
         $brand['_id'] = (string)$data['brand']['_id'];
         $brand['title'] = $data['brand']['title'];
-        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['ava']['view_url'];
+        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['huge']['view_url'];
     }
     $data['brand'] = $brand;
 
@@ -992,7 +990,87 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, $active_arr);
     }
 
+    /**
+     * 添加
+     */
+    public function submit(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $user_id = $this->current_user_id;
+        $title = isset($this->stash['title']) ? trim($this->stash['title']) : null;
+        $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
+        if(empty($title)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+		$model = new Sher_Core_Model_Product();
+
+        if(!$model->check_title($title)){
+            return $this->api_json('商品已存在!', 3002);
+        }
+
+        $row = array();
+        $row['title'] = $title;
+        $row['brand_id'] = $brand_id;
+        $row['from_to'] = 2;
+
+        if(empty($id)){
+            $row['user_id'] = $user_id;
+            $row['stage'] = 16;
+            $row['published'] = 1;
+            $ok = $model->apply_and_save($row);
+        }else{
+            $ok = $model->apply_and_update($row);
+        }
+
+        if(!$ok){
+            return $this->api_json('保存失败!', 3003);
+        }
+
+        if(empty($id)){
+            $product = $model->get_data();
+            $id = (string)$product['_id'];       
+        }
+
+        // 更新全文索引
+        if($row['published'] == 1){
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3);
+        }
+
+        return $this->api_json('success', 0, array('id'=>$id));
+    
+    }
 	
+  /**
+   * 删除
+   */
+  public function deleted(){
+    $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+    if(empty($id)){
+      return $this->api_json('缺少请求参数!', 3000);  
+    }
+    $user_id = $this->current_user_id;
+
+		try{
+			$product_model = new Sher_Core_Model_Product();
+			
+      $product = $product_model->load($id);
+      if(empty($product)){
+        return $this->api_json('删除的内容不存在！', 3001);       
+      }
+      if($product['user_id'] != $user_id){
+        return $this->api_json('没有权限！', 3002);        
+      }
+      if($product['stage'] == 9){
+        return $this->api_json('不允许删除操作！', 3003);        
+      }
+      
+      $product_model->remove($id);
+      $product_model->mock_after_remove($id, $product);
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试', 3004);
+		}
+		return $this->api_json('删除成功！', 0, array('id'=>$id));
+  }
 
 }
 

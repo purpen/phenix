@@ -698,9 +698,26 @@
 			  </div>
             </div>
 
+            <div class="fore fields">
+			  <div class="field">
+				  <label>浏览数：</label>
+				  <input type="text" name="view_count" value="{{ scene_subject.view_count }}" />
+                  <div class="description"></div>
+			  </div>
+			  <div class="field">
+				  <label>分享数：</label>
+				  <input type="text" name="share_count" value="{{ scene_subject.share_count }}" />
+                  <div class="description"></div>
+			  </div>
+            </div>
+
             <h4 class="ui stage header">活动进度:</h4>
             <div class="grouped inline fields">
               <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="evt" value="0" {% if scene_subject.evt == 0 %}checked="checked"{% endif %} /> 
+                  <label>未开始</label>
+                </div>
                 <div class="ui radio checkbox">
                   <input type="radio" name="evt" value="1" {% if scene_subject.evt == 1 %}checked="checked"{% endif %} /> 
                   <label>进行中</label>

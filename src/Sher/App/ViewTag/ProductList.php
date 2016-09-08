@@ -29,6 +29,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         $user_id = 0;
         $deleted = 0;
 		$stage = 0;
+        $brand_id = 0;
 		
 		$process_voted = 0;
 		$process_presaled = 0;
@@ -101,6 +102,11 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 			$context->set($var, $result);
 			return;
 		}
+
+        // 品牌
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
+        }
 		
         if ($user_id) {
             if(is_array($user_id)){

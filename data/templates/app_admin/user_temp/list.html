@@ -52,21 +52,24 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">品牌管理</h3>
+	<h3 class="ui header">品牌/产品临时库</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-        <a href="{{ app_url_app_admin_base }}/brands" class="item {{ css_all }}">
+        <a href="{{ app_url_app_admin_base }}/user_temp" class="item {{ css_all }}">
 			全部
 		</a>
-        <a href="{{ app_url_app_admin_base }}/brands/get_list?kind=2" class="item {{ css_store }}">
-		    在商城展示
+        <a href="{{ app_url_app_admin_base }}/user_temp/get_list?type=1" class="item {{ css_product }}">
+		    产品
+		</a>
+        <a href="{{ app_url_app_admin_base }}/user_temp/get_list?type=2" class="item {{ css_brand }}">
+		    品牌
 		</a>
 
 	  	<div class="right menu">
-			<a href="{{ app_url_app_admin_base }}/brands/add" class="item">
-				<i class="add icon"></i>新增品牌
+            <!--
+			<a href="{{ app_url_app_admin_base }}/user_temp/add" class="item">
+				<i class="add icon"></i>新增
 			</a>
-			<!--
 			<a href="javascript:void(0);" class="item ajax-delete">
 				<i class="remove icon"></i>批量删除
 			</a>
@@ -75,19 +78,25 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_app_admin_base }}/brands/get_list" id="search-form" method="get">
+		<form action="{{ app_url_app_admin_base }}/user_temp/get_list" id="search-form" method="get">
 			<label>搜索：</label>
           <div class="ui selection dropdown">
-            <input type="hidden" name="from_to" value="{{ from_to }}" />
-            <div class="default text">选择来源</div>
+            <input type="hidden" name="type" value="{{ type }}" />
+            <div class="default text">选择类型</div>
             <i class="dropdown icon"></i>
             <div class="menu">
-              <div class="item" data-value="1">官网</div>
-              <div class="item" data-value="2">用户</div>
+              <div class="item" data-value="1">产品</div>
+              <div class="item" data-value="2">品牌</div>
             </div>
           </div>
 			<div class="ui input">
-                <input placeholder="品牌名" type="text" name="title" value="{{ title }}" />
+                <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
+                <input placeholder="情境ID" type="text" name="target_id" value="{{ target_id }}" />
+			</div>
+			<div class="ui input">
+                <input placeholder="标题" type="text" name="title" value="{{ title }}" />
 			</div>
             <div class="ui input">
                 <div class="ui active small green submit button search">搜索</div>
@@ -104,50 +113,55 @@
 					  	<label></label>
 					</div>
 				</th>
-                <th>品牌名</th>
-				<th>logo</th>
-                <th>是否在壳集展示</th>
-                <th>使用次数</th>
-                <th>索引</th>
-                <th>产品列表</th>
-                <th>自营</th>
+                <th>ID</th>
+                <th>名称</th>
+                <th>类型</th>
+                <th>用户ID</th>
+                <th>情境ID</th>
+                <th>品牌ID</th>
+                <th>品牌名称</th>
+                <th>创建时间</th>
+                <th>是否推荐</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_brands_list var:'list' page:page title:title from_to:from_to kind:kind size:size %}
+			{% user_temp_list var:'list' page:page title:title type:type user_id:user_id target_id:target_id title:title page:page size:size %}
 
 			{% for d in list.rows %}
-			<tr id="{{ d._id }}">
+			<tr id="item-{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
 					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
+                <td>{{ d._id }}</td>
 				 <td>
                   {{ d.title }}
                 </td>
                 <td>
-                  <img width=50 src="{{ d.cover.thumbnails.mini.view_url }}">
+                    {% if d.type==1 %}
+                        产品
+                    {%endif%}
+                    {% if d.type==2 %}
+                        品牌
+                    {%endif%}
                 </td>
+                <td>{{ d.user_id }}</td>
+                <td>{{ d.target_id }}</td>
+                <td>{{ d.brand_id }}</td>
+                <td>{{ d.brand_name }}</td>
+                <td>{{ d.created_on|date 'y-m-d H:i' }}</td>
                 <td>
- 					{% if d.kind == 2 %}
+ 					{% if d.stick == 1 %}
 					<label class="ui green label">是</label>
                     {%else%}
 					<label class="ui orange label">否</label>
 					{% endif %}
 				</td>              
-                </td>
-                <td>
-                  {{ d.used_count }}
-                </td>
-                <td>{{ d.mark }}</td>
-                <td>
-                    产品列表({{ d.item_count|default 0 }})<a href="{{ app_url_app_admin_base }}/brands/product_list?brand_id={{ d._id }}">>></a>
-                </td>
-                <td>{{ d.self_run|default 0 }}</td>
+
 				<td>
 					{% if d.status %}
 					可用
@@ -156,13 +170,15 @@
 					{% endif %}
                  </td>
 				<td>
+                    <!--
                     {% if d.stick == 1 %}
-                    <a href="{{ app_url_app_admin_base }}/brands/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
+                    <a href="{{ app_url_app_admin_base }}/user_temp/ajax_stick?id={{ d._id }}&evt=0" class="ui link ajax item" id="stick-{{ d._id }}-button">取消推荐</a>
                     {% else %}
-                    <a href="{{ app_url_app_admin_base }}/brands/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
+                    <a href="{{ app_url_app_admin_base }}/user_temp/ajax_stick?id={{ d._id }}&evt=1" class="ui link ajax item" id="stick-{{ d._id }}-button">推荐</a>
                     {% endif %}
-					<a href="{{ app_url_app_admin_base }}/brands/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
-		          	<a href="{{ app_url_app_admin_base }}/brands/delete?id={{ d._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+					<a href="{{ app_url_app_admin_base }}/user_temp/edit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          	<a href="{{ app_url_app_admin_base }}/user_temp/delete?id={{ d._id }}&page={{ page }}" class="ui confirm-request link item">删除</a>
+                    -->
 				</td>
 			</tr>
 			{% endfor %}

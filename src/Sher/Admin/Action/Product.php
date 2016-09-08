@@ -169,6 +169,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['min_bird_coin'] = (int)$this->stash['min_bird_coin'];
 		$data['exchange_price'] = isset($this->stash['exchange_price'])?(float)$this->stash['exchange_price']:0;
 		$data['exchange_count'] = (int)$this->stash['exchange_count'];
+
+        // 是否发布
+        $data['published'] = isset($this->stash['published']) ? (int)$this->stash['published'] : 0;
     
 	    // 是否试用
 	    $data['trial'] = isset($this->stash['trial']) ? 1 : 0;
@@ -282,6 +285,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			if(!$ok){
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
+
+            // 更新全文索引
+            if($data['published'] == 1){
+                Sher_Core_Helper_Search::record_update_to_dig((int)$id, 3);
+            }
 
       $asset = new Sher_Core_Model_Asset();
 			// 上传成功后，更新所属的附件(封面)

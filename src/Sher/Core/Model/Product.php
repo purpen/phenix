@@ -321,11 +321,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     'hatched' => 0,
     # 孵化产品封面
     'hatched_cover_url' => null,
+    # 来源: 1.编辑；2.用户；3.--
+    'from_to' => 1,
 
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -696,6 +698,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                   $category->inc_counter('sub_count', 1, $category_id);              
                 }
                 unset($category);
+            }
+
+            // 更新品牌数量
+            if(!empty($this->data['brand_id'])){
+                $brand_model = new Sher_Core_Model_SceneBrands();
+                $brand_model->inc_counter('item_count', 1, $this->data['brand_id']);
+                unset($brand_model);
             }
             
             // 更新产品总数
@@ -1231,7 +1240,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 	/**
 	 * 删除后事件
 	 */
-	public function mock_after_remove($id) {
+	public function mock_after_remove($id, $options=array()) {
 		// 删除Asset
 		$asset = new Sher_Core_Model_Asset();
 		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(10,11,15))));
@@ -1241,6 +1250,13 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$comment = new Sher_Core_Model_Comment();
 		$comment->remove(array('target_id' => $id, 'type'=>Sher_Core_Model_Comment::TYPE_PRODUCT));
 		unset($comment);
+
+        // 删除商品情境关联表数据
+        $spl_model = new Sher_Core_Model_SceneProductLink();
+        $spl_list = $spl_model->find(array('product_id'=>(int)$id));
+        for($i=0;$i<count($spl_list);$i++){
+            $spl_model->remove((string)$spl_list[$i]['_id']);
+        }
 		
 		// 删除TextIndex
 		$textindex = new Sher_Core_Model_TextIndex();
@@ -1250,6 +1266,20 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     //删除索引
     Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
 		
+		return true;
+	}
+
+	/**
+	 * 检测标题是否重复
+	 */
+	public function check_title($title, $type=1) {
+		if(empty($title)){
+			return false;
+		}
+		$row = $this->first(array('title' => (string)$title));
+		if(!empty($row)){
+			return false;
+		}
 		return true;
 	}
 	

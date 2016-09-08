@@ -298,10 +298,10 @@
 									{% endif %}
 								{% endif %}
 								
-								{% if !is_top %}
-									{% category_list var:'category' only_open:1 domain:2 pid:parent_category._id current:cid %}
+								{% if visitor.can_admin %}
+									{% category_list var:'category' only_open:1 domain:2 current:cid %}
 								{% else %}
-									{% category_list var:'category' only_open:1 domain:2 pid:current_category._id current:cid %}
+									{% category_list var:'category' only_open:1 domain:2 pid:topic_category_product current:cid %}
 								{% endif %}
                                 
 								{% for cat in category.rows %}

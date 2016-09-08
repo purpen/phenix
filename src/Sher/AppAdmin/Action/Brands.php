@@ -146,6 +146,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'mark' => $mark,
             'self_run' => $self_run,
             'tags' => $tags,
+            'kind' => $kind,
 		);
 
 		try{

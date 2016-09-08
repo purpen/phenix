@@ -21,7 +21,8 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
 	public function getlist(){
 		$q = isset($this->stash['q']) ? $this->stash['q'] : null;
         $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
-        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 3;
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 7;
+        $tid = isset($this->stash['tid']) ? $this->stash['tid'] : null;
         $s = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
         $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
@@ -44,6 +45,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
       'asc'  => $asc,
       'cid' => $cid,
       't'    => $t,
+      'tid' => $tid,
     );
     
     $result = Sher_Core_Util_XunSearch::search($q, $options);
@@ -95,6 +97,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             }
 
           // 图片尺寸
+            $result['data'][$k]['cover_url'] = '';
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['apc']['view_url'];
           }
@@ -237,6 +240,7 @@ class Sher_Api_Action_Search extends Sher_Api_Action_Base {
             }
           
           // 图片尺寸
+            $result['data'][$k]['cover_url'] = '';
           if($asset_obj){
             $result['data'][$k]['cover_url'] = $asset_obj['thumbnails']['aub']['view_url'];
           }

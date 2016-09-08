@@ -53,7 +53,7 @@
 		</form>
 	</div>
 	
-	{% product_list var:'list' brand_id:brand_id page:1 size:100 %}
+	{% scene_product_list var:'list' kind:kind user_id:user_id attrbute:attrbute s_title:s_title brand_id:brand_id page:page size:size %}
 	<table class="ui small table">
 		<thead>
 			<tr>
@@ -61,8 +61,8 @@
         <th>ID</th>
 				<th>封面图</th>
 				<th>标题</th>
-        <th>属性</th>
-        <th>浏览</th>
+        <th>来自</th>
+        <th>浏览|跳出</th>
         <th>创建身份</th>
 				<th>发布</th>
 				<th>推荐</th>
@@ -87,49 +87,18 @@
 				</td>
 				<td>
 		          	<div class="header">
-						<a href="{{ d.view_url }}" class="ui link" target="_blank">
+						<a href="{{ d.link }}" class="ui link" target="_blank">
 							{{ d.title|truncate, 30 }}
 						</a>
 					</div>
 
 				</td>
-				<td class="center aligned">
-					{% if product.stage==1 %}
-					<span>投票<i class="angle right icon"></i></span>
-					{% endif %}
-					{% if product.stage==5 %}
-					<span>预售<i class="angle right icon"></i></span>
-					{% endif %}
-					{% if product.stage==9 %}
-					<span>商店</span>
-					{% endif %}
-		            {% if product.is_try %}
-		              <p class="ui magenta text">(试用新品)</p>
-		            {%endif%}
-		            {% if product.okcase %}
-		              <p class="ui magenta text">(案例产品)</p>
-		            {%endif%}
-		            {% if product.app_snatched %}
-		              <p class="ui magenta text">(app秒杀)</p>
-		            {%endif%}
-					{% if product.stage==12 %}
-					<span>积分兑换</span>
-					{% endif %}
-					{% if product.stage==15 %}
-					<span>灵感</span>
-					{% endif %}
-					{% if product.stage==16 %}
-					<span>情境</span>
-					{% endif %}
-				</td>
-        <td>{{d.view_count}}</td>
         <td>
-          {% if d.from_to==1 %}
-            官方
-          {%endif%}
-          {% if d.from_to==2 %}
-            用户
-          {%endif%}
+          {{ d.attrbute_str }}
+        </td>
+        <td>{{d.view_count}}|{{ d.buy_count }}</td>
+        <td>
+          {{ d.kind_label }}
         </td>
         <td>
 					{% if d.published == 1 %}

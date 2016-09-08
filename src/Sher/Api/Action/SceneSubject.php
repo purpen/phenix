@@ -58,7 +58,9 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
             if(!empty($type_arr)){
 			    $query['type'] = array('$in'=>$type_arr);
             }
-		}
+        }else{
+            $query['type'] = array('$ne'=>5);
+        }
 		
 		if($stick){
 			if($stick==-1){
@@ -326,6 +328,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         $model = new Sher_Core_Model_SceneSubject();
 		$model->inc_counter('share_count', 1, $id);
+		$model->inc_counter('true_share_count', 1, $id);
     	return $this->api_json('操作成功!', 0, array('id'=>$id));
     }
 	
