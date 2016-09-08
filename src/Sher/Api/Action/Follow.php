@@ -262,7 +262,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
         $user_arr = explode(',', $follow_ids);
         
 		if(empty($follow_ids) || empty($user_arr)){
-			return $this->api_json('缺少请求参数！', 3001);
+			return $this->api_json(' 跪求关注！', 3001);
 		}
 
 		$model = new Sher_Core_Model_Follow();
