@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : null;
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
-		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
         $title = isset($this->stash['title']) ? $this->stash['title'] : null;
 		
 		$some_fields = array(
@@ -151,15 +151,18 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
     /**
      * 添加品牌
      */
-    /*
     public function submit(){
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $user_id = $this->current_user_id;
-        $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+        $title = isset($this->stash['title']) ? trim($this->stash['title']) : null;
         if(empty($title)){
             return $this->api_json('缺少请求参数!', 3001);
         }
 		$model = new Sher_Core_Model_SceneBrands();
+
+        if(!$model->check_title($title)){
+            return $this->api_json('品牌已存在!', 3002);       
+        }
 
         $row = array();
         $row['title'] = $title;
@@ -173,7 +176,7 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
         }
 
         if(!$ok){
-            return $this->api_json('保存失败!', 3002);
+            return $this->api_json('保存失败!', 3003);
         }
 
         if(empty($id)){
@@ -181,9 +184,11 @@ class Sher_Api_Action_SceneBrands extends Sher_Api_Action_Base {
             $id = (string)$brand['_id'];       
         }
 
+        // 更新全文索引
+        Sher_Core_Helper_Search::record_update_to_dig($id, 14);
+
         return $this->api_json('success', 0, array('id'=>$id));
     
     }
-     */
 }
 

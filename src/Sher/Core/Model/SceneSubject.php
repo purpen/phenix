@@ -46,6 +46,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 		'love_count' => 0,
 		'favorite_count' => 0,
         'share_count' => 0,     // 分享数
+        'true_share_count' => 0,
         'attend_count' => 0,    // 参与数
 
         ## 进度
@@ -79,7 +80,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
   
 	protected $int_fields = array('status', 'publish', 'category_id', 'user_id', 'kind', 'type', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'stick_on', 'fine_on', 'evt', 'product_id');
   
-	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count');
+	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'true_view_count', 'app_view_count', 'wap_view_count', 'web_view_count', 'share_count', 'attend_count', 'true_share_count');
 
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),

@@ -206,6 +206,8 @@ class Sher_Api_Action_View extends Sher_App_Action_Base {
 
         if($scene_subject['type']==1){
             $tpl = 'page/scene_subject/api_show.html';
+        }elseif($scene_subject['type']==2){
+            $tpl = 'page/scene_subject/api_show.html';
         }elseif($scene_subject['type']==3){
             $tpl = 'page/scene_subject/api_hot.html';       
         }elseif($scene_subject['type']==4){

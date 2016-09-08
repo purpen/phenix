@@ -123,6 +123,7 @@ if(!empty($product_ids) && !empty($product_ids['items'])){
       'kind' => 'Product',
       'oid' => $item['_id'],
       'cid' => $stage,
+      'tid' => $item['brand_id'],
       'title' => $item['title'],
       'cover_id' => $cover_id,
       'content' => strip_tags(htmlspecialchars_decode($item['content'])),
@@ -434,12 +435,12 @@ if(!empty($scene_context_ids) && !empty($scene_context_ids['items'])){
     $result = Sher_Core_Util_XunSearch::update($xs_data);
     if($result['success']){
       //删除Dig相应ID
-      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS, $item['_id']); 
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_UPDATE_IDS, (string)$item['_id']); 
       $total++;
       echo "success update scene context id $v .\n";
     }else{
       //记录失败ids
-      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_FAIL_IDS, $item['_id']);
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_CONTEXT_FAIL_IDS, (string)$item['_id']);
       echo "fail update scene context id: $v $result[msg]";
     }
 
@@ -518,7 +519,7 @@ if(!empty($scene_brand_ids) && !empty($scene_brand_ids['items'])){
       'pid' => 'scene_brand_'.(string)$item['_id'],
       'kind' => 'SBrand',
       'oid' => (string)$item['_id'],
-      'cid' => $item['kind'],
+      'cid' => $item['from_to'],
       'title' => $item['title'],
       'cover_id' => $item['cover_id'],
       'content' => strip_tags(htmlspecialchars_decode($item['des'])),
@@ -531,12 +532,12 @@ if(!empty($scene_brand_ids) && !empty($scene_brand_ids['items'])){
     $result = Sher_Core_Util_XunSearch::update($xs_data);
     if($result['success']){
       //删除Dig相应ID
-      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_BRAND_UPDATE_IDS, $item['_id']); 
+      $digged->remove_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_BRAND_UPDATE_IDS, (string)$item['_id']); 
       $total++;
       echo "success update scene brand id $v .\n";
     }else{
       //记录失败ids
-      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_BRAND_FAIL_IDS, $item['_id']);
+      $digged->add_item_custom(Sher_Core_Util_Constant::DIG_XUN_SEARCH_RECORD_SCENE_BRAND_FAIL_IDS, (string)$item['_id']);
       echo "fail update scene brand id: $v $result[msg]";
     }
 
