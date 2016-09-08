@@ -75,7 +75,10 @@
                 $('#topic-more').data('page', page);
                 $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }else{
-                $('.ui.more.button').hide();
+                $('#topic-more').hide();
+                $('#topic-more').data('status', 0);
+                $('#topic-more').data('page', page);
+                $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }
             $("div.bglazy").lazyload({
                 effect : "show"
