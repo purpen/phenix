@@ -60,8 +60,8 @@
     var type = "{{ type }}";
     var sort = "{{ sort }}";
     function ajax_load_more(category_id, page, type, time, sort){
-        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
-        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
+        var url = '{{ app_url_wap }}/app/site/topic/ajax_fetch_more';
+        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:8 }, function(rs){
             rs.data['phenix'] = phenix.url;
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(page==1){
