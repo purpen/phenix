@@ -59,6 +59,9 @@ h4 a.seemore{
 	top:15px;
 	left:10px;
 }
+.fiupage{
+	margin-bottom: 6px;
+}
 .row.fiulist{
 	background: #fff;
 	margin-top: 7px; 
@@ -73,6 +76,12 @@ h4 a.seemore{
 	font-size: 12px;
     line-height: 20px;
     margin-bottom: 4px;
+}
+.fiuewm{
+	width: 140px;
+    position: absolute;
+    top: -7px;
+    right: 10px;
 }
 </style>
 {% endblock %}
@@ -343,6 +352,7 @@ h4 a.seemore{
 		<div class="row fiulist">
 			<div class="column pt-r">
 				<img src="{{ app_url_packaged }}/images/fiu/logo.png" width="75px">
+				<img class="fiuewm" src="{{ app_url_packaged }}/images/fiu/fiuewm.jpg">
 				<p class="colorbe">科技美学情境式电商</p>
 				<p>Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片电商平台。</p>
 				<p>Fiu浮游™通过大千世界碎片美的情境大片重构，为新中产的生活方式带来全新的诗意体验。</p>
@@ -351,8 +361,12 @@ h4 a.seemore{
 				Fiu浮游™带你发现美学科技的力量和感性生活的温度！</p>
 			</div>
 		</div>
+		<div class="row p-0">
+			<img src="{{ app_url_packaged }}/images/fiu/fiupage.jpg" width="100%" align="absmiddle">
+		</div>
 	</div>
-</div>-->
+</div>
+-->
 
 {% cache cache_key:'wap_index_try_stick_slide' ttl:500 disable_cache:app_disable_cached %}
 {% try_list var:'tries' sort:1 state:1 page:1 size:4 %}
@@ -406,6 +420,18 @@ h4 a.seemore{
 			
 			</div>
 		</div>
+		<!--
+		<div class="row pb-0 pt-4r">
+			<div class="column">
+				<h4 class="ui header">太火鸟服务
+				</h4>
+			</div>
+		</div>
+		<div class="row pt-r plr-0">
+			<a href="{{ app_url_wap }}/incubator/service">
+				<img src="{{ app_url_packaged }}/images/fiu/fiufw.jpg" width="100%" align="absmiddle">
+			</a>
+		</div>-->
 		
 		{% ad_list var:'adbanner' page:1 state:2 size:2 name:'wap_footer_banner' sort_field:'latest' %}
 		{% for d in adbanner.rows %}

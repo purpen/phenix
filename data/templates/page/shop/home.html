@@ -71,6 +71,7 @@
 {% endblock %}
 
 {% block content %}
+<!--
 <div class="ui topicnew shopnew page">
 	<div class="ui responsive grid slidebox">
         <div class="row">
@@ -91,8 +92,39 @@
             </div>
         </div>
     </div>
+</div>-->
+<div id="fixedslide" class="frame">
+    {% ad_list var:'adslide' page:1 size:6 state:2 name:'web_shop_slide' %}
+	<div class="ui slide">
+		{% for ad in adslide.rows %}
+		<div class="item">
+			<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+				{% if ad.mode == 2 %}
+				<div class="overlay">
+					{% if ad.cate_title %}
+					<h3>{{ ad.cate_title }}</h3>
+					{% endif %}
+					<h1>{{ ad.title }}</h1>
+					<p class="snippet">
+						{{ ad.sub_title }}
+					</p>
+					<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+				</div>
+				{% else %}
+				<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="pages"></div>
+	<a class="prev" href="#">
+		<i class="angle left icon"></i>
+	</a>
+	<a class="next" href="#">
+		<i class="angle right icon"></i>
+	</a>
 </div>
-
 
 {% product_list var:'stick_list' page:1 type:2 only_onsale:1 size:4 sort:4 %}
 <div class="shop list" id="shoplist" style="margin-bottom:0;">
@@ -131,7 +163,7 @@
 					<div class="card">
 						<div class="problock">
 							<a title="{{ d.title }}" href="{{ d.view_url }}" style="padding-top:56.207%;" class="thumb">
-								<img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
+								<img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
 							</a>
 							<h2>
 								<a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">{{ d.title }}</a>
@@ -184,7 +216,7 @@
                     <div class="card special">
                       <div class="speblock">
                         <a href="{{ d.view_url }}" class="thumb">
-                        	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
+                        	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
                           <div class="content">
                             <h2 class="ui header">{{ d.title }}
                               <div class="sub header">
@@ -206,7 +238,7 @@
               <div class="card special">
                 <div class="speblock">
                   <a href="{{ d.view_url }}" class="thumb">
-                  	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
+                  	<img class="lazy" data-original="{{ d.web_cover_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
                     <div class="content">
                       <h2 class="ui header">{{ d.title }}
                         <div class="sub header">

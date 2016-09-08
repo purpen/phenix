@@ -1,261 +1,1 @@
-{%extends 'layout/column.html'%}
-{% block title %}成功案例-{% endblock %}
-{% block page_css %}
-<style type="text/css">
-  .ui.products.cards>.card>.problock>a.thumb{
-    padding-top: 67%;
-  }
-</style>
-{% endblock %}
-	
-{% block jquery %}
-{% endblock %}
-
-{% block content %}
-<section class="ui big frbird block">
-	<div class="ui responsive center aligned grid">
-		<div class="row">
-			<div class="center aligned column white section-title">
-				<h2 class="block title">成功案例</h2>
-				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>
-				<hr>
-			</div>
-		</div>
-	</div>
-</section>
-
-<section class="ui big block" id="succase">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column">
-				<div class="ui three products cards">
-					
-  				  <div class="magenta card">
-  	                      <div class="problock">
-  	                           <a title="云马智行车C1" alt="云马智行车C1" href="{{ app_url_action_base }}/guide/yunma" class="thumb">
-                                    <img class="lazy" data-original="{{ app_url_packaged }}/images/case/yunma1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg">
-                               </a>
-  	                           <h2>
-  	                              <a href="http://www.taihuoniao.com/shop/view-1117318669-1.html" title="云马智行车C1">
-  	                                  云马智行车C1——懂年轻人的电单车 
-  	                              </a>
-  	                           </h2>
-  	                           <div class="excerpt">
-  	                               <p>众筹金额：<span class="ui text">11,597,621</span> 元      支持人数：<span class="ui text">5879</span> 个      达成率：<span class="ui text">1159％</span></p>
-  	                           </div>
-  	                           <div class="cats">
-  	                               <span class="unit">￥</span>2399
-  	                           </div>
-  	                      </div>
-  					</div>
-					
-				  <div class="magenta card">
-	                      <div class="problock">
-	                           <a title="小蚁智能行车记录仪" alt="小蚁智能行车记录仪" href="{{ app_url_action_base }}/guide/xyi" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case/xyi1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-	                           <h2>
-	                              <a href="https://detail.tmall.com/item.htm?id=527346361688&ali_refid=a3_430583_1006&sku_properties=5919063:6536025" title="小蚁智能行车记录仪">
-	                                  小蚁智能行车记录仪——专为发烧友设计的行车记录仪 
-	                              </a>
-	                           </h2>
-	                           <div class="excerpt">
-	                               <p>众筹金额：<span class="ui text">16,191,730</span> 元      支持人数：<span class="ui text">54230</span> 个      达成率：<span class="ui text">16191％</span></p>
-	                           </div>
-	                           <div class="cats">
-	                               <span class="unit">￥</span>349
-	                           </div>
-	                      </div>
-					</div>
-					
-				  <div class="magenta card">
-                        <div class="problock">
-                             <a title="WeCoach Pro" alt="WeCoach Pro" href="{{ app_url_action_base }}/guide/wecoach" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/wecoach.png" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/wecoach" title="WeCoach Pro">
-                                    懂运动的智能可穿戴—WeCoach Pro 
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额：<span class="ui text">4729,633</span> 元      支持人数：<span class="ui text">21372</span> 个      达成率：<span class="ui text">472％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>298
-                             </div>
-                        </div>
-					</div>
-				  
-				  <div class="magenta card">
-            <div class="problock">
-                 <a title="超千人申请试用的69智能电臀" alt="超千人申请试用的69智能电臀" href="{{ app_url_action_base }}/guide/dt" class="thumb"><img class="lazy" data-original="http://frbird.qiniudn.com/product/150828/55dffda6fc8b128e088ba63a-1-hu.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                 <h2>
-                    <a href="{{ app_url_action_base }}/guide/dt" title="超千人申请试用的69智能电臀">
-                        超千人申请试用的69智能电臀
-                    </a>
-                 </h2>
-                 <div class="excerpt">
-                     <p>众筹金额：<span class="ui text">6531,345</span> 元      支持人数：<span class="ui text">2355</span> 人        达成率：<span class="ui text">653％</span></p>
-                 </div>
-                 <div class="cats">
-                     <span class="unit">￥</span>6999
-                 </div>
-            </div>
-					</div>
-				  
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="婴萌智能配奶机" alt="婴萌智能配奶机" href="{{ app_url_action_base }}/guide/milk" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-milk.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/milk" title="婴萌智能配奶机">
-                                    婴萌智能配奶机
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额：<span class="ui text">3,245,356</span> 元      支持人数：<span class="ui text">3794</span> 个      达成率：<span class="ui text">649％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>1288
-                             </div>
-                        </div>
-					</div>
-                
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="摇一摇变55度的魔法水杯" alt="摇一摇变55度的魔法水杯" href="{{ app_url_action_base }}/guide/fifty" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-fifty.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯">
-                                    摇一摇变55度的魔法水杯
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额：<span class="ui text">1,251,374</span> 元      支持人数：<span class="ui text">3094</span> 个        达成率：<span class="ui text">625％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>298
-                             </div>
-                        </div>
-					</div>
-			
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="全球首款革命性智能空气净化器" alt="全球首款革命性智能空气净化器" href="{{ app_url_action_base }}/guide/dm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-dm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">
-                                    全球首款革命性智能空气净化器
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>6980
-                             </div>
-                        </div>
-					</div>
-                
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="Goccia－全球很小的智能可穿戴" alt="Goccia－全球很小的智能可穿戴" href="{{ app_url_action_base }}/guide/goccia" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-goccia.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球很小的智能可穿戴">
-                                    Goccia－全球很小的智能可穿戴
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>899
-                             </div>
-                        </div>
-					</div>
-                    
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="造梦者恒氧净化机" alt="造梦者恒氧净化机" href="{{ app_url_action_base }}/guide/ldm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-ldm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/ldm" title="造梦者恒氧净化机">
-                                    造梦者恒氧净化机，众筹金额突破1200万元
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额:<span class="ui text">12,052,927</span> 支持人数:<span class="ui text">4842</span>      达成率:<span class="ui text">2410％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>8999
-                             </div>
-                        </div>
-					</div>
-					
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="SKIN RUN肌肤管家" alt="SKIN RUN肌肤管家" href="{{ app_url_action_base }}/guide/resp" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-resp.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/resp" title="SKIN RUN肌肤管家">
-                                    智能肌肤测试仪，专业为您提供肌肤呵护建议
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额:<span class="ui text">88,283</span> 支持人数:<span class="ui text">745</span>      达成率:<span class="ui text">882％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>158
-                             </div>
-                        </div>
-					</div>
-					
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="全球首款可手机无线充电的空气净化器" alt="全球首款可手机无线充电的空气净化器" href="{{ app_url_action_base }}/guide/cm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-cm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/cm" title="全球首款可手机无线充电的空气净化器">
-                                    全球首款可手机无线充电的空气净化器
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额:<span class="ui text">2,126,720</span>     支持人数:<span class="ui text">602</span>      达成率:<span class="ui text">4253％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>1999
-                             </div>
-                        </div>
-					</div>
-					
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="世界首款太阳能电子蜡烛灯" alt="世界首款太阳能电子蜡烛灯" href="{{ app_url_action_base }}/guide/light" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-light.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/light" title="世界首款太阳能电子蜡烛灯">
-                                    世界首款太阳能电子蜡烛灯
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额:<span class="ui text">166,767</span>     支持人数:<span class="ui text">1537</span>      达成率:<span class="ui text">833％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>148
-                             </div>
-                        </div>
-					</div>
-					
-					<div class="magenta card">
-                        <div class="problock">
-                             <a title="连爱智能手环" alt="连爱智能手环" href="{{ app_url_action_base }}/guide/loving" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-linkloving.jpg" src="{{ app_url_packaged }}/images/icon/loadbg.jpg"></a>
-                             <h2>
-                                <a href="{{ app_url_action_base }}/guide/loving" title="连爱智能手环">
-                                    连爱智能手环，10天内突破27万
-                                </a>
-                             </h2>
-                             <div class="excerpt">
-                                 <p>众筹金额:<span class="ui text">329,006</span>     支持人数:<span class="ui text">1902</span>      达成率:<span class="ui text">3209％</span></p>
-                             </div>
-                             <div class="cats">
-                                 <span class="unit">￥</span>148
-                             </div>
-                        </div>
-					</div>
-					
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-{% endblock %}
+{%extends 'layout/column.html'%}{% block title %}成功案例-{% endblock %}{% block page_css %}<style type="text/css">  .ui.products.cards>.card>.problock>a.thumb{    padding-top: 67%;  }</style>{% endblock %}	{% block jquery %}{% endblock %}{% block content %}<section class="ui big frbird block">	<div class="ui responsive center aligned grid">		<div class="row">			<div class="center aligned column white section-title">				<h2 class="block title">成功案例</h2>				<p>从一个构想到一次成功的运营，在这里，每一个鲜活品牌的成功都是一次传奇。</p>				<hr>			</div>		</div>	</div></section><section class="ui big block" id="succase">	<div class="ui responsive grid">		<div class="row">			<div class="column">				<div class="ui three products cards">					  				  <div class="magenta card">  	                      <div class="problock">  	                           <a title="云马智行车C1" alt="云马智行车C1" href="{{ app_url_action_base }}/guide/yunma" class="thumb">                                    <img class="lazy" data-original="{{ app_url_packaged }}/images/case/yunma1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">                               </a>  	                           <h2>  	                              <a href="http://www.taihuoniao.com/shop/view-1117318669-1.html" title="云马智行车C1">  	                                  云马智行车C1——懂年轻人的电单车   	                              </a>  	                           </h2>  	                           <div class="excerpt">  	                               <p>众筹金额：<span class="ui text">11,597,621</span> 元      支持人数：<span class="ui text">5879</span> 个      达成率：<span class="ui text">1159％</span></p>  	                           </div>  	                           <div class="cats">  	                               <span class="unit">￥</span>2399  	                           </div>  	                      </div>  					</div>									  <div class="magenta card">	                      <div class="problock">	                           <a title="小蚁智能行车记录仪" alt="小蚁智能行车记录仪" href="{{ app_url_action_base }}/guide/xyi" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case/xyi1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>	                           <h2>	                              <a href="https://detail.tmall.com/item.htm?id=527346361688&ali_refid=a3_430583_1006&sku_properties=5919063:6536025" title="小蚁智能行车记录仪">	                                  小蚁智能行车记录仪——专为发烧友设计的行车记录仪 	                              </a>	                           </h2>	                           <div class="excerpt">	                               <p>众筹金额：<span class="ui text">16,191,730</span> 元      支持人数：<span class="ui text">54230</span> 个      达成率：<span class="ui text">16191％</span></p>	                           </div>	                           <div class="cats">	                               <span class="unit">￥</span>349	                           </div>	                      </div>					</div>									  <div class="magenta card">                        <div class="problock">                             <a title="WeCoach Pro" alt="WeCoach Pro" href="{{ app_url_action_base }}/guide/wecoach" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/wecoach.png" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/wecoach" title="WeCoach Pro">                                    懂运动的智能可穿戴—WeCoach Pro                                 </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额：<span class="ui text">4729,633</span> 元      支持人数：<span class="ui text">21372</span> 个      达成率：<span class="ui text">472％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>298                             </div>                        </div>					</div>				  				  <div class="magenta card">            <div class="problock">                 <a title="超千人申请试用的69智能电臀" alt="超千人申请试用的69智能电臀" href="{{ app_url_action_base }}/guide/dt" class="thumb"><img class="lazy" data-original="http://frbird.qiniudn.com/product/150828/55dffda6fc8b128e088ba63a-1-hu.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                 <h2>                    <a href="{{ app_url_action_base }}/guide/dt" title="超千人申请试用的69智能电臀">                        超千人申请试用的69智能电臀                    </a>                 </h2>                 <div class="excerpt">                     <p>众筹金额：<span class="ui text">6531,345</span> 元      支持人数：<span class="ui text">2355</span> 人        达成率：<span class="ui text">653％</span></p>                 </div>                 <div class="cats">                     <span class="unit">￥</span>6999                 </div>            </div>					</div>				  					<div class="magenta card">                        <div class="problock">                             <a title="婴萌智能配奶机" alt="婴萌智能配奶机" href="{{ app_url_action_base }}/guide/milk" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-milk.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/milk" title="婴萌智能配奶机">                                    婴萌智能配奶机                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额：<span class="ui text">3,245,356</span> 元      支持人数：<span class="ui text">3794</span> 个      达成率：<span class="ui text">649％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>1288                             </div>                        </div>					</div>                					<div class="magenta card">                        <div class="problock">                             <a title="摇一摇变55度的魔法水杯" alt="摇一摇变55度的魔法水杯" href="{{ app_url_action_base }}/guide/fifty" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-fifty.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/fifty" title="摇一摇变55度的魔法水杯">                                    摇一摇变55度的魔法水杯                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额：<span class="ui text">1,251,374</span> 元      支持人数：<span class="ui text">3094</span> 个        达成率：<span class="ui text">625％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>298                             </div>                        </div>					</div>								<div class="magenta card">                        <div class="problock">                             <a title="全球首款革命性智能空气净化器" alt="全球首款革命性智能空气净化器" href="{{ app_url_action_base }}/guide/dm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-dm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/dm" title="全球首款革命性智能空气净化器">                                    全球首款革命性智能空气净化器                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额：<span class="ui text">1215,983</span> 元      支持人数：<span class="ui text">243</span> 人        达成率：<span class="ui text">4053％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>6980                             </div>                        </div>					</div>                					<div class="magenta card">                        <div class="problock">                             <a title="Goccia－全球很小的智能可穿戴" alt="Goccia－全球很小的智能可穿戴" href="{{ app_url_action_base }}/guide/goccia" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-goccia.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/goccia" title="Goccia－全球很小的智能可穿戴">                                    Goccia－全球很小的智能可穿戴                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额：<span class="ui text">300,000</span> 元      支持人数：<span class="ui text">610</span> 个      达成率：<span class="ui text">600％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>899                             </div>                        </div>					</div>                    					<div class="magenta card">                        <div class="problock">                             <a title="造梦者恒氧净化机" alt="造梦者恒氧净化机" href="{{ app_url_action_base }}/guide/ldm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-ldm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/ldm" title="造梦者恒氧净化机">                                    造梦者恒氧净化机，众筹金额突破1200万元                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额:<span class="ui text">12,052,927</span> 支持人数:<span class="ui text">4842</span>      达成率:<span class="ui text">2410％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>8999                             </div>                        </div>					</div>										<div class="magenta card">                        <div class="problock">                             <a title="SKIN RUN肌肤管家" alt="SKIN RUN肌肤管家" href="{{ app_url_action_base }}/guide/resp" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-resp.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/resp" title="SKIN RUN肌肤管家">                                    智能肌肤测试仪，专业为您提供肌肤呵护建议                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额:<span class="ui text">88,283</span> 支持人数:<span class="ui text">745</span>      达成率:<span class="ui text">882％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>158                             </div>                        </div>					</div>										<div class="magenta card">                        <div class="problock">                             <a title="全球首款可手机无线充电的空气净化器" alt="全球首款可手机无线充电的空气净化器" href="{{ app_url_action_base }}/guide/cm" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-cm.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/cm" title="全球首款可手机无线充电的空气净化器">                                    全球首款可手机无线充电的空气净化器                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额:<span class="ui text">2,126,720</span>     支持人数:<span class="ui text">602</span>      达成率:<span class="ui text">4253％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>1999                             </div>                        </div>					</div>										<div class="magenta card">                        <div class="problock">                             <a title="世界首款太阳能电子蜡烛灯" alt="世界首款太阳能电子蜡烛灯" href="{{ app_url_action_base }}/guide/light" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-light.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/light" title="世界首款太阳能电子蜡烛灯">                                    世界首款太阳能电子蜡烛灯                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额:<span class="ui text">166,767</span>     支持人数:<span class="ui text">1537</span>      达成率:<span class="ui text">833％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>148                             </div>                        </div>					</div>										<div class="magenta card">                        <div class="problock">                             <a title="连爱智能手环" alt="连爱智能手环" href="{{ app_url_action_base }}/guide/loving" class="thumb"><img class="lazy" data-original="{{ app_url_packaged }}/images/case-linkloving.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg"></a>                             <h2>                                <a href="{{ app_url_action_base }}/guide/loving" title="连爱智能手环">                                    连爱智能手环，10天内突破27万                                </a>                             </h2>                             <div class="excerpt">                                 <p>众筹金额:<span class="ui text">329,006</span>     支持人数:<span class="ui text">1902</span>      达成率:<span class="ui text">3209％</span></p>                             </div>                             <div class="cats">                                 <span class="unit">￥</span>148                             </div>                        </div>					</div>									</div>			</div>		</div>	</div></section>{% endblock %}
