@@ -2,8 +2,8 @@
 {% block title %}发表主题{% endblock %}
 {% block layout_css %}
 	{% if css_use_bundle %}
-        <!--<link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />-->
-        <link rel="stylesheet" href="{{ app_url_packaged }}/css/ueditor.min.{{ css_bundle_version }}.css" type="text/css" />
+        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+        <!--<link rel="stylesheet" href="{{ app_url_packaged }}/css/ueditor.min.{{ css_bundle_version }}.css" type="text/css" />-->
 	{% else %}
         <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
 	{% endif %}
@@ -28,9 +28,9 @@
 
 {% block layout_js %}
 	{% if js_use_bundle %}
-		<!--<script src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>-->
-		<script src="{{ app_url_packaged }}/javascript/ueditor.config.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
-		<script src="{{ app_url_packaged }}/javascript/ueditor.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
+		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
+		<!--<script src="{{ app_url_packaged }}/javascript/ueditor.config.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>
+		<script src="{{ app_url_packaged }}/javascript/ueditor.min.{{ js_jquery_bundle_version }}.js" type="text/javascript"></script>-->
 	{% else %}
 		<script src="{{ app_url_packaged }}/javascript/froala_editor.min.js" type="text/javascript"></script>
 	{% endif %}
@@ -356,9 +356,7 @@
 								  <div data-value="0" class="{% if topic.attrbute == 0 %}active {% endif %}item">--请选择--</div>
 								  <div data-value="1" class="{% if topic.attrbute == 1 %}active {% endif %}item">原创</div>
 								  <div data-value="2" class="{% if topic.attrbute == 2 %}active {% endif %}item">转载</div>
-                  {% if visitor.can_admin %}
-								  <div data-value="3" class="{% if topic.attrbute == 3 %}active {% endif %}item">活动</div>
-                  {%endif%}
+
 								</div>
 							  </div>
 						  </div>
