@@ -125,18 +125,25 @@
   // 标签切换
   $('.childcell').click(function(){
     $(this).addClass('active');
+    var stat = $('#topic-more').data('status');
     $(this).parent().siblings().children().removeClass('active');
-    category_id = parseInt($(this).attr('category_id'));
+    category_id = parseInt($(this).data('category_id'));
     sort = parseInt($(this).attr('show_sort'));
     $('#topic-box').html(''); 
     var html = '';
     html += '<div style="text-align:center;margin:10px auto;">';
     html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
     html += '</div>';
+
+    if(stat == 0){
+        $('.ui.more.button').html('加载中...')
+
+        $('#topic-more').show();
+        $('#topic-more').data('status', 1);
+        $('#topic-more').data('page', 1);
+        ajax_load_more(category_id, 1, type, sort);
+    }
                 
-    $('#topic-more').show();
-    $('#topic-more').attr({'status': 0, 'page': 1});
-    ajax_load_more(category_id, 1, type, sort);
   })
 
 {% endblock %}
