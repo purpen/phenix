@@ -127,7 +127,7 @@
     $(this).addClass('active');
     var stat = $('#topic-more').data('status');
     $(this).parent().siblings().children().removeClass('active');
-    category_id = parseInt($(this).data('category_id'));
+    category_id = parseInt($(this).attr('category_id'));
     sort = parseInt($(this).attr('show_sort'));
     $('#topic-box').html(''); 
     var html = '';
