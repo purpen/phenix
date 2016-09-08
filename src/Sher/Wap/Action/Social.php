@@ -53,7 +53,7 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
         $this->stash['type_stick_css'] = 'active';
     }
  		
-		return $this->to_html_page('wap/topic/index.html'); 
+		return $this->to_html_page('wap/topic/home.html'); 
   }
 	
 	/**
