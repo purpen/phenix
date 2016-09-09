@@ -7,7 +7,7 @@
 		{%else%}
 	{% asset_list var:'assets' parent_id:topic._id size:1 asset_type:55 sort:'positive' %}
 		{% if topic.cover._id != asset._id %}
-		<img class="ui image bglazy" data-original="{{ asset.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
+		<div class="ui image bglazy" data-original="{{ asset.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
 		{% endif %}
     {%endif%}
     	<span class="flei">{{ topic.category.title }}</span>
