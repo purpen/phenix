@@ -60,8 +60,8 @@
     var type = "{{ type }}";
     var sort = "{{ sort }}";
     function ajax_load_more(category_id, page, type, time, sort){
-        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
-        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
+        var url = '{{ app_url_wap }}/app/site/topic/ajax_fetch_more';
+        $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:8 }, function(rs){
             rs.data['phenix'] = phenix.url;
             var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
             if(page==1){
@@ -75,7 +75,10 @@
                 $('#topic-more').data('page', page);
                 $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }else{
-                $('.ui.more.button').hide();
+                $('#topic-more').hide();
+                $('#topic-more').data('status', 0);
+                $('#topic-more').data('page', page);
+                $('.ui.more.button').html('<i class="search icon"></i> 查看更多话题');
             }
             $("div.bglazy").lazyload({
                 effect : "show"
@@ -125,6 +128,7 @@
   // 标签切换
   $('.childcell').click(function(){
     $(this).addClass('active');
+    var stat = $('#topic-more').data('status');
     $(this).parent().siblings().children().removeClass('active');
     category_id = parseInt($(this).attr('category_id'));
     sort = parseInt($(this).attr('show_sort'));
@@ -133,10 +137,16 @@
     html += '<div style="text-align:center;margin:10px auto;">';
     html += '<img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">';
     html += '</div>';
+
+    if(stat == 0){
+        $('.ui.more.button').html('加载中...')
+
+        $('#topic-more').show();
+        $('#topic-more').data('status', 1);
+        $('#topic-more').data('page', 1);
+        ajax_load_more(category_id, 1, type, sort);
+    }
                 
-    $('#topic-more').show();
-    $('#topic-more').attr({'status': 0, 'page': 1});
-    ajax_load_more(category_id, 1, type, sort);
   })
 
 {% endblock %}
