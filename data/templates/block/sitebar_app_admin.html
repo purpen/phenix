@@ -41,18 +41,33 @@
 	</div>
 	<div date="menu-admin" {% if show_type == 'sight' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_chief %}
+        <!--
 		<a class="{{ css_page_app_scene_scene }} item" href="{{ app_url_app_admin_base }}/scene_scene">
 			地盘管理
 		</a>
+        -->
 		<a class="{{ css_page_app_scene_sight }} item" href="{{ app_url_app_admin_base }}/scene_sight">
-			情景管理
+			情境管理
 		</a>
 		<a class="{{ css_page_app_scene_subject }} item" href="{{ app_url_app_admin_base }}/scene_subject">
 			专题管理
 		</a>
+
+        {%else%}
+            {% if visitor.is_customer %}
+                <a class="{{ css_page_app_scene_sight }} item" href="{{ app_url_app_admin_base }}/scene_sight">
+                    情境管理
+                </a>
+                <a class="{{ css_page_app_scene_subject }} item" href="{{ app_url_app_admin_base }}/scene_subject">
+                    专题管理
+                </a>
+            {%endif%}
+
 		{%endif%}
 	</div>
 		
+
+    <!--
     {% if visitor.is_customer %}
 	<div class="header item menu-admin">
 	    <i class="{% if show_type == 'product' %} plus {% else %} minus {% endif %} icon"></i><b>产品模块</b>
@@ -77,6 +92,7 @@
 		</div>
 		{% endif %}
 	{% endif %}
+    -->
 
 	<div class="header item menu-admin">
 		<i class="{% if show_type == 'app' %} plus {% else %} minus {% endif %} icon"></i><b>设备模块</b>
@@ -111,10 +127,22 @@
 		<a class="{{ css_page_app_scene_tags }} item" href="{{ app_url_app_admin_base }}/scene_tags">
 			标签管理
 		</a>
-		-->
 		<a class="{{ css_page_app_user_temp }} item" href="{{ app_url_app_admin_base }}/user_temp">
 			品牌/产品临时库
 		</a>
+
+		-->
+
+        {%else%}
+            {% if visitor.is_customer %}
+                <a class="{{ css_page_app_scene_context }} item" href="{{ app_url_app_admin_base }}/scene_context">
+                    语境管理
+                </a>
+                <a class="{{ css_page_app_brands }} item" href="{{ app_url_app_admin_base }}/brands">
+                    品牌管理
+                </a>
+            {%endif%}
+
 		{%endif%}
 	</div>
 

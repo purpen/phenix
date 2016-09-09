@@ -765,14 +765,15 @@
 			  	<input type="text" name="short_title" value="{{ product.short_title }}" />
                 <div class="description">简短名称用于移动端显示</div>
 			</div>
-			<div class="field">
-				<label>亮点</label>
-			  	<input type="text" name="advantage" value="{{ product.advantage }}" />
-			</div>
+
 			<div class="field">
 				<label>设计师</label>
 			  	<input type="text" name="designer_id" value="{{ product.designer_id }}" />
 				<div class="description">设计师的用户ID</div>
+			</div>
+			<div class="field">
+				<label>亮点</label>
+			  	<textarea name="advantage" class="small">{{ product.advantage }}</textarea>
 			</div>
 			<div class="field">
 				<label>简述</label>
