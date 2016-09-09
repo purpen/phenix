@@ -61,6 +61,8 @@
 {% endblock %}
 
 {% block jquery %}
+	var conheight = $('.conright').height();
+	$('.conleft').css('min-height',conheight);
 	//评论分享
   $('.ui.vote.btn').livequery(function(){
     $(this).bind('click',function(){
