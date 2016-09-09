@@ -27,6 +27,9 @@
 .iosewm{
 	display:none;
 }
+.ui.containermain{
+	height: auto !important;
+}
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -68,8 +71,6 @@
 {% endblock %}
 
 {% block jquery %}
-	var conheight = $('.conright').height();
-	$('.conleft').css('min-height',conheight);
 	$('.messege-2016 i.close').click(function(){
 		$('.messege-2016').fadeOut();
 		setTimeout(function(){ $('.messege-2016').remove(); },2000);
