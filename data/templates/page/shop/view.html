@@ -68,6 +68,8 @@
 {% endblock %}
 
 {% block jquery %}
+	var conheight = $('.conright').clientHeight;
+	$('.conleft').css('min-height',conheight);
 	$('.messege-2016 i.close').click(function(){
 		$('.messege-2016').fadeOut();
 		setTimeout(function(){ $('.messege-2016').remove(); },2000);
