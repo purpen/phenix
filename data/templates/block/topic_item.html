@@ -2,14 +2,11 @@
 	
 	<a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
 	{% if topic.cover %}
-	  {% asset_list var:'assets' parent_id:topic._id size:1 asset_type:55 sort:'positive' %}
 		<div class="ui image bglazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
-		{%else%}
-	{% asset_list var:'assets' parent_id:topic._id size:1 asset_type:55 sort:'positive' %}
-		{% if topic.cover._id != asset._id %}
-		<img class="ui image bglazy" data-original="{{ asset.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
-		{% endif %}
-    {%endif%}
+    {% endif %} 
+	{% if topic.cover._id != asset._id %}
+	<div class="ui image bglazy" data-original="{{ asset.thumbnails.acs.view_url }}" style="background-color: #eee;background-size:cover;"></div>
+	{% endif %}
     	<span class="flei">{{ topic.category.title }}</span>
 	</a>
     
