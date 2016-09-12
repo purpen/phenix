@@ -389,7 +389,6 @@
                             {% topic_list var:'topics' published:1 sort:1 type:1 page:1 size:10 %}
                             <div class="problock">
             					{% for topic in topics.rows %}
-            						{% if topic.published %}
                                         <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
                     						
                                             <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
@@ -417,7 +416,6 @@
                                 				</p>
                                             </div>
                                         </div>
-                                    {% endif %}
                                 {% endfor %}
                             </div>
                             
