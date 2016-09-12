@@ -12,7 +12,7 @@
     <a class="item {%if s=='exp'%}active{%endif%}" href="{{ app_url_admin }}/point/user_stat?s=exp">积分排行</a>
 		<a class="item {%if s=='money'%}active{%endif%}" href="{{ app_url_admin }}/point/user_stat?s=money">鸟币排行</a>
 	</div>
-	{% point_balance_list var:'list' sort_field:s page:page size:50 %}
+	{% point_balance_list var:'list' sort_field:s page:page size:size %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>

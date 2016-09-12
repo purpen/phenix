@@ -7,7 +7,7 @@ class Sher_Admin_Action_Point extends Sher_Admin_Action_Base {
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 20,
+		'size' => 100,
 		's' => 'exp',
 		'user_id' => '',
 		'event_code' => '',
