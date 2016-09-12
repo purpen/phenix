@@ -16,6 +16,7 @@
     var category_id = "{{ category_id }}";
     var type = "{{ type }}";
     var sort = "{{ sort }}";
+    var time = 0;
     function ajax_load_more(category_id, page, type, time, sort){
         var url = '{{ app_url_topic }}/ajax_fetch_more';
         $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
@@ -114,7 +115,7 @@
       });
 
       // 初始加载
-      ajax_load_more(category_id, 1, type, sort);
+      ajax_load_more(category_id, 1, type, time, sort);
 
 {% endblock %}
 
@@ -189,7 +190,9 @@
                                 <a href="{{ app_url_topic }}?category_id={{category_id}}&type=0&sort={{sort}}" class="item magenta {{ css_type_all }}">全部 </a>
                                 <a href="{{ app_url_topic }}?category_id={{category_id}}&type=1&sort={{sort}}" class="item magenta {{ css_type_stick }}">编辑推荐 </a>
                                 <a href="{{ app_url_topic }}?category_id={{category_id}}&type=2&sort={{sort}}" class="item magenta {{ css_type_fine }}">精华主题 </a>
+                                <!--
                                 <a href="{{ app_url_topic }}?category_id={{category_id}}&type=4&sort={{sort}}" class="item magenta {{ css_type_active }}">热门活动 </a>
+                                -->
                             </div>
 
                             <div class="ui text menu" style="margin:0;">

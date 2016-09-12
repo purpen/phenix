@@ -7,7 +7,7 @@ class Sher_Admin_Action_UserStat extends Sher_Admin_Action_Base implements Doggy
 	
 	public $stash = array(
 		'page' => 1,
-		'size' => 50,
+		'size' => 100,
     's' => 1,
     'month' => '',
     'week' => '',
