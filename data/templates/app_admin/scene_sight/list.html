@@ -48,11 +48,20 @@
 	$('.ui.submit.button.search').click(function(){
 		$('#search-form').submit();
 	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
 	
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">情景管理</h3>
+	<h3 class="ui header">情境管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
@@ -137,10 +146,11 @@
 					  	<label></label>
 					</div>
 				</td>
-        <td>{{ d._id }}</td>
-                <td>
-					<div class="ui image">
+                <td>{{ d._id }}</td>
+                <td style="position:relative;">
+                    <div class="ui image show_big_img">
 						<img src="{{ d.cover.thumbnails.mini.view_url }}" width="80px" />
+                        <div class="big_box" style="position:absolute; top:0; left:0; display:none; z-index:99999;"><img src="{{ d.cover.thumbnails.huge.view_url }}" title="{{ d.titile }}" alt="{{ d.title }}" width="600px" /></div>
 					</div>
 				</td>
 				<td>
