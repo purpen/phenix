@@ -163,7 +163,7 @@
                     <div class="news content">
                         <a class="ui link" href="{{ d.user.home_url }}" target="_blank">{{ d.user.nickname }}</a>  评论了你的<span>{{ d.type_str }}</span> 
                         <a class="ui magenta link" href="{{ d.target.view_url }}" target="_blank">{{ d.target.title }}</a>
-                        <span class="date">{{ d.created_on }}</span>
+                        <span class="date">{{ d.created_on|relative_datetime }}</span>
                         <div class="sub_header text">
                           {{ d.content }}
                         
