@@ -329,10 +329,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
             'fiu_comment_count' => 0, // Fiu 评论
             'fiu_notice_count' => 0, // Fiu 通知
             'sight_love_count' => 0, // Fiu 别人给他点的赞(场景)
-            'order_wait_payment' => 0, // 订单待付款
-            'order_ready_goods' => 0, // 订单待付款
-            'order_sended_goods' => 0, // 订单待收货
-            'order_evaluate' => 0, // 订单待收货
+            'order_wait_payment' => 0, // 待付款
+            'order_ready_goods' => 0, // 待发货
+            'order_sended_goods' => 0, // 待收货
+            'order_evaluate' => 0, // 待评价
 		),
 		// 用户行为记录
 		'visit' => array(

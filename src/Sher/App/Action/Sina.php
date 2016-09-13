@@ -100,17 +100,20 @@ class Sher_App_Action_Sina extends Sher_App_Action_Base {
             $nickname = '微博用户-'.$nickname;
           }
 
+          $avatar_url = isset($weibo_info['avatar_large']) ? $weibo_info['avatar_large']:null;
+
           // 获取session id
           $service = Sher_Core_Session_Service::instance();
           $sid = $service->session->id;
 
           $this->stash['third_source'] = 'weibo';
           $this->stash['uid'] = $uid;
-				  $this->stash['access_token'] = $token['access_token'];
+		  $this->stash['access_token'] = $token['access_token'];
           $this->stash['nickname'] = $nickname;
           $this->stash['summary'] = $weibo_info['description'];
-				  $this->stash['city'] = $weibo_info['location'];
+		  $this->stash['city'] = $weibo_info['location'];
           $this->stash['sex'] = $weibo_info['gender'];
+          $this->stash['avatar_url'] = $avatar_url;
           $this->stash['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
           $this->stash['login_token'] = Sher_Core_Helper_Auth::gen_login_token();
           $this->stash['session_random'] = md5($sid);
