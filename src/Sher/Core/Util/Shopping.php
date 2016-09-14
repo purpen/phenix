@@ -202,6 +202,8 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
+
+        $is_current_product = true;
     foreach($items as $key=>$val){
       // 参数初始化
       $sku_id = (int)$val['sku'];
@@ -219,13 +221,17 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
       }
 
       // 指定商品ID
-      if(isset($bonus['product_id']) && (int)$bonus['product_id'] == $product['_id']){
-        $pass = false;
-        break;
+      if(!empty($bonus['product_id'])){
+        $is_current_product = false;
+        if((int)$bonus['product_id'] == $product['_id']){
+            $is_current_product = true;
+            break;
+        }
       }
 
     }// endfor
 
+    if(!$is_current_product) $pass = false;
     if($pass){
       return array('code'=>0, 'msg'=>"success!", 'coin_code'=>$bonus['code'], 'coin_money'=>$bonus['amount']);   
     }else{

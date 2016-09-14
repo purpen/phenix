@@ -1636,7 +1636,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if(empty($bonus_result['code'])){
         return $this->api_json('success', 0, array('useful'=>1, 'code'=>$bonus_result['coin_code'], 'coin_money'=>$bonus_result['coin_money'])); 
       }else{
-        return $this->api_json($bonus_result['msg'], $bonus_result['code']);     
+        return $this->api_json($bonus_result['msg'], $bonus_result['code']);
       }
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Bonus order failed: ".$e->getMessage());
