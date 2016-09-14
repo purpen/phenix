@@ -339,7 +339,7 @@
                     <!--精华话题-->
                     {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
                     
-                    {% topic_list var:'topics' published:1 type:2 page:1 size:4 %}
+                    {% topic_list var:'topics' published:1 type:2 sort:8 page:1 size:4 %}
                     <div class="ui socialstick stickcount four blocks">
                 		{% for topic in topics.rows %}
                         <div class="block">
