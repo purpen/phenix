@@ -91,8 +91,10 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'top'   => 0,
 		# 推荐（编辑推荐、推荐至首页）
 		'stick' => 0,
+        'stick_on' => 0,
 		# 精华标识
-		'fine'  => 0,
+        'fine'  => 0,
+        'fine_on' => 0,
 		
     	'deleted' => 0,
 		# 是否审核，默认已审核
@@ -295,7 +297,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
      * 标记主题为编辑推荐
      */
     public function mark_as_stick($id, $value=self::STICK_EDITOR, $options=array()) {
-        $ok = $this->update_set($id, array('stick' => $value));
+        $ok = $this->update_set($id, array('stick' => $value, 'stick_on'=>time()));
         if($ok){
             $data = $this->load($id);
             // 增加消费积分（鸟币）
@@ -350,7 +352,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id, $options=array()){
-		$ok = $this->update_set($id, array('fine' => 1));
+		$ok = $this->update_set($id, array('fine' => 1, 'fine_on' => time()));
         if($ok){
             $data = $this->load($id);
             // 增加消费积分（鸟币）
