@@ -173,13 +173,13 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 				$options['sort_field'] = 'view';
 				break;
             case 6:
-                $options['sort_field'] = 'stick:latest';
+                $options['sort_field'] = 'stick:stick_on';
                 break;
             case 7:
                 $options['sort_field'] = 'last_reply';
                 break;
             case 8:
-                $options['sort_field'] = 'fine:update';
+                $options['sort_field'] = 'fine:fine_on';
                 break;
 		}
 		
