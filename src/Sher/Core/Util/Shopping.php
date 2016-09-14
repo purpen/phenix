@@ -203,7 +203,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 		$inventory_mode = new Sher_Core_Model_Inventory();
 		$product_mode = new Sher_Core_Model_Product();
 
-        $is_current_product = true;
+    $is_current_product = true;
     foreach($items as $key=>$val){
       // 参数初始化
       $sku_id = (int)$val['sku'];
@@ -217,13 +217,13 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
       }
       $product = $product_mode->load($product_id);
       if(empty($product)){
-        return array('code'=>4006, 'msg'=>"订单商品不存在!");     
+        return array('code'=>4006, 'msg'=>"订单商品不存在!");
       }
 
       // 指定商品ID
       if(!empty($bonus['product_id'])){
         $is_current_product = false;
-        if((int)$bonus['product_id'] == $product['_id']){
+        if($bonus['product_id'] == $product['_id']){
             $is_current_product = true;
             break;
         }
