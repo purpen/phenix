@@ -120,6 +120,7 @@
 				</th>
 				<th>缩略图</th>
 				<th class="five wide">产品名称</th>
+                <th>价格</th>
 				<th>剩余/已售</th>
 				<th>历属</th>
 				<th>当前阶段</th>
@@ -155,7 +156,9 @@
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
+                    <p class="attribute">二维码：{{ product.wap_view_url}}?infoType=1&infoId={{product._id}}</p>
 				</td>
+                <td>{{ product.sale_price }}</td>
 				<td>
 					{% if product.stage == 5 %}
 					<p><span class="ui black text">{{ product.presale_inventory|default 0 }}</span> / <span class="ui green text">{{ product.presale_count|default 0 }}</span></p>
