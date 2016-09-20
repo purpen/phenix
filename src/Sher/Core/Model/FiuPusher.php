@@ -86,7 +86,7 @@ class Sher_Core_Model_FiuPusher extends Sher_Core_Model_Base  {
       $ok = $this->create($data);
       // 首次绑定送红包
       if($ok){
-        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
+        //Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
 
         /**
         // 随机赠送9.9红包做活动
