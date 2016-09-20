@@ -70,6 +70,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 		's_user_id' => null,
 		//是否已读
 		'readed' => 0,
+        // 来源：0.All；1.Web；2.App；3.--
+        'from_to' => 1,
 		//类型
 		'kind' => self::KIND_TOPIC,
 		//提醒内容(备用)
@@ -83,7 +85,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','s_user_id','readed','kind','evt');
+	protected $int_fields = array('user_id','s_user_id','readed','kind','evt','from_to');
 	
 	protected $joins = array(
         'user'   =>  array('user_id'   => 'Sher_Core_Model_User'),
@@ -91,15 +93,16 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
 	);
 
 	/**
-	 * 创建之前，更新用户count
+	 * 创建之后，更新用户count
 	 */
     protected function after_save() {
         $user_id = $this->data['user_id'];
         $kind = $this->data['kind'];
+        $from_to = isset($this->data['from_to']) ? (int)$this->data['from_to'] : 1;
         //如果是新的记录//更新用户提醒数
         if($this->insert_mode) {
             $user = new Sher_Core_Model_User();
-            if(in_array($kind, array(12, 13))){
+            if($from_to==2){
               $field = 'fiu_alert_count';
             }else{
               $field = 'alert_count';          
@@ -162,6 +165,10 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       }
                       $r_obj = array('comment_view_url'=>$url, 'comment_type'=>'subject');
                       $c_type_str = '专题';
+                      break;
+                    case 12:
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_SCENE_SIGHT');
+                      $c_type_str = '情境';
                       break;
                   }
                 

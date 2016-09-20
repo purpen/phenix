@@ -23,7 +23,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
     // 专题评论 target_id 1:云马C1争霸; 5.奶爸奶妈PK; 2.--; 3.--; 4.--
     const TYPE_SUBJECT = 10;
     const TYPE_GPRODUCT = 11; // 情境商品
-	const TYPE_SCENE_SIGHT = 12; // 场景
+	const TYPE_SCENE_SIGHT = 12; // 情境
 	const TYPE_SCENE_SUBJECT = 13; // 情境专题
 	
     protected $schema = array(
@@ -175,6 +175,8 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
           return;
         }
         $timeline_type = 0;
+        $remind_from_to = 1;
+        $remind_true = false;
         // 如果是新的记录
         if($this->insert_mode) {
             $type = $this->data['type'];
@@ -182,7 +184,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                 case self::TYPE_TOPIC:
                     $timeline_type = Sher_Core_Util_Constant::TYPE_TOPIC;
                     $kind = Sher_Core_Model_Remind::KIND_TOPIC;
-                    
+                    $remind_true = true;
                     $model = new Sher_Core_Model_Topic();
                     // 获取目标用户ID
                     $topic = $model->find_by_id((int)$this->data['target_id']);
@@ -197,6 +199,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $service->send_event('evt_by_reply', $user_id);
                     break;
                 case self::TYPE_PRODUCT:
+                    $remind_true = true;
                     $timeline_type = Sher_Core_Util_Constant::TYPE_PRODUCT;
                     $kind = Sher_Core_Model_Remind::KIND_PRODUCT;
                     
@@ -231,6 +234,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $model->increase_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
                 case self::TYPE_STUFF:
+                    $remind_true = true;
                     $timeline_type = Sher_Core_Util_Constant::TYPE_STUFF;
                     $kind = Sher_Core_Model_Remind::KIND_STUFF;
                     
@@ -274,7 +278,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     $model->inc_counter('comment_count', 1, (int)$this->data['target_id']);
                     break;
 				case self::TYPE_SCENE_SIGHT:
+                    $remind_true = true;
                     $model = new Sher_Core_Model_SceneSight();
+                    $remind_from_to = 2;
                     //获取目标用户ID
                     $scene_sight = $model->find_by_id((int)$this->data['target_id']);
                     $user_id = $scene_sight['user_id'];
@@ -288,7 +294,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
                     //$user_id = $scene_subject['user_id'];
                     break;
                 default:
-                    break;
+
             }
 
             // 添加积分
@@ -307,8 +313,9 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
             } 
 
             //如果是回复某人评论,给他提醒
-            if(isset($this->data['is_reply']) && $this->data['is_reply']==1){
+            if($remind_true && isset($this->data['is_reply']) && $this->data['is_reply']==1){
 				$remind_model = new Sher_Core_Model_Remind();
+
 				$arr = array(
 					'user_id'=> $this->data['reply_user_id'],
 					's_user_id'=> $this->data['user_id'],
@@ -316,6 +323,7 @@ class Sher_Core_Model_Comment extends Sher_Core_Model_Base  {
 					'kind'=> Sher_Core_Model_Remind::KIND_COMMENT,
 					'related_id'=> (string)$this->data['_id'],
 					'parent_related_id'=> $this->data['target_id'],
+                    'from_to' => $remind_from_to,
 				);
 				$ok = $remind_model->create($arr);            
             }else{
