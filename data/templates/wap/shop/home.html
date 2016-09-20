@@ -56,20 +56,37 @@
 </style>
 {% endblock %}
 {% block jquery %}
+	$('#slider').flexslider({
+      animation: "slide",
+      directionNav: false, 
+      controlNav: true,
+      animationLoop: true,
+      slideshow: true,
+      slideshowSpeed: 5000,
+      animationDuration: 300,
+      animationSpeed: 300,
+  });
 	
+	var flexheight = Math.floor($('body').width()*9/16)+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
 {% endblock %}
 
 {% block content %}
 <div class="ui sheader">
 	<p>Fiu店</p>
 </div>
-<div class="shopbanner">
-	{% ad_list var:'adshop' page:1 state:2 size:1 name:'wap_index_shop_slide' sort_field:'latest' %}
-  {% if adshop %}
-      <a href="{{ adshop.view_url }}" title="{{ adshop.title }}" alt="{{ adshop.title }}">
-          <img src="{{ adshop.cover.fileurl }}" alt="{{ adshop.title }}" />
-      </a>
-  {%endif%}
+{% ad_list var:'adshop' page:1 state:2 size:5 name:'wap_index_shop_slide' %}
+<div id="slider" class="flexslider flex-single">
+  <ul class="slides">
+    {% for adshop in ad.rows %}
+      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 
 {% endblock %}
