@@ -60,8 +60,8 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
     const KIND_ALBUM = 8; //产品灵感
     const KIND_SUBJECT = 10; //专题
 	  const KIND_BIRD_ADMIN = 11; // 系统操作
-    const KIND_SCENE = 12; //情景
-	  const KIND_SIGHT = 13; // 场景
+    const KIND_SCENE = 12; // 地盘
+	  const KIND_SIGHT = 13; // 情境
 
     protected $schema = array(
         //收到提醒的人
@@ -177,11 +177,11 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                 break;
             case self::KIND_SCENE:
                 $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_SceneScene');
-                $kind_str = '情景';
+                $kind_str = '地盘';
                 break;
             case self::KIND_SIGHT:
                 $obj = &DoggyX_Model_Mapper::load_model($row['related_id'], 'Sher_Core_Model_SceneSight');
-                $kind_str = '场景';
+                $kind_str = '情境';
                 break;
         }
       

@@ -1,7 +1,7 @@
 <?php
 /**
- * 提醒API接口
- * @author tianshuai
+ * 提醒
+ * @author tianshuai 
  */
 class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 	
@@ -11,12 +11,114 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 	 * 入口
 	 */
 	public function execute(){
-		//return $this->getlist();
+		return $this->getlist();
 	}
 	
+	/**
+	 * 列表
+	 */
+	public function getlist(){
+		
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+		$evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
 
-	
+        $user_id = $this->current_user_id;
+		
+		$query   = array();
+		$options = array();
 
+		//显示的字段
+		$options['some_fields'] = array(
+		  '_id'=>1, 'user_id'=>1, 's_user_id'=>1, 'readed'=>1, 'content'=>1, 'related_id'=>1,
+		  'parent_related_id'=>1, 'evt'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
+          's_user'=>1, 'kind'=>1, 'kind_str'=>1, 'info'=>1, 
+		);
+		
+		// 查询条件
+		
+		$query['user_id'] = $user_id;
+		if($kind){
+			$query['kind'] = $kind;
+		}
+		
+		// 分页参数
+		$options['page'] = $page;
+		$options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'time';
+				break;
+            default:
+				$options['sort_field'] = 'time';
+		}
+		
+		// 开启查询
+		$service = Sher_Core_Service_Remind::instance();
+		$result = $service->get_remind_list($query, $options);
+		$remind_model = new Sher_Core_Model_Remind();
+		$user_model = new Sher_Core_Model_User();
+		
+		foreach($result['rows'] as $k => $v){
+            $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
+            $s_user = null;
+            if($result['rows'][$k]['s_user']){
+                $s_user = array();
+                $s_user['_id'] = $result['rows'][$k]['s_user']['_id'];
+                $s_user['nickname'] = $result['rows'][$k]['s_user']['nickname'];
+                $s_user['avatar_url'] = isset($result['rows'][$k]['s_user']['medium_avatar_url']) ? $result['rows'][$k]['s_user']['medium_avatar_url'] : null;
+            }
+            $result['rows'][$k]['s_user'] = $s_user;
+
+            $user = null;
+            if($result['rows'][$k]['user']){
+                $user = array();
+                $user['_id'] = $result['rows'][$k]['user']['_id'];
+                $user['nickname'] = $result['rows'][$k]['user']['nickname'];
+                $user['avatar_url'] = isset($result['rows'][$k]['user']['medium_avatar_url']) ? $result['rows'][$k]['user']['medium_avatar_url'] : null;
+            }
+            $result['rows'][$k]['user'] = $s_user;
+
+            $target = null;
+            if($result['rows'][$k]['target']){
+                $target = array();
+                switch($result['rows'][$k]['kind']){
+                    case Sher_Core_Model_Remind::KIND_SIGHT:
+                        $target['_id'] = $result['rows'][$k]['target']['_id'];
+                        $target['title'] = $result['rows'][$k]['target']['title'];
+                        break;
+                    default:
+                        $target = null;
+                }
+            
+            }
+            $result['rows'][$k]['target'] = $target;
+
+            $comment_target = null;
+            if($result['rows'][$k]['comment_target']){
+                $comment_target['_id'] = (string)$result['rows'][$k]['comment_target']['_id'];
+                //$comment_target['content'] = $result['rows'][$k]['comment_target']['content'];
+            
+            }
+            $result['rows'][$k]['comment_target'] = $comment_target;
+
+            $is_read = isset($result['rows'][$k]['readed'])?$result['rows'][$k]['readed']:0;
+            if(empty($is_read)){
+              # 更新已读标识
+              $remind_model->set_readed($result['rows'][$k]['_id']);
+            }
+		}   // endfor
+		
+		// 过滤多余属性
+        $filter_fields  = array('__extend__');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
 
 }
 
