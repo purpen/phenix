@@ -102,6 +102,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
         $target_user_id = $this->data['user_id'];
         $kind = null;
         $user_id = 0;
+        $from_to = 1;
 
 		// 导入的数据,直接跳过
 		if(isset($this->data['product_idea']) && $this->data['product_idea']==1){
@@ -220,12 +221,15 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				case self::TYPE_APP_SCENE_SIGHT:
                     $model = new Sher_Core_Model_SceneSight();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
-                    //$kind = Sher_Core_Model_Remind::KIND_SIGHT;
+                    $kind = Sher_Core_Model_Remind::KIND_SIGHT;
+                    $from_to = 2;
                     // 获取目标用户ID
+                    $from_to = 2;
                     $sight = $model->load((int)$this->data['target_id']);
                     $user_id = $sight['user_id'];
                     break;
 				case self::TYPE_APP_SCENE_SUBJECT:
+                    $from_to = 2;
                     $model = new Sher_Core_Model_SceneSubject();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
@@ -282,6 +286,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     'kind'=> $kind,
                     'related_id'=> $this->data['target_id'],
                     'parent_related_id'=> (string)$this->data['_id'],
+                    'from_to' => $from_to,
                 );
                 $ok = $remind->create($arr);
             }

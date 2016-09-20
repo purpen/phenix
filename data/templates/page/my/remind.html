@@ -73,7 +73,7 @@
 			{% include "block/center/head_notice_nav.html" %}
 			
 			<div class="ui alarm segment">
-                {% remind_list var:'list' page:page user_id:user_id size:20 set_readed:1 %}
+                {% remind_list var:'list' page:page user_id:user_id from_to:1 size:20 set_readed:1 %}
                     {% if list.rows %}
                         {% for d in list.rows %}
                             {% if d.target %}
