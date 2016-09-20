@@ -40,6 +40,19 @@
 		
 		return false;
 	});
+
+    // 获取产品二维码
+    $('.fetch_qr').click(function(){
+        var str = $(this).data('str');
+        $.get("{{ app_url_admin_base }}/product/fetch_qr", {str:str}, function(result){
+            //alert(result);
+
+            $('#qr_box').html(result);
+		$('.ui.qr-box.modal')
+		.modal('show');
+
+        });
+    });
 	
 {% endblock %}
 	
@@ -156,7 +169,7 @@
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
-                    <p class="attribute">二维码：{{ product.wap_view_url}}?infoType=1&infoId={{product._id}}</p>
+                    <p class="attribute fetch_qr" data-str="{{ product.wap_view_url}}?infoType=1&infoId={{product._id}}">查看二维码</p>
 				</td>
                 <td>{{ product.sale_price }}</td>
 				<td>
@@ -289,4 +302,16 @@
 		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
+
+
+<div class="ui qr-box small modal transition">
+	<div class="header" style="position: relative;">
+	    产品二维码
+	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container" id="qr_box">
+	</div>
+</div>
+
+
 {% endblock %}

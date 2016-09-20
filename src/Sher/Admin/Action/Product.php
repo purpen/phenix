@@ -1073,5 +1073,24 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
   
   }
 
+  /**
+   * 获取二维码
+   */
+  function fetch_qr(){
+      $str = isset($this->stash['str']) ? $this->stash['str'] : null;
+      $options = array(
+        'outfile' => false,
+        'level' => 'L',
+        'size' => 10,
+      );
+
+      ob_start();
+      Sher_Core_Util_QrCode::gen_qr_code($str, $options);
+      $imageString = base64_encode(ob_get_contents());
+      ob_end_clean();
+
+      echo '<img src="data:image/png;base64,'.$imageString.'" />';
+  }
+
 }
 
