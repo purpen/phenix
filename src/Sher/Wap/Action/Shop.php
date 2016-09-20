@@ -39,7 +39,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
    * 商店首页
    */
   public function index(){
-    return $this->to_html_page('wap/shop/index.html');
+    return $this->to_html_page('wap/shop/home.html');
   }
 
   /**
