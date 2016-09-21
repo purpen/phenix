@@ -24,21 +24,25 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	public $names = array(
 		'T9', # 上线红包
 		'TG', # 玩蛋去活动
-    'VA', # 情人节红包20
-    'RE', # 注册送
-    'IV', # 邀请送
-    'D1', # 线下活动,注册抽奖(ces,大赛)
-    'ZP', # 招聘H5分享
-    'QX', # 七夕注册送红包100 满299可用
-    'JBL', # 七夕敦请送JBL指定红包
-    'SQR', # 扫码送30元红包
-    'DB', # 兑吧送红包
-    'SD', # 签到抽奖红包
-    'DA', # 首次下载APP
-    'AS', # app下单分享送5元
-    'APS', # app下载兑吧送红包
-    'SB' , # 通过链接送红包活动
-    'FIU_N1', # 内测送200元红包
+        'VA', # 情人节红包20
+        'RE', # 注册送
+        'IV', # 邀请送
+        'D1', # 线下活动,注册抽奖(ces,大赛)
+        'ZP', # 招聘H5分享
+        'QX', # 七夕注册送红包100 满299可用
+        'JBL', # 七夕敦请送JBL指定红包
+        'SQR', # 扫码送30元红包
+        'DB', # 兑吧送红包
+        'SD', # 签到抽奖红包
+        'DA', # 首次下载APP
+        'AS', # app下单分享送5元
+        'APS', # app下载兑吧送红包
+        'SB' , # 通过链接送红包活动
+        'FIU_N1', # 内测送200元红包
+        'DA100', # 内测 满999减100
+        'DA50', #内测 满499减50
+        'DA30', # 内测 满299减30
+        'DA20', #内测 满199减20
 	);
 	
     protected $schema = array(
@@ -264,14 +268,15 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0){
 		# 红包金额
 	  $bonus = array(
-			'A' => 50,
-      'B' => 100,
-      'C' => 30, 
-      'D' => 52,
-      'E' => 5,
-      'F' => 9.9,
-      'G' => 10,
-      'H' => 200,
+          'A' => 50,
+          'B' => 100,
+          'C' => 30, 
+          'D' => 52,
+          'E' => 5,
+          'F' => 9.9,
+          'G' => 10,
+          'H' => 200,
+          'I' => 20,
     );
 
     #最低限额
@@ -282,6 +287,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'D' => 299,
       'E' => 399,
       'F' => 50,
+      'G' => 999,
+      'H' => 499,
     );
 		
     for($i=0; $i<$count; $i++){

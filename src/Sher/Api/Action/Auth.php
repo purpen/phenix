@@ -59,19 +59,20 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		
         // export some attributes to browse client.
 		$user_data = $user->extended_model_row($result);
-    // 过滤用户字段
-    $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
+        // 过滤用户字段
+        $data = Sher_Core_Helper_FilterFields::wap_user($user_data);
 
-    $app_type = $this->current_app_type;
-    if($app_type==1){
-      $pusher = new Sher_Core_Model_Pusher();
-    }elseif($app_type==2){
-      $pusher = new Sher_Core_Model_FiuPusher();
-    }else{
-    }
-    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
-    $this->current_user_id = $user_id;
-		
+        $app_type = $this->current_app_type;
+        if($app_type==1){
+          $pusher = new Sher_Core_Model_Pusher();
+        }elseif($app_type==2){
+          $pusher = new Sher_Core_Model_FiuPusher();
+        }else{
+        }
+        $bind_result = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+        $data['is_bonus'] = $bind_result['is_bonus'];
+        $this->current_user_id = $user_id;
+
 		return $this->api_json('欢迎回来.', 0, $data);
 	}
 	
@@ -154,20 +155,21 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
             $ok = $user_model->create($user_info);
 			if($ok){
 				$user_id = $user_model->id;
-        $user = $user_model->extend_load($user_id);
-				
-    // 过滤用户字段
-    $data = Sher_Core_Helper_FilterFields::wap_user($user);
+                $user = $user_model->extend_load($user_id);
+                        
+                // 过滤用户字段
+                $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
-    $app_type = $this->current_app_type;
-    if($app_type==1){
-      $pusher = new Sher_Core_Model_Pusher();
-    }elseif($app_type==2){
-      $pusher = new Sher_Core_Model_FiuPusher();
-    }else{
-    }
-    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
-    $this->current_user_id = $user_id;
+                $app_type = $this->current_app_type;
+                if($app_type==1){
+                  $pusher = new Sher_Core_Model_Pusher();
+                }elseif($app_type==2){
+                  $pusher = new Sher_Core_Model_FiuPusher();
+                }else{
+                }
+                $bind_result = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+                $data['is_bonus'] = $bind_result['is_bonus'];
+                $this->current_user_id = $user_id;
 
 			}
         }catch(Sher_Core_Model_Exception $e){
@@ -394,7 +396,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       }else{
       }
 
-      $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+      $bind_result = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+      $data['is_bonus'] = $bind_result['is_bonus'];
       $this->current_user_id = $user_id;
 
 		  return $this->api_json('欢迎回来.', 0, array('has_user'=>1, 'user'=>$data));
@@ -555,7 +558,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
           $pusher = new Sher_Core_Model_FiuPusher();
         }else{
         }
-        $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+        $bind_result = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+        $data['is_bonus'] = $bind_result['is_bonus'];
         $this->current_user_id = $user_id;
 
         return $this->api_json('创建成功!', 0, $data);
@@ -632,20 +636,21 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       }
     }
 		
-    // export some attributes to browse client.
+        // export some attributes to browse client.
 		$user = $user_model->extended_model_row($user);
-    // 过滤用户字段
-    $data = Sher_Core_Helper_FilterFields::wap_user($user);
+        // 过滤用户字段
+        $data = Sher_Core_Helper_FilterFields::wap_user($user);
 
-    $app_type = $this->current_app_type;
-    if($app_type==1){
-      $pusher = new Sher_Core_Model_Pusher();
-    }elseif($app_type==2){
-      $pusher = new Sher_Core_Model_FiuPusher();
-    }else{
-    }
-    $ok = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
-    $this->current_user_id = $user_id;
+        $app_type = $this->current_app_type;
+        if($app_type==1){
+          $pusher = new Sher_Core_Model_Pusher();
+        }elseif($app_type==2){
+          $pusher = new Sher_Core_Model_FiuPusher();
+        }else{
+        }
+        $bind_result = $pusher->binding($uuid, $user_id, $from_to, $this->stash['channel']);
+        $data['is_bonus'] = $bind_result['is_bonus'];
+        $this->current_user_id = $user_id;
 		
 		return $this->api_json('欢迎回来.', 0, $data);
   }
