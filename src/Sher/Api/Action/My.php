@@ -1014,7 +1014,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       }
       $data[$i]['created_at'] = Sher_Core_Helper_Util::relative_datetime($data[$i]['created_on']);
 
-      // 场景信息
+      // 情境信息
       $data[$i]['target_small_cover_url'] = null;
       $data[$i]['target_title'] = null;
       if($data[$i]['type']==Sher_Core_Model_Comment::TYPE_SCENE_SIGHT){

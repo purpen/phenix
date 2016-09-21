@@ -72,7 +72,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 $s_user['nickname'] = $result['rows'][$k]['s_user']['nickname'];
                 $s_user['avatar_url'] = isset($result['rows'][$k]['s_user']['medium_avatar_url']) ? $result['rows'][$k]['s_user']['medium_avatar_url'] : null;
             }
-            $result['rows'][$k]['s_user'] = $s_user;
+            $result['rows'][$k]['send_user'] = $s_user;
 
             $user = null;
             if($result['rows'][$k]['user']){
@@ -81,7 +81,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 $user['nickname'] = $result['rows'][$k]['user']['nickname'];
                 $user['avatar_url'] = isset($result['rows'][$k]['user']['medium_avatar_url']) ? $result['rows'][$k]['user']['medium_avatar_url'] : null;
             }
-            $result['rows'][$k]['user'] = $s_user;
+            $result['rows'][$k]['revice_user'] = $user;
 
             $target = null;
             if($result['rows'][$k]['target']){
@@ -94,6 +94,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                     case Sher_Core_Model_Remind::KIND_SIGHT:
                         $target['_id'] = $result['rows'][$k]['target']['_id'];
                         $target['content'] = $result['rows'][$k]['target']['title'];
+                        $target['cover_url'] = $result['rows'][$i]['target']['cover']['thumbnails']['mini']['view_url'];
                         break;
                     default:
                         $target = null;
@@ -106,6 +107,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
             if($result['rows'][$k]['comment_target']){
                 $comment_target['_id'] = $result['rows'][$k]['comment_target']['_id'];
                 $comment_target['content'] = $result['rows'][$k]['comment_target']['title'];
+                $comment_target['cover_url'] = isset($result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url']) ? $result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url'] : null;
             }
             $result['rows'][$k]['comment_target'] = $comment_target;
 
@@ -128,7 +130,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
         }
 		
 		// 过滤多余属性
-        $filter_fields  = array('__extend__');
+        $filter_fields  = array('user', 's_user', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		return $this->api_json('请求成功', 0, $result);
