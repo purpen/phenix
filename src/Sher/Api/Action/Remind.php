@@ -64,31 +64,27 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 		$remind_model = new Sher_Core_Model_Remind();
 		
 		foreach($result['rows'] as $k => $v){
-            $send_user = isset($result['rows'][$k]['s_user']) ? $result['rows'][$k]['s_user'] : null;
-            $revice_user = isset($result['rows'][$k]['user']) ? $result['rows'][$k]['user'] : null;
-            $target_obj = isset($result['rows'][$k]['target']) ? $result['rows'][$k]['target'] : null;
-            $comment_target_obj = isset($result['rows'][$k]['comment_target']) ? $result['rows'][$k]['comment_target'] : null;
             $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
             $s_user = null;
-            if($send_user){
+            if($result['rows'][$k]['s_user']){
                 $s_user = array();
                 $s_user['_id'] = $result['rows'][$k]['s_user']['_id'];
                 $s_user['nickname'] = $result['rows'][$k]['s_user']['nickname'];
                 $s_user['avatar_url'] = isset($result['rows'][$k]['s_user']['medium_avatar_url']) ? $result['rows'][$k]['s_user']['medium_avatar_url'] : null;
             }
-            $result['rows'][$k]['s_user'] = $s_user;
+            $result['rows'][$k]['send_user'] = $s_user;
 
             $user = null;
-            if($revice_user){
+            if($result['rows'][$k]['user']){
                 $user = array();
                 $user['_id'] = $result['rows'][$k]['user']['_id'];
                 $user['nickname'] = $result['rows'][$k]['user']['nickname'];
                 $user['avatar_url'] = isset($result['rows'][$k]['user']['medium_avatar_url']) ? $result['rows'][$k]['user']['medium_avatar_url'] : null;
             }
-            $result['rows'][$k]['user'] = $user;
+            $result['rows'][$k]['revice_user'] = $user;
 
             $target = null;
-            if($target_obj){
+            if($result['rows'][$k]['target']){
                 $target = array();
                 switch($result['rows'][$k]['kind']){
                     case Sher_Core_Model_Remind::KIND_COMMENT:
@@ -105,15 +101,15 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 }
             
             }
-            $result['rows'][$k]['target'] = $target;
+            $result['rows'][$k]['target_obj'] = $target;
 
             $comment_target = null;
-            if($comment_target_obj){
+            if($result['rows'][$k]['comment_target']){
                 $comment_target['_id'] = $result['rows'][$k]['comment_target']['_id'];
                 $comment_target['content'] = $result['rows'][$k]['comment_target']['title'];
                 $comment_target['cover_url'] = isset($result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url']) ? $result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url'] : null;
             }
-            $result['rows'][$k]['comment_target'] = $comment_target;
+            $result['rows'][$k]['comment_target_obj'] = $comment_target;
 
             $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['created_on']);
 
@@ -134,7 +130,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
         }
 		
 		// 过滤多余属性
-        $filter_fields  = array('__extend__');
+        $filter_fields  = array('user', 's_user', 'target', 'comment_target', '__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		return $this->api_json('请求成功', 0, $result);
