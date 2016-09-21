@@ -34,12 +34,13 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 		$options['some_fields'] = array(
 		  '_id'=>1, 'user_id'=>1, 's_user_id'=>1, 'readed'=>1, 'content'=>1, 'related_id'=>1,
 		  'parent_related_id'=>1, 'evt'=>1, 'created_on'=>1, 'updated_on'=>1, 'created_at'=>1,
-          's_user'=>1, 'kind'=>1, 'kind_str'=>1, 'info'=>1, 
+          's_user'=>1, 'kind'=>1, 'kind_str'=>1, 'info'=>1, 'from_to'=>1,
 		);
 		
 		// 查询条件
 		
-		$query['user_id'] = $user_id;
+        $query['user_id'] = $user_id;
+        $query['from_to'] = 1;
 		if($kind){
 			$query['kind'] = $kind;
 		}
@@ -61,7 +62,6 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 		$service = Sher_Core_Service_Remind::instance();
 		$result = $service->get_remind_list($query, $options);
 		$remind_model = new Sher_Core_Model_Remind();
-		$user_model = new Sher_Core_Model_User();
 		
 		foreach($result['rows'] as $k => $v){
             $result['rows'][$k]['_id'] = (string)$result['rows'][$k]['_id'];
@@ -89,22 +89,22 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 switch($result['rows'][$k]['kind']){
                     case Sher_Core_Model_Remind::KIND_SIGHT:
                         $target['_id'] = $result['rows'][$k]['target']['_id'];
-                        $target['title'] = $result['rows'][$k]['target']['title'];
+                        $target['content'] = $result['rows'][$k]['target']['title'];
                         break;
                     default:
                         $target = null;
                 }
             
             }
+
+            if($result['rows'][$k]['comment_target']){
+                $target['_id'] = (string)$result['rows'][$k]['comment_target']['_id'];
+                $target['content'] = $result['rows'][$k]['comment_target']['content'];
+            }
+
             $result['rows'][$k]['target'] = $target;
 
-            $comment_target = null;
-            if($result['rows'][$k]['comment_target']){
-                $comment_target['_id'] = (string)$result['rows'][$k]['comment_target']['_id'];
-                //$comment_target['content'] = $result['rows'][$k]['comment_target']['content'];
-            
-            }
-            $result['rows'][$k]['comment_target'] = $comment_target;
+            $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['created_on']);
 
             $is_read = isset($result['rows'][$k]['readed'])?$result['rows'][$k]['readed']:0;
             if(empty($is_read)){
