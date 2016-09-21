@@ -40,7 +40,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 		// 查询条件
 		
         $query['user_id'] = $user_id;
-        $query['from_to'] = 1;
+        $query['from_to'] = 2;
 		if($kind){
 			$query['kind'] = $kind;
 		}
