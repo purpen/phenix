@@ -167,7 +167,7 @@ class Sher_Core_Model_Remind extends Sher_Core_Model_Base {
                       $c_type_str = '专题';
                       break;
                     case 12:
-                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_SCENE_SIGHT');
+                      $r_obj = &DoggyX_Model_Mapper::load_model((int)$obj['target_id'], 'Sher_Core_Model_SceneSight');
                       $c_type_str = '情境';
                       break;
                   }

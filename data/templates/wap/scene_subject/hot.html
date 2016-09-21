@@ -186,8 +186,10 @@
                             <img src="{{ d.banner_url }}">
                         </a>
                         <div class="content">
-                            <span class="price">¥{{ d.market_price }}</span>
-                            <span class="oldprice">原价¥{{ d.sale_price }}</span>
+                            <span class="price">¥{{ d.sale_price }}</span>
+                            {% if d.sale_price != d.market_price %}
+                            <span class="oldprice">原价¥{{ d.market_price }}</span>
+                            {%endif%}
                             <a href="{{ d.wap_view_url }}" class="buy btn"><i class="buys icon"></i>去购买 </a>
                         </div>
                     </div>
