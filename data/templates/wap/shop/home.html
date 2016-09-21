@@ -82,6 +82,11 @@
 		left: 0;
 		text-align: center;
 	}
+	.fiulist .recom-cell a{
+		background-size: 100% 100%;
+		background-position: center center;
+		background-repeat: no-repeat;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -129,22 +134,19 @@
 		<div class="row p-0">
 			<div class="recom-item">
 				<div class="recom-cell m-0">
-					<a href="" style="padding-top: 94.7368%">
-						<img src="{{ app_url_packaged }}/images/fiushop/fiulist.jpg" width="100%">
+					<a href="" style="padding-top: 94.7368%;background-image: url({{ app_url_packaged }}/images/fiushop/fiulist.jpg);">
 						<div class="uidesc">
 							全球特惠
 						</div>
 					</a>
 				</div>
 				<div class="recom-cell m-0">
-					<a href="" style="padding-top: calc(47.3684% - 4px);">
-						<img src="{{ app_url_packaged }}/images/fiushop/fiulist1.jpg" width="100%">
+					<a href="" style="padding-top: calc(47.3684% - 4px);background-image: url({{ app_url_packaged }}/images/fiushop/fiulist1.jpg);">
 						<div class="uidesc">
 							新品
 						</div>
 					</a>
-					<a href="" style="padding-top: calc(47.3684% - 4px);margin-top: 8px;">
-						<img src="{{ app_url_packaged }}/images/fiushop/fiulist1.jpg" width="100%">
+					<a href="" style="padding-top: calc(47.3684% - 4px);margin-top: 8px;background-image: url({{ app_url_packaged }}/images/fiushop/fiulist1.jpg);">
 						<div class="uidesc">
 							热销
 						</div>
