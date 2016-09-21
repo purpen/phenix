@@ -112,6 +112,15 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
               $remind_model->set_readed($result['rows'][$k]['_id']);
             }
 		}   // endfor
+
+        //清空提醒数量
+        if($page==1){
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->load($user_id);
+          if($user && isset($user['counter']['fiu_alert_count']) && $user['counter']['fiu_alert_count']>0){
+            $user_model->update_counter($user_id, 'fiu_alert_count');
+          }
+        }
 		
 		// 过滤多余属性
         $filter_fields  = array('__extend__');
