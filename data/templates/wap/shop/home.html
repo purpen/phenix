@@ -8,8 +8,12 @@
 	    color: #fff;
 	    position: fixed;
 	    width: 100%;
-	    left: 0;
+	    left: 50%;
 	    bottom: 0;
+	    max-width: 767px;
+	    -webkit-transform: translateX(-50%);
+	    transform: translateX(-50%);
+	    display: none;
     }
     .sfooter.nav-menu .navfelx .childcell .menuicon{
     	color: #fff;
@@ -53,6 +57,18 @@
 		color: #fff;
 		text-align: center;
 	}
+	.hotshop{
+		background: #fff;
+	}
+	.hotshop p{
+		padding: 4px 5px;
+	    font-size: 12px;
+	    color: #BE8914;
+	}
+	.hotshop p a{
+		color: #797979;
+		margin: 0 5px;
+	}
 </style>
 {% endblock %}
 {% block jquery %}
@@ -73,20 +89,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui sheader">
-	<p>Fiu店</p>
-</div>
-{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
-<div id="slider" class="flexslider flex-single">
-  <ul class="slides">
-    {% for ad in ad.rows %}
-      <li style="background-image: url('{{ ad.cover.fileurl }}');">
-        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
-            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+<div class="ui fiushop">
+	<div class="ui sheader">
+		<p>Fiu店</p>
+	</div>
+	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
+	<div id="slider" class="flexslider flex-single">
+	  <ul class="slides">
+	    {% for ad in ad.rows %}
+	      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+	        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+	            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+	        </a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	<div class="ui hotshop responsive grid">
+		<div class="row">
+			<div class="column">
+				<p>热门：<a href="">云马电动车</a><a href="">先锋智能</a> <a href="">小蚁运动相机</a></p>
+			</div>
+		</div>
+	</div>
 </div>
 
 {% endblock %}
