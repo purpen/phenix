@@ -105,9 +105,10 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
 
             $comment_target = null;
             if($result['rows'][$k]['comment_target']){
+                $comment_target = array();
                 $comment_target['_id'] = $result['rows'][$k]['comment_target']['_id'];
                 $comment_target['content'] = $result['rows'][$k]['comment_target']['title'];
-                $comment_target['cover_url'] = isset($result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url']) ? $result['rows'][$i]['comment_target']['cover']['thumbnails']['mini']['view_url'] : null;
+                $comment_target['cover_url'] = isset($result['rows'][$k]['comment_target']['cover']['thumbnails']['mini']['view_url']) ? $result['rows'][$k]['comment_target']['cover']['thumbnails']['mini']['view_url'] : null;
             }
             $result['rows'][$k]['comment_target_obj'] = $comment_target;
 
