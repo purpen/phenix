@@ -102,6 +102,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 $target['content'] = $result['rows'][$k]['comment_target']['content'];
             }
 
+            unset($result['rows'][$k]['comment_target']);
             $result['rows'][$k]['target'] = $target;
 
             $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['created_on']);
