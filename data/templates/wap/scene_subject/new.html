@@ -259,7 +259,7 @@
         <h3 class="ui header">
             {{ scene_subject.product.short_title }}
             {% if scene_subject.product.sale_price != scene_subject.product.market_price %}
-            <div class="oldprice">原价¥{{ scene_subject.product.market_price }}</div>
+            <div class="oldprice">¥{{ scene_subject.product.market_price }}</div>
             {%endif%}
             <div class="pricet">¥{{ scene_subject.product.sale_price }}</div>
         </h3>
