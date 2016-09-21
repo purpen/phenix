@@ -87,6 +87,10 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
             if($result['rows'][$k]['target']){
                 $target = array();
                 switch($result['rows'][$k]['kind']){
+                    case Sher_Core_Model_Remind::KIND_COMMENT:
+                        $target['_id'] = (string)$result['rows'][$k]['target']['_id'];
+                        $target['content'] = $result['rows'][$k]['target']['content'];
+                        break;
                     case Sher_Core_Model_Remind::KIND_SIGHT:
                         $target['_id'] = $result['rows'][$k]['target']['_id'];
                         $target['content'] = $result['rows'][$k]['target']['title'];
@@ -96,14 +100,14 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                 }
             
             }
-
-            if($result['rows'][$k]['comment_target']){
-                $target['_id'] = (string)$result['rows'][$k]['comment_target']['_id'];
-                $target['content'] = $result['rows'][$k]['comment_target']['content'];
-            }
-
-            unset($result['rows'][$k]['comment_target']);
             $result['rows'][$k]['target'] = $target;
+
+            $comment_target = null;
+            if($result['rows'][$k]['comment_target']){
+                $comment_target['_id'] = $result['rows'][$k]['comment_target']['_id'];
+                $comment_target['content'] = $result['rows'][$k]['comment_target']['title'];
+            }
+            $result['rows'][$k]['comment_target'] = $comment_target;
 
             $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['rows'][$k]['created_on']);
 
