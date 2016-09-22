@@ -65,6 +65,9 @@
 		color: #BE8914;
 		border-bottom: 2px solid #BE8914;
 	}
+	.ui.category{
+		padding-bottom: 65px;
+	}
 	.ui.category a.catelist{
 		padding-top: 33.803%;
 	    display: block;
@@ -87,7 +90,7 @@
 		<a href=" ">推荐</a>
 	</div>
 	<div class="ui responsive grid">
-		{% category_list var:'category' only_open:1 domain:domain show_all:0 %}
+		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
 		<div class="row pt-3r pb-0">
 			<div class="column plr-3r">
@@ -96,8 +99,6 @@
 		</div>
 		{% endfor %}
 	</div>
-	
-
 </div>
 
 {% endblock %}
