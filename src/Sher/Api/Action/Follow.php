@@ -35,6 +35,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
     $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$follow_type = isset($this->stash['follow_type']) ? (int)$this->stash['follow_type'] : 0;
     $find_type = isset($this->stash['find_type']) ? (int)$this->stash['find_type'] : 1;
+    $clean_remind = isset($this->stash['clean_remind']) ? (int)$this->stash['clean_remind'] : 0;
 
         $current_user_id = $this->current_user_id;
 		
@@ -124,7 +125,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
 		}
 
         // 清除粉丝提醒数量
-        if($find_type == 2 && $page==1 && !empty($current_user_id) && $current_user_id==$user_id){
+        if(!empty($clean_remind) && $find_type == 2 && !empty($current_user_id) && $current_user_id==$user_id){
          //清空提醒数量
           $user_model = new Sher_Core_Model_User();
           $user = $user_model->load($current_user_id);

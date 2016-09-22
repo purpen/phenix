@@ -141,10 +141,10 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	/**
 	 * 赠送给某人
 	 */
-	public function give_user($code, $user_id, $expired_time=0){
+	public function give_user($code, $user_id, $day=0){
 		$crt = array('code' => $code);
-    if($expired_time){
-      $expired_at = (int)$expired_time;
+    if($day){
+      $expired_at = time() + 60*60*24*(int)$day;
     }else{
       $expired_at = time() + 30*24*60*60;
     }
