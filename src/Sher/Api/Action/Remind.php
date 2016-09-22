@@ -94,7 +94,7 @@ class Sher_Api_Action_Remind extends Sher_Api_Action_Base {
                     case Sher_Core_Model_Remind::KIND_SIGHT:
                         $target['_id'] = $result['rows'][$k]['target']['_id'];
                         $target['content'] = $result['rows'][$k]['target']['title'];
-                        $target['cover_url'] = $result['rows'][$i]['target']['cover']['thumbnails']['mini']['view_url'];
+                        $target['cover_url'] = $result['rows'][$k]['target']['cover']['thumbnails']['mini']['view_url'];
                         break;
                     default:
                         $target = null;
