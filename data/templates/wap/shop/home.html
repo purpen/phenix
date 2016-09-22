@@ -13,7 +13,7 @@
 	    max-width: 767px;
 	    -webkit-transform: translateX(-50%);
 	    transform: translateX(-50%);
-	    display: none;
+	    //display: none;
     }
     .sfooter.nav-menu .navfelx .childcell .menuicon{
     	color: #fff;
@@ -213,6 +213,9 @@
 	    text-transform: uppercase;
 	    line-height: 25px;
     }
+    .ui.fiushop{
+    	margin-bottom: 50px;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -230,6 +233,7 @@
 	var flexheight = Math.floor($('body').width()*9/16)+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
 
+	
 {% endblock %}
 
 {% block content %}
@@ -302,7 +306,7 @@
 			<ul class="shopitem">
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -313,7 +317,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -324,7 +328,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -335,7 +339,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -346,7 +350,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -357,7 +361,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -368,7 +372,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -379,7 +383,7 @@
 				</li>
 				<li>
 					<a>
-						<img class="lazy" data-original="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png" >
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
 						<div class="desc">
 							<h2>蚁视虚拟与现实眼镜</h2>
 							<div class="cats">
@@ -391,6 +395,110 @@
 				
 			</ul>
 		</div>
+
+		<div class="row pt-0">
+			<a class="banner">
+				<img class="lazy" data-original="http://frbird.qiniudn.com/scene_subject/160921/57e23833fc8b12bd5a8b4d42-2-p750x422.jpg" src="{{ app_url_packaged }}/images/icon/load750-422.png">
+				<div class="content">
+					<h3 class="ui header">乐视女神直播神器</h3>
+					<p>a date of youth</p>
+				</div>
+			</a>
+
+			<ul class="shopitem">
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a>
+						<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+						<div class="desc">
+							<h2>蚁视虚拟与现实眼镜</h2>
+							<div class="cats">
+	                            <span class="unit">￥</span>149
+	                        </div>
+						</div>
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+
+
 	</div>
 </div>
 
