@@ -443,8 +443,23 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		
 		$options['some_fields'] = $some_fields;
 		// 开启查询
-    $service = Sher_Core_Service_Bonus::instance();
-    $result = $service->get_all_list($query, $options);
+        $service = Sher_Core_Service_Bonus::instance();
+            $result = $service->get_all_list($query, $options);
+            $product_model = new Sher_Core_Model_Product();
+
+        for($i=0;$i<count($result['rows']);$i++){
+            $obj = $result['rows'][$i];
+            $result['rows'][$i]['_id'] = (string)$obj['_id'];
+            $product_name = '';
+            $product_id = isset($obj['product_id']) ? (int)$obj['product_id'] : 0;
+            if(!empty($product_id)){
+                $product = $product_model->load((int)$product_id);
+                if($product){
+                    $product_name = $product['title'];
+                }
+            }
+            $result['rows'][$i]['product_name'] = $product_name;
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
   
@@ -1014,7 +1029,7 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
       }
       $data[$i]['created_at'] = Sher_Core_Helper_Util::relative_datetime($data[$i]['created_on']);
 
-      // 场景信息
+      // 情境信息
       $data[$i]['target_small_cover_url'] = null;
       $data[$i]['target_title'] = null;
       if($data[$i]['type']==Sher_Core_Model_Comment::TYPE_SCENE_SIGHT){
