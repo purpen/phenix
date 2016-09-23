@@ -15,7 +15,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 场景列表
+	 * 情境列表
 	 */
 	public function getlist(){
 		

@@ -111,6 +111,15 @@
         vertical-align: middle;
         margin-top: 1px;
     }
+    .title .oldprice{
+        float: right;
+        color: #999;
+        font-size: 12px;
+        vertical-align: middle;
+        text-decoration: line-through;
+        margin-top: 5px;
+        margin-left: 5px;
+    }
     .course {
         margin: 0px;
         padding: 0px;
@@ -219,7 +228,14 @@
         <h3 class="ui header">{{ scene_subject.title }}</h3>
     </div>
     <div class="title">
-        <h3 class="ui header">{{ scene_subject.product.short_title }}<div class="pricet">¥{{ scene_subject.product.sale_price }}</div></h3>
+        <h3 class="ui header">
+            {{ scene_subject.product.short_title }}
+            {% if scene_subject.product.sale_price != scene_subject.product.market_price %}
+                <div class="oldprice">¥{{ scene_subject.product.market_price }}</div>
+            {%endif%}
+            <div class="pricet">¥{{ scene_subject.product.sale_price }}</div>
+            <div class="pricet">¥{{ scene_subject.product.sale_price }}</div>
+        </h3>
     </div>
     <div class="ui responsive new grid pt-r">
         <div class="row">
