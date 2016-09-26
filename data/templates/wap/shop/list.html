@@ -2,6 +2,52 @@
 {% block title%}品类{% endblock %}
 {% block page_css %}
 <style type="text/css">
+	.sfooter.nav-menu{
+    	background: #000;
+	    padding-top: 1px;
+	    color: #fff;
+	    position: fixed;
+	    width: 100%;
+	    left: 50%;
+	    bottom: 0;
+	    max-width: 767px;
+	    -webkit-transform: translateX(-50%);
+	    transform: translateX(-50%);
+	    //display: none;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon{
+    	color: #fff;
+    	padding: 2px 6px 5px;
+    	margin-bottom: 0;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon .img {
+	    display: block;
+	    margin: 0 auto 4px;
+	    vertical-align: middle;
+	    background-image: url({{ app_url_packaged }}/images/fiushop/sfooter.png);
+	    background-repeat: no-repeat;
+	    background-size: 88px 18px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .choice.img{
+		height: 18px;
+		width: 20px;
+	    background-position: 0 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .find.img{
+		height: 18px;
+		width: 26px;
+	    background-position: -63px 3px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .cart.img{
+		height: 18px;
+		width: 22px;
+	    background-position: -20px 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .owner.img{
+		height: 18px;
+		width: 21px;
+	    background-position: -42px 0;
+	}
 	.ui.sheader{
 		background:#000;
 	}
@@ -130,9 +176,6 @@
 	</div>
 	-->
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
-	<!--<div class="swiper-slide">
-		<a class="ui active item category-btn" category_id="0" href="javascript:void(0);">全部</a>
-	</div>-->
 	<div class="fmenulist">
 		<ul class="menuitem">
 			<li class="">
@@ -141,9 +184,6 @@
 			</li>
 	{% for cat in category.rows %}
 	{% if cat.sub_count>0 %}
-	<!--<div class="swiper-slide">
-		<a class="ui {{ cat.active }} item category-btn" category_id="{{ cat._id }}" href="javascript:void(0);">{{ cat.title }}</a>
-	</div>-->
 			<li class="">
 				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
 				<p>{{ cat.title }}</p>
