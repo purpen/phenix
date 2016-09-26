@@ -355,6 +355,22 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	}
 
     /**
+     * 标记主题 审核
+     */
+	public function mark_as_check($id, $options=array()){
+		$ok = $this->update_set($id, array('is_check' => 1));
+        return $ok;
+	}
+	
+    /**
+     * 标记主题 取消审核
+     */
+	public function mark_cancel_check($id){
+		$ok = $this->update_set($id, array('is_check' => 0));
+        return $ok;
+	}
+
+    /**
      * 自动更新分类
      */
     public function update_category($id, $category_ids){
