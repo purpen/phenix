@@ -49,7 +49,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# 使用次数
         'used_count' => 0,
 		# 浏览数
-    	'view_count' => 0,
+    	'view_count' => 1,
 		# 喜欢数
         'love_count' => 0,
 		# 评论数 
