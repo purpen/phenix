@@ -71,19 +71,37 @@
 	    height: 64px;
 	    white-space: nowrap;
 	    width: 100%;
-	    overflow: scroll;
+	    overflow-x: scroll;
+    	overflow-y: hidden;
 	}
 	.menuitem li{
 		width: 65px;
 	    display: inline-block;
 	    text-align: center;
 	    padding: 12px 0 12px;
+	    height: 60px;
 	}
 	.menuitem li img{
 		width: 20px;
 	}
 	.menuitem li p{
 		font-size: 12px;
+		color: #666;
+	}
+	.menuitem li .catename{
+		width: 20px;
+    	height: 12px;
+		margin:2px auto 5px;
+		background-size: 40px 12px;
+	}
+	.menuitem li .all.catename{
+		background-image:url({{ app_url_packaged }}/images/fiushop/all.png);
+	}
+	.menuitem li.active .catename{
+		background-position: 20px 0;
+	}
+	.menuitem li.active p{
+		color: #BE8914;
 	}
 </style>
 {% endblock %}
@@ -96,97 +114,22 @@
 	<div class="ui sheader">
 		<p>品类</p>
 	</div>
-	<!--
-	<div class="fmenulist">
-		<ul class="menuitem">
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li><li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
-			</li>
-
-		</ul>
-
-	</div>
-	-->
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">
-			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>全部</p>
+			<li class="active">
+				<a href="javascript:void(0);">
+					<div class="all catename"></div>
+					<p>全部</p>
+				</a>
 			</li>
 	{% for cat in category.rows %}
 	{% if cat.sub_count>0 %}
 			<li class="">
-				<img src="{{ app_url_packaged }}/images/fiushop/all.png">
-				<p>{{ cat.title }}</p>
+				<a href="javascript:void(0);">
+					<div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/fiushop/{{ cat.name }}.png)"></div>
+					<p>{{ cat.title }}</p>
+				</a>
 			</li>
 	{%endif%}
 	{% endfor %}
