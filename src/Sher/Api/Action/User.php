@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user', 'activity_user');
+	protected $filter_user_method_list = array('execute', 'getlist', 'user_info', 'find_user', 'activity_user', 'is_editor');
 	
 	/**
 	 * 入口
@@ -425,6 +425,125 @@ class Sher_Api_Action_User extends Sher_Api_Action_Base{
 
         return $this->api_json('请求成功', 0, array('exp'=>$exp_count));
     
+    }
+
+    /**
+     * 验证用户是否有编辑权限
+     */
+    public function is_editor(){
+        $user_id = $this->current_user_id;
+        $is_edit = 0;
+        if(empty($user_id)){
+            return $this->api_json('请求成功', 0, array('is_editor'=>$is_edit));       
+        }
+
+        $is_edit = $this->exist_edit($user_id);
+
+        return $this->api_json('请求成功', 0, array('is_editor'=>$is_edit)); 
+    }
+
+    /**
+     * 精选操作
+     */
+    public function do_fine(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+        $user_id = $this->current_user_id;
+
+        if(empty($id)) return $this->api_json('缺少请求参数!', 3001);
+
+        if(!$this->exist_edit($user_id)) return $this->api_json('没有权限!', 3002);       
+
+        $scene_sight_model = new Sher_Core_Model_SceneSight();
+        $sight = $scene_sight_model->load($id);
+        if(empty($sight)) return $this->api_json('情境不存在!', 3003);     
+
+        if(empty($evt)){
+            $ok = $scene_sight_model->mark_cancel_fine($id);
+        }else{
+            $ok = $scene_sight_model->mark_as_fine($id);
+        }
+        if($ok){
+            return $this->api_json('success!', 0, array('id'=>$id));     
+        }else{
+            return $this->api_json('操作失败!', 3005);       
+        }
+        
+    }
+
+    /**
+     * 推荐操作
+     */
+    public function do_stick(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+        $user_id = $this->current_user_id;
+
+        if(empty($id)) return $this->api_json('缺少请求参数!', 3001);
+
+        if(!$this->exist_edit($user_id)) return $this->api_json('没有权限!', 3002);       
+
+        $scene_sight_model = new Sher_Core_Model_SceneSight();
+        $sight = $scene_sight_model->load($id);
+        if(empty($sight)) return $this->api_json('情境不存在!', 3003);     
+
+        if(empty($evt)){
+            $ok = $scene_sight_model->mark_cancel_stick($id);
+        }else{
+            $ok = $scene_sight_model->mark_as_stick($id);
+        }
+        if($ok){
+            return $this->api_json('success!', 0, array('id'=>$id));     
+        }else{
+            return $this->api_json('操作失败!', 3005);       
+        }
+        
+    }
+
+    /**
+     * 屏蔽操作
+     */
+    public function do_check(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        $evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+        $user_id = $this->current_user_id;
+
+        if(empty($id)) return $this->api_json('缺少请求参数!', 3001);
+
+        if(!$this->exist_edit($user_id)) return $this->api_json('没有权限!', 3002);       
+
+        $scene_sight_model = new Sher_Core_Model_SceneSight();
+        $sight = $scene_sight_model->load($id);
+        if(empty($sight)) return $this->api_json('情境不存在!', 3003);     
+
+        if(empty($evt)){
+            $ok = $scene_sight_model->mark_cancel_check($id);
+        }else{
+            $ok = $scene_sight_model->mark_as_check($id);
+        }
+        if($ok){
+            return $this->api_json('success!', 0, array('id'=>$id));     
+        }else{
+            return $this->api_json('操作失败!', 3005);       
+        }
+        
+    }
+
+    /**
+     * 判断当前用户是否是编辑
+     */
+    protected function exist_edit($user_id, $options=array()){
+        if(empty($user_id)) return 0;
+        $user_ids = Sher_Core_Util_View::load_block('fiu_editor_list', 1);
+        if(empty($user_ids)){
+            return 0;
+        }
+        $arr = explode(',', $user_ids);
+        for($i=0;$i<count($arr);$i++){
+            $id = (int)$arr[$i];
+            if($id==$user_id) return 1;
+        }
+        return 0;
     }
 
 }
