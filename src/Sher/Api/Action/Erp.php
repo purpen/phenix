@@ -43,9 +43,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         $query['stage'] = 9;
 		
 		// 查询条件
-		if($category_id){
-			$query['category_id'] = (int)$category_id;
-		}
+		if($category_id) $query['category_id'] = (int)$category_id;
 
         // 查询条件
         if($category_tags){
@@ -54,25 +52,17 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         }
 
         // 品牌
-        if($brand_id){
-            $query['brand_id'] = $brand_id;
-        }
+        if($brand_id) $query['brand_id'] = $brand_id;
 
-		if($user_id){
-			$query['user_id'] = (int)$user_id;
-		}
+		if($user_id) $query['user_id'] = (int)$user_id;
 
 		// 已发布上线
 		$query['published'] = 1;
 		
-		if($stick){
-			$query['stick'] = $stick;
-		}
+		if($stick) $query['stick'] = $stick;
 
         // 模糊查标签
-        if(!empty($title)){
-            $query['title'] = array('$regex'=>$title);
-        }
+        if(!empty($title)) $query['title'] = array('$regex'=>$title);
 		
 		// 分页参数
         $options['page'] = $page;
@@ -127,195 +117,113 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
-	
+
+
 	/**
-	 * 商品详情
+	 * 订单列表
+	 * 待支付、待发货、已完成
 	 */
-	public function view(){
-		$id = (int)$this->stash['id'];
-		if(empty($id)){
-			return $this->api_json('访问的产品不存在！', 3000);
-		}
-
-    $user_id = $this->current_user_id;
+	public function order_list(){
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+        $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
 		
-		$model = new Sher_Core_Model_Product();
-		$product = $model->load((int)$id);
-
-    if(empty($product)) {
-			return $this->api_json('访问的产品不存在！', 3000);
-    }
-    $product = $model->extended_model_row($product);
-
-		if($product['deleted']){
-			return $this->api_json('访问的产品不存在或已被删除！', 3001);
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+        if($user_id) $query['user_id'] = (int)$user_id;
+		
+		switch($status){
+			case 1: // 待支付订单
+				$query['status'] = Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT;
+				break;
+			case 2: // 待发货订单
+				$query['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+				break;
+			case 3: // 待收货订单
+				$query['status'] = Sher_Core_Util_Constant::ORDER_SENDED_GOODS;
+				break;
+			case 4: // 待评价订单
+				$query['status'] = Sher_Core_Util_Constant::ORDER_EVALUATE;
+				break;
+			case 8: // 退换货
+				$query['status'] = array(
+					'$in' => array(Sher_Core_Util_Constant::ORDER_READY_REFUND, Sher_Core_Util_Constant::ORDER_REFUND_DONE),
+				);
+				break;
 		}
 
-		if(!$product['published']){
-			return $this->api_json('访问的产品未发布！', 3002);
-		}
+        $query['deleted'] = 0;
 
+        //限制输出字段
 		$some_fields = array(
-			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info',
-      'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
-      'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
-      // app抢购
-      'app_snatched', 'app_snatched_time', 'app_snatched_end_time', 'app_snatched_price', 'app_snatched_count', 'app_snatched_total_count', 'app_appoint_count', 'app_snatched_limit_count',
+			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
+			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
+			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
+            'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
+            'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
 		);
+		$options['some_fields'] = $some_fields;
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+        $options['sort_field'] = 'latest';
 		
-		// 增加pv++
-		$model->inc_counter('view_count', 1, $id);
+		// 开启查询
+        $service = Sher_Core_Service_Orders::instance();
+        $result = $service->get_latest_list($query, $options);
 
-		$model->inc_counter('true_view_count', 1, $id);
-		$model->inc_counter('app_view_count', 1, $id);
 
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
 		// 重建数据结果
 		$data = array();
-    for($i=0;$i<count($some_fields);$i++){
-      $key = $some_fields[$i];
-      $data[$key] = isset($product[$key]) ? $product[$key] : null;
-    }
-
-    //转换描述格式
-    $data['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $product['_id']);
-
-    //验证是否收藏或喜欢
-    $fav = new Sher_Core_Model_Favorite();
-    $data['is_favorite'] = $fav->check_favorite($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    $data['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
-    $data['is_try'] = empty($product['is_try'])?0:1;
-    // 分享内容
-    $data['share_view_url'] = $data['wap_view_url'];
-    $data['share_desc'] = $data['advantage'];
-
-    $asset_service = Sher_Core_Service_Asset::instance();
-
-    //返回图片数据
-    $assets = array();
-    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>11);
-    $asset_options['page'] = 1;
-    $asset_options['size'] = 5;
-    $asset_options['sort_field'] = 'latest';
-
-    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
-
-    if(!empty($asset_result['rows'])){
-      foreach($asset_result['rows'] as $key=>$value){
-        array_push($assets, $value['thumbnails']['aub']['view_url']);
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			}
+			// ID转换为字符串
+			$data[$i]['_id'] = (string)$result['rows'][$i]['_id'];
+      // 创建时间格式化 
+      $data[$i]['created_at'] = date('Y-m-d H:i', $result['rows'][$i]['created_on']); 
+      //收货地址
+      if(empty($data[$i]['express_info'])){
+        $data[$i]['express_info'] = null;
       }
-    }
-    $data['asset'] = $assets;
-    $data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
 
-    //返回褪底图片数据
-    $assets = array();
-    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>12);
-    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
-
-    if(!empty($asset_result['rows'])){
-      foreach($asset_result['rows'] as $key=>$value){
-        array_push($assets, array('url'=>$value['thumbnails']['hd']['view_url'],'width'=>$value['width'],'height'=>$value['height']));
-      }
-    }
-    $data['png_asset'] = $assets;
-		
-		// 验证是否还有库存
-		$data['can_saled'] = $model->app_can_saled($product);
-		
-		// 获取skus及inventory
-		$inventory = new Sher_Core_Model_Inventory();
-		$skus = $inventory->find(array(
-			'product_id' => $id,
-			'stage' => $product['stage'],
-		));
-		$data['skus'] = $skus;
-		$data['skus_count'] = count($skus);
-
-    // 闪购标识
-    $data['is_app_snatched'] = $model->is_app_snatched($product);
-    // 剩余秒杀产品数量
-    $data['app_snatched_rest_count'] = 0;
-    if($data['is_app_snatched']){
-      $data['app_snatched_rest_count'] = $data['app_snatched_total_count'] - $data['app_snatched_count'];
-      if($data['app_snatched_rest_count'] < 0){
-        $data['app_snatched_rest_count'] = 0;
-      }
-    }
-    // 闪购进度
-    $data['app_snatched_stat'] = $model->app_snatched_stat($product);
-    // 返回闪购时间戳差，如果非闪购或已结束，返回0
-    if($data['app_snatched_stat']==1){
-      $data['app_snatched_time_lag'] = $product['app_snatched_time'] - time();
-    }elseif($data['app_snatched_stat']==2){
-      // 替换闪购价格
-      $data['sale_price'] = $data['app_snatched_price'];
-      $data['app_snatched_time_lag'] = $product['app_snatched_end_time'] - time();
-    }else{
-      $data['app_snatched_time_lag'] = 0;
-    }
-
-    // 用户是否设置闪购提醒
-    $data['is_app_snatched_alert'] = 0;
-    if($data['is_app_snatched'] && $user_id){
-      $support_model = new Sher_Core_Model_Support();
-      $has_one = $support_model->check_voted($user_id, $data['_id'], Sher_Core_Model_Support::EVENT_APP_ALERT);
-      if($has_one){
-        $data['is_app_snatched_alert'] = 1; 
-      }
-    }
-
-    // 品牌
-    $brand = null;
-    if(isset($data['brand']) && !empty($data['brand'])){
-        $brand = array();
-        $brand['_id'] = (string)$data['brand']['_id'];
-        $brand['title'] = $data['brand']['title'];
-        $brand['cover_url'] = $data['brand']['cover']['thumbnails']['huge']['view_url'];
-    }
-    $data['brand'] = $brand;
-
-    $data['extra_info'] = isset($data['extra_info']) ? $data['extra_info'] : '';
-
-    // 相关推荐产品
-		$sword = $data['tags_s'];
-    $r_items = array();
-		$r_options = array(
-			'page' => 1,
-			'size' => 3,
-			'sort_field' => 'latest',
-      // 最新
-      'sort' => 1,
-      'evt' => 'tag',
-      't' => 7,
-      'oid' => $data['_id'],
-      'type' => 1,
-		);        
-		if(!empty($sword)){
-      $xun_arr = Sher_Core_Util_XunSearch::search($sword, $r_options);
-      if($xun_arr['success'] && !empty($xun_arr['data'])){
-        foreach($xun_arr['data'] as $k=>$v){
-          $r_product = $model->extend_load((int)$v['oid']);
-          if(!empty($r_product)){
-              // 重建数据结果
-              $r_data = array();
-              for($i=0;$i<count($some_fields);$i++){
-                $key = $some_fields[$i];
-                $r_data[$key] = isset($r_product[$key]) ? $r_product[$key] : null;
+      //商品详情
+      if(!empty($result['rows'][$i]['items'])){
+        $m = 0;
+        foreach($result['rows'][$i]['items'] as $k=>$v){
+          $d = $product_model->extend_load((int)$v['product_id']);
+          if(!empty($d)){
+            $sku_mode = null;
+            if($v['sku']==$v['product_id']){
+              $data[$i]['items'][$m]['name'] = $d['title'];   
+            }else{
+              $sku_mode = '';
+              $sku = $sku_model->find_by_id($v['sku']);
+              if(!empty($sku)){
+                $sku_mode = $sku['mode'];
               }
-            // 封面图url
-            $r_data['cover_url'] = $r_product['cover']['thumbnails']['apc']['view_url'];
-            array_push($r_items, $r_data);
+              $data[$i]['items'][$m]['name'] = $d['title']; 
+            }
+            $data[$i]['items'][$m]['sku_name'] = $sku_mode; 
+            $data[$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
           }
+
+          $m++;
         }
       }
-
 		}
-
-		$data['relation_products'] = $r_items;
-		return $this->api_json('请求成功', 0, $data);
+		$result['rows'] = $data;
+		
+		return $this->api_json('请求成功', 0, $result);
 	}
+
 
 }
 
