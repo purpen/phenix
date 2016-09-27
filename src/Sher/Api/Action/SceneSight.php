@@ -124,10 +124,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 				$options['sort_field'] = 'latest';
 				break;
 			case 1: // 最新推荐
-				$options['sort_field'] = 'stick:update';
+				$options['sort_field'] = 'stick:stick_on';
 				break;
 			case 2: // 最新精选
-				$options['sort_field'] = 'fine:update';
+				$options['sort_field'] = 'fine:fine_on';
 				break;
 		}
 		
