@@ -73,6 +73,10 @@
 	    width: 100%;
 	    overflow-x: scroll;
     	overflow-y: hidden;
+    	-webkit-overflow-scrolling: touch;
+	}
+	.menuitem::-webkit-scrollbar {
+	    display: none;
 	}
 	.menuitem li{
 		width: 65px;
@@ -80,9 +84,6 @@
 	    text-align: center;
 	    padding: 10px 0;
 	    height: 60px;
-	}
-	.menuitem li img{
-		width: 20px;
 	}
 	.menuitem li p{
 		font-size: 12px;
@@ -93,9 +94,6 @@
     	height: 24px;
 		margin:0 auto 2px;
 		background-size: 48px 24px;
-	}
-	.menuitem li .all.catename{
-		background-image:url({{ app_url_packaged }}/images/fiushop/all2.png);
 	}
 	.menuitem li.active .catename{
 		background-position: 24px 0;
@@ -119,7 +117,7 @@
 		<ul class="menuitem">
 			<li class="active">
 				<a href="javascript:void(0);">
-					<div class="all catename"></div>
+					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
 					<p>全部</p>
 				</a>
 			</li>
