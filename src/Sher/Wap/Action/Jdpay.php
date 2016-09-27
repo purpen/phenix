@@ -61,7 +61,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
         $notifyUrl = Doggy_Config::$vars['app.url.wap'].'/app/wap/jdpay/secrete_notify';    // 异步通知
         $ip = Sher_Core_Helper_Auth::get_ip();
         $userType = 'BIZ';
-        $userId = string($order_info['user_id']);   // 商户的用户账号
+        $userId = (string)$order_info['user_id'];   // 商户的用户账号
         $expireTime = '';   // 订单有效期，默认7天
         $industryCategoryCode = '';     // 订单业务类型
         $specCardNo = '';       // 指定银行卡号
