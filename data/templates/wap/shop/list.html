@@ -64,6 +64,8 @@
 		height: 60px;
 		background:#fff;
 		overflow: hidden;
+		box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+	    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
 	}
 	.menuitem{
 		padding: 0;
@@ -92,7 +94,7 @@
 	.menuitem li .catename{
 		width: 24px;
     	height: 24px;
-		margin:0 auto 2px;
+		margin:-1px auto 2px;
 		background-size: 48px 24px;
 	}
 	.menuitem li.active .catename{
@@ -100,6 +102,26 @@
 	}
 	.menuitem li.active p{
 		color: #BE8914;
+	}
+	.groom-btn{
+		margin-top: 2px;
+		background:#fff;
+		height: 45px;
+		border-bottom: 1px solid rgba(151,151,151,0.1);
+		padding: 10px;
+	}
+	.groom-btn .ui.becolor.basic.button{
+		color: #666 !important;
+		border: 1px solid #666;
+	    box-shadow: none;
+		padding:5px 12px;
+		font-size: 12px;
+	}
+	.groom-btn .ui.becolor.basic.button.active{
+		color: #BE8914 !important;
+	    border: 1px solid #BE8914;
+	    box-shadow: none;
+	    background: rgba(0,0,0,0) !important;
 	}
 </style>
 {% endblock %}
@@ -132,6 +154,11 @@
 	{%endif%}
 	{% endfor %}
 		</ul>
+	</div>
+	<div class="ui groom-btn">
+		<a href="javascript:void(0);" class="ui becolor basic active button">智能摄像</a>
+		<a href="javascript:void(0);" class="ui becolor basic button">智能摄像</a>
+		<a href="javascript:void(0);" class="ui becolor basic button">智能摄像</a>
 	</div>
 
 
