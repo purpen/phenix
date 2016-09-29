@@ -226,7 +226,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     continue;
                 }
 
-                switch($m_arr[0]){
+                switch((int)$m_arr[0]){
                     case 1:
                         $prize = "一等奖";
                         break;
@@ -250,7 +250,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
                 $t_arr = explode(',', $m_arr[1]);
                 for($j=0;$j<count($t_arr);$j++){
-                    $sight = $sight_model->extend_load($data['sight_ids'][$i]);
+                    $sight = $sight_model->extend_load((int)$t_arr[$j]);
                     if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
 
                     $row = array(
