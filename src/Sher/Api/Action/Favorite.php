@@ -260,6 +260,7 @@ class Sher_Api_Action_Favorite extends Sher_Api_Action_Base {
                         $product['title'] = $result['rows'][$k]['product']['short_title'];
                         // 封面图url
                         $product['cover_url'] = $result['rows'][$k]['product']['cover']['thumbnails']['apc']['view_url'];
+                        $product['stage'] = $result['rows'][$k]['product']['stage'];
 
                       // 保留2位小数
                       $product['sale_price'] = sprintf('%.2f', $result['rows'][$k]['product']['sale_price']);
