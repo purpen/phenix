@@ -155,7 +155,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'share_count',
-          'begin_time', 'end_time', 'product_id',
+          'begin_time', 'end_time', 'product_id', 'prize_sight_ids',
         );
 		
 		$model = new Sher_Core_Model_SceneSubject();
@@ -213,10 +213,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }
         $data['product'] = $product;
 
-        // 情境
-        $sight_arr = array();
-        if(!empty($data['sight_ids'])){
-            $s_arr = explode(';', $data['sight_ids']);
+        // 获奖情境
+        $prize_sight_arr = array();
+        if(!empty($data['prize_sight_ids'])){
+            $s_arr = explode(';', $data['prize_sight_ids']);
 
             $sight_model = new Sher_Core_Model_SceneSight();
 
@@ -246,7 +246,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                         $prize = "";
                 }
 
-                $sight_arr[$i]['prize'] = $prize;
+                $prize_sight_arr[$i]['prize'] = $prize;
 
                 $t_arr = explode(',', $m_arr[1]);
                 for($j=0;$j<count($t_arr);$j++){
@@ -285,15 +285,14 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     }
                     $row['user'] = $user;
                     
-                    array_push($sight_arr[$i]['data'], $row);
+                    array_push($prize_sight_arr[$i]['data'], $row);
 
                 }
                 
-
             }
         
         }
-        $data['sights'] = $sight_arr;
+        $data['prize_sights'] = $prize_sight_arr;
 
         // 产品
         $product_arr = array();

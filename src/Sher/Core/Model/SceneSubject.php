@@ -55,6 +55,8 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 
         ## 情境列表
         'sight_ids' => array(),
+        # 获奖作品 
+        'prize_sight_ids' => null,
         # 产品列表
         'product_ids' => array(),
 
