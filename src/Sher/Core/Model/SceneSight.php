@@ -338,7 +338,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id, $options=array()){
-		$ok = $this->update_set($id, array('fine' => 1, 'fiine_on'=> time()));
+		$ok = $this->update_set($id, array('fine' => 1, 'fine_on'=> time()));
         if($ok){
             $data = $this->load($id);
             // 增长积分
