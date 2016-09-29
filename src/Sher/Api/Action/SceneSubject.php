@@ -263,7 +263,6 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                         'address' => !empty($sight['address']) ? $sight['address'] : '',
                         'location' => $sight['location'],
                         'product' => $sight['product'],
-                        'prize' => $prize,
                     );
 
                     $user = array(
