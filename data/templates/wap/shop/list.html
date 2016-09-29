@@ -227,8 +227,34 @@
   </script>
 {% endblock %}
 {% block jquery %}
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      category_id = $('#product-more').attr('category_id');
+
+      if(stat==0){
+        ajax_load_more(category_id, type, sort, page, size);
+      }
+　　}
+  });
+	
 	// 初始加载
     ajax_load_more(category_id, type, sort, page, size);
+
+    // 选择分类
+	$('.category-btn').click(function(){
+		$('.category-btn').removeClass('active');
+		$(this).addClass('active');
+		category_id = $(this).attr('category_id');
+		$('#product-more').attr('category_id', category_id);
+		$('#mpresale .recom-item').html('');
+		ajax_load_more(category_id, type, sort, 1, size);
+	});
 {% endblock %}
 
 {% block content %}
@@ -239,15 +265,15 @@
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">
-			<li class="active">
-				<a href="javascript:void(0);" category_id="0">
+			<li class="active category-btn" category_id="0">
+				<a href="javascript:void(0);">
 					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
 					<p>全部</p>
 				</a>
 			</li>
 	{% for cat in category.rows %}
 	{% if cat.sub_count>0 %}
-			<li class="">
+			<li class="{{ cat.active }} category-btn" category_id="{{ cat._id }}">
 				<a href="javascript:void(0);">
 					<div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/fiushop/{{ cat.name }}.png)"></div>
 					<p>{{ cat.title }}</p>
