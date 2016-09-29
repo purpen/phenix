@@ -155,7 +155,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'share_count',
-          'begin_time', 'end_time', 'product_id',
+          'begin_time', 'end_time', 'product_id', 'prize_sight_ids',
         );
 		
 		$model = new Sher_Core_Model_SceneSubject();
@@ -276,6 +276,88 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         
         }
         $data['sights'] = $sight_arr;
+
+
+        // 获奖情境
+        $prize_sight_arr = array();
+        if(!empty($data['prize_sight_ids'])){
+            $s_arr = explode(';', $data['prize_sight_ids']);
+
+            $sight_model = new Sher_Core_Model_SceneSight();
+
+            for($i=0;$i<count($s_arr);$i++){
+                $m_arr = explode(':', $s_arr[$i]);
+                if(empty($m_arr) || count($m_arr)!=2){
+                    continue;
+                }
+
+                switch((int)$m_arr[0]){
+                    case 1:
+                        $prize = "一等奖";
+                        break;
+                    case 2:
+                        $prize = "二等奖";
+                        break;
+                    case 3:
+                        $prize = "三等奖";
+                        break;
+                    case 4:
+                        $prize = "四等奖";
+                        break;
+                    case 5:
+                        $prize = "五等奖";
+                        break;
+                    default:
+                        $prize = "";
+                }
+
+                $prize_sight_arr[$i]['prize'] = $prize;
+                $prize_sight_arr[$i]['data'] = array();
+
+                $t_arr = explode(',', $m_arr[1]);
+                for($j=0;$j<count($t_arr);$j++){
+                    $sight = $sight_model->extend_load((int)$t_arr[$j]);
+                    if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
+
+                    $row = array(
+                        '_id' => $sight['_id'],
+                        'title' => $sight['title'],
+                        'cover_url' => $sight['cover']['thumbnails']['huge']['view_url'],
+                        'created_at' => Sher_Core_Helper_Util::relative_datetime($sight['created_on']),
+                        'address' => $sight['address'],
+                        'city' => !empty($sight['city']) ? $sight['city'] : '',
+                        'address' => !empty($sight['address']) ? $sight['address'] : '',
+                        'location' => $sight['location'],
+                        'product' => $sight['product'],
+                    );
+
+                    $user = array(
+                        '_id' => $sight['user']['_id'],
+                        'nickname' => $sight['user']['nickname'],
+                        'avatar_url' => $sight['user']['medium_avatar_url'],
+                        'is_expert' => isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0,
+                        'label' => isset($sight['user']['profile']['label']) ? (int)$sight['user']['profile']['label'] : '',
+                        'expert_label' => isset($sight['user']['profile']['expert_label']) ? $sight['user']['profile']['expert_label'] : '',
+                        'expert_info' => isset($sight['user']['profile']['expert_info']) ? $sight['user']['profile']['expert_info'] : '',
+                    );
+
+                    // 当前用户是否关注创建者
+                    $user['is_follow'] = 0;
+                    if($current_user_id){
+                        if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
+                            $user['is_follow'] = 1;
+                        }
+                    }
+                    $row['user'] = $user;
+                    
+                    array_push($prize_sight_arr[$i]['data'], $row);
+
+                }
+                
+            }
+        
+        }
+        $data['prize_sights'] = $prize_sight_arr;
 
         // 产品
         $product_arr = array();
