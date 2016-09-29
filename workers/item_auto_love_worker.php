@@ -77,6 +77,7 @@ foreach($item_arr as $k=>$v){
       $fav_type = 9;
       $obj = $special_subject_model->load($item_id);    
     }elseif($type==5){
+        $fav_type = 12;
         $obj = $sight_model->load($item_id);
     }
 
