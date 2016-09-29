@@ -26,7 +26,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1, 'city'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1, 'category_ids'=>1,
-			'fine' => 1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'subject_ids'=>1,
+			'fine' => 1, 'fine_on'=>1, 'stick_on'=>1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'subject_ids'=>1,
 		);
 
 		$current_user_id = $this->current_user_id;
