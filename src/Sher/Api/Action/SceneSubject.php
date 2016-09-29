@@ -155,7 +155,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
           '_id', 'title', 'short_title', 'tags', 'tags_s', 'kind', 'evt', 'attend_count', 'type',
           'cover_id', 'category_id', 'summary', 'status', 'publish', 'user_id', 'sight_ids', 'product_ids',
           'stick', 'fine', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'share_count',
-          'begin_time', 'end_time', 'product_id',
+          'begin_time', 'end_time', 'product_id', 'prize_sight_ids',
         );
 		
 		$model = new Sher_Core_Model_SceneSubject();
