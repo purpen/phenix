@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -25,10 +25,13 @@
 	padding:10px;
 	background:#fff;
 }
+#shopview .presale h4.ui.header{
+  color: #222 !important;
+}
 #shopview .presale h4.ui.header .sub.header{
-	margin-top:8px;
+	  margin-top:8px;
     font-size: 14px;
-    color: #f36;
+    color: #BE8914;
 }
 #shopview .presale h4.ui.header .sub.header +  p{
   border-top: 1px solid rgba(0,0,0,0.1);
@@ -38,7 +41,7 @@
     padding-top: 8px;
 }
 #shopview .presale h4.ui.header .sub.header +  p span{
-  color: #f36;
+  color: #BE8914;
 }
 #shopview .presale h4.ui.header .sub.header .rmb.icon{
     font-size: 13px;
