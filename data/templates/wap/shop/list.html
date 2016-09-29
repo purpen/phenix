@@ -227,7 +227,8 @@
   </script>
 {% endblock %}
 {% block jquery %}
-
+	// 初始加载
+    ajax_load_more(category_id, type, sort, page, size);
 {% endblock %}
 
 {% block content %}
@@ -239,7 +240,7 @@
 	<div class="fmenulist">
 		<ul class="menuitem">
 			<li class="active">
-				<a href="javascript:void(0);">
+				<a href="javascript:void(0);" category_id="0">
 					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
 					<p>全部</p>
 				</a>
