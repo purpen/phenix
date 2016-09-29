@@ -62,6 +62,12 @@ function auto_do($type, $size=1000){
       $query['published'] = 1;
       $model_str = 'Stuff';
       break;
+    case 5:
+      $model = new Sher_Core_Model_SceneSight();
+      $query['deleted'] = 0;
+      $query['is_check'] = 1;
+      $model_str = 'Sight';
+      break;
     default:
       sleep($sleep_time);
       exit(0);
@@ -69,7 +75,7 @@ function auto_do($type, $size=1000){
   }
 
   while(!$is_end){
-    $options = array('field'=>array('_id','view_count','published','deleted'), 'page'=>$page, 'size'=>$size);
+    $options = array('field'=>array('_id','view_count','published','deleted','is_check'), 'page'=>$page, 'size'=>$size);
     $list = $model->find($query, $options);
     if(empty($list)){
       echo "$model_str list is null,exit......\n";
@@ -102,6 +108,13 @@ function auto_do($type, $size=1000){
           }
           break;
         case 4:
+            $stuff_max = rand(8000, 10000);
+          if($view_count<$stuff_max){
+            $model->inc_counter('view_count', $inc, $id);
+            $do_it = true;
+          }
+          break;
+        case 5:
             $stuff_max = rand(8000, 10000);
           if($view_count<$stuff_max){
             $model->inc_counter('view_count', $inc, $id);

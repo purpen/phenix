@@ -1,6 +1,6 @@
 <?php
 /**
- * 话题、产品、灵感、产品专题自动点赞(用小号)
+ * 话题、产品、灵感、产品专题、情境自动点赞(用小号)
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -29,6 +29,7 @@ $topic_model = new Sher_Core_Model_Topic();
 $product_model = new Sher_Core_Model_Product();
 $stuff_model = new Sher_Core_Model_Stuff();
 $special_subject_model = new Sher_Core_Model_SpecialSubject();
+$sight_model = new Sher_Core_Model_SceneSight();
 
 // 获取点赞名单---取块内容
 $items = Sher_Core_Util_View::load_block('auto_gen_love_count', 1);
@@ -75,6 +76,8 @@ foreach($item_arr as $k=>$v){
     }elseif($type==4){  // 产品专题
       $fav_type = 9;
       $obj = $special_subject_model->load($item_id);    
+    }elseif($type==5){
+        $obj = $sight_model->load($item_id);
     }
 
     if(empty($obj)){
