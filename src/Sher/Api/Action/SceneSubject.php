@@ -216,62 +216,80 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // 情境
         $sight_arr = array();
         if(!empty($data['sight_ids'])){
+            $s_arr = explode(';', $data['sight_ids']);
+
             $sight_model = new Sher_Core_Model_SceneSight();
-            for($i=0;$i<count($data['sight_ids']);$i++){
-                $sight = $sight_model->extend_load($data['sight_ids'][$i]);
-                if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
-                switch($i){
-                    case 0:
+
+            for($i=0;$i<count($s_arr);$i++){
+                $m_arr = explode(':', $s_arr[$i]);
+                if(empty($m_arr) || count($m_arr)!=2){
+                    continue;
+                }
+
+                switch($m_arr[0]){
+                    case 1:
                         $prize = "一等奖";
                         break;
-                    case 1:
+                    case 2:
                         $prize = "二等奖";
                         break;
-                    case 2:
+                    case 3:
                         $prize = "三等奖";
                         break;
-                    case 3:
+                    case 4:
                         $prize = "四等奖";
                         break;
-                    case 4:
+                    case 5:
                         $prize = "五等奖";
                         break;
                     default:
                         $prize = "";
                 }
-                $row = array(
-                    '_id' => $sight['_id'],
-                    'title' => $sight['title'],
-                    'cover_url' => $sight['cover']['thumbnails']['huge']['view_url'],
-                    'created_at' => Sher_Core_Helper_Util::relative_datetime($sight['created_on']),
-                    'address' => $sight['address'],
-                    'city' => !empty($sight['city']) ? $sight['city'] : '',
-                    'address' => !empty($sight['address']) ? $sight['address'] : '',
-                    'location' => $sight['location'],
-                    'product' => $sight['product'],
-                    'prize' => $prize,
-                );
 
-                $user = array(
-                    '_id' => $sight['user']['_id'],
-                    'nickname' => $sight['user']['nickname'],
-                    'avatar_url' => $sight['user']['medium_avatar_url'],
-                    'is_expert' => isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0,
-                    'label' => isset($sight['user']['profile']['label']) ? (int)$sight['user']['profile']['label'] : '',
-                    'expert_label' => isset($sight['user']['profile']['expert_label']) ? $sight['user']['profile']['expert_label'] : '',
-                    'expert_info' => isset($sight['user']['profile']['expert_info']) ? $sight['user']['profile']['expert_info'] : '',
-                );
+                $sight_arr[$i]['prize'] = $prize;
 
-                // 当前用户是否关注创建者
-                $user['is_follow'] = 0;
-                if($current_user_id){
-                    if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
-						$user['is_follow'] = 1;
-					}
+                $t_arr = explode(',', $m_arr[1]);
+                for($j=0;$j<count($t_arr);$j++){
+                    $sight = $sight_model->extend_load($data['sight_ids'][$i]);
+                    if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
+
+                    $row = array(
+                        '_id' => $sight['_id'],
+                        'title' => $sight['title'],
+                        'cover_url' => $sight['cover']['thumbnails']['huge']['view_url'],
+                        'created_at' => Sher_Core_Helper_Util::relative_datetime($sight['created_on']),
+                        'address' => $sight['address'],
+                        'city' => !empty($sight['city']) ? $sight['city'] : '',
+                        'address' => !empty($sight['address']) ? $sight['address'] : '',
+                        'location' => $sight['location'],
+                        'product' => $sight['product'],
+                        'prize' => $prize,
+                    );
+
+                    $user = array(
+                        '_id' => $sight['user']['_id'],
+                        'nickname' => $sight['user']['nickname'],
+                        'avatar_url' => $sight['user']['medium_avatar_url'],
+                        'is_expert' => isset($sight['user']['identify']['is_expert']) ? (int)$sight['user']['identify']['is_expert'] : 0,
+                        'label' => isset($sight['user']['profile']['label']) ? (int)$sight['user']['profile']['label'] : '',
+                        'expert_label' => isset($sight['user']['profile']['expert_label']) ? $sight['user']['profile']['expert_label'] : '',
+                        'expert_info' => isset($sight['user']['profile']['expert_info']) ? $sight['user']['profile']['expert_info'] : '',
+                    );
+
+                    // 当前用户是否关注创建者
+                    $user['is_follow'] = 0;
+                    if($current_user_id){
+                        if($follow_model->has_exist_ship($current_user_id, $user['_id'])){
+                            $user['is_follow'] = 1;
+                        }
+                    }
+                    $row['user'] = $user;
+                    
+                    array_push($sight_arr[$i]['data'], $row);
+
                 }
-                $row['user'] = $user;
                 
-                array_push($sight_arr, $row);
+
             }
         
         }
