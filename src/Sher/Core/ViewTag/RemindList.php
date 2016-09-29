@@ -20,6 +20,7 @@ class Sher_Core_ViewTag_RemindList extends Doggy_Dt_Tag {
 		
         $user_id = 0;
         $set_readed = 0;
+        $from_to = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -38,6 +39,10 @@ class Sher_Core_ViewTag_RemindList extends Doggy_Dt_Tag {
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
+
+        if($from_to){
+ 		    $query['from_to'] = (int)$from_to;
+        }
 		
         $service = Sher_Core_Service_Remind::instance();
         $options['page'] = $page;

@@ -435,10 +435,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 			$row['presale_percent'] = 0;
 		}
 		// 投票是否结束
-		$row['voted_finished'] = ($row['voted_finish_time'] < time()) ? true : false;
+		$row['voted_finished'] = (isset($row['voted_finish_time']) && $row['voted_finish_time'] < time()) ? true : false;
 		
 		// 预售是否结束
-		$row['presale_finished'] = ($row['presale_finish_time'] < time()) ? true : false;
+		$row['presale_finished'] = (isset($row['presale_finish_time']) && $row['presale_finish_time'] < time()) ? true : false;
 		
 		// 抢购开启
 		if(isset($row['snatched_time'])){
@@ -740,7 +740,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		// 获取最低票数
 		$lowest = Doggy_Config::$vars['app.vote.lowest'];
 		// 投票成功，并且投票已结束
-		if ($row['succeed'] && $row['voted_finish_time'] < time()){
+		if (isset($row['succeed']) && !empty($row['succeed']) && $row['voted_finish_time'] < time()){
 			$row['expert_assess'] = true;
 			
 			// 计算显示分值

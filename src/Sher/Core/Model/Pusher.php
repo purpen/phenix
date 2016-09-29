@@ -69,12 +69,17 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
 		if(empty($uuid) || empty($user_id)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
+
+        $result = array();
+        $result['success'] = false;
+        $result['is_bonus'] = 0;
 		
     // 检测是否已绑定
     $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
     if($pusher){
       $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>1, 'user_id'=>(int)$user_id, 'last_time'=>time()));
     }else{
+        $result['is_bonus'] = 1;
       // 新增记录
       $data = array(
         'user_id' => (int)$user_id,
@@ -86,7 +91,7 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
       $ok = $this->create($data);
       // 首次绑定送红包
       if($ok){
-        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
+        //Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
 
         /**
         // 随机赠送9.9红包做活动
@@ -109,7 +114,10 @@ class Sher_Core_Model_Pusher extends Sher_Core_Model_Base  {
          */
       }
     }
-		return $ok;
+        if($ok){
+            $result['success'] = true;       
+        }
+		return $result;
 	}
 	
 	/**

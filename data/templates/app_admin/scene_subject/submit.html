@@ -671,18 +671,20 @@
 
 			  <div class="field">
 				  <label>情境IDs：</label>
-				  <input type="text" name="sight_ids" value="{{ scene_subject.sight_ids_s }}" />
-                  <div class="description">获奖名单: 多个ID用“,”分隔</div>
+                  <textarea name="sight_ids" >{{ scene_subject.sight_ids_s }}</textarea>
+                  <div class="description">获奖名单(格式): 1:111,222,333;2:444,555:3:666,7777,8888</div>
 			  </div>
-			  <div class="field">
-				  <label>产品IDs：</label>
-				  <input type="text" name="product_ids" value="{{ scene_subject.product_ids_s }}" />
-                  <div class="description">产品列表: 多个ID用“,”分隔</div>
-			  </div>
+
 			  <div class="field">
 				  <label>产品ID：</label>
 				  <input type="text" name="product_id" value="{{ scene_subject.product_id }}" />
                   <div class="description">用于新品,请调用可购买商品ID</div>
+			  </div>
+
+			  <div class="field">
+				  <label>产品IDs：</label>
+		            <textarea name="product_ids">{{ scene_subject.product_ids_s }}</textarea>
+                  <div class="description">产品列表: 多个ID用“,”分隔</div>
 			  </div>
 
             <div class="two fields">

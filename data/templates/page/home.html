@@ -300,11 +300,7 @@
                 </div>
             </div>
         </div>
-	</se
-
-
-
-    ction>
+	</section>
     
     <!--社区部分-->
     <div class="ui hottopic block">
@@ -343,7 +339,7 @@
                     <div class="ui socialstick stickcount four blocks">
                 		{% for topic in topics.rows %}
                         <div class="block">
-                            <a href="{{ topic.view_url }}" target="_blank">
+                            <a href="{{ topic.view_url }}" target="_blank" style="padding-top: 59.523%;">
                                 <img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
                                 <div class="sub title">
                                     <h3>{{ topic.short_title }}</h3>

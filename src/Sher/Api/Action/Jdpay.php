@@ -50,8 +50,8 @@ class Sher_Api_Action_Jdpay extends Sher_Core_Action_Base {
         $callbackUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/direct_notify';      // 支付成功跳转
         $notifyUrl = Doggy_Config::$vars['app.url.api'].'/jdpay/secrete_notify';    // 异步通知
         $ip = Sher_Core_Helper_Auth::get_ip();
-        $userType = '';
-        $userId = '';   // 商户的用户账号
+        $userType = 'BIZ';
+        $userId = (string)$order_info['user_id'];   // 商户的用户账号
         $expireTime = '';   // 订单有效期，默认7天
         $industryCategoryCode = '';     // 订单业务类型
         $specCardNo = '';       // 指定银行卡号

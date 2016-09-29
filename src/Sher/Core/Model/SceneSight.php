@@ -49,7 +49,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		# 使用次数
         'used_count' => 0,
 		# 浏览数
-    	'view_count' => 0,
+    	'view_count' => 1,
 		# 喜欢数
         'love_count' => 0,
 		# 评论数 
@@ -68,8 +68,10 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 		
     # 推荐
     'stick' => 0,
+    'stick_on' => 0,
 		# 精选
 		'fine'  => 0,
+        'fine_on' => 0,
 		# 审核
 		'is_check' => 1,
 		# 是否启用
@@ -79,7 +81,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id', 'type');
+	protected $int_fields = array('status', 'used_count','love_count','comment_count','deleted', 'stick', 'fine', 'category_id', 'type', 'stick_on', 'fine_on');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count');
 	protected $retrieve_fields = array();
@@ -314,7 +316,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id, $options=array()) {
-        $ok = $this->update_set($id, array('stick' => 1));
+        $ok = $this->update_set($id, array('stick' => 1, 'stick_on'=> time()));
         if($ok){
             $data = $this->load($id);
             // 增长积分
@@ -336,7 +338,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id, $options=array()){
-		$ok = $this->update_set($id, array('fine' => 1));
+		$ok = $this->update_set($id, array('fine' => 1, 'fine_on'=> time()));
         if($ok){
             $data = $this->load($id);
             // 增长积分
@@ -351,6 +353,22 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
      */
 	public function mark_cancel_fine($id){
 		$ok = $this->update_set($id, array('fine' => 0));
+        return $ok;
+	}
+
+    /**
+     * 标记主题 审核
+     */
+	public function mark_as_check($id, $options=array()){
+		$ok = $this->update_set($id, array('is_check' => 1));
+        return $ok;
+	}
+	
+    /**
+     * 标记主题 取消审核
+     */
+	public function mark_cancel_check($id){
+		$ok = $this->update_set($id, array('is_check' => 0));
         return $ok;
 	}
 

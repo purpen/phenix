@@ -69,47 +69,59 @@ class Sher_Core_Model_FiuPusher extends Sher_Core_Model_Base  {
 		if(empty($uuid) || empty($user_id)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
-		
-    // 检测是否已绑定
-    $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
-    if($pusher){
-      $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>1, 'user_id'=>(int)$user_id, 'last_time'=>time()));
-    }else{
-      // 新增记录
-      $data = array(
-        'user_id' => (int)$user_id,
-        'uuid' => $uuid,
-        'from_to' => (int)$from_to,
-        'last_time' => time(),
-        'channel_id' => (int)$channel,
-      );
-      $ok = $this->create($data);
-      // 首次绑定送红包
-      if($ok){
-        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA', 'bonus'=>'B', 'min_amounts'=>'E'));
 
-        /**
-        // 随机赠送9.9红包做活动
-        $rand = rand(1, 15);
-        if($rand==10){
-          $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
-          $visitor_count = $third_site_stat_model->count(array('kind'=>3));
-          if($visitor_count<=60){
-            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'APS', 'bonus'=>'F', 'min_amounts'=>'C'));
-            $data = array(
-              'user_id' => (int)$user_id,
-              'kind' => 3,
-              'cid' => $from_to,
-              'ip' => Sher_Core_Helper_Auth::get_ip(),
-            );
-            $ok = $third_site_stat_model->create($data);          
+        $result = array();
+        $result['success'] = false;
+        $result['is_bonus'] = 0;
+		
+        // 检测是否已绑定
+        $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
+        if($pusher){
+          $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>1, 'user_id'=>(int)$user_id, 'last_time'=>time()));
+        }else{
+          // 新增记录
+            $result['is_bonus'] = 1;
+          $data = array(
+            'user_id' => (int)$user_id,
+            'uuid' => $uuid,
+            'from_to' => (int)$from_to,
+            'last_time' => time(),
+            'channel_id' => (int)$channel,
+          );
+          $ok = $this->create($data);
+          // 首次绑定送红包
+          if($ok){
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>10, 'xname'=>'DA100', 'bonus'=>'B', 'min_amounts'=>'G', 'day'=>7));
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>10, 'xname'=>'DA50', 'bonus'=>'A', 'min_amounts'=>'H', 'day'=>7));
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>10, 'xname'=>'DA30', 'bonus'=>'C', 'min_amounts'=>'D', 'day'=>7));
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>10, 'xname'=>'DA20', 'bonus'=>'I', 'min_amounts'=>'B', 'day'=>7));
+
+            /**
+            // 随机赠送9.9红包做活动
+            $rand = rand(1, 15);
+            if($rand==10){
+              $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+              $visitor_count = $third_site_stat_model->count(array('kind'=>3));
+              if($visitor_count<=60){
+                Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'APS', 'bonus'=>'F', 'min_amounts'=>'C'));
+                $data = array(
+                  'user_id' => (int)$user_id,
+                  'kind' => 3,
+                  'cid' => $from_to,
+                  'ip' => Sher_Core_Helper_Auth::get_ip(),
+                );
+                $ok = $third_site_stat_model->create($data);          
+              }
+            
+            }
+             */
           }
-        
         }
-         */
-      }
-    }
-		return $ok;
+        
+        if($ok){
+            $result['success'] = true;       
+        }
+		return $result;
 	}
 	
 	/**
@@ -119,13 +131,13 @@ class Sher_Core_Model_FiuPusher extends Sher_Core_Model_Base  {
 		if(empty($uuid) || empty($from_to)){
 			throw new Sher_Core_Model_Exception('绑定操作缺少参数！');
 		}
-    $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
-    if($pusher){
-      $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>0));
-      return $ok;
-    }else{
-      return false;
-    }
+        $pusher = $this->first(array('uuid'=>$uuid, 'from_to'=>$from_to));
+        if($pusher){
+          $ok = $this->update_set((string)$pusher['_id'], array('is_login'=>0));
+          return $ok;
+        }else{
+          return false;
+        }
 	}
 	
 }
