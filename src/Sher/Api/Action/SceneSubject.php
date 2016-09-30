@@ -218,6 +218,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         if(!empty($data['sight_ids'])){
             $sight_model = new Sher_Core_Model_SceneSight();
             for($i=0;$i<count($data['sight_ids']);$i++){
+                if(empty($data['sight_ids'][$i])) continue;
                 $sight = $sight_model->extend_load($data['sight_ids'][$i]);
                 if(empty($sight) || $sight['deleted']==1 || $sight['is_check']==0) continue;
                 switch($i){
