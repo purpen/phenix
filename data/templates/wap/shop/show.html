@@ -95,7 +95,7 @@
 	font-weight:400;
 	margin-left: 5px;
 	font-size: 16px;
-	color:#f36 !important;
+	color:#BE8914 !important;
 }
 #shopview .ui.top.details h4.ui.header.inline .rmb.icon{
 	font-weight: 400;
@@ -123,7 +123,7 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset!important;
 }
 #shopview .ui.top.details .product.attrs .ui.magenta.att.button.active{
-	background: #f36;
+	background: #222;
 	color: #fff;
 	box-shadow:none !important;
 }
@@ -208,10 +208,10 @@
 	color:#fff;
 }
 .gobuybtn .childbtn .joincart{
-	background:#ff6666;
+	background:#BE8914;
 }
 .gobuybtn .childbtn .buynow{
-	background:#f36;
+	background:#222;
 }
 .close-details{
     position: absolute;
@@ -272,7 +272,7 @@
 }
 #shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
 	height:32px;
-	color: rgba(112,123,135,.91);
+	color: #222;
 	font-size: 13px;
 	overflow:hidden;
 	font-weight:400;
@@ -284,7 +284,7 @@
     height: 30px;
     padding: 0;
     text-transform: uppercase;
-    color: #f36;
+    color: #BE8914;
 	line-height:20px;
 }
 #shopview .tabshow{
@@ -1008,12 +1008,7 @@ span.ui.timeout.btn{
         <!-- if product.sale_price != .product.market_price -->
         <span class="ui timeout btn">限时特惠</span>
         <!--endif-->
-				<span><i class="rmb icon"></i>
-          {% if product.snatched %}
-            {{ product.snatched_price }}
-          {%else%}
-          {{ product.sale_price }}
-          {%endif%}
+				<span><i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
         </span>
 			
         <!-- if product.sale_price != .product.market_price -->
