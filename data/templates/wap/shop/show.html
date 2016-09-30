@@ -740,6 +740,53 @@ span.ui.timeout.btn{
     font-size: 30px;
     color: #fff;
 }
+.shopbrand{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 10px;
+    background:#fff;
+}
+.shopbrand img{
+    display: inline-block;
+    margin-top: .14285em;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,0,0,0.1);
+    vertical-align: middle;
+}
+.shopbrand .content{
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 10px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+    -webkit-transform: translate3d(0,-50%,0);
+    max-height: 72px;
+    overflow: hidden;
+    color: #222;
+    left: 0;
+    text-decoration: none;
+}
+.shopbrand .sub.header {
+    margin-top: 5px;
+    font-size: 12px ;
+    line-height: 16px;
+    color: #666;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: right;
+}
+.shopbrand i.float.icon {
+    margin-left: 5px;
+    font-size: 1rem;
+}
 </style>
 {% endblock %}
 
@@ -1096,24 +1143,36 @@ span.ui.timeout.btn{
 		</div>
 	
 	</div>
+  <!-- 品牌 -->
+  <div class="shopbrand">
+      <img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
+      <a href=" " class="content">
+          colorstar
+          <div class="sub header">
+              查看所有商品
+              <i class="angle float right icon"></i>
+          </div>
+      </a>
+  </div>
+  <!-- -->
 	<!-- 相关推荐 -->
 	<div id="shop_guess_wap_list">
 			<!-- 加载相关推荐 -->
 	</div>
 	<!-- 产品评测 -->
-	<div id="product_eval" style="display:none;">
+	<!--<div id="product_eval" style="display:none;">
 		<div class="eval title">
 			产品评测
 		</div>
 		<div id="topicpage">
 			<div class="ui topiclist segment">
 				<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
-				  <!--ajax list-->
+				 
 				
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<!-- 详情 评价 -->
 	<div class="tabshow">
 		<div class="nav-menu mb-2r">
