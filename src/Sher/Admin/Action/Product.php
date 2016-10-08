@@ -224,12 +224,32 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			$data['asset'] = array();
 			$data['asset_count'] = 0;
 		}
+
+        $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
+        $data['number'] = $number;
+
+        if($data['stage']==9 && empty($number)){
+  		    return $this->ajax_json('请输入产品编号(与Erp相同)！', true);       
+        }
 		
 		try{
 			// 后台上传产品，默认通过审核
 			$data['approved'] = 1;
 			
 			$model = new Sher_Core_Model_Product();
+
+            if($data['stage']==9){
+                $number_query = array();
+                $number_query['number'] = $number;
+                if(!empty($id)){
+                    $number_query['_id'] = array('$ne'=>$id);
+                }
+
+                $is_exist_number = $model->first($number_query);
+                if(!empty($is_exist_number)){
+                    return $this->ajax_json('产品编号重复！', true);               
+                }           
+            }
 			
 			// 如果是预售商品，必须预售结束后才能设置至商店热售
 			if($data['process_presaled'] && $data['stage'] == Sher_Core_Model_Inventory::STAGE_SHOP){
@@ -435,9 +455,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$mode = $this->stash['mode'];
 		$price = $this->stash['price'];
 		$quantity = (int)$this->stash['quantity'];
+        $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
 		
 		// 验证数据
-		if(empty($product_id) || empty($price) || empty($mode) || empty($quantity)){
+		if(empty($product_id) || empty($number) || empty($price) || empty($mode) || empty($quantity)){
 			return $this->ajax_notification('设置SKU参数不足！', true);
 		}
 		
@@ -446,6 +467,20 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		try{
 			$inventory = new Sher_Core_Model_Inventory();
+
+            // 编号是否重复
+            $number_query = array();
+            $number_query['number'] = $number;
+            if(!empty($r_id)){
+                $number_query['_id'] = array('$ne'=>$r_id);
+            }
+
+            $is_exist_number = $inventory->first($number_query);
+            if(!empty($is_exist_number)){
+                return $this->ajax_notification('产品编号重复！', true);               
+            } 
+            
+
 			if (empty($r_id)){ // 新增
 				$new_data = array(
 					'product_id' => (int)$product_id,
@@ -453,6 +488,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'quantity' => (int)$quantity,
 					'price' => (float)$price,
 					'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
+                    'number' => $number,
 				);
 				$ok = $inventory->apply_and_save($new_data);
 				
@@ -467,7 +503,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'mode' => $mode,
 					'quantity' => (int)$quantity,
 					'price' => (float)$price,
-					'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
+                    'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
+                    'number' => $number,
 				);
 				$ok = $inventory->apply_and_update($updated);
 			}
