@@ -22,6 +22,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'old_stuff_id' => null,
 		# taobao sku
 		'taobao_iid' => null,
+        # 站外编号(erp编号)
+        'number' => null,
 		# 产品名称
 		'title'   => '',
 		# 短标题

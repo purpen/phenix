@@ -424,9 +424,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 没有临时订单编号，为非法操作
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
 		}
-		if(empty($this->stash['addbook_id'])){
-      return $this->api_json('请选择收货地址！', 3001);
-    }
+        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+		if(empty($addbook_id)){
+            return $this->api_json('请选择收货地址！', 3001);
+        }
 
     // 抢购商品ID
     $app_snatched_product_id = 0;

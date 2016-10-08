@@ -21,6 +21,9 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		'_id' => null,
 		
 		'product_id' => 0,
+
+        # 站外编号(erp编号)
+        'number' => null,
 		
 		# 名称
 		'name' => '',

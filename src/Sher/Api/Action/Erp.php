@@ -224,6 +224,43 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, $result);
 	}
 
+	/**
+	 * 确认发货
+	 */
+	public function send_goods(){
+		$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		$express_caty = $this->stash['express_caty'];
+		$express_no = $this->stash['express_no'];
+		if (empty($rid) || empty($express_caty) || empty($express_no)) {
+			return $this->api_json('缺少请求参数！', 3001);
+		}
+
+		$order_model = new Sher_Core_Model_Orders();
+		
+		$order = $order_model->find_by_rid($rid);
+
+        if(empty($order)){
+            return $this->api_json('订单不存在!', 3002);
+        }
+		
+        $ok = $order_model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+
+        // 短信提醒用户
+        if($ok){
+            $order_message = sprintf("致亲爱的人：我们已将您编号为[%s]的宝贝托付到有颜靠谱的快递小哥手中，日夜兼程只为让您感受潮酷智能生活的便利。", $order_info['rid']);
+            $order_phone = $order['express_info']['phone'];
+            if(!empty($order_phone)){
+                Sher_Core_Helper_Util::send_defined_mms($order_phone, $order_message);
+            }
+
+            return $this->api_json('success', 0, array('rid'=>$rid));
+        }else{
+            return $this->api_json('订单更新失败！', 3003);
+        }
+
+		
+	}
+
 
 }
 
