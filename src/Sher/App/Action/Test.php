@@ -403,5 +403,31 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     print_r(array_values($a));
   }
 
+  /**
+   * jD 开普勒
+   */
+  public function vop(){
+      $a = Sher_Core_Util_Vop::fetchToken();
+      print_r($a);
+
+      // "access_token":"b56dc61ca5db41ab92671da8f65036ab8",
+      // "refresh_token":"afb3e78179c24254a8d4bb5b63ca179c9",
+      // "token_type":"bearer",
+        //"uid":"1201453158",
+        //"user_nick":"bjthhn"
+  }
+
+  /**
+   * 商品池
+   */
+  public function vop_pool(){
+      $method = "biz.product.PageNum.query";    // 获取池子信息
+      //$method = "biz.product.sku.query"; // 获取池内商品编号
+      $json = json_encode(array('pageNum'=>'12313'));
+      $a = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json));
+      print_r($a);
+    
+  }
+
 }
 

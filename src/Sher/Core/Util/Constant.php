@@ -205,6 +205,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 奇思甬动大赛统计
     const DIG_QSYD_CONTEST = 'qsyd_contest_stat';
 
+    # 京东VOP token storage
+    const DIG_JD_VOP_TOKEN = 'jd_vop_token';
+
     /**
      * DigList stuff计数器
      */

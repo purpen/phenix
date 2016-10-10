@@ -42,6 +42,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		$subject_id = isset($this->stash['subject_id']) ? (int)$this->stash['subject_id'] : 0;
+        $show_all = isset($this->stash['show_all']) ? (int)$this->stash['show_all'] : 0;
 
 		
 		// 基于地理位置的查询，从城市内查询
@@ -69,7 +70,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             }
         }
 
-        $query['is_check'] = 1;
+        if(!$show_all){
+            $query['is_check'] = 1;
+        }
 
         if($category_ids){
             $cate_arr = explode(',', $category_ids);
@@ -413,7 +416,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         $result  = $model->extend_load((int)$id);
 
 		if (empty($result) || $result['deleted']==1) {
-            return $this->api_json('情景不存在或已删除!', 3002);
+            return $this->api_json('情境不存在或已删除!', 3002);
+        }
+
+        if($result['is_check']==0 && $result['user_id'] != $current_user_id){
+            return $this->api_json('情境未通过审核!', 3003);       
         }
 
         $user_model = new Sher_Core_Model_User();
