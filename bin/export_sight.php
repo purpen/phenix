@@ -60,7 +60,7 @@ while(!$is_end){
         continue;
     }
 
-      $row = array($sight['_id'], $sight['title'], $file_url, $sight['love_count'], 1, $user['_id'], $user['nickname'], $user['profile']['phone'], $user['profile']['job']);
+      $row = array($sight['_id'], $sight['title'], $file_url, $sight['love_count'], date('Y-m-d H:i:s', $sight['created_on']), $user['_id'], $user['nickname'], $user['profile']['phone'], $user['profile']['job']);
       fputcsv($fp, $row);
 
 		  $total++;
