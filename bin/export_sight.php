@@ -28,7 +28,7 @@ $page = 1;
 $size = 500;
 $is_end = false;
 $total = 0;
-$fp = fopen('/Users/tian/sight_love7.csv', 'a');
+$fp = fopen('/home/tianxiaoyi/sight_love7.csv', 'a');
 // Windows下使用BOM来标记文本文件的编码方式 
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
