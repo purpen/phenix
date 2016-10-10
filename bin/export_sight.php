@@ -33,11 +33,14 @@ $fp = fopen('/home/tianxiaoyi/sight_love7.csv', 'a');
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('作品ID', '作品名称','原图链接', '赞数量', '用户ID', '昵称', '电话', '职业');
+$head = array('作品ID', '作品名称','原图链接', '赞数量', '创建时间', '用户ID', '昵称', '电话', '职业');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
+$begin_time = strtotime('2016-09-18 12:00:00');
+$end_time = strtotime('2016-10-10 18:00:00');
 while(!$is_end){
-	$query = array('is_check'=>1, 'deleted'=>0, 'love_count'=>array('$gt'=>6));
+	$query = array('is_check'=>1, 'deleted'=>0, 'love_count'=>array('$gt'=>6), 'created_on'=>array('$gt'=>$begin_time), 'created_on'=>array('$lt'=>$end_time));
+
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
@@ -57,7 +60,7 @@ while(!$is_end){
         continue;
     }
 
-      $row = array($sight['_id'], $sight['title'], $file_url, $sight['love_count'], $user['_id'], $user['nickname'], $user['profile']['phone'], $user['profile']['job']);
+      $row = array($sight['_id'], $sight['title'], $file_url, $sight['love_count'], 1, $user['_id'], $user['nickname'], $user['profile']['phone'], $user['profile']['job']);
       fputcsv($fp, $row);
 
 		  $total++;
