@@ -70,7 +70,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             }
         }
 
-        if(!$show_all){
+        if(empty($show_all)){
             $query['is_check'] = 1;
         }
 
