@@ -39,7 +39,7 @@ fputcsv($fp, $head);
 $begin_time = strtotime('2016-09-18 12:00:00');
 $end_time = strtotime('2016-10-10 18:00:00');
 while(!$is_end){
-	$query = array('is_check'=>1, 'deleted'=>0, 'love_count'=>array('$gt'=>6), 'created_on'=>array('$gt'=>$begin_time), 'created_on'=>array('$lt'=>$end_time));
+	$query = array('is_check'=>1, 'deleted'=>0, 'love_count'=>array('$gt'=>6), 'created_on'=>array('$gt'=>$begin_time, '$lt'=>$end_time));
 
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);

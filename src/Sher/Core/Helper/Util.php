@@ -195,8 +195,11 @@ class Sher_Core_Helper_Util {
     Doggy_Log_Helper::warn("Send Message IP: ".$ip);
     Doggy_Log_Helper::warn("Send Message From: ".$from);
 
-		$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
-		return self::send_mms($phone, $message);
+        // 转为云片
+        return self::send_yp_register_mms($phone, $code, $from_to);
+
+		//$message = "验证码：${code}，切勿泄露给他人，如非本人操作，建议及时修改账户密码。【太火鸟】";
+		//return self::send_mms($phone, $message);
 	}
 
 	/**
@@ -211,8 +214,10 @@ class Sher_Core_Helper_Util {
 	 * 发送短信--自定义 (螺丝冒)
 	 */
 	public static function send_defined_mms($phone, $msg) {
-		$message = "${msg}【太火鸟】";
-		return self::send_mms($phone, $message);
+        // 转为云片
+        return self::send_yp_defined_mms($phone, $msg);
+		//$message = "${msg}【太火鸟】";
+		//return self::send_mms($phone, $message);
 	}
 
 	/**
