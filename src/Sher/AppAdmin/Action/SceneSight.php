@@ -11,11 +11,14 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		'state' => '',
         'deleted' => 0,
         's_title' => '',
+
+        'month' => null,
+        'week' => null,
+        'day' => null,
 	);
 	
 	public function _init() {
 		
-		$this->set_target_css_state('page_app_scene_sight');
 		$this->stash['show_type'] = "sight";
     }
 	
@@ -31,6 +34,8 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	 * 列表
 	 */
 	public function get_list() {
+
+		$this->set_target_css_state('page_app_scene_sight');
         
 		$user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
@@ -60,6 +65,8 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 	 * 更新
 	 */
 	public function submit(){
+
+		$this->set_target_css_state('page_app_scene_sight');
         // 记录上一步来源地址
         $this->stash['return_url'] = $_SERVER['HTTP_REFERER'] ? $_SERVER['HTTP_REFERER'] : Doggy_Config::$vars['app.url.app_admin']."/scene_sight";
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : '';
@@ -238,6 +245,44 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		
 		return $this->ajax_json('提交成功', false, null);
 	}
+
+
+  /**
+   * 情境统计
+   */
+  public function sight_stat(){
+		// 判断左栏类型
+		$this->stash['show_type'] = "sight";
+    $this->set_target_css_state('page_app_sight_stat');
+    $this->set_target_css_state('all_list');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_sight/sight_stat?month=%s&week=%s&day=%s&page=#p#', $this->stash['month'], $this->stash['week'], $this->stash['day']);
+		$this->stash['pager_url'] = $pager_url;
+
+    return $this->to_html_page('app_admin/scene_sight/sight_stat.html');
+
+  }
+
+  /**
+   * 情境统计删除操作
+   */
+  public function sight_stat_delete(){
+    $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+    $user_id = $this->visitor->id;
+    if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+ 			return $this->ajax_note('没有执行权限!', true);     
+    }
+		$model = new Sher_Core_Model_SightStat();
+		if($model->remove($id)){
+            $model->mock_after_remove($id);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html'); 
+  }
 
 	
 }

@@ -1,13 +1,14 @@
 <?php
 /**
- * APP商城用户统计Service类
+ * 情境统计Service类
  * @author tianshuai 
  */
-class Sher_Core_Service_AppStoreUserStat extends Sher_Core_Service_Base {
+class Sher_Core_Service_SightStat extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
 		'latest' => array('created_on' => -1),
 		'day_desc' => array('day' => -1),
+
 	);
 
     protected static $instance;
@@ -15,11 +16,11 @@ class Sher_Core_Service_AppStoreUserStat extends Sher_Core_Service_Base {
     /**
      * current service instance
      *
-     * @return Sher_Core_Service_AppStoreUserStat
+     * @return Sher_Core_Service_SightStat
      */
     public static function instance() {
         if (is_null(self::$instance)) {
-            return self::$instance = new Sher_Core_Service_AppStoreUserStat();
+            return self::$instance = new Sher_Core_Service_SightStat();
         }
         return self::$instance;
     }
@@ -27,8 +28,8 @@ class Sher_Core_Service_AppStoreUserStat extends Sher_Core_Service_Base {
     /**
      * 获取列表
      */
-    public function get_app_store_user_stat_list($query=array(), $options=array()) {
-	    $model = new Sher_Core_Model_AppStoreUserStat();
+    public function get_sight_stat_list($query=array(), $options=array()) {
+	    $model = new Sher_Core_Model_SightStat();
 		  return $this->query_list($model,$query,$options);
     }
 }

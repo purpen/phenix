@@ -1,0 +1,102 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#search-btn').click(function(){
+		$('#search-form').submit();
+	});
+
+
+{%endblock%}
+
+{% block content %}
+	<h3 class="ui header">情境统计</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_sight/sight_stat" class="{{ css_all_list }} item">
+			全部
+		</a>
+
+	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_app_admin_base }}/scene_sight/sight_stat" method="get" class="ui form" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="month" placeholder="月: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="week" placeholder="周: 201516" value="{{ week }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+				<div class="field">
+					<div id="search-btn" class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+        <th>天</th>
+        <th>周</th>
+        <th>月</th>
+        <th>总量</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% sight_stat_list var:'list' day:day week:week month:month sort:0 page:page size:100 %}
+			
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+        <td>
+          <p>{{ d.day }}</p>
+          <p>情境数:{{ d.day_sight_count }}</p>
+          <p>点赞数:{{ d.day_love_count }}</p>
+        </td>
+        <td>
+          <p>{{ d.week }}</p>
+          <p>情境数:{{ d.week_sight_count }}</p>
+          <p>点赞数:{{ d.week_love_count }}</p>
+        </td>
+        <td>
+          <p>{{ d.month }}</p>
+          <p>情境数:{{ d.month_sight_count }}</p>
+          <p>点赞数:{{ d.month_love_count }}</p>
+        </td>
+        <td>
+          <p>情境数:{{ d.total_sight_count }}</p>
+          <p>点赞数:{{ d.total_love_count }}</p>
+        </td>
+
+        <td>
+  			<a href="{{ app_url_app_admin_base }}/scene_sight/sight_stat_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>      
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}
