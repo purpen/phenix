@@ -52,6 +52,9 @@
 		<a class="{{ css_page_app_scene_subject }} item" href="{{ app_url_app_admin_base }}/scene_subject">
 			专题管理
 		</a>
+                <a class="{{ css_page_app_sight_stat }} item" href="{{ app_url_app_admin_base }}/scene_sight/sight_stat">
+                    情境统计
+                </a>
 
         {%else%}
             {% if visitor.is_customer %}
@@ -60,6 +63,9 @@
                 </a>
                 <a class="{{ css_page_app_scene_subject }} item" href="{{ app_url_app_admin_base }}/scene_subject">
                     专题管理
+                </a>
+                <a class="{{ css_page_app_sight_stat }} item" href="{{ app_url_app_admin_base }}/scene_sight/sight_stat">
+                    情境统计
                 </a>
             {%endif%}
 
