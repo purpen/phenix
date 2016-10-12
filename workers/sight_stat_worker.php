@@ -27,17 +27,19 @@ echo "-------------------------------------------------\n";
 // 统计方法
 function begin_stat(){
   echo "Start to stat...\n";
+
+  $n_day = '-1 day';
   $sight_stat_model = new Sher_Core_Model_SightStat();
-  $yesterday = (int)date('Ymd', strtotime('-1 day'));
-  $month = (int)date('Ym', strtotime('-1 day'));
-  $year = (int)date('Y', strtotime('-1 day'));
+  $yesterday = (int)date('Ymd', strtotime($n_day));
+  $month = (int)date('Ym', strtotime($n_day));
+  $year = (int)date('Y', strtotime($n_day));
 
   //昨天周数
-  $week_num = Sher_Core_Helper_Util::get_week_now(strtotime('-1 day'));
+  $week_num = Sher_Core_Helper_Util::get_week_now(strtotime($n_day));
   $week = (int)((string)$year.(string)$week_num);
 
-  $star_tmp = strtotime(sprintf("%s 00:00:00", date('Y-m-d', strtotime('-1 day'))));
-  $end_tmp = strtotime(sprintf("%s 23:59:59", date('Y-m-d', strtotime('-1 day'))));
+  $star_tmp = strtotime(sprintf("%s 00:00:00", date('Y-m-d', strtotime($n_day))));
+  $end_tmp = strtotime(sprintf("%s 23:59:59", date('Y-m-d', strtotime($n_day))));
 
   //如果统计表存在,跳过
   $is_exist = $sight_stat_model->first(array('day'=>(int)$yesterday));
