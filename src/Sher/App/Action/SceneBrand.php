@@ -127,7 +127,7 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 			// Banner url
 			$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
 
-            $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+            $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
 
         } //end for
 

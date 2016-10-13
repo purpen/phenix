@@ -1678,6 +1678,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $category_id = $this->stash['category_id'];
         $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
         $category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
+        $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
         $type = $this->stash['type'];
 
         
@@ -1694,6 +1695,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
         // is_shop=1
         $query['stage'] = 9;
+
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
+        }
 
         if($category_tags){
           $category_tag_arr = explode(',', $category_tags);
@@ -1767,7 +1772,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
         //限制输出字段
         $some_fields = array(
-          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1,
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1, 'brand_id'=>1,
           'stage'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1, 'vote_favor_count'=>1,
           'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,

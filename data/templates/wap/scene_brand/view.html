@@ -140,26 +140,87 @@
 	}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var category_id = 0;
+      var sort = 0;
+      var type = 2;
+      var brand_id = '{{ scene_brand._id }}';
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, brand_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, brand_id:brand_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(category_id, brand_id, type, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(category_id, brand_id, type, sort, page, size);
 
 {% endblock %}
 
 {% block content %}
 <div class="ui brand">
-	<div class="brandlg" style="background-image: url(http://frbird.qiniudn.com/asset/160612/575d220cfc8b12e43f8b6fbd-1);">
-		<p>AMD</p>
-		<img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
+    <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
+        <p>{{ scene_brand.title }}</p>
+        <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
 	</div>
 	<div class="ui responsive grid">
 		<div class="row masx">
 			<div class="column">
-				<p>Being the savage's bowsman, that is, the person who pulled the bow-oar in his boat (the second one from forward), it was my cheerful duty to attend upon him while taking that hard-scrabble scramble upon the dead whale's back. You have seen Italian organ-boys holding a dancing-ape by a long cord.</p>
+                <p>{{ scene_brand.des }}</p>
 			</div>
 		</div>
 
 		<div class="row" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
+
+                    
+                    <!--
 					<div class="recom-cell">
 						<a href="">
 							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
@@ -171,64 +232,22 @@
 							</div>
 						</a>
 					</div>
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
+                    -->
+
 				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
 			</div>
 		</div>
 	</div>
 </div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
