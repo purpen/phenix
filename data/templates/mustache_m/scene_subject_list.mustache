@@ -1,0 +1,31 @@
+{{#rows}}
+		<div class="row pt-0 pb-3r">
+			<a class="banner">
+				<img class="lazy" data-original="{{ cover_url }}" src="{{ app_url_packaged }}/images/icon/load750-422.png">
+				<div class="content">
+					<h3 class="ui header">{{ title }}</h3>
+					<p>{{ short_title }}</p>
+				</div>
+			</a>
+
+			<div class="overhidden">
+				<ul class="shopitem">
+
+                    {{#products}}
+					<li>
+						<a>
+							<img src="{{ cover_url }}">
+							<div class="desc">
+								<h2>{{ title }}</h2>
+								<div class="cats">
+		                            <span class="unit">￥</span>{{ sale_price }}
+		                        </div>
+							</div>
+						</a>
+					</li>
+                    {{/products}}
+					
+				</ul>
+			</div>
+		</div>
+{{/rows}}
