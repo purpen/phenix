@@ -211,7 +211,7 @@
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#product-more')
                       .hide()
-                      .attr({'status': 0, 'page': rs.data.page, category_id: rs.data.category_id});
+                      .attr({'status': 0, 'page': rs.data.page});
               }else{
                   $('#product-more').html('没有更多');
               }
@@ -224,6 +224,7 @@
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
+                $('#product-more').show().attr('status', 0);
           }, 'json');
       }
 
@@ -254,10 +255,8 @@
 　　if(scrollTop + windowHeight > scrollHeight-100){
       var stat = $('#product-more').attr('status');
       page = parseInt($('#product-more').attr('page')) + 1;
-      category_id = $('#product-more').attr('category_id');
-
       if(stat==0){
-        ajax_load_more(category_id, type, sort, page, size);
+        ajax_load_more(category_id, category_tag, type, sort, page, size);
       }
 　　}
   });
@@ -339,7 +338,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="product-more" class="topic-box-list" style="display:none;" category_id="{{ cid }}" page="1" status="0">
+		<div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
 	    	<div style="text-align:center;margin:10px auto;">
 	      		<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
 	    	</div>
