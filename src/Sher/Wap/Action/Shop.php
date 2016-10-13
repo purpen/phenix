@@ -67,7 +67,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
      * 推荐
      */
     public function stick(){
-        return $this->to_html_page('wap/shop/stick.html');   
+        return $this->to_html_page('wap/shop/stick_list.html');   
     }
 
   /**

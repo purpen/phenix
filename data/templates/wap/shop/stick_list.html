@@ -1,0 +1,284 @@
+{%extends 'layout/shop.html'%}
+{% block title%}推荐{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+    	background: #000;
+	    padding-top: 1px;
+	    color: #fff;
+	    position: fixed;
+	    width: 100%;
+	    left: 50%;
+	    bottom: 0;
+	    max-width: 767px;
+	    -webkit-transform: translateX(-50%);
+	    transform: translateX(-50%);
+	    //display: none;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon{
+    	color: #fff;
+    	padding: 2px 6px 5px;
+    	margin-bottom: 0;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon .img {
+	    display: block;
+	    margin: 0 auto 4px;
+	    vertical-align: middle;
+	    background-image: url({{ app_url_packaged }}/images/fiushop/sfooter.png);
+	    background-repeat: no-repeat;
+	    background-size: 88px 18px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .choice.img{
+		height: 18px;
+		width: 20px;
+	    background-position: 0 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .find.img{
+		height: 18px;
+		width: 26px;
+	    background-position: -63px 3px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .cart.img{
+		height: 18px;
+		width: 22px;
+	    background-position: -20px 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .owner.img{
+		height: 18px;
+		width: 21px;
+	    background-position: -42px 0;
+	}
+	.ui.sheader{
+		background:#000;
+	}
+	.ui.sheader p{
+		font-size: 17px;
+		line-height: 50px;
+		color: #fff;
+		text-align: center;
+	}
+	.ui.category{
+		padding-bottom: 65px;
+	}
+	.fmenulist{
+		height: 60px;
+		background:#fff;
+		overflow: hidden;
+		box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+	    -webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+	}
+	.menuitem{
+		padding: 0;
+	    margin: 0;
+	    height: 68px;
+	    white-space: nowrap;
+	    width: 100%;
+	    overflow-x: scroll;
+    	overflow-y: hidden;
+    	-webkit-overflow-scrolling: touch;
+	}
+	.menuitem::-webkit-scrollbar {
+	    display: none;
+	}
+	.menuitem li{
+		width: 65px;
+	    display: inline-block;
+	    text-align: center;
+	    padding: 10px 0;
+	    height: 60px;
+	}
+	.menuitem li p{
+		font-size: 12px;
+		color: #666;
+	}
+	.menuitem li .catename{
+		width: 24px;
+    	height: 24px;
+		margin:-1px auto 2px;
+		background-size: 48px 24px;
+	}
+	.menuitem li.active .catename{
+		background-position: 24px 0;
+	}
+	.menuitem li.active p{
+		color: #BE8914;
+	}
+	.groom-btn{
+		margin-top: 2px;
+		background:#fff;
+		height: 45px;
+		border-bottom: 1px solid rgba(151,151,151,0.1);
+		padding: 10px 0;
+		overflow: hidden;
+	}
+	.groom-btn .groom-list{
+		height: 44px;
+	    overflow: scroll;
+	    white-space: nowrap;
+	    padding: 0 10px;
+	    margin: 0;
+	    -webkit-overflow-scrolling: touch;
+	}
+	.groom-btn .groom-list::-webkit-scrollbar {
+	    display: none;
+	}
+	.groom-btn .ui.becolor.basic.button{
+		color: #666 !important;
+		border: 1px solid #666;
+	    box-shadow: none;
+		padding:5px 12px;
+		font-size: 12px;
+	}
+	.groom-btn .ui.becolor.basic.button.active{
+		color: #BE8914 !important;
+	    border: 1px solid #BE8914;
+	    box-shadow: none;
+	    background: rgba(0,0,0,0) !important;
+	}
+	.ui.reorder{
+		height: 30px;
+		background:#fff;
+		width: 100%;
+		width: 100%;
+	    display: -webkit-box;
+	    display: -webkit-flex;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -webkit-flex-wrap: wrap;
+	    -ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+	}
+	.reitem{
+		-webkit-box-flex: 1;
+	    -webkit-flex: 1;
+	    -ms-flex: 1;
+	    flex: 1;
+	    -webkit-flex-basis: 0;
+	    -ms-flex-preferred-size: 0;
+	    flex-basis: 0;
+	    height: 100%;
+	    position: relative;
+	    color: #999 !important;
+	    line-height: 30px;
+	    font-size: 12px;
+	}
+	.left.reitem{
+		padding-left: 15px;
+		text-align: left;
+	}
+	.center.reitem{
+		text-align: center;
+	}
+	.center.reitem img{
+		margin-left: 4px;
+    	margin-bottom: 2px;
+    	width: 9px;
+	}
+	.right.reitem{
+		padding-right: 15px;
+		text-align: right;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc{
+		height: 60px;
+		padding: 5px 10px 0;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc h2{
+		color: #222;
+		text-align: center;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc .cats{
+		color: #BE8914;
+		text-align: center;
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var category_id = '{{cid}}';
+      var sort = 4;
+      var type = 2;
+      var category_tag = '';
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+{% block jquery %}
+    //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(category_id, category_tag, type, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
+
+{% endblock %}
+
+{% block content %}
+<div class="ui category">
+	<div class="ui catemenu">
+		<a href="{{ app_url_wap }}/shop/category" >品类</a>
+		<a href="{{ app_url_wap }}/shop/brand">品牌</a>
+		<a href="javascript:void(0);" class="active">推荐</a>
+	</div>
+
+	<div class="ui responsive brand list grid">
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+
+				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
+{% endblock %}
