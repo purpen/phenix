@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -25,10 +25,14 @@
 	padding:10px;
 	background:#fff;
 }
+#shopview .presale h4.ui.header{
+  color: #222 !important;
+}
 #shopview .presale h4.ui.header .sub.header{
-	margin-top:8px;
+	  margin-top:8px;
     font-size: 14px;
-    color: #f36;
+    color: #BE8914;
+    line-height: 20px;
 }
 #shopview .presale h4.ui.header .sub.header +  p{
   border-top: 1px solid rgba(0,0,0,0.1);
@@ -38,7 +42,7 @@
     padding-top: 8px;
 }
 #shopview .presale h4.ui.header .sub.header +  p span{
-  color: #f36;
+  color: #BE8914;
 }
 #shopview .presale h4.ui.header .sub.header .rmb.icon{
     font-size: 13px;
@@ -91,7 +95,7 @@
 	font-weight:400;
 	margin-left: 5px;
 	font-size: 16px;
-	color:#f36 !important;
+	color:#BE8914 !important;
 }
 #shopview .ui.top.details h4.ui.header.inline .rmb.icon{
 	font-weight: 400;
@@ -119,7 +123,7 @@
     box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset!important;
 }
 #shopview .ui.top.details .product.attrs .ui.magenta.att.button.active{
-	background: #f36;
+	background: #222;
 	color: #fff;
 	box-shadow:none !important;
 }
@@ -204,10 +208,10 @@
 	color:#fff;
 }
 .gobuybtn .childbtn .joincart{
-	background:#ff6666;
+	background:#BE8914;
 }
 .gobuybtn .childbtn .buynow{
-	background:#f36;
+	background:#222;
 }
 .close-details{
     position: absolute;
@@ -268,7 +272,7 @@
 }
 #shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
 	height:32px;
-	color: rgba(112,123,135,.91);
+	color: #222;
 	font-size: 13px;
 	overflow:hidden;
 	font-weight:400;
@@ -280,7 +284,7 @@
     height: 30px;
     padding: 0;
     text-transform: uppercase;
-    color: #f36;
+    color: #BE8914;
 	line-height:20px;
 }
 #shopview .tabshow{
@@ -295,7 +299,7 @@
 	content:'';
 	height:1px;
 	width:66px;
-	background:#f36;
+	background:#BE8914;
 	position:absolute;
 	left:50%;
 	margin-left:-33px;
@@ -306,7 +310,7 @@
     transition: all 0.3s ease 0.05s;
 }
 #shopview .tabshow .nav-menu .navfelx .childcell.active{
-	color:#f36;
+	color:#BE8914;
 }
 #shopview .tabshow .nav-menu .navfelx .childcell.active::after{
     transform: scaleX(1);
@@ -388,11 +392,11 @@
 .three-mesg .shopcart{
     text-align: center;
     line-height: 50px;
-	background: #ff6666;
+	background: #BE8914;
 	color:#fff;
 }
 .three-mesg .shopbuy{
-	background: #f36;
+	background: #222;
     text-align: center;
     line-height: 50px;
 	color:#fff;
@@ -702,6 +706,87 @@
 .service.segment .row:first-child{
 	padding-top:0.35725rem !important;
 }
+.ui.sheader{
+    background:#000;
+    position: relative;
+}
+.ui.sheader p{
+  font-size: 17px;
+  line-height: 50px;
+  color: #fff;
+  text-align: center;
+}
+span.oldprice{
+    color: #999;
+    font-size: 12px;
+    text-decoration: line-through;
+    margin-left: 3px;
+}
+span.ui.timeout.btn{
+    font-size: 12px;
+    color: #fff;
+    background: #be8914;
+    padding: 4px 6px;
+    border-radius: 4px;
+    vertical-align: top;
+    margin-right: 5px;
+}
+.ui.sheader a{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 45px;
+    font-size: 30px;
+    color: #fff;
+}
+.shopbrand{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 10px;
+    background:#fff;
+}
+.shopbrand img{
+    display: inline-block;
+    margin-top: .14285em;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,0,0,0.1);
+    vertical-align: middle;
+}
+.shopbrand .content{
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 10px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+    -webkit-transform: translate3d(0,-50%,0);
+    max-height: 72px;
+    overflow: hidden;
+    color: #222;
+    left: 0;
+    text-decoration: none;
+}
+.shopbrand .sub.header {
+    margin-top: 5px;
+    font-size: 12px ;
+    line-height: 16px;
+    color: #666;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: right;
+}
+.shopbrand i.float.icon {
+    margin-left: 5px;
+    font-size: 1rem;
+}
 </style>
 {% endblock %}
 
@@ -942,6 +1027,12 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui category" style="padding-bottom: 0;">
+  <div class="ui sheader">
+    <a href="{{ app_url_wap }}/shop"><i class="angle float left icon"></i></a>
+    <p>产品详情</p>
+  </div>
+</div>
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
@@ -961,15 +1052,16 @@
 		<h4 class="ui header">
 			{{ product.title }}
 			<div class="sub header">
-				<i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
-			</div>
-            {% if product.extra_info %}
-      <p>
-        优惠：
-        <span>{{ product.extra_info }}</span>
-      </p>
-      {%endif%}
-
+        <!-- if product.sale_price != .product.market_price -->
+        <span class="ui timeout btn">限时特惠</span>
+        <!--endif-->
+				<span><i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+        </span>
+			
+        <!-- if product.sale_price != .product.market_price -->
+                <span class="oldprice">¥000</span>
+        <!--endif-->
+      </div>
 		</h4>
 	</div>
 	<div class="colour">
@@ -1051,24 +1143,36 @@
 		</div>
 	
 	</div>
+  <!-- 品牌 -->
+  <div class="shopbrand">
+      <img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
+      <a href=" " class="content">
+          colorstar
+          <div class="sub header">
+              查看所有商品
+              <i class="angle float right icon"></i>
+          </div>
+      </a>
+  </div>
+  <!-- -->
 	<!-- 相关推荐 -->
 	<div id="shop_guess_wap_list">
 			<!-- 加载相关推荐 -->
 	</div>
 	<!-- 产品评测 -->
-	<div id="product_eval" style="display:none;">
+	<!--<div id="product_eval" style="display:none;">
 		<div class="eval title">
 			产品评测
 		</div>
 		<div id="topicpage">
 			<div class="ui topiclist segment">
 				<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
-				  <!--ajax list-->
+				 
 				
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>-->
 	<!-- 详情 评价 -->
 	<div class="tabshow">
 		<div class="nav-menu mb-2r">
