@@ -1059,7 +1059,9 @@ span.ui.timeout.btn{
         </span>
 			
         <!-- if product.sale_price != .product.market_price -->
-                <span class="oldprice">¥000</span>
+        {% if product.sale_price != product.market_price %}
+            <span class="oldprice">¥{{ product.market_price }}</span>
+        {%endif%}
         <!--endif-->
       </div>
 		</h4>
@@ -1144,16 +1146,18 @@ span.ui.timeout.btn{
 	
 	</div>
   <!-- 品牌 -->
+  {% if product.brand %}
   <div class="shopbrand">
-      <img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
-      <a href=" " class="content">
-          colorstar
+      <img src="{{ product.brand.cover.thumbnails.apc.view_url }}">
+      <a href="{{ app_url_wap }}/scene_brand/view?id={{ product.brand_id }}" class="content">
+          {{ product.brand.title }}
           <div class="sub header">
               查看所有商品
               <i class="angle float right icon"></i>
           </div>
       </a>
   </div>
+  {%endif%}
   <!-- -->
 	<!-- 相关推荐 -->
 	<div id="shop_guess_wap_list">
