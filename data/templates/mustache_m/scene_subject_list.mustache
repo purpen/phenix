@@ -1,6 +1,6 @@
 {{#rows}}
 		<div class="row pt-0 pb-3r">
-			<a class="banner">
+			<a class="banner" href="{{ wap_view_url }}">
 				<img class="lazy" data-original="{{ cover_url }}" src="{{ app_url_packaged }}/images/icon/load750-422.png">
 				<div class="content">
 					<h3 class="ui header">{{ title }}</h3>
@@ -13,7 +13,7 @@
 
                     {{#products}}
 					<li>
-						<a>
+						<a href="{{ wap_view_url }}">
 							<img src="{{ cover_url }}">
 							<div class="desc">
 								<h2>{{ title }}</h2>

@@ -177,6 +177,8 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
             $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
 
+            $data[$i]['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+
             // 产品
             $product_arr = array();
             if(!empty($data[$i]['product_ids'])){
@@ -190,6 +192,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
                         'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
                         'summary' => $product['summary'],
                         'sale_price' => $product['sale_price'],
+                        'wap_view_url' => $product['wap_view_url'],
                     );
                     array_push($product_arr, $row);
                 }
