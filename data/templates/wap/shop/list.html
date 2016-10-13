@@ -204,7 +204,7 @@
       // 加载产品列表
       function ajax_load_more(category_id, category_tag, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
-          $('#product-more').show().attr('status', 1);
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
@@ -213,7 +213,9 @@
                       .hide()
                       .attr({'status': 0, 'page': rs.data.page});
               }else{
-                  $('#product-more').html('没有更多');
+                  $('#product-more')
+                  .attr({'page': rs.data.page});
+                  .find('.p_sub').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
@@ -224,7 +226,6 @@
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
-                $('#product-more').show().attr('status', 0);
           }, 'json');
       }
 
@@ -262,7 +263,7 @@
   });
 	
 	// 初始加载商品列表
-    ajax_load_more(category_id, type, sort, page, size);
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
     // 初始化加载分类标签
 
 
@@ -336,15 +337,16 @@
 				<div class="recom-item">
 
 				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
 			</div>
 		</div>
-		<div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
-	    	<div style="text-align:center;margin:10px auto;">
-	      		<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">
-	    	</div>
-	    </div>
-	</div>
 
+	</div>
 
 </div>
 
