@@ -630,7 +630,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
      */
     public function ajax_load_list(){        
         $category_id = $this->stash['category_id'];
-        $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $type = $this->stash['type'];
         
         $page = $this->stash['page'];
@@ -646,11 +646,12 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
         // is_shop=1
         $query['stage'] = array('$in'=>array(5, 9, 12, 15));
-        
-		// 预售
-		if ($presaled) {
-		  $query['stage'] = 5;
-		}
+
+        if($category_tags){
+          $category_tag_arr = explode(',', $category_tags);
+          $query['category_tags'] = array('$in'=>$category_tag_arr);
+        }
+
         // 仅发布
         $query['published'] = 1;
         
@@ -660,7 +661,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
                     $query['stage'] = 15;
                     break;
                 case 2:
-                    $query['stage'] = array('$in'=>array(5,9));
+                    $query['stage'] = 9;
                     break;
                 case 3:
                     $query['stage'] = 12;

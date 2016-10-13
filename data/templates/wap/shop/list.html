@@ -195,16 +195,18 @@
 {% block layout_js %}
   <script type="text/javascript" >
       var page = 1;
-      var size = 12;
+      var size = 8;
       var category_id = '{{cid}}';
-      var sort = 4;
-      var type = 0;
+      var sort = 0;
+      var type = 2;
+      var category_tag = '';
   
-      function ajax_load_more(category_id, type, sort, page, size){
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#product-more').show().attr('status', 1);
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
-          $.get(url, { category_id:category_id, sort:sort, page:page, type:type, size:size }, function(rs){
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#product-more')
@@ -224,6 +226,23 @@
  			  });
           }, 'json');
       }
+
+    // 加载分类标签
+    function ajax_load_ategory_tag(category_tags){
+        if(category_tags==''){
+            $('#category-tag-box').hide();
+            return;
+        }
+        var arr = category_tags.split(',');
+        var html = '';
+        for(var i=0;i<arr.length;i++){
+            html += '<li class="ui becolor basic button category_tag_btn" data-category_tag="'+ arr[i] +'">'+ arr[i] +'</li>';
+        }
+
+        $('#category-tag-box').show();
+        $('#category-tag-box .groom-list').html(html);
+    
+    }
   </script>
 {% endblock %}
 {% block jquery %}
@@ -243,18 +262,34 @@
 　　}
   });
 	
-	// 初始加载
+	// 初始加载商品列表
     ajax_load_more(category_id, type, sort, page, size);
+    // 初始化加载分类标签
+
 
     // 选择分类
 	$('.category-btn').click(function(){
 		$('.category-btn').removeClass('active');
 		$(this).addClass('active');
 		category_id = $(this).attr('category_id');
+        category_tags = $(this).attr('category_tags');
+        ajax_load_ategory_tag(category_tags);
 		$('#product-more').attr('category_id', category_id);
 		$('#mpresale .recom-item').html('');
-		ajax_load_more(category_id, type, sort, 1, size);
+		ajax_load_more(category_id, category_tag, type, sort, 1, size);
 	});
+
+    // 选择分类标签
+    $('.category_tag_btn').livequery(function(){
+        $(this).click(function(){
+            var category_tag = $(this).data('category_tag');
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+		    ajax_load_more(category_id, category_tag, type, sort, 1, size);
+        });   
+    });
+
+
 {% endblock %}
 
 {% block content %}
@@ -265,7 +300,7 @@
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">
-			<li class="active category-btn" category_id="0">
+			<li class="active category-btn" category_id="0" category_tags="">
 				<a href="javascript:void(0);">
 					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
 					<p>全部</p>
@@ -273,7 +308,7 @@
 			</li>
 	{% for cat in category.rows %}
 	{% if cat.sub_count>0 %}
-			<li class="{{ cat.active }} category-btn" category_id="{{ cat._id }}">
+            <li class="{{ cat.active }} category-btn" category_id="{{ cat._id }}" category_tags="{{ cat.tags_s }}">
 				<a href="javascript:void(0);">
 					<div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/fiushop/{{ cat.name }}.png)"></div>
 					<p>{{ cat.title }}</p>
@@ -283,21 +318,19 @@
 	{% endfor %}
 		</ul>
 	</div>
-	<div class="ui groom-btn">
+	<div class="ui groom-btn" id="category-tag-box" style="display:none;">
 		<ul class="groom-list">
-			<li class="ui becolor basic active button">智能摄像</li>
-			<li class="ui becolor basic button">智能摄像</li>
-			<li class="ui becolor basic button">智能摄像</li>
-			<li class="ui becolor basic button">智能摄像</li>
-			<li class="ui becolor basic button">智能摄像</li>
+            <!--<li class="ui becolor basic active button">智能摄像</li>-->
 		</ul>
 	</div>
 
+    <!--
 	<div class="ui reorder">
 		<a href="" class="left reitem">最新</a>
 		<a href="" class="center reitem">价格<img src="{{ app_url_packaged }}/images/fiushop/price.png" align="absmiddle"></a>
 		<a href="" class="right reitem">折扣</a>
 	</div>
+    -->
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale">
 			<div class="column">
@@ -312,7 +345,6 @@
 	    	</div>
 	    </div>
 	</div>
-
 
 
 </div>
