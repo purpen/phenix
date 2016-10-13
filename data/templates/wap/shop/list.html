@@ -214,7 +214,7 @@
                       .attr({'status': 0, 'page': rs.data.page});
               }else{
                   $('#product-more')
-                  .attr({'page': rs.data.page});
+                  .attr({'page': rs.data.page})
                   .find('.p_sub').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
