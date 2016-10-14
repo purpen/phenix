@@ -63,6 +63,14 @@
 #shopview i.float.icon{
 	float:right;
 }
+#shopview i.float.icon.cate{
+  font-size: 1.5em;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
 #shopview .ui.top.details{
     max-width:767px;
     margin:0 auto;
@@ -782,10 +790,19 @@ span.ui.timeout.btn{
     text-overflow: ellipsis;
     overflow: hidden;
     float: right;
+    position: relative;
 }
 .shopbrand i.float.icon {
     margin-left: 5px;
     font-size: 1rem;
+}
+.shopbrand .sub.header i.float.icon{
+    position: absolute;
+    font-size: 1.5em;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
 }
 </style>
 {% endblock %}
@@ -1063,7 +1080,7 @@ span.ui.timeout.btn{
 	</div>
 	<div class="colour">
 		颜色分类
-		<i class="angle float right icon"></i>
+		<i class="angle float right icon cate"></i>
 	</div>
 	<div class="ui top details">
 		<div class="close-details">
