@@ -47,6 +47,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
      * 列表页
      */
     public function get_list(){
+        $this->set_target_css_state('page_find');
         return $this->to_html_page('wap/shop/list.html');
     }
 
@@ -59,7 +60,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }
 
     /**
-     * 产品分类
+     * 个人中心
      */
     public function owner(){
         $this->set_target_css_state('page_owner');
@@ -70,6 +71,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
      * 品牌
      */
     public function brand(){
+        $this->set_target_css_state('page_find');
         return $this->to_html_page('wap/shop/brand.html');   
     }
 
@@ -77,6 +79,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
      * 推荐
      */
     public function stick(){
+        $this->set_target_css_state('page_find');
         return $this->to_html_page('wap/shop/stick_list.html');   
     }
 
