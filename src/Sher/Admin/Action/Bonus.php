@@ -176,14 +176,8 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 			if ($bonus['expired_at'] && $bonus['expired_at'] < time()){
 				return $this->ajax_json('红包已被过期！', true);
 			}
-
-            if(!empty($expired_day)){
-                $expired_time = time() + 60*60*24*$expired_day;
-            }else{
-                $expired_time = 0;
-            }
 			
-			$ok = $model->give_user($bonus['code'], $user_id, $expired_time);
+			$ok = $model->give_user($bonus['code'], $user_id, $expired_day);
 			
 			$next_url = Doggy_Config::$vars['app.url.admin'].'/bonus?used='.$bonus['used'];
 			
