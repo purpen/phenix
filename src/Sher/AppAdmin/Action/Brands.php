@@ -61,10 +61,12 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['product_cover_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_BANNER;
+		$this->stash['product_cover_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_PRODUCT;
         
 		$this->stash['mode'] = $mode;
 		
@@ -90,10 +92,12 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['product_cover_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_BANNER;
+		$this->stash['product_cover_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_PRODUCT;
 		
 		$model = new Sher_Core_Model_SceneBrands();
 		$result = $model->find_by_id($id);
@@ -118,6 +122,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$des = $this->stash['des'];
 		$cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
+		$product_cover_id = isset($this->stash['product_cover_id']) ? $this->stash['product_cover_id'] : null;
 		$mark = isset($this->stash['mark']) ? strtolower($this->stash['mark']) : '';
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : null;
@@ -143,6 +148,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			'des' => $des,
 			'cover_id' => $cover_id,
             'banner_id' => $banner_id,
+            'product_cover_id' => $product_cover_id,
             'mark' => $mark,
             'self_run' => $self_run,
             'tags' => $tags,
@@ -178,6 +184,10 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 			// 上传成功后，更新所属的附件(Banner)
 			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
 				$model->update_batch_assets($this->stash['banner_asset'], $id);
+			}
+			// 上传成功后，更新所属的附件(product cover)
+			if(isset($this->stash['product_cover_asset']) && !empty($this->stash['product_cover_asset'])){
+				$model->update_batch_assets($this->stash['product_cover_asset'], $id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);

@@ -278,7 +278,7 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 	
 	/**
-	 * 上传情景品牌封面
+	 * 上传情景品牌头像
 	 */
 	public function scene_brands() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
@@ -293,6 +293,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	public function scene_banner_brands() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
 		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_BANNER;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
+	 * 上传品牌cover
+	 */
+	public function scene_product_cover_brands() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_BRANDS;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_PRODUCT;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -847,6 +857,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		    $tpl = 'ajax/check_upload_product_banner_assets.html';
       }elseif($type==3){
 		    $tpl = 'ajax/check_upload_product_png_assets.html';
+      }elseif($type==4){
+		    $tpl = 'ajax/check_upload_product_cover_assets.html';
       }else{
 		    $tpl = 'ajax/check_upload_product_assets.html';
       }
@@ -865,6 +877,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			  $tpl = 'ajax/check_product_banner_onestep.html';
       }elseif($type==3){
 			  $tpl = 'ajax/check_product_png_onestep.html';
+      }elseif($type==4){
+			  $tpl = 'ajax/check_product_cover_onestep.html';
       }else{
 			  $tpl = 'ajax/check_product_onestep.html';
       }
