@@ -39,6 +39,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
    * 商店首页
    */
   public function index(){
+    $this->set_target_css_state('page_choice');
     return $this->to_html_page('wap/shop/home.html');
   }
 
@@ -53,7 +54,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
      * 产品分类
      */
     public function category(){
+        $this->set_target_css_state('page_find');
         return $this->to_html_page('wap/shop/category.html');
+    }
+
+    /**
+     * 产品分类
+     */
+    public function owner(){
+        $this->set_target_css_state('page_owner');
+        return $this->to_html_page('wap/shop/owner.html');
     }
 
     /**
