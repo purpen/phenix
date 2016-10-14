@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}订单详情-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -78,13 +78,15 @@ h3.ui.header{
     max-height: 38px;
     overflow: hidden;
     font-weight: 400;
+    color: #000;
 }
 .cartitem .cartinfo p.checkt {
     font-size: 12px;
     margin-bottom: 8px;
+    color: #666;
 }
 .cartitem .cartinfo p.price {
-    color: #f36;
+    color: #be8914;
 }
 .cartitem .cartinfo p.price .rmb.icon {
     font-size: 14px;
@@ -119,6 +121,17 @@ h3.ui.header{
 }
 .ordertbtn .ui.button:last-child{
 	margin-right:0.7145rem;
+}
+.sfooter.nav-menu{
+  display: none;
+  visibility: hidden;
+}
+.color-be.link{
+  color:#be8914 !important;
+}
+.color-be.inverted.button{
+  background:#be8914 !important;
+  color: #fff !important;
 }
 </style>
 {% endblock %}
@@ -174,12 +187,12 @@ h3.ui.header{
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <p>订单详情</p>
+    </div>
+</div>
 <div class="ui responsive grid mt-2r">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">订单详情</h3>
-		</div>
-	</div>
 	<div class="row pt-0">
 		<div class="column p-0">
 			
