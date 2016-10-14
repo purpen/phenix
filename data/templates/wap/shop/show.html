@@ -1053,7 +1053,9 @@ span.ui.timeout.btn{
 			{{ product.title }}
 			<div class="sub header">
         <!-- if product.sale_price != .product.market_price -->
-        <span class="ui timeout btn">限时特惠</span>
+        {% if product.sale_price != product.market_price %}
+            <span class="ui timeout btn">限时特惠</span>
+        {%endif%}
         <!--endif-->
 				<span><i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
         </span>
