@@ -240,7 +240,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 	 */
 	public function ajax_stick() {
 		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
-		$evt = isset($this->stash['evt']) ? $this->stash['evt'] : 0;
+		$evt = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
 		if(empty($id)){
 			return $this->ajax_json('缺少请求参数！', true);
 		}
