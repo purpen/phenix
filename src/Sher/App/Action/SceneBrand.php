@@ -122,10 +122,12 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
 			}
             $data[$i]['_id'] = (string)$obj['_id'];
-			// 封面图url
+			// 头像 url
 			$data[$i]['cover_url'] = $obj['cover']['thumbnails']['huge']['view_url'];
 			// Banner url
 			$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
+			// product cover url
+			$data[$i]['product_cover_url'] = $obj['product_cover']['thumbnails']['apc']['view_url'];
 
             $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
 
