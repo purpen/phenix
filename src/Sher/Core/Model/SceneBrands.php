@@ -48,7 +48,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick_on');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick', 'stick_on');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
