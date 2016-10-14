@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}填写订单信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -111,13 +111,15 @@
     max-height: 38px;
     overflow: hidden;
     font-weight: 400;
+    color: #000;
 }
 .cartitem .cartinfo p.checkt {
     font-size: 12px;
     margin-bottom: 8px;
+    color: #666;
 }
 .cartitem .cartinfo p.price {
-    color: #f36;
+    color: #BE8914;
 }
 .cartitem .cartinfo p.price .rmb.icon {
     font-size: 14px;
@@ -181,7 +183,7 @@
 	padding-left:1.07175rem;
 }
 .checksum span{
-	color: #f36;
+	color: #be8914;
     position: relative;
 }
 .checksum span span {
@@ -219,7 +221,17 @@
 	padding: 0 !important;
     margin: 0 !important;
 } 
-
+.sfooter.nav-menu{
+	display: none;
+	visibility: hidden;
+}
+.color-be.link{
+	color:#be8914 !important;
+}
+.color-be.inverted.button{
+	background:#be8914 !important;
+	color: #fff !important;
+}
 </style>
 {% endblock %}
 
@@ -348,17 +360,17 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <p>确认订单</p>
+    </div>
+</div>
 <div class="checkout page">
 	<form action="{{ app_url_wap }}/shop/confirm" method="post" id="checkout-form" class="ui form">
 		<input type="hidden" name="rrid" value="{{ order_info.rid }}" />
 		<input type="hidden" name="addbook_id" value="{{ default_addbook._id }}" />
 		
-		<div class="ui responsive grid mt-2r">
-			<div class="row">
-				<div class="column">
-					<h3 class="ui header">确认订单信息</h3>
-				</div>
-			</div>
+		<div class="ui responsive grid mt-r">
 			
 			<div class="row pt-0">
 				<div class="column p-0">
@@ -376,7 +388,7 @@
 											<span>{{ default_addbook.phone }}</span>
 										</div>
 										
-										<img src="{{ app_url_packaged }}/images/icon/shipnext.png" width="11px">						</a>
+										<img src="{{ app_url_packaged }}/images/icon/shipnext2.png" width="11px">						</a>
 										
 								</div>
 							</div>
@@ -449,7 +461,7 @@
   									<div class="ui radio checkbox">
                       <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
                       <label style="display:inline-block;">
-                        <span class="ui magenta link text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                        <span class="ui color-be link text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
                         <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ b.code }}"> 插入</a>
                       </label>
   									</div>
@@ -459,7 +471,7 @@
 						
   							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
   							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
-  							  <div class="ui active magenta inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
+  							  <div class="ui active color-be inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
   							</div>
   					  </div>
 					
@@ -470,7 +482,7 @@
   						<div class="content">
   							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
   							  <input placeholder="输入礼品码..." name="gift_code" type="text" id="gift-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
-  							  <div class="ui active magenta inverted button" id="submit-gift" style="display:inline-block;">确定</div>
+  							  <div class="ui active color-be inverted button" id="submit-gift" style="display:inline-block;">确定</div>
   							</div>
   					  </div>
 
@@ -542,7 +554,7 @@
 							节省：<span><i class="rmb icon"></i><span id="order-discount-money">{{ data.discount|default 0 }}</span></span>&nbsp;&nbsp;
 							合计：<span><i class="rmb icon"></i><span id="order-pay-money">{{ pay_money }}</span></span>
 						</div>
-						<div class="checkbtn ui active fluid magenta submit inverted button">
+						<div class="checkbtn ui active fluid black submit inverted button">
 							去结算
 						</div>
 					</div>

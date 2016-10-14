@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}支付订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -11,6 +11,17 @@
 .ui.segment{
   box-shadow: 0 0 0 0 rgba(34,36,38,.15);
 }
+.sfooter.nav-menu{
+	display: none;
+	visibility: hidden;
+}
+.color-be.link{
+	color:#be8914 !important;
+}
+.color-be.inverted.button{
+	background:#be8914 !important;
+	color: #fff !important;
+}
 </style>
 {% endblock %}
 
@@ -19,11 +30,15 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <p>支付订单</p>
+    </div>
+</div>
 <div class="checkout page">
 	<div class="ui responsive grid mt-2r">
 		<div class="row">
 			<div class="column">
-				<h4 class="ui dividing header">支付订单</h4>
 				{% if !card_payed %}
 				<div class="ui ordered danger message">
 					<h5 class="ui header">
@@ -102,7 +117,7 @@
 							-->
 						</div>
 					</div>
-					<button class="ui active magenta inverted checkout button" style="text-align:center;width:100%;">去支付</button>
+					<button class="ui active color-be inverted checkout button" style="text-align:center;width:100%;">去支付</button>
 				</form>
 				{% else %}
 				<div class="ui ordered magenta message">
