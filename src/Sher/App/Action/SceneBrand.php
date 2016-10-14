@@ -94,9 +94,9 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 
         //限制输出字段
 		$some_fields = array(
-            '_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1,
+            '_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'cover'=>1, 'banner_id'=>1, 'brand'=>1,
             'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1,
-            'self_run'=>1, 'from_to'=>1,
+            'self_run'=>1, 'from_to'=>1, 'product_cover_id'=>1, 'product_cover'=>1,
 		);
         $options['some_fields'] = $some_fields;
         
@@ -122,10 +122,12 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
 			}
             $data[$i]['_id'] = (string)$obj['_id'];
-			// 封面图url
+			// 头像 url
 			$data[$i]['cover_url'] = $obj['cover']['thumbnails']['huge']['view_url'];
 			// Banner url
 			$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
+			// product cover url
+			$data[$i]['product_cover_url'] = $obj['product_cover']['thumbnails']['apc']['view_url'];
 
             $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
 

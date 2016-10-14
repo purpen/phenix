@@ -19,10 +19,12 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'user_id' => 0,
         # 描述
         'des' => '',
-		# 封面
+		# 头像
 		'cover_id' => '',
         # Banner
         'banner_id' => '',
+        # 产品封面图
+        'product_cover_id' => '',
         # 类型
         'kind' => self::KIND_FIU,
         # 是否是自营品牌
@@ -46,7 +48,7 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick_on');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick', 'stick_on');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count', 'item_count');
 	protected $retrieve_fields = array();
@@ -66,6 +68,10 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         // 获取Banner图
 		if(isset($row['banner_id'])){
 			$row['banner'] = $this->banner($row);
+		}
+        // 获取Banner图
+		if(isset($row['product_cover_id'])){
+			$row['product_cover'] = $this->product_cover($row);
 		}
 
         $row['tags_s'] = '';
@@ -185,6 +191,27 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		$query = array(
 			'parent_id'  => $row['_id'],
 			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_BANNER
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+	}
+
+	/**
+	 * 获取产品封面图
+	 */
+	protected function product_cover(&$row){
+		// 已设置封面图
+		if(!empty($row['product_cover_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['product_cover_id']);
+		}
+		// 未设置产品封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => $row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_BRANDS_PRODUCT
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){

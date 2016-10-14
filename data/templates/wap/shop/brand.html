@@ -12,13 +12,14 @@
       var size = 8;
       var sort = 0;
       var type = 0;
+      var stick = 1;
   
       // 加载品牌列表
-      function ajax_load_more(type, sort, page, size){
+      function ajax_load_more(type, stick, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/app/site/scene_brand/ajax_fetch_more';
-          $.get(url, { sort:sort, page:page, type:type, size:size }, function(rs){
+          $.get(url, { sort:sort, page:page, type:type, size:size, stick:stick }, function(rs){
               if(rs.data.rows.total_page > rs.data.rows.current_page){
                   $('#brand-more')
                       .hide()
@@ -54,13 +55,13 @@
       var stat = $('#brand-more').attr('status');
       page = parseInt($('#brand-more').attr('page')) + 1;
       if(stat==0){
-        ajax_load_more(type, sort, page, size);
+        ajax_load_more(type, stick, sort, page, size);
       }
 　　}
   });
 	
 	// 初始加载商品列表
-    ajax_load_more(type, sort, page, size);
+    ajax_load_more(type, stick, sort, page, size);
 
 {% endblock %}
 

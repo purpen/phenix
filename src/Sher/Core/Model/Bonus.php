@@ -43,6 +43,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'DA50', #内测 满499减50
         'DA30', # 内测 满299减30
         'DA20', #内测 满199减20
+        'LSD99', # 螺丝刀99
 	);
 	
     protected $schema = array(
