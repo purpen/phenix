@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}收货地址管理-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -56,7 +56,7 @@ h3.ui.header{
       flex-basis: 0;
       flex-grow: 1;
 	  font-size:1rem;
-	  color:#f36;
+	  color:#be8914;
 	  text-align:center;
 	  line-height:2.1435rem;
   }
@@ -129,7 +129,7 @@ h3.ui.header{
       flex-basis: 0;
       flex-grow: 1;
 	  font-size:1rem;
-	  background:#f36;
+	  background:#be8914;
 	  color:#fff;
 	  text-align:center;
 	  line-height:2.1435rem;
@@ -224,6 +224,17 @@ h3.ui.header{
   .choose.city{
 	  float:right;
   }
+  .sfooter.nav-menu{
+  display: none;
+  visibility: hidden;
+}
+.color-be.link{
+  color:#be8914 !important;
+}
+.color-be.inverted.button{
+  background:#be8914 !important;
+  color: #fff !important;
+}
 </style>
 {% endblock %}
 
@@ -429,13 +440,12 @@ h3.ui.header{
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <p>选择收货地址</p>
+    </div>
+</div>
 <div class="ui responsive grid mt-2r" id="shipping">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">管理收货地址</h3>
-		</div>
-	</div>
-	
 	<div class="row">
 		<div class="column p-0">
 			<div class="addressitem" id="address-list-box">
