@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}购物车-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -44,13 +44,15 @@
     max-height: 38px;
     overflow: hidden;
     font-weight: 400;
+    color:#000 !important;
 }
 .cartitem .cartinfo p.checkt{
     font-size: 12px;
     margin-bottom: 8px;
+    color:#666;
 }
 .cartitem .cartinfo p.price{
-	color:#f36;
+	color:#BE8914;
 }
 .cartitem .remove_cart{
 	width:30px;
@@ -109,7 +111,7 @@
     line-height: 50px;
 }
 .cardsum span{
-	color:#f36;
+	color:#BE8914;
 	position:relative;
 }
 .cardsum span span{
@@ -143,7 +145,14 @@
     line-height: 50px;
     background: #c1c1c1;
     color: #fff !important;
-	background:#f36;
+	background:#000;
+}
+.sfooter.nav-menu{
+    display: none;
+    visibility: hidden;
+}
+.color-be{
+    color: #BE8914 !important;
 }
 </style>
 {% endblock %}
@@ -177,6 +186,11 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <p>购物车</p>
+    </div>
+</div>
 <div id="cartpage">
 	{% if products %}
 	<div class="cartmain">
@@ -211,7 +225,7 @@
 					<h1 class="ui big header">
 						<i class="cart icon" style="font-size:1em !important;vertical-align: top;padding-top:0;"></i>
 						<div class="content" style="display:inline-block;">
-							<div class="sub header">还没选中产品？<a href="{{ app_url_wap }}/shop" class="ui magenta link">赶快去选购吧</a></div>
+							<div class="sub header">还没选中产品？<a href="{{ app_url_wap }}/shop" class="ui color-be link">赶快去选购吧</a></div>
 						</div>
 					</h1>
 				</div>
