@@ -94,9 +94,9 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 
         //限制输出字段
 		$some_fields = array(
-            '_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1,
+            '_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'cover'=>1, 'banner_id'=>1, 'brand'=>1,
             'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1,
-            'self_run'=>1, 'from_to'=>1,
+            'self_run'=>1, 'from_to'=>1, 'product_cover_id'=>1, 'product_cover'=>1,
 		);
         $options['some_fields'] = $some_fields;
         
