@@ -1,0 +1,531 @@
+{%extends 'layout/shop.html'%}
+{% block title%}我的订单-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+}
+.orderbottom .ui.inverted.color-be.button:hover {
+    background: transparent;
+    color: #f36;
+}
+.ui.header{
+	font-weight:400;
+}
+.ui.grid .nav-menu{
+	padding:0;
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	margin:0;
+	padding:0.7145rem 0;
+}
+.nav-menu .navfelx .childcell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: rgba(0,0,0,0.1);
+}
+.menuicon.active{
+	border-bottom:2px solid #be8914;
+}
+.menuicon.active h5.ui.header{
+	color:#be8914 !important;
+}
+
+#orderitem{
+    display: block;
+    margin-top: 1.07175rem;
+	padding: 0 !important;
+}
+#orderitem .item{
+    margin-bottom: 0.7145rem;
+    padding: 0.7145rem 0;
+    background: #fff;
+}
+#orderitem .item .product p{
+	margin:0;
+	text-align:right;
+	font-size: 0.8574rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding:0.71428571rem;
+}
+#orderitem .item .product p .rmb.icon{
+	font-size: 0.8574rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .ordertop{
+	padding: 0 0.7145rem 0.35725rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	height:1.78625rem;
+}
+#orderitem .item .content{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	padding: 0.7145rem;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#orderitem .item .content .img img{
+    width: 5.716rem;
+    height: 4.287rem;
+    position: relative;
+}
+#orderitem .item .content .orderinfo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    padding-right: 1.429rem;
+    margin-left: 0.7145rem;
+}
+.orderdes{
+	font-size:0.8574rem;
+	color:rgba(0,0,0,0.5);
+	position:absolute;
+	width:100%;
+	height:1.429rem;
+	line-height:1.429rem;
+	left:0;
+	bottom:1.78625rem;
+	
+}
+#orderitem .item .content .orderinfo h4.title{
+    margin-bottom: 2.1435rem;
+    max-height: 2.7151rem;
+    overflow: hidden;
+    font-weight: 400;
+	font-size:1rem;
+  color: #000;
+}
+#orderitem .item .content .orderinfo p.price{
+	color:#be8914;
+	font-size:1rem;
+}
+#orderitem .item .content .orderinfo p.price .rmb.icon {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .orderbottom{
+	text-align:right;
+	padding:0.7145rem;
+	padding-bottom:0;
+}
+#orderitem .item .orderbottom .ui.button{
+	box-shadow: 0 0 0 1px #be8914 inset!important;
+    color: #be8914;
+    font-weight: 400;
+	padding:0.5716rem 0.7145rem;
+	margin:0;
+	margin-left: 0.5716rem;
+	font-size: 0.92885rem;
+}
+.fz-12{
+	font-size:0.8574rem !important;
+}
+.ta-r{
+	text-align:right;
+}
+
+.showbt .refund-box {
+    visibility: visible;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.refund-box{
+	max-width: 767px;
+    margin: 0 auto;
+    background: #f5f5f5;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    z-index: 100;
+    visibility: hidden;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+    padding: 0.35725rem 0;
+}
+.nextbtn {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+}
+.nextbtn .close-btn {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
+.nextbtn .submit {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #f36;
+    color: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
+.refundwhy{
+	cursor: pointer;
+    word-wrap: break-word;
+    line-height: 1em;
+    white-space: normal;
+    outline: 0;
+    -webkit-transform: rotateZ(0);
+    transform: rotateZ(0);
+    background: #fff !important;
+    display: inline-block !important;
+    height: 2.2rem !important;
+    margin-bottom: 8px;
+	font-size:12px !important;
+}
+.refund_content{
+  display: none;
+}
+.color-be{
+  color: #be8914 !important;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.responsive.grid.mt-2r').css('min-height',document.documentElement.clientHeight-230);
+
+  // 取消订单
+	$('.cancel_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      var url = "{{ app_url_wap }}/app/site/my/ajax_disabled_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+        }else{
+          phenix.show_error_note(result.message, 3000);          
+        }
+      }, 'json');
+    });
+  });
+
+  // 删除订单
+	$('.remove_order_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_remove_order";
+      $.post(url, {rid: rid, type:1}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
+  
+  //申请退款
+	$('.apply-refund').livequery(function(){
+    $(this).bind('click',function(){
+      var rid = $(this).attr('rid');
+      $('#refund_rid').val(rid);
+      $('#orderitem').addClass('showbt');
+    });
+  });
+  $('.close-btn').bind('click',function(){
+  	$('#orderitem').removeClass('showbt');
+  });
+
+  $('#refund-form').form({
+    refund_content: {
+      identifier  : 'refund_content',
+      rules: [
+        {
+          type   : 'maxLength[140]',
+          prompt : '内容不超过140字符'
+        }
+      ]
+    }
+  }, {
+    inline : true,
+    onSuccess: function(event){
+      event.preventDefault();
+      $(this).ajaxSubmit({
+        dataType: 'json',
+        beforeSubmit: function(){
+        },
+        success: function(result){
+          if(result.is_error){
+            $(event.target).addClass('error');
+            phenix.show_error_note(result.message, event.target);
+          }else{
+            $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
+            $('#order-'+result.data.rid).find('.status_btn_box').hide();
+  	        $('#orderitem').removeClass('showbt');
+            phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
+          }
+        }
+      });
+    }
+  });
+
+  // 确认收货
+	$('.take_delivery_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/app/site/my/ajax_take_over";
+      $.post(url, {rid: rid, from_to: 2}, function(result){
+        if(result.success){
+          $('#order-'+rid).remove();
+          phenix.redirect(result.redirect_url);
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
+
+  // 退款选项
+  $('#refund_reason_select').change(function(){
+    var refund_type = $(this).val();
+    if(refund_type==0){
+      $('.refund_content').show();
+    }else{
+      $('.refund_content').hide();
+    }
+  });
+
+{% endblock %}
+
+{% block content %}
+<div class="ui fiushop pb-0" >
+  <div class="ui sheader">
+    <p>我的订单</p>
+  </div>
+</div>
+<div class="ui responsive grid mt-2r">
+	<div class="nav-menu">
+		<ul class="navfelx">
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders" class="{{ css_all }} menuicon">
+					<h5 class="ui header">全部</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=1" class="{{ css_nopayed }} menuicon">
+					<h5 class="ui header">待付款</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=2" class="{{ css_ready_goods }} menuicon">
+					<h5 class="ui header">待发货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=3" class="{{ css_sended_goods }} menuicon">
+					<h5 class="ui header">待收货</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=7" class="{{ css_evaluate }} menuicon">
+					<h5 class="ui header">待评价</h5>
+				</a>
+			</li>
+			<li class="childcell">
+				<a href="{{ app_url_wap }}/my/orders?s=8" class="{{ css_return }} menuicon">
+					<h5 class="ui header">退换货</h5>
+				</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div id="orderitem">
+		
+		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}	
+		{% for order in list.rows %}
+		<div class="item" id="order-{{ order.rid }}">
+			
+			<div class="ordertop">
+				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
+				<span class="ui color-be link fz-12 flt-r order_label_txt">{{ order.status_label }}</span>
+			</div>
+			
+			{% for item in order.items %}
+			{% product_list var:'product' product_id:item.product_id %}
+			<div class="content">
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
+						<img src="{{ product.cover.thumbnails.mini.view_url }}">
+				</a>
+				<div class="orderinfo">
+					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
+						<h4 class="title">
+							{{ product.title }}
+						</h4>
+					
+						<p class="price"><i class="rmb icon"></i>  {{ item.sale_price }}</p>
+					</a>
+					<div class="orderdes">
+						<span class="sku">
+							{% if item.sku == item.product_id %}
+							默认
+							{% else %}
+							{% sku_list var:'sku' sku:item.sku %}
+							{{ sku.mode }}
+						{% endif %}
+						</span>
+						<span class="count flt-r">
+							x {{ item.quantity }}
+						</span>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+			
+			<div class="product">
+				<p>共{{ order.items_count }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
+			</div>
+			
+			<div class="orderbottom status_btn_box">
+				{% if my %}
+          {% if order.status == '-1' %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+          {% if order.status == 0 %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+          <!--
+          {% if order.status == 16 %}
+          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order.rid }}" class="ui small color-be inverted button">评价订单</a>
+          {%endif%}
+          -->
+          {% if order.status == 20 %}
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
+          {%endif%}
+					{% if order.status == 1 %}
+          <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button cancel_order_btn">取消订单</a>
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small color-be inverted button">立即支付</a>
+					{% endif %}
+		  			{% if order.status == 10 %}
+		            <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+		  			{% endif %}
+		  			{% if order.status == 15 %}
+		            <a href="javascript:void(0);" class="ui small color-be inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
+		  			{% endif %}
+				{% endif %}
+				
+			</div>
+		</div>
+		{% else %}
+		<div class="ui responsive grid">
+			<div class="row">
+				<div class="column">
+					<div class="ui segment">
+						<div class="item">您还没有相关订单</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		
+		<div class="refund-box">
+			<div class="ui grid m-0 plr-r">
+				<div class="row">
+			      <div class="column">
+			        <h4 class="ui header pb-r mt-r">请添写退款理由:</h4>
+			      </div>
+			    </div>
+				
+				<div class="row pt-0">
+					<div class="column">
+					    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                <input type="hidden" name="rid" id="refund_rid" value="" />
+					      <div class="field">
+
+							<select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
+				                <option value="1">我不想要了</option>
+				                <option value="0">其他</option>
+											
+											
+							</select>
+							
+					        <textarea class="refund_content" name="refund_content" rows="3"></textarea>
+					      </div>
+						  
+						  
+						  
+						  <div class="nextbtn">
+				              <div class="close-btn">
+				                取消
+				              </div>	
+				              <div class="submit">
+				                提交
+				              </div>
+				          </div>
+						  <!--
+					      <div class="right aligned field ">
+					        <div class="ui gray cancel button">取消</div>
+					        <div class="ui active color-be submit button" >确认退款</div>
+					      </div>-->
+					    </form>
+					</div>
+				</div>
+				
+				
+			</div>
+			
+			
+		</div>
+		
+	</div>
+
+  {% if list.rows %}
+  <div class="ui pagination mt-3r" style="text-align:center;">
+    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:3 %}
+    {% include 'block/pager.html' %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

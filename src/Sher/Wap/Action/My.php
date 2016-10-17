@@ -221,6 +221,55 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		
 		return $this->to_html_page("wap/my/orders.html");
 	}
+
+	/**
+	 * Fiu订单列表管理
+	 */
+	public function fiuorders(){
+		$this->set_target_css_state('user_orders');
+		$status = $this->stash['s'];
+		
+		switch($status){
+            case 1:
+                $this->set_target_css_state('nopayed');
+                break;
+            case 2:
+                $this->set_target_css_state('ready_goods');
+                break;
+            case 3:
+                $this->set_target_css_state('sended_goods');
+                break;
+            case 9: // 已关闭订单：取消的订单、过期的订单
+                $this->set_target_css_state('closed');
+                break;
+            case 4:
+                $this->set_target_css_state('finished');
+                break;
+            case 5:
+                $this->set_target_css_state('refunding');
+                break;
+            case 6:
+                $this->set_target_css_state('refunded');
+                break;
+            case 7:
+                $this->set_target_css_state('evaluate');
+                break;
+            case 8:
+                $this->set_target_css_state('return');
+                break;
+            default:
+                $this->set_target_css_state('all');
+                break;
+		}
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/my/fiuorders?s=%s&page=#p#', $status);
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['my'] = true;
+		
+		return $this->to_html_page("wap/my/fiuorders.html");
+	}
 	
 	/**
 	 * 查看订单详情

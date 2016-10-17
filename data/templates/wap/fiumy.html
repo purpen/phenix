@@ -2,13 +2,171 @@
 {% block title%} {% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+.mytop{
+	padding:15px 0;
+	width:100%;
+    display: flex;
+	display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+	align-items:center;
+    -webkit-box-align: center;
+}
+.myphoto{
+	width:60px;
+	height:50px;
+	padding-left:10px;
+	position:relative;
+}
+.myphoto img{
+	width:50px;
+	height:50px;
+	border-radius:50%;
+	vertical-align: middle;
+}
+.mymessg{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-left: 15px;
+}
+.mymessg h3.ui.header{
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 400;
+}
+.mymessg h3.ui.header + p{
+    font-size: 12px;
+    line-height: 18px;
+}
+.editzl{
+    width: 60px;
+    height: 50px;
+    padding: 0 10px;
+    position: relative;
+    font-size: 26px;
+    line-height: 50px;
+    text-align: center;
+}
+.editzl a{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.nav-menu .navfelx{
+    border-top: 1px solid rgba(0,0,0,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell::before{
+	content:'';
+	position:absolute;
+	left:0;
+	top:0;
+	width:1px;
+	height:100%;
+	background:rgba(0,0,0,0.1);
+}
+.nav-menu .navfelx .childcell:first-child::before{
+	content:none;
+}
+.nav-menu .navfelx .childcell .menuicon{
+	line-height:18px;
+}
+.nav-menu .navfelx.item{
+	border-top:none;
+}
+.nav-menu .navfelx.item.two li::before{
+	content: '';
+    position: absolute;
+    top: -21px;
+    left: 0px;
+    width: 100%;
+    height: 20px;
+    background: #f5f5f5;
+}
+.nav-menu .navfelx.item.two{
+	border-top:1px solid rgba(0,0,0,0.1);
+	margin-top:20px;
+}
+.nav-menu .navfelx.item .childcell .menuicon{
+    text-align: left;
+    font-size: 14px;
+    padding: 15px;
+    color: rgba(0,0,0,0.87);
+    margin: 0;
+}
+.nav-menu .navfelx.item .childcell .menuicon:hover{
+    background: rgba(0,0,0,.03);
+    color: rgba(0,0,0,.95);
+}
 </style>
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
 	<div class="ui sheader">
 		<p>我的Fiu</p>
+	</div>
+	<div id="personal">
+		<div class="mytop">
+			<div class="myphoto">
+	      <img src="{{ visitor.small_avatar_url }}" alt="{{ visitor.nickname }}">
+			</div>
+			<div class="mymessg">
+				<h3 class="ui header">{{ visitor.nickname }}</h3>
+				<p>
+					城市：{{ user.city }}<br>
+					等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
+					经验值：{{ user.ext_state.rank_point|default 0 }} <br>
+					鸟币：{{ current_point.balance.money|default 0 }}<br>
+				</p>
+			</div>
+		</div>
+		<div class="nav-menu">
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/account">
+						账户信息
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders">
+						我的订单
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
+						收货地址
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
+						我的红包
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/service">
+						退换货
+					</a>
+				</li>
+			</ul>
+			
+		</div>
 	</div>
 </div>
 
