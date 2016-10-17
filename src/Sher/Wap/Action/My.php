@@ -57,15 +57,6 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
    * Fiu个人中心
    */
   public function fiumy{
-  	$user_id = $this->visitor->id;
-    $user_model = new Sher_Core_Model_User();
-    $user = $user_model->load($user_id);
-    if(!empty($user)){
-      $this->stash['user'] = $user_model->extended_model_row($user);
-    }
-    $point_model = new Sher_Core_Model_UserPointBalance();
-    $current_point = $point_model->load($user_id);
-    $this->stash['current_point'] = $current_point;
 		return $this->to_html_page("wap/fiumy.html");
   }
   	/**
