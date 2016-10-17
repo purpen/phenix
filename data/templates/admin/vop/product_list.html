@@ -67,26 +67,9 @@
 		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
 			全部
 		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?type=1" class="item {{ css_fine }}">
-			精选
-		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?type=2" class="item {{ css_check }}">
-			未审核
-		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?deleted=1" class="item {{ css_deleted }}">
-			已删除
-		</a>
 
 	  	<div class="right menu">
-            <!--
-			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>添加情景
-			</a>
-			
-			<a href="javascript:void(0);" class="item ajax-delete">
-				<i class="remove icon"></i>批量删除
-			</a>
-			-->
+
 	    </div>
 	</div>
     <!--
@@ -180,7 +163,7 @@
                 <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
 
 				<td>
-                    --
+                    <a href="{{ app_url_admin }}/product/edit?sku_id={{ d.sku }}">入库</a>
 				</td>
 			</tr>
 			{% endfor %}

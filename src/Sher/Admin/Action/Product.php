@@ -121,6 +121,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['view_url'] = $this->stash['view_url'];
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
         $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
+        $data['vop_id'] = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
 
 		//短标题
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
@@ -589,6 +590,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	            $product = $model->extended_model_row($product);
 	        }
 			$this->stash['product'] = $product;
+            $this->stash['vop_id'] = isset($product['vop_id']) ? $product['vop_id'] : null;
 		}
 		$this->stash['mode'] = $mode;
 		

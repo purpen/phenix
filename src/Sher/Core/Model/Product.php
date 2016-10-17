@@ -22,6 +22,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'old_stuff_id' => null,
 		# taobao sku
 		'taobao_iid' => null,
+        # JD vop sku_id
+        'vop_id' => null,
         # 站外编号(erp编号)
         'number' => null,
 		# 产品名称
@@ -1287,5 +1289,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		return true;
 	}
+
+    /**
+     * 查询京东开普勒产品
+     */
+    public function find_by_vop_id($vop_id){
+        if(empty($vop_id)){
+            return false;
+        }
+        $product = $this->first(array('vop_id'=> $vop_id));
+        if($product){
+            return $product;
+        }
+        return false;
+    }
 	
 }
