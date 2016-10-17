@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}我的红包-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -16,7 +16,7 @@ h3.ui.header{
 	font-size: 1em;
 }
 .ui.bonus.segment > .ui.icon.header > .circular.icon {
-	box-shadow: 0 0 0 0.1em rgba(255, 0, 0, 1) inset;
+	box-shadow: 0 0 0 0.1em #be8914 inset;
 }
 </style>
 {% endblock %}
@@ -26,12 +26,12 @@ h3.ui.header{
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid mt-2r">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">我的红包</h3>
-		</div>
+<div class="ui fiushop pb-0">
+	<div class="ui sheader">
+		<p>我的红包</p>
 	</div>
+</div>
+<div class="ui responsive grid mt-2r">
 	<div class="row">
 		<div class="column">
 			{% bonus_list var:'bonus' page:page user_id:user._id size:10 %}
