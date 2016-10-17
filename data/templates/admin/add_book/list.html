@@ -1,0 +1,160 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+		if(!window.confirm('你确定要执行批量删除操作？')){
+		  return false;
+		}
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的活动');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">活动管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/add_book" class="item {{ css_all }}">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			
+			<a href="{{ app_url_admin }}/add_book/deleted" class="item ajax-delete">
+				批量删除
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/add_book/get_list" method="get" id="search-form">
+			<label>搜索：</label>
+		<div class="ui selection dropdown">
+		  <input type="hidden" name="s" value="{{ s }}" />
+		  <div class="default text">选择条件</div>
+		  <i class="dropdown icon"></i>
+		  <div class="menu">
+			<div class="item" data-value="1">ID</div>
+			<div class="item" data-value="2">标题</div>
+			<div class="item" data-value="3">标签</div>
+		  </div>
+		</div>
+
+		<div class="ui icon input">
+            <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+		</div>
+		<div class="ui icon input">
+            <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+			</div>
+				<div class="ui icon input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>用户</th>
+                <th>地址</th>
+				<th>是否默认</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% addbooks_list var:'list' user_id:user_id page:page size:size load_user:1 %}
+
+			{% for d in list.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+					  	{{ d.user.nickname }}
+					</a>
+					<p>
+						{% if d.user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if d.user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if d.user.wx_open_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
+				</td>
+                <td>
+                    <p>收货人：{{ d.name }}</p>
+                    <p>电话：{{ d.phone }}</p>
+                    <p>省份：{{ d.area_province.city }}</p>
+                    <p>城市：{{ d.area_district.city }}</p>
+                    <p>地址：{{ d.address }}</p>
+                    <p>邮编：{{ d.zip }}</p>
+                </td>
+				<td>
+					<p>
+						{% if d.is_default %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
+
+				<td>
+					<p>
+		          		<a href="{{ app_url_admin }}/add_book/deleted?id={{ d._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}
