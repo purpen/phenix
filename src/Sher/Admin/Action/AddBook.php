@@ -29,7 +29,7 @@ class Sher_Admin_Action_AddBook extends Sher_Admin_Action_Base implements DoggyX
 	 */
 	public function get_list() {
 
-        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : '';
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/add_book?user_id=%d&page=#p#', $user_id);
 		
@@ -50,10 +50,10 @@ class Sher_Admin_Action_AddBook extends Sher_Admin_Action_Base implements DoggyX
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 		
 		try{
-			$model = new Sher_Core_Model_AddBook();
+			$model = new Sher_Core_Model_AddBooks();
 			
 			foreach($ids as $id){
-				$add_book = $model->load(($id);
+				$add_book = $model->load($id);
 				
 				if (!empty($add_book)){
 					//逻辑删除

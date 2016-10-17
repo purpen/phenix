@@ -25,6 +25,10 @@
 		
 		return false;
 	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 	
@@ -45,7 +49,7 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/add_book/get_list" method="get">
+		<form action="{{ app_url_admin_base }}/add_book/get_list" method="get" id="search-form">
 			<label>搜索：</label>
 		<div class="ui selection dropdown">
 		  <input type="hidden" name="s" value="{{ s }}" />
@@ -58,10 +62,15 @@
 		  </div>
 		</div>
 
-			<div class="ui icon input">
-        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="flat search link icon"></i>
+		<div class="ui icon input">
+            <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+		</div>
+		<div class="ui icon input">
+            <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
 			</div>
+				<div class="ui icon input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
 		</form>
 	</div>
 	
@@ -74,112 +83,64 @@
 					  	<label></label>
 					</div>
 				</th>
-				<th>缩略图</th>
-				<th class="five wide">名称</th>
-				<th>类型</th>
-        <th>浏览量</th>
-				<th>报名列表</th>
-				<th>期数</th>
-				<th>是否发布</th>
-				<th>推荐</th>
-				<th>进度</th>
+				<th>用户</th>
+                <th>地址</th>
+				<th>是否默认</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-      {% if is_search %}
-			  {% active_list var:'list' kind:kind page:page deleted:1 s_type:s s_mark:q size:size %}
-      {%else%}
-			  {% active_list var:'list' kind:kind page:page deleted:1 size:size %}
-      {%endif%}
 
-			{% for active in list.rows %}
-			<tr id="{{ active._id }}">
+			{% addbooks_list var:'list' user_id:user_id page:page size:size load_user:1 %}
+
+			{% for d in list.rows %}
+			<tr id="{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" value="{{ active._id }}" class="checkbox" />
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
+
 				<td>
-					<div class="ui image">
-						<img src="{{ active.cover.thumbnails.mini.view_url }}" width="80px" />
-					</div>
+					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+					  	{{ d.user.nickname }}
+					</a>
+					<p>
+						{% if d.user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if d.user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if d.user.wx_open_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
 				</td>
-				<td>
-		          	<div class="header">
-						<a href="{{ active.view_url }}" class="ui link" target="_blank" title="{{ active.title }}">
-							{{ active.title|truncate, 32 }}
-						</a>
-					</div>
-		          	<p class="attribute">ID：{{ active._id }}</p>
-				</td>
-				<td>
-				  {% if active.kind==1 %}
-					官方
-				  {%endif%}
-				  {% if active.kind==2 %}
-					实验室
-				  {%endif%}
-				</td>
-        <td>{{ active.view_count }}</td>
-				<td>
-				  <a href="{{ app_url_admin_base }}/active/get_attend_list?target_id={{ active._id }}&event=1" class="ui magenta  link">报名列表({{ active.signup_count }})</a>
-				</td>
-				<td>
-				  <span class="ui small green label">{{ active.season }}</span>      
-				</td>
+                <td>
+                    <p>收货人：{{ d.name }}</p>
+                    <p>电话：{{ d.phone }}</p>
+                    <p>省份：{{ d.area_province.city }}</p>
+                    <p>城市：{{ d.area_district.city }}</p>
+                    <p>地址：{{ d.address }}</p>
+                    <p>邮编：{{ d.zip }}</p>
+                </td>
 				<td>
 					<p>
-						{% if active.published %}
+						{% if d.is_default %}
 							<span class="ui small green label">是</span>
 						{% else %}
 							<span class="ui small orange label">否</span>
 						{% endif %}
 					</p>
 				</td>
-				<td>
-					<p>
-						{% if active.stick %}
-							<span class="ui small green label">是</span>
-						{% else %}
-							<span class="ui small orange label">否</span>
-						{% endif %}
-					</p>
-				</td>
-				<td>
-					<p>
-						<span class="ui small green label">{{ active.step_str }}</span>
-					</p>
-				</td>
-				<td>
 
+				<td>
 					<p>
-						
-						{% if !active.stick %}
-			          	<a href="{{ app_url_admin }}/active/ajax_stick?id={{ active._id }}&evt=1" class="ui ajax link item">
-							推荐
-						</a>
-						{% else %}
-			          	<a href="{{ app_url_admin }}/active/ajax_stick?id={{ active._id }}&evt=0" class="ui ajax link item">
-							取消推荐
-						</a>
-						{% endif %}
-						
-						{% if !active.published %}
-			          	<a href="{{ app_url_admin }}/active/ajax_publish?id={{ active._id }}&evt=1" class="ui ajax link item">
-							发布
-						</a>
-						{% else %}
-			          	<a href="{{ app_url_admin }}/active/ajax_publish?id={{ active._id }}&evt=0" class="ui ajax link item">
-							撤销
-						</a>
-						{% endif %}
-					</p>
-
-					<p>
-						<a href="{{ app_url_admin_base }}/active/submit?id={{ active._id }}" class="ui link item">编辑</a>
-		          		<a href="{{ app_url_admin }}/active/deleted?id={{ active._id }}" class="ui confirm-request link item">
+		          		<a href="{{ app_url_admin }}/add_book/deleted?id={{ d._id }}" class="ui confirm-request link item">
 						    删除
 					    </a>
 					</P>

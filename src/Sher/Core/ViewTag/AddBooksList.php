@@ -19,6 +19,7 @@ class Sher_Core_ViewTag_AddBooksList extends Doggy_Dt_Tag {
         $size = 10;
 		
         $user_id = 0;
+        $load_user = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -44,6 +45,18 @@ class Sher_Core_ViewTag_AddBooksList extends Doggy_Dt_Tag {
 		$options['sort_field'] = $sort_field;
 		
         $result = $service->get_address_list($query,$options);
+
+        //组装数据
+        $user_model = new Sher_Core_Model_User();
+
+        for($i=0;$i<count($result['rows']);$i++){
+            if($load_user){
+                $user = $user_model->extend_load($result['rows'][$i]['user_id']);
+                if($user){
+                    $result['rows'][$i]['user'] = $user;
+                }
+            }
+        }
 		
         $context->set($var, $result);
         if ($include_pager) {
