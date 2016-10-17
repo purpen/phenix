@@ -127,6 +127,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
         $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+        $status = isset($this->stash['status'])?(int)$this->stash['status']:0;
 		
 		$query   = array();
 		$options = array();
