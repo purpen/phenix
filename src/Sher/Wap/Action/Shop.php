@@ -40,7 +40,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
    */
   public function index(){
     $this->set_target_css_state('page_choice');
-    $this->stash['page_title_suffix'] = 'Fiu店';
 
       //微信分享
       $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
