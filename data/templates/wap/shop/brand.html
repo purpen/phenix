@@ -20,7 +20,7 @@
           $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/app/site/scene_brand/ajax_fetch_more';
           $.get(url, { sort:sort, page:page, type:type, size:size, stick:stick }, function(rs){
-              if(rs.data.rows.total_page > rs.data.rows.current_page){
+              if(rs.data.total_page > rs.data.current_page){
                   $('#brand-more')
                       .hide()
                       .attr({'status': 0, 'page': rs.data.page});
