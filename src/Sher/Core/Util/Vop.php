@@ -38,7 +38,7 @@ class Sher_Core_Util_Vop {
             $refresh_token = $dig['items']['refresh_token'];
 
             // token大于7天
-            if(($now - $created_on) < 604800){
+            if(($now - $created_on) < 1209600){
                 $result['data'] = $dig['items'];
                 return $result;
             }

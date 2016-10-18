@@ -10,6 +10,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 100,
 		'stage' => 0,
+        'is_vop' => '',
 	);
 	
 	public function execute(){
@@ -25,7 +26,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     	$this->set_target_css_state('page_product');
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product?stage=%d&page=#p#';
 		switch($this->stash['stage']){
-		case 12:
+		    case 12:
 				$this->stash['process_exchange'] = 1;
 				break;
 			case 9:
@@ -121,6 +122,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['view_url'] = $this->stash['view_url'];
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
         $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
+        $data['vop_id'] = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
+        $data['is_vop'] = !empty($data['vop_id']) ? 1 : 0;
 
 		//短标题
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
@@ -589,6 +592,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	            $product = $model->extended_model_row($product);
 	        }
 			$this->stash['product'] = $product;
+            $this->stash['vop_id'] = isset($product['vop_id']) ? $product['vop_id'] : null;
 		}
 		$this->stash['mode'] = $mode;
 		
@@ -1011,7 +1015,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     $this->set_target_css_state('page_product');
     $this->stash['is_search'] = true;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&page=#p#';
 		switch($this->stash['stage']){
 			case 9:
 				$this->stash['process_saled'] = 1;
@@ -1023,7 +1027,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$this->stash['process_voted'] = 1;
 				break;
 		}
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q'], $this->stash['is_vop']);
     return $this->to_html_page('admin/product/list.html');
   
   }
