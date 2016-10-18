@@ -1,0 +1,186 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">情境管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
+			全部
+		</a>
+
+	  	<div class="right menu">
+
+	    </div>
+	</div>
+    <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_app_admin_base }}/scene_sight/get_list" id="search-form" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="attrbute" value="" />
+        <div class="default text">选择来源</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+        </div>
+      </div>
+
+			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
+        <input placeholder="标题" type="text" name="s_title" value="{{ s_title }}" />
+			</div>
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+		</form>
+	</div>
+    -->
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>封面</th>
+                <th>标题</th>
+                <th>价格</th>
+                <th>产地</th>
+                <th>是否入库</th>
+                <th>是否下架</th>
+                <th>发布时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in products %}
+			<tr id="item-{{ d.sku }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d.sku }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td style="position:relative;">
+                    <div class="ui image show_big_img">
+						<img src="http://img13.360buyimg.com/n4/{{ d.imagePath }}" width="80px" />
+                        <div class="big_box" style="position:absolute; top:0; left:0; display:none; z-index:99999;"><img src="http://img13.360buyimg.com/n0/{{ d.imagePath }}" title="{{ d.name }}" alt="{{ d.name }}" width="600px" /></div>
+					</div>
+				</td>
+				<td>
+                    <p>sku: {{ d.sku }}</p>
+                    <p>标题: {{ d.name }}</p>
+                    <p>品牌: {{ d.brandName }}</p>
+                </td>
+
+				<td>
+                    <p>协议价: {{ d.price.price }}</p>
+                    <p>京东价: {{ d.price.jdPrice }}</p>
+                </td>
+
+                <td>{{ d.productArea }}</td>
+                <td>
+					{% if d.storaged == 1 %}
+					<label class="ui green label">是</label>
+                    {%else%}
+					<label class="ui orange label">否</label>
+					{% endif %}
+				</td>
+
+                <td>
+					{% if d.state == 0 %}
+					<label class="ui green label">是</label>
+                    {%else%}
+					<label class="ui orange label">否</label>
+					{% endif %}
+				</td>
+
+                <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
+
+				<td>
+                    {% if d.storaged==1 %}
+                        <a href="{{ app_url_admin }}/product/edit?id={{ d.product_id }}" target="_blank">编辑</a>
+                    {%else%}
+                        <a href="{{ app_url_admin }}/product/edit?vop_id={{ d.sku }}" target="_blank">入库</a>
+                    {%endif%}
+
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{% if products %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_count,total_page:pnum,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+
+{% endblock %}

@@ -61,6 +61,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 
 		// 投票状态显示
 		$vote_type = 0;
+        // 是否开普勒 
+        $is_vop = 0;
 
     // 孵化产品标识
     $hatched = 0;
@@ -136,6 +138,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         // 投票或灵感(个人中心用)
         if ($is_idea){
             $query['stage'] = array('$in'=>array(1, 15));
+        }
+
+        // vop
+        if($is_vop){
+            if((int)$is_vop==-1){
+                $query['is_vop'] = 0;
+            }else{
+                $query['is_vop'] = 1;
+            }
         }
 
 		//预售

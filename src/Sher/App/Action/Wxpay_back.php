@@ -254,7 +254,7 @@ class Sher_App_Action_Wxpay extends Sher_App_Action_Base implements DoggyX_Actio
 		        'invoice_type' => 0,
 				'freight' => $freight,
 				'coin_money' => $coin_money,
-		        'invoice_caty' => 'p',
+		        'invoice_caty' => 1,
 		        'invoice_content' => 'd',
 				
 				'total_money' => $total_money,

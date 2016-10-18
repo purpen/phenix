@@ -102,23 +102,35 @@
 	
 	<div class="ui sub nav">
 		<form action="{{ app_url_admin_base }}/product/search" method="get">
-      <input type="hidden" name="stage" value="{{ stage }}" />
-			<label>搜索：</label>
-      <div class="ui selection dropdown">
-        <input type="hidden" name="s" value="{{ s }}" />
-        <div class="default text">选择条件</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item" data-value="1">编号</div>
-          <div class="item" data-value="2">标题</div>
-          <div class="item" data-value="3">标签</div>
-        </div>
-      </div>
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
 
-			<div class="ui icon input">
-        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-				<i class="flat search link icon"></i>
-			</div>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="is_vop" value="{{ is_vop }}" />
+            <div class="default text">是否开普勒</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="0">全部</div>
+              <div class="item" data-value="1">是</div>
+              <div class="item" data-value="-1">否</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="s" value="{{ s }}" />
+            <div class="default text">选择条件</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">编号</div>
+              <div class="item" data-value="2">标题</div>
+              <div class="item" data-value="3">标签</div>
+            </div>
+          </div>
+
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+                <i class="flat search link icon"></i>
+            </div>
 		</form>
 	</div>
 	
@@ -143,7 +155,7 @@
 		</thead>
 		<tbody>
 	      {% if is_search %}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q size:size %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q is_vop:is_vop size:size %}
 	      {%else%}
 				  {% product_list var:'list' page:page category_id:category_id stage:stage size:size %}
 	      {%endif%}
@@ -164,7 +176,7 @@
 				<td>
 		          	<div class="header">
 						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
-							{{ product.title|truncate, 32 }}
+                            {{ product.title|truncate, 32 }}{% if product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
 						</a>
 					</div>
 		          	<p class="attribute">ID：{{ product._id }}</p>

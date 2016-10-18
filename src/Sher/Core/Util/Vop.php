@@ -38,7 +38,7 @@ class Sher_Core_Util_Vop {
             $refresh_token = $dig['items']['refresh_token'];
 
             // token大于7天
-            if(($now - $created_on) < 604800){
+            if(($now - $created_on) < 1209600){
                 $result['data'] = $dig['items'];
                 return $result;
             }
@@ -97,6 +97,11 @@ class Sher_Core_Util_Vop {
     public static function fetchInfo($method, $options=array()){
         $url  ="https://router.jd.com/api";
 
+        $result = array();
+        $result['code'] = 0;
+        $result['msg'] = '';
+        $result['data'] = array();
+
         $app_key = self::APP_KEY;
 
         $result_token = Sher_Core_Util_Vop::fetchToken();
@@ -107,11 +112,34 @@ class Sher_Core_Util_Vop {
         $v = "1.0";
         $format = "json";
         $param_json = $options['param'];
+        $response_key = $options['response_key'];
 
         $params = sprintf("method=%s&app_key=%s&access_token=%s&timestamp=%s&v=%s&format=%s&param_json=%s", $method, $app_key, $access_token, $timestamp, $v, $format, $param_json);
 
-        $result = Sher_Core_Helper_Util::request($url, $params);
-        return Sher_Core_Helper_Util::object_to_array(json_decode($result));
+        $data = Sher_Core_Helper_Util::request($url, $params);
+        $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
+
+        if(isset($data['errorResponse'])){
+            $result['code'] = (int)$data['errorResponse']['code'];
+            $result['msg'] = $data['errorResponse']['msg'];
+            return $result;
+        }
+
+        if(!isset($data[$response_key])){
+            $result['code'] = 5000;
+            $result['msg'] = '数据格式不正确!';
+            return $result;       
+        }
+
+        $obj = $data[$response_key];
+        if(!isset($obj['success']) && $obj['success']==0){
+            $result['code'] = $obj['code'];
+            $result['msg'] = $obj['resultMessage'];
+            return $result;
+        }
+        $result['data'] = $obj;
+
+        return $result;
 
     }
 

@@ -1,0 +1,150 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">情境管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
+			全部
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_sight?type=1" class="item {{ css_fine }}">
+			精选
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_sight?type=2" class="item {{ css_check }}">
+			未审核
+		</a>
+        <a href="{{ app_url_app_admin_base }}/scene_sight?deleted=1" class="item {{ css_deleted }}">
+			已删除
+		</a>
+
+	  	<div class="right menu">
+            <!--
+			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
+				<i class="add icon"></i>添加情景
+			</a>
+			
+			<a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>
+    <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_app_admin_base }}/scene_sight/get_list" id="search-form" method="get">
+			<label>搜索：</label>
+      <div class="ui selection dropdown">
+        <input type="hidden" name="attrbute" value="" />
+        <div class="default text">选择来源</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="0">全部</div>
+        </div>
+      </div>
+
+			<div class="ui input">
+        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+			</div>
+			<div class="ui input">
+        <input placeholder="标题" type="text" name="s_title" value="{{ s_title }}" />
+			</div>
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+		</form>
+	</div>
+    -->
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>编号</th>
+                <th>名称</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in pools.data.result %}
+			<tr id="item-{{ d.page_num }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d.page_num }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d.page_num }}</td>
+                <td><a href="{{ app_url_admin }}/vop/product_list?pageNum={{ d.page_num }}">{{ d.name }}</a></td>
+				</td>
+				<td>--</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

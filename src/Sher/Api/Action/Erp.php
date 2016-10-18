@@ -127,6 +127,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
         $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+        $status = isset($this->stash['status'])?(int)$this->stash['status']:0;
 		
 		$query   = array();
 		$options = array();
@@ -159,7 +160,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         //限制输出字段
 		$some_fields = array(
 			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
-			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'discount_money'=>1,
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
             'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
