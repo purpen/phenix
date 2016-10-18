@@ -15,6 +15,18 @@
     	background-image: url({{ app_url_packaged }}/images/fiushop/sfooter2.png);
     	color: #be8914;
     }
+    .zcover{
+    	background: rgba(0,0,0,0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: 3;
+    }
+    .ui.fiushop .haohuo .banner .content{
+    	z-index: 4;
+    }
 </style>
 {% endblock %}
 
@@ -31,7 +43,7 @@
             var rendered = phenix.ajax_render_result('#scene_subject_list_tpl', rs.data);
             $('#scene-subject-more').html(rendered);
 
-            $(".row .lazy").lazyload({
+            $(".row img.lazy").lazyload({
                 effect : "show"
             });
 
@@ -122,38 +134,6 @@
 		</div>
 
         <div id="scene-subject-more"><!--ajax_load subject--></div>
-
-            <!--
-		<div class="row pt-0 pb-3r">
-			<a class="banner">
-				<img class="lazy" data-original="http://frbird.qiniudn.com/scene_subject/160921/57e23833fc8b12bd5a8b4d42-2-p750x422.jpg" src="{{ app_url_packaged }}/images/icon/load750-422.png">
-				<div class="content">
-					<h3 class="ui header">乐视女神直播神器</h3>
-					<p>a date of youth</p>
-				</div>
-			</a>
-
-			<div class="overhidden">
-				<ul class="shopitem">
-					<li>
-						<a>
-							<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
-							<div class="desc">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</li>
-
-					
-				</ul>
-			</div>
-		</div>
-
-
-    -->
 
 	</div>
 </div>
