@@ -18,7 +18,6 @@ class Sher_Core_Model_AddBooks extends Sher_Core_Model_Base  {
 		'address' => null,
 		'zip'     => null,
 		'email'   => null,
-		
 		'is_default' => 0,
     );
 	
@@ -29,7 +28,7 @@ class Sher_Core_Model_AddBooks extends Sher_Core_Model_Base  {
 	
     protected $required_fields = array('user_id', 'phone', 'address');
 	
-    protected $int_fields = array('user_id', 'zip', 'province', 'city', 'is_default');
+    protected $int_fields = array('user_id', 'province', 'city', 'is_default');
 	
 	/**
 	 * 扩展关联数据
