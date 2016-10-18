@@ -809,9 +809,6 @@ span.ui.timeout.btn{
   display: none;
   visibility: hidden;
 }
-html{
-  height: auto !important;
-}
 </style>
 {% endblock %}
 
@@ -865,7 +862,7 @@ html{
 		}
 		else{
 			$('#cover').css('display','block');
-			$('html').css('overflow','hidden');
+			$('html').css('overflow','auto');
 			$('#shopview').addClass('show-details');
 		}
 	});
