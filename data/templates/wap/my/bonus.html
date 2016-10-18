@@ -33,7 +33,7 @@ h3.ui.header{
 	<div class="ui responsive grid mt-2r">
 	<div class="row">
 		<div class="column">
-			{% bonus_list var:'bonus' page:page user_id:user._id size:10 %}
+			{% bonus_list var:'bonus' page:page user_id:user._id size:50 %}
 			{% for b in bonus.rows %}
 		  	<div class="ui center aligned bonus segment" id="{{ b._id }}" data-id="{{ b._id }}">
 				<div class="ui icon header">
@@ -55,12 +55,14 @@ h3.ui.header{
 		  	</div>
 			{% endfor %}
 			
+            <!--
 			{% if bonus.total_rows > 10 %}
 			<div class="ui pagination mt-3r" style="text-align:center;">
 				{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
 				{%include 'block/pager.html'%}
 			</div>
 			{% endif %}
+            -->
 		</div>
 	</div>
 </div>
