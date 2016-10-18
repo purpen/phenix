@@ -117,8 +117,12 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
             $p_result['data']['result']['price'] = isset($prices[$sku]) ? $prices[$sku] : array();
 
             $p_result['data']['result']['storaged'] = 0;
+            $p_result['data']['result']['product_id'] = 0;
             $is_exist_product = $product_model->find_by_vop_id($sku);
-            if(!empty($is_exist_product)) $p_result['data']['result']['storaged'] = 1;
+            if(!empty($is_exist_product)){
+                $p_result['data']['result']['product_id'] = $is_exist_product['_id'];
+                $p_result['data']['result']['storaged'] = 1;
+            }
 
             array_push($products, $p_result['data']['result']);
 

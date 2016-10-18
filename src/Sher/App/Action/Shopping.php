@@ -477,7 +477,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
       'gift_money' => $gift_money,
       'bird_coin_money' => $bird_coin_money,
       'bird_coin_count' => $bird_coin_count,
-	        'invoice_caty' => 'p',
+	        'invoice_caty' => 1,
 	        'invoice_content' => 'd'
 	    );
 		

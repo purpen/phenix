@@ -1323,13 +1323,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	        'transfer_time' => 'a',
 	        'summary' => '',
 	        'invoice_type' => 0,
-          'freight' => $freight,
-          'card_money' => $card_money,
-          'coin_money' => $coin_money,
-          'gift_money' => $gift_money,
-          'bird_coin_money' => $bird_coin_money,
-          'bird_coin_count' => $bird_coin_count,
-	        'invoice_caty' => 'p',
+            'freight' => $freight,
+            'card_money' => $card_money,
+            'coin_money' => $coin_money,
+            'gift_money' => $gift_money,
+            'bird_coin_money' => $bird_coin_money,
+            'bird_coin_count' => $bird_coin_count,
+	        'invoice_caty' => 1,
 	        'invoice_content' => 'd'
 	    );
 		

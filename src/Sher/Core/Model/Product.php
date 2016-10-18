@@ -24,6 +24,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'taobao_iid' => null,
         # JD vop sku_id
         'vop_id' => null,
+        # 是否是京东产品
+        'is_vop' => 0,
         # 站外编号(erp编号)
         'number' => null,
 		# 产品名称

@@ -163,7 +163,12 @@
                 <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
 
 				<td>
-                    <a href="{{ app_url_admin }}/product/edit?sku_id={{ d.sku }}">入库</a>
+                    {% if d.storaged==1 %}
+                        <a href="{{ app_url_admin }}/product/edit?id={{ d.product_id }}" target="_blank">编辑</a>
+                    {%else%}
+                        <a href="{{ app_url_admin }}/product/edit?vop_id={{ d.sku }}" target="_blank">入库</a>
+                    {%endif%}
+
 				</td>
 			</tr>
 			{% endfor %}

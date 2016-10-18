@@ -1308,7 +1308,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       'gift_money' => $gift_money,
       'bird_coin_money' => $bird_coin_money,
       'bird_coin_count' => $bird_coin_count,
-	        'invoice_caty' => 'p',
+	        'invoice_caty' => 1,
 	        'invoice_content' => 'd',
 	    );
 		

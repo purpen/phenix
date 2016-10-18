@@ -50,7 +50,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		# 物流费用
 		'freight'  => 0,
 		
-		# 折扣
+		# 折扣 -- 暂未使用，已返回 discount_money 替代 
 		'discount' => 0,
 		
 		## 用户
@@ -63,6 +63,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		## 发票信息
 		'invoice_type' => 0,
+        # 1.个人；2.单位；3.--
 		'invoice_caty' => 0,
 		'invoice_title' => '',
 		'invoice_content' => '',
