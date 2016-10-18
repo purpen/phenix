@@ -809,6 +809,17 @@ span.ui.timeout.btn{
   display: none;
   visibility: hidden;
 }
+.mask{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.2);
+    z-index: 9;
+    display: none;
+}
+.mask.show{
+  display: block;
+}
 </style>
 {% endblock %}
 
@@ -863,12 +874,14 @@ span.ui.timeout.btn{
 		else{
 			$('#cover').css('display','block');
 			$('body').css('overflow','hidden');
+      $('.mask').addClass('show');
 			$('#shopview').addClass('show-details');
 		}
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
 		$('#cover,body').removeAttr('style');
+    $('.mask').removeClass('show');
 	});
 	
 	// 如果仅一个sku,则设置默认值
@@ -1049,6 +1062,7 @@ span.ui.timeout.btn{
 {% endblock %}
 
 {% block content %}
+<div class="mask"></div>
 <div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
     <!--<a href="{{ app_url_wap }}/shop"><i class="angle float left icon"></i></a>-->
