@@ -179,7 +179,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 订单列表管理
 	 */
 	public function orders(){
-		$this->set_target_css_state('user_orders');
+		$this->set_target_css_state('page_owner');
 		$status = $this->stash['s'];
 		
 		switch($status){
