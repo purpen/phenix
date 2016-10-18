@@ -1,11 +1,11 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}我的订单-{% endblock %}
 {% block page_css %}
 <style type="text/css">
 #mfrbird{
 	margin-top:0;
 }
-.orderbottom .ui.inverted.magenta.button:hover {
+.orderbottom .ui.inverted.color-be.button:hover {
     background: transparent;
     color: #f36;
 }
@@ -31,11 +31,11 @@
     height: 100%;
     background: rgba(0,0,0,0.1);
 }
-.menuicon.active{
-	border-bottom:2px solid #f36;
+.ui.responsive .nav-menu .navfelx  .menuicon.active{
+	border-bottom:2px solid #be8914;
 }
 .menuicon.active h5.ui.header{
-	color:#f36 !important;
+	color:#be8914 !important;
 }
 
 #orderitem{
@@ -112,9 +112,10 @@
     overflow: hidden;
     font-weight: 400;
 	font-size:1rem;
+  color: #000;
 }
 #orderitem .item .content .orderinfo p.price{
-	color:#f36;
+	color:#be8914;
 	font-size:1rem;
 }
 #orderitem .item .content .orderinfo p.price .rmb.icon {
@@ -130,8 +131,8 @@
 	padding-bottom:0;
 }
 #orderitem .item .orderbottom .ui.button{
-	box-shadow: 0 0 0 1px #f36 inset!important;
-    color: #f36;
+	box-shadow: 0 0 0 1px #be8914 inset!important;
+    color: #be8914;
     font-weight: 400;
 	padding:0.5716rem 0.7145rem;
 	margin:0;
@@ -204,7 +205,7 @@
     flex-basis: 0;
     flex-grow: 1;
     font-size: 1rem;
-    background: #f36;
+    background: #be8914;
     color: #fff;
     text-align: center;
     line-height: 2.1435rem;
@@ -227,7 +228,12 @@
 .refund_content{
   display: none;
 }
-
+.color-be{
+  color: #be8914 !important;
+}
+.sfooter.nav-menu .navfelx .childcell .menuicon{
+  margin: 4px;
+}
 </style>
 {% endblock %}
 
@@ -338,12 +344,12 @@
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0" >
+  <div class="ui sheader">
+    <p>我的订单</p>
+  </div>
+</div>
 <div class="ui responsive grid mt-2r">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">我的订单</h3>
-		</div>
-	</div>
 	<div class="nav-menu">
 		<ul class="navfelx">
 			<li class="childcell">
@@ -387,7 +393,7 @@
 			
 			<div class="ordertop">
 				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
-				<span class="ui magenta link fz-12 flt-r order_label_txt">{{ order.status_label }}</span>
+				<span class="ui color-be link fz-12 flt-r order_label_txt">{{ order.status_label }}</span>
 			</div>
 			
 			{% for item in order.items %}
@@ -428,28 +434,28 @@
 			<div class="orderbottom status_btn_box">
 				{% if my %}
           {% if order.status == '-1' %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
           {%endif%}
           {% if order.status == 0 %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
           {%endif%}
           <!--
           {% if order.status == 16 %}
-          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order.rid }}" class="ui small magenta inverted button">评价订单</a>
+          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order.rid }}" class="ui small color-be inverted button">评价订单</a>
           {%endif%}
           -->
           {% if order.status == 20 %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
           {%endif%}
 					{% if order.status == 1 %}
-          <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small magenta inverted button cancel_order_btn">取消订单</a>
-				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small magenta inverted button">立即支付</a>
+          <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button cancel_order_btn">取消订单</a>
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small color-be inverted button">立即支付</a>
 					{% endif %}
 		  			{% if order.status == 10 %}
-		            <a href="javascript:void(0);" class="ui small magenta inverted button apply-refund" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
+		            <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 		  			{% endif %}
 		  			{% if order.status == 15 %}
-		            <a href="javascript:void(0);" class="ui small magenta inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
+		            <a href="javascript:void(0);" class="ui small color-be inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
 		  			{% endif %}
 				{% endif %}
 				
@@ -504,7 +510,7 @@
 						  <!--
 					      <div class="right aligned field ">
 					        <div class="ui gray cancel button">取消</div>
-					        <div class="ui active magenta submit button" >确认退款</div>
+					        <div class="ui active color-be submit button" >确认退款</div>
 					      </div>-->
 					    </form>
 					</div>

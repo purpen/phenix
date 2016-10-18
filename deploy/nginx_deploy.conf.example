@@ -210,6 +210,11 @@ server {
             rewrite ^/scene_subject[/]?$ /app/wap/scene_subject last;
             rewrite ^/scene_subject/(.*)$ /app/wap/scene_subject/$1 last;
         }
+
+        location /scene_brand {
+            rewrite ^/scene_brand[/]?$ /app/wap/scene_brand last;
+            rewrite ^/scene_brand/(.*)$ /app/wap/scene_brand/$1 last;
+        }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/wap/search last;
@@ -298,6 +303,11 @@ server {
         location /scene_subject {
             rewrite ^/scene_subject[/]?$ /app/site/scene_subject last;
             rewrite ^/scene_subject/(.*)$ /app/site/scene_subject/$1 last;
+        }
+
+        location /scene_brand {
+            rewrite ^/scene_brand[/]?$ /app/site/scene_brand last;
+            rewrite ^/scene_brand/(.*)$ /app/site/scene_brand/$1 last;
         }
 		
         location /dream {

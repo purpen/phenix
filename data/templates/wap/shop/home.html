@@ -1,0 +1,166 @@
+{%extends 'layout/shop.html'%}
+{% block title%}Fiu店{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .ui.fiushop{
+    	padding-bottom: 50px;
+    }
+    .ui.fiushop .overhidden{
+    	margin-left: 10px;
+    }
+    #scene-subject-more{
+    	padding:0;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon.active .choice.img{
+    	background-image: url({{ app_url_packaged }}/images/fiushop/sfooter2.png);
+    	color: #be8914;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script type="text/javascript" >
+    var type = 5;
+    var sort = 2;
+    var page = 1;
+    var size = 8;
+    function ajax_load_more(type, page, size, sort){
+        var url = '{{ app_url_wap }}/app/wap/scene_subject/ajax_fetch_more';
+        $.get(url, { page:page, type:type, sort:sort, size:size }, function(rs){
+            rs.data['phenix'] = phenix.url;
+            var rendered = phenix.ajax_render_result('#scene_subject_list_tpl', rs.data);
+            $('#scene-subject-more').html(rendered);
+
+            $(".row .lazy").lazyload({
+                effect : "show"
+            });
+
+        }, 'json');
+    }
+  </script>
+
+{% endblock %}
+
+{% block jquery %}
+	$('#slider').flexslider({
+      animation: "slide",
+      directionNav: false, 
+      controlNav: true,
+      animationLoop: true,
+      slideshow: true,
+      slideshowSpeed: 5000,
+      animationDuration: 300,
+      animationSpeed: 300,
+  });
+	
+	var flexheight = Math.floor($('body').width()*9/16)+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+
+    // 初始加载
+    ajax_load_more(type, 1, size, sort);
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui fiushop">
+	<div class="ui sheader">
+		<p>Fiu店</p>
+	</div>
+	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
+	<div id="slider" class="flexslider flex-single">
+	  <ul class="slides">
+	    {% for ad in ad.rows %}
+	      <li style="background-image: url('{{ ad.cover.fileurl }}');">
+	        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+	            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+	        </a>
+	      </li>
+	    {% endfor %}
+	  </ul>
+	</div>
+	<div class="ui hotshop responsive grid">
+		<div class="row">
+			<div class="column">
+                <p>热门：<a href="{{ app_url_wap }}/search?q=云马电动车&evt=tag&t=1">云马电动车</a><a href="{{ app_url_wap }}/search?q=先锋智能&evt=tag&t=1">先锋智能</a> <a href="{{ app_url_wap }}/search?q=小蚁运动相机&evt=tag&t=1">小蚁运动相机</a></p>
+			</div>
+		</div>
+	</div>
+	<div class="ui fiulist responsive grid">
+		<div class="row p-0">
+			<div class="recom-item">
+				<div class="recom-cell m-0">
+                    {% ad_list var:'ad_l'state:2 size:1 name:'wap_shop_sub_left' %}
+                    <a href="{{ ad_l.mm_view_url }}" style="padding-top: 94.7368%;background-image: url({{ ad_l.cover.fileurl }});">
+						<div class="uidesc">
+						    {{ ad_l.title }}
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell m-0">
+                    {% ad_list var:'ad_r'state:2 size:2 name:'wap_shop_sub_right' %}
+                    {% for d in ad_r.rows %}
+                    <a href="{{ d.mm_view_url }}" style="padding-top: calc(47.3684% - 4px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 8px;{%endif%}">
+						<div class="uidesc">
+                            {{ d.title }}
+						</div>
+					</a>
+                    {%endfor%}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ui haohuo responsive grid">
+
+		<div class="row pt-3r pl-r">
+			<div class="column">
+				<h4 class="ui header">
+					<img src="{{ app_url_packaged }}/images/fiushop/haohuo.png" align="absmiddle">
+					好货Fiu生活
+				</h4>
+			</div>
+		</div>
+
+        <div id="scene-subject-more"><!--ajax_load subject--></div>
+
+            <!--
+		<div class="row pt-0 pb-3r">
+			<a class="banner">
+				<img class="lazy" data-original="http://frbird.qiniudn.com/scene_subject/160921/57e23833fc8b12bd5a8b4d42-2-p750x422.jpg" src="{{ app_url_packaged }}/images/icon/load750-422.png">
+				<div class="content">
+					<h3 class="ui header">乐视女神直播神器</h3>
+					<p>a date of youth</p>
+				</div>
+			</a>
+
+			<div class="overhidden">
+				<ul class="shopitem">
+					<li>
+						<a>
+							<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
+							<div class="desc">
+								<h2>蚁视虚拟与现实眼镜</h2>
+								<div class="cats">
+		                            <span class="unit">￥</span>149
+		                        </div>
+							</div>
+						</a>
+					</li>
+
+					
+				</ul>
+			</div>
+		</div>
+
+
+    -->
+
+	</div>
+</div>
+
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'scene_subject_list_tpl' tpl:'mustache_m/scene_subject_list.mustache' %}
+{% endblock %}
+

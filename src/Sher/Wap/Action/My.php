@@ -52,6 +52,23 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
     $this->stash['current_point'] = $current_point;
 		return $this->to_html_page("wap/my.html");
   }
+
+  /**
+   * Fiu个人中心
+   */
+  public function fiumy(){
+  	$this->set_target_css_state('page_owner');
+  	$user_id = $this->visitor->id;
+    $user_model = new Sher_Core_Model_User();
+    $user = $user_model->load($user_id);
+    if(!empty($user)){
+      $this->stash['user'] = $user_model->extended_model_row($user);
+    }
+    $point_model = new Sher_Core_Model_UserPointBalance();
+    $current_point = $point_model->load($user_id);
+    $this->stash['current_point'] = $current_point;
+		return $this->to_html_page("wap/fiumy.html");
+  }
   	/**
      * 我的积分/会员等级
      * @return string
@@ -71,6 +88,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 账户设置
 	 */
 	public function account(){
+		$this->set_target_css_state('page_owner');
 		$this->stash['profile'] = $this->visitor->profile;
 		
 		$this->set_target_css_state('user_account');
@@ -161,7 +179,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 订单列表管理
 	 */
 	public function orders(){
-		$this->set_target_css_state('user_orders');
+		$this->set_target_css_state('page_owner');
 		$status = $this->stash['s'];
 		
 		switch($status){
@@ -204,6 +222,55 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->stash['my'] = true;
 		
 		return $this->to_html_page("wap/my/orders.html");
+	}
+
+	/**
+	 * Fiu订单列表管理
+	 */
+	public function fiuorders(){
+		$this->set_target_css_state('page_owner');
+		$status = $this->stash['s'];
+		
+		switch($status){
+            case 1:
+                $this->set_target_css_state('nopayed');
+                break;
+            case 2:
+                $this->set_target_css_state('ready_goods');
+                break;
+            case 3:
+                $this->set_target_css_state('sended_goods');
+                break;
+            case 9: // 已关闭订单：取消的订单、过期的订单
+                $this->set_target_css_state('closed');
+                break;
+            case 4:
+                $this->set_target_css_state('finished');
+                break;
+            case 5:
+                $this->set_target_css_state('refunding');
+                break;
+            case 6:
+                $this->set_target_css_state('refunded');
+                break;
+            case 7:
+                $this->set_target_css_state('evaluate');
+                break;
+            case 8:
+                $this->set_target_css_state('return');
+                break;
+            default:
+                $this->set_target_css_state('all');
+                break;
+		}
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.wap'].'/my/fiuorders?s=%s&page=#p#', $status);
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		$this->stash['my'] = true;
+		
+		return $this->to_html_page("wap/my/fiuorders.html");
 	}
 	
 	/**
@@ -316,6 +383,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 红包列表
 	 */
 	public function bonus(){
+		$this->set_target_css_state('page_owner');
 		$this->set_target_css_state('user_bonus');
 		$this->stash['pager_url'] = Doggy_Config::$vars['app.url.my'].'/bonus?page=#p#';
 		return $this->to_html_page("wap/my/bonus.html");
@@ -439,7 +507,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 售后服务
 	 */
 	public function service(){
-		$this->set_target_css_state('user_service');
+		$this->set_target_css_state('page_owner');
 		return $this->to_html_page('wap/my/service.html');
 	}
 	

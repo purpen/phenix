@@ -1,0 +1,113 @@
+{%extends 'layout/shop.html'%}
+{% block title%}品牌{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var sort = 0;
+      var type = 0;
+      var stick = 1;
+  
+      // 加载品牌列表
+      function ajax_load_more(type, stick, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/scene_brand/ajax_fetch_more';
+          $.get(url, { sort:sort, page:page, type:type, size:size, stick:stick }, function(rs){
+              if(rs.data.rows.total_page > rs.data.rows.current_page){
+                  $('#brand-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#brand-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#brand_list_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+    //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#brand-more').attr('status');
+      page = parseInt($('#brand-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(type, stick, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(type, stick, sort, page, size);
+
+{% endblock %}
+
+{% block content %}
+<div class="ui brand">
+	<div class="ui catemenu">
+		<a href="{{ app_url_wap }}/shop/category" >品类</a>
+		<a href="javascript:void(0);" class="active">品牌</a>
+		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
+	</div>
+	<div class="ui responsive grid">
+		<div class="row" id="mpresale" style="padding: 9px 5px 0;">
+			<div class="column">
+
+				<div class="recom-item">
+
+
+                    <!--
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
+							<div class="desc">
+								<img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
+								Teresa Barnett
+							</div>
+						</a>
+					</div>
+                    -->
+
+				</div>
+
+                <div id="brand-more" class="" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+</div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'brand_list_tpl' tpl:'mustache_m/brand_list.mustache' %}
+{% endblock %}

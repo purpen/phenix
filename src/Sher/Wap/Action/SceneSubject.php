@@ -8,14 +8,14 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
 	public $stash = array(
 		'id'   => '',
 		'page' => 1,
-    'size' => 8,
+        'size' => 8,
 
 	);
 	
-	protected $exclude_method_list = array('execute', 'getlist', 'view');
+	protected $exclude_method_list = array('execute', 'getlist', 'view', 'ajax_fetch_more');
 
 	/**
-	 * 产品专题入口
+	 * 情境专题入口
 	 */
 	public function execute(){
 		return $this->getlist();
@@ -91,6 +91,125 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             $tpl = 'wap/scene_subject/artile.html';       
         }
   	    return $this->to_html_page($tpl);
+    }
+
+
+  /**
+   * 自动加载获取
+   */
+  public function ajax_fetch_more(){
+        
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+        
+        $query = array();
+        $query['publish'] = 1;
+
+        if($user_id){
+            $query['user_id'] = $user_id;
+        }
+
+        // 类型
+        if($type){
+            $query['type'] = $type;
+        }
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        // 排序
+        switch ((int)$sort) {
+          case 0:
+            $options['sort_field'] = 'latest';
+            break;
+          case 1:
+            $options['sort_field'] = 'stick';
+            break;
+          case 2:
+            $options['sort_field'] = 'fine';
+            break;
+          case 3:
+            $options['sort_field'] = 'view';
+            break;
+        }
+
+        //限制输出字段
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'short_title'=>1,'kind'=>1, 'type'=>1, 'summary'=>1, 'banner'=>1,
+          'fine'=>1, 'fine_on'=>1, 'stick'=>1, 'stick_on'=>1, 'category_id'=>1, 'created_on'=>1,
+          'publish'=>1, 'status'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
+          'updated_on'=>1, 'love_count'=>1, 'deleted'=>1,'publish'=>1, 'tags'=>1, 'sight_ids'=>1,
+          'evt'=>1, 'product_ids'=>1, 'product_id'=>1, 'attend_count'=>1, 'share_count'=>1,
+          'begin_time'=>1, 'end_time'=>1,
+          
+        );
+        $options['some_fields'] = $some_fields;
+        
+        $service = Sher_Core_Service_SceneSubject::instance();
+        $result = $service->get_scene_subject_list($query,$options);
+
+		$product_model = new Sher_Core_Model_Product();
+        $next_page = 'no';
+        if(isset($result['next_page'])){
+            if((int)$result['next_page'] > $page){
+                $next_page = (int)$result['next_page'];
+            }
+        }
+        
+        $max = count($result['rows']);
+
+        // 重建数据结果
+        $data = array();
+        for($i=0;$i<$max;$i++){
+            $obj = $result['rows'][$i];
+
+            foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
+			}
+			// 封面图url
+			$data[$i]['cover_url'] = $obj['cover']['thumbnails']['aub']['view_url'];
+			// Banner url
+			//$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
+
+            $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
+            $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
+
+            $data[$i]['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+
+            // 产品
+            $product_arr = array();
+            if(!empty($data[$i]['product_ids'])){
+                for($j=0;$j<count($data[$i]['product_ids']);$j++){
+                    $product = $product_model->extend_load((int)$data[$i]['product_ids'][$j]);
+                    if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                    $row = array(
+                        '_id' => $product['_id'],
+                        'title' => $product['short_title'],
+                        'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
+                        'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                        'summary' => $product['summary'],
+                        'sale_price' => $product['sale_price'],
+                        'wap_view_url' => $product['wap_view_url'],
+                    );
+                    array_push($product_arr, $row);
+                }
+            }
+            $data[$i]['products'] = $product_arr;
+
+        } //end for
+
+        $result['rows'] = $data;
+        $result['nex_page'] = $next_page;
+
+        $result['type'] = $type;
+        $result['page'] = $page;
+        $result['sort'] = $sort;
+        $result['size'] = $size;
+        
+        return $this->ajax_json('success', false, '', $result);
     }
 
 	

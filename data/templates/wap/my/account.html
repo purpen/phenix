@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}账户信息-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -7,6 +7,9 @@
 }
 .ui.header{
 	font-weight:400;
+}
+.color-be{
+	background: #be8914 !important;
 }
 </style>
 {% endblock %}
@@ -38,12 +41,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="ui responsive grid plr-r mt-2r">
-	<div class="row">
-		<div class="column">
-			<h3 class="ui header">账户信息</h3>
-		</div>
+<div class="ui fiushop pb-0" >
+	<div class="ui sheader">
+		<p>账户信息</p>
 	</div>
+</div>
+<div class="ui responsive grid plr-r mt-2r">
 	<div class="row">
 		<div class="column">
 			<form action="{{app_url_wap}}/my/save_account" method="post" class="ui fluid form" id="profile-form">
@@ -69,7 +72,7 @@
 					<input type="password" name="repeat_password" />
 				</div>
 				
-				<input type="submit" class="ui small flt-r magenta inverted active button" value="确认修改" />
+				<input type="submit" class="ui small flt-r color-be inverted active button" value="确认修改" />
 				
 			</form>
 

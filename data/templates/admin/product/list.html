@@ -176,7 +176,7 @@
 				<td>
 		          	<div class="header">
 						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
-                            {{ product.title|truncate, 32 }}|{% if product.is_vop %}<span class="" style="color:red;">开普勒</span>{%endif%}
+                            {{ product.title|truncate, 32 }}{% if product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
 						</a>
 					</div>
 		          	<p class="attribute">ID：{{ product._id }}</p>

@@ -1,0 +1,253 @@
+{%extends 'layout/shop.html'%}
+{% block title%} {% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+    	background: #000;
+	    padding-top: 1px;
+	    color: #fff;
+	    position: fixed;
+	    width: 100%;
+	    left: 50%;
+	    bottom: 0;
+	    max-width: 767px;
+	    -webkit-transform: translateX(-50%);
+	    transform: translateX(-50%);
+	    //display: none;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon{
+    	color: #fff;
+    	padding: 2px 6px 5px;
+    	margin-bottom: 0;
+    }
+    .sfooter.nav-menu .navfelx .childcell .menuicon .img {
+	    display: block;
+	    margin: 0 auto 4px;
+	    vertical-align: middle;
+	    background-image: url({{ app_url_packaged }}/images/fiushop/sfooter.png);
+	    background-repeat: no-repeat;
+	    background-size: 88px 18px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .choice.img{
+		height: 18px;
+		width: 20px;
+	    background-position: 0 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .find.img{
+		height: 18px;
+		width: 26px;
+	    background-position: -63px 3px;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .cart.img{
+		height: 18px;
+		width: 22px;
+	    background-position: -20px 0;
+	}
+	.sfooter.nav-menu .navfelx .childcell .menuicon .owner.img{
+		height: 18px;
+		width: 21px;
+	    background-position: -42px 0;
+	}
+	.ui.catemenu{
+		background:#000;
+		height: 50px;
+		text-align: center;
+	}
+	.ui.catemenu a{
+		font-size: 17px;
+	    color: #fff;
+	    margin: 0 15px;
+	    line-height: 49px;
+	    height: 49px;
+	    padding: 12px 0 14px;
+	}
+	.ui.catemenu a.active{
+		color: #BE8914;
+		border-bottom: 2px solid #BE8914;
+	}
+	#mpresale .recom-item .recom-cell{
+		padding-left: 0;
+		padding-right: 6px;
+	}
+	#mpresale .recom-item .recom-cell:nth-child(2n){
+			padding-left: 6px;
+			padding-right: 0;
+		}
+	.ui.brand{
+		padding-bottom: 50px;
+	}
+	.brandlg{
+		padding-top: 56.267%;
+		background-size: 100% 100%;
+		background-color: #eee;
+		position: relative;
+		margin-bottom: 35px;
+	}
+	.brandlg p{
+		height: 50px;
+		color: #fff;
+		font-size: 17px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		text-align: center;
+		line-height: 50px;
+		margin:0;
+	}
+	.brandlg img{
+		width: 74px;
+		height: 74px;
+		position: absolute;
+		bottom: -30px;
+		left: 50%;
+		margin-left: -37px;
+		border-radius: 37px;
+	}
+	.ui.brand .masx p{
+		font-size: 12px;
+		color: #222;
+	}
+	.ui.brand #mpresale .recom-item .recom-cell .desc.shoplist{
+		height: 55px;
+		padding: 5px 5px 0;
+	    text-align: center;
+	    font-size: 12px;
+	    color: #222;
+	    white-space: nowrap;
+	    text-overflow: ellipsis;
+	    overflow: hidden;
+	}
+	.ui.brand #mpresale .recom-item .recom-cell .desc.shoplist h2{
+		font-size: 12px;
+	    font-weight: 400;
+	    overflow: hidden;
+	    margin: 0;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    height: 20px;
+	    line-height: 20px;
+	    text-align: center;
+	}
+	.ui.brand #mpresale .recom-item .recom-cell .desc.shoplist .cats {
+	    color: #BE8914;
+	    font-size: 13px;
+	    height: 30px;
+	    padding: 0;
+	    text-transform: uppercase;
+	    line-height: 25px;
+	    text-align: center;
+	}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var category_id = 0;
+      var sort = 0;
+      var type = 2;
+      var brand_id = '{{ scene_brand._id }}';
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, brand_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, brand_id:brand_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(category_id, brand_id, type, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(category_id, brand_id, type, sort, page, size);
+
+{% endblock %}
+
+{% block content %}
+<div class="ui brand list">
+    <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
+        <p>{{ scene_brand.title }}</p>
+        <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
+	</div>
+	<div class="ui responsive grid">
+		<div class="row masx">
+			<div class="column">
+                <p>{{ scene_brand.des }}</p>
+			</div>
+		</div>
+
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+
+                    
+                    <!--
+					<div class="recom-cell">
+						<a href="">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
+							<div class="desc shoplist">
+								<h2>蚁视虚拟与现实眼镜</h2>
+								<div class="cats">
+		                            <span class="unit">￥</span>149
+		                        </div>
+							</div>
+						</a>
+					</div>
+                    -->
+
+				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
+{% endblock %}

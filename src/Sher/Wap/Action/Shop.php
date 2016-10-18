@@ -26,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo','hatched_list');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo','hatched_list', 'get_list', 'list', 'category', 'brand', 'stick');
 	
 	/**
 	 * 商城入口
@@ -39,8 +39,49 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
    * 商店首页
    */
   public function index(){
-    return $this->to_html_page('wap/shop/index.html');
+    $this->set_target_css_state('page_choice');
+    return $this->to_html_page('wap/shop/home.html');
   }
+
+    /**
+     * 列表页
+     */
+    public function get_list(){
+        $this->set_target_css_state('page_find');
+        return $this->to_html_page('wap/shop/list.html');
+    }
+
+    /**
+     * 产品分类
+     */
+    public function category(){
+        $this->set_target_css_state('page_find');
+        return $this->to_html_page('wap/shop/category.html');
+    }
+
+    /**
+     * 个人中心
+     */
+    public function owner(){
+        $this->set_target_css_state('page_owner');
+        return $this->to_html_page('wap/shop/owner.html');
+    }
+
+    /**
+     * 品牌
+     */
+    public function brand(){
+        $this->set_target_css_state('page_find');
+        return $this->to_html_page('wap/shop/brand.html');   
+    }
+
+    /**
+     * 推荐
+     */
+    public function stick(){
+        $this->set_target_css_state('page_find');
+        return $this->to_html_page('wap/shop/stick_list.html');   
+    }
 
   /**
    * 孵化列表
@@ -1649,7 +1690,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
   public function ajax_load_list(){    
         $category_id = $this->stash['category_id'];
         $presaled = isset($this->stash['presaled'])?$this->stash['presaled']:0;
+        $category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
+        $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
         $type = $this->stash['type'];
+
         
         $page = $this->stash['page'];
         $size = $this->stash['size'];
@@ -1663,12 +1707,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$query['category_id'] = (int)$category_id;
 		}
         // is_shop=1
-        $query['stage'] = array('$in'=>array(5, 9, 12));
+        $query['stage'] = 9;
+
+        if($brand_id){
+            $query['brand_id'] = $brand_id;
+        }
+
+        if($category_tags){
+          $category_tag_arr = explode(',', $category_tags);
+          $query['category_tags'] = array('$in'=>$category_tag_arr);
+        }
         
-		// 预售
-		if ($presaled) {
-		  $query['stage'] = 5;
-		}
         // 仅发布
         $query['published'] = 1;
         
@@ -1678,7 +1727,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                     $query['stage'] = 15;
                     break;
                 case 2:
-                    $query['stage'] = array('$in'=>array(5,9));
+                    $query['stage'] = 9;
                     break;
                 case 3:
                     $query['stage'] = 12;
@@ -1736,7 +1785,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
         //限制输出字段
         $some_fields = array(
-          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1,
+          '_id'=>1, 'title'=>1, 'short_title'=>1, 'snatched'=>1, 'featured'=>1, 'brand_id'=>1,
           'stage'=>1, 'stick'=>1, 'category_id'=>1, 'created_on'=>1, 'asset_count'=>1, 'vote_favor_count'=>1,
           'advantage'=>1, 'sale_price'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'favorite_count'=>1, 'love_count'=>1, 'deleted'=>1,'presale_money'=>1, 'tags'=>1,

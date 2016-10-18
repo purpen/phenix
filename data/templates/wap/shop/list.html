@@ -1,0 +1,182 @@
+{%extends 'layout/shop.html'%}
+{% block title%}品类{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+	.ui.sheader{
+		background:#000;
+	}
+	.ui.sheader p{
+		font-size: 17px;
+		line-height: 50px;
+		color: #fff;
+		text-align: center;
+	}
+	.ui.category{
+		padding-bottom: 65px;
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var category_id = '{{cid}}';
+      var sort = 0;
+      var type = 2;
+      var category_tag = '';
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+    // 加载分类标签
+    function ajax_load_ategory_tag(category_tags){
+        if(category_tags==''){
+            $('#category-tag-box').hide();
+            return;
+        }
+        var arr = category_tags.split(',');
+        var html = '';
+        for(var i=0;i<arr.length;i++){
+            html += '<li class="ui becolor basic button category_tag_btn" data-category_tag="'+ arr[i] +'">'+ arr[i] +'</li>';
+        }
+
+        $('#category-tag-box').show();
+        $('#category-tag-box .groom-list').html(html);
+    
+    }
+  </script>
+{% endblock %}
+{% block jquery %}
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#product-more').attr('status');
+      page = parseInt($('#product-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(category_id, category_tag, type, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
+    // 初始化加载分类标签
+
+
+    // 选择分类
+	$('.category-btn').click(function(){
+		$('.category-btn').removeClass('active');
+		$(this).addClass('active');
+		category_id = $(this).attr('category_id');
+        category_tags = $(this).attr('category_tags');
+        ajax_load_ategory_tag(category_tags);
+		$('#product-more').attr('category_id', category_id);
+		$('#mpresale .recom-item').html('');
+		ajax_load_more(category_id, category_tag, type, sort, 1, size);
+	});
+
+    // 选择分类标签
+    $('.category_tag_btn').livequery(function(){
+        $(this).click(function(){
+            var category_tag = $(this).data('category_tag');
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+		    ajax_load_more(category_id, category_tag, type, sort, 1, size);
+        });   
+    });
+
+
+{% endblock %}
+
+{% block content %}
+<div class="ui category">
+	<div class="ui sheader">
+		<p>品类</p>
+	</div>
+	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
+	<div class="fmenulist">
+		<ul class="menuitem">
+			<li class="category-btn" category_id="0" category_tags="">
+				<a href="javascript:void(0);">
+					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
+					<p>全部</p>
+				</a>
+			</li>
+	{% for cat in category.rows %}
+	{% if cat.sub_count>0 %}
+            <li class="{{ cat.active }} category-btn" category_id="{{ cat._id }}" category_tags="{{ cat.tags_s }}">
+				<a href="javascript:void(0);">
+					<div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/fiushop/{{ cat.name }}.png)"></div>
+					<p>{{ cat.title }}</p>
+				</a>
+			</li>
+	{%endif%}
+	{% endfor %}
+		</ul>
+	</div>
+	<div class="ui groom-btn" id="category-tag-box" style="display:none;">
+		<ul class="groom-list">
+            <!--<li class="ui becolor basic active button">智能摄像</li>-->
+		</ul>
+	</div>
+
+    <!--
+	<div class="ui reorder">
+		<a href="" class="left reitem">最新</a>
+		<a href="" class="center reitem">价格<img src="{{ app_url_packaged }}/images/fiushop/price.png" align="absmiddle"></a>
+		<a href="" class="right reitem">折扣</a>
+	</div>
+    -->
+	<div class="ui responsive brand list grid">
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+
+				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+
+
+{% endblock %}
+{% block templates %}
+{% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
+{% endblock %}
