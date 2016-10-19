@@ -164,17 +164,17 @@
     // 初始加载
     ajax_load_more(type, 1, size, sort);
 
-    $('.ui.sheader input[type="text"]').focus(function(){
+    $('.fiusearch input[type="text"]').focus(function(){
     	$('.ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
-    	if( $('.ui.sheader input[type="text"]').val().length == 0){
-    		$('.ui.sheader .ui.icon.input').removeClass('focus');
+    	if( $('.fiusearch input[type="text"]').val().length == 0){
+    		$('.fiusearch .ui.icon.input').removeClass('focus');
     	}else{
-    		$('.ui.sheader .ui.icon.input').addClass('focus');
+    		$('.fiusearch .ui.icon.input').addClass('focus');
     	}
     })
-    if( $('.ui.sheader input[type="text"]').val().length !== 0){
-    	$('.ui.sheader .ui.icon.input').addClass('focus');
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiusearch .ui.icon.input').addClass('focus');
     } 
 	
 {% endblock %}
@@ -183,7 +183,7 @@
 <div class="ui fiushop">
 	<div class="ui sheader">
 		<p>Fiu店</p>
-		<form class="search item" method="post" action="/search" id="searchbar">
+		<form class="fiusearch item" method="post" action="/search" id="searchbar">
         
 	        <div class="ui icon input">
 	            <input name="q" type="text" value="">

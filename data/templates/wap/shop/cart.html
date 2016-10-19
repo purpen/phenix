@@ -158,7 +158,7 @@
 .cartitem .ui.checkbox{
     display: block;
 }
-.ui.radio.checkbox input[type=radio]:checked~.box:after, .ui.radio.checkbox input[type=radio]:checked~label:after {
+.ui.radio.checkbox input[type=checkbox]:checked~.box:after, .ui.radio.checkbox input[type=checkbox]:checked~label:after {
     background-color: rgba(190,137,20,.95);
 }
 .quantity {
@@ -184,6 +184,10 @@
     margin: 0;
     height: 24px;
 }
+.quantity .ui.mini.gray.icon.button.disabled{
+    opacity: 1 !important;
+    background: #eee !important;
+}
 .quantity input {
     width: 40px;
     text-align: center;
@@ -198,8 +202,31 @@
     outline: 0;
     color: rgba(0,0,0,1);
 }
-
-
+.ui.master.radio.checkbox{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+}
+.ui.master.radio.checkbox label{
+    text-align: left;
+    vertical-align: middle;
+    margin-left: 15px;
+    transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+}
 </style>
 {% endblock %}
 
@@ -229,6 +256,20 @@
       }
     }, 'json')
   });
+
+  $('.master.checkbox')
+    .checkbox({
+        onChecked: function() {
+          var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+          $childCheckbox.checkbox('check');
+        },
+        onUnchecked: function() {
+          var
+            $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+            $childCheckbox.checkbox('uncheck');
+        }
+    })
+
 {% endblock %}
 
 {% block content %}
@@ -243,7 +284,7 @@
 		{% for product in products %}
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
             <div class="ui radio checkbox">
-              <input type="radio" name="radio" checked="checked">
+              <input type="checkbox" name="radio" checked="checked">
             </div>
 			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}" ></a>
 			<div class="cartinfo">
@@ -251,7 +292,7 @@
         <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
 				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
 			    <div class="quantity">
-                    <button class="ui mini gray dec-qty icon button" data-count="1">
+                    <button class="ui mini gray dec-qty icon button disabled" data-count="1">
                         <i class="minus icon"></i>
                     </button>
                     <input type="text" name="product-qty" id="product-qty" value="1" autocomplete="off">
@@ -266,6 +307,10 @@
 		</div>
 		{% endfor %}
 		<div class="cartadd">
+            <div class="ui master radio checkbox">
+                <input type="checkbox" name="vegetables" checked="checked" tabindex="0" class="hidden">
+                <label>全选</label>
+            </div>
 			<div class="cardsum">
         合计: <span><i class="rmb icon"></i><span id="total_price_text">  {{ total_money }}</span></span>
 			</div>
