@@ -40,8 +40,8 @@
 }
 .cartitem .cartinfo h3.title{
     font-size: 1rem;
-    margin-bottom: 10px;
-    max-height: 38px;
+    margin-bottom: 5px;
+    max-height: 34px;
     overflow: hidden;
     font-weight: 400;
     color:#000 !important;
@@ -53,22 +53,23 @@
 }
 .cartitem .cartinfo p.price{
 	color:#BE8914;
+    margin-bottom: 8px;
 }
 .cartitem .remove_cart{
-	width:30px;
-	height:30px;
+	width:24px;
+	height:24px;
 	position:relative;
-	background:rgba(0,0,0,0.3);
+	background:rgba(0,0,0,0.5);
 	border-radius:50%;
 }
 .cartitem .remove_cart img{
-    width: 14px;
-    height: 14px;
-    margin: 8px;
+    width: 10px;
+    height: 10px;
+    margin: 7px;
 }
 .cartitem .img img{
-	width:80px;
-	height:60px;
+	width:92px;
+	height:69px;
 	position:relative;
 }
 .cartadd{
@@ -154,6 +155,51 @@
 .color-be{
     color: #BE8914 !important;
 }
+.cartitem .ui.checkbox{
+    display: block;
+}
+.ui.radio.checkbox input[type=radio]:checked~.box:after, .ui.radio.checkbox input[type=radio]:checked~label:after {
+    background-color: rgba(190,137,20,.95);
+}
+.quantity {
+    font-size: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+    height: 26px;
+}
+.quantity .ui.mini.gray.icon.button:first-child {
+    border-right: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity .ui.mini.gray.icon.button:last-child {
+    border-left: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity .ui.mini.gray.icon.button {
+    background-color: rgba(200,200,200,0.1);
+    color: rgba(0,0,0,0.5);
+    padding: 0.5rem 0.66rem;
+    margin-top: 9pt;
+    border-radius: 0;
+    margin: 0;
+    height: 24px;
+}
+.quantity input {
+    width: 40px;
+    text-align: center;
+    margin: 0;
+    height: 24px;
+    vertical-align: top;
+    line-height: 24px;
+    font-size: 14px;
+    background-color: #FFF;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: 0;
+    color: rgba(0,0,0,1);
+}
+
+
 </style>
 {% endblock %}
 
@@ -196,12 +242,23 @@
 	<div class="cartmain">
 		{% for product in products %}
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
-			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
+            <div class="ui radio checkbox">
+              <input type="radio" name="radio" checked="checked">
+            </div>
+			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}" ></a>
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
         <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
 				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
-			
+			    <div class="quantity">
+                    <button class="ui mini gray dec-qty icon button" data-count="1">
+                        <i class="minus icon"></i>
+                    </button>
+                    <input type="text" name="product-qty" id="product-qty" value="1" autocomplete="off">
+                    <button class="ui mini gray inc-qty icon button" data-count="">
+                        <i class="add icon"></i>
+                    </button>
+                </div>
 			</div>
 			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-price="{{ product.total_price }}">
 				<img src="{{ app_url_packaged }}/images/icon/close.png">

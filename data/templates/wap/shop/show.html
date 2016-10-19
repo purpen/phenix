@@ -395,7 +395,11 @@
 	background:#fff;
 	color:#be8914;
 	text-align: center;
-    line-height: 50px;
+    font-size: 12px;
+    -webkit-box-flex: 1.3;
+    -webkit-flex: 1.3;
+    -ms-flex: 1.3;
+    flex: 1.3;
 }
 .three-mesg .shopcart{
     text-align: center;
@@ -809,6 +813,65 @@ span.ui.timeout.btn{
   display: none;
   visibility: hidden;
 }
+.mask{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.2);
+    z-index: 9;
+    display: none;
+}
+.mask.show{
+  display: block;
+}
+.ui.favorite{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.favorite.active{
+    color: #be8914;
+}
+.ui.favorite .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/shouc.png);
+    background-repeat: no-repeat;
+    background-size: 36px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.ui.favorite.active .bgimg{
+    background-position: -18px 0;
+}
+.ui.fshare{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.fshare .bgimg{
+    display: block;
+    margin: 2px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px;
+    background-position: 0 0;
+}
 </style>
 {% endblock %}
 
@@ -862,13 +925,15 @@ span.ui.timeout.btn{
 		}
 		else{
 			$('#cover').css('display','block');
-			$('html').css('overflow','hidden');
+			$('body').css('overflow','hidden');
+      $('.mask').addClass('show');
 			$('#shopview').addClass('show-details');
 		}
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
-		$('#cover,html').removeAttr('style');
+		$('#cover,body').removeAttr('style');
+    $('.mask').removeClass('show');
 	});
 	
 	// 如果仅一个sku,则设置默认值
@@ -1049,6 +1114,7 @@ span.ui.timeout.btn{
 {% endblock %}
 
 {% block content %}
+<div class="mask"></div>
 <div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
     <!--<a href="{{ app_url_wap }}/shop"><i class="angle float left icon"></i></a>-->
@@ -1175,6 +1241,11 @@ span.ui.timeout.btn{
       </a>
   </div>
   {%endif%}
+
+  <div class="shopbrand">
+    <p style="font-size: 13px;">服务说明：预计8月12由北京太火鸟科技有限公司处发货，并提供售后服务</p>
+  </div>
+
   <!-- -->
 	<!-- 相关推荐 -->
 	<div id="shop_guess_wap_list">
@@ -1353,7 +1424,9 @@ span.ui.timeout.btn{
 	<div class="flexbuy">
 		<ul div class="three-mesg">
 			<li class="price">
-				¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+        <div class="ui favorite active"><div class="bgimg"></div>收藏</div>
+        <div class="ui fshare"><div class="bgimg"></div>分享</div>
+			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
 			<li class="shopcart">
 				加入购物车

@@ -15,6 +15,69 @@
 	.ui.category{
 		padding-bottom: 65px;
 	}
+	  .togprice{
+	    background-image: url({{ app_url_packaged }}/images/icon/price.png);
+	    background-size: 27px 12px;
+	    background-repeat: no-repeat;
+	    height: 12px;
+	    width: 9px;
+	    background-position: 0 0;
+	    margin-left: 4px;
+	    margin-bottom: -1px;
+	    display: inline-block;
+	  }
+	  .center.reitem.up ,.center.reitem.down{
+	    color: #be8914 !important;
+	  }
+	  .center.reitem.up .togprice{
+	    background-position: -18px 0;
+	  }
+	  .center.reitem.down .togprice{
+	    background-position: -9px 0;
+	  }
+	  .ui.reorder{
+    height: 30px;
+    background:#fff;
+    width: 100%;
+    width: 100%;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  }
+  .reitem{
+    -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      -webkit-flex-basis: 0;
+      -ms-flex-preferred-size: 0;
+      flex-basis: 0;
+      height: 100%;
+      position: relative;
+      color: #999 !important;
+      line-height: 30px;
+      font-size: 12px;
+  }
+  .left.reitem{
+    padding-left: 15px;
+    text-align: left;
+  }
+  .center.reitem{
+    text-align: center;
+  }
+  .center.reitem img{
+    margin-left: 4px;
+      margin-bottom: 2px;
+      width: 9px;
+  }
+  .right.reitem{
+    padding-right: 15px;
+    text-align: right;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -149,13 +212,14 @@
 		</ul>
 	</div>
 
-    <!--
+    
 	<div class="ui reorder">
 		<a href="" class="left reitem">最新</a>
-		<a href="" class="center reitem">价格<img src="{{ app_url_packaged }}/images/fiushop/price.png" align="absmiddle"></a>
-		<a href="" class="right reitem">折扣</a>
+	    <a href="" class="center reitem up">价格
+	      <div class="togprice"></div>
+	    </a>
+	    <div class="right reitem"></div>
 	</div>
-    -->
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale">
 			<div class="column">
