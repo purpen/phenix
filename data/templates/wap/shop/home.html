@@ -33,6 +33,42 @@
     .ui.fiushop .haohuo .banner::after{
     	z-index: 4;
     }
+    .ui.sheader{
+    	font-size: 0;
+    }
+    .ui.sheader p{
+    	width: 20%;
+    	display: inline-block;
+    	margin: 0;
+    }
+    .ui.sheader form{
+    	display: inline-block;
+	    width: 80%;
+	    padding: 0 15px;
+    	vertical-align: top;
+    }
+    .ui.sheader form .ui.input{
+    	height: 30px;
+    	margin: 10px 0;
+    	width: 100%;
+    	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+    	background-size: 135px 18px;
+    	background-position: 15px 6px;
+    	border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+    	background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+	    padding-right: 2.67142857em!important;
+	    vertical-align: middle;
+	    font-size: 14px;
+	    width: 100%;
+	    border-radius: 12px;
+	    display: inline-block;
+	    padding: 4px 10px;
+	    background: none;
+	}
 </style>
 {% endblock %}
 
@@ -127,6 +163,14 @@
 
     // 初始加载
     ajax_load_more(type, 1, size, sort);
+
+    $('.ui.sheader input[type="text"]').focus(function(){
+    	$('.ui.sheader .ui.icon.input').addClass('focus');
+    })
+    $('.ui.sheader input[type="text"]').blur(function(){
+    	$('.ui.sheader .ui.icon.input').removeClass('focus');
+    })
+    
 	
 {% endblock %}
 
@@ -134,6 +178,11 @@
 <div class="ui fiushop">
 	<div class="ui sheader">
 		<p>Fiu店</p>
+		<form class="search item" method="post" action="/search" id="searchbar">
+	        <div class="ui icon input">
+	            <input name="q" type="text" value="">
+	        </div>
+	    </form>
 	</div>
 	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
 	<div id="slider" class="flexslider flex-single">
