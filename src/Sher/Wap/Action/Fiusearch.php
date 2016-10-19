@@ -117,7 +117,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 
       }
 
-      $pager_url = sprintf('%s/search?t=%d&q=%s&evt=%s&size=%d&sort=%d&page=#p#', Doggy_Config::$vars['app.url.domain'], $this->stash['t'], $this->stash['q'], $this->stash['evt'], $this->stash['size'], $this->stash['s']);
+      $pager_url = sprintf('%s/fiusearch?t=%d&q=%s&evt=%s&size=%d&sort=%d&page=#p#', Doggy_Config::$vars['app.url.domain'], $this->stash['t'], $this->stash['q'], $this->stash['evt'], $this->stash['size'], $this->stash['s']);
       
       $this->stash['pager_url'] = $pager_url;
       $this->stash['result'] = $result;
@@ -166,7 +166,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 			$this->set_target_css_state('vote');
 		}
         
-		return $this->to_html_page('wap/search.html');
+		return $this->to_html_page('wap/fiusearch.html');
 	}
 	
 	/**
