@@ -1145,7 +1145,7 @@ span.ui.timeout.btn{
         {% if product.sale_price != product.market_price %}
             <span class="oldprice">¥{{ product.market_price }}</span>
         {%endif%}
-        <span class="ui timeout btn">限时特惠</span>
+        {% if product.extra.tag %}<span class="ui timeout btn">{{ product.extra.tag }}</span>{%endif%}
       </div>
 		</h4>
 	</div>
@@ -1242,9 +1242,11 @@ span.ui.timeout.btn{
   </div>
   {%endif%}
 
+  {% if product.extra.server %}
   <div class="shopbrand">
-    <p style="font-size: 13px;">服务说明：预计8月12由北京太火鸟科技有限公司处发货，并提供售后服务</p>
+      <p style="font-size: 13px;">服务说明：{{ product.extra.server }}</p>
   </div>
+  {%endif%}
 
   <!-- -->
 	<!-- 相关推荐 -->

@@ -177,6 +177,16 @@
         });   
     });
 
+    // 排序
+    $('.sort_btn').livequery(function(){
+        $(this).click(function(){
+            var category_tag = $(this).data('category_tag');
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+		    ajax_load_more(category_id, category_tag, type, sort, 1, size);
+        });   
+    });
+
 
 {% endblock %}
 
@@ -214,8 +224,8 @@
 
     
 	<div class="ui reorder">
-		<a href="" class="left reitem">最新</a>
-	    <a href="" class="center reitem up">价格
+		<a href="javascript:void(0);" class="left reitem sort_btn">最新</a>
+	    <a href="javascript:void(0);" class="center reitem up sort_btn">价格
 	      <div class="togprice"></div>
 	    </a>
 	    <div class="right reitem"></div>
