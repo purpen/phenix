@@ -5,7 +5,7 @@
  */
 class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	
-	protected $filter_user_method_list = array('fetch_cart_count','fetch_areas');
+	protected $filter_user_method_list = array('fetch_cart_count','fetch_areas','fetch_china_city');
 
 	/**
 	 * 入口
@@ -2050,6 +2050,44 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }
     $redis->set($key, 1, 3600*24);
     return $this->api_json('提醒成功!', 0, array('rid'=>$rid));
+  }
+
+
+    /**
+     * 获取京东收货地址 （new）
+     */
+    public function fetch_china_city(){
+        // ID
+        $oid = isset($this->stash['oid']) ? (int)$this->stash['oid'] : 0;
+        // 父ID
+        $pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
+        // 层级
+        $layer = isset($this->stash['layer']) ? (int)$this->stash['layer'] : 1;
+
+        $china_city_model = new Sher_Core_Model_ChinaCity();
+
+        $query = array();
+        $options = array('page'=>1,'size'=>1000,'sort'=>array('sort'=>-1));
+        if($oid){
+            $query['oid'] = $oid;
+        }
+        if($pid){
+            $query['pid'] = $pid;
+        }
+        if($layer){
+            $query['layer'] = $layer;
+        }
+        $query['status'] = 1;
+
+        $rows = $china_city_model->find($query, $options);
+        for($i=0;$i<count($rows);$i++){
+            $rows[$i]['_id'] = (string)$rows[$i]['_id'];
+        }
+        $result['rows'] = $rows;
+        //print_r($result);
+        return $this->api_json('success!', 0, $result);
+  
+  
   }
 
 	
