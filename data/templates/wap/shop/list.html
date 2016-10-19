@@ -198,13 +198,13 @@
         var has_down_class = $(this).hasClass('down');
         if(has_up_class){
             $(this).removeClass('up').addClass('down');
-            sort = 8;
+            sort = 7;
         }else if(has_down_class){
             $(this).removeClass('down').addClass('up');
-            sort = 7;
+            sort = 8;
         }else{
             $(this).addClass('up');
-            sort = 7;           
+            sort = 8;   
         }
         $('#mpresale .recom-item').html('');
         ajax_load_more(category_id, category_tag, type, sort, 1, size);
