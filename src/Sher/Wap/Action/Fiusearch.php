@@ -22,7 +22,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 	
     public function execute() {
       return $this->xc();
-       	$words = Sher_Core_Service_Search::instance()->check_query_string($this->stash['q']);
+       	$words = Sher_Core_Service_Fiusearch::instance()->check_query_string($this->stash['q']);
         return $this->_display_search_list($words);
 	}
 
@@ -73,7 +73,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
    		$this->set_target_css_state('lastest');    
     }
     
-    $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
+    $result = Sher_Core_Util_XunSearch::fiusearch($q, $options, $db);
     if($result['success']){
       $user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
@@ -110,7 +110,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
         }
 
         // 获取对象属性
-        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
+        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Fiusearch::kind_name($v['kind'], $v['cid']);
 
         // 获取asset_type
         //$result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
@@ -190,7 +190,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 			$this->set_target_css_state('topic');
 		}
 		
-		$words = Sher_Core_Service_Search::instance()->check_query_string($tag);
+		$words = Sher_Core_Service_Fiusearch::instance()->check_query_string($tag);
 		
     	return $this->_display_search_list($words);
     }
