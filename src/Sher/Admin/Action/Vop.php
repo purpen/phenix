@@ -146,5 +146,22 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
     }
 
 
+    /**
+     * 获取京东地址
+     */
+    public function fetch_province(){
+    
+        $redirect_url = Doggy_Config::$vars['app.url.domain'].'/admin';
+
+        $method = 'biz.address.allProvinces.query';
+        $response_key = 'biz_address_allProvinces_query_response';
+        $params = array();
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        $a = $result['data']['result'];
+    
+    }
+
+
 }
 
