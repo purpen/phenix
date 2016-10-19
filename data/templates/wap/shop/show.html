@@ -1111,6 +1111,58 @@ span.ui.timeout.btn{
   // ajax加载产品评测
   ajax_load_topic(product_id, topic_sort, 1, 8);
 
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -1248,11 +1300,7 @@ span.ui.timeout.btn{
   </div>
   {%endif%}
 
-  <!-- -->
-	<!-- 相关推荐 -->
-	<div id="shop_guess_wap_list">
-			<!-- 加载相关推荐 -->
-	</div>
+
 	<!-- 产品评测 -->
 	<!--<div id="product_eval" style="display:none;">
 		<div class="eval title">
@@ -1422,11 +1470,16 @@ span.ui.timeout.btn{
 		
 		
 	</div>
+
+	<!-- 相关推荐 -->
+	<div id="shop_guess_wap_list">
+			<!-- 加载相关推荐 -->
+	</div>
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
 			<li class="price">
-        <div class="ui favorite active"><div class="bgimg"></div>收藏</div>
+            <div class="ui favorite"><div class="bgimg" data-mark="n" data-id="{{ product._id }}"></div>收藏</div>
         <div class="ui fshare"><div class="bgimg"></div>分享</div>
 			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
