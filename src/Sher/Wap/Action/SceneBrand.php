@@ -25,6 +25,7 @@ class Sher_Wap_Action_SceneBrand extends Sher_Wap_Action_Base {
       *详情
     */
     public function view(){
+    	$this->set_target_css_state('page_find');
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $redirect_url = Doggy_Config::$vars['app.url.wap'];
         if(empty($id)){

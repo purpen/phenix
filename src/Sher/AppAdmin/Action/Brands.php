@@ -127,6 +127,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+        $feature = isset($this->stash['feature']) ? $this->stash['feature'] : null;
 		
 		// 验证内容
 		if(!$title){
@@ -153,6 +154,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'self_run' => $self_run,
             'tags' => $tags,
             'kind' => $kind,
+            'feature' => $feature,
 		);
 
 		try{

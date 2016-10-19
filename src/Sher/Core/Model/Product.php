@@ -52,6 +52,11 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
         # 额外优惠信息
         'extra_info' => '',
+        # 服务信息
+        'extra' => array(
+            'server' => '',
+            'tag' => '',
+        ),
 		
 		# 封面图
 		'cover_id' => '',

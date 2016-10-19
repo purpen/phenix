@@ -15,10 +15,78 @@
     	background-image: url({{ app_url_packaged }}/images/fiushop/sfooter2.png);
     	color: #be8914;
     }
+    .zcover{
+    	background: rgba(0,0,0,0.2);
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    z-index: 3;
+    }
+    .ui.fiushop .haohuo .banner .content{
+    	z-index: 4;
+    }
+    .sfooter.nav-menu{
+    	z-index: 9;
+    }
+    .ui.fiushop .haohuo .banner::after{
+    	z-index: 4;
+    }
 </style>
 {% endblock %}
 
 {% block layout_js %}
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script type="text/javascript" >
+	
+	var m_name = 'Fiu店';
+	var img_url = '{{ app_url_packaged }}/images/fxlogo2.jpg';
+	var link = '{{ app_url_wap }}/shop';
+	var desc_str = 'Fiu｜科技美学情境式电商';
+
+	wx.config({
+	  debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+	  appId: '{{ app_id }}', // 必填，公众号的唯一标识
+	  timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+	  nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+	  signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+	  jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+	});
+	wx.ready(function(){
+	// 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+	 wx.onMenuShareAppMessage({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});      
+
+	// 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareTimeline({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+
+	// 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareQQ({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+
+	// 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareWeibo({
+	  title: m_name,
+	  desc: desc_str,
+	  link: link,
+	  imgUrl: img_url,
+	});
+	});
+	</script>
 	<script type="text/javascript" >
     var type = 5;
     var sort = 2;
@@ -31,7 +99,7 @@
             var rendered = phenix.ajax_render_result('#scene_subject_list_tpl', rs.data);
             $('#scene-subject-more').html(rendered);
 
-            $(".row .lazy").lazyload({
+            $(".row img.lazy").lazyload({
                 effect : "show"
             });
 
@@ -122,38 +190,6 @@
 		</div>
 
         <div id="scene-subject-more"><!--ajax_load subject--></div>
-
-            <!--
-		<div class="row pt-0 pb-3r">
-			<a class="banner">
-				<img class="lazy" data-original="http://frbird.qiniudn.com/scene_subject/160921/57e23833fc8b12bd5a8b4d42-2-p750x422.jpg" src="{{ app_url_packaged }}/images/icon/load750-422.png">
-				<div class="content">
-					<h3 class="ui header">乐视女神直播神器</h3>
-					<p>a date of youth</p>
-				</div>
-			</a>
-
-			<div class="overhidden">
-				<ul class="shopitem">
-					<li>
-						<a>
-							<img src="http://frbird.qiniudn.com/scene_product/160608/5757e1ecfc8b1294688b6cd5-4-p500x500.jpg">
-							<div class="desc">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</li>
-
-					
-				</ul>
-			</div>
-		</div>
-
-
-    -->
 
 	</div>
 </div>
