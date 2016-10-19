@@ -1139,7 +1139,7 @@ span.ui.timeout.btn{
 			return false;
 		}
 		if (mark == 'n') {
-			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:1}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '取消收藏')
@@ -1150,7 +1150,7 @@ span.ui.timeout.btn{
 				}
 			}, 'json');
 		} else {
-			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:1}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:1}, function(result){
 				if (result.success) {
 					$btn
 						.data('content', '收藏')
@@ -1479,7 +1479,7 @@ span.ui.timeout.btn{
 	<div class="flexbuy">
 		<ul div class="three-mesg">
 			<li class="price">
-            <div class="ui favorite"><div class="bgimg" data-mark="n" data-id="{{ product._id }}"></div>收藏</div>
+            <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
         <div class="ui fshare"><div class="bgimg"></div>分享</div>
 			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
