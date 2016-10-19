@@ -395,7 +395,7 @@
 	background:#fff;
 	color:#be8914;
 	text-align: center;
-    line-height: 50px;
+    font-size: 12px;
 }
 .three-mesg .shopcart{
     text-align: center;
@@ -819,6 +819,54 @@ span.ui.timeout.btn{
 }
 .mask.show{
   display: block;
+}
+.ui.favorite{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.favorite.active{
+    color: #be8914;
+}
+.ui.favorite .bgimg{
+    display: block;
+    margin: 0 auto 4px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/shouc.png);
+    background-repeat: no-repeat;
+    background-size: 40px 18px;
+    height: 18px;
+    width: 20px;
+    background-position: 0 0;
+}
+.ui.favorite.active .bgimg{
+    background-position: -20px 0;
+}
+.ui.fshare{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.fshare .bgimg{
+    display: block;
+    margin: 0 auto 4px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-repeat: no-repeat;
+    background-size: 20px 18px;
+    height: 18px;
+    width: 20px;
+    background-position: 0 0;
 }
 </style>
 {% endblock %}
@@ -1372,7 +1420,9 @@ span.ui.timeout.btn{
 	<div class="flexbuy">
 		<ul div class="three-mesg">
 			<li class="price">
-				¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+        <div class="ui favorite"><div class="bgimg"></div>收藏</div>
+        <div class="ui fshare"><div class="bgimg"></div>分享</div>
+			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
 			<li class="shopcart">
 				加入购物车
