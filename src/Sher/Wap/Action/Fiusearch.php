@@ -73,7 +73,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
    		$this->set_target_css_state('lastest');    
     }
     
-    $result = Sher_Core_Util_XunSearch::fiusearch($q, $options, $db);
+    $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
     if($result['success']){
       $user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
