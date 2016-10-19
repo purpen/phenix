@@ -244,7 +244,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
             return $this->api_json('订单不存在!', 3002);
         }
 		
-        $ok = $order_model->sended_order($id, array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+        $ok = $order_model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
 
         // 短信提醒用户
         if($ok){

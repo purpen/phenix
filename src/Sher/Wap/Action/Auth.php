@@ -367,7 +367,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		}
 		
 		// 验证手机号码是否合法
-		if(!preg_match("/1[3458]{1}\d{9}$/",trim($account))){  
+		if(!preg_match("/1[34578]{1}\d{9}$/",trim($account))){  
 			return $this->ajax_json('请输入正确的手机号码格式!', true);     
 		}
 		

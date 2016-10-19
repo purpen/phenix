@@ -125,6 +125,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
         $data['vop_id'] = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
         $data['is_vop'] = !empty($data['vop_id']) ? 1 : 0;
 
+        // 活动标签
+        $data['extra']['tag'] = isset($this->stash['extra_tag']) ? $this->stash['extra_tag'] : null;
+        // 服务说明
+        $data['extra']['server'] = isset($this->stash['extra_server']) ? $this->stash['extra_server'] : null;
+        //print_r($data);exit;
+
 		//短标题
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		

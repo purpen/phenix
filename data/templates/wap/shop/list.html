@@ -180,6 +180,35 @@
         });   
     });
 
+    // 排序--最新
+    $('.sort_new_btn').click(function(){
+        $(this).siblings().removeClass('up');
+        $(this).siblings().removeClass('down');
+        $(this).addClass('active');
+        sort = 0;
+        ajax_load_more(category_id, category_tag, type, sort, 1, size);
+    });
+
+    // 排序--价格
+    $('.sort_price_btn').click(function(){
+        var category_tag = $(this).data('category_tag');
+        $(this).siblings().removeClass('active');
+        var has_up_class = $(this).hasClass('up');
+        var has_down_class = $(this).hasClass('down');
+        if(has_up_class){
+            $(this).removeClass('up').addClass('down');
+            sort = 8;
+        }elseif(has_down_class){
+            $(this).removeClass('down').addClass('up');
+            sort = 7;
+        }else{
+            $(this).addClass('up');
+            sort = 7;           
+        }
+
+        ajax_load_more(category_id, category_tag, type, sort, 1, size);
+    }); 
+
 
 {% endblock %}
 
@@ -217,8 +246,8 @@
 
     
 	<div class="ui reorder">
-		<a href="" class="left reitem">最新</a>
-	    <a href="" class="center reitem up">价格
+		<a href="javascript:void(0);" class="left reitem active sort_new_btn">最新</a>
+	    <a href="javascript:void(0);" class="center reitem sort_price_btn">价格
 	      <div class="togprice"></div>
 	    </a>
 	    <div class="right reitem"></div>

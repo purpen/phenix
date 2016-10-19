@@ -19,6 +19,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'user_id' => 0,
         # 描述
         'des' => '',
+        # 亮点
+        'feature' => '',
 		# 头像
 		'cover_id' => '',
         # Banner

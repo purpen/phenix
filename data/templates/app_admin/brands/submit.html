@@ -273,12 +273,16 @@
 			<h3 class="ui dividing header">填写品牌信息</h3>
 
             <div class="field">
-                <label>品牌名称</label>
-                <input type="text" name="title" placeholder="品牌名称" value="{{ date.title }}" />
+                <label>名称</label>
+                <input type="text" name="title" placeholder="名称" value="{{ date.title }}" />
             </div>
             <div class="field">
-                <label>品牌介绍</label>
-                <textarea name="des" placeholder="品牌介绍">{{ date.des }}</textarea>
+                <label>亮点</label>
+                <input type="text" name="feature" placeholder="亮点" value="{{ date.feature }}" />
+            </div>
+            <div class="field">
+                <label>介绍</label>
+                <textarea name="des" placeholder="介绍">{{ date.des }}</textarea>
             </div>
             <!--
             <div class="field">
