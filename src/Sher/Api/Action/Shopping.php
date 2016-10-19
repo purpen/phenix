@@ -705,7 +705,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 	
 	/**
-	 * 收货地址列表
+	 * 收货地址列表(已不用)
 	 */
 	public function address(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
@@ -758,7 +758,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 
 	/**
-	 * 获取默认收货地址
+	 * 获取默认收货地址(移除)
 	 */
 	public function default_address(){
 
@@ -901,7 +901,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 
   /**
-   * 设为默认地址
+   * 设为默认地址(移除)
    */
   public function set_default_address(){
     $id = $this->stash['id'];
@@ -947,7 +947,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
   }
 	
 	/**
-	 * 删除某地址
+	 * 删除某地址（移除）
 	 */
 	public function remove_address(){
 		$id = $this->stash['id'];
