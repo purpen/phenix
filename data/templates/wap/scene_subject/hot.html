@@ -1,4 +1,4 @@
-{%extends 'layout/fiu.html'%}
+{%extends 'layout/shop.html'%}
 {% block page_css %}
 <style type="text/css">
     html {
@@ -162,42 +162,50 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="hotpage">
-    <div class="ui banner">
-        <h3 class="ui header">{{ scene_subject.title }}</h3>
+<div class="fiushop">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>专题</p>
     </div>
-    <div class="ui responsive hot grid">
-        <div class="row">
-            <div class="column">
-                <p>
-                    {{ scene_subject.summary }}
-                </p>
+    <div class="hotpage haohuo">
+        <div class="ui banner">
+            <div class="content">
+                <h3 class="ui header">{{ scene_subject.title }}</h3>
             </div>
         </div>
-
-        {% for d in scene_subject.products %}
-            <!-- 循环 -->
-            <div class="row pt-r">
+        <div class="ui responsive hot grid">
+            <div class="row">
                 <div class="column">
-                    <h2 class="ui header">{{ d.title }}</h2>
-                    <p>{{ d.summary }}</p>
-                    <div class="block">
-                        <a href="" class="images">
-                            <img src="{{ d.banner_url }}">
-                        </a>
-                        <div class="content">
-                            <span class="price">¥{{ d.sale_price }}</span>
-                            {% if d.sale_price != d.market_price %}
-                            <span class="oldprice">原价¥{{ d.market_price }}</span>
-                            {%endif%}
-                            <a href="{{ d.wap_view_url }}" class="buy btn"><i class="buys icon"></i>去购买 </a>
+                    <p>
+                        {{ scene_subject.summary }}
+                    </p>
+                </div>
+            </div>
+
+            {% for d in scene_subject.products %}
+                <!-- 循环 -->
+                <div class="row pt-r">
+                    <div class="column">
+                        <h2 class="ui header">{{ d.title }}</h2>
+                        <p>{{ d.summary }}</p>
+                        <div class="block">
+                            <a href="" class="images">
+                                <img src="{{ d.banner_url }}">
+                            </a>
+                            <div class="content">
+                                <span class="price">¥{{ d.sale_price }}</span>
+                                {% if d.sale_price != d.market_price %}
+                                <span class="oldprice">原价¥{{ d.market_price }}</span>
+                                {%endif%}
+                                <a href="{{ d.wap_view_url }}" class="buy btn"><i class="buys icon"></i>去购买 </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- end -->
-        {%endfor%}
+                <!-- end -->
+            {%endfor%}
 
+        </div>
     </div>
 </div>
 {% endblock %}
