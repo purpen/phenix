@@ -167,6 +167,7 @@
             var category_tag = $(this).data('category_tag');
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
+            $('#mpresale .recom-item').html('');
 		    ajax_load_more(category_id, category_tag, type, sort, 1, size);
         });   
     });
@@ -177,26 +178,26 @@
         $(this).siblings().removeClass('down');
         $(this).addClass('active');
         sort = 0;
+        $('#mpresale .recom-item').html('');
         ajax_load_more(category_id, category_tag, type, sort, 1, size);
     });
 
     // 排序--价格
     $('.sort_price_btn').click(function(){
-        var category_tag = $(this).data('category_tag');
         $(this).siblings().removeClass('active');
         var has_up_class = $(this).hasClass('up');
         var has_down_class = $(this).hasClass('down');
         if(has_up_class){
             $(this).removeClass('up').addClass('down');
-            sort = 8;
-        }elseif(has_down_class){
-            $(this).removeClass('down').addClass('up');
             sort = 7;
+        }else if(has_down_class){
+            $(this).removeClass('down').addClass('up');
+            sort = 8;
         }else{
             $(this).addClass('up');
-            sort = 7;           
+            sort = 8;   
         }
-
+        $('#mpresale .recom-item').html('');
         ajax_load_more(category_id, category_tag, type, sort, 1, size);
     }); 
 
