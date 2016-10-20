@@ -317,7 +317,7 @@
 
     })
 
-  $('.radio.checkbox')
+  $('.single.checkbox')
     .checkbox({
         onChecked: function() {
             $(this).checkbox('check');
@@ -381,7 +381,7 @@
 	<div class="cartmain">
 		{% for product in products %}
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
-            <div class="ui radio checkbox">
+            <div class="ui radio single checkbox">
                 <input type="checkbox" name="radio" data-target_id="{{ product.target_id }}" checked="checked">
             </div>
 			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}" ></a>
