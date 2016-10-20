@@ -42,18 +42,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
       $this->stash['evt_s'] = '内容';  
     }
 
-    //搜索类型
- 		if($this->stash['t'] == 1){
-			$this->set_target_css_state('product');
-		}elseif($this->stash['t'] == 2){
-			$this->set_target_css_state('topic');
-		}elseif($this->stash['t'] == 4){
-			$this->set_target_css_state('stuff');
-		}elseif($this->stash['t'] == 5){
-			$this->set_target_css_state('vote');
-    }else{
-      $this->set_target_css_state('all');
-    }
+    $t = $this->stash['t'] = 1;
 
     $q = $this->stash['q'];
     // 过滤xss攻击
@@ -65,7 +54,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
       'evt'  => $evt,
       'sort' => $this->stash['s'],
       'asc'  => $this->stash['asc'],
-      't'    => $this->stash['t'],
+      't'    => $t,
     );
 
     if($sort==0){
@@ -76,45 +65,22 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
     
     $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
     if($result['success']){
-      $user_model = new Sher_Core_Model_User();
       $asset_model = new Sher_Core_Model_Asset();
+      $product_model = new Sher_Core_Model_Product();
       foreach($result['data'] as $k=>$v){
-        // 获取用户信息
-        if($v['user_id']){
-          $user = $user_model->find_by_id((int)$v['user_id']);
-          $result['data'][$k]['nickname'] = $user['nickname'];
-          $result['data'][$k]['home_url'] = Sher_Core_Helper_Url::user_home_url($user['_id']);
-        }
 
-        //描述内容过滤
-        $result['data'][$k]['content'] = strip_tags($v['high_content'], '<em>');
+          if(!$v['kind']=='Product') continue;
 
-        // 生成路径
-        switch($v['kind']){
-          case 'Stuff':
-            $result['data'][$k]['view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($v['oid']);
-            break;
-          case 'Topic':
-            $result['data'][$k]['view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $v['oid'], 0);
-            break;
-          case 'Product':
+          $product = $product_model->load((int)$v['oid']);
+          if(empty($product)) continue;
+
             $result['data'][$k]['view_url'] = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $v['oid']);
-            break;
-          default:
-            $result['data'][$k]['view_url'] = '#';
-        }
+            $result['data'][$k]['sale_price'] = $product['sale_price'];
 
         //封面图---手机上暂不调用图片
         if($v['cover_id']){
           $result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
-          //$result['data'][$k]['asset'] = '';
         }
-
-        // 获取对象属性
-        $result['data'][$k]['kind_name'] = Sher_Core_Helper_Search::kind_name($v['kind'], $v['cid']);
-
-        // 获取asset_type
-        //$result['data'][$k]['asset_type'] = Sher_Core_Helper_Search::gen_asset_type($v['kind']);
 
       }
 
