@@ -2,52 +2,6 @@
 {% block title%} {% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.sfooter.nav-menu{
-    	background: #000;
-	    padding-top: 1px;
-	    color: #fff;
-	    position: fixed;
-	    width: 100%;
-	    left: 50%;
-	    bottom: 0;
-	    max-width: 767px;
-	    -webkit-transform: translateX(-50%);
-	    transform: translateX(-50%);
-	    //display: none;
-    }
-    .sfooter.nav-menu .navfelx .childcell .menuicon{
-    	color: #fff;
-    	padding: 2px 6px 5px;
-    	margin-bottom: 0;
-    }
-    .sfooter.nav-menu .navfelx .childcell .menuicon .img {
-	    display: block;
-	    margin: 0 auto 4px;
-	    vertical-align: middle;
-	    background-image: url({{ app_url_packaged }}/images/fiushop/sfooter.png);
-	    background-repeat: no-repeat;
-	    background-size: 88px 18px;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .choice.img{
-		height: 18px;
-		width: 20px;
-	    background-position: 0 0;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .find.img{
-		height: 18px;
-		width: 26px;
-	    background-position: -63px 3px;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .cart.img{
-		height: 18px;
-		width: 22px;
-	    background-position: -20px 0;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .owner.img{
-		height: 18px;
-		width: 21px;
-	    background-position: -42px 0;
-	}
 	.ui.catemenu{
 		background:#000;
 		height: 50px;
@@ -138,6 +92,36 @@
 	    line-height: 25px;
 	    text-align: center;
 	}
+	.bgcover{
+		position: absolute;
+	    width: 100%;
+	    height: 100%;
+	    background: rgba(0,0,0,0.3);
+	    top: 0;
+	    left: 0;
+	}
+	a.return{
+		position: absolute;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    line-height: 50px;
+	    font-size: 30px;
+	    color: #fff;
+	    top: 0;
+	    left: 0;
+	}
+	a.fenxiang{
+		position: absolute;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    line-height: 50px;
+	    font-size: 30px;
+	    color: #fff;
+	    top: 0;
+	    right: 0;
+	}
 </style>
 {% endblock %}
 
@@ -205,7 +189,10 @@
 {% block content %}
 <div class="ui brand list">
     <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
+    	<div class="bgcover"></div>
+    	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         <p>{{ scene_brand.title }}</p>
+        <a class="return" href="javascript:void(0);"><i class="external icon" style="font-size:0.65em;"></i></a>
         <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
 	</div>
 	<div class="ui responsive grid">
@@ -218,21 +205,6 @@
 		<div class="row" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
-
-                    
-                    <!--
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc shoplist">
-								<h2>蚁视虚拟与现实眼镜</h2>
-								<div class="cats">
-		                            <span class="unit">￥</span>149
-		                        </div>
-							</div>
-						</a>
-					</div>
-                    -->
 
 				</div>
 
