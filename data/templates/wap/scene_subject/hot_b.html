@@ -48,6 +48,7 @@
         max-width: 767px;
         -webkit-transform: translateX(-50%);
         transform: translateX(-50%);
+        background: #fff;
     }
     .three-mesg {
         padding: 0;
@@ -152,6 +153,14 @@
         margin-left: -5px;
     }
 </style>
+{% endblock %}
+{% block jquery %}
+$('.ui.fshare').on('click',function(){
+    $('#mask').css('display','block');
+  });
+  $('#mask').on('click',function(){
+    $('#mask').css('display','none');
+  });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
