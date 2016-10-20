@@ -19,6 +19,7 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	const TYPE_APP_SCENE_SCENE = 11; // 地盘
 	const TYPE_APP_SCENE_SIGHT = 12; // 情境
 	const TYPE_APP_SCENE_SUBJECT = 13; // 情境专题
+	const TYPE_APP_SCENE_BRAND = 14; // 品牌
 	
 	// event
 	const EVENT_FAVORITE = 1;
@@ -86,6 +87,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 				break;
 			case self::TYPE_APP_SCENE_PRODUCT:
 				$row['scene_product'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneProduct');
+				break;
+			case self::TYPE_APP_SCENE_BRAND:
+				$row['scene_brand'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneBrands');
 				break;
         }
 		
@@ -237,6 +241,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
                     $model = new Sher_Core_Model_SceneProduct();
                     $model->inc_counter($field, 1, (int)$this->data['target_id']);
                     break;
+				case self::TYPE_APP_SCENE_BRAND:
+                    $model = new Sher_Core_Model_SceneBrands();
+                    $model->inc_counter($field, 1, (string)$this->data['target_id']);
+                    break;
                 default:
                     return;
             }
@@ -381,7 +389,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			return false;
 		}
 		$query['user_id'] = (int)$user_id;
-		if($type==self::TYPE_COMMENT){
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+		if(in_array($type, $str_arr)){
 			$query['target_id'] = (string)$target_id;
 		}else{
 			$query['target_id'] = (int)$target_id;
@@ -398,8 +407,14 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function add_favorite($user_id, $target_id, $info=array()) {
 		
 		$info['user_id']   = (int)$user_id;
-        $info['target_id'] = (int)$target_id;
 		$info['type'] = (int)$info['type'];
+
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+		if(in_array($info['type'], $str_arr)){
+			$info['target_id'] = (string)$target_id;
+		}else{
+			$info['target_id'] = (int)$target_id;
+		}
 		$info['event'] = self::EVENT_FAVORITE;
         return $this->apply_and_save($info);
     }
@@ -410,7 +425,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
     public function remove_favorite($user_id, $target_id, $type){
 		
 		$query['user_id'] = (int)$user_id;
-		if($type==self::TYPE_COMMENT){
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+		if(in_array($type, $str_arr)){
 		  $query['target_id'] = (string)$target_id;   
 		}else{
 		  $query['target_id'] = (int)$target_id;
@@ -432,7 +448,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			return false;
 		}
 		$query['user_id'] = (int) $user_id;
-        if((int)$type == self::TYPE_COMMENT){
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+        if(in_array($type, $str_arr)){
             $target_id = (string)$target_id;
         }else{
             $target_id = (int)$target_id;
@@ -451,7 +468,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
      */
     public function add_love($user_id, $target_id, $info=array()) {		
         
-		if((int)$info['type'] == self::TYPE_COMMENT){
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+        if(in_array((int)$info['type'], $str_arr)){
             $target_id = (string)$target_id;
         }else{
             $target_id = (int)$target_id;
@@ -469,7 +487,8 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 	 */
 	public function cancel_love($user_id, $target_id,$type){
         
-		if((int)$type == self::TYPE_COMMENT){
+        $str_arr = array(self::TYPE_COMMENT, self::TYPE_APP_SCENE_BRAND);
+        if(in_array($type, $str_arr)){
             $target_id = (string)$target_id;
         }else{
             $target_id = (int)$target_id;
@@ -568,6 +587,10 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			case self::TYPE_APP_SCENE_PRODUCT:
 				$model = new Sher_Core_Model_SceneProduct();
 				$model->dec_counter($field, (int)$target_id);
+				break;
+			case self::TYPE_APP_SCENE_BRAND:
+				$model = new Sher_Core_Model_SceneBrands();
+				$model->dec_counter($field, (string)$target_id);
 				break;
         }
 	}

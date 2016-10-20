@@ -47,12 +47,32 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
         'stick_on' => 0,
         # 是否启用
 		'status' => 1,
+		## 计数器
+		
+		# 浏览数
+    	'view_count' => 0,
+		# 收藏数
+        'favorite_count' => 0, 
+		# 喜欢数
+        'love_count' => 0,
+		# 回应数 
+    	'comment_count' => 0,
+
+    # 真实浏览数
+      'true_view_count' => 0,
+
+    # web 浏览数
+      'web_view_count' => 0,
+    # wap 浏览数 
+      'wap_view_count' => 0,
+    # app 浏览数
+      'app_view_count' => 0,
     );
 	
 	protected $required_fields = array('title');
-	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick', 'stick_on');
+	protected $int_fields = array('status', 'user_id', 'used_count', 'item_count', 'kind', 'self_run', 'from_to', 'stick', 'stick_on', 'view_count', 'favorite_count', 'love_count', 'comment_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count', 'item_count');
+	protected $counter_fields = array('used_count', 'item_count', 'view_count', 'favorite_count', 'love_count', 'comment_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
@@ -136,8 +156,8 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 	    }
 		
 		if(!$force){
-			$albums = $this->find_by_id((int)$id);
-			if(!isset($albums[$field_name]) || $albums[$field_name] <= 0){
+			$brand = $this->find_by_id((int)$id);
+			if(!isset($brand[$field_name]) || $brand[$field_name] <= 0){
 				return true;
 			}
 		}
