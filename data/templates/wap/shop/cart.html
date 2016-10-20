@@ -367,6 +367,17 @@
     });
 
 
+    // 去结算 
+    $('#do_check_btn').click(function(){
+        var url = "{{ app_url_wap }}/shop/checkout";
+        var total_price = $('#total_price_text').text();
+        if(total_price=='0'){
+            phenix.show_error_note('请选择购物车产品!', 2000);
+            return false;
+        }
+        phenix.redirect(url);
+        return;
+    });
 
 {% endblock %}
 
@@ -413,7 +424,7 @@
 			<div class="cardsum">
         合计: <span><i class="rmb icon"></i><span id="total_price_text">{{ total_money }}</span></span>
 			</div>
-			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
+			<a href="javascript:void(0);" id="do_check_btn" class="cardcheck ui link">
 				去结算
 			</a>
 		</div>
