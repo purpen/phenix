@@ -238,6 +238,15 @@
 	</div>
 	{% if q %}
 		{%if result.success %}
+			{% if result.total_count == 0 %}
+	<div class="ui responsive grid pt-4r">
+		<div class="row">
+			<div class="ui center aligned column">
+				没有找到相关宝贝
+			</div>
+		</div>
+	</div>
+			{% else%}
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale">
 			<div class="column">
@@ -248,17 +257,8 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
-		{%else%}
-		<div class="ui responsive grid pt-4r">
-			<div class="row">
-				<div class="ui center aligned column">
-					没有找到相关宝贝
-				</div>
-			</div>
-		</div>
-			
+			{% endif %}
 		{%endif%}
 	{% else %}  
 		<div class="ui responsive grid pt-4r">
@@ -319,7 +319,7 @@
 						</div>
 
 					</div>
-					
+
 					{%endif%}
             <!--搜索{{ evt_s }} “{{ q }}” , 找到约 0 条结果-->
             		
