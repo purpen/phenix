@@ -1,56 +1,6 @@
 {%extends 'layout/shop.html'%}
 {% block page_css %}
 <style type="text/css">
-    html {
-        box-sizing: border-box;
-        font-family: sans-serif;
-        -ms-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-        font-size: 14px;
-    }
-    *, :after, :before {
-        box-sizing: inherit;
-    }
-    .ui.grid {
-        display: block;
-        text-align: left;
-        font-size: 0;
-        padding: 0;
-        box-sizing: border-box;
-        -o-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        margin: -10px;
-    }
-    .ui.responsive.grid, .ui.wap {
-        margin: 0 auto;
-        padding: 0;
-        min-width: initial!important;
-    }
-    .ui.grid>.row {
-        display: block;
-        position: relative;
-        width: 100%!important;
-        padding: 10px 0;
-        box-sizing: border-box;
-        -o-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        font-size: 0;
-    }
-    .ui.grid>.row>.column {
-        position: relative;
-        display: inline-block;
-        text-align: left;
-        font-size: 1rem;
-        padding-left: 10px;
-        padding-right: 10px;
-        vertical-align: top;
-        margin-top: 0;
-        margin-bottom: 0;
-    }
     .ui.responsive.hot.grid{
         padding-top: 5px;
         margin-bottom: 20px;
@@ -58,28 +8,17 @@
     .ui.grid>.row>.column:only-child{
         width: 100%;
     }
-    .ui.banner{
+    .ui.fiushop .haohuo .ui.banner{
         background:url({{ scene_subject.banner.thumbnails.aub.view_url }}) center center no-repeat;
         padding: 25.239% 0;
         background-size:100%;
         position: relative;
     }
+    .ui.fiushop .haohuo .banner .content{
+        width: 100%;
+    }
     .ui.header{
         font-weight: 400;
-    }
-    .ui.banner h3{
-        position: absolute;
-        width: 100%;
-        height: 30px;
-        line-height: 30px;
-        letter-spacing: 2px;
-        color: #fff;
-        text-align: center;
-        left: 0;
-        top: 50%;
-        margin: -15px 0 0;
-        padding: 0 10px;
-        font-size: 16px;
     }
     p {
         margin: 0;
@@ -88,12 +27,7 @@
         color: #222;
         font-size: 12px;
     }
-    .pt-0{
-        padding-top: 0 !important;
-    }
-    .pt-r{
-        padding-top: 8px !important;
-    }
+    
     h2.ui.header{
         font-size: 18px;
         margin: 0;
@@ -162,7 +96,7 @@
 </style>
 {% endblock %}
 {% block content %}
-<div class="fiushop">
+<div class="ui fiushop">
     <div class="ui sheader">
         <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         <p>专题</p>
