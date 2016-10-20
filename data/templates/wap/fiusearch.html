@@ -297,12 +297,38 @@
 			<div class="column">
 				{% if q %}
 					{%if result.success %}
-            搜索{{ evt_s }} “{{ q }}” , 找到约 {{ result.total_count }} 条结果
+            <!--搜索{{ evt_s }} “{{ q }}” , 找到约 {{ result.total_count }} 条结果-->
+            		<div class="ui responsive brand list grid">
+						<div class="row" id="mpresale">
+							<div class="column">
+								<div class="recom-item">
+									<div class="recom-cell" id="">
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
 					{%else%}
-            搜索{{ evt_s }} “{{ q }}” , 找到约 0 条结果
+            <!--搜索{{ evt_s }} “{{ q }}” , 找到约 0 条结果-->
+            		<div class="ui responsive grid pt-4r">
+						<div class="row">
+							<div class="ui center aligned column">
+								没有找到相关宝贝
+							</div>
+						</div>
+					</div>
 					{%endif%}
 				{% else %}  
-					你没有输入足够的关键词，请输入要搜索的短语！
+					<!--你没有输入足够的关键词，请输入要搜索的短语！-->
+					<div class="ui responsive grid pt-4r">
+						<div class="row">
+							<div class="ui center aligned column">
+								你没有输入足够的关键词，请输入要搜索的短语！
+							</div>
+						</div>
+					</div>
 				{% endif %}
 			</div>
 		</div>
