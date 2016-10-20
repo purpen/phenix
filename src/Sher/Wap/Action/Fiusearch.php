@@ -29,6 +29,8 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
     * 迅搜引擎,不走数据库/图片和用户名需要查询数据库
     */
     public function xc(){
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		return $this->to_html_page('wap/fiusearch.html');
     }
 

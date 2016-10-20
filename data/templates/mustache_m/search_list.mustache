@@ -1,7 +1,6 @@
-    {{#data}}
+{{#data}}
     
-
-
+    {{#data.isProduct}}
         <div class="recom-cell" id="item-{{ pid }}">
             <a href="{{ product.wap_view_url }}" title="{{ product.short_title }}">
                 <img src="{{ product.cover_url }}">
@@ -16,6 +15,6 @@
             </a>
 
         </div>
+    {{/data.isProduct}}
 
-
-    {{/data}}
+{{/data}}
