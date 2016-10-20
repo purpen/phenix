@@ -219,6 +219,10 @@
           $('#item-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/app/site/search/ajax_fetch_more';
           $.get(url, { q:q, t:t, sort:sort, page:page, type:0, size:size }, function(rs){
+              if(!rs.success){
+                phenix.show_error_note('查询失败!');
+                return;
+              }
               if(rs.data.total_page > page){
                   $('#item-more')
                       .hide()
@@ -286,9 +290,8 @@
 	        </div>
 	    </form>
 	</div>
-	{% if q %}
-		{%if result.success %}
-			{% if result.total_count == 0 %}
+
+        <!--
 	<div class="ui responsive grid pt-4r">
 		<div class="row">
 			<div class="ui center aligned column">
@@ -296,7 +299,9 @@
 			</div>
 		</div>
 	</div>
-			{% else%}
+
+
+    -->
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale">
 			<div class="column">
@@ -314,9 +319,8 @@
 			</div>
 		</div>
 	</div>
-			{% endif %}
-		{%endif%}
-	{% else %}  
+
+    <!--
 		<div class="ui responsive grid pt-4r">
 			<div class="row">
 				<div class="ui center aligned column">
@@ -324,21 +328,9 @@
 				</div>
 			</div>
 		</div>
-	{% endif %}
+
+        -->
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 {% endblock %}
