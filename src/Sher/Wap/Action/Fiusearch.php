@@ -10,7 +10,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
     'size' => 20,
 		'q' => '',
 		'ref' => '',
-		't' => 0,
+		't' => 1,
 		'index_name' => 'full',
     'evt' => 'content',
     'db' => 'phenix',
