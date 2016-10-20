@@ -186,7 +186,8 @@
 		<form class="fiusearch item" method="post" action="{{ app_url_wap }}/fiusearch" id="searchbar">
         
 	        <div class="ui icon input">
-	            <input name="q" type="text">
+	            <input name="q" type="text" value="{{ q }}">
+	            <input name="t" type="hidden" value="{{ t }}">
 	        </div>
 	    </form>
 	</div>
