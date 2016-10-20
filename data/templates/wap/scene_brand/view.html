@@ -111,7 +111,7 @@
 	    top: 0;
 	    left: 0;
 	}
-	a.fenxiang{
+	.ui.favorite{
 		position: absolute;
 	    width: 50px;
 	    height: 50px;
@@ -121,6 +121,20 @@
 	    color: #fff;
 	    top: 0;
 	    right: 0;
+	}
+	.ui.favorite.active .bgimg {
+	    background-position: -22px 0;
+	}
+	.ui.favorite .bgimg {
+	    display: block;
+	    margin: 14px auto;
+	    vertical-align: middle;
+	    background-image: url({{ app_url_packaged }}/images/icon/shouc2.png);
+	    background-repeat: no-repeat;
+	    background-size: 44px 22px;
+	    height: 22px;
+	    width: 22px;
+	    background-position: 0 0;
 	}
 </style>
 {% endblock %}
@@ -184,15 +198,68 @@
 	// 初始加载商品列表
     ajax_load_more(category_id, brand_id, type, sort, page, size);
 
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{scene_brand._id}}",type:14,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:14}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:14}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
 <div class="ui brand list">
     <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
     	<div class="bgcover"></div>
-    	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        {% if back_url %}
+    	    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        {%endif%}
         <p>{{ scene_brand.title }}</p>
-        <a class="fenxiang" href="javascript:void(0);"><i class="external icon" style="font-size:0.65em;"></i></a>
+        <div class="ui favorite" data-mark="n" data-id="{{ scene_brand._id }}"><div class="bgimg"></div></div>
         <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
 	</div>
 	<div class="ui responsive grid">
@@ -217,6 +284,11 @@
 			</div>
 		</div>
 	</div>
+</div>
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+	<img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
 </div>
 {% endblock %}
 

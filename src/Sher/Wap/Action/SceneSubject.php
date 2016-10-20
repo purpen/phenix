@@ -67,6 +67,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
                     '_id' => $product['_id'],
                     'title' => $product['short_title'],
                     'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                    'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
                     'summary' => $product['summary'],
                     'market_price' => $product['market_price'],
                     'sale_price' => $product['sale_price'],
@@ -96,7 +97,6 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             }else{
                 $tpl = 'wap/scene_subject/hot.html';            
             }
-            $tpl = 'wap/scene_subject/hot.html';
         }else{
             $tpl = 'wap/scene_subject/artile.html';       
         }
