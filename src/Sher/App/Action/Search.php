@@ -255,6 +255,11 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
         $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 1;
+        $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+
+        if(empty($q)){
+            return $this->ajax_json('is empty!', false, '', array('show_type'=>1));
+        }
 
         if($evt=='tag'){
           $this->stash['evt_s'] = '标签';
@@ -262,7 +267,6 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
           $this->stash['evt_s'] = '内容';  
         }
 
-        $q = $this->stash['q'];
         // 过滤xss攻击
         $q = Sher_Core_Helper_FilterFields::remove_xss($q);
 
@@ -277,14 +281,16 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         
         $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
         if(!$result['success']){
-            return $this->ajax_json($result['msg'], true);       
+            return $this->ajax_json($result['msg'], true);
         }
 
         if(empty($result['data'])){
-            return $this->ajax_json('搜索内容为空!', true);            
+            return $this->ajax_json('搜索内容为空!', false, '', array('show_type'=>2));
         }
         $asset_model = new Sher_Core_Model_Asset();
         $product_model = new Sher_Core_Model_Product();
+
+        $result['show_type'] = 0;
         foreach($result['data'] as $k=>$v){
 
             $result['data'][$k]['isProduct'] = $result['data'][$k]['isTopic'] = false;
@@ -297,7 +303,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
                     $row = array();
                     $row['_id'] = $product['_id'];
                     $row['title'] = $product['title'];
-                    $row['sort_title'] = $product['sort_title'];
+                    $row['short_title'] = $product['short_title'];
                     $row['sale_price'] = $product['sale_price'];
                     $row['view_url'] = $product['view_url'];
                     $row['wap_view_url'] = $product['wap_view_url'];

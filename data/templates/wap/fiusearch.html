@@ -221,8 +221,24 @@
           $.get(url, { q:q, t:t, sort:sort, page:page, type:0, size:size }, function(rs){
               if(!rs.success){
                 phenix.show_error_note('查询失败!');
+                $('#item-more').hide();
                 return;
               }
+
+                if(rs.show_type==1){
+                    $('#is_empty_box').show();
+                    $('#is_no_found_box').hide();
+                    $('#is_list_box').hide();
+                }else if(rs.show_type==2){
+                    $('#is_no_found_box').show();
+                    $('#is_empty_box').hide();
+                    $('#is_list_box').hide();               
+                }else{
+                    $('#is_list_box').show();  
+                    $('#is_empty_box').hide();
+                    $('#is_no_found_box').hide();
+                }
+              
               if(rs.data.total_page > page){
                   $('#item-more')
                       .hide()
@@ -291,8 +307,7 @@
 	    </form>
 	</div>
 
-        <!--
-	<div class="ui responsive grid pt-4r">
+	<div class="ui responsive grid pt-4r" id="is_no_found_box" style="display:none;">
 		<div class="row">
 			<div class="ui center aligned column">
 				没有找到相关宝贝
@@ -301,8 +316,7 @@
 	</div>
 
 
-    -->
-	<div class="ui responsive brand list grid">
+	<div class="ui responsive brand list grid" id="is_list_box">
 		<div class="row" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
@@ -320,8 +334,7 @@
 		</div>
 	</div>
 
-    <!--
-		<div class="ui responsive grid pt-4r">
+		<div class="ui responsive grid pt-4r" id="is_empty_box" style="display:none;">
 			<div class="row">
 				<div class="ui center aligned column">
 					你没有输入足够的关键词，请输入要搜索的短语！
@@ -329,7 +342,6 @@
 			</div>
 		</div>
 
-        -->
 </div>
 
 
