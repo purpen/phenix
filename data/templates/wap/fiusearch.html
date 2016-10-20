@@ -251,9 +251,27 @@
 		<div class="row" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
-					<div class="recom-cell" id="">
+					{% for item in result.data %}
+						{% if item %}
+					<div class="recom-cell" id="item-{{ item.pid }}">
+						<a href="{{ item.view_url }}" title="{{ item.title }}">
+							<img src="{{ item.asset.thumbnails.apc.view_url }}">
+							<div class="shopbiao">
+							</div>
+							<div class="desc">
+								<h2>{{ item.title }}</h2>
+								<div class="cats">
+						            <span class="unit">￥</span>{{ item.sale_price }}
+						        </div>
+							</div>
+						</a>
 
 					</div>
+
+
+						{% endif %}
+						
+					{% endfor %}
 				</div>
 			</div>
 		</div>

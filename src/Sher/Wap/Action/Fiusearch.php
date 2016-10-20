@@ -106,8 +106,8 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 
         //封面图---手机上暂不调用图片
         if($v['cover_id']){
-          //$result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
-          $result['data'][$k]['asset'] = '';
+          $result['data'][$k]['asset'] = $asset_model->extend_load($v['cover_id']);
+          //$result['data'][$k]['asset'] = '';
         }
 
         // 获取对象属性
