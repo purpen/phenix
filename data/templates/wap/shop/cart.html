@@ -230,6 +230,28 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script type="text/javascript" >
+
+    // 更新购物车数量
+    function update_cart_num(target_id, type, n){
+        var url = "{{ app_url_wap }}/app/site/cart/ajax_remove_cart";
+        $.post(url, {target_id:target_id, type:type, n:n}, function(result){
+            if(result.success){
+                var obj = $("cart-product-"+target_id+"");
+                obj.find('[name=product-qty]').val($result.data.n);
+                obj.find('[name=product-price]').val($result.data.total_price);
+                obj.find('.price_box').text($result.data.total_price);
+            }else{
+                
+            }
+        }, 'json');
+        
+    }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
 
   // 移除购物车商品 
@@ -273,23 +295,35 @@
     // 减少数量
     $('.dec-qty').click(function(){
         var target_id = $(this).data('target_id');
-        var n = $(this).parent().find('[name=product-qty]').val();
-        alert(n);
-
+        var type = $(this).data('type');
+        var n = parseInt($(this).parent().find('[name=product-qty]').val());
+        $(this).parent().find('.inc-qty').removeClass('disabled');
+        n--;
+        if(n<=1){
+            $(this).addClass('disabled');
+            return;
+        }
+        update_cart_num(target_id, type, n);
     
     });
 
     // 增加数量
     $('.inc-qty').click(function(){
         var target_id = $(this).data('target_id');
-        var n = $(this).parent().find('[name=product-qty]').val();
-        alert(n);
+        var type = $(this).data('type');
+        var n = parseInt($(this).parent().find('[name=product-qty]').val());
+        $(this).parent().find('.dec-qty').removeClass('disabled');
+        n++;
+        if(n>10){
+            $(this).addClass('disabled');
+            return;
+        }
+        $(this).removeClass('disabled');
+        update_cart_num(target_id, type, n);
 
-    
     });
 
 
-    
 
 {% endblock %}
 
@@ -311,13 +345,14 @@
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
         <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
+        <p class="price"><i class="rmb icon"></i>  <span class="price_box">{{ product.total_price }}</span></p>
 			    <div class="quantity">
-                    <button class="ui mini gray dec-qty icon button {% if product.n==1 %}disabled{%endif%}" data-target_id="{{ product.target_id }}" data-count="1">
+                    <button class="ui mini gray dec-qty icon button {% if product.n==1 %}disabled{%endif%}" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-count="1">
                         <i class="minus icon"></i>
                     </button>
-                    <input type="text" name="product-qty" value="{{ product.n }}" autocomplete="off">
-                    <button class="ui mini gray inc-qty icon button" data-target_id="{{ product.target_id }}" data-count="">
+                    <input type="text" name="product-qty"  value="{{ product.n }}" autocomplete="off">
+                    <input type="hidden" name="product-price"  value="{{ product.total_price }}">
+                    <button class="ui mini gray inc-qty icon button" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-count="">
                         <i class="add icon"></i>
                     </button>
                 </div>

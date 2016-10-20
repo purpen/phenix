@@ -180,6 +180,68 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
   
   }
 
+    /**
+     * 编辑购物车--只增减数量
+     */
+    public function edit_cart(){
+ 		$user_id = $this->visitor->id;
+        if(empty($user_id)){
+          return $this->ajax_json('请先登录！', true); 
+        } 
+
+        $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+        $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+
+
+        if(empty($target_id) || empty($type) || empty($n)){
+          return $this->ajax_json('请传入参数！', true); 
+        }
+
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(empty($cart) || empty($cart['items'])){
+          return $this->ajax_json('购物车为空!', true);
+        }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+        // 批量更新数量
+        foreach($cart['items'] as $k=>$v){
+            if($v['target_id']==$target_id){
+                $cart['items'][$k]['n'] = $n;
+            }
+        }
+
+        $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items']))); 
+        if(!$ok){
+            return $this->ajax_json('更新失败!', true);    
+        }
+
+		$inventory_model = new Sher_Core_Model_Inventory();
+		$product_model = new Sher_Core_Model_Product();
+
+        if($type==2){
+            $inventory = $inventory_model->load($target_id);
+            if(empty($inventory)){
+                return $this->ajax_json('产品未找到!', true); 
+            }
+            $price = $inventory['price'];
+            
+        }else{
+            $product = $product_model->extend_load($target_id);
+            if(empty($product)){
+                return $this->ajax_json('产品未找到!', true);     
+            }
+            $price = $product['sale_price'];
+        }
+
+        $total_price = ((float)$price)*$n;
+
+        return $this->ajax_json('success!', 0, array('price'=>$price, 'total_price'=>$total_price, 'n'=>$n)); 
+    }
+
 
 }
 
