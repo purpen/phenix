@@ -131,55 +131,83 @@
         display: block;
         padding: 0;
         position: relative;
+        height: 100%;
     }
     li.count{
-        -webkit-box-flex: 0.5;
-        -webkit-flex: 0.5;
-        -ms-flex: 0.5;
-        flex: 0.5;
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        padding: 2px 6px 5px;
+        margin: 4px;
     }
-    li p{
+    li.count p{
         position: absolute;
         top: 5px;
         left: 50%;
-        margin-left: 10px;
+        margin-left: -2px;
     }
     li.count .bgimg {
         display: block;
-        margin: 5px auto;
         vertical-align: middle;
         background-image: url({{ app_url_packaged }}/images/icon/zhuan.png);
         background-repeat: no-repeat;
-        background-size: 36px 18px;
+        background-size: 98px 18px;
         height: 18px;
-        width: 18px;
-        background-position: 0 0;
+        width: 24px;
+        background-position: -74px 0;
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        margin-left: -30px;
     }
 
-    li.ui.favorite{
-        
+    li.ui.favorite,li.ui.fshare{
+        padding: 2px 6px 5px;
+        margin: 4px;
+    }
+    li.ui.favorite.active .bgimg{
+        background-position: -18px 0;
     }
     li.ui.favorite .bgimg{
         display: block;
-        margin: 5px auto;
         vertical-align: middle;
         background-image: url({{ app_url_packaged }}/images/icon/zhuan.png);
         background-repeat: no-repeat;
-        background-size: 36px 18px;
+        background-size: 98px 18px;
         height: 18px;
         width: 18px;
         background-position: 0 0;
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        margin-left: -30px;
+    }
+    li.ui.favorite p{
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -5px;
     }
     li.ui.fshare .bgimg{
         display: block;
-        margin: 5px auto;
         vertical-align: middle;
         background-image: url({{ app_url_packaged }}/images/icon/zhuan.png);
         background-repeat: no-repeat;
-        background-size: 36px 18px;
+        background-size: 98px 18px;
         height: 18px;
         width: 18px;
-        background-position: 0 0;
+        background-position: -36px 0;
+        position: absolute;
+        top: 7px;
+        left: 50%;
+        margin-left: -30px;
+    }
+    li.ui.fshare p{
+        position: absolute;
+        top: 5px;
+        left: 50%;
+        margin-left: -5px;
     }
 </style>
 {% endblock %}
@@ -237,12 +265,13 @@
             <p>123</p>
         </li>
         <li></li>
-        <li class="ui favorite">
+        <li class="ui favorite active">
             <div class="bgimg"></div>
             <p>123</p>
         </li>
         <li class="ui fshare">
             <div class="bgimg"></div>
+            <p>123</p>
         </li>
     </ul>
 </div>
