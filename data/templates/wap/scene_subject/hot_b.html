@@ -1,0 +1,92 @@
+{%extends 'layout/shop.html'%}
+{% block page_css %}
+<style type="text/css">
+    .ui.responsive.hot.grid{
+        padding-top: 5px;
+        margin-bottom: 20px;
+    }
+    .ui.grid>.row>.column:only-child{
+        width: 100%;
+    }
+    .ui.fiushop .haohuo .ui.banner{
+        background:url({{ scene_subject.banner.thumbnails.aub.view_url }}) center center no-repeat;
+        padding: 25.239% 0;
+        background-size:100%;
+        position: relative;
+    }
+    .ui.header{
+        font-weight: 400;
+    }
+    p {
+        margin: 0;
+        line-height: 18px;
+        word-break: break-word;
+        color: #222;
+        font-size: 12px;
+    }
+    .ui.fiushop .haohuo .banner::after{
+        content: none;
+    }
+    h2.ui.header{
+        font-size: 16px;
+        margin: 0;
+        margin-bottom: 5px;
+        color: #222;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="ui fiushop">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>专题</p>
+    </div>
+    <div class="hotpage haohuo">
+        <div class="ui banner">
+            <div class="content">
+                <h3 class="ui header">{{ scene_subject.title }}</h3>
+            </div>
+        </div>
+        <div class="ui responsive hot brand list grid">
+            <div class="row">
+                <div class="column">
+                    <p>
+                        {{ scene_subject.summary }}
+                    </p>
+                </div>
+            </div>
+
+            
+            <!-- 循环 -->
+            <div class="row pt-r" id="mpresale">
+                <div class="column">
+                    <div class="recom-item">
+
+                        {% for d in scene_subject.products %}
+                        <div class="recom-cell">
+                            <a href="{{ d.wap_view_url }}" title="{{ d.title }}">
+                                <img src="{{ d.apc.banner_url }}">
+                                <div class="shopbiao">
+                                </div>
+                                <div class="desc">
+                                    <h2>{{ d.title }}</h2>
+                                    <div class="cats">
+                                        <span class="unit">￥</span>{{ d.sale_price }}
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                            
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            <!-- end -->
+
+        </div>
+    </div>
+</div>
+{% endblock %}
