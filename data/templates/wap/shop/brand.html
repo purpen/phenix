@@ -2,7 +2,52 @@
 {% block title%}品牌{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+    .ui.sheader form{
+        display: inline-block;
+        width: 90%;
+        padding: 0 15px;
+        vertical-align: top;
+        margin: 0 5%;
+    }
+    .ui.sheader form .ui.input{
+      height: 30px;
+      margin: 10px 0;
+      width: 100%;
+      background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+      background-size: 135px 18px;
+      background-position: 15px 6px;
+      border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+      background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+      padding-right: 2.67142857em!important;
+      vertical-align: middle;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 4px 10px;
+      background: none;
+  }
+  .ui.brand #mpresale .recom-item .recom-cell .desc{
+      height: 80px;
+  }
+  .ui.brand #mpresale .recom-item .recom-cell .desc .cats{
+      color: #666;
+      font-size: 12px;
+      letter-spacing: .1px;
+      line-height: 18px;
+      text-align: left;
+      height: 36px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      white-space: normal;
+  }
 </style>
 {% endblock %}
 
@@ -62,7 +107,18 @@
 	
 	// 初始加载商品列表
     ajax_load_more(type, stick, sort, page, size);
-
+    $('.fiusearch input[type="text"]').focus(function(){
+      $('.ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+      if( $('.fiusearch input[type="text"]').val().length == 0){
+        $('.fiusearch .ui.icon.input').removeClass('focus');
+      }else{
+        $('.fiusearch .ui.icon.input').addClass('focus');
+      }
+    })
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+      $('.fiusearch .ui.icon.input').addClass('focus');
+    } 
 {% endblock %}
 
 {% block content %}
@@ -72,24 +128,19 @@
 		<a href="javascript:void(0);" class="active">品牌</a>
 		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
 	</div>
+  <div class="ui sheader" style="margin-top: 2px;">
+    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/fiusearch" id="searchbar">
+          <div class="ui icon input">
+              <input name="q" type="text">
+              <input name="t" type="hidden">
+          </div>
+      </form>
+  </div>
 	<div class="ui responsive grid">
 		<div class="row" id="mpresale" style="padding: 9px 5px 0;">
 			<div class="column">
 
 				<div class="recom-item">
-
-
-                    <!--
-					<div class="recom-cell">
-						<a href="">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160905/57cd8fbffc8b1220038b6f55-2-p500x500.jpg" src="{{ app_url_packaged }}/images/icon/load380-380.png">
-							<div class="desc">
-								<img src="http://frbird.qiniudn.com/avatar/151009/561786ebfc8b12ae0a8bf984-avn.jpg">
-								Teresa Barnett
-							</div>
-						</a>
-					</div>
-                    -->
 
 				</div>
 

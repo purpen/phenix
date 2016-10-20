@@ -2,61 +2,6 @@
 {% block title%}推荐{% endblock %}
 {% block page_css %}
 <style type="text/css">
-	.sfooter.nav-menu{
-    	background: #000;
-	    padding-top: 1px;
-	    color: #fff;
-	    position: fixed;
-	    width: 100%;
-	    left: 50%;
-	    bottom: 0;
-	    max-width: 767px;
-	    -webkit-transform: translateX(-50%);
-	    transform: translateX(-50%);
-	    //display: none;
-    }
-    .sfooter.nav-menu .navfelx .childcell .menuicon{
-    	color: #fff;
-    	padding: 2px 6px 5px;
-    	margin-bottom: 0;
-    }
-    .sfooter.nav-menu .navfelx .childcell .menuicon .img {
-	    display: block;
-	    margin: 0 auto 4px;
-	    vertical-align: middle;
-	    background-image: url({{ app_url_packaged }}/images/fiushop/sfooter.png);
-	    background-repeat: no-repeat;
-	    background-size: 88px 18px;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .choice.img{
-		height: 18px;
-		width: 20px;
-	    background-position: 0 0;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .find.img{
-		height: 18px;
-		width: 26px;
-	    background-position: -63px 3px;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .cart.img{
-		height: 18px;
-		width: 22px;
-	    background-position: -20px 0;
-	}
-	.sfooter.nav-menu .navfelx .childcell .menuicon .owner.img{
-		height: 18px;
-		width: 21px;
-	    background-position: -42px 0;
-	}
-	.ui.sheader{
-		background:#000;
-	}
-	.ui.sheader p{
-		font-size: 17px;
-		line-height: 50px;
-		color: #fff;
-		text-align: center;
-	}
 	.ui.category{
 		padding-bottom: 65px;
 	}
@@ -135,49 +80,6 @@
 	    box-shadow: none;
 	    background: rgba(0,0,0,0) !important;
 	}
-	.ui.reorder{
-		height: 30px;
-		background:#fff;
-		width: 100%;
-		width: 100%;
-	    display: -webkit-box;
-	    display: -webkit-flex;
-	    display: -ms-flexbox;
-	    display: flex;
-	    -webkit-flex-wrap: wrap;
-	    -ms-flex-wrap: wrap;
-	    flex-wrap: wrap;
-	}
-	.reitem{
-		-webkit-box-flex: 1;
-	    -webkit-flex: 1;
-	    -ms-flex: 1;
-	    flex: 1;
-	    -webkit-flex-basis: 0;
-	    -ms-flex-preferred-size: 0;
-	    flex-basis: 0;
-	    height: 100%;
-	    position: relative;
-	    color: #999 !important;
-	    line-height: 30px;
-	    font-size: 12px;
-	}
-	.left.reitem{
-		padding-left: 15px;
-		text-align: left;
-	}
-	.center.reitem{
-		text-align: center;
-	}
-	.center.reitem img{
-		margin-left: 4px;
-    	margin-bottom: 2px;
-    	width: 9px;
-	}
-	.right.reitem{
-		padding-right: 15px;
-		text-align: right;
-	}
 	.ui.brand.list #mpresale .recom-item .recom-cell .desc{
 		height: 60px;
 		padding: 5px 10px 0;
@@ -190,6 +92,35 @@
 		color: #BE8914;
 		text-align: center;
 	}
+	.ui.sheader form{
+        display: inline-block;
+        width: 90%;
+        padding: 0 15px;
+        vertical-align: top;
+        margin: 0 5%;
+    }
+    .ui.sheader form .ui.input{
+      height: 30px;
+      margin: 10px 0;
+      width: 100%;
+      background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+      background-size: 135px 18px;
+      background-position: 15px 6px;
+      border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+      background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+      padding-right: 2.67142857em!important;
+      vertical-align: middle;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 4px 10px;
+      background: none;
+  }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -249,6 +180,18 @@
 	// 初始加载商品列表
     ajax_load_more(category_id, category_tag, type, sort, page, size);
 
+    $('.fiusearch input[type="text"]').focus(function(){
+      $('.ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+      if( $('.fiusearch input[type="text"]').val().length == 0){
+        $('.fiusearch .ui.icon.input').removeClass('focus');
+      }else{
+        $('.fiusearch .ui.icon.input').addClass('focus');
+      }
+    })
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+      $('.fiusearch .ui.icon.input').addClass('focus');
+    } 
 {% endblock %}
 
 {% block content %}
@@ -258,7 +201,14 @@
 		<a href="{{ app_url_wap }}/shop/brand">品牌</a>
 		<a href="javascript:void(0);" class="active">推荐</a>
 	</div>
-
+	<div class="ui sheader" style="margin-top: 2px;">
+	    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
+            <div class="ui icon input">
+                <input name="q" type="text">
+                <input name="t" type="hidden">
+            </div>
+        </form>
+    </div>
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale" style="padding: 9px 5px 0;">
 			<div class="column">

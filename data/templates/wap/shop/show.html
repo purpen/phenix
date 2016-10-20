@@ -295,9 +295,12 @@
     color: #BE8914;
 	line-height:20px;
 }
+#shopview{
+  padding-bottom:60px;
+}
 #shopview .tabshow{
 	margin-top:10px;
-	padding-bottom:65px;
+	padding-bottom:0;
 }
 #shopview .tabshow .nav-menu .navfelx .childcell{
 	padding: 10px 0px !important;
@@ -395,7 +398,11 @@
 	background:#fff;
 	color:#be8914;
 	text-align: center;
-    line-height: 50px;
+    font-size: 12px;
+    -webkit-box-flex: 1.3;
+    -webkit-flex: 1.3;
+    -ms-flex: 1.3;
+    flex: 1.3;
 }
 .three-mesg .shopcart{
     text-align: center;
@@ -714,16 +721,6 @@
 .service.segment .row:first-child{
 	padding-top:0.35725rem !important;
 }
-.ui.sheader{
-    background:#000;
-    position: relative;
-}
-.ui.sheader p{
-  font-size: 17px;
-  line-height: 50px;
-  color: #fff;
-  text-align: center;
-}
 span.oldprice{
     color: #999;
     font-size: 12px;
@@ -738,15 +735,6 @@ span.ui.timeout.btn{
     border-radius: 4px;
     vertical-align: top;
     margin-left: 5px;
-}
-.ui.sheader a{
-    position: absolute;
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    line-height: 45px;
-    font-size: 30px;
-    color: #fff;
 }
 .shopbrand{
     position: relative;
@@ -809,6 +797,65 @@ span.ui.timeout.btn{
   display: none;
   visibility: hidden;
 }
+.mask{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.2);
+    z-index: 9;
+    display: none;
+}
+.mask.show{
+  display: block;
+}
+.ui.favorite{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.favorite.active{
+    color: #be8914;
+}
+.ui.favorite .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/shouc.png);
+    background-repeat: no-repeat;
+    background-size: 36px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.ui.favorite.active .bgimg{
+    background-position: -18px 0;
+}
+.ui.fshare{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.fshare .bgimg{
+    display: block;
+    margin: 2px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    height: 16px;
+    width: 16px;
+    background-position: 0 0;
+}
 </style>
 {% endblock %}
 
@@ -862,13 +909,15 @@ span.ui.timeout.btn{
 		}
 		else{
 			$('#cover').css('display','block');
-			$('html').css('overflow','hidden');
+			$('body').css('overflow','hidden');
+      $('.mask').addClass('show');
 			$('#shopview').addClass('show-details');
 		}
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
-		$('#cover,html').removeAttr('style');
+		$('#cover,body').removeAttr('style');
+    $('.mask').removeClass('show');
 	});
 	
 	// 如果仅一个sku,则设置默认值
@@ -1046,12 +1095,67 @@ span.ui.timeout.btn{
   // ajax加载产品评测
   ajax_load_topic(product_id, topic_sort, 1, 8);
 
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
+<div class="mask"></div>
 <div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
-    <!--<a href="{{ app_url_wap }}/shop"><i class="angle float left icon"></i></a>-->
+    {% if back_url %}
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+    {%endif%}
     <p>产品详情</p>
   </div>
 </div>
@@ -1079,7 +1183,7 @@ span.ui.timeout.btn{
         {% if product.sale_price != product.market_price %}
             <span class="oldprice">¥{{ product.market_price }}</span>
         {%endif%}
-        <span class="ui timeout btn">限时特惠</span>
+        {% if product.extra.tag %}<span class="ui timeout btn">{{ product.extra.tag }}</span>{%endif%}
       </div>
 		</h4>
 	</div>
@@ -1175,11 +1279,14 @@ span.ui.timeout.btn{
       </a>
   </div>
   {%endif%}
-  <!-- -->
-	<!-- 相关推荐 -->
-	<div id="shop_guess_wap_list">
-			<!-- 加载相关推荐 -->
-	</div>
+
+  {% if product.extra.server %}
+  <div class="shopbrand">
+      <p style="font-size: 13px;">服务说明：{{ product.extra.server }}</p>
+  </div>
+  {%endif%}
+
+
 	<!-- 产品评测 -->
 	<!--<div id="product_eval" style="display:none;">
 		<div class="eval title">
@@ -1349,11 +1456,18 @@ span.ui.timeout.btn{
 		
 		
 	</div>
+
+	<!-- 相关推荐 -->
+	<div id="shop_guess_wap_list">
+			<!-- 加载相关推荐 -->
+	</div>
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
 			<li class="price">
-				¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+            <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+        <div class="ui fshare"><div class="bgimg"></div>分享</div>
+			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
 			<li class="shopcart">
 				加入购物车

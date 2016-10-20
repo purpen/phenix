@@ -732,6 +732,21 @@
               </div>
             </div>
 
+            <h4 class="ui stage header">模版:</h4>
+            <div class="grouped inline fields">
+              <div class="field">
+                <div class="ui radio checkbox">
+                  <input type="radio" name="mode" value="1" {% if scene_subject.mode == 1 %}checked="checked"{% endif %} /> 
+                  <label>A(通栏)</label>
+                </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="mode" value="2" {% if scene_subject.mode == 2 %}checked="checked"{% endif %} /> 
+                  <label>B(两栏)</label>
+                </div>
+
+              </div>
+            </div>
+
       <div class="field">
           <label>标签：</label>
           <input type="text" id="tags" name="tags" value="{{ scene_subject.tags_s }}" />

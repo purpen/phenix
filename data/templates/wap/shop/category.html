@@ -13,10 +13,50 @@
 	    height: 100%;
 	    background-size: 100% 100%;
 	}
+	.ui.sheader form{
+        display: inline-block;
+        width: 90%;
+        padding: 0 15px;
+        vertical-align: top;
+        margin: 0 5%;
+    }
+    .ui.sheader form .ui.input{
+      height: 30px;
+      margin: 10px 0;
+      width: 100%;
+      background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+      background-size: 135px 18px;
+      background-position: 15px 6px;
+      border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+      background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+      padding-right: 2.67142857em!important;
+      vertical-align: middle;
+      font-size: 14px;
+      width: 100%;
+      border-radius: 12px;
+      display: inline-block;
+      padding: 4px 10px;
+      background: none;
+  }
 </style>
 {% endblock %}
 {% block jquery %}
-
+	$('.fiusearch input[type="text"]').focus(function(){
+      $('.ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+      if( $('.fiusearch input[type="text"]').val().length == 0){
+        $('.fiusearch .ui.icon.input').removeClass('focus');
+      }else{
+        $('.fiusearch .ui.icon.input').addClass('focus');
+      }
+    })
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+      $('.fiusearch .ui.icon.input').addClass('focus');
+    } 
 {% endblock %}
 
 {% block content %}
@@ -26,6 +66,14 @@
         <a href="{{ app_url_wap }}/shop/brand">品牌</a>
 		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
 	</div>
+	<div class="ui sheader" style="margin-top: 2px;">
+	    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
+            <div class="ui icon input">
+                <input name="q" type="text">
+                <input name="t" type="hidden">
+            </div>
+        </form>
+    </div>
 	<div class="ui responsive grid">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}

@@ -169,6 +169,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		
 		$redirect_url = Doggy_Config::$vars['app.url.wap'];
 		if(empty($id)){
@@ -341,80 +344,80 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 		$user_id = $this->visitor->id;
 
-    $cart_model = new Sher_Core_Model_Cart();
-    $cart = $cart_model->load($user_id);
-    if(empty($cart) || empty($cart['items'])){
-      $this->stash['products'] = array();
-      $this->stash['total_money'] = 0;
-      $this->stash['items_count'] = 0;
-      return $this->to_html_page('wap/shop/cart.html');
-    }
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(empty($cart) || empty($cart['items'])){
+          $this->stash['products'] = array();
+          $this->stash['total_money'] = 0;
+          $this->stash['items_count'] = 0;
+          return $this->to_html_page('wap/shop/cart.html');
+        }
 
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
 
-    $total_price = 0.0;
-    $item_arr = array();
-    // 记录错误数据索引
-    $error_index_arr = array();
-    foreach($cart['items'] as $k=>$v){
-      // 初始参数
-      $target_id = (int)$v['target_id'];
-      $type = (int)$v['type'];
-      $n = (int)$v['n'];
+        $total_price = 0.0;
+        $item_arr = array();
+        // 记录错误数据索引
+        $error_index_arr = array();
+        foreach($cart['items'] as $k=>$v){
+          // 初始参数
+          $target_id = (int)$v['target_id'];
+          $type = (int)$v['type'];
+          $n = (int)$v['n'];
 
-      $data = array();
-      $data['target_id'] = $target_id;
-      $data['type'] = $type;
-      $data['n'] = $n;
-      $data['sku_mode'] = null;
-      $data['sku_name'] = null;
-      $data['price'] = 0;
+          $data = array();
+          $data['target_id'] = $target_id;
+          $data['type'] = $type;
+          $data['n'] = $n;
+          $data['sku_mode'] = null;
+          $data['sku_name'] = null;
+          $data['price'] = 0;
 
-      if($type==2){
-        $inventory = $inventory_model->load($target_id);
-        if(empty($inventory)){
-          array_push($error_index_arr, $k);
-          continue;
+          if($type==2){
+            $inventory = $inventory_model->load($target_id);
+            if(empty($inventory)){
+              array_push($error_index_arr, $k);
+              continue;
+            }
+            $product_id = $inventory['product_id'];
+            $data['sku_mode'] = $inventory['mode'];
+            $data['sku_name'] = $inventory['mode'];
+            $data['price'] = $inventory['price'];
+            $data['total_price'] = $data['price']*$n;
+            
+          }else{
+            $product_id = $target_id;
+          }
+
+          $data['product_id'] = $product_id;
+
+          $product = $product_model->extend_load($product_id);
+          if(empty($product)){
+            array_push($error_index_arr, $k);
+            continue;     
+          }
+
+          $data['title'] = $product['title'];
+          $data['cover'] = $product['cover']['thumbnails']['mini']['view_url'];
+          $data['wap_view_url'] = $product['wap_view_url'];
+
+          if(empty($data['price'])){
+            $data['price'] = (float)$product['sale_price'];
+            $data['total_price'] = $product['sale_price']*$n;
+          }
+          $total_price += $data['total_price'];
+          array_push($item_arr, $data);
+
+        }//endfor
+
+        // 移除不存在的商品ID
+        if(!empty($error_index_arr)){
+          foreach($error_index_arr as $k=>$v){
+            unset($cart['items'][$v]);
+          }
+          $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
         }
-        $product_id = $inventory['product_id'];
-        $data['sku_mode'] = $inventory['mode'];
-        $data['sku_name'] = $inventory['mode'];
-        $data['price'] = $inventory['price'];
-        $data['total_price'] = $data['price']*$n;
-        
-      }else{
-        $product_id = $target_id;
-      }
-
-      $data['product_id'] = $product_id;
-
-      $product = $product_model->extend_load($product_id);
-      if(empty($product)){
-        array_push($error_index_arr, $k);
-        continue;     
-      }
-
-      $data['title'] = $product['title'];
-      $data['cover'] = $product['cover']['thumbnails']['mini']['view_url'];
-      $data['wap_view_url'] = $product['wap_view_url'];
-
-      if(empty($data['price'])){
-        $data['price'] = (float)$product['sale_price'];
-        $data['total_price'] = $product['sale_price']*$n;
-      }
-      $total_price += $data['total_price'];
-      array_push($item_arr, $data);
-
-    }//endfor
-
-    // 移除不存在的商品ID
-    if(!empty($error_index_arr)){
-      foreach($error_index_arr as $k=>$v){
-        unset($cart['items'][$v]);
-      }
-      $cart_model->update_set($cart['_id'], array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
-    }
 
 		$this->stash['basket_products'] = $item_arr;
 		$this->stash['products'] = $item_arr;

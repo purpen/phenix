@@ -36,6 +36,10 @@ class Sher_Wap_Action_SceneBrand extends Sher_Wap_Action_Base {
 		$model = new Sher_Core_Model_SceneBrands();
 		$scene_brand = $model->extend_load($id);
 
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+
+
 		if(empty($scene_brand)) {
             return $this->show_message_page('访问的品牌不存在或已删除！', $redirect_url);
 		}

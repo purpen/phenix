@@ -12,6 +12,10 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 	#类型:1.自定义内容；2.指定商品ID
 	const KIND_CUSTOM = 1;
 	const KIND_APPOINT = 2;
+
+    ## 模版类型
+    const MODE_A = 1;   // 通栏图
+    const MODE_B = 2;   // 一行两个
 	  
 	protected $schema = array(
 		'title' => null,
@@ -29,6 +33,8 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 		'tags' => array(),
 		//备注
 		'remark'  => null,
+        # 模版
+        'mode' => 1,
 		'user_id' => 0,
 		'kind' => self::KIND_CUSTOM,
 		'stick' => 0,
@@ -43,7 +49,7 @@ class Sher_Core_Model_SpecialSubject extends Sher_Core_Model_Base  {
 
 	protected $required_fields = array('user_id', 'title', 'category_id');
   
-	protected $int_fields = array('state', 'category_id', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count');
+	protected $int_fields = array('state', 'category_id', 'user_id', 'kind', 'stick', 'view_count', 'comment_count', 'love_count', 'favorite_count', 'mode');
   
 	protected $counter_fields = array('view_count', 'comment_count', 'love_count', 'favorite_count', 'share_count');
 

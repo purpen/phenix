@@ -40,8 +40,8 @@
 }
 .cartitem .cartinfo h3.title{
     font-size: 1rem;
-    margin-bottom: 10px;
-    max-height: 38px;
+    margin-bottom: 5px;
+    max-height: 34px;
     overflow: hidden;
     font-weight: 400;
     color:#000 !important;
@@ -53,22 +53,23 @@
 }
 .cartitem .cartinfo p.price{
 	color:#BE8914;
+    margin-bottom: 8px;
 }
 .cartitem .remove_cart{
-	width:30px;
-	height:30px;
+	width:24px;
+	height:24px;
 	position:relative;
-	background:rgba(0,0,0,0.3);
+	background:rgba(0,0,0,0.5);
 	border-radius:50%;
 }
 .cartitem .remove_cart img{
-    width: 14px;
-    height: 14px;
-    margin: 8px;
+    width: 10px;
+    height: 10px;
+    margin: 7px;
 }
 .cartitem .img img{
-	width:80px;
-	height:60px;
+	width:92px;
+	height:69px;
 	position:relative;
 }
 .cartadd{
@@ -154,7 +155,126 @@
 .color-be{
     color: #BE8914 !important;
 }
+.cartitem .ui.checkbox{
+    display: block;
+}
+.ui.radio.checkbox input[type=checkbox]:checked~.box:after, .ui.radio.checkbox input[type=checkbox]:checked~label:after {
+    background-color: rgba(190,137,20,.95);
+}
+.quantity {
+    font-size: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    bottom: 4px;
+    right: 10px;
+    height: 26px;
+}
+.quantity .ui.mini.gray.icon.button:first-child {
+    border-right: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity .ui.mini.gray.icon.button:last-child {
+    border-left: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity .ui.mini.gray.icon.button {
+    background-color: rgba(200,200,200,0.1);
+    color: rgba(0,0,0,0.5);
+    padding: 0.5rem 0.66rem;
+    margin-top: 9pt;
+    border-radius: 0;
+    margin: 0;
+    height: 24px;
+}
+.quantity .ui.mini.gray.icon.button.disabled{
+    opacity: 1 !important;
+    background: #eee !important;
+}
+.quantity input {
+    width: 40px;
+    text-align: center;
+    margin: 0;
+    height: 24px;
+    vertical-align: top;
+    line-height: 24px;
+    font-size: 14px;
+    background-color: #FFF;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: 0;
+    color: rgba(0,0,0,1);
+}
+.ui.master.radio.checkbox{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+}
+.ui.master.radio.checkbox label{
+    text-align: left;
+    vertical-align: middle;
+    margin-left: 15px;
+    transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+}
+.disabled.cardcheck{
+    background: #c1c1c1;
+}
 </style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+
+    // 更新购物车数量
+    function update_cart_num(target_id, type, n){
+        var url = "{{ app_url_wap }}/app/site/cart/edit_cart";
+        $.post(url, {target_id:target_id, type:type, n:n}, function(result){
+            if(result.success){
+                var obj = $("#cart-product-"+target_id+"");
+                obj.find('[name=product-qty]').val(result.data.n);
+                obj.find('[name=product-price]').val(result.data.total_price);
+                obj.find('.price_box').text(result.data.total_price);
+                obj.find('.count_num').text(result.data.n);
+
+                // 统计选中价格
+                stat_total_price();
+            }else{
+                
+            }
+        }, 'json');
+        
+    }
+
+    // 统计总金额
+    function stat_total_price(){
+        var total_price = 0;
+        $(".cartitem [name='radio']:checked").each(function(i){
+            var target_id = $(this).data('target_id');
+            var obj = $("#cart-product-"+target_id+"");
+            var price = parseFloat(obj.find('[name=product-price]').val());
+            total_price += price;
+        })
+
+        if(parseFloat(total_price)==0){
+            $('#do_check_btn').addClass('disabled');
+        }else{
+            $('#do_check_btn').removeClass('disabled');       
+        }
+        $('#total_price_text').text(total_price.toFixed(2));
+    }
+
+  </script>
 {% endblock %}
 
 {% block jquery %}
@@ -169,7 +289,8 @@
     $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
       if(result.success){
         $('#cart-product-'+target_id).remove();
-        $('#total_price_text').text((total_price-price).toFixed(2));
+        // 统计选中价格
+        stat_total_price();
         // ajax加载购物车数量
         $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
             if(result.success){
@@ -183,6 +304,89 @@
       }
     }, 'json')
   });
+
+  // 全选＼取消全选
+  $('.master.checkbox')
+    .checkbox({
+        onChecked: function() {
+            var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+            $childCheckbox.checkbox('check');
+            $('.cartitem [name=radio]').prop('checked', true);
+            // 统计选中价格
+            stat_total_price();
+
+        },
+        onUnchecked: function() {
+            var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+            $childCheckbox.checkbox('uncheck');
+            $('.cartitem [name=radio]').prop('checked', false);
+            // 统计选中价格
+            stat_total_price();
+        }
+
+    })
+
+  $('.single.checkbox')
+    .checkbox({
+        onChecked: function() {
+            $(this).checkbox('check');
+            $(this).find('[name=radio]').prop('checked', true);
+            // 统计选中价格
+            stat_total_price();
+
+        },
+        onUnchecked: function() {
+            $(this).checkbox('uncheck');
+            $(this).find('[name=radio]').prop('checked', false);
+            // 统计选中价格
+            stat_total_price();
+        }
+
+    })
+
+    // 减少数量
+    $('.dec-qty').click(function(){
+        var target_id = $(this).data('target_id');
+        var type = $(this).data('type');
+        var n = parseInt($(this).parent().find('[name=product-qty]').val());
+        $(this).parent().find('.inc-qty').removeClass('disabled');
+        n--;
+        if(n<1){
+            $(this).addClass('disabled');
+            return;
+        }
+        update_cart_num(target_id, type, n);
+    
+    });
+
+    // 增加数量
+    $('.inc-qty').click(function(){
+        var target_id = $(this).data('target_id');
+        var type = $(this).data('type');
+        var n = parseInt($(this).parent().find('[name=product-qty]').val());
+        $(this).parent().find('.dec-qty').removeClass('disabled');
+        n++;
+        if(n>50){
+            $(this).addClass('disabled');
+            return;
+        }
+        $(this).removeClass('disabled');
+        update_cart_num(target_id, type, n);
+
+    });
+
+
+    // 去结算 
+    $('#do_check_btn').click(function(){
+        var url = "{{ app_url_wap }}/shop/checkout";
+        var total_price = parseFloat($('#total_price_text').text());
+        if(total_price==0){
+            //phenix.show_error_note('请选择购物车产品!', 2000);
+            return false;
+        }
+        phenix.redirect(url);
+    });
+
 {% endblock %}
 
 {% block content %}
@@ -196,12 +400,24 @@
 	<div class="cartmain">
 		{% for product in products %}
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
-			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
+            <div class="ui radio single checkbox">
+                <input type="checkbox" name="radio" data-target_id="{{ product.target_id }}" checked="checked">
+            </div>
+			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}" ></a>
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
-        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
-				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
-			
+                <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊<span class="count_num">{{ product.n }}</span></p>
+        <p class="price"><i class="rmb icon"></i>  <span class="price_box">{{ product.total_price }}</span></p>
+			    <div class="quantity">
+                    <button class="ui mini gray dec-qty icon button {% if product.n==1 %}disabled{%endif%}" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-count="1">
+                        <i class="minus icon"></i>
+                    </button>
+                    <input type="text" name="product-qty"  value="{{ product.n }}" autocomplete="off">
+                    <input type="hidden" name="product-price"  value="{{ product.total_price }}">
+                    <button class="ui mini gray inc-qty icon button" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-count="">
+                        <i class="add icon"></i>
+                    </button>
+                </div>
 			</div>
 			<div class="remove_cart"  data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-price="{{ product.total_price }}">
 				<img src="{{ app_url_packaged }}/images/icon/close.png">
@@ -209,10 +425,14 @@
 		</div>
 		{% endfor %}
 		<div class="cartadd">
+            <div class="ui master radio checkbox">
+                <input type="checkbox" name="vegetables" checked="checked" tabindex="0" class="hidden">
+                <label>全选</label>
+            </div>
 			<div class="cardsum">
-        合计: <span><i class="rmb icon"></i><span id="total_price_text">  {{ total_money }}</span></span>
+        合计: <span><i class="rmb icon"></i><span id="total_price_text">{{ total_money }}</span></span>
 			</div>
-			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
+			<a href="javascript:void(0);" id="do_check_btn" class="cardcheck ui link">
 				去结算
 			</a>
 		</div>

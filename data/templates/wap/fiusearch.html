@@ -1,0 +1,354 @@
+{%extends 'layout/shop.html'%}
+{% block title%}搜索-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	#mfrbird {
+	    margin: 0em 0 3em;
+	}
+	.social.search > .ui.responsive.grid{
+		margin-top:0 !important;
+	}
+	.search.item{
+		width:80%;
+		margin:0 10%;
+	}
+	.search.item .ui.icon.input>input~.icon {
+	  border-left: 1px solid rgba(244,33,86,.9);
+	  color: rgba(255,255,255,.9);
+	  background-color: #f36;
+	  cursor: pointer;
+	  opacity: 1;
+	}
+	.search.item .ui.icon.input>.icon {
+	  border-left: 1px solid rgba(0,0,0,.25);
+	}
+	.ui.selection.list .item:hover {
+	    background-color: rgba(0, 0, 0, 0.05);
+	    color: rgba(0, 0, 0, 0.7);
+	}
+	.ui.selection.list .item:active {
+	    background-color: rgba(0, 0, 0, 0.25);
+	    color: rgba(0, 0, 0, 0.7);
+	}
+	.social.search .suggest {
+	    margin: 1rem auto 0;
+	}
+	.social.search .suggest a {
+	    color: #fff;
+	}
+	.social.search .suggest .ui.horizontal.list>.item{
+		margin-right:1em !important;
+		margin-left:0 !important;
+	}
+
+	.content em {
+	  color: red;
+	  font-style: inherit;
+	  margin-left: 0.2rem;
+	}
+	.ui.list .item>img{
+		margin-top: 1.2rem;
+		margin-left: 0rem;
+		margin-bottom: 1.2rem;
+	}
+	#searchpage .idea.tags .ui.line {
+	  margin-right: .85em;
+	  color: rgba(0,0,0,.4);
+	}
+	#searchpage .idea.tags .ui.line:hover{
+		color:#f36;
+	}
+	.ui.search.list>.item>.image+.content{
+		max-width:50%;
+	}
+	.searcmu.buttons > .button{
+		min-width:120px;
+	}
+	.ui.searcmu.buttons .button:first-child {
+	  border-left: 0px solid #f36;
+	}
+	.search .ui.label{
+		border-radius: 2.5rem;
+		padding: 0.3em 0.5em !important;
+	}
+	#searchpage {
+	  padding-top: 1rem;
+	  padding-bottom: 2rem;
+	  background-color: #fff;
+	  min-height: 350px;
+	}
+	#searchpage .ui.tabox {
+	  margin: 0 auto .8em;
+	}
+	.ui.tabox {
+	  border-bottom: 1px solid #e4e5e7;
+	  margin: 2.5em auto 1.5em;
+	}
+	.ui.tabox .ui.tabs {
+	  display: block;
+	  font-size: 0rem;
+	  width: 100%!important;
+	}
+	.ui.tabox .ui.grid{
+		margin:0;
+	}
+	#searchpage .ui.tabox .ui.ten.tabs .tab {
+	  width: 18%;
+	  font-size: 14px;
+	  text-align: center;
+	}
+	.ui.tabox .ui.tabs .tab:hover, .ui.tabox .ui.tabs .active.tab {
+	  border-bottom: 2px solid #f36;
+	  color: #f36;
+	  -webkit-transition: all .3s ease-in-out 0s;
+	  transition: all .3s ease-in-out 0s;
+	}
+	.ui.tabox .ui.tabs .tab {
+	  border-bottom: 2px solid transparent;
+	  -webkit-box-sizing: border-box;
+	  -moz-box-sizing: border-box;
+	  box-sizing: border-box;
+	  cursor: pointer;
+	  color: #444;
+	  display: inline-block;
+	  font-size: 1.5rem;
+	  padding-bottom: .8%;
+	  padding-top: .8%;
+	  text-align: left;
+	  text-decoration: none;
+	}
+	.ui.search.list>.item>.content {
+	  margin: 1rem .5rem;
+	}
+	.ui.search.list>.item>.content>.header {
+	  font-size: 1rem;
+	  font-weight: 700;
+	  line-height: 1.33em;
+	  margin-bottom: .5rem;
+	}
+	a.line,a.line:visited{
+		color:#444;
+		border-bottom:2px solid rgba(255,255,255,0);
+		-webkit-transition:all .3s ease-in-out 0s;
+		transition:all .3s ease-in-out 0s;
+		text-decoration:none;
+		font-weight:400;
+	}
+	a.line:hover,a.line.active{
+		color:#f36;
+		text-decoration:none;
+		padding-bottom:3px;
+		border-bottom:2px solid #f36;
+	}
+	.ui.medium.image {
+	  width: 120px;
+	}
+	.author{
+		font-size:0.9rem;
+	}
+	.idea.tags{
+		margin:.5rem 0;
+	}
+	.ui.pagination.menu .item {
+	  min-width: 2em !important;
+	}
+	.social.search{
+		background:url({{ app_url_packaged }}/images/wap_search.jpg) no-repeat center center /cover;
+		padding: 0px 0 30px;
+		color:#fff;
+	}
+	#searchpage .ui.tabox .row{
+	  padding-bottom:0 !important;
+	}
+
+	.ui.sheader form{
+    	display: inline-block;
+	    width: 80%;
+	    padding: 0 15px;
+    	vertical-align: top;
+    	margin-left: 50px;
+    }
+    .ui.sheader form .ui.input{
+    	height: 30px;
+    	margin: 10px 0;
+    	width: 100%;
+    	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+    	background-size: 135px 18px;
+    	background-position: 15px 6px;
+    	border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+    	background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+	    padding-right: 2.67142857em!important;
+	    vertical-align: middle;
+	    font-size: 14px;
+	    width: 100%;
+	    border-radius: 12px;
+	    display: inline-block;
+	    padding: 4px 10px;
+	    background: none;
+	}
+	/*** ***/
+	a.return {
+	    position: absolute;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    line-height: 50px;
+	    font-size: 30px;
+	    color: #666;
+	}
+	/*** ***/
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var t = '{{t}}';
+      var evt = '{{evt}}';
+      var sort = 0;
+      var q = '{{ q }}';
+  
+      // 加载产品列表
+      function ajax_load_more(q, t, evt, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#item-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/search/ajax_fetch_more';
+          $.get(url, { q:q, t:t, sort:sort, page:page, type:0, size:size }, function(rs){
+              if(!rs.success){
+                phenix.show_error_note('查询失败!');
+                $('#item-more').hide();
+                return;
+              }
+
+                if(rs.data.show_type==1){
+                    $('#is_empty_box').show();
+                    $('#is_no_found_box').hide();
+                    $('#is_list_box').hide();
+                }else if(rs.data.show_type==2){
+                    $('#is_no_found_box').show();
+                    $('#is_empty_box').hide();
+                    $('#is_list_box').hide();               
+                }else{
+                    $('#is_list_box').show();  
+                    $('#is_empty_box').hide();
+                    $('#is_no_found_box').hide();
+                }
+              
+              if(rs.data.total_page > page){
+                  $('#item-more')
+                      .hide()
+                      .attr({'status': 0, 'page': page});
+              }else{
+                  $('#item-more')
+                  .attr({'page': page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#search_list_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+  	$('.fiusearch input[type="text"]').focus(function(){
+    	$('.ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+    	if( $('.fiusearch input[type="text"]').val().length == 0){
+    		$('.fiusearch .ui.icon.input').removeClass('focus');
+    	}else{
+    		$('.fiusearch .ui.icon.input').addClass('focus');
+    	}
+    })
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiusearch .ui.icon.input').addClass('focus');
+    }
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#item-more').attr('status');
+      page = parseInt($('#item-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(q, t, evt, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(q, t, evt, sort, page, size);
+{% endblock %}
+{% block content %}
+<div class="ui fiushop">
+	<div class="ui sheader">
+        {% if back_url %}
+        <!--<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>-->
+        {%endif%}
+		<form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
+	        <div class="ui icon input">
+	            <input name="q" type="text" value="{{ q }}">
+	            <input name="t" type="hidden" value="{{ t }}">
+	        </div>
+	    </form>
+	</div>
+
+	<div class="ui responsive grid pt-4r" id="is_no_found_box" style="display:none;">
+		<div class="row">
+			<div class="ui center aligned column">
+				没有找到相关宝贝
+			</div>
+		</div>
+	</div>
+
+
+	<div class="ui responsive brand list grid" id="is_list_box">
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+                    <!--ajax_load_more-->
+				</div>
+
+                <div id="item-more" class="item-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
+
+			</div>
+		</div>
+	</div>
+
+		<div class="ui responsive grid pt-4r" id="is_empty_box" style="display:none;">
+			<div class="row">
+				<div class="ui center aligned column">
+					你没有输入足够的关键词，请输入要搜索的短语！
+				</div>
+			</div>
+		</div>
+
+</div>
+
+
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'search_list_tpl' tpl:'mustache_m/search_list.mustache' %}
+{% endblock %}

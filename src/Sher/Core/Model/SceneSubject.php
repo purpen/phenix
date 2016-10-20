@@ -18,6 +18,10 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	const TYPE_HOT = 3;
 	const TYPE_NEW = 4;
     const TYPE_BRAND = 5;   # 好货
+
+    ## 模版类型
+    const MODE_A = 1;   // 通栏图
+    const MODE_B = 2;   // 一行两个
 	  
 	protected $schema = array(
 		'title' => null,
@@ -52,6 +56,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         ## 进度
         # 活动 0.未开始；1.进行中；2.结束
         'evt' => 0,
+
+        # 模版
+        'mode' => 1,
 
         ## 情境列表
         'sight_ids' => array(),
