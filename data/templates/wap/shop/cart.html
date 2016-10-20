@@ -296,21 +296,19 @@
     }, 'json')
   });
 
-  $('.master.checkbox')
-    .checkbox({
-        onChecked: function() {
-          var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
-          $childCheckbox.checkbox('check');
-        },
-        onUnchecked: function() {
-          var
-            $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
-            $childCheckbox.checkbox('uncheck');
-        }
+    // 全选/取消全选
+    $("input[name='vegetables']").click(function(){
+
+        var has_chk = ($this).is(':checked');
+
+        $(".cartitem [name='radio']").each(function(i){
+            $(this).prop('checked', has_chk);
+        })
 
         // 统计选中价格
         stat_total_price();
-    })
+    
+    });
 
     // 减少数量
     $('.dec-qty').click(function(){
