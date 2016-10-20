@@ -87,7 +87,16 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         }elseif($scene_subject['type']==4){ // 新品
             $tpl = 'wap/scene_subject/new.html';
         }elseif($scene_subject['type']==5){ // 好货(与促销相同)
-            $tpl = 'wap/scene_subject/hot.html';            
+            if(isset($scene_subject['mode'])){
+                if($scene_subject['mode']==1){
+                    $tpl = 'wap/scene_subject/hot.html';       
+                }elseif($scene_subject['mode']==2){
+                    $tpl = 'wap/scene_subject/hot_b.html';
+                }
+            }else{
+                $tpl = 'wap/scene_subject/hot.html';            
+            }
+            $tpl = 'wap/scene_subject/hot.html';
         }else{
             $tpl = 'wap/scene_subject/artile.html';       
         }

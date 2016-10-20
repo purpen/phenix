@@ -18,7 +18,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     'asc' => 0,
 	);
 
-	protected $exclude_method_list = array('execute', 'xc');
+	protected $exclude_method_list = array('execute', 'xc', 'ajax_fetch_more');
 	
     public function execute() {
       return $this->xc();
@@ -244,6 +244,83 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
     }
 
   }
+
+    /**
+     * ajax加载更多
+     */
+    public function ajax_fetch_more(){
+    
+        $db = $this->stash['db'];
+        // 全文搜索/标签搜索
+        $evt = isset($this->stash['evt']) ? $this->stash['evt'] : 'content';
+        $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $t = isset($this->stash['t']) ? (int)$this->stash['t'] : 1;
+        $q = isset($this->stash['q']) ? $this->stash['q'] : null;
+
+        if(empty($q)){
+            return $this->ajax_json('is empty!', false, '', array('show_type'=>1));
+        }
+
+        if($evt=='tag'){
+          $this->stash['evt_s'] = '标签';
+        }else{
+          $this->stash['evt_s'] = '内容';  
+        }
+
+        // 过滤xss攻击
+        $q = Sher_Core_Helper_FilterFields::remove_xss($q);
+
+        $options = array(
+          'page' => $this->stash['page'],
+          'size' => $this->stash['size'],
+          'evt'  => $evt,
+          'sort' => $sort,
+          'asc'  => $this->stash['asc'],
+          't'    => $t,
+        );
+        
+        $result = Sher_Core_Util_XunSearch::search($q, $options, $db);
+        if(!$result['success']){
+            return $this->ajax_json($result['msg'], true);
+        }
+
+        if(empty($result['data'])){
+            return $this->ajax_json('搜索内容为空!', false, '', array('show_type'=>2));
+        }
+        $asset_model = new Sher_Core_Model_Asset();
+        $product_model = new Sher_Core_Model_Product();
+
+        $result['show_type'] = 0;
+        foreach($result['data'] as $k=>$v){
+
+            $result['data'][$k]['isProduct'] = $result['data'][$k]['isTopic'] = false;
+
+            switch($v['kind']){
+                case 'Product':
+                    $result['data'][$k]['isProduct'] = true;
+                    $product = $product_model->extend_load((int)$v['oid']);
+                    if(empty($product)) continue;
+                    $row = array();
+                    $row['_id'] = $product['_id'];
+                    $row['title'] = $product['title'];
+                    $row['short_title'] = $product['short_title'];
+                    $row['sale_price'] = $product['sale_price'];
+                    $row['view_url'] = $product['view_url'];
+                    $row['wap_view_url'] = $product['wap_view_url'];
+                    $row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+                    $result['data'][$k]['product'] = $row;
+                    break;
+
+                default:
+                    
+            }
+
+        } // endfor
+
+        return $this->ajax_json('success', false, '', $result);
+
+    }
 
     
 }

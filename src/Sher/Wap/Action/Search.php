@@ -18,7 +18,7 @@ class Sher_Wap_Action_Search extends Sher_Wap_Action_Base {
     'asc' => 0,
 	);
 
-	protected $exclude_method_list = array('execute', 'xc');
+	protected $exclude_method_list = array('execute', 'xc', 'fiu');
 	
     public function execute() {
       return $this->xc();
@@ -247,6 +247,16 @@ class Sher_Wap_Action_Search extends Sher_Wap_Action_Base {
     }
 
   }
+
+
+    /**
+    * fiu_search
+    */
+    public function fiu(){
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+		return $this->to_html_page('wap/fiusearch.html');
+    }
 
     
 }
