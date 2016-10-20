@@ -259,7 +259,7 @@
         $(".cartitem [name='radio']:checked").each(function(i){
             var target_id = $(this).data('target_id');
             var obj = $("#cart-product-"+target_id+"");
-            var price = obj.find('[name=product-price]').val();
+            var price = parseFloat(obj.find('[name=product-price]').val());
             total_price += price;
         })
 
@@ -296,19 +296,21 @@
     }, 'json')
   });
 
-    // 全选/取消全选
-    $("input[name='vegetables']").click(function(){
+  $('.master.checkbox')
+    .checkbox({
+        onChecked: function() {
+            var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+            $childCheckbox.checkbox('check');
+            $('.cartitem [name=radio]').prop('checked', true);
 
-        var has_chk = ($this).is(':checked');
+        },
+        onUnchecked: function() {
+            var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
+            $childCheckbox.checkbox('uncheck');
+            $('.cartitem [name=radio]').prop('checked', false);
+        }
 
-        $(".cartitem [name='radio']").each(function(i){
-            $(this).prop('checked', has_chk);
-        })
-
-        // 统计选中价格
-        stat_total_price();
-    
-    });
+    })
 
     // 减少数量
     $('.dec-qty').click(function(){
