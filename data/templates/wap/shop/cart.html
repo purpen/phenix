@@ -270,6 +270,27 @@
         }
     })
 
+    // 减少数量
+    $('.dec-qty').click(function(){
+        var target_id = $(this).data('target_id');
+        var n = $(this).parent().find('[name=product-qty]').val();
+        alert(n);
+
+    
+    });
+
+    // 增加数量
+    $('.inc-qty').click(function(){
+        var target_id = $(this).data('target_id');
+        var n = $(this).parent().find('[name=product-qty]').val();
+        alert(n);
+
+    
+    });
+
+
+    
+
 {% endblock %}
 
 {% block content %}
@@ -292,11 +313,11 @@
         <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
 				<p class="price"><i class="rmb icon"></i>  {{ product.total_price }}</p>
 			    <div class="quantity">
-                    <button class="ui mini gray dec-qty icon button disabled" data-count="1">
+                    <button class="ui mini gray dec-qty icon button {% if product.n==1 %}disabled{%endif%}" data-target_id="{{ product.target_id }}" data-count="1">
                         <i class="minus icon"></i>
                     </button>
-                    <input type="text" name="product-qty" id="product-qty" value="1" autocomplete="off">
-                    <button class="ui mini gray inc-qty icon button" data-count="">
+                    <input type="text" name="product-qty" value="{{ product.n }}" autocomplete="off">
+                    <button class="ui mini gray inc-qty icon button" data-target_id="{{ product.target_id }}" data-count="">
                         <i class="add icon"></i>
                     </button>
                 </div>
