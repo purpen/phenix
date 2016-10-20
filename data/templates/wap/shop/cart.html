@@ -268,6 +268,8 @@
 
         if(parseInt(total_price)==0){
             $('#do_check_btn').addClass('disabled');
+        }else{
+            $('#do_check_btn').removeClass('disabled');       
         }
         $('#total_price_text').text(total_price.toFixed(2));
     }
@@ -379,7 +381,7 @@
         var url = "{{ app_url_wap }}/shop/checkout";
         var total_price = parseInt($('#total_price_text').text());
         if(total_price==0){
-            phenix.show_error_note('请选择购物车产品!', 2000);
+            //phenix.show_error_note('请选择购物车产品!', 2000);
             return false;
         }
         phenix.redirect(url);
