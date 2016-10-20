@@ -346,7 +346,7 @@
         var n = parseInt($(this).parent().find('[name=product-qty]').val());
         $(this).parent().find('.inc-qty').removeClass('disabled');
         n--;
-        if(n=1){
+        if(n<1){
             $(this).addClass('disabled');
             return;
         }
