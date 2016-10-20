@@ -235,18 +235,35 @@
 
     // 更新购物车数量
     function update_cart_num(target_id, type, n){
-        var url = "{{ app_url_wap }}/app/site/cart/ajax_remove_cart";
+        var url = "{{ app_url_wap }}/app/site/cart/edit_cart";
         $.post(url, {target_id:target_id, type:type, n:n}, function(result){
             if(result.success){
-                var obj = $("cart-product-"+target_id+"");
-                obj.find('[name=product-qty]').val($result.data.n);
-                obj.find('[name=product-price]').val($result.data.total_price);
-                obj.find('.price_box').text($result.data.total_price);
+                var obj = $("#cart-product-"+target_id+"");
+                obj.find('[name=product-qty]').val(result.data.n);
+                obj.find('[name=product-price]').val(result.data.total_price);
+                obj.find('.price_box').text(result.data.total_price);
+                obj.find('.count_num').text(result.data.n);
+
+                // 统计选中价格
+                stat_total_price();
             }else{
                 
             }
         }, 'json');
         
+    }
+
+    // 统计总金额
+    function stat_total_price(){
+        var total_price = 0;
+        $(".cartitem [name='radio']:checked").each(function(i){
+            var target_id = $(this).data('target_id');
+            var obj = $("#cart-product-"+target_id+"");
+            var price = obj.find('[name=product-price]').val();
+            total_price += price;
+        })
+
+        $('#total_price_text').text(total_price);
     }
 
   </script>
@@ -290,6 +307,9 @@
             $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
             $childCheckbox.checkbox('uncheck');
         }
+
+        // 统计选中价格
+        stat_total_price();
     })
 
     // 减少数量
@@ -299,7 +319,7 @@
         var n = parseInt($(this).parent().find('[name=product-qty]').val());
         $(this).parent().find('.inc-qty').removeClass('disabled');
         n--;
-        if(n<=1){
+        if(n<1){
             $(this).addClass('disabled');
             return;
         }
@@ -314,7 +334,7 @@
         var n = parseInt($(this).parent().find('[name=product-qty]').val());
         $(this).parent().find('.dec-qty').removeClass('disabled');
         n++;
-        if(n>10){
+        if(n>50){
             $(this).addClass('disabled');
             return;
         }
@@ -339,12 +359,12 @@
 		{% for product in products %}
 		<div class="cartitem" id="cart-product-{{ product.target_id }}">
             <div class="ui radio checkbox">
-              <input type="checkbox" name="radio" checked="checked">
+                <input type="checkbox" name="radio" data-target_id="{{ product.target_id }}" checked="checked">
             </div>
 			<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}" ></a>
 			<div class="cartinfo">
 				<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
-        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.n }}</p>
+                <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊<span class="count_num">{{ product.n }}</span></p>
         <p class="price"><i class="rmb icon"></i>  <span class="price_box">{{ product.total_price }}</span></p>
 			    <div class="quantity">
                     <button class="ui mini gray dec-qty icon button {% if product.n==1 %}disabled{%endif%}" data-target_id="{{ product.target_id }}" data-type="{{ product.type }}" data-count="1">
@@ -368,7 +388,7 @@
                 <label>全选</label>
             </div>
 			<div class="cardsum">
-        合计: <span><i class="rmb icon"></i><span id="total_price_text">  {{ total_money }}</span></span>
+        合计: <span><i class="rmb icon"></i><span id="total_price_text">{{ total_money }}</span></span>
 			</div>
 			<a href="{{ app_url_wap }}/shop/checkout" class="cardcheck ui link">
 				去结算

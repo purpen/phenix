@@ -239,7 +239,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
 
         $total_price = ((float)$price)*$n;
 
-        return $this->ajax_json('success!', 0, array('price'=>$price, 'total_price'=>$total_price, 'n'=>$n)); 
+        return $this->ajax_json('success!', 0, 0, array('price'=>$price, 'total_price'=>$total_price, 'n'=>$n)); 
     }
 
 
