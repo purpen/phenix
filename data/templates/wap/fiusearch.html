@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}搜索-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -160,6 +160,47 @@
 	#searchpage .ui.tabox .row{
 	  padding-bottom:0 !important;
 	}
+
+	.ui.sheader form{
+    	display: inline-block;
+	    width: 80%;
+	    padding: 0 15px;
+    	vertical-align: top;
+    	margin-left: 50px;
+    }
+    .ui.sheader form .ui.input{
+    	height: 30px;
+    	margin: 10px 0;
+    	width: 100%;
+    	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+    	background-size: 135px 18px;
+    	background-position: 15px 6px;
+    	border-radius: 12px;
+    }
+    .ui.sheader form .ui.icon.input.focus{
+    	background: none #f7f7f7;
+    }
+    .ui.sheader form .ui.icon.input input {
+	    padding-right: 2.67142857em!important;
+	    vertical-align: middle;
+	    font-size: 14px;
+	    width: 100%;
+	    border-radius: 12px;
+	    display: inline-block;
+	    padding: 4px 10px;
+	    background: none;
+	}
+	/*** ***/
+	a.return {
+	    position: absolute;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    line-height: 50px;
+	    font-size: 30px;
+	    color: #666;
+	}
+	/*** ***/
 </style>
 {% endblock %}
 {% block jquery %}
@@ -171,42 +212,66 @@
   $('.ui.relation.button').click(function(){
     phenix.redirect("{{ app_url_wap }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0");
   });
-	
+  	$('.fiusearch input[type="text"]').focus(function(){
+    	$('.ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+    	if( $('.fiusearch input[type="text"]').val().length == 0){
+    		$('.fiusearch .ui.icon.input').removeClass('focus');
+    	}else{
+    		$('.fiusearch .ui.icon.input').addClass('focus');
+    	}
+    })
+    if( $('.fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiusearch .ui.icon.input').addClass('focus');
+    }
 {% endblock %}
 {% block content %}
-<section class="social search catemenu">
-	<div class="ui responsive grid">
-		<div class="row">
-			<div class="column white section-title">
-                <h3 class="title">高级搜索</h3>
-				<form class="ui form" action="{{ app_url_wap }}/fiusearch" method="get" id="searchbar">
-                 	<div class="ui icon input" style="display:block;">
-                		<input name="q" type="text" value="{{ q }}" style="width:100% !important;"/>
-                		<input name="t" type="hidden" value="{{ t }}" style="width:100% !important;" />
-                		<i class="search icon"></i>
-                	</div>
-                </form>
-                <div class="suggest">
-                    <div class="ui horizontal list">
-                        <div class="item">
-                            <a href="{{ app_url_searh }}?q=智能睡眠灯" class="ui link">智能睡眠灯</a>
-                        </div>
-                        <div class="item">
-                            <a href="{{ app_url_searh }}?q=智能配奶机" class="ui link">智能配奶机</a>
-                        </div>
-                        <div class="item">
-                            <a href="{{ app_url_searh }}?q=十万火计" class="ui link">十万火计</a>
-                        </div>
-                        <div class="item">
-                            <a href="{{ app_url_searh }}?q=蛋年" class="ui link">蛋年创新大会</a>
-                        </div>
-                    </div>
-                    
-                </div>
+<div class="ui fiushop">
+	<div class="ui sheader">
+		<a class="return" href=""><i class="angle float left icon"></i></a>
+		<form class="fiusearch item" method="post" action="{{ app_url_wap }}/fiusearch?t=1" id="searchbar">
+	        <div class="ui icon input">
+	            <input name="q" type="text" value="">
+	        </div>
+	    </form>
+	</div>
+	{% if q %}
+		{%if result.success %}
+	<div class="ui responsive brand list grid">
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+					<div class="recom-cell" id="">
+
+					</div>
+				</div>
 			</div>
 		</div>
+
 	</div>
-</section>
+		{%else%}
+		<div class="ui responsive grid pt-4r">
+			<div class="row">
+				<div class="ui center aligned column">
+					没有找到相关宝贝
+				</div>
+			</div>
+		</div>
+			
+		{%endif%}
+	{% else %}  
+		<div class="ui responsive grid pt-4r">
+			<div class="row">
+				<div class="ui center aligned column">
+					你没有输入足够的关键词，请输入要搜索的短语！
+				</div>
+			</div>
+		</div>
+	{% endif %}
+
+	
+
+</div>
 <div id="searchpage">
 	<div class="ui tabox">
 		<div class="ui responsive grid">
