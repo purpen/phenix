@@ -296,18 +296,41 @@
     }, 'json')
   });
 
+  // 全选＼取消全选
   $('.master.checkbox')
     .checkbox({
         onChecked: function() {
             var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
             $childCheckbox.checkbox('check');
             $('.cartitem [name=radio]').prop('checked', true);
+            // 统计选中价格
+            stat_total_price();
 
         },
         onUnchecked: function() {
             var $childCheckbox  = $(this).closest('.checkbox').parent().siblings('.cartitem').find('.checkbox');
             $childCheckbox.checkbox('uncheck');
             $('.cartitem [name=radio]').prop('checked', false);
+            // 统计选中价格
+            stat_total_price();
+        }
+
+    })
+
+  $('.radio.checkbox')
+    .checkbox({
+        onChecked: function() {
+            $(this).checkbox('check');
+            $(this).find('[name=radio]').prop('checked', true);
+            // 统计选中价格
+            stat_total_price();
+
+        },
+        onUnchecked: function() {
+            $(this).checkbox('uncheck');
+            $(this).find('[name=radio]').prop('checked', false);
+            // 统计选中价格
+            stat_total_price();
         }
 
     })
