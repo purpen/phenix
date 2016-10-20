@@ -371,8 +371,8 @@
     // 去结算 
     $('#do_check_btn').click(function(){
         var url = "{{ app_url_wap }}/shop/checkout";
-        var total_price = $('#total_price_text').text();
-        if(total_price=='0'){
+        var total_price = parseInt($('#total_price_text').text());
+        if(total_price==0){
             phenix.show_error_note('请选择购物车产品!', 2000);
             return false;
         }
