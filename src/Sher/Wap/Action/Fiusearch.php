@@ -10,7 +10,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
     'size' => 20,
 		'q' => '',
 		'ref' => '',
-		't' => 0,
+		't' => 1,
 		'index_name' => 'full',
     'evt' => 'content',
     'db' => 'phenix',
@@ -21,6 +21,7 @@ class Sher_Wap_Action_Fiusearch extends Sher_Wap_Action_Base {
 	protected $exclude_method_list = array('execute', 'xc');
 	
     public function execute() {
+      $this->set_target_css_state('page_find');
       return $this->xc();
        	$words = Sher_Core_Service_Search::instance()->check_query_string($this->stash['q']);
         return $this->_display_search_list($words);
