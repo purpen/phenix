@@ -263,6 +263,9 @@
             total_price += price;
         })
 
+        if(parseInt(total_price)==0){
+            $('#do_check_btn').addClass('disabled');
+        }
         $('#total_price_text').text(total_price.toFixed(2));
     }
 
