@@ -96,7 +96,6 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             }else{
                 $tpl = 'wap/scene_subject/hot.html';            
             }
-            $tpl = 'wap/scene_subject/hot.html';
         }else{
             $tpl = 'wap/scene_subject/artile.html';       
         }
