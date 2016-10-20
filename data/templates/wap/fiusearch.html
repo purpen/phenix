@@ -203,15 +203,48 @@
 	/*** ***/
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var t = '{{t}}';
+      var evt = '{{evt}}';
+      var sort = 0;
+      var q = '{{ q }}';
+  
+      // 加载产品列表
+      function ajax_load_more(q, t, evt, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#item-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/search/ajax_fetch_more';
+          $.get(url, { q:q, t:t, sort:sort, page:page, type:0, size:size }, function(rs){
+              if(rs.data.total_page > page){
+                  $('#item-more')
+                      .hide()
+                      .attr({'status': 0, 'page': page});
+              }else{
+                  $('#item-more')
+                  .attr({'page': page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#search_list_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
-	/*//最新
-  $('.ui.lastest.button').click(function(){
-    phenix.redirect("{{ app_url_wap }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=1");
-  });
-  //相关度
-  $('.ui.relation.button').click(function(){
-    phenix.redirect("{{ app_url_wap }}/search?t={{ t }}&q={{ q }}&evt={{ evt }}&s=0");
-  });*/
+
   	$('.fiusearch input[type="text"]').focus(function(){
     	$('.ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
@@ -224,6 +257,23 @@
     if( $('.fiusearch input[type="text"]').val().length !== 0){
     	$('.fiusearch .ui.icon.input').addClass('focus');
     }
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#item-more').attr('status');
+      page = parseInt($('#item-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(q, t, evt, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(q, t, evt, sort, page, size);
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
@@ -251,28 +301,16 @@
 		<div class="row" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
-					{% for item in result.data %}
-						{% if item %}
-					<div class="recom-cell" id="item-{{ item.pid }}">
-						<a href="{{ item.view_url }}" title="{{ item.title }}">
-							<img src="{{ item.asset.thumbnails.apc.view_url }}">
-							<div class="shopbiao">
-							</div>
-							<div class="desc">
-								<h2>{{ item.title }}</h2>
-								<div class="cats">
-						            <span class="unit">￥</span>{{ item.sale_price }}
-						        </div>
-							</div>
-						</a>
-
-					</div>
-
-
-						{% endif %}
-						
-					{% endfor %}
+                    <!--ajax_load_more-->
 				</div>
+
+                <div id="item-more" class="item-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
+
 			</div>
 		</div>
 	</div>
@@ -303,4 +341,8 @@
 
 
 
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'search_list_tpl' tpl:'mustache_m/search_list.mustache' %}
 {% endblock %}
