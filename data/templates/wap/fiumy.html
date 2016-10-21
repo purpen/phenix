@@ -68,19 +68,9 @@
 }
 .ui.fiushop .nav-menu .navfelx{
     border-bottom: 1px solid rgba(0,0,0,0.1);
+    background: #fff;
 }
-.ui.fiushop .nav-menu .navfelx .childcell::before{
-	content:'';
-	position:absolute;
-	left:0;
-	top:0;
-	width:1px;
-	height:100%;
-	background:rgba(0,0,0,0.1);
-}
-.ui.fiushop .nav-menu .navfelx .childcell:first-child::before{
-	content:none;
-}
+
 .ui.fiushop .nav-menu .navfelx .childcell .menuicon{
 	line-height:18px;
 }
@@ -178,6 +168,45 @@
 	top: 14px;
 	left: 0;
 }
+.nav-menu{
+	padding-top: 0;
+	margin-top: 10px;
+	background:rgba(0,0,0,0);
+}
+.ui.fiushop .nav-menu .navfelx.item .childcell .menuicon .allorder{
+	font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    color: #666;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon{
+	padding: 8px 0;
+	text-align: center;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg{
+	width: 20px;
+	height: 19px;
+	background-image: url({{ app_url_packaged }}/images/icon/order.png); 
+	background-size: 80px 19px;
+	margin: 4px auto 3px;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.fu{
+	background-position: -60px 0;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.fa{
+	background-position: -19px 0;
+    width: 21px;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.shou{
+	background-position: -40px 0;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.tui{
+	background-position: 0 0;
+	width: 19px;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -223,29 +252,52 @@
 		<div class="nav-menu">
 			<ul class="navfelx item">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/account">
-						账户信息
-					</a>
-				</li>
-			</ul>
-			<ul class="navfelx item">
-				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders">
 						我的订单
+						<div class="allorder">
+							查看全部订单 >
+						</div>
 					</a>
 				</li>
 			</ul>
-			<ul class="navfelx item">
+			<ul class="navfelx item all">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
-						收货地址
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=1">
+						<div class="bgimg fu"></div>
+						待付款
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=2">
+						<div class="bgimg fa"></div>
+						待发货
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=3">
+						<div class="bgimg shou"></div>
+						待收货
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=8">
+						<div class="bgimg tui"></div>
+						退款／售后
 					</a>
 				</li>
 			</ul>
-			<ul class="navfelx item">
+			
+			<ul class="navfelx item mtb-2r">
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
 						我的红包
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item mt-2r">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
+						收货地址
 					</a>
 				</li>
 			</ul>
