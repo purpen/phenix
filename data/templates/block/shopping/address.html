@@ -1,6 +1,6 @@
 <div class="ui small addbook modal" id="addbook-form-box">
 	<div class="ui header" style="position: relative;">
-    	使用新地址
+    	添加地址
     	<i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
   	</div>
 	<div class="container">
@@ -14,39 +14,69 @@
 						<label>收货人姓名</label>
 				  		<input type="text" name="name" />
 					</div>
-				</div>
-				
-				<div class="two fields">
 					<div class="field">
 						<label>联系电话</label>
 					  	<input type="text" name="phone" placeholder="11位手机号码" />
 					</div>
 				</div>
+
 				
-                <div class="field">
-					<label>省市</label>
-					<div class="ui selection province dropdown">
-						<input type="hidden" name="province" value="{{ addbook.province }}" />
-	
-					    <div class="default text">省份/自治区</div>
-					    <i class="angle dropdown icon"></i>
-					    <div class="menu">
-							{% for province in provinces %}
-					        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
-							{% endfor %}
-					    </div>
-					</div>
-					<div class="ui selection district dropdown" id="district-menu">
-						<input type="hidden" name="city" value="{{ addbook.city }}" />
-					    <div class="default text">地区区域</div>
-					    <i class="angle dropdown icon"></i>
-					    <div class="menu">
-							{% for district in districts %}
-					        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
-							{% endfor %}
-					    </div>
-					</div>
+                <div class="four fields">
+                    <div class="field">
+                        <div class="ui selection province dropdown">
+                            <input type="hidden" name="province_id" value="" />
+        
+                            <div class="default text">省份/自治区</div>
+                            <i class="angle dropdown icon"></i>
+                            <div class="menu">
+                                {% for province in provinces %}
+                                <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui selection district dropdown" id="district-menu">
+                            <input type="hidden" name="city_id" value="" />
+                            <div class="default text">地区区域</div>
+                            <i class="angle dropdown icon"></i>
+                            <div class="menu">
+                                {% for district in districts %}
+                                <div data-value="" class="item">{{ district.city }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui selection district dropdown" id="district-menu">
+                            <input type="hidden" name="country_id" value="" />
+                            <div class="default text">地区区域</div>
+                            <i class="angle dropdown icon"></i>
+                            <div class="menu">
+                                {% for district in districts %}
+                                <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="ui selection district dropdown" id="district-menu">
+                            <input type="hidden" name="town_id" value="" />
+                            <div class="default text">地区区域</div>
+                            <i class="angle dropdown icon"></i>
+                            <div class="menu">
+                                {% for district in districts %}
+                                <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+
 				
 				<div class="field">
 					<textarea name="address" class="small">{{ addbook.address }}</textarea>

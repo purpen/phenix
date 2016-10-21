@@ -1,13 +1,12 @@
 <?php
 /**
- * 京东收货地址(new)
+ * 收货地址(new)
  * @author tianshuai
  */
 class Sher_Core_Service_DeliveryAddress extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-        'sort' => array('sort' => -1),
 	);
 
     protected static $instance;
