@@ -231,9 +231,11 @@
     background: #c1c1c1;
 }
 #shop_guess_wap_list{
-    margin-top: 10px;
+    margin-top: 15px;
     position: relative;
     background: #fff;
+    padding: 0 10px;
+    margin-bottom: 10px;
 }
 #shop_guess_wap_list .guess.title{
     padding:15px 10px 5px;
@@ -445,11 +447,11 @@
         phenix.redirect(url);
     });
     // 加载推荐商品 
-    $.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
-     $("img.lazy").lazyload({
-         effect : "show"
-     });
-    });
+    /*$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
+         $("img.lazy").lazyload({
+             effect : "show"
+         });
+    });*/
 {% endblock %}
 
 {% block content %}
@@ -499,6 +501,10 @@
 				去结算
 			</a>
 		</div>
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
 	</div>
 	{%else%}
 	<div class="ui responsive grid" style="padding-top:10px;">
@@ -514,12 +520,17 @@
 				</div>
 			</div>
 		</div>
+        <div class="row">
+            <div class="column">
+                <!-- 相关推荐 -->
+                <div id="shop_guess_wap_list">
+                        <!-- 加载相关推荐 -->
+                </div>
+            </div>
+        </div>
 	</div>
 	{%endif%}
-    <!-- 相关推荐 -->
-    <div id="shop_guess_wap_list">
-            <!-- 加载相关推荐 -->
-    </div>
+    
 </div>
 
 {% endblock %}
