@@ -152,7 +152,7 @@
 	// 初始加载商品列表
     ajax_load_more(category_id, category_tag, type, sort, page, size);
     // 初始化加载分类标签
-    ('#category-btn-'+category_id).attr('category_tags');
+    var category_tags = ('#category-btn-'+category_id).attr('category_tags');
     ajax_load_category_tag(category_tags);
 
 
