@@ -344,24 +344,14 @@
       // 加载产品列表
       function ajax_load_more(category_id, category_tag, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
-          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
-              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
-              if(rs.data.results.total_page > rs.data.results.current_page){
-                  $('#product-more')
-                      .hide()
-                      .attr({'status': 0, 'page': rs.data.page});
-              }else{
-                  $('#product-more')
-                  .attr({'page': rs.data.page})
-                  .find('.p_sub').html('没有更多');
-              }
+
               var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
               if(page==1){
-                $('.recom-item').html(rendered);
+                $('#shop_guess_wap_list').html(rendered);
               }else{
-                $('.recom-item').append(rendered);
+                $('#shop_guess_wap_list').append(rendered);
               }
  			  $("img.lazy").lazyload({
  			     effect : "show"
@@ -535,8 +525,8 @@
 		</div>
 
         <!-- 相关推荐 -->
-        <div class="column">
-            <div class="recom-item"></div>
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
         </div>
 	</div>
 	{%else%}
@@ -554,10 +544,10 @@
 			</div>
 		</div>
 	</div>
-    <!-- 相关推荐 -->
-    <div class="column">
-        <div class="recom-item"></div>
-    </div>
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
 	{%endif%}
     
 </div>
