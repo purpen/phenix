@@ -42,6 +42,40 @@
       padding: 4px 10px;
       background: none;
   }
+  .cate-list{
+    overflow: hidden;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cate-list li{
+    width: 33.3333%;
+    float: left;
+    line-height: 44px;
+    height: 45px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-align: center;
+  }
+  .cate-list li a{
+    font-size: 14px;
+    color: #666;
+  }
+  .cate-list li.catemore{
+    float: right;
+  }
+  .cate-list li.catemore .imgup{
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/catemore.png);
+    background-size: 28px 14px;
+  }
+  .cate-list li.catemore.up .imgup{
+    background-position: -14px 0;
+  }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -57,6 +91,11 @@
     if( $('.fiusearch input[type="text"]').val().length !== 0){
       $('.fiusearch .ui.icon.input').addClass('focus');
     } 
+
+    $(".cateall").on("click", ".catemore", function() {
+        $(this).toggleClass("up"),
+        $(this).siblings("li.hide").toggle()
+    });
 {% endblock %}
 
 {% block content %}
@@ -74,7 +113,7 @@
             </div>
         </form>
     </div>
-	<div class="ui responsive grid">
+	<div class="ui responsive grid cateall">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
 		<div class="row pt-3r pb-0">
@@ -82,6 +121,21 @@
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
+    <div class="row pt-r pb-0">
+      <div class="column plr-3r">
+        <ul class="cate-list">
+          <li><a>无人机</a></li>
+          <li><a>家居日用</a></li>
+          <li><a>厨房用品</a></li>
+          <li><a>旅行户外</a></li>
+          <li class="hide"><a>无人机</a></li>
+          <li class="hide"><a>家居日用</a></li>
+          <li class="hide"><a>厨房用品</a></li>
+          <li class="hide"><a>旅行户外</a></li>
+          <li class="catemore"><div class="imgup"></div></li>
+        </ul>
+      </div>
+    </div>
 		{% endfor %}
 	</div>
 </div>

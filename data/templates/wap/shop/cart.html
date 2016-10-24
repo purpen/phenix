@@ -230,6 +230,66 @@
 .disabled.cardcheck{
     background: #c1c1c1;
 }
+#shop_guess_wap_list{
+    margin-top: 15px;
+    position: relative;
+    background: #fff;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#shop_guess_wap_list .guess.title{
+    padding:15px 10px 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+    padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 50%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 6px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+    padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+    border: 1px solid rgba(0,0,0,0.1);
+    top: 0;
+    bottom: auto;
+    height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+    position:relative;
+    background:#fff;
+    padding: 8px 0 0;
+    text-align: left;
+    height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+    height:34px;
+    color: #222;
+    font-size: 14px;
+    overflow:hidden;
+    font-weight:400;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+    font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #BE8914;
+    line-height:20px;
+}
 </style>
 {% endblock %}
 
@@ -386,7 +446,12 @@
         }
         phenix.redirect(url);
     });
-
+    // 加载推荐商品 
+    /*$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
+         $("img.lazy").lazyload({
+             effect : "show"
+         });
+    });*/
 {% endblock %}
 
 {% block content %}
@@ -436,6 +501,10 @@
 				去结算
 			</a>
 		</div>
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
 	</div>
 	{%else%}
 	<div class="ui responsive grid" style="padding-top:10px;">
@@ -452,7 +521,15 @@
 			</div>
 		</div>
 	</div>
+    <!-- 相关推荐 -->
+    <div id="shop_guess_wap_list">
+            <!-- 加载相关推荐 -->
+    </div>
 	{%endif%}
+    
 </div>
 
+{% endblock %}
+{% block templates %}
+  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
 {% endblock %}
