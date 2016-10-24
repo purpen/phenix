@@ -16,7 +16,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		'id' => null,
 		'view_page' => null,
 		's' => 0,
-    'rid' => null,
+        'rid' => null,
 	);
 	
 	protected $page_tab = 'page_my';
