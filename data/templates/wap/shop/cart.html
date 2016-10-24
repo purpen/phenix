@@ -295,6 +295,12 @@
 
 {% block layout_js %}
   <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var category_id = '';
+      var sort = 4;
+      var type = 2;
+      var category_tag = '';
 
     // 更新购物车数量
     function update_cart_num(target_id, type, n){
@@ -333,6 +339,35 @@
         }
         $('#total_price_text').text(total_price.toFixed(2));
     }
+
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
 
   </script>
 {% endblock %}
@@ -446,12 +481,9 @@
         }
         phenix.redirect(url);
     });
-    // 加载推荐商品 
-    /*$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 8, id: {{ product._id }} }, function(rs){
-         $("img.lazy").lazyload({
-             effect : "show"
-         });
-    });*/
+
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
 {% endblock %}
 
 {% block content %}
@@ -501,9 +533,10 @@
 				去结算
 			</a>
 		</div>
+
         <!-- 相关推荐 -->
-        <div id="shop_guess_wap_list">
-                <!-- 加载相关推荐 -->
+        <div class="column">
+            <div class="recom-item"></div>
         </div>
 	</div>
 	{%else%}
@@ -522,14 +555,15 @@
 		</div>
 	</div>
     <!-- 相关推荐 -->
-    <div id="shop_guess_wap_list">
-            <!-- 加载相关推荐 -->
+    <div class="column">
+        <div class="recom-item"></div>
     </div>
 	{%endif%}
     
 </div>
 
 {% endblock %}
+
 {% block templates %}
-  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
