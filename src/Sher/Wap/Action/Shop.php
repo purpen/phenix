@@ -1224,6 +1224,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		try{
 			$data = array();
+            $model = new Sher_Core_Model_OrderTemp();
             $result = $model->first(array('rid'=>$rid));
             if (empty($result)){
                 return $this->ajax_json('订单操作失败，请重试！', true);
