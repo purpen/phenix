@@ -124,15 +124,14 @@
     <div class="row pt-r pb-0">
       <div class="column plr-3r">
         <ul class="cate-list">
-          <li><a>无人机</a></li>
-          <li><a>家居日用</a></li>
-          <li><a>厨房用品</a></li>
-          <li><a>旅行户外</a></li>
-          <li class="hide"><a>无人机</a></li>
-          <li class="hide"><a>家居日用</a></li>
-          <li class="hide"><a>厨房用品</a></li>
-          <li class="hide"><a>旅行户外</a></li>
-          <li class="catemore"><div class="imgup"></div></li>
+            {% for d in cat.tags %}
+                {% if loop.counter < 3 %}
+                <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
+                {%else%}
+                    <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">无人机</a></li>
+                {%endif%}
+            {%endfor%}
+            <li class="catemore"><div class="imgup"></div></li>
         </ul>
       </div>
     </div>

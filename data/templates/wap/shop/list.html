@@ -81,7 +81,7 @@
       var category_id = '{{cid}}';
       var sort = 0;
       var type = 2;
-      var category_tag = '';
+      var category_tag = '{{category_tag | default ''}}';
   
       // 加载产品列表
       function ajax_load_more(category_id, category_tag, type, sort, page, size){
@@ -120,7 +120,12 @@
         var arr = category_tags.split(',');
         var html = '';
         for(var i=0;i<arr.length;i++){
-            html += '<li class="ui becolor basic button category_tag_btn" data-category_tag="'+ arr[i] +'">'+ arr[i] +'</li>';
+            if(arr[i]==category_tag){
+                var current_category_tag = 'active';
+            }else{
+                var current_category_tag = '';
+            }
+            html += '<li class="ui becolor basic button category_tag_btn '+ current_category_tag +'" data-category_tag="'+ arr[i] +'">'+ arr[i] +'</li>';
         }
 
         $('#category-tag-box').show();
@@ -154,6 +159,7 @@
 		$('.category-btn').removeClass('active');
 		$(this).addClass('active');
 		category_id = $(this).attr('category_id');
+        category_tag = '';
         category_tags = $(this).attr('category_tags');
         ajax_load_ategory_tag(category_tags);
 		$('#product-more').attr('category_id', category_id);
@@ -164,7 +170,7 @@
     // 选择分类标签
     $('.category_tag_btn').livequery(function(){
         $(this).click(function(){
-            var category_tag = $(this).data('category_tag');
+            category_tag = $(this).data('category_tag');
             $(this).siblings().removeClass('active');
             $(this).addClass('active');
             $('#mpresale .recom-item').html('');
@@ -200,7 +206,6 @@
         $('#mpresale .recom-item').html('');
         ajax_load_more(category_id, category_tag, type, sort, 1, size);
     }); 
-
 
 {% endblock %}
 
