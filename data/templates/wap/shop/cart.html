@@ -296,7 +296,7 @@
 {% block layout_js %}
   <script type="text/javascript" >
       var page = 1;
-      var size = 8;
+      var size = 6;
       var category_id = '';
       var sort = 4;
       var type = 2;
@@ -357,7 +357,7 @@
                   .attr({'page': rs.data.page})
                   .find('.p_sub').html('没有更多');
               }
-              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
               if(page==1){
                 $('.recom-item').html(rendered);
               }else{
@@ -565,5 +565,5 @@
 {% endblock %}
 
 {% block templates %}
-    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
+    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}
