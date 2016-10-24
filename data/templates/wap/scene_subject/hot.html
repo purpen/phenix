@@ -220,6 +220,62 @@ $('.ui.fshare').on('click',function(){
   $('#mask').on('click',function(){
     $('#mask').css('display','none');
   });
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{scene_subject._id}}",type:13,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:13}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')
+                        .find('p').text(result.data.favorite_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:13}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+                        .find('p').text(result.data.favorite_count);
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
@@ -275,7 +331,7 @@ $('.ui.fshare').on('click',function(){
             <p>{{ scene_subject.view_count }}</p>
         </li>
         <li></li>
-        <li class="ui favorite ">
+        <li class="ui favorite " data-id="{{ scene_subject._id }}" data-mark="n">
             <div class="bgimg"></div>
             <p>{{ scene_subject.favorite_count }}</p>
         </li>

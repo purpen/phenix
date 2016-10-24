@@ -230,11 +230,77 @@
 .disabled.cardcheck{
     background: #c1c1c1;
 }
+#shop_guess_wap_list{
+    margin-top: 15px;
+    position: relative;
+    background: #fff;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#shop_guess_wap_list .guess.title{
+    padding:15px 10px 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+    padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 50%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 6px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+    padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+    border: 1px solid rgba(0,0,0,0.1);
+    top: 0;
+    bottom: auto;
+    height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+    position:relative;
+    background:#fff;
+    padding: 8px 0 0;
+    text-align: left;
+    height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+    height:34px;
+    color: #222;
+    font-size: 14px;
+    overflow:hidden;
+    font-weight:400;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+    font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #BE8914;
+    line-height:20px;
+}
 </style>
 {% endblock %}
 
 {% block layout_js %}
   <script type="text/javascript" >
+      var page = 1;
+      var size = 4;
+      var category_id = '';
+      var sort = 4;
+      var type = 2;
+      var category_tag = '';
 
     // 更新购物车数量
     function update_cart_num(target_id, type, n){
@@ -273,6 +339,25 @@
         }
         $('#total_price_text').text(total_price.toFixed(2));
     }
+
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+              if(page==1){
+                $('#shop_guess_wap_list').html(rendered);
+              }else{
+                $('#shop_guess_wap_list').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
 
   </script>
 {% endblock %}
@@ -387,6 +472,8 @@
         phenix.redirect(url);
     });
 
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
 {% endblock %}
 
 {% block content %}
@@ -436,6 +523,11 @@
 				去结算
 			</a>
 		</div>
+
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
 	</div>
 	{%else%}
 	<div class="ui responsive grid" style="padding-top:10px;">
@@ -452,7 +544,16 @@
 			</div>
 		</div>
 	</div>
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
 	{%endif%}
+    
 </div>
 
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}
