@@ -61,6 +61,21 @@
     font-size: 14px;
     color: #666;
   }
+  .cate-list li.catemore{
+    float: right;
+  }
+  .cate-list li.catemore .imgup{
+    width: 14px;
+    height: 14px;
+    margin: 0;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/catemore.png);
+    background-size: 28px 14px;
+  }
+  .cate-list li.catemore.up .imgup{
+    background-position: -14px 0;
+  }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -110,14 +125,14 @@
       <div class="column plr-3r">
         <ul class="cate-list">
           <li><a>无人机</a></li>
-          <li><a>家居日用</a><li>
-          <li><a>厨房用品</a><li>
-          <li><a>旅行户外</a><li>
+          <li><a>家居日用</a></li>
+          <li><a>厨房用品</a></li>
+          <li><a>旅行户外</a></li>
           <li class="hide"><a>无人机</a></li>
-          <li class="hide"><a>家居日用</a><li>
-          <li class="hide"><a>厨房用品</a><li>
-          <li class="hide"><a>旅行户外</a><li>
-          <li class="catemore">123123</li>
+          <li class="hide"><a>家居日用</a></li>
+          <li class="hide"><a>厨房用品</a></li>
+          <li class="hide"><a>旅行户外</a></li>
+          <li class="catemore"><div class="imgup"></div></li>
         </ul>
       </div>
     </div>
