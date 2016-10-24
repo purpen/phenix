@@ -192,7 +192,7 @@ $('.ui.fshare').on('click',function(){
                         {% for d in scene_subject.products %}
                         <div class="recom-cell">
                             <a href="{{ d.wap_view_url }}" title="{{ d.title }}">
-                                <img src="{{ d.apc.banner_url }}">
+                                <img src="{{ d.cover_url }}">
                                 <div class="shopbiao">
                                 </div>
                                 <div class="desc">
@@ -219,16 +219,16 @@ $('.ui.fshare').on('click',function(){
     <ul class="three-mesg">
         <li class="count">
             <div class="bgimg"></div>
-            <p>123</p>
+            <p>{{ scene_subject.view_count }}</p>
         </li>
         <li></li>
-        <li class="ui favorite active">
+        <li class="ui favorite ">
             <div class="bgimg"></div>
-            <p>123</p>
+            <p>{{ scene_subject.favorite_count }}</p>
         </li>
         <li class="ui fshare">
             <div class="bgimg"></div>
-            <p>123</p>
+            <p>{{ scene_subject.share_count }}</p>
         </li>
     </ul>
 </div>

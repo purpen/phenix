@@ -198,15 +198,69 @@
 	
 	// 初始加载商品列表
     ajax_load_more(category_id, brand_id, type, sort, page, size);
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{scene_brand._id}}",type:14,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:14}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:14}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
 {% endblock %}
 
 {% block content %}
 <div class="ui brand list">
     <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
     	<div class="bgcover"></div>
-    	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        {% if back_url %}
+    	    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        {%endif%}
         <p>{{ scene_brand.title }}</p>
-        <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div></div>
+        <div class="ui favorite" data-mark="n" data-id="{{ scene_brand._id }}"><div class="bgimg"></div></div>
         <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
 	</div>
 	<div class="ui responsive grid">

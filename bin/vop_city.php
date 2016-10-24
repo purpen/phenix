@@ -47,7 +47,7 @@ function export_vop_city(){
             $ok = $china_city_model->update_set((string)$has_one['_id'], array('name'=>$name, 'pid'=>0, 'layer'=>1));
         
         }else{
-            $ok = $china_city_model->create(array('oid'=>$oid, 'name'=>$name, 'layer'=>1));
+            $ok = $china_city_model->create(array('oid'=>$oid, 'pid'=>0, 'name'=>$name, 'layer'=>1));
         }
 
         if(!$ok) continue;
@@ -115,11 +115,11 @@ function export_vop_city(){
                 $towns = $result['data']['result'];
 
                 foreach($towns as $e=>$f){
-                    $oid_3 = (int)$d;
-                    $name = $c;
+                    $oid_3 = (int)$f;
+                    $name = $e;
                     if(empty($oid_3)) continue;
 
-                    $has_one = $china_city_model->first(array('oid'=>$oid_3, 'layer'=>3));
+                    $has_one = $china_city_model->first(array('oid'=>$oid_3, 'layer'=>4));
 
                     if($has_one){
                         $ok = $china_city_model->update_set((string)$has_one['_id'], array('name'=>$name, 'pid'=>$oid_2, 'layer'=>4));

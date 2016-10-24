@@ -227,13 +227,14 @@
 					等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
 					经验值：{{ user.ext_state.rank_point|default 0 }} <br>
 					鸟币：{{ current_point.balance.money|default 0 }}<br>-->
-					积分：200
+					积分：{{ user.ext_state.rank_point|default 0 }}
 				</p>
 			</div>
 			<div class="myset">
 				<a href="{{ app_url_wap }}/my/mymanage">账户管理 ></a>
 			</div>
 			<div class="tmess">
+                <!--
 				<ul class="two-meg">
 					<li>
 						<a href="{{ app_url_wap }}/my/favorited">
@@ -248,6 +249,7 @@
 						</a>
 					</li>
 				</ul>
+                -->
 			</div>
 		</div>
 		<div class="nav-menu">
