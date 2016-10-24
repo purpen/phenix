@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 .mytop{
-	padding:15px 0;
+	padding:15px 0 63px;
 	width:100%;
     display: flex;
 	display: -ms-flexbox;
@@ -11,6 +11,10 @@
     display: -webkit-box;
 	align-items:center;
     -webkit-box-align: center;
+    background: url({{ app_url_packaged }}/images/icon/oval.jpg);
+    background-size: 100% 100%;
+    color:#fff;
+    position: relative;
 }
 .myphoto{
 	width:60px;
@@ -40,6 +44,7 @@
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: 400;
+    color: #fff !important;
 }
 .mymessg h3.ui.header + p{
     font-size: 12px;
@@ -63,19 +68,9 @@
 }
 .ui.fiushop .nav-menu .navfelx{
     border-bottom: 1px solid rgba(0,0,0,0.1);
+    background: #fff;
 }
-.ui.fiushop .nav-menu .navfelx .childcell::before{
-	content:'';
-	position:absolute;
-	left:0;
-	top:0;
-	width:1px;
-	height:100%;
-	background:rgba(0,0,0,0.1);
-}
-.ui.fiushop .nav-menu .navfelx .childcell:first-child::before{
-	content:none;
-}
+
 .ui.fiushop .nav-menu .navfelx .childcell .menuicon{
 	line-height:18px;
 }
@@ -106,6 +101,113 @@
     background: rgba(0,0,0,.03);
     color: rgba(0,0,0,.95);
 }
+.myset{
+	padding: 10px 15px;
+}
+.myset a{
+	color: #fff;
+}
+.tmess{
+	position: absolute;
+	width: 100%;
+	height: 48px;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 48px;
+    z-index: 3;
+    max-width: 767px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    background: rgba(83,83,84,0.2);
+}
+.two-meg{
+	padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.two-meg li{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+    text-align: center;
+    height: 48px;
+}
+.two-meg li a{
+	height: 48px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    vertical-align: middle;
+    padding: 7px 0;
+    color: #fff;
+    font-size: 12px;
+}
+.two-meg li+li a::before{
+	content: '';
+	height: 20px;
+	width: 1px;
+	background: #fff;
+	position:absolute;
+	top: 14px;
+	left: 0;
+}
+.nav-menu{
+	padding-top: 0;
+	margin-top: 10px;
+	background:rgba(0,0,0,0);
+}
+.ui.fiushop .nav-menu .navfelx.item .childcell .menuicon .allorder{
+	font-size: 12px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    color: #666;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon{
+	padding: 8px 0;
+	text-align: center;
+	font-size: 12px;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg{
+	width: 20px;
+	height: 19px;
+	background-image: url({{ app_url_packaged }}/images/icon/order.png); 
+	background-size: 80px 19px;
+	margin: 4px auto 3px;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.fu{
+	background-position: -60px 0;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.fa{
+	background-position: -19px 0;
+    width: 21px;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.shou{
+	background-position: -40px 0;
+}
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.tui{
+	background-position: 0 0;
+	width: 19px;
+}
 </style>
 {% endblock %}
 {% block content %}
@@ -120,40 +222,83 @@
 			</div>
 			<div class="mymessg">
 				<h3 class="ui header">{{ visitor.nickname }}</h3>
-				<p>
+				<p><!--
 					城市：{{ user.city }}<br>
 					等级：{{ user.ext_state.user_rank.title|default '鸟列兵' }} Lv {{ user.ext_state.rank_id|default 1 }} &nbsp;&nbsp;
 					经验值：{{ user.ext_state.rank_point|default 0 }} <br>
-					鸟币：{{ current_point.balance.money|default 0 }}<br>
+					鸟币：{{ current_point.balance.money|default 0 }}<br>-->
+					积分：200
 				</p>
+			</div>
+			<div class="myset">
+				<a href="{{ app_url_wap }}/my/mymanage">账户管理 ></a>
+			</div>
+			<div class="tmess">
+				<ul class="two-meg">
+					<li>
+						<a href="{{ app_url_wap }}/my/favorited">
+							123
+						<p>收藏</p>
+						</a>
+					</li>
+					<li>
+						<a href="">
+							123
+						<p>浏览记录</p>
+						</a>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="nav-menu">
 			<ul class="navfelx item">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/account">
-						账户信息
-					</a>
-				</li>
-			</ul>
-			<ul class="navfelx item">
-				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders">
 						我的订单
+						<div class="allorder">
+							查看全部订单 >
+						</div>
 					</a>
 				</li>
 			</ul>
-			<ul class="navfelx item">
+			<ul class="navfelx item all">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
-						收货地址
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=1">
+						<div class="bgimg fu"></div>
+						待付款
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=2">
+						<div class="bgimg fa"></div>
+						待发货
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=3">
+						<div class="bgimg shou"></div>
+						待收货
+					</a>
+				</li>
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=8">
+						<div class="bgimg tui"></div>
+						退款／售后
 					</a>
 				</li>
 			</ul>
-			<ul class="navfelx item">
+			
+			<ul class="navfelx item mtb-2r">
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
 						我的红包
+					</a>
+				</li>
+			</ul>
+			<ul class="navfelx item mt-2r">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
+						收货地址
 					</a>
 				</li>
 			</ul>

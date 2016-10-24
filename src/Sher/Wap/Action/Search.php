@@ -253,6 +253,7 @@ class Sher_Wap_Action_Search extends Sher_Wap_Action_Base {
     * fiu_search
     */
     public function fiu(){
+        $this->set_target_css_state('page_find');
         // 记录上一步来源地址
         $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		return $this->to_html_page('wap/fiusearch.html');

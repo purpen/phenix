@@ -11,6 +11,10 @@
 .color-be{
 	background: #be8914 !important;
 }
+.sfooter.nav-menu{
+	display: none;
+	visibility: none;
+}
 </style>
 {% endblock %}
 {% block js %}
@@ -43,7 +47,8 @@
 {% block content %}
 <div class="ui fiushop pb-0" >
 	<div class="ui sheader">
-		<p>账户信息</p>
+		<a class="return" href="{{ app_url_wap }}/my/mymanage"><i class="angle float left icon"></i></a>
+		<p>修改密码</p>
 	</div>
 </div>
 <div class="ui responsive grid plr-r mt-2r">
