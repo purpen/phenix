@@ -289,15 +289,17 @@
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
 
               var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
-              $('.guess.title').html('<span>为你优选好货</span>');
               if(page==1){
                 $('#shop_guess_wap_list').html(rendered);
               }else{
                 $('#shop_guess_wap_list').append(rendered);
               }
+
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
+
+              $('.guess.title').html('<span style="align:center;">为你优选好货</span>');
           }, 'json');
       }
 
