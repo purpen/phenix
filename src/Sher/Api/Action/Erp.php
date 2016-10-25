@@ -278,10 +278,24 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
             return $this->api_json('内容不存在！', 3002);            
         }
 
+        $old_inventory = $inventory['quantity'];
+        // 增量
+        $increment = $quantity - $old_inventory;
         $ok = $inventory_model-update_set($inventory['_id'], array('quantity'=>$quantity));
         if(!$ok){
             return $this->api_json('更新库存失败！', 3003);        
         }
+
+        // 更新商品库存
+        $product_id = (int)$inventory['product_id'];
+        $product_model = new Sher_Core_Model_Product();
+        $product = $product_model->load($product_id);
+        if($product){
+            $new_inventory = $product['inventory'] + $increment;
+            if($new_inventory < 0) $new_inventory = 0;
+            $product_model->update_set($product['_id'], array('inventory'=>$new_inventory));
+        }
+
         return $this->api_json('success', 0, array('number'=>$number));
     }
 
