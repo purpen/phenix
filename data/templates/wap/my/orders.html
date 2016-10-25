@@ -338,11 +338,11 @@
     $(this).bind('click',function(){
       var rid = $(this).attr('rid');
       $('#refund_rid').val(rid);
-      $('#orderitem').addClass('showbt');
+      $('.ordeshow').addClass('showbt');
     });
   });
   $('.close-btn').bind('click',function(){
-  	$('#orderitem').removeClass('showbt');
+  	$('.ordeshow').removeClass('showbt');
   });
 
   $('#refund-form').form({
@@ -412,7 +412,7 @@
     <p>我的订单</p>
   </div>
 </div>
-<div class="ui responsive grid mt-2r">
+<div class="ui responsive grid mt-2r ordeshow">
 	<div class="nav-menu">
 		<ul class="navfelx">
 			<li class="childcell">
