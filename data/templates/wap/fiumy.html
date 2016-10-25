@@ -11,7 +11,7 @@
     display: -webkit-box;
 	align-items:center;
     -webkit-box-align: center;
-    background: url({{ app_url_packaged }}/images/icon/oval.jpg);
+    background: url({{ app_url_packaged }}/images/icon/ovall.jpg);
     background-size: 100% 100%;
     color:#fff;
     position: relative;
@@ -106,6 +106,7 @@
 }
 .myset a{
 	color: #fff;
+	font-size: 14px;
 }
 .tmess{
 	position: absolute;
@@ -208,13 +209,114 @@
 	background-position: 0 0;
 	width: 19px;
 }
+#shop_guess_wap_list{
+    margin-top: 15px;
+    position: relative;
+    background: #fff;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+#shop_guess_wap_list .guess.title{
+    padding:15px 10px 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+    padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 50%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 6px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+    padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+    border: 1px solid rgba(0,0,0,0.1);
+    top: 0;
+    bottom: auto;
+    height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+    position:relative;
+    background:#fff;
+    padding: 8px 0 0;
+    text-align: left;
+    height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+    height:34px;
+    color: #222;
+    font-size: 14px;
+    overflow:hidden;
+    font-weight:400;
+    white-space: normal;
+    margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+    font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #BE8914;
+    line-height:20px;
+}
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 4;
+      var category_id = '';
+      var sort = 4;
+      var type = 2;
+      var category_tag = '';
+
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+              if(page==1){
+                $('#shop_guess_wap_list').html(rendered);
+              }else{
+                $('#shop_guess_wap_list').append(rendered);
+              }
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+
+              $('.guess.title').html('<span style="text-align:center;">为你优选好货</span>');
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
+{% endblock %}
+
 {% block content %}
 <div class="ui fiushop">
-	<div class="ui sheader">
+	<!--<div class="ui sheader">
 		<p>我的Fiu</p>
-	</div>
+	</div>-->
 	<div id="personal">
 		<div class="mytop">
 			<div class="myphoto">
@@ -234,22 +336,24 @@
 				<a href="{{ app_url_wap }}/my/mymanage">账户管理 ></a>
 			</div>
 			<div class="tmess">
-                <!--
 				<ul class="two-meg">
 					<li>
+                    <!--
 						<a href="{{ app_url_wap }}/my/favorited">
-							123
 						<p>收藏</p>
 						</a>
+                        -->
 					</li>
 					<li>
+                    <!--
 						<a href="">
 							123
 						<p>浏览记录</p>
 						</a>
+
+                    -->
 					</li>
 				</ul>
-                -->
 			</div>
 		</div>
 		<div class="nav-menu">
@@ -313,8 +417,19 @@
 			</ul>
 			
 		</div>
+
 	</div>
+
+    <!-- 相关推荐 -->
+    <div id="shop_guess_wap_list">
+            <!-- 加载相关推荐 -->
+    </div>
+
 </div>
 
 
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}

@@ -293,6 +293,20 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		return (int)$sku;
 	}
+
+    /**
+     * 查询编号
+     */
+    public function find_number_id($number_id){
+        if(empty($number_id)){
+            return false;
+        }
+        $inventory = $this->first(array('number'=> $number_id));
+        if($inventory){
+            return $inventory;
+        }
+        return false;
+    }
 	
 }
 
