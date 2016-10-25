@@ -326,7 +326,7 @@
       $.post(url, {rid: rid, from_to: 2}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
-          phenix.redirect(result.redirect_url);
+          //phenix.redirect(result.redirect_url);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }
@@ -375,11 +375,13 @@
 					<h5 class="ui header">待收货</h5>
 				</a>
 			</li>
+            <!--
 			<li class="childcell">
 				<a href="{{ app_url_wap }}/my/orders?s=7" class="{{ css_evaluate }} menuicon">
 					<h5 class="ui header">待评价</h5>
 				</a>
 			</li>
+            -->
 			<li class="childcell">
 				<a href="{{ app_url_wap }}/my/orders?s=8" class="{{ css_return }} menuicon">
 					<h5 class="ui header">退换货</h5>
