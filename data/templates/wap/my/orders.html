@@ -240,7 +240,61 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var sort = 0;
+      var type = 0;
+      var status = "{{ s|default 0 }}";
+  
+      // 加载订单列表
+      function ajax_load_more(type, status, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#order-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/order/ajax_fetch_more';
+          $.get(url, { sort:sort, page:page, type:type, size:size, status:status }, function(rs){
+              if(rs.data.total_page > rs.data.current_page){
+                  $('#order-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#order-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#orders_tpl', rs.data);
+              if(page==1){
+                $('#orderitem').html(rendered);
+              }else{
+                $('#orderitem').append(rendered);
+              }
+
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
+
+    //ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#order-more').attr('status');
+      page = parseInt($('#order-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(type, status, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始列表
+    ajax_load_more(type, status, sort, page, size);
+
 	$('.ui.responsive.grid.mt-2r').css('min-height',document.documentElement.clientHeight-230);
 
   // 取消订单
@@ -391,82 +445,9 @@
 	</div>
 	
 	<div id="orderitem">
-		
-		{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}	
-		{% for order in list.rows %}
-		<div class="item" id="order-{{ order.rid }}">
-			
-			<div class="ordertop">
-				<span class="ui line fz-12">{{ order.created_on|date 'Y/m/d' }}</span>
-				<span class="ui color-be link fz-12 flt-r order_label_txt">{{ order.status_label }}</span>
-			</div>
-			
-			{% for item in order.items %}
-			{% product_list var:'product' product_id:item.product_id %}
-			<div class="content">
-				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="img"> 
-						<img src="{{ product.cover.thumbnails.mini.view_url }}">
-				</a>
-				<div class="orderinfo">
-					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}">
-						<h4 class="title">
-							{{ product.title }}
-						</h4>
-					
-						<p class="price"><i class="rmb icon"></i>  {{ item.sale_price }}</p>
-					</a>
-					<div class="orderdes">
-						<span class="sku">
-							{% if item.sku == item.product_id %}
-							默认
-							{% else %}
-							{% sku_list var:'sku' sku:item.sku %}
-							{{ sku.mode }}
-						{% endif %}
-						</span>
-						<span class="count flt-r">
-							x {{ item.quantity }}
-						</span>
-					</div>
-				</div>
-			</div>
-			{% endfor %}
-			
-			<div class="product">
-				<p>共{{ order.items_count }}件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> {{ order.pay_money }}</p>
-			</div>
-			
-			<div class="orderbottom status_btn_box">
-				{% if my %}
-          {% if order.status == '-1' %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
-          {%endif%}
-          {% if order.status == 0 %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
-          {%endif%}
-          <!--
-          {% if order.status == 16 %}
-          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order.rid }}" class="ui small color-be inverted button">评价订单</a>
-          {%endif%}
-          -->
-          {% if order.status == 20 %}
-            <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
-          {%endif%}
-					{% if order.status == 1 %}
-          <a href="javascript:void(0);" rid="{{ order.rid }}" class="ui small color-be inverted button cancel_order_btn">取消订单</a>
-				<a href="{{ app_url_wap }}/my/order_view?rid={{ order.rid }}" class="ui small color-be inverted button">立即支付</a>
-					{% endif %}
-		  			{% if order.status == 10 %}
-		            <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
-		  			{% endif %}
-		  			{% if order.status == 15 %}
-		            <a href="javascript:void(0);" class="ui small color-be inverted button take_delivery_btn" rid="{{ order.rid }}">确认收货</a>
-		  			{% endif %}
-				{% endif %}
-				
-			</div>
-		</div>
-		{% else %}
+        <!--ajax laod list-->
+
+        <!--
 		<div class="ui responsive grid">
 			<div class="row">
 				<div class="column">
@@ -476,8 +457,20 @@
 				</div>
 			</div>
 		</div>
-		{% endfor %}
-		
+
+        -->
+
+			
+		</div>
+
+        <div id="order-more" class="" style="display:none;" page="1" status="0">
+            <div class="p_sub" style="text-align:center;margin:10px auto;">
+                
+            </div>
+        </div>
+
+
+
 		<div class="refund-box">
 			<div class="ui grid m-0 plr-r">
 				<div class="row">
@@ -486,6 +479,11 @@
 			      </div>
 			    </div>
 				
+
+		
+	</div>
+
+
 				<div class="row pt-0">
 					<div class="column">
 					    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
@@ -523,17 +521,10 @@
 				
 				
 			</div>
-			
-			
-		</div>
-		
-	</div>
 
-  {% if list.rows %}
-  <div class="ui pagination mt-3r" style="text-align:center;">
-    {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:3 %}
-    {% include 'block/pager.html' %}
-  </div>
-  {% endif %}
 </div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'orders_tpl' tpl:'mustache_m/orders.mustache' %}
 {% endblock %}
