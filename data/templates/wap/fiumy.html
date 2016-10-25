@@ -211,6 +211,45 @@
 }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 4;
+      var category_id = '';
+      var sort = 4;
+      var type = 2;
+      var category_tag = '';
+
+  
+      // 加载产品列表
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_load_list';
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+              $('.guess.title').html('<span>为你优选好货</span>');
+              if(page==1){
+                $('#shop_guess_wap_list').html(rendered);
+              }else{
+                $('#shop_guess_wap_list').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
+{% endblock %}
+
 {% block content %}
 <div class="ui fiushop" style="font-size: 0;">
 	<!--<div class="ui sheader">
@@ -235,22 +274,21 @@
 				<a href="{{ app_url_wap }}/my/mymanage">账户管理 ></a>
 			</div>
 			<div class="tmess">
-                <!--
 				<ul class="two-meg">
 					<li>
 						<a href="{{ app_url_wap }}/my/favorited">
-							123
 						<p>收藏</p>
 						</a>
 					</li>
+                    <!--
 					<li>
 						<a href="">
 							123
 						<p>浏览记录</p>
 						</a>
 					</li>
+                    -->
 				</ul>
-                -->
 			</div>
 		</div>
 		<div class="nav-menu">
@@ -314,8 +352,18 @@
 			</ul>
 			
 		</div>
+
+        <!-- 相关推荐 -->
+        <div id="shop_guess_wap_list">
+                <!-- 加载相关推荐 -->
+        </div>
+
+
 	</div>
 </div>
 
+{% endblock %}
 
+{% block templates %}
+    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
 {% endblock %}
