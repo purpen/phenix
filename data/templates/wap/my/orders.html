@@ -466,8 +466,52 @@
 
         -->
 
-			
-		</div>
+			<div class="refund-box">
+        <div class="ui grid m-0 plr-r">
+          <div class="row">
+            <div class="column">
+              <h4 class="ui header pb-r mt-r">请添写退款理由:</h4>
+            </div>
+          </div>
+          <div class="row pt-0">
+            <div class="column">
+              <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                <input type="hidden" name="rid" id="refund_rid" value="" />
+                <div class="field">
+
+                  <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
+                        <option value="1">我不想要了</option>
+                        <option value="0">其他</option>
+                      
+                      
+                  </select>
+              
+                  <textarea class="refund_content" name="refund_content" rows="3"></textarea>
+                </div>
+              
+              
+              
+                <div class="nextbtn">
+                  <div class="close-btn">
+                    取消
+                  </div>  
+                  <div class="submit">
+                    提交
+                  </div>
+                </div>
+              <!--
+                <div class="right aligned field ">
+                  <div class="ui gray cancel button">取消</div>
+                  <div class="ui active color-be submit button" >确认退款</div>
+                </div>-->
+              </form>
+            </div>
+          </div>
+
+      
+        </div>
+		  </div>
+    </div>
 
         <div id="order-more" class="" style="display:none;" page="1" status="0">
             <div class="p_sub" style="text-align:center;margin:10px auto;">
@@ -477,56 +521,12 @@
 
 
 
-		<div class="refund-box">
-			<div class="ui grid m-0 plr-r">
-				<div class="row">
-			      <div class="column">
-			        <h4 class="ui header pb-r mt-r">请添写退款理由:</h4>
-			      </div>
-			    </div>
-				
-
 		
-	</div>
 
 
-				<div class="row pt-0">
-					<div class="column">
-					    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
-                <input type="hidden" name="rid" id="refund_rid" value="" />
-					      <div class="field">
-
-							<select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-				                <option value="1">我不想要了</option>
-				                <option value="0">其他</option>
-											
-											
-							</select>
-							
-					        <textarea class="refund_content" name="refund_content" rows="3"></textarea>
-					      </div>
-						  
-						  
-						  
-						  <div class="nextbtn">
-				              <div class="close-btn">
-				                取消
-				              </div>	
-				              <div class="submit">
-				                提交
-				              </div>
-				          </div>
-						  <!--
-					      <div class="right aligned field ">
-					        <div class="ui gray cancel button">取消</div>
-					        <div class="ui active color-be submit button" >确认退款</div>
-					      </div>-->
-					    </form>
-					</div>
-				</div>
 				
 				
-			</div>
+				
 
 </div>
 {% endblock %}
