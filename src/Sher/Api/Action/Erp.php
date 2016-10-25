@@ -262,6 +262,29 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		
 	}
 
+    /**
+     * 更新sku库存
+     */
+    public function update_inventory(){
+        $number = isset($this->stash['number']) ? $this->stash['number'] : null;
+        $quantity = isset($this->stash['quantity']) ? (int)$this->stash['quantity'] : 0;
+        if(empty($number)){
+            return $this->api_json('缺少请求参数！', 3001);           
+        }
+
+        $inventory_model = new Sher_Core_Model_Inventory();
+        $inventory = $inventory_model->find_number_id($number);
+        if(empty($inventory)){
+            return $this->api_json('内容不存在！', 3002);            
+        }
+
+        $ok = $inventory_model-update_set($inventory['_id'], array('quantity'=>$quantity));
+        if(!$ok){
+            return $this->api_json('更新库存失败！', 3003);        
+        }
+        return $this->api_json('success', 0, array('number'=>$number));
+    }
+
 
 }
 
