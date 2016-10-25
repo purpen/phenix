@@ -16,7 +16,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		'id' => null,
 		'view_page' => null,
 		's' => 0,
-    'rid' => null,
+        'rid' => null,
 	);
 	
 	protected $page_tab = 'page_my';
@@ -94,6 +94,21 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$this->set_target_css_state('user_account');
 		return $this->to_html_page("wap/my/account.html");
 	}
+
+	/**
+	 * 账户管理
+	 */
+	public function mymanage(){
+		return $this->to_html_page("wap/my/mymanage.html");
+	}
+
+	/**
+	 * 收藏
+	 */
+	public function favorited(){
+		return $this->to_html_page("wap/my/favorited.html");
+	}
+
 	
 	public function photo(){
 		$this->stash['profile'] = $this->visitor->profile;

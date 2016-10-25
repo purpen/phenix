@@ -6,13 +6,15 @@
 	text-align: center;
 }
 body{
-  min-height:100%;
-  height:auto;
-  background:url({{ app_url_packaged }}/images/landbj.jpg) center center no-repeat;
+  height:100%;
+  //background:url({{ app_url_packaged }}/images/landbj.jpg) center center no-repeat;
   background-size:cover;
+  background:#f1f1f1;
+  position: relative;
 }
 .auth.page {
-    height: 480px;
+	padding-top: 25px;
+   /* height: 480px;
     margin: 0;
     width: 100%;
     top: 50%;
@@ -20,7 +22,7 @@ body{
     margin-top: -250px;
     left: 50%;
     transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);*/
 }
 .ui.log-in>.ui.header.logo {
   background-color: #F2F2F2;
@@ -28,9 +30,45 @@ body{
   text-align: center;
 }
 .ui.bottom.attached{
-  height:379px;
+  height:425px;
   position:relative;
   padding-top:25px;
+}
+.ui.segment,.ui.attached.header{
+	border:none !important;
+	background: rgba(0,0,0,0);
+}
+.ui.form input[type=text]:focus{
+	border-color: #be8914;
+    border-radius: .28571429rem;
+    box-shadow: 0 0 0 0 #be8914 inset;
+}
+.ui.red.button{
+	color: #db2828;
+    background: none;
+}
+.ui.blue.button{
+	color: #2185d0;
+	background: none;
+}
+.ui.green.button{
+	color: #21ba45;
+	background: none;
+}
+.ui.inverted.magenta.button{
+	box-shadow: 0 0 0 2px #be8914 inset!important;
+    color: #be8914 !important;
+}
+.ui.inverted.magenta.button.active,.ui.inverted.magenta.button:hover{
+	background:#be8914 !important;
+	color: #fff !important;
+}
+.fiublogo{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding: 0 10px 25px;
 }
 .third.login{
   position: absolute;
@@ -63,7 +101,9 @@ body{
 .ui.grid.field{
 	margin-bottom:1rem;
 }
-
+font{
+	display: none;
+}
 </style>
 {% endblock %}
 
@@ -74,6 +114,8 @@ body{
 {% endblock %}
 
 {% block jquery %}
+	var bheight = $('body').height() - 220 +'px';
+	$('.ui.bottom.attached').css('height',bheight);
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
@@ -382,9 +424,9 @@ body{
 	<div class="ui responsive grid">
 		<div class="ui column width">
 			<div class="ui log-in signup">
-				<div class="ui top attached header logo">
+				<div class="ui top attached header logo ptb-2r">
 					<a href="{{ app_url_wap }}" title="返回首页">
-						<img src="{{ app_url_packaged }}/images/auth-logo.png" />
+						<img src="{{ app_url_packaged }}/images/icon/fiulogo.png" width="140px" />
 					</a>
 				</div>
 				
@@ -546,5 +588,8 @@ body{
 		</div>
 	</div>
 	<!-- end -->
+</div>
+<div class="fiublogo">
+	<img src="{{ app_url_packaged }}/images/icon/login.png" width="100%">
 </div>
 {% endblock %}

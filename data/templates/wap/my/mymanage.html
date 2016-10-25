@@ -1,0 +1,83 @@
+{%extends 'layout/shop.html'%}
+{% block title%}账户信息-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.header{
+	font-weight:400;
+}
+.color-be{
+	background: #be8914 !important;
+}
+.sfooter.nav-menu{
+	display: none;
+	visibility: none;
+}
+.nav-menu{
+	margin-top: 10px;
+}
+.ui.fiushop .nav-menu .navfelx {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.ui.fiushop .nav-menu .navfelx.item .childcell .menuicon {
+    text-align: left;
+    font-size: 14px;
+    padding: 15px;
+    color: #222;
+    margin: 0;
+    line-height: 18px;
+}
+.ui.fiushop .nav-menu .navfelx.item .childcell .menuicon i.float.icon.cate {
+    font-size: 1.5em;
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    color:#ccc;
+}
+.logout{
+	margin: 0 10px;
+    text-align: center;
+    font-size: 14px;
+    padding: 15px;
+    line-height: 18px;
+    color: #be8914;
+    position: relative;
+    background: #fff;
+    margin-top: 10px;
+    display: block;
+}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %};
+{% endblock %}
+
+{% block content %}
+<div class="ui fiushop pb-0" >
+	<div class="ui sheader">
+		<a class="return" href="{{ app_url_wap }}/my/fiumy"><i class="angle float left icon"></i></a>
+		<p>账户管理</p>
+	</div>
+	<div class="nav-menu">
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
+					收货地址
+					<i class="angle float right icon cate"></i>
+				</a>
+			</li>
+		</ul>
+		<ul class="navfelx item">
+			<li class="childcell">
+				<a class="menuicon" href="{{ app_url_wap }}/my/account">
+					修改密码
+					<i class="angle float right icon cate"></i>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<a href="{{ app_url_wap }}/auth/logout" class="logout">退出当前账号</a>
+</div>
+{% endblock %}

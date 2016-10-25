@@ -1224,26 +1224,22 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		try{
 			$data = array();
-			$model = new Sher_Core_Model_OrderTemp();
-      $result = $model->first(array('rid'=>$rid));
-      if (empty($result)){
-        return $this->ajax_json('找不到订单！', true);
-      }
-      $items = $result['dict']['items'];
-			if(count($items) != 1){
-				return $this->ajax_json('该红包仅限单一产品！', true);
-			}
-      $product_id = $items[0]['product_id'];
-      $total_money = $result['dict']['total_money'];
-			$card_money = Sher_Core_Util_Shopping::get_card_money($code, $total_money, $product_id);
+            $model = new Sher_Core_Model_OrderTemp();
+            $result = $model->first(array('rid'=>$rid));
+            if (empty($result)){
+                return $this->ajax_json('订单操作失败，请重试！', true);
+            }
+
+            $bonus_result = Sher_Core_Util_Shopping::check_bonus($rid, $code, $this->visitor->id, $result);
+            if(!empty($bonus_result['code'])){
+ 			    return $this->ajax_json($bonus_result['msg'], true);             
+            }
+
+            $card_money = $bonus_result['coin_money'];
 
 			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
 			if($ok){
-				$result = $model->first(array('rid'=>$rid));
-				if (empty($result)){
-					return $this->ajax_json('订单操作失败，请重试！', true);
-				}
 				$dict = $result['dict'];
 				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
