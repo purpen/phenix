@@ -16,7 +16,7 @@
       // 加载地址列表
       function ajax_load_more(type, sort, page, size){
 
-          var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_more';
+          var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_load_more';
           $.get(url, { sort:sort, page:page, type:type, size:size }, function(rs){
 
               var rendered = phenix.ajax_render_result('#delivery_addresses_tpl', rs.data);
@@ -30,12 +30,40 @@
       }
 
     // 加载城市列表
-    function ajax_load_city1(province_id, city_id, country_id, town_id){
+    function ajax_load_city(province_id, city_id, county_id, town_id){
         var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
 
-        $.get(url, { oid:oid, pid:pid, layer:layer }, function(rs){
+        // 一级
+        $.get(url, { pid:0, layer:1 }, function(rs){
             if(rs.success){
-                
+                fetch_province(province_id, rs.data);
+                // 二级
+                if(province_id){
+                    $.get(url, {pid:province_id, layer:2}, function(rs){
+                        if(rs.success){
+                            fetch_city(province_id, city_id, rs.data);
+                            // 三级
+                            if(city_id){
+                                $.get(url, {pid:city_id, layer:3}, function(rs){
+                                    if(rs.success){
+                                        fetch_county(city_id, county_id, rs.data);
+                                        //  四级
+                                        if(county_id){
+                                            $.get(url, {pid:county_id, layer:4}, function(rs){
+                                                if(rs.success){
+                                                    fetch_town(county_id, town_id, rs.data);
+                                                }
+                                            }, 'json')                           
+                                        }
+
+                                    }
+                                }, 'json')                           
+                            }
+
+                        }
+                    }, 'json')
+                }
+        
             }else{
                 phenix.show_error_note('获取城市失败');
             }    
@@ -44,19 +72,138 @@
     
     }
 
-    // 加载城市列表
-    function ajax_load_city(pid, layer){
-        var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
 
-        $.get(url, { oid:oid, pid:pid, layer:layer }, function(rs){
-            if(rs.success){
-                
+    // 渲染一级
+    function fetch_province(province_id, data){
+
+        var obj = $('#province_box');
+        obj.find('input[name=province_id]').val(province_id);
+        $('input[name=city_id]').val(0);
+        $('input[name=county_id]').val(0);
+        $('input[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        $('#county_box').hide();
+        $('#town_box').hide();
+        var html = '';
+        var default_name = '';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==province_id){
+                var active = 'active';
+                default_name = data[i]['name'];
             }else{
-                phenix.show_error_note('获取城市失败');
-            }    
-
-        }, 'json');
+                var active = '';
+            }
+            html += '<div data-value="'+ data[i]['oid'] +'" class="item '+ active +'">'+ data[i]['name'] +'</div>';
+        }
+        obj.find('.select-list').html(html);
+        if(default_name){
+            obj.find('.default.text').text(default_name).removeClass('default');
+        }
     
+    }
+
+    // 渲染二级
+    function fetch_city(province_id, city_id, data){
+
+        var obj = $('#city_box');
+        obj.find('input[name=city_id]').val(city_id);
+        $('input[name=county_id]').val(0);
+        $('input[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        $('#county_box').hide();
+        $('#town_box').hide();
+        obj.find('.text').text('--请选择--');
+        var html = '';
+        var default_name = '';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==city_id){
+                var active = 'active';
+                default_name = data[i]['name'];
+            }else{
+                var active = '';
+            }
+            html += '<div data-value="'+ data[i]['oid'] +'" class="item '+ active +'">'+ data[i]['name'] +'</div>';
+        }
+        obj.find('.select-list').html(html);
+        if(default_name){
+            obj.find('.default.text').text(default_name).removeClass('default');
+        }
+    }
+
+    // 渲染三级
+    function fetch_county(city_id, county_id, data){
+        var obj = $('#county_box');
+        obj.find('input[name=county_id]').val(county_id);
+        $('input[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        $('#town_box').hide();
+        obj.find('.text').text('--请选择--');
+        var html = '';
+        var default_name = '';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==county_id){
+                var active = 'active';
+                default_name = data[i]['name'];
+            }else{
+                var active = '';
+            }
+            html += '<div data-value="'+ data[i]['oid'] +'" class="item '+ active +'">'+ data[i]['name'] +'</div>';
+        }
+        obj.find('.select-list').html(html);
+        if(default_name){
+            obj.find('.default.text').text(default_name).removeClass('default');
+        }
+    }
+
+    // 渲染四级
+    function fetch_town(county_id, town_id, data){
+        var obj = $('#town_box');
+        obj.find('input[name=town_id]').val(town_id);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        obj.find('.text').text('--请选择--');
+        var html = '';
+        var default_name = '';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==town_id){
+                default_name = data[i]['name'];
+                var active = 'active';
+            }else{
+                var active = '';
+            }
+            html += '<div data-value="'+ data[i]['oid'] +'" class="item '+ active +'">'+ data[i]['name'] +'</div>';
+        }
+        obj.find('.select-list').html(html);
+        if(default_name){
+            obj.find('.default.text').text(default_name).removeClass('default');
+        }
+    }
+
+    // 清空下拉列表数据
+    function clean_select(){
+        var obj = $('#province_box');
+        obj.find('input[name=province_id]').val(0);
+        obj.find('.text').text('--请选择--');
+        var obj = $('#city_box');
+        obj.find('input[name=city_id]').val(0);
+        obj.hide();
+        var obj = $('#county_box');
+        obj.find('input[name=county_id]').val(0);
+        obj.hide();
+        var obj = $('#town_box');
+        obj.find('input[name=town_id]').val(0);
+        obj.hide();
+        
     }
 
   </script>
@@ -67,11 +214,12 @@
 	// 初始加载列表
     ajax_load_more(type, sort, page, size);
 
-    ajax_load_city(0,1);
 
 	// 显示地址框
 	$('.ui.addbook.button').click(function(){
     $('#addbook-form').clearForm();
+        ajax_load_city(0,0,0,0);
+        clean_select();
 		$('.ui.addbook.modal').modal('show');
 	});
 
@@ -83,6 +231,7 @@
 	// 选择地址
 	/*$('.address').on('click', '.item', function(){
 		var addbook_id = $(this).data('id');
+
 		// 新添加地址
 		if (addbook_id == 0){
 			$('.ui.addbook.modal').modal('show');
@@ -109,7 +258,7 @@
 				]
 			},
 			phone: {
-				identifier  : 'password',
+				identifier  : 'phone',
 				rules: [
 					{
 						type   : 'empty',
@@ -121,21 +270,30 @@
 					}
 				]
 			},
-			province: {
-				identifier  : 'province',
+			province_id: {
+				identifier  : 'province_id',
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '省份/自治区不能为空'
+						prompt : '地区不能为空'
 					}
 				]
 			},
-			city: {
-				identifier  : 'city',
+			city_id: {
+				identifier  : 'city_id',
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '地址区域不能为空'
+						prompt : '地区不能为空'
+					}
+				]
+			},
+			county_id: {
+				identifier  : 'county_id',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地区不能为空'
 					}
 				]
 			},
@@ -144,42 +302,92 @@
 				rules: [
 					{
 						type   : 'empty',
-						prompt : '地址区域不能为空'
-					}
-				]
-			},
-			zip: {
-				identifier  : 'zip',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '邮政编码不能为空'
+						prompt : '地址不能为空'
 					}
 				]
 			}
+
 		}, {
 			inline : true,
 			onSuccess: function(event){
-				event.preventDefault();
-				$(this).ajaxSubmit();
+                event.preventDefault();
+                $(this).ajaxSubmit({
+                    dataType: 'json',
+                    beforeSubmit: function(){
+                        phenix.before_submit();
+                    },
+                    success: function(rs){
+                        if(rs.is_error){
+                          phenix.after_submit();
+                            $(event.target).addClass('error');
+                            phenix.show_error_note(rs.message, event.target);
+                        }else{
+                            $('.ui.addbook.modal').modal('hide');
+                            //$('#addbook-form').clearForm();
+                            clean_select();
+                            phenix.after_submit();
+                            if(rs.data.is_default==1){
+                                $('.delivery_address_list').removeClass('active');
+                            }
+                            var rendered = phenix.ajax_render_result('#delivery_address_tpl', rs.data);
+                            $('#item-list').prepend(rendered);
+
+                        }
+                    }
+                });
 			}
 		});
 	});
 	
+    // 二级
 	$('.ui.province.dropdown').livequery(function(){
 		$(this).dropdown({
 			onChange : function(value, text){
 				if (value) {
-					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+                    var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
+                    $.get(url, {pid: value, layer:2}, function(rs){
+                        if(rs.success){
+                            fetch_city(value, 0, rs.data);
+                        }
+                    }, 'json');
 				}
 			}
 		});
 	});
 	
-	$('.ui.district.dropdown').livequery(function(){
-		$(this).dropdown();
+    // 三级
+	$('.ui.city.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+                    var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
+                    $.get(url, {pid: value, layer:3}, function(rs){
+                        if(rs.success){
+                            fetch_county(value, 0, rs.data);
+                        }
+                    }, 'json');
+				}
+			}
+		});
+	});
+
+    // 四级
+	$('.ui.county.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+                    var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
+                    $.get(url, {pid: value, layer:4}, function(rs){
+                        if(rs.success){
+                            fetch_town(value, 0, rs.data);
+                        }
+                    }, 'json');
+				}
+			}
+		});
 	});
 	
+
 	$('.ui.cancel.button').livequery(function(){
 		$(this).click(function(){
 			$('#edit-form-box').empty();
@@ -190,7 +398,7 @@
   $('.ui.edit.button').livequery(function(){
     $(this).click(function(){
       var id = $(this).data('id');
-      $.post('{{ app_url_address }}/edit_address', {id: id});
+      $.post('{{ app_url_domain }}/app/site/delivery_address/edit', {id: id});
       return false;
     });
   });
@@ -200,13 +408,13 @@
     $(this).bind('click', function(){
       var id = $(this).data('id');
       if(confirm('确认执行这个删除操作吗?')){
-        $.post('{{ app_url_address }}/remove_address', {id: id}, function(result){
+        $.post('{{ app_url_domain }}/app/site/delivery_address/deleted', {id: id}, function(result){
           if (result.success){
-            if ($('#'+result.data.id).hasClass('active')) {
+            if ($('#item-'+id).hasClass('active')) {
               // 清空默认值
               $('#addbook_default_id').val('');
             }
-            $('#'+result.data.id).remove();
+            $('#item-'+id).remove();
           } else {
             phenix.show_error_note(result.message, 5000);
           }
@@ -245,14 +453,14 @@
 		</div>
 		<div class="twelve wide column">
 			<h2 class="ui header">管理收货地址</h2>
-			<div class="ui three address blocks">
-                <div id="item-list"><!--ajax_list--></div>
+			<div class="ui three address blocks" id="item-list">
+                <!--ajax_list-->
+			</div>
 				<div class="center aligned block" id="create-new-address" data-id="0">
 					<a class="ui magenta addbook inverted button" href="javascript:void(0);">
 						<i class="edit icon"></i> 添加新地址
 					</a>
 				</div>
-			</div>
 		</div>
 	</div>
 </div>
@@ -261,4 +469,5 @@
 
 {% block templates %}
     {% mustache id:'delivery_addresses_tpl' tpl:'mustache/delivery_addresses.mustache' %}
+    {% mustache id:'delivery_address_tpl' tpl:'mustache/delivery_address.mustache' %}
 {% endblock %}

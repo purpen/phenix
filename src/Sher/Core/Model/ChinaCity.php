@@ -36,7 +36,9 @@ class Sher_Core_Model_ChinaCity extends Sher_Core_Model_Base  {
         $query['layer'] = (int)$layer;
         $query['status'] = 1;
 		$options['sort'] = array('sort' => 1);
-        return $this->find($query, $options);
+        $result = $this->find($query, $options);
+        if($result) return $result;
+        return false;
     }
 
     
