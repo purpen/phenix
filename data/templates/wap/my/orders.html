@@ -265,7 +265,13 @@
               }
               var rendered = phenix.ajax_render_result('#orders_tpl', rs.data);
               if(page==1){
-                $('#orderitem').html(rendered);
+                if(rs.data.rows.length==0){
+                var html = '<div class="ui responsive grid"><div class="row"><div class="column"><div class="ui segment"><div class="item">您还没有相关订单</div></div></div></div></div>';
+
+                    $('#orderitem').html(html);
+                }else{
+                    $('#orderitem').html(rendered);
+                }
               }else{
                 $('#orderitem').append(rendered);
               }
