@@ -34,10 +34,6 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
         $query = array();
 
         $query['user_id'] = $this->visitor->id;
-		
-		if($status){
-            $query['status'] = $status;
-		}
 
         $query['deleted'] = 0;
 		
@@ -129,7 +125,7 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
             // 创建时间格式化 
             $data[$i]['created_at'] = date('Y/m/d', $result['rows'][$i]['created_on']);
             $data[$i]['products'] = array();
-            for($j=0;$j<count($data[$i]['items']);j++){
+            for($j=0;$j<count($data[$i]['items']);$j++){
                 $item = $data[$i]['items'][$j];
                 $row = array();
                 $product = $product_model->extend_load($item['product_id']);
