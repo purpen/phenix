@@ -344,6 +344,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 		$user_id = $this->visitor->id;
 
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+
         $cart_model = new Sher_Core_Model_Cart();
         $cart = $cart_model->load($user_id);
         if(empty($cart) || empty($cart['items'])){
@@ -427,6 +429,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if ($item_arr > 0){
 			$this->set_target_css_state('basket');
 		}
+
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		
 		return $this->to_html_page('wap/shop/cart.html');
 	}
