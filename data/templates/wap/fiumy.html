@@ -288,18 +288,17 @@
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
 
-              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
-                $('#shop_guess_wap_list').html(rendered);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
               }else{
-                $('#shop_guess_wap_list').append(rendered);
+                $('#shop_guess_wap_list .recom-item').append(rendered);
               }
 
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
 
-              $('.guess.title').html('<span style="text-align:center;">为你优选好货</span>');
           }, 'json');
       }
 
@@ -429,13 +428,22 @@
     <!-- 相关推荐 -->
     <div id="shop_guess_wap_list" class="ui brand list">
             <!-- 加载相关推荐 -->
+        <div class="guess title">
+            为你优选好货
+        </div>
+        <div class="row" id="mpresale">
+            <div class="column">
+                <div class="recom-item">
+
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 
-
 {% endblock %}
 
 {% block templates %}
-    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
