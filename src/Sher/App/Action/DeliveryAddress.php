@@ -8,7 +8,7 @@ class Sher_App_Action_DeliveryAddress extends Sher_App_Action_Base {
 		
 	);
 	
-	protected $exclude_method_list = '*';
+	protected $exclude_method_list = array('execute', 'ajax_fetch_city', 'ajax_load_more');
 	
 	/**
 	 * 默认入口
@@ -183,6 +183,8 @@ class Sher_App_Action_DeliveryAddress extends Sher_App_Action_Base {
 			}
 			
 			$delivery_address = $model->extend_load($id);
+            $delivery_address['_id'] = (string)$delivery_address['_id'];
+            $delivery_address['mode'] = $mode;
 
 		    return $this->ajax_json('保存成功!', false, '', $delivery_address);
 			
@@ -194,7 +196,7 @@ class Sher_App_Action_DeliveryAddress extends Sher_App_Action_Base {
     }
 
     /**
-     * 修改配送地址
+     * 删除
      */
 	public function deleted(){
 		$id = $this->stash['id'];
@@ -222,6 +224,32 @@ class Sher_App_Action_DeliveryAddress extends Sher_App_Action_Base {
 		}
 				
 		return $this->ajax_json('删除成功', false, '', array('id'=>$id));
+	}
+
+    /**
+     * 修改
+     */
+	public function edit(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_DeliveryAddress();
+			$addbook = $model->load($id);
+
+            if(empty($addbook)){
+ 			    return $this->ajax_json('地址不存在！', true);       
+            }
+
+            $addbook['_id'] = (string)$addbook['_id'];
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('操作失败,请重新再试', true);
+		}
+				
+		return $this->ajax_json('success', false, '', $addbook);
 	}
 
 }

@@ -1,22 +1,22 @@
 <div class="ui small addbook modal" id="addbook-form-box">
 	<div class="ui header" style="position: relative;">
-    	添加地址
+        <span class="sub_title">添加地址</span>
     	<i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
   	</div>
 	<div class="container">
 		<form action="{{ app_url_domain }}/app/site/delivery_address/save" class="ui form" method="post" id="addbook-form">
 		  	<div class="content">
-				<input type="hidden" name="_id" />
+				<input type="hidden" name="_id" value="" />
 				<input type="hidden" name="plat" value="{{ plat }}" />
 				
 				<div class="two fields">
 					<div class="field">
 						<label>收货人姓名</label>
-				  		<input type="text" name="name" />
+				  		<input type="text" name="name" value="" />
 					</div>
 					<div class="field">
 						<label>联系电话</label>
-					  	<input type="text" name="phone" placeholder="11位手机号码" />
+					  	<input type="text" name="phone" value="" placeholder="11位手机号码" />
 					</div>
 				</div>
 
@@ -83,7 +83,7 @@
 
         		<div class="inline field">
 					<div class="ui checkbox">
-						<input name="is_default" type="checkbox" {% if address.is_default %} checked="checked"{% endif %} value="1">
+						<input name="is_default" type="checkbox" value="1">
 						<label>设为默认地址</label>
 				    </div>
 				</div>

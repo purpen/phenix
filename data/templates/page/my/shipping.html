@@ -9,7 +9,7 @@
 {% block layout_js %}
   <script type="text/javascript" >
       var page = 1;
-      var size = 20;
+      var size = 10;
       var sort = 0;
       var type = 0;
   
@@ -99,7 +99,7 @@
         }
         obj.find('.select-list').html(html);
         if(default_name){
-            obj.find('.default.text').text(default_name).removeClass('default');
+            obj.find('.text').text(default_name).removeClass('default');
         }
     
     }
@@ -131,7 +131,7 @@
         }
         obj.find('.select-list').html(html);
         if(default_name){
-            obj.find('.default.text').text(default_name).removeClass('default');
+            obj.find('.text').text(default_name).removeClass('default');
         }
     }
 
@@ -159,7 +159,7 @@
         }
         obj.find('.select-list').html(html);
         if(default_name){
-            obj.find('.default.text').text(default_name).removeClass('default');
+            obj.find('.text').text(default_name).removeClass('default');
         }
     }
 
@@ -185,7 +185,7 @@
         }
         obj.find('.select-list').html(html);
         if(default_name){
-            obj.find('.default.text').text(default_name).removeClass('default');
+            obj.find('.text').text(default_name).removeClass('default');
         }
     }
 
@@ -220,6 +220,7 @@
     $('#addbook-form').clearForm();
         ajax_load_city(0,0,0,0);
         clean_select();
+        $('#addbook-form-box').find('.sub_title').text('添加地址');
 		$('.ui.addbook.modal').modal('show');
 	});
 
@@ -330,7 +331,11 @@
                                 $('.delivery_address_list').removeClass('active');
                             }
                             var rendered = phenix.ajax_render_result('#delivery_address_tpl', rs.data);
-                            $('#item-list').prepend(rendered);
+                            if(rs.data.mode=='create'){
+                                $('#item-list').prepend(rendered);
+                            }else{
+                                $('#item-'+rs.data._id).replaceWith(rendered);
+                            }
 
                         }
                     }
@@ -398,7 +403,27 @@
   $('.ui.edit.button').livequery(function(){
     $(this).click(function(){
       var id = $(this).data('id');
-      $.post('{{ app_url_domain }}/app/site/delivery_address/edit', {id: id});
+      $.post('{{ app_url_domain }}/app/site/delivery_address/edit', {id: id}, function(rs){
+        if(rs.success){
+
+            var obj = $('#addbook-form-box');
+            obj.find('.sub_title').text('编辑地址');
+            obj.find('[name=_id]').val(rs.data._id);
+            obj.find('[name=name]').val(rs.data.name);
+            obj.find('[name=phone]').val(rs.data.phone);
+            obj.find('[name=address]').val(rs.data.address);
+            obj.find('[name=zip]').val(rs.data.zip);
+            if(rs.data.is_default==1){
+                obj.find('[name=is_default]').prop('checked', true);
+            }else{
+                obj.find('[name=is_default]').prop('checked', false);               
+            }
+            ajax_load_city(rs.data.province_id, rs.data.city_id, rs.data.county_id, rs.data.town_id);
+
+            $('.ui.addbook.modal').modal('show');
+            
+        }
+      }, 'json');
       return false;
     });
   });
@@ -422,7 +447,7 @@
           }
       return false;
     });
-	});
+  });
 	
 {% endblock %}
 {% block content %}
