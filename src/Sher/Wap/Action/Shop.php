@@ -1667,7 +1667,15 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             if(isset($product['user'])){
               $product['user'] = Sher_Core_Helper_FilterFields::user_list($product['user']);
             }
-            array_push($items, array('product'=>$product));
+
+              // tips
+              if($product['tips_label']==1){
+                $product['new_tips'] = true;
+              }elseif($product['tips_label']==2){
+                $product['hot_tips'] = true;         
+              }
+            
+            array_push($items, array('d'=>$product));
           }
         }
         $result['rows'] = $items;
@@ -1684,12 +1692,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       }
 
 		}
-    if(empty($result)){
-      return;
-    }
-		$this->stash['result'] = $result;
-		
-		return $this->to_taconite_page('ajax/guess_products_wap.html');
+        
+        return $this->ajax_json('', false, '', $result);
 	}
 
   /**
