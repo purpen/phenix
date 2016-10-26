@@ -493,6 +493,7 @@
                             phenix.after_submit();
                             if(rs.data.is_default==1){
                                 $('.delivery_address_list').removeClass('active');
+                                $('#addbook_default_id').val(rs.data._id);
                             }
                             var rendered = phenix.ajax_render_result('#delivery_address_tpl', rs.data);
                             if(rs.data.mode=='create'){
@@ -525,6 +526,7 @@
             obj.find('[name=zip]').val(rs.data.zip);
             if(rs.data.is_default==1){
                 obj.find('[name=is_default]').prop('checked', true);
+                $('#addbook_default_id').val(rs.data._id);
             }else{
                 obj.find('[name=is_default]').prop('checked', false);               
             }
