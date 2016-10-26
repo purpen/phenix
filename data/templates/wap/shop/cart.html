@@ -355,11 +355,15 @@
     // 统计总金额
     function stat_total_price(){
         var total_price = 0;
+        $('#buy_target_ids').val('');
         $(".cartitem [name='radio']:checked").each(function(i){
             var target_id = $(this).data('target_id');
             var obj = $("#cart-product-"+target_id+"");
             var price = parseFloat(obj.find('[name=product-price]').val());
             total_price += price;
+
+            // 统计选中ID
+            phenix.record_asset_id('buy_target_ids', target_id);
         })
 
         if(parseFloat(total_price)==0){
@@ -493,7 +497,9 @@
 
     // 去结算 
     $('#do_check_btn').click(function(){
-        var url = "{{ app_url_wap }}/shop/checkout";
+
+        var target_ids = $('#buy_target_ids').val();
+        var url = "{{ app_url_wap }}/shop/checkout?target_ids="+target_ids;
         var total_price = parseFloat($('#total_price_text').text());
         if(total_price==0){
             //phenix.show_error_note('请选择购物车产品!', 2000);
@@ -548,6 +554,7 @@
                 <label>全选</label>
             </div>
 			<div class="cardsum">
+                <input type="hidden" name="buy_target_ids" id="buy_target_ids" value="" />
         合计: <span><i class="rmb icon"></i><span id="total_price_text">{{ total_money }}</span></span>
 			</div>
 			<a href="javascript:void(0);" id="do_check_btn" class="cardcheck ui link">
