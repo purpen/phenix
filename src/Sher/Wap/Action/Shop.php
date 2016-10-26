@@ -1675,7 +1675,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 $product['hot_tips'] = true;         
               }
             
-            array_push($items, array('d'=>$product));
+            array_push($items, array('item'=>$product));
           }
         }
         $result['rows'] = $items;

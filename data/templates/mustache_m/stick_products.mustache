@@ -1,22 +1,13 @@
 {{#rows}}
-<div class="recom-cell" id="product-{{ d._id }}">
-	<a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.wap_view_url }}">
-		<img class="lazy" data-original="{{ d.cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
-		<div class="shopbiao">
-			{{ #d.new_tips }}
-			<img src="http://frstatic.qiniudn.com/images/icon/xinpin.png" width="100%">
-			{{ /d.new_tips }}
-			{{ #d.hot_tips }}
-			<img src="http://frstatic.qiniudn.com/images/icon/remai.png" width="100%">
-			{{ /d.hot_tips }}
-		</div>
-		<div class="desc">
-			<h2>{{ &d.short_title }}</h2>
-			<div class="cats">
-	            <span class="unit">￥</span>{{ d.sale_price }}
-	        </div>
-
-		</div>
-	</a>
-</div>
+    <div class="recom-cell three" id="product-{{ item.product._id }}">
+        <a title="{{ item.product.title }}" alt="{{ item.product.title }}" href="{{ item.product.wap_view_url }}">
+            <img class="lazy" data-original="{{ item.product.cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
+            <div class="desc">
+                <h2>{{ &item.product.title }}</h2>
+                <div class="cats">
+                    <span class="unit">￥</span>{{ item.product.sale_price }}
+                </div>
+            </div>
+        </a>
+    </div>
 {{/rows}}
