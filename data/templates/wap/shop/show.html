@@ -893,11 +893,7 @@ span.ui.timeout.btn{
           $.get(url, {sword: sword, size: 3, id: id }, function(rs){
 
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-              if(page==1){
                 $('#shop_guess_wap_list .recom-item').html(rendered);
-              }else{
-                $('#shop_guess_wap_list .recom-item').append(rendered);
-              }
 
  			  $("img.lazy").lazyload({
  			     effect : "show"
@@ -1483,8 +1479,12 @@ span.ui.timeout.btn{
         <div class="guess title">
             相关推荐
         </div>
-        <div class="recom-item three">
-            <!--ajax list-->
+        <div class="row" id="mpresale">
+            <div class="column">
+                <div class="recom-item">
+
+                </div>
+            </div>
         </div>
     </div>
 	
