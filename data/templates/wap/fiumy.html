@@ -221,6 +221,26 @@
     font-size: 14px;
     text-align: center;
 }
+#shop_guess_wap_list .guess.title .left{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    left: 0;
+    margin-top: 2px;
+}
+#shop_guess_wap_list .guess.title .right{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    right: 0;
+    margin-top: 2px;
+}
 #shop_guess_wap_list .recom-item.three{
     padding:0 3px;
 }
@@ -430,6 +450,8 @@
             <!-- 加载相关推荐 -->
         <div class="guess title">
             为你优选好货
+            <div class="left"></div>
+            <div class="right"></div>
         </div>
         <div class="row" id="mpresale">
             <div class="column">
