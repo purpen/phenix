@@ -887,10 +887,10 @@ span.ui.timeout.btn{
     }
 
       // 加载产品相关推荐
-      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+      function ajax_load_product(sword, id){
           //防止频繁请求(在没加载完成时只允许请求一次)
           var url = '{{ app_url_wap }}/shop/ajax_guess_product';
-          $.get(url, {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
+          $.get(url, {sword: sword, size: 3, id: id }, function(rs){
 
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
@@ -920,6 +920,9 @@ span.ui.timeout.btn{
     });
 	var flexheight = $('body').width()*9/16+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+    // 加载相关商品
+    ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
 	
 	//点击颜色分类
 	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
