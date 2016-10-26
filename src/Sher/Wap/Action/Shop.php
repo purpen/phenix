@@ -179,6 +179,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
 
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+
     // 记录某个商品推广统计，统计注册量浏览量
     if(isset($this->stash['from']) && $this->stash['from']==2 && $id==1042791409){
       // 存cookie
@@ -285,9 +288,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }else{
       $tpl = 'wap/view.html';
     }
-
-        // 记录上一步来源地址
-        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		
 		return $this->to_html_page($tpl);
 	}
@@ -345,6 +345,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$user_id = $this->visitor->id;
 
         $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 
         $cart_model = new Sher_Core_Model_Cart();
         $cart = $cart_model->load($user_id);
@@ -429,9 +431,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if ($item_arr > 0){
 			$this->set_target_css_state('basket');
 		}
-
-        // 记录上一步来源地址
-        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		
 		return $this->to_html_page('wap/shop/cart.html');
 	}
