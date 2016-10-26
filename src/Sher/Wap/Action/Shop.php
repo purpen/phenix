@@ -169,11 +169,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
-
-        // 记录上一步来源地址
-        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		
-		$redirect_url = Doggy_Config::$vars['app.url.wap'];
+		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop/get_list";
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -288,6 +285,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }else{
       $tpl = 'wap/view.html';
     }
+
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		
 		return $this->to_html_page($tpl);
 	}
