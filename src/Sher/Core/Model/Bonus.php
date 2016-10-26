@@ -22,6 +22,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 记录活动代号，便于统计
 	 */
 	public $names = array(
+        'AD' # 后台自定义发送
 		'T9', # 上线红包
 		'TG', # 玩蛋去活动
         'VA', # 情人节红包20
