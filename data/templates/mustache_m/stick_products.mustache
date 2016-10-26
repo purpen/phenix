@@ -1,11 +1,11 @@
 {{#rows}}
-    <div class="recom-cell three" id="product-{{ item.product._id }}">
-        <a title="{{ item.product.title }}" alt="{{ item.product.title }}" href="{{ item.product.wap_view_url }}">
-            <img class="lazy" data-original="{{ item.product.cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
+    <div class="recom-cell three" id="product-{{ item._id }}">
+        <a title="{{ item.title }}" alt="{{ item.title }}" href="{{ item.wap_view_url }}">
+            <img class="lazy" data-original="{{ item.cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380.png">
             <div class="desc">
-                <h2>{{ &item.product.title }}</h2>
+                <h2>{{ &item.title }}</h2>
                 <div class="cats">
-                    <span class="unit">￥</span>{{ item.product.sale_price }}
+                    <span class="unit">￥</span>{{ item.sale_price }}
                 </div>
             </div>
         </a>
