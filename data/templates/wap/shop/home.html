@@ -8,6 +8,12 @@
     .ui.fiushop .overhidden{
     	margin-left: 10px;
     }
+    .ui.fiushop .ui.sheader p img{
+    	height: 20px;
+	    margin: 0;
+	    font-size: 0;
+	    vertical-align: middle;
+    }
     #scene-subject-more{
     	padding:0;
     }
@@ -37,14 +43,14 @@
     	font-size: 0;
     }
     .ui.sheader p{
-    	width: 20%;
+    	width: 18%;
     	display: inline-block;
     	margin: 0;
     }
     .ui.sheader form{
     	display: inline-block;
-	    width: 80%;
-	    padding: 0 15px;
+	    width: 82%;
+	    padding: 0 15px 0 0;
     	vertical-align: top;
     }
     .ui.sheader form .ui.input{
@@ -183,7 +189,7 @@
 {% block content %}
 <div class="ui fiushop">
 	<div class="ui sheader">
-		<p>Fiu店</p>
+		<p><img src="{{ app_url_packaged }}/images/icon/fflogo.png"></p>
 		<form class="fiusearch item" method="post" action="{{ app_url_wap }}/search/fiu" id="searchbar">
         
 	        <div class="ui icon input">
