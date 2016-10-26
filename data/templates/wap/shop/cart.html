@@ -398,6 +398,9 @@
 
 {% block jquery %}
 
+    // 初始化统计金额
+    stat_total_price();
+
   // 移除购物车商品 
   $('.remove_cart').click(function(){
     var target_id = $(this).data('target_id');
