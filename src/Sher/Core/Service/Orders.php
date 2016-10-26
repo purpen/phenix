@@ -39,4 +39,4 @@ class Sher_Core_Service_Orders extends Sher_Core_Service_Base {
 		return $this->query_list($model, $query, $options);
 	}
 }
-?>
+
