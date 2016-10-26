@@ -256,9 +256,7 @@
 <div class="ui brand list">
     <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
     	<div class="bgcover"></div>
-        {% if back_url %}
-    	    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-        {%endif%}
+    	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         <p>{{ scene_brand.title }}</p>
         <div class="ui favorite" data-mark="n" data-id="{{ scene_brand._id }}"><div class="bgimg"></div></div>
         <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">

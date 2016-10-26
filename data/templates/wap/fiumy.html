@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 .mytop{
-	padding:15px 0 63px;
+	padding:35px 0 65px;
 	width:100%;
     display: flex;
 	display: -ms-flexbox;
@@ -11,7 +11,7 @@
     display: -webkit-box;
 	align-items:center;
     -webkit-box-align: center;
-    background: url({{ app_url_packaged }}/images/icon/ovall.jpg);
+    background: url({{ app_url_packaged }}/images/icon/ovalll.jpg);
     background-size: 100% 100%;
     color:#fff;
     position: relative;
@@ -212,14 +212,35 @@
 #shop_guess_wap_list{
     margin-top: 15px;
     position: relative;
-    background: #fff;
-    padding: 0 10px;
+    padding: 0 16px;
     margin-bottom: 10px;
 }
 #shop_guess_wap_list .guess.title{
-    padding:15px 10px 5px;
+    padding:15px 10px 10px;
     font-weight: 400;
     font-size: 14px;
+    text-align: center;
+    position: relative;
+}
+#shop_guess_wap_list .guess.title .left{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    left: 0;
+    margin-top: 2px;
+}
+#shop_guess_wap_list .guess.title .right{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    right: 0;
+    margin-top: 2px;
 }
 #shop_guess_wap_list .recom-item.three{
     padding:0 3px;
@@ -269,6 +290,15 @@
     color: #BE8914;
     line-height:20px;
 }
+#shop_guess_wap_list.ui.brand #mpresale .recom-item .recom-cell {
+    padding-left: 0;
+    padding-right: 8px;
+    margin: 8px 0 8px;
+}
+#shop_guess_wap_list.ui.brand #mpresale .recom-item .recom-cell:nth-child(2n) {
+    padding-left: 8px;
+    padding-right: 0;
+}
 </style>
 {% endblock %}
 
@@ -288,18 +318,17 @@
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
 
-              var rendered = phenix.ajax_render_result('#fetch_more_guess_tpl', rs.data);
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
-                $('#shop_guess_wap_list').html(rendered);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
               }else{
-                $('#shop_guess_wap_list').append(rendered);
+                $('#shop_guess_wap_list .recom-item').append(rendered);
               }
 
  			  $("img.lazy").lazyload({
  			     effect : "show"
  			  });
 
-              $('.guess.title').html('<span style="text-align:center;">为你优选好货</span>');
           }, 'json');
       }
 
@@ -335,26 +364,25 @@
 			<div class="myset">
 				<a href="{{ app_url_wap }}/my/mymanage">账户管理 ></a>
 			</div>
+
+            <!--
 			<div class="tmess">
 				<ul class="two-meg">
 					<li>
-                    <!--
 						<a href="{{ app_url_wap }}/my/favorited">
 						<p>收藏</p>
 						</a>
-                        -->
 					</li>
 					<li>
-                    <!--
 						<a href="">
 							123
 						<p>浏览记录</p>
 						</a>
 
-                    -->
 					</li>
 				</ul>
 			</div>
+            -->
 		</div>
 		<div class="nav-menu">
 			<ul class="navfelx item">
@@ -394,13 +422,22 @@
 				</li>
 			</ul>
 			
-			<ul class="navfelx item mtb-2r">
+			<ul class="navfelx item mt-2r">
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
 						我的红包
 					</a>
 				</li>
 			</ul>
+            <!--
+			<ul class="navfelx item">
+				<li class="childcell">
+					<a class="menuicon" href="{{ app_url_wap }}/my/f_product">
+						我的收藏
+					</a>
+				</li>
+			</ul>
+            -->
 			<ul class="navfelx item mt-2r">
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
@@ -421,15 +458,26 @@
 	</div>
 
     <!-- 相关推荐 -->
-    <div id="shop_guess_wap_list">
+    <div id="shop_guess_wap_list" class="ui brand list">
             <!-- 加载相关推荐 -->
+        <div class="guess title">
+            为你优选好货
+            <div class="left"></div>
+            <div class="right"></div>
+        </div>
+        <div class="row" id="mpresale">
+            <div class="column">
+                <div class="recom-item">
+
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 
-
 {% endblock %}
 
 {% block templates %}
-    {% mustache id:'fetch_more_guess_tpl' tpl:'mustache_m/fetch_more_guess.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}

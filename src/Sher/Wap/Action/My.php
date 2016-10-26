@@ -103,10 +103,24 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 收藏
+	 * 收藏--商品
 	 */
-	public function favorited(){
-		return $this->to_html_page("wap/my/favorited.html");
+	public function f_product(){
+		return $this->to_html_page("wap/my/f_product.html");
+	}
+
+	/**
+	 * 收藏--品牌
+	 */
+	public function f_brand(){
+		return $this->to_html_page("wap/my/f_brand.html");
+	}
+
+	/**
+	 * 收藏--专题
+	 */
+	public function f_subject(){
+		return $this->to_html_page("wap/my/f_subject.html");
 	}
 
 	

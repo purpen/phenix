@@ -886,6 +886,21 @@ span.ui.timeout.btn{
         }, 'json');
     }
 
+      // 加载产品相关推荐
+      function ajax_load_product(sword, id){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_guess_product';
+          $.get(url, {sword: sword, size: 3, id: id }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
   </script>
 {% endblock %}
 {% block jquery %}
@@ -901,6 +916,9 @@ span.ui.timeout.btn{
     });
 	var flexheight = $('body').width()*9/16+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+    // 加载相关商品
+    ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
 	
 	//点击颜色分类
 	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
@@ -1016,13 +1034,6 @@ span.ui.timeout.btn{
 		phenix.redirect(checkout, 0);
 	});
 	
-	
-	// 加载推荐商品 
-	$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
-	 $("img.lazy").lazyload({
-	     effect : "show"
-	 });
-	});
 	 
 	//产品详情、评论、售后服务
 	$('.product.childcell').bind('click',function(){
@@ -1157,14 +1168,12 @@ span.ui.timeout.btn{
 
 {% block content %}
 <div class="mask"></div>
-<div class="ui category" style="padding-bottom: 0;">
+<!--<div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
-    {% if back_url %}
-        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-    {%endif%}
+    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
     <p>产品详情</p>
   </div>
-</div>
+</div>-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
@@ -1250,7 +1259,7 @@ span.ui.timeout.btn{
 						<button class="ui mini gray dec-qty icon button" data-count="1">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<input type="number" name="product-qty" id="product-qty" value=1 autocomplete="off">
 						<button class="ui mini gray inc-qty icon button" data-count="">
 							<i class="add icon"></i>
 						</button>
@@ -1464,9 +1473,12 @@ span.ui.timeout.btn{
 	</div>
 
 	<!-- 相关推荐 -->
-	<div id="shop_guess_wap_list">
-			<!-- 加载相关推荐 -->
-	</div>
+    <div id="shop_guess_wap_list">
+        <div class="guess title">
+            相关推荐
+        </div>
+        <div class="recom-item three"><!--ajax list--></div>
+    </div>
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
@@ -1494,5 +1506,6 @@ span.ui.timeout.btn{
 {% endblock %}
 
 {% block templates %}
-  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/stick_products.mustache' %}
 {% endblock %}

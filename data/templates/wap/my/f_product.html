@@ -1,0 +1,96 @@
+{%extends 'layout/shop.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.ui.header{
+	font-weight:400;
+}
+.color-be{
+	background: #be8914 !important;
+}
+.sfooter.nav-menu{
+	display: none;
+	visibility: none;
+}
+.ui.brand #mpresale .recom-item .recom-cell .desc{
+	height: 80px;
+}
+.ui.brand #mpresale .recom-item .recom-cell .desc .cats{
+	color: #666;
+	font-size: 12px;
+	letter-spacing: .1px;
+	line-height: 18px;
+	text-align: left;
+	height: 36px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	white-space: normal;
+}
+.zcover {
+    background: rgba(0,0,0,0.2);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+}
+.ui.fiushop .haohuo{
+	padding-top: 17px;
+}
+.ui.fiushop .haohuo .banner .content {
+    z-index: 4;
+}
+.ui.fiushop .haohuo .banner::after{
+	content: none;
+}
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %};
+{% endblock %}
+
+{% block content %}
+<div class="ui fiushop pb-0" >
+	<div class="ui sheader">
+		<a class="return" href="{{ app_url_wap }}/my/fiumy"><i class="angle float left icon"></i></a>
+		<p>我的收藏</p>
+	</div>
+	<div class="ui catemenu">
+		<a href="javascript:void(0);" class="active">好货</a>
+        <a href="{{ app_url_wap }}/my/f_brand">品牌</a>
+		<a href="{{ app_url_wap }}/my/f_subject">专题</a>
+	</div>
+	
+	<!-- 好货 -->
+	<div class="ui responsive brand list grid">
+		<div class="row" id="mpresale">
+			<div class="column">
+				<div class="recom-item">
+
+					<div class="recom-cell" id="product-1011497069">
+						<a title="智能WIFI信号扩大器" alt="智能WIFI信号扩大器-太火鸟智能硬件商店" href="http://t.taihuoniao.com/shop/1011497069.html">
+							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160126/56a718b93ffca26a098baf2c-5-p500x500.jpg" src="http://frbird.qiniudn.com/product/160126/56a718b93ffca26a098baf2c-5-p500x500.jpg" style="display: block;">
+							<div class="shopbiao">
+							</div>
+							<div class="desc">
+								<h2>扩大器</h2>
+								<div class="cats">
+						            <span class="unit">￥</span>19
+						        </div>
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- -->
+
+</div>
+{% endblock %}
