@@ -27,7 +27,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
     public function view(){
         $this->set_target_css_state('page_choice');
         $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-        $redirect_url = Doggy_Config::$vars['app.url.wap'];
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
         if(empty($id)){
           return $this->show_message_page('访问的专题不存在！', $redirect_url);
         }
@@ -100,6 +100,10 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         }else{
             $tpl = 'wap/scene_subject/artile.html';       
         }
+
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+
   	    return $this->to_html_page($tpl);
     }
 

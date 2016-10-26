@@ -27,7 +27,7 @@ class Sher_Wap_Action_SceneBrand extends Sher_Wap_Action_Base {
     public function view(){
     	$this->set_target_css_state('page_find');
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
-        $redirect_url = Doggy_Config::$vars['app.url.wap'];
+        $redirect_url = Doggy_Config::$vars['app.url.wap']."/shop/brand";
         if(empty($id)){
           return $this->show_message_page('访问的品牌不存在！', $redirect_url);
         }
