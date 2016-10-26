@@ -134,7 +134,7 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
                 $row['titile'] = $product['title'];
                 $row['short_title'] = $product['short_title'];
                 $row['cover_url'] = $product['cover']['thumbnails']['mini']['view_url'];
-                $row['wap_view_url'] = sprintf("%s/my/order_view?rid=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['rid']);
+                $row['wap_view_url'] = $product['wap_view_url'];
                 $row['sale_price']= $item['sale_price'];
                 $row['sku_mode'] = '默认';
 
