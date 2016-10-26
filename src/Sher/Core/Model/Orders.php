@@ -158,7 +158,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
-		'addbook' => array('addbook_id' => 'Sher_Core_Model_AddBooks'),
 	);
 	
 	protected function extra_extend_model_row(&$row) {
@@ -277,25 +276,30 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
   	protected function before_insert(&$data) {
   		//复制收货地址
     	if(isset($data['addbook_id'])){
-	      	$model = new Sher_Core_Model_AddBooks();
 		  	if(empty($data['addbook_id'])){
 			  	throw new Sher_Core_Model_Exception('收货地址为空！');
 		  	}
-	      	$address = $model->find_by_id($data['addbook_id']);
+	      	$model = new Sher_Core_Model_DeliveryAddress();
+
+	      	$address = $model->extend_load($data['addbook_id']);
 	      	if(!empty($address)){
-	        	$area_model = new Sher_Core_Model_Areas();
 				
-	        	$pro = $area_model->find_by_id($address['province']);
-	        	$city = $area_model->find_by_id($address['city']);
 	        	$add_info = array(
 	                'name'=> $address['name'],
 	                'phone'=> $address['phone'],
-	                'area'=> $address['area'],
+                    'province' => $address['province'],
+                    'city' => $address['city'],
+                    'county' => $address['county'],
+                    'town' => $address['town'],
+	                'area'=> '',
 	                'address'=> $address['address'],
 	                'zip'=> $address['zip'],
 	                'email'=> $address['email'],
-	                'province'=> $pro['city'],
-	                'city'=> $city['city'],
+
+                    'province_id' => $address['province_id'],
+                    'city_id' => $address['city_id'],
+                    'county_id' => $address['county_id'],
+                    'town_id' => $address['town_id'],
 	        	);
 				
 	        	$data['express_info'] = $add_info;

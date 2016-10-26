@@ -1504,7 +1504,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 获取默认地址，无默认地址，取第一个地址
 	 */
 	protected function get_default_addbook($user_id){
-		$addbooks = new Sher_Core_Model_AddBooks();
+		$addbooks = new Sher_Core_Model_DeliveryAddress();
 		
 		$query = array(
 			'user_id' => (int)$user_id,
