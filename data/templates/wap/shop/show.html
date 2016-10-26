@@ -886,6 +886,25 @@ span.ui.timeout.btn{
         }, 'json');
     }
 
+      // 加载产品相关推荐
+      function ajax_load_more(category_id, category_tag, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_guess_product';
+          $.get(url, {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+              if(page==1){
+                $('#shop_guess_wap_list .recom-item').html(rendered);
+              }else{
+                $('#shop_guess_wap_list .recom-item').append(rendered);
+              }
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
   </script>
 {% endblock %}
 {% block jquery %}
@@ -1016,13 +1035,6 @@ span.ui.timeout.btn{
 		phenix.redirect(checkout, 0);
 	});
 	
-	
-	// 加载推荐商品 
-	$.get('{{ app_url_wap }}/shop/ajax_guess_product?rand='+Math.random(), {sword: '{{ product.tags_s }}', size: 3, id: {{ product._id }} }, function(rs){
-	 $("img.lazy").lazyload({
-	     effect : "show"
-	 });
-	});
 	 
 	//产品详情、评论、售后服务
 	$('.product.childcell').bind('click',function(){
@@ -1464,9 +1476,14 @@ span.ui.timeout.btn{
 	</div>
 
 	<!-- 相关推荐 -->
-	<div id="shop_guess_wap_list">
-			<!-- 加载相关推荐 -->
-	</div>
+    <div id="shop_guess_wap_list">
+        <div class="guess title">
+            相关推荐
+        </div>
+        <div class="recom-item three">
+            <!--ajax list-->
+        </div>
+    </div>
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
@@ -1494,5 +1511,6 @@ span.ui.timeout.btn{
 {% endblock %}
 
 {% block templates %}
-  {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
