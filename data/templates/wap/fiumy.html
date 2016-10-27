@@ -3,7 +3,7 @@
 {% block page_css %}
 <style type="text/css">
 .mytop{
-	padding:15px 0 63px;
+	padding:35px 0 65px;
 	width:100%;
     display: flex;
 	display: -ms-flexbox;
@@ -11,7 +11,7 @@
     display: -webkit-box;
 	align-items:center;
     -webkit-box-align: center;
-    background: url({{ app_url_packaged }}/images/icon/ovall.jpg);
+    background: url({{ app_url_packaged }}/images/icon/ovalll.jpg);
     background-size: 100% 100%;
     color:#fff;
     position: relative;
@@ -212,14 +212,35 @@
 #shop_guess_wap_list{
     margin-top: 15px;
     position: relative;
-    background: #fff;
-    padding: 0 10px;
+    padding: 0 16px;
     margin-bottom: 10px;
 }
 #shop_guess_wap_list .guess.title{
-    padding:15px 10px 5px;
+    padding:15px 10px 10px;
     font-weight: 400;
     font-size: 14px;
+    text-align: center;
+    position: relative;
+}
+#shop_guess_wap_list .guess.title .left{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    left: 0;
+    margin-top: 2px;
+}
+#shop_guess_wap_list .guess.title .right{
+	width: 35%;
+    height: 1px;
+    background: rgba(0,0,0,0.1);
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    right: 0;
+    margin-top: 2px;
 }
 #shop_guess_wap_list .recom-item.three{
     padding:0 3px;
@@ -268,6 +289,15 @@
     text-transform: uppercase;
     color: #BE8914;
     line-height:20px;
+}
+#shop_guess_wap_list.ui.brand #mpresale .recom-item .recom-cell {
+    padding-left: 0;
+    padding-right: 8px;
+    margin: 8px 0 8px;
+}
+#shop_guess_wap_list.ui.brand #mpresale .recom-item .recom-cell:nth-child(2n) {
+    padding-left: 8px;
+    padding-right: 0;
 }
 </style>
 {% endblock %}
@@ -425,10 +455,13 @@
 
 	</div>
 
-	<!-- 相关推荐 -->
-    <div id="shop_guess_wap_list">
+    <!-- 相关推荐 -->
+    <div id="shop_guess_wap_list" class="ui brand list">
+            <!-- 加载相关推荐 -->
         <div class="guess title">
             为你优选好货
+            <div class="left"></div>
+            <div class="right"></div>
         </div>
         <div class="row" id="mpresale">
             <div class="column">

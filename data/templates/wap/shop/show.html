@@ -1168,12 +1168,12 @@ span.ui.timeout.btn{
 
 {% block content %}
 <div class="mask"></div>
-<div class="ui category" style="padding-bottom: 0;">
+<!--<div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
     <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
     <p>产品详情</p>
   </div>
-</div>
+</div>-->
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
@@ -1259,7 +1259,7 @@ span.ui.timeout.btn{
 						<button class="ui mini gray dec-qty icon button" data-count="1">
 							<i class="minus icon"></i>
 						</button>
-						<input type="text" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<input type="number" name="product-qty" id="product-qty" value=1 autocomplete="off">
 						<button class="ui mini gray inc-qty icon button" data-count="">
 							<i class="add icon"></i>
 						</button>

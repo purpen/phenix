@@ -106,6 +106,9 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 收藏--商品
 	 */
 	public function f_product(){
+        $redirect_url = sprintf("%s/fiumy", Doggy_Config::$vars['app.url.wap']);
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		return $this->to_html_page("wap/my/f_product.html");
 	}
 
@@ -113,6 +116,9 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 收藏--品牌
 	 */
 	public function f_brand(){
+        $redirect_url = sprintf("%s/fiumy", Doggy_Config::$vars['app.url.wap']);
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		return $this->to_html_page("wap/my/f_brand.html");
 	}
 
@@ -120,6 +126,9 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 收藏--专题
 	 */
 	public function f_subject(){
+        $redirect_url = sprintf("%s/fiumy", Doggy_Config::$vars['app.url.wap']);
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		return $this->to_html_page("wap/my/f_subject.html");
 	}
 
