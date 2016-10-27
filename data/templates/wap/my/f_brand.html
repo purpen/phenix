@@ -49,15 +49,70 @@
 }
 </style>
 {% endblock %}
-{% block js %}
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var sort = 0;
+      var event = 1;
+      var type = 14;
+      var user_id = '{{ user_id|default 0 }}';
+  
+      // 加载产品列表
+      function ajax_load_more(event, user_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/favorite/ajax_load_list';
+          $.get(url, { event:event, user_id:user_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.results.total_page > rs.data.results.current_page){
+                  $('#brand-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#brand-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#brand_list_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
 {% endblock %}
-{% block jquery %};
+{% block jquery %}
+
+	//ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+　　var scrollTop = $(this).scrollTop();
+　　var scrollHeight = $(document).height();
+　　var windowHeight = $(this).height();
+　　if(scrollTop + windowHeight > scrollHeight-100){
+      var stat = $('#brand-more').attr('status');
+      page = parseInt($('#brand-more').attr('page')) + 1;
+      if(stat==0){
+        ajax_load_more(event, user_id, type, sort, page, size);
+      }
+　　}
+  });
+	
+	// 初始加载商品列表
+    ajax_load_more(event, user_id, type, sort, page, size);
+
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop pb-0" >
 	<div class="ui sheader">
-		<a class="return" href="{{ app_url_wap }}/my/fiumy"><i class="angle float left icon"></i></a>
+		<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
 		<p>我的收藏</p>
 	</div>
 	<div class="ui catemenu">
@@ -72,25 +127,22 @@
 		<div class="row pt-2r" id="mpresale">
 			<div class="column">
 				<div class="recom-item">
-						
-					<div class="recom-cell">
-			            <a href="http://t.taihuoniao.com/scene_brand/view?id=571cce813ffca269098c3e80">
-			                <img class="lazy" data-original="http://frbird.qiniudn.com/scene_brands/161014/580042c93ffca2426b8b48bb-1-p500x500.jpg" src="http://frbird.qiniudn.com/scene_brands/161014/580042c93ffca2426b8b48bb-1-p500x500.jpg" style="display: block;">
-			                <div class="desc">
-			                    <img src="http://frbird.qiniudn.com/scene_brands/160424/571cce6d3ffca26a098c3ec5-1-hu.jpg">
-			                    云造
-			                    <div class="cats">
-			                    我什么都不想说。。。。。
-			                    </div>
-			                </div>
-			            </a>
-			        </div>
 	
 				</div>
+
+                <div id="brand-more" class="" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>
 	<!-- -->
 
 </div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'brand_list_tpl' tpl:'mustache_m/f_brand_list.mustache' %}
 {% endblock %}
