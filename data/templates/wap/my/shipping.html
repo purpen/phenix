@@ -421,7 +421,7 @@ h3.ui.header{
         obj.show();
         $('#county_box').hide();
         $('#town_box').hide();
-        var html = '';
+        var html = '<option value="0" >--请选择--</option>';
         for(var i=0;i<data.length;i++){
             if(data[i]['oid']==city_id){
                 var active = 'selected="selected"';
@@ -443,7 +443,7 @@ h3.ui.header{
         }
         obj.show();
         $('#town_box').hide();
-        var html = '';
+        var html = '<option value="0" >--请选择--</option>';
         for(var i=0;i<data.length;i++){
             if(data[i]['oid']==county_id){
                 var active = 'selected="selected"';
@@ -463,7 +463,7 @@ h3.ui.header{
             return false;
         }
         obj.show();
-        var html = '';
+        var html = '<option value="0" >--请选择--</option>';
         for(var i=0;i<data.length;i++){
             if(data[i]['oid']==town_id){
                 var active = 'selected="selected"';
@@ -570,22 +570,42 @@ h3.ui.header{
 			inline : true,
 			onSuccess: function(event){
 			  event.preventDefault();
-        $(this).ajaxSubmit({
-          dataType: 'json',
-          beforeSubmit: function(){
-            //phenix.before_submit();
-          },
-          success: function(data){
-            if(data.is_error){
-              //phenix.after_submit();
-              $(event.target).addClass('error');
-              phenix.show_error_note(data.message, event.target);
-            }else{
-              load_address_list(order_rid);
-              $('#shipping').removeClass('addshow');
-            }
-          }
-        });
+                $(this).ajaxSubmit({
+                    dataType: 'json',
+                    beforeSubmit: function(){
+                        phenix.before_submit();
+                    },
+                    success: function(rs){
+                        if(rs.is_error){
+                          phenix.after_submit();
+                            $(event.target).addClass('error');
+                            phenix.show_error_note(rs.message, event.target);
+                        }else{
+                            $('#shipping').removeClass('addshow');
+                            clean_select();
+                            //$('#addbook-form').clearForm();
+                            phenix.after_submit();
+                            if(rs.data.is_default==1){
+                                $('.delivery_address_list').removeClass('active');
+                            }
+
+                            if(order_rid != ''){
+                              rs.data.is_from_order = true;
+                              rs.data.rrid = order_rid;
+                            }else{
+                              rs.data.is_from_order = false;
+                              rs.data.rrid = '';       
+                            }
+                            var rendered = phenix.ajax_render_result('#fetch_address_tpl', rs.data);
+                            if(rs.data.mode=='create'){
+                                $('#address-list-box').prepend(rendered);
+                            }else{
+                                $('#item-'+rs.data._id).replaceWith(rendered);
+                            }
+
+                        }
+                    }
+                });
 			}
 		});
 	});
@@ -645,7 +665,7 @@ h3.ui.header{
     // 四级
 	$('#county_box').livequery(function(){
         $(this).change(function(){
-            var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
             var pid = $(this).val();
             $.get(url, {pid: pid, layer:4}, function(rs){
                 if(rs.success){
@@ -689,4 +709,5 @@ h3.ui.header{
 {% block templates %}
 {% mustache id:'sign_address_tpl' tpl:'mustache_m/sign_address.mustache' %}
 {% mustache id:'fetch_address_list_tpl' tpl:'mustache_m/fetch_address_list.mustache' %}
+{% mustache id:'fetch_address_tpl' tpl:'mustache_m/delivery_address.mustache' %}
 {% endblock %}
