@@ -117,13 +117,13 @@
 	<div class="ui responsive grid cateall">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
-		<div class="row pt-3r pb-0">
-			<div class="column plr-3r">
+		<div class="row ptb-0">
+			<div class="column plr-0">
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
-    <div class="row pt-r pb-0">
-      <div class="column plr-3r">
+    <div class="row pt-r pb-3r">
+      <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
                 {% if loop.counter < 5 %}
