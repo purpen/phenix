@@ -268,7 +268,21 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
         $from = isset($this->stash['from']) ? (int)$this->stash['from'] : 1;
 		
         if(empty($id)){
-          return $this->ajax_json('success', false, 0, array('new_mode'=>true, 'province_id'=>0, 'city_id'=>0, 'county_id'=>0, 'town_id'=>0)); 
+            $address = array(
+                '_id' => '',
+                'name' => '',
+                'phone' => '',
+                'address' => '',
+                'zip' => '',
+                'is_default' => false,
+                'new_mode' => true,
+                'province_id' => 0,
+                'city_id' => 0,
+                'county_id' => 0,
+                'town_id' => 0,
+                
+            );
+          return $this->ajax_json('success', false, 0, $address); 
         }
         $model = new Sher_Core_Model_DeliveryAddress();
         $address = $model->load($id);
