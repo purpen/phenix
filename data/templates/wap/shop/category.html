@@ -134,7 +134,7 @@
       <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
-                {% if loop.counter < 5 %}
+                {% if loop.counter < 6 %}
                 <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
                 {%else%}
                     <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
