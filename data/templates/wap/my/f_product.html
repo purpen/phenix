@@ -65,10 +65,10 @@
           var url = '{{ app_url_wap }}/app/site/favorite/ajax_load_list';
           $.get(url, { event:event, user_id:user_id, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
-              if(rs.data.results.total_page > rs.data.results.current_page){
+              if(rs.data.total_page > rs.data.current_page){
                   $('#product-more')
                       .hide()
-                      .attr({'status': 0, 'page': rs.data.page});
+                      .attr({'status': 0, 'page': page});
               }else{
                   $('#product-more')
                   .attr({'page': rs.data.page})
@@ -91,18 +91,18 @@
 {% block jquery %};
 
 	//ajax加载更多(滚动条接近底部加载)
-  $(window).scroll(function(){
-　　var scrollTop = $(this).scrollTop();
-　　var scrollHeight = $(document).height();
-　　var windowHeight = $(this).height();
-　　if(scrollTop + windowHeight > scrollHeight-100){
-      var stat = $('#product-more').attr('status');
-      page = parseInt($('#product-more').attr('page')) + 1;
-      if(stat==0){
-        ajax_load_more(event, user_id, type, sort, page, size);
-      }
-　　}
-  });
+    $(window).scroll(function(){
+    　　var scrollTop = $(this).scrollTop();
+    　　var scrollHeight = $(document).height();
+    　　var windowHeight = $(this).height();
+    　　if(scrollTop + windowHeight > scrollHeight-100){
+          var stat = $('#product-more').attr('status');
+          page = parseInt($('#product-more').attr('page')) + 1;
+          if(stat==0){
+            ajax_load_more(event, user_id, type, sort, page, size);
+          }
+    　　}
+    });
 	
 	// 初始加载商品列表
     ajax_load_more(event, user_id, type, sort, page, size);

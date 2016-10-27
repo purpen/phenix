@@ -54,21 +54,21 @@
       var page = 1;
       var size = 8;
       var sort = 0;
-      var event = 1;
+      var evt = 1;
       var type = 14;
       var user_id = '{{ user_id|default 0 }}';
   
       // 加载产品列表
-      function ajax_load_more(event, user_id, type, sort, page, size){
+      function ajax_load_more(evt, user_id, type, sort, page, size){
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/app/site/favorite/ajax_load_list';
-          $.get(url, { event:event, user_id:user_id, sort:sort, page:page, type:type, size:size }, function(rs){
+          $.get(url, { event:evt, user_id:user_id, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
-              if(rs.data.results.total_page > rs.data.results.current_page){
+              if(rs.data.total_page > rs.data.current_page){
                   $('#brand-more')
                       .hide()
-                      .attr({'status': 0, 'page': rs.data.page});
+                      .attr({'status': 0, 'page': page});
               }else{
                   $('#brand-more')
                   .attr({'page': rs.data.page})
@@ -99,13 +99,13 @@
       var stat = $('#brand-more').attr('status');
       page = parseInt($('#brand-more').attr('page')) + 1;
       if(stat==0){
-        ajax_load_more(event, user_id, type, sort, page, size);
+        ajax_load_more(evt, user_id, type, sort, page, size);
       }
 　　}
   });
 	
 	// 初始加载商品列表
-    ajax_load_more(event, user_id, type, sort, page, size);
+    ajax_load_more(evt, user_id, type, sort, page, size);
 
 {% endblock %}
 
