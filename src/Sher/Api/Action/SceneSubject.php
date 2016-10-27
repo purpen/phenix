@@ -6,7 +6,7 @@
  */
 class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
-	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'record_share_count');
+	protected $filter_user_method_list = array('execute', 'getlist', 'view', 'record_share_count', 'index_subject_stick');
 	
 	/**
 	 * 入口
@@ -413,6 +413,39 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$model->inc_counter('share_count', 1, $id);
 		$model->inc_counter('true_share_count', 1, $id);
     	return $this->api_json('操作成功!', 0, array('id'=>$id));
+    }
+
+    /**
+     * 首页专题推荐
+     */
+    public function index_subject_stick(){
+        $conf = Sher_Core_Util_View::load_block('index_subject_stick', 1);
+        $items = array();
+        if(empty($conf)){
+            return $this->api_json('数据不存在!', 0, array('total_rows'=>0, 'total_page'=>1, 'rows'=>array())); 
+        }
+        $scene_subject_model = new Sher_Core_Model_SceneSubject();
+        $arr = explode(',', $conf);
+        for($i=0;$i<count($arr);$i++){
+            $id = (int)$arr[$i];
+            $scene_subject = $scene_subject_model->extend_load($id);
+            if(empty($scene_subject)) continue;
+            $row = array(
+                'title' => $scene_subject['title'],
+                'short_title' => $scene_subject['short_title'],
+                'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
+                'banner_url' => $scene_subject['banner']['thumbnails']['aub']['view_url'],
+                'type' => $scene_subject['type'],
+                'evt' => $scene_subject['evt'],
+                'attend_count' => $scene_subject['attend_count'],
+                'view_count' => $scene_subject['view_count'],
+                'type_label' => $scene_subject['type_label'],
+            );
+
+            array_push($items, $row);
+        }
+
+        return $this->api_json('success', 0, array('rows'=>$items, 'total_rows'=>count($items), 'total_page'=>1)); 
     }
 	
 }

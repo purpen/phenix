@@ -210,6 +210,12 @@ db.third_site_stat.ensureIndex({ 'target_id':1 }, {background: true});
 db.third_site_stat.ensureIndex({ 'kind':1 }, {background: true});
 db.third_site_stat.ensureIndex({ 'created_on':-1 }, {background: true});
 
+# china_city       // 地址库
+db.china_city.ensureIndex({ 'oid':1 }, {background: true});
+db.china_city.ensureIndex({ 'pid':1 }, {background: true});
+db.china_city.ensureIndex({ 'layer':1 }, {background: true});
+db.china_city.ensureIndex({ 'sort':-1 }, {background: true});
+db.china_city.ensureIndex({ 'name':1 }, {background: true});
 
 
 
