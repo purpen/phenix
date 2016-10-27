@@ -125,7 +125,7 @@
 	<div class="ui responsive grid cateall" style="background-color: #fff;">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
-		<div class="row mt-3r pb-0">
+		<div class="row mt-3r ptb-0">
 			<div class="column plr-0">
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
