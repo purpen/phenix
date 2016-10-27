@@ -259,6 +259,32 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 		
 		return $this->api_json('请求成功', 0, array('id'=>$id));
 	}
+
+    /**
+     * ajax编辑收货地址
+     */
+    public function ajax_edit_address(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $from = isset($this->stash['from']) ? (int)$this->stash['from'] : 1;
+		
+        if(empty($id)){
+          return $this->ajax_json('success', false, 0, array('new_mode'=>true, 'province_id'=>0, 'city_id'=>0, 'county_id'=>0, 'town_id'=>0)); 
+        }
+        $model = new Sher_Core_Model_DeliveryAddress();
+        $address = $model->load($id);
+        if(empty($address)){
+          return $this->ajax_json('地址不存在!', true);   
+        }
+        $user_id = $this->visitor->id;
+        if($address['user_id'] != $user_id){
+          return $this->ajax_json('没有权限!', true);     
+        }
+        $address['_id'] = (string)$address['_id'];
+        $address['new_mode'] = false;
+        $address['is_default'] = !empty($address['is_default']) ? true : false;
+
+        return $this->ajax_json('success!', false, 0, $address); 
+    }
 	
 }
 
