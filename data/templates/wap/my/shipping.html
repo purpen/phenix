@@ -587,6 +587,7 @@ h3.ui.header{
                             phenix.after_submit();
                             if(rs.data.is_default==1){
                                 $('.delivery_address_list').removeClass('active');
+                                $('.is-default').hide();
                             }
 
                             if(order_rid != ''){
@@ -623,7 +624,7 @@ h3.ui.header{
       if(confirm('确认执行这个删除操作吗?')){
         $.post('{{ app_url_wap }}/app/site/delivery_address/deleted', {id: id}, function(result){
           if (result.success){
-            $('#'+result.data.id).remove();
+            $('#item-'+result.data.id).remove();
           } else {
             phenix.show_error_note(result.message, 3000);
           }
