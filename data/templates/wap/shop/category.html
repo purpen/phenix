@@ -26,7 +26,7 @@
       width: 100%;
       background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
       background-size: 135px 18px;
-      background-position: 15px 6px;
+      background-position: center 6px;
       border-radius: 6px;
     }
     .ui.sheader form .ui.icon.input.focus{
@@ -53,7 +53,7 @@
     width: 33.3333%;
     float: left;
     line-height: 44px;
-    height: 45px;
+    height: 55px;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
@@ -71,6 +71,7 @@
   }
   .cate-list li.catemore{
     float: right;
+    height: 45px;
   }
   .cate-list li.catemore .imgup{
     width: 44px;
@@ -126,7 +127,7 @@
 		{% for cat in category.rows %}
 		<div class="row ptb-0">
 			<div class="column plr-0">
-                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
+                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
     <div class="row pt-r pb-4r">
