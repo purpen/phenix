@@ -330,6 +330,8 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
                 $scene_subject = array();
                 if(isset($obj['scene_subject'])){
                     $scene_subject['_id'] = $obj['scene_subject']['_id'];
+                    $scene_subject['title'] = $obj['scene_subject']['title'];
+                    $scene_subject['short_title'] = $obj['scene_subject']['short_title'];
                     $scene_subject['cover_url'] = $obj['scene_subject']['cover']['thumbnails']['aub']['view_url'];
                     $scene_subject['banner_url'] = $obj['scene_subject']['banner']['thumbnails']['aub']['view_url'];
                     $scene_subject['begin_time_at'] = date('m/d', $obj['scene_subject']['begin_time']);
@@ -365,6 +367,8 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
                 $scene_brand = array();
                 if(isset($obj['scene_brand'])){
                     $scene_brand['_id'] = (string)$obj['scene_brand']['_id'];
+                    $scene_brand['title'] = $obj['scene_brand']['title'];
+                    $scene_brand['feature'] = $obj['scene_brand']['feature'];
 			        // 头像 url
                     $scene_brand['cover_url'] = $obj['scene_brand']['cover']['thumbnails']['huge']['view_url'];
                     $scene_brand['banner_url'] = $obj['scene_brand']['banner']['thumbnails']['aub']['view_url'];
