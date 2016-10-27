@@ -6,7 +6,7 @@
 		padding-bottom: 65px;
 	}
 	.ui.category a.catelist{
-		padding-top: 33.803%;
+		padding-top: 34.667%;
 	    display: block;
 	    position: relative;
 	    width: 100%;
@@ -61,21 +61,28 @@
   .cate-list li a{
     font-size: 14px;
     color: #666;
+    width: calc(100% - 20px);
+    border-bottom: 1px solid #ccc;
+    display: block;
+    text-align: left;
+    margin: 0 10px;
+    padding-left: 10px;
+    height: 45px;
   }
   .cate-list li.catemore{
     float: right;
   }
   .cate-list li.catemore .imgup{
-    width: 14px;
-    height: 14px;
+    width: 44px;
+    height: 12px;
     margin: 0;
     display: inline-block;
     vertical-align: middle;
-    background-image: url({{ app_url_packaged }}/images/icon/catemore.png);
-    background-size: 28px 14px;
+    background-image: url({{ app_url_packaged }}/images/icon/cateup.png);
+    background-size: 88px 12px;
   }
   .cate-list li.catemore.up .imgup{
-    background-position: -14px 0;
+    background-position: -44px 0;
   }
 </style>
 {% endblock %}
@@ -122,7 +129,7 @@
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
-    <div class="row pt-r pb-3r">
+    <div class="row pt-r pb-4r">
       <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
