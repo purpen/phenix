@@ -727,9 +727,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pay_money'] = $pay_money;
 		
 		if(!empty($addrid)){
-			$addbooks = new Sher_Core_Model_AddBooks();
+			$addbooks = new Sher_Core_Model_DeliveryAddress();
 			$default_addbook = $addbooks->extend_load($addrid);
-			$this->stash['default_addbook']= $default_addbook;
+			$this->stash['default_addbook'] = $default_addbook;
 		}
 		
 		$this->set_extra_params();
@@ -909,7 +909,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     $is_snatched = false;
 		
     //验证地址
-    $add_book_model = new Sher_Core_Model_AddBooks();
+    $add_book_model = new Sher_Core_Model_DeliveryAddress();
     $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
     if(empty($add_book)){
       return $this->ajax_json('地址不存在！', true);

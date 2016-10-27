@@ -1,5 +1,5 @@
       <div class="item delivery_address_list {{ #is_default }}active {{/is_default}}" id="item-{{ _id }}" data-id="{{ _id }}">
-        <a class="content" {{ #is_from_order }}href="{{ app_url_wap }}/shop/address_checkout?addrid={{ _id }}&rrid={{ rrid }}"{{ /is_from_order }}>
+        <a class="content" {{ #is_from_order }}href="/shop/address_checkout?addrid={{ _id }}&rrid={{ rrid }}"{{ /is_from_order }}>
           <div class="addr">
             <h5 class="ui header pt-r mb-2r">{{ name }}</h5>
             <span>{{ province}} {{ city }} {{ county }} {{ town }}</span>
