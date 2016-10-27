@@ -256,6 +256,11 @@ h3.ui.header{
       if(result.success){
         result.data.app_url_wap = "{{ app_url_wap }}";
         var rendered = phenix.ajax_render_result('#sign_address_tpl', result.data);
+        if(id==''){
+            ajax_load_city(0,0,0,0);
+        }else{
+            ajax_load_city(result.data.province_id, result.data.city_id, result.data.county_id, result.data.town_id);          
+        }
 
         $('#addbook-form-box').html(rendered); 
         $('#shipping').addClass('addshow');
@@ -498,7 +503,6 @@ h3.ui.header{
 
 	$('.addflex').bind('click',function(){
         load_address_mode('');
-        ajax_load_city(0,0,0,0);
 	});
 
 	$('.leftadd .close-btn').livequery(function(){
@@ -597,6 +601,7 @@ h3.ui.header{
                               rs.data.is_from_order = false;
                               rs.data.rrid = '';       
                             }
+                            rs.data.app_url_packaged = "{{ app_url_packaged }}";
                             var rendered = phenix.ajax_render_result('#fetch_address_tpl', rs.data);
                             if(rs.data.mode=='create'){
                                 $('#address-list-box').prepend(rendered);
