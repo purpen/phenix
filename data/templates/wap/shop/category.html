@@ -52,8 +52,8 @@
   .cate-list li{
     width: 33.3333%;
     float: left;
-    line-height: 44px;
-    height: 55px;
+    line-height: 60px;
+    height: 50px;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
@@ -67,11 +67,11 @@
     text-align: left;
     margin: 0 10px;
     padding-left: 10px;
-    height: 45px;
+    height: 50px;
   }
   .cate-list li.catemore{
     float: right;
-    height: 45px;
+    height: 50px;
   }
   .cate-list li.catemore .imgup{
     width: 44px;
@@ -130,7 +130,7 @@
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
-    <div class="row pt-r pb-4r">
+    <div class="row pt-0 pb-4r">
       <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
