@@ -286,6 +286,8 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
               $next_page = (int)$resultlist['next_page'];
           }
       }
+
+        $product_model = new Sher_Core_Model_Product();
         
         $max = count($resultlist['rows']);
         for($i=0;$i<$max;$i++){
