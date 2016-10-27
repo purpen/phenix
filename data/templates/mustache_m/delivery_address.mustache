@@ -1,4 +1,3 @@
-{{#rows}}
       <div class="item delivery_address_list {{ #is_default }}active {{/is_default}}" id="item-{{ _id }}" data-id="{{ _id }}">
         <a class="content" {{ #is_from_order }}href="{{ app_url_wap }}/shop/address_checkout?addrid={{ _id }}&rrid={{ rrid }}"{{ /is_from_order }}>
           <div class="addr">
@@ -13,9 +12,9 @@
           {{ /is_from_order }}
         </a>
         <div class="actions">
-          {{ #is_default_label }}
+          {{ #is_default }}
           <img src="{{ app_url_packaged }}/images/icon/is_default2.png" width="71">
-          {{ /is_default_label }}
+          {{ /is_default }}
           <div class="revise">
             <a class="ui small gray icon edit button" data-id="{{ _id }}">
               <i class="edit icon"></i>&nbsp;&nbsp;编辑
@@ -26,4 +25,3 @@
           </div>
         </div>
       </div>
-{{/rows}}
