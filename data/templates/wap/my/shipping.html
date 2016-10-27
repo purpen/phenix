@@ -395,7 +395,7 @@ h3.ui.header{
         }
         $('#county_box').hide();
         $('#town_box').hide();
-        var html = '';
+        var html = '<option value="0" >--请选择--</option>';
         for(var i=0;i<data.length;i++){
             if(data[i]['oid']==province_id){
                 var active = 'selected="selected"';
@@ -615,6 +615,42 @@ h3.ui.header{
 
 	// 初始加载列表
     ajax_load_more(type, sort, page, size);
+
+    // 二级
+	$('#province_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+            $.get(url, {pid: value, layer:2}, function(rs){
+                if(rs.success){
+                    fetch_city(value, 0, rs.data);
+                }
+            }, 'json');
+        });
+	});
+	
+    // 三级
+	$('#city_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+            $.get(url, {pid: value, layer:3}, function(rs){
+                if(rs.success){
+                    fetch_county(value, 0, rs.data);
+                }
+            }, 'json');
+
+	});
+
+    // 四级
+	$('#county_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
+            $.get(url, {pid: value, layer:4}, function(rs){
+                if(rs.success){
+                    fetch_town(value, 0, rs.data);
+                }
+            }, 'json');
+		});
+	});
 	
 {% endblock %}
 
