@@ -620,9 +620,10 @@ h3.ui.header{
 	$('#province_box').livequery(function(){
         $(this).change(function(){
             var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
-            $.get(url, {pid: value, layer:2}, function(rs){
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:2}, function(rs){
                 if(rs.success){
-                    fetch_city(value, 0, rs.data);
+                    fetch_city(pid, 0, rs.data);
                 }
             }, 'json');
         });
@@ -632,21 +633,23 @@ h3.ui.header{
 	$('#city_box').livequery(function(){
         $(this).change(function(){
             var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
-            $.get(url, {pid: value, layer:3}, function(rs){
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:3}, function(rs){
                 if(rs.success){
-                    fetch_county(value, 0, rs.data);
+                    fetch_county(pid, 0, rs.data);
                 }
             }, 'json');
-
+		});
 	});
 
     // 四级
 	$('#county_box').livequery(function(){
         $(this).change(function(){
             var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_fetch_city';
-            $.get(url, {pid: value, layer:4}, function(rs){
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:4}, function(rs){
                 if(rs.success){
-                    fetch_town(value, 0, rs.data);
+                    fetch_town(pid, 0, rs.data);
                 }
             }, 'json');
 		});
