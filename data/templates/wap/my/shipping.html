@@ -241,6 +241,11 @@ h3.ui.header{
 {% block layout_js %}
 <script type="text/javascript">
 
+  var page = 1;
+  var size = 10;
+  var sort = 0;
+  var type = 0;
+
   // 判断来源
   var order_rid = "{{ rid|default '' }}";
 
@@ -264,7 +269,7 @@ h3.ui.header{
     }, 'json');
   }
 
-  // ajax 加载地址列表
+  // ajax 加载地址列表-- remove
   function load_address_list(order_rid){
     $.post("{{ app_url_wap }}/app/site/address/ajax_fetch_list", {order_rid: order_rid}, function(result){
       if(result.success){
@@ -284,6 +289,37 @@ h3.ui.header{
       }
     }, 'json');
   }
+
+  
+      // 加载地址列表
+      function ajax_load_more(type, sort, page, size){
+
+          var url = '{{ app_url_domain }}/app/site/delivery_address/ajax_load_more';
+          $.get(url, { sort:sort, page:page, type:type, size:size }, function(rs){
+
+            rs.data.app_url_wap = "{{ app_url_wap }}";
+            rs.data.results.app_url_packaged = "{{ app_url_packaged }}";
+            if(order_rid != ''){
+              rs.data.is_from_order = true;
+              rs.data.rrid = order_rid;
+            }else{
+              rs.data.is_from_order = false;
+              rs.data.rrid = '';       
+            }
+
+              var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', rs.data);
+              if(page==1){
+                $('#address-list-box').html(rendered);
+              }else{
+                $('#address-list-box').append(rendered);
+              }
+
+          }, 'json');
+      }
+
+
+
+
 
   // ajax 加载省份城市
   function ajax_fetch_district(p_id, d_id){
@@ -434,8 +470,8 @@ h3.ui.header{
     });
 	});
 
-  // 初始化列表
-  load_address_list(order_rid);
+	// 初始加载列表
+    ajax_load_more(type, sort, page, size);
 	
 {% endblock %}
 

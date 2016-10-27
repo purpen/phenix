@@ -431,6 +431,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
             $scene_subject = $scene_subject_model->extend_load($id);
             if(empty($scene_subject)) continue;
             $row = array(
+                '_id' => $scene_subject['_id'],
                 'title' => $scene_subject['title'],
                 'short_title' => $scene_subject['short_title'],
                 'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
