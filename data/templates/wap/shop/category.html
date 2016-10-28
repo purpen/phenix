@@ -16,7 +16,7 @@
 	.ui.sheader form{
         display: inline-block;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 15px;
         vertical-align: top;
         margin: 0;
     }
@@ -62,11 +62,10 @@
     font-size: 14px;
     color: #666;
     width: calc(100% - 20px);
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
     display: block;
     text-align: left;
     margin: 0 10px;
-    padding-left: 10px;
     height: 50px;
   }
   .cate-list li.catemore{
@@ -84,6 +83,28 @@
   }
   .cate-list li.catemore.up .imgup{
     background-position: -44px 0;
+  }
+  .ui.catemenu{
+    box-shadow:none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .ui.catemenu a{
+    padding: 12px 8px 14px;
+    position: relative;
+    line-height: 48px;
+    height: 47px;
+  }
+  .ui.catemenu a.active{
+    border-bottom: none;
+  }
+  .ui.catemenu a.active:before {
+    width: 100%;
+    content: "";
+    height: 2px;
+    background: #be8914;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
   }
 </style>
 {% endblock %}
@@ -114,7 +135,7 @@
         <a href="{{ app_url_wap }}/shop/brand">品牌</a>
 		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
 	</div>
-	<div class="ui sheader" style="margin-top: 2px;">
+	<div class="ui sheader">
 	    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
             <div class="ui icon input">
                 <input name="q" type="text">
