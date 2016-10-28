@@ -279,11 +279,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		  	if(empty($data['addbook_id'])){
 			  	throw new Sher_Core_Model_Exception('收货地址为空！');
 		  	}
+            $add_info = array();
 	      	$model = new Sher_Core_Model_DeliveryAddress();
 
 	      	$address = $model->extend_load($data['addbook_id']);
 	      	if(!empty($address)){
-				
 	        	$add_info = array(
 	                'name'=> $address['name'],
 	                'phone'=> $address['phone'],
@@ -302,8 +302,27 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                     'town_id' => $address['town_id'],
 	        	);
 				
-	        	$data['express_info'] = $add_info;
-	      	}
+            }else{  // 兼容老收货地址
+                $model = new Sher_Core_Model_AddBooks();
+                $address = $model->find_by_id($data['addbook_id']);
+                if(!empty($address)){
+                    $area_model = new Sher_Core_Model_Areas();
+
+                    $pro = $area_model->find_by_id($address['province']);
+                    $city = $area_model->find_by_id($address['city']);
+                    $add_info = array(
+                        'name'=> $address['name'],
+                        'phone'=> $address['phone'],
+                        'area'=> $address['area'],
+                        'address'=> $address['address'],
+                        'zip'=> $address['zip'],
+                        'email'=> $address['email'],
+                        'province'=> $pro['city'],
+                        'city'=> $city['city'],
+                    );
+                }
+            }   // endif
+	        $data['express_info'] = $add_info;
     	}
   	}
 	

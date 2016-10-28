@@ -462,7 +462,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $add_book_model = new Sher_Core_Model_DeliveryAddress();
     $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
     if(empty($add_book)){
-      return $this->api_json('地址不存在！', 3002);
+        // 兼容老地址
+        $add_book_model = new Sher_Core_Model_AddBooks();
+        $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+    }
+    if(empty($add_book)){
+        return $this->api_json('地址不存在！', 3002);
     }
 
 		Doggy_Log_Helper::debug("Submit app Order [$rrid]！");
@@ -1446,6 +1451,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'sort' => array('created_on' => -1),
 		);
 		$result = $addbooks->first($query);
+
+        // 兼容老版本
+        if(empty($result)){
+            $addbooks = new Sher_Core_Model_AddBooks();
+            $result = $addbooks->first($query);
+        }
 		
 		return $result;
 	}
