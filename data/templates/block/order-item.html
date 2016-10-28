@@ -5,11 +5,7 @@
 		      	订单号：{{ order.rid }}
 		  	</div>
 		  	<div class="item">
-				{% if order.from_site == 5 %}
-					{{ order.express_info.name }} 
-				{% else %}
-		      		{{ order.addbook.name|default '太火鸟用户' }} 
-				{% endif %}
+				{{ order.express_info.name }} 
 		  	</div>
 		  	<div class="item">
 		      	下单时间：{{ order.created_on|date }}

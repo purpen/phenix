@@ -2,14 +2,17 @@
   <div class="ui grid m-0">
     <div class="row">
       <div class="column">
-        <h4 class="ui header dividing pb-r mt-r">使用新地址</h4>
+        <h4 class="ui header dividing pb-r mt-r">
+            {{#new_mode}}使用新地址{{/new_mode}}
+            {{^new_mode}}编辑地址{{/new_mode}}
+        </h4>
       </div>
     </div>
     
     <div class="row pt-0">
       <div class="column">
-        <form action="{{ app_url_wap }}/app/site/address/ajax_save_address" class="ui form" method="post" id="addbook-form">
-          <input type="hidden" name="id" value="{{ _id }}" />
+        <form action="/app/site/delivery_address/save" class="ui form" method="post" id="addbook-form">
+          <input type="hidden" name="_id" value="{{ _id }}" />
           <div class="field mb-2r">
             <h5 class="ui header mtb-r">收货人姓名</h5>
               <input type="text" name="name" value="{{ name }}" />
@@ -26,14 +29,23 @@
           <div class="field mb-2r">
             <h5 class="ui header mtb-r">地址</h5>
             
-              <select name="province" value="{{ province }}" id="province-menu" class="choose province">
+              <select name="province_id" value="{{ province_id }}" id="province_box" class="choose province">
                 <option value="0">--请选择--</option>
-              {{ #provinces }}
-                <option value="{{ _id }}" {{#active}}selected="selected"{{/active}}>{{ city }}</option>
-              {{ /provinces }}
+                <!--<option value=""></option>-->
               </select>
     
-              <select name="district" id="district-menu" value="{{ city }}" class="choose city">
+              <select name="city_id" id="city_box" value="{{ city_id }}" class="choose city" style="display:none;">
+                <option value="0">--请选择--</option>
+             </select>
+            
+          </div>
+
+          <div class="field mb-2r">
+              <select name="county_id" value="{{ county_id }}" id="county_box" class="choose county" style="display:none;">
+                <option value="0">--请选择--</option>
+              </select>
+    
+              <select name="town_id" id="town_box" value="{{ town_id }}" class="choose town" style="display:none;">
                 <option value="0">--请选择--</option>
              </select>
             
@@ -44,8 +56,8 @@
           </div>
           
               <div class="inline field">
-            <div class="ui toggle checkbox {{#is_default_label}}checked{{/is_default_label}}">
-              <input name="is_default" type="checkbox" {{#is_default_label}}checked="checked"{{/is_default_label}} value="1">
+            <div class="ui toggle checkbox {{#is_default}}checked{{/is_default}}">
+              <input name="is_default" type="checkbox" {{#is_default}}checked="checked"{{/is_default}} value="1">
               <label>设为默认地址</label>
               </div>
           </div>

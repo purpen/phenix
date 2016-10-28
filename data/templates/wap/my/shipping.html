@@ -196,7 +196,7 @@ h3.ui.header{
 	  padding:0.07145rem 0;
 	  display:block;
   }
-  .choose.province,.choose.city{
+  .choose.province,.choose.city,.choose.county,.choose.town{
 	  cursor: pointer;
       word-wrap: break-word;
       line-height: 1em;
@@ -221,7 +221,7 @@ h3.ui.header{
       border-color: rgba(34,36,38,.35);
       box-shadow: none;
   }
-  .choose.city{
+  .choose.city,.choose.town{
 	  float:right;
   }
   .sfooter.nav-menu{
@@ -241,30 +241,37 @@ h3.ui.header{
 {% block layout_js %}
 <script type="text/javascript">
 
+  var page = 1;
+  var size = 10;
+  var sort = 0;
+  var type = 0;
+
   // 判断来源
   var order_rid = "{{ rid|default '' }}";
 
   // ajax 加载地址模板
   function load_address_mode(id){
 
-    $.post("{{ app_url_wap }}/app/site/address/ajax_edit_address", {id: id}, function(result){
+    $.post("{{ app_url_wap }}/app/site/delivery_address/ajax_edit_address", {id: id}, function(result){
       if(result.success){
         result.data.app_url_wap = "{{ app_url_wap }}";
         var rendered = phenix.ajax_render_result('#sign_address_tpl', result.data);
+        if(id==''){
+            ajax_load_city(0,0,0,0);
+        }else{
+            ajax_load_city(result.data.province_id, result.data.city_id, result.data.county_id, result.data.town_id);          
+        }
 
         $('#addbook-form-box').html(rendered); 
         $('#shipping').addClass('addshow');
-        var p_id = $('#province-menu').val();
-        if(p_id){
-          ajax_fetch_district(p_id, result.data.city);
-        }
+
       }else{
         //phenix.show_error_note(result.message, 3000);
       }
     }, 'json');
   }
 
-  // ajax 加载地址列表
+  // ajax 加载地址列表-- remove
   function load_address_list(order_rid){
     $.post("{{ app_url_wap }}/app/site/address/ajax_fetch_list", {order_rid: order_rid}, function(result){
       if(result.success){
@@ -284,6 +291,37 @@ h3.ui.header{
       }
     }, 'json');
   }
+
+  
+      // 加载地址列表
+      function ajax_load_more(type, sort, page, size){
+
+          var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_load_more';
+          $.get(url, { sort:sort, page:page, type:type, size:size }, function(rs){
+
+            rs.data.app_url_wap = "{{ app_url_wap }}";
+            rs.data.app_url_packaged = "{{ app_url_packaged }}";
+            if(order_rid != ''){
+              rs.data.is_from_order = true;
+              rs.data.rrid = order_rid;
+            }else{
+              rs.data.is_from_order = false;
+              rs.data.rrid = '';       
+            }
+
+              var rendered = phenix.ajax_render_result('#fetch_address_list_tpl', rs.data);
+              if(page==1){
+                $('#address-list-box').html(rendered);
+              }else{
+                $('#address-list-box').append(rendered);
+              }
+
+          }, 'json');
+      }
+
+
+
+
 
   // ajax 加载省份城市
   function ajax_fetch_district(p_id, d_id){
@@ -305,13 +343,166 @@ h3.ui.header{
     }, 'json');
   }
 
+    // 加载城市列表
+    function ajax_load_city(province_id, city_id, county_id, town_id){
+        var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+
+        // 一级
+        $.get(url, { pid:0, layer:1 }, function(rs){
+            if(rs.success){
+                fetch_province(province_id, rs.data);
+                // 二级
+                if(province_id){
+                    $.get(url, {pid:province_id, layer:2}, function(rs){
+                        if(rs.success){
+                            fetch_city(province_id, city_id, rs.data);
+                            // 三级
+                            if(city_id){
+                                $.get(url, {pid:city_id, layer:3}, function(rs){
+                                    if(rs.success){
+                                        fetch_county(city_id, county_id, rs.data);
+                                        //  四级
+                                        if(county_id){
+                                            $.get(url, {pid:county_id, layer:4}, function(rs){
+                                                if(rs.success){
+                                                    fetch_town(county_id, town_id, rs.data);
+                                                }
+                                            }, 'json')                           
+                                        }
+
+                                    }
+                                }, 'json')                           
+                            }
+
+                        }
+                    }, 'json')
+                }
+        
+            }else{
+                phenix.show_error_note('获取城市失败');
+            }    
+
+        }, 'json');
+    
+    }
+
+
+    // 渲染一级
+    function fetch_province(province_id, data){
+
+        var obj = $('#province_box');
+        obj.val(province_id);
+        $('select[name=city_id]').val(0);
+        $('select[name=county_id]').val(0);
+        $('select[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        $('#county_box').hide();
+        $('#town_box').hide();
+        var html = '<option value="0" >--请选择--</option>';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==province_id){
+                var active = 'selected="selected"';
+            }else{
+                var active = '';
+            }
+            html += '<option value="'+ data[i]['oid'] +'" '+ active +' >'+ data[i]['name'] +'</option>';
+        }
+        obj.html(html);
+    
+    }
+
+    // 渲染二级
+    function fetch_city(province_id, city_id, data){
+
+        var obj = $('#city_box');
+        obj.find('select[name=city_id]').val(city_id);
+        $('select[name=county_id]').val(0);
+        $('select[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        $('#county_box').hide();
+        $('#town_box').hide();
+        var html = '<option value="0" >--请选择--</option>';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==city_id){
+                var active = 'selected="selected"';
+            }else{
+                var active = '';
+            }
+            html += '<option value="'+ data[i]['oid'] +'" '+ active +' >'+ data[i]['name'] +'</option>';
+        }
+        obj.html(html);
+    }
+
+    // 渲染三级
+    function fetch_county(city_id, county_id, data){
+        var obj = $('#county_box');
+        obj.find('select[name=county_id]').val(county_id);
+        $('select[name=town_id]').val(0);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        $('#town_box').hide();
+        var html = '<option value="0" >--请选择--</option>';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==county_id){
+                var active = 'selected="selected"';
+            }else{
+                var active = '';
+            }
+            html += '<option value="'+ data[i]['oid'] +'" '+ active +' >'+ data[i]['name'] +'</option>';
+        }
+        obj.html(html);
+    }
+
+    // 渲染四级
+    function fetch_town(county_id, town_id, data){
+        var obj = $('#town_box');
+        obj.find('select[name=town_id]').val(town_id);
+        if(!data){
+            return false;
+        }
+        obj.show();
+        var html = '<option value="0" >--请选择--</option>';
+        for(var i=0;i<data.length;i++){
+            if(data[i]['oid']==town_id){
+                var active = 'selected="selected"';
+            }else{
+                var active = '';
+            }
+            html += '<option value="'+ data[i]['oid'] +'" '+ active +' >'+ data[i]['name'] +'</option>';
+        }
+        obj.html(html);
+    }
+
+    // 清空下拉列表数据
+    function clean_select(){
+        var obj = $('#province_box');
+        $('select[name=province_id]').val(0);
+        var obj = $('#city_box');
+        $('select[name=city_id]').val(0);
+        obj.hide();
+        var obj = $('#county_box');
+        $('select[name=county_id]').val(0);
+        obj.hide();
+        var obj = $('#town_box');
+        $('select[name=town_id]').val(0);
+        obj.hide();
+        
+    }
+
 </script>
 {% endblock %}
 
 {% block jquery %}
 
 	$('.addflex').bind('click',function(){
-    load_address_mode('');
+        load_address_mode('');
 	});
 
 	$('.leftadd .close-btn').livequery(function(){
@@ -377,36 +568,50 @@ h3.ui.header{
 						prompt : '地址区域不能为空'
 					}
 				]
-			},
-			zip: {
-				identifier  : 'zip',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '邮政编码不能为空'
-					}
-				]
 			}
+
 		}, {
 			inline : true,
 			onSuccess: function(event){
 			  event.preventDefault();
-        $(this).ajaxSubmit({
-          dataType: 'json',
-          beforeSubmit: function(){
-            //phenix.before_submit();
-          },
-          success: function(data){
-            if(data.is_error){
-              //phenix.after_submit();
-              $(event.target).addClass('error');
-              phenix.show_error_note(data.message, event.target);
-            }else{
-              load_address_list(order_rid);
-              $('#shipping').removeClass('addshow');
-            }
-          }
-        });
+                $(this).ajaxSubmit({
+                    dataType: 'json',
+                    beforeSubmit: function(){
+                        phenix.before_submit();
+                    },
+                    success: function(rs){
+                        if(rs.is_error){
+                          phenix.after_submit();
+                            $(event.target).addClass('error');
+                            phenix.show_error_note(rs.message, event.target);
+                        }else{
+                            $('#shipping').removeClass('addshow');
+                            clean_select();
+                            //$('#addbook-form').clearForm();
+                            phenix.after_submit();
+                            if(rs.data.is_default==1){
+                                $('.delivery_address_list').removeClass('active');
+                                $('.is-default').hide();
+                            }
+
+                            if(order_rid != ''){
+                              rs.data.is_from_order = true;
+                              rs.data.rrid = order_rid;
+                            }else{
+                              rs.data.is_from_order = false;
+                              rs.data.rrid = '';       
+                            }
+                            rs.data.app_url_packaged = "{{ app_url_packaged }}";
+                            var rendered = phenix.ajax_render_result('#fetch_address_tpl', rs.data);
+                            if(rs.data.mode=='create'){
+                                $('#address-list-box').prepend(rendered);
+                            }else{
+                                $('#item-'+rs.data._id).replaceWith(rendered);
+                            }
+
+                        }
+                    }
+                });
 			}
 		});
 	});
@@ -422,9 +627,9 @@ h3.ui.header{
     $(this).bind('click', function(){
       var id = $(this).data('id');
       if(confirm('确认执行这个删除操作吗?')){
-        $.post('{{ app_url_wap }}/app/site/address/remove_address', {id: id}, function(result){
+        $.post('{{ app_url_wap }}/app/site/delivery_address/deleted', {id: id}, function(result){
           if (result.success){
-            $('#'+result.data.id).remove();
+            $('#item-'+result.data.id).remove();
           } else {
             phenix.show_error_note(result.message, 3000);
           }
@@ -434,8 +639,47 @@ h3.ui.header{
     });
 	});
 
-  // 初始化列表
-  load_address_list(order_rid);
+	// 初始加载列表
+    ajax_load_more(type, sort, page, size);
+
+    // 二级
+	$('#province_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:2}, function(rs){
+                if(rs.success){
+                    fetch_city(pid, 0, rs.data);
+                }
+            }, 'json');
+        });
+	});
+	
+    // 三级
+	$('#city_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:3}, function(rs){
+                if(rs.success){
+                    fetch_county(pid, 0, rs.data);
+                }
+            }, 'json');
+		});
+	});
+
+    // 四级
+	$('#county_box').livequery(function(){
+        $(this).change(function(){
+            var url = '{{ app_url_wap }}/app/site/delivery_address/ajax_fetch_city';
+            var pid = $(this).val();
+            $.get(url, {pid: pid, layer:4}, function(rs){
+                if(rs.success){
+                    fetch_town(pid, 0, rs.data);
+                }
+            }, 'json');
+		});
+	});
 	
 {% endblock %}
 
@@ -471,4 +715,5 @@ h3.ui.header{
 {% block templates %}
 {% mustache id:'sign_address_tpl' tpl:'mustache_m/sign_address.mustache' %}
 {% mustache id:'fetch_address_list_tpl' tpl:'mustache_m/fetch_address_list.mustache' %}
+{% mustache id:'fetch_address_tpl' tpl:'mustache_m/delivery_address.mustache' %}
 {% endblock %}

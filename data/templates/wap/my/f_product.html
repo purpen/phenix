@@ -49,15 +49,70 @@
 }
 </style>
 {% endblock %}
-{% block js %}
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var sort = 0;
+      var evt = 1;
+      var type = 1;
+      var user_id = '{{ user_id|default 0 }}';
+  
+      // 加载产品列表
+      function ajax_load_more(evt, user_id, type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/favorite/ajax_load_list';
+          $.get(url, { event:evt, user_id:user_id, sort:sort, page:page, type:type, size:size }, function(rs){
+              // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+              if(rs.data.total_page > rs.data.current_page){
+                  $('#product-more')
+                      .hide()
+                      .attr({'status': 0, 'page': page});
+              }else{
+                  $('#product-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('没有更多');
+              }
+              var rendered = phenix.ajax_render_result('#products_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
 {% endblock %}
 {% block jquery %};
+
+	//ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+    　　var scrollTop = $(this).scrollTop();
+    　　var scrollHeight = $(document).height();
+    　　var windowHeight = $(this).height();
+    　　if(scrollTop + windowHeight > scrollHeight-100){
+          var stat = $('#product-more').attr('status');
+          page = parseInt($('#product-more').attr('page')) + 1;
+          if(stat==0){
+            ajax_load_more(evt, user_id, type, sort, page, size);
+          }
+    　　}
+    });
+	
+	// 初始加载商品列表
+    ajax_load_more(evt, user_id, type, sort, page, size);
+
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop pb-0" >
 	<div class="ui sheader">
-		<a class="return" href="{{ app_url_wap }}/my/fiumy"><i class="angle float left icon"></i></a>
+		<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
 		<p>我的收藏</p>
 	</div>
 	<div class="ui catemenu">
@@ -72,25 +127,22 @@
 			<div class="column">
 				<div class="recom-item">
 
-					<div class="recom-cell" id="product-1011497069">
-						<a title="智能WIFI信号扩大器" alt="智能WIFI信号扩大器-太火鸟智能硬件商店" href="http://t.taihuoniao.com/shop/1011497069.html">
-							<img class="lazy" data-original="http://frbird.qiniudn.com/product/160126/56a718b93ffca26a098baf2c-5-p500x500.jpg" src="http://frbird.qiniudn.com/product/160126/56a718b93ffca26a098baf2c-5-p500x500.jpg" style="display: block;">
-							<div class="shopbiao">
-							</div>
-							<div class="desc">
-								<h2>扩大器</h2>
-								<div class="cats">
-						            <span class="unit">￥</span>19
-						        </div>
-							</div>
-						</a>
-					</div>
-
 				</div>
+
+                <div id="product-more" class="product-box-list" style="display:none;" page="1" status="0">
+                    <div class="p_sub" style="text-align:center;margin:10px auto;">
+                        
+                    </div>
+                </div>
+
 			</div>
 		</div>
 	</div>
 	<!-- -->
 
 </div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'products_tpl' tpl:'mustache_m/stick_products.mustache' %}
 {% endblock %}

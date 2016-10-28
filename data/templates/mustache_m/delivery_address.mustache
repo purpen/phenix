@@ -1,0 +1,29 @@
+      <div class="item delivery_address_list {{ #is_default }}active {{/is_default}}" id="item-{{ _id }}" data-id="{{ _id }}">
+        <a class="content" {{ #is_from_order }}href="/shop/address_checkout?addrid={{ _id }}&rrid={{ rrid }}"{{ /is_from_order }}>
+          <div class="addr">
+            <h5 class="ui header pt-r mb-2r">{{ name }}</h5>
+            <span>{{ province}} {{ city }} {{ county }} {{ town }}</span>
+            <span> {{ address }} </span>
+            <span>{{ phone }}</span>
+          </div>
+		  
+          {{ #is_from_order }}
+                <img class="mr-r" src="http://frstatic.qiniudn.com/images/icon/shipnext2.png" width="11px"> 
+          {{ /is_from_order }}
+        </a>
+        <div class="actions">
+          
+          <span class="is-default" style="{{ ^is_default }}display:none;{{ /is_default }}">
+            <img src="{{ app_url_packaged }}/images/icon/is_default2.png" width="71">
+            </span>
+          
+          <div class="revise">
+            <a class="ui small gray icon edit button" data-id="{{ _id }}">
+              <i class="edit icon"></i>&nbsp;&nbsp;编辑
+            </a>
+            <a class="ui small gray icon remove button" data-id="{{ _id }}">
+              <i class="remove icon"></i>&nbsp;&nbsp;删除
+            </a>
+          </div>
+        </div>
+      </div>

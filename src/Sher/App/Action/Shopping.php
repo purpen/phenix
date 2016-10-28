@@ -706,7 +706,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     $is_snatched = false;
 
     //验证地址
-    $add_book_model = new Sher_Core_Model_AddBooks();
+    $add_book_model = new Sher_Core_Model_DeliveryAddress();
     $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
     if(empty($add_book)){
 			return $this->ajax_json('地址不存在！', true);
@@ -1165,7 +1165,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	 * 获取默认地址，无默认地址，取第一个地址
 	 */
 	protected function get_default_addbook($user_id){
-		$addbooks = new Sher_Core_Model_AddBooks();
+		$addbooks = new Sher_Core_Model_DeliveryAddress();
 		
 		$query = array(
 			'user_id' => (int)$user_id,

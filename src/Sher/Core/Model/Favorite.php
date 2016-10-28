@@ -88,6 +88,9 @@ class Sher_Core_Model_Favorite extends Sher_Core_Model_Base  {
 			case self::TYPE_APP_SCENE_PRODUCT:
 				$row['scene_product'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneProduct');
 				break;
+			case self::TYPE_APP_SCENE_SUBJECT:
+				$row['scene_subject'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneSubject');
+				break;
 			case self::TYPE_APP_SCENE_BRAND:
 				$row['scene_brand'] = &DoggyX_Model_Mapper::load_model($row['target_id'], 'Sher_Core_Model_SceneBrands');
 				break;

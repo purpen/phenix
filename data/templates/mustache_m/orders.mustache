@@ -8,11 +8,11 @@
 			
 			{{#products}}
 			<div class="content">
-				<a href="{{wap_view_url}}" class="img"> 
+				<a href="{{ app_url_wap }}/my/order_view?rid={{ rid }}" class="img"> 
 						<img src="{{ cover_url }}">
 				</a>
 				<div class="orderinfo">
-					<a class="ui link" href="{{ wap_view_url }}">
+					<a class="ui link" href="{{ app_url_wap }}/my/order_view?rid={{ rid }}">
 						<h4 class="title">
 							{{ short_title }}
 						</h4>
