@@ -442,7 +442,7 @@
 				]
 			},
 			phone: {
-				identifier  : 'password',
+				identifier  : 'phone',
 				rules: [
 					{
 						type   : 'empty',
@@ -462,16 +462,8 @@
 						prompt : '地址区域不能为空'
 					}
 				]
-			},
-			zip: {
-				identifier  : 'zip',
-				rules: [
-					{
-						type   : 'empty',
-						prompt : '邮政编码不能为空'
-					}
-				]
 			}
+
 		}, {
 			inline : true,
 			onSuccess: function(event){
