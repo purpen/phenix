@@ -727,9 +727,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pay_money'] = $pay_money;
 		
 		if(!empty($addrid)){
-			$addbooks = new Sher_Core_Model_AddBooks();
+			$addbooks = new Sher_Core_Model_DeliveryAddress();
 			$default_addbook = $addbooks->extend_load($addrid);
-			$this->stash['default_addbook']= $default_addbook;
+			$this->stash['default_addbook'] = $default_addbook;
 		}
 		
 		$this->set_extra_params();
@@ -743,102 +743,118 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function checkout(){
 		$user_id = $this->visitor->id;
 
-    $options = array();
-    $options['is_cart'] = 1;
+        $target_ids = isset($this->stash['target_ids']) ? $this->stash['target_ids'] : null;
+        if(empty($target_ids)){
+            return $this->show_message_page('清选择要购买的商品！', true);
+        }
+
+        $target_arr = explode(',', $target_ids);
+        for($i=0;$i<count($target_arr);$i++){
+            $target_arr[$i] = (int)$target_arr[$i];
+        }
+
+        $options = array();
+        $options['is_cart'] = 1;
 		
 		//验证购物车，无购物不可以去结算
-    $cart_model = new Sher_Core_Model_Cart();
-    $cart = $cart_model->load($user_id);
-    if(empty($cart)){
-			return $this->show_message_page('操作不当，请查看购物帮助！', true);
-    }
+        $cart_model = new Sher_Core_Model_Cart();
+        $cart = $cart_model->load($user_id);
+        if(empty($cart)){
+            return $this->show_message_page('操作不当，请查看购物帮助！', true);
+        }
 
 		//验证购物车，无购物不可以去结算
-    $result = array();
-    $items = array();
-    $total_money = 0;
-    $total_count = 0;
+        $result = array();
+        $items = array();
+        $total_money = 0;
+        $total_count = 0;
 
-    // 记录错误数据索引
-    $error_index_arr = array();
+        // 记录错误数据索引
+        $error_index_arr = array();
 
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
-    foreach($cart['items'] as $key=>$val){
-      $item = array();
+        foreach($cart['items'] as $key=>$val){
+            $item = array();
 
-      // 初始参数
-      $val = (array)$val;
-      $target_id = (int)$val['target_id'];
-      $type = (int)$val['type'];
-      $n = isset($val['n']) ? (int)$val['n'] : 1;
-      if(empty($n)){
-        $n = 1;
-      }
+          // 初始参数
+          $val = (array)$val;
+          $target_id = (int)$val['target_id'];
 
-      $sku_mode = null;
-      $price = 0.0;
+            // 是否是用户选的中产品
+            if(!in_array($target_id, $target_arr)){
+                continue;
+            }
 
-      // 验证是商品还是sku
-      if($type==2){
-        $inventory = $inventory_model->load($target_id);
-        if(empty($inventory)){
-          return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
-        }
-        if($inventory['quantity']<$n){
-          return $this->show_message_page(sprintf("%s 库存不足，请重新下单！", $inventory['mode']), true);
-        }
+          $type = (int)$val['type'];
+          $n = isset($val['n']) ? (int)$val['n'] : 1;
+          if(empty($n)){
+            $n = 1;
+          }
 
-        $product_id = $inventory['product_id'];
-        $sku_mode = $inventory['mode'];
-        $price = (float)$inventory['price'];
-        $total_price = $price*$n;
-        $sku_id = $target_id;
-        
-      }elseif($type==1){
-        $sku_id = $target_id;
-        $product_id = $target_id;
-      }else{
-        return $this->show_message_page('购物车参数不正确！', true);
-      }
+          $sku_mode = null;
+          $price = 0.0;
 
-      $product = $product_model->extend_load($product_id);
-      if(empty($product)){
-        return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
-      }
-      if($product['stage'] != 9){
-        return $this->show_message_page(sprintf("商品:%s 不可销售！", $product['title']), true);
-      }
-      if($product['inventory'] < $n){
-        return $this->show_message_page(sprintf("商品:%s 库存不足！", $product['title']), true);
-      }
+          // 验证是商品还是sku
+          if($type==2){
+            $inventory = $inventory_model->load($target_id);
+            if(empty($inventory)){
+              return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
+            }
+            if($inventory['quantity']<$n){
+              return $this->show_message_page(sprintf("%s 库存不足，请重新下单！", $inventory['mode']), true);
+            }
 
-      if(empty($price)){
-        $price = (float)$product['sale_price'];
-        $total_price = $price*$n;
-      }
+            $product_id = $inventory['product_id'];
+            $sku_mode = $inventory['mode'];
+            $price = (float)$inventory['price'];
+            $total_price = $price*$n;
+            $sku_id = $target_id;
+            
+          }elseif($type==1){
+            $sku_id = $target_id;
+            $product_id = $target_id;
+          }else{
+            return $this->show_message_page('购物车参数不正确！', true);
+          }
 
-      $item = array(
-        'target_id' => $target_id,
-        'type' => $type,
-        'sku' => $sku_id,
-        'product_id'  => $product_id,
-        'quantity'  => $n,
-        'price' => $price,
-        'sku_mode' => $sku_mode,
-        'sale_price' => $price,
-        'title' => $product['title'],
-        'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
-        'view_url'  => $product['view_url'],
-        'subtotal'  => $total_price,
-      );
-      $total_money += $total_price;
-      $total_count += 1;
+          $product = $product_model->extend_load($product_id);
+          if(empty($product)){
+            return $this->show_message_page(sprintf("编号为%d的商品不存在！", $target_id), true);
+          }
+          if($product['stage'] != 9){
+            return $this->show_message_page(sprintf("商品:%s 不可销售！", $product['title']), true);
+          }
+          if($product['inventory'] < $n){
+            return $this->show_message_page(sprintf("商品:%s 库存不足！", $product['title']), true);
+          }
 
-      if(!empty($item)){
-        array_push($items, $item);
-      }
-    } // endfor
+          if(empty($price)){
+            $price = (float)$product['sale_price'];
+            $total_price = $price*$n;
+          }
+
+          $item = array(
+            'target_id' => $target_id,
+            'type' => $type,
+            'sku' => $sku_id,
+            'product_id'  => $product_id,
+            'quantity'  => $n,
+            'price' => $price,
+            'sku_mode' => $sku_mode,
+            'sale_price' => $price,
+            'title' => $product['title'],
+            'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
+            'view_url'  => $product['view_url'],
+            'subtotal'  => $total_price,
+          );
+          $total_money += $total_price;
+          $total_count += 1;
+
+          if(!empty($item)){
+            array_push($items, $item);
+          }
+        } // endfor
 
     //如果购物车为空，返回
     if(empty($total_money) || empty($items)){
@@ -893,7 +909,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     $is_snatched = false;
 		
     //验证地址
-    $add_book_model = new Sher_Core_Model_AddBooks();
+    $add_book_model = new Sher_Core_Model_DeliveryAddress();
     $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
     if(empty($add_book)){
       return $this->ajax_json('地址不存在！', true);
@@ -1508,7 +1524,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 获取默认地址，无默认地址，取第一个地址
 	 */
 	protected function get_default_addbook($user_id){
-		$addbooks = new Sher_Core_Model_AddBooks();
+		$addbooks = new Sher_Core_Model_DeliveryAddress();
 		
 		$query = array(
 			'user_id' => (int)$user_id,
@@ -1679,7 +1695,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 $product['hot_tips'] = true;         
               }
             
-            array_push($items, array('item'=>$product));
+            array_push($items, array('product'=>$product));
           }
         }
         $result['rows'] = $items;

@@ -286,9 +286,12 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
               $next_page = (int)$resultlist['next_page'];
           }
       }
+
+        $product_model = new Sher_Core_Model_Product();
         
         $max = count($resultlist['rows']);
         for($i=0;$i<$max;$i++){
+            $obj = $resultlist['rows'][$i];
             $symbol = isset($resultlist['rows'][$i]['user']['symbol']) ? $resultlist['rows'][$i]['user']['symbol'] : 0;
             if(!empty($symbol)){
               $s_key = sprintf("symbol_%d", $symbol);
@@ -300,13 +303,91 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
               $resultlist['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($resultlist['rows'][$i]['user'], array('symbol_1', 'symbol_2'));
             }
 
+            switch($obj['type']){
+                // 产品
+            case 1:
+                $product = array();
+                if(isset($obj['product'])){
+                    $product['_id'] = $obj['product']['_id'];
+                    $product['title'] = $obj['product']['title'];
+                    $product['short_title'] = $obj['product']['short_title'];
+                    $product['wap_view_url'] = $obj['product']['wap_view_url'];
+                    $product['cover'] = $obj['product']['cover'];
+                    $product['sale_price'] = $obj['product']['sale_price'];
+
+                  // tips
+                  if($obj['product']['tips_label']==1){
+                    $product['new_tips'] = true;
+                  }elseif($obj['product']['tips_label']==2){
+                    $product['hot_tips'] = true;
+                  }
+
+                }
+                $resultlist['rows'][$i]['product'] = $product;
+                break;
+                // 专题
+            case 13:
+                $scene_subject = array();
+                if(isset($obj['scene_subject'])){
+                    $scene_subject['_id'] = $obj['scene_subject']['_id'];
+                    $scene_subject['title'] = $obj['scene_subject']['title'];
+                    $scene_subject['short_title'] = $obj['scene_subject']['short_title'];
+                    $scene_subject['cover_url'] = $obj['scene_subject']['cover']['thumbnails']['aub']['view_url'];
+                    $scene_subject['banner_url'] = $obj['scene_subject']['banner']['thumbnails']['aub']['view_url'];
+                    $scene_subject['begin_time_at'] = date('m/d', $obj['scene_subject']['begin_time']);
+                    $scene_subject['end_time_at'] = date('m/d', $obj['scene_subject']['end_time']);
+                    $scene_subject['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $obj['scene_subject']['_id']);
+
+                    // 产品
+                    $product_arr = array();
+                    if(!empty($obj['scene_subject']['product_ids'])){
+                        for($j=0;$j<count($obj['scene_subject']['product_ids']);$j++){
+                            $product = $product_model->extend_load((int)$obj['scene_subject']['product_ids'][$j]);
+                            if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                            $row = array(
+                                '_id' => $product['_id'],
+                                'title' => $product['short_title'],
+                                'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
+                                'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                                'summary' => $product['summary'],
+                                'sale_price' => $product['sale_price'],
+                                'wap_view_url' => $product['wap_view_url'],
+                            );
+                            array_push($product_arr, $row);
+                        }
+                    }
+                    $scene_subject['products'] = $product_arr;
+
+                }
+                $resultlist['rows'][$i]['scene_subject'] = $scene_subject;
+                break; 
+
+                // 品牌
+            case 14:
+                $scene_brand = array();
+                if(isset($obj['scene_brand'])){
+                    $scene_brand['_id'] = (string)$obj['scene_brand']['_id'];
+                    $scene_brand['title'] = $obj['scene_brand']['title'];
+                    $scene_brand['feature'] = $obj['scene_brand']['feature'];
+			        // 头像 url
+                    $scene_brand['cover_url'] = $obj['scene_brand']['cover']['thumbnails']['huge']['view_url'];
+                    $scene_brand['banner_url'] = $obj['scene_brand']['banner']['thumbnails']['aub']['view_url'];
+                    $scene_brand['product_cover_url'] = $obj['scene_brand']['product_cover']['thumbnails']['apc']['view_url'];
+                    $scene_brand['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $obj['scene_brand']['_id']);
+                
+                }
+                $resultlist['rows'][$i]['scene_brand'] = $scene_brand;
+                break; 
+
+            }
+
+
+
         } //end for
 
-        $data = array();
-        $data['nex_page'] = $next_page;
-        $data['results'] = $resultlist;
+        $resultlist['nex_page'] = $next_page;
         
-        return $this->ajax_json('', false, '', $data);
+        return $this->ajax_json('', false, '', $resultlist);
     }
 	
 }
