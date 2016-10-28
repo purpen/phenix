@@ -23,7 +23,7 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$some_fields = array(
             '_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'county'=>1, 'town'=>1,
-            'province_id'=>1, 'city_id'=>1, 'conty'=>1, 'town_id'=>1,
+            'province_id'=>1, 'city_id'=>1, 'county_id'=>1, 'town_id'=>1,
             'zip'=>1, 'is_default'=>1, 'address'=>1,
 		);
 
@@ -67,7 +67,7 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 
 		$some_fields = array(
             '_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'county'=>1, 'town'=>1,
-            'province_id'=>1, 'city_id'=>1, 'conty'=>1, 'town_id'=>1,
+            'province_id'=>1, 'city_id'=>1, 'county_id'=>1, 'town_id'=>1,
             'zip'=>1, 'is_default'=>1, 'address'=>1,
 		);
 
@@ -117,7 +117,7 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
         //输出字段
 		$some_fields = array(
             '_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'county'=>1, 'town'=>1,
-            'province_id'=>1, 'city_id'=>1, 'conty'=>1, 'town_id'=>1,
+            'province_id'=>1, 'city_id'=>1, 'county_id'=>1, 'town_id'=>1,
             'zip'=>1, 'is_default'=>1, 'address'=>1,
 		);
 
