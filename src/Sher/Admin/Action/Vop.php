@@ -100,6 +100,7 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         }
 
         $product_model = new Sher_Core_Model_Product();
+        $inventory_model = new Sher_Core_Model_Inventory();
 
         $products = array();
         for($i=0;$i<count($newarr);$i++){
@@ -118,9 +119,11 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 
             $p_result['data']['result']['storaged'] = 0;
             $p_result['data']['result']['product_id'] = 0;
-            $is_exist_product = $product_model->find_by_vop_id($sku);
+            $p_result['data']['result']['sku_id'] = 0;
+            $is_exist_product = $inventory_model->find_by_vop_id($sku);
             if(!empty($is_exist_product)){
-                $p_result['data']['result']['product_id'] = $is_exist_product['_id'];
+                $p_result['data']['result']['sku_id'] = $is_exist_product['_id'];
+                $p_result['data']['result']['product_id'] = $is_exist_product['product_id'];
                 $p_result['data']['result']['storaged'] = 1;
             }
 

@@ -92,7 +92,7 @@ class Sher_Core_Util_Vop {
     }
 
     /**
-     * 商品池信息
+     * 接口方法封装
      */
     public static function fetchInfo($method, $options=array()){
         $url  ="https://router.jd.com/api";
@@ -143,6 +143,111 @@ class Sher_Core_Util_Vop {
 
     }
 
+    /**
+     * 商品是否可售(sku_ids 最多不超过100个)
+     */
+    public static function sku_check($sku_ids, $options=array()){
+        $method = 'biz.product.sku.check';
+        $response_key = 'biz_product_sku_check_response';
+        $is_arr = isset($options['param_arr']) ? true : false;
+        if($is_arr){
+            $sku_ids = implode(',', $sku_ids);
+        }
+        $params = array('skuIds'=>$sku_ids);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        return $result;
+    }
+
+    /**
+     * 商品是否可售/上架(单一)
+     */
+    public static function sku_check_one($sku_id, $options=array()){
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        //  是否可售
+        $method = 'biz.product.sku.check';
+        $response_key = 'biz_product_sku_check_response';
+        $params = array('skuIds'=>$sku_id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($vop_result['code'])){
+            $result['message'] = '接口异常！';
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+        if($vop_result['data']['result'][0]['saleState'] != 1){
+            $result['message'] = 'vop产品不可售！';
+            return $result;
+        }
+
+        // 是否下架
+        $method = 'biz.product.state.query';
+        $response_key = 'biz_product_state_query_response';
+        $params = array('sku'=>$sku_id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($vop_result['code'])){
+            $result['message'] = '接口异常！';
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+        if($vop_result['data']['result'][0]['state'] != 1){
+            $result['message'] = 'vop产品已下架！';
+            return $result;
+        }
+
+        $result['success'] = true;
+        return $result;
+    }
+
+    /**
+     * 验证商品支持当前地区购买(单一)
+     */
+    public static function sku_check_area($sku_id, $options=array()){
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        // 是否支持此地区发货
+        $method = 'biz.product.checkAreaLimit.query';
+        $response_key = 'biz_product_checkAreaLimit_query_response';
+        $province = $options['province'];
+        $city = $options['city'];
+        $county = $options['county'];
+        $town = $options['town'];
+        $params = array('skuIds'=>$sku_id, 'province'=>$province, 'city'=>$city, 'county'=>$county, 'town'=>$town);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        if(!empty($vop_result['code'])){
+            $result['message'] = '接口异常！';
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+        if($vop_result['data']['result'][0]['isAreaRestrict']==true){
+            $title = isset($options['title']) ? $options['title'] : null;
+            $result['message'] = sprintf('商品[%s]不支持该地区发货！', $title);
+            return $result;
+        }
+
+        $result['success'] = true;
+        return $result;   
+    
+    }
 
 	
 }

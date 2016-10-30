@@ -113,6 +113,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       $sku_mode = null;
       $price = 0.0;
+      $vop_id = null;
 
       // 验证是商品还是sku
       if($type==2){
@@ -129,6 +130,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $price = (float)$inventory['price'];
         $total_price = $price*$n;
         $sku_id = $target_id;
+        $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
         
       }elseif($type==1){
         $sku_id = $target_id;
@@ -167,6 +169,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
         'view_url'  => $product['view_url'],
         'subtotal'  => $total_price,
+        'vop_id' => $vop_id,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -1840,6 +1843,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+    $vop_id = null;
 
     if(empty($target_id) && empty($type)){
       return $this->api_json('请选择商品或类型！', 3001); 
@@ -1855,6 +1859,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
       $inventory = $inventory_model->load($target_id);
       $product_id = $inventory['product_id'];
+      $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
     }elseif($type==1){
       $product_id = $target_id;
     }else{
@@ -1896,7 +1901,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id' => $vop_id)),
         'item_count' => 1,
       ));     
     }else{
@@ -1910,7 +1915,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 
