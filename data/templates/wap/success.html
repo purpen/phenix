@@ -39,7 +39,7 @@
 	<div class="ui responsive grid mt-r">
 		<div class="row">
 			<div class="column plr-14">
-				{% if !card_payed %}
+				{% if card_payed %}
 				<div class="ui ordered danger message">
 					<h5 class="ui header">
 						<div class="content">
@@ -57,7 +57,7 @@
 						<h5 class="ui mb-0 pb-2r dividing header">选择支付方式</h5>
 						
 						<div class="ui mt-0 relaxed divided payaway selection list">
-							<div class="item">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>推荐使用支付宝快捷支付</small>
 								</div>
