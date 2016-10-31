@@ -2,7 +2,6 @@
 {% block page_css %}
 <style type="text/css">
     .ui.responsive.hot.grid{
-        padding-top: 5px;
         margin-bottom: 20px;
     }
     .ui.grid>.row>.column:only-child{
@@ -290,7 +289,7 @@ $('.ui.fshare').on('click',function(){
             </div>
         </div>
         <div class="ui responsive hot grid">
-            <div class="row">
+            <div class="row pt-3r" style="background:#fff;">
                 <div class="column">
                     <p>
                         {{ scene_subject.summary }}
@@ -300,8 +299,8 @@ $('.ui.fshare').on('click',function(){
 
             {% for d in scene_subject.products %}
                 <!-- 循环 -->
-                <div class="row pt-r">
-                    <div class="column">
+                <div class="row pt-7">
+                    <div class="column plr-14">
                         <h2 class="ui header">{{ d.title }}</h2>
                         <p>{{ d.summary }}</p>
                         <div class="block">
