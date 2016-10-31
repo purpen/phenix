@@ -188,6 +188,7 @@
     $('.sort_all_btn').click(function(){
         $(this).siblings().removeClass('up');
         $(this).siblings().removeClass('down');
+        $(this).siblings().removeClass('active');
         $(this).addClass('active');
         sort = 0;
         $('#mpresale .recom-item').html('');
@@ -197,6 +198,7 @@
     $('.sort_new_btn').click(function(){
         $(this).siblings().removeClass('up');
         $(this).siblings().removeClass('down');
+        $(this).siblings().removeClass('active');
         $(this).addClass('active');
         sort = 0;
         $('#mpresale .recom-item').html('');
