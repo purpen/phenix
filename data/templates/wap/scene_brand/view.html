@@ -137,6 +137,25 @@
 	    width: 22px;
 	    background-position: 0 0;
 	}
+	.ui.brand .brandlg{
+		margin-bottom: 0;
+	}
+	.ui.brand .brandlg img{
+		z-index: 9;
+	}
+	.row.masx{
+		background: #fff;
+    	padding-top: 45px;
+	}
+	.brand .row.masx p{
+		color: #666;
+	}
+	h3.ui.header{
+		text-align: center;
+		font-size: 15px;
+		color: #222;
+		font-weight: 500;
+	}
 </style>
 {% endblock %}
 
@@ -257,13 +276,14 @@
     <div class="brandlg" style="background-image: url({{ scene_brand.banner.thumbnails.aub.view_url }});">
     	<div class="bgcover"></div>
     	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-        <p>{{ scene_brand.title }}</p>
+        
         <div class="ui favorite" data-mark="n" data-id="{{ scene_brand._id }}"><div class="bgimg"></div></div>
         <img src="{{ scene_brand.cover.thumbnails.apc.view_url }}">
 	</div>
 	<div class="ui responsive grid">
 		<div class="row masx">
 			<div class="column">
+				<h3 class="ui header">{{ scene_brand.title }}</h3>
                 <p>{{ scene_brand.des }}</p>
 			</div>
 		</div>
