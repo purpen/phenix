@@ -206,7 +206,7 @@
 {% block content %}
 <div class="ui fiushop">
 	<div class="ui sheader">
-		<p><img src="{{ app_url_packaged }}/images/icon/fflogo.png"></p>
+		<p><img src="{{ app_url_packaged }}/images/icon/ffflogo.png"></p>
 		<form class="fiusearch item" method="post" action="{{ app_url_wap }}/search/fiu" id="searchbar">
         
 	        <div class="ui icon input">
@@ -214,14 +214,14 @@
 	            <input name="t" type="hidden" value="1">
 	        </div>
 	    </form>
-	    <p>
+	    <!--<p>
 	    	{% if visitor %}
 				<a href="{{ app_url_wap }}/my/fiumy"><img src="{{ app_url_packaged }}/images/icon/fiuuser.png" align="absmiddle"></a>
 			{% else %}
 				<a href="{{ app_url_wap }}/auth">登录</a>
 			{% endif %}
 
-	    </p>
+	    </p>-->
 	</div>
 	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
 	<div id="slider" class="flexslider flex-single">
