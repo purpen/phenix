@@ -52,8 +52,8 @@
   .cate-list li{
     width: 33.3333%;
     float: left;
-    line-height: 60px;
-    height: 50px;
+    line-height: 50px;
+    height: 40px;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
@@ -70,7 +70,9 @@
   }
   .cate-list li.catemore{
     float: right;
-    height: 50px;
+    height: 40px;
+    text-align: left;
+    padding-left: 15px;
   }
   .cate-list li.catemore .imgup{
     width: 44px;
@@ -78,7 +80,7 @@
     margin: 0;
     display: inline-block;
     vertical-align: middle;
-    background-image: url({{ app_url_packaged }}/images/icon/cateup.png);
+    background-image: url({{ app_url_packaged }}/images/icon/cateupn.png);
     background-size: 88px 12px;
   }
   .cate-list li.catemore.up .imgup{
@@ -146,7 +148,7 @@
 	<div class="ui responsive grid cateall" style="background-color: #fff;">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
-		<div class="row mt-3r ptb-0">
+		<div class="row mt-0 ptb-0">
 			<div class="column plr-0">
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
