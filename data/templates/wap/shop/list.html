@@ -11,10 +11,10 @@
 	}
 	  .togprice{
 	    background-image: url({{ app_url_packaged }}/images/icon/price.png);
-	    background-size: 27px 12px;
+	    background-size: 21px 9px;
 	    background-repeat: no-repeat;
-	    height: 12px;
-	    width: 9px;
+	    height: 9px;
+	    width: 7px;
 	    background-position: 0 0;
 	    margin-left: 4px;
 	    margin-bottom: -1px;
@@ -24,13 +24,13 @@
 	    color: #be8914 !important;
 	  }
 	  .center.reitem.up .togprice{
-	    background-position: -18px 0;
+	    background-position: -14px 0;
 	  }
 	  .center.reitem.down .togprice{
-	    background-position: -9px 0;
+	    background-position: -7px 0;
 	  }
 	  .ui.reorder{
-    height: 30px;
+    height: 44px;
     background:#fff;
     width: 100%;
     width: 100%;
@@ -53,7 +53,7 @@
       height: 100%;
       position: relative;
       color: #999 !important;
-      line-height: 30px;
+      line-height: 44px;
       font-size: 12px;
   }
   .left.reitem{
@@ -249,11 +249,12 @@
 
     
 	<div class="ui reorder">
-		<a href="javascript:void(0);" class="left reitem active sort_new_btn">最新</a>
-	    <a href="javascript:void(0);" class="center reitem sort_price_btn">价格
+    <a href="javascript:void(0);" class="center reitem active sort_all_btn">综合</a>
+		<a href="javascript:void(0);" class="center reitem sort_new_btn">最新</a>
+	    <a href="javascript:void(0);" class="right reitem sort_price_btn">价格
 	      <div class="togprice"></div>
 	    </a>
-	    <div class="right reitem"></div>
+	    
 	</div>
 	<div class="ui responsive brand list grid">
 		<div class="row" id="mpresale">
