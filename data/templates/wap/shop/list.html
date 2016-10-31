@@ -190,9 +190,9 @@
         $(this).siblings().removeClass('down');
         $(this).siblings().removeClass('active');
         $(this).addClass('active');
-        sort = 0;
+        sort = 9;
         $('#mpresale .recom-item').html('');
-        ajax_load_more(category_id, category_tag, type, sort, 9, size);
+        ajax_load_more(category_id, category_tag, type, sort, 1, size);
     });
     // 排序--最新
     $('.sort_new_btn').click(function(){
