@@ -75,16 +75,16 @@
     padding-left: 15px;
   }
   .cate-list li.catemore .imgup{
-    width: 44px;
+    width: 40px;
     height: 12px;
     margin: 0;
     display: inline-block;
     vertical-align: middle;
     background-image: url({{ app_url_packaged }}/images/icon/cateupn.png);
-    background-size: 88px 12px;
+    background-size: 80px 12px;
   }
   .cate-list li.catemore.up .imgup{
-    background-position: -44px 0;
+    background-position: -40px 0;
   }
   .ui.catemenu{
     box-shadow:none;
@@ -153,7 +153,7 @@
                 <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
 			</div>
 		</div>
-    <div class="row pt-0 pb-r">
+    <div class="row pt-0 pb-r mb-2r">
       <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
