@@ -20,7 +20,7 @@
 	    margin-bottom: -1px;
 	    display: inline-block;
 	  }
-	  .right.reitem.up ,.center.reitem.down{
+	  .right.reitem.up ,.right.reitem.down{
 	    color: #be8914 !important;
 	  }
 	  .right.reitem.up .togprice{
@@ -184,6 +184,15 @@
         });   
     });
 
+    // 排序--综合
+    $('.sort_all_btn').click(function(){
+        $(this).siblings().removeClass('up');
+        $(this).siblings().removeClass('down');
+        $(this).addClass('active');
+        sort = 0;
+        $('#mpresale .recom-item').html('');
+        ajax_load_more(category_id, category_tag, type, sort, 0, size);
+    });
     // 排序--最新
     $('.sort_new_btn').click(function(){
         $(this).siblings().removeClass('up');
