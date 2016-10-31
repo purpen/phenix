@@ -54,9 +54,9 @@
 				<form class="ui pay form" method="post" action="{{ app_url_wap }}/shop/payed" id="pay-form" target="_blank">
 					<input type="hidden" name="rid" value="{{ rid }}" />
 					<div class="ui segment">
-						<h5 class="ui dividing header">选择支付方式</h5>
+						<h5 class="ui mb-0 pb-2r dividing header">选择支付方式</h5>
 						
-						<div class="ui relaxed divided payaway selection list">
+						<div class="ui mt-0 relaxed divided payaway selection list">
 							<div class="item">
 								<div class="right floated">
 									<small>推荐使用支付宝快捷支付</small>
@@ -71,7 +71,7 @@
 								</div>
 							</div>
 							{% if is_weixin %}
-							<div class="item">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>方便快捷支付</small>
 								</div>
@@ -85,7 +85,7 @@
 								</div>
 							</div>
 							{% endif %}
-							<div class="item">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>京东支付</small>
 								</div>
