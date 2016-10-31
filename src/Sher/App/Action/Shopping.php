@@ -765,7 +765,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
             if(empty($vop_id)) continue;
 
             // 是否可售
-            $vop_result = Sher_Core_Util_Vop::sku_check_one($item['vop_id']);
+            $vop_result = Sher_Core_Util_Vop::sku_check_one($vop_id);
             if(!$vop_result['success']){
  			    return $this->ajax_json($vop_result['message'], true);
             }

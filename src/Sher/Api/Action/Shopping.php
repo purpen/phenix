@@ -1686,6 +1686,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $target_id = (int)$v['target_id'];
       $type = (int)$v['type'];
       $n = (int)$v['n'];
+      $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null; 
 
       $data = array();
       $data['target_id'] = $target_id;
@@ -1694,6 +1695,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $data['sku_mode'] = null;
       $data['sku_name'] = null;
       $data['price'] = 0;
+      $data['vop_id'] = $vop_id;
 
       if($type==2){
         $inventory = $inventory_model->load($target_id);
