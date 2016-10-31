@@ -30,6 +30,11 @@
               类型: <span class="ui magenta text">APP首次下单立减</span>
             </div>
           {%endif%}
+          {% if order.is_vop %}
+            <div class="item">
+              <span class="ui magenta red text">(开普勒)</span>
+            </div>
+          {%endif%}
         {%endif%}
 		</div>
 	</div>
