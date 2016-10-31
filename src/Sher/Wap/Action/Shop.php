@@ -970,6 +970,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
     $is_cart = isset($result['is_cart']) ? $result['is_cart'] : 0;
     $is_presaled = isset($result['is_presaled']) ? $result['is_presaled'] : 0;
+    $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -1050,6 +1051,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$orders = new Sher_Core_Model_Orders();
 			
 			$order_info['user_id'] = (int)$user_id;
+
+            $order_info['is_vop'] = $is_vop;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			

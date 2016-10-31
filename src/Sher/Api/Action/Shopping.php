@@ -515,6 +515,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+        $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 获取购物金额
 		$total_money = $order_info['total_money'];

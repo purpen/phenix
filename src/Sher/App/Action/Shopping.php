@@ -809,6 +809,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+
+        // 是否开普勒订单
+        $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 获取购物金额
 		if ($is_presaled || $is_nowbuy){
@@ -859,6 +862,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$orders = new Sher_Core_Model_Orders();
 			
 			$order_info['user_id'] = (int)$user_id;
+            $order_info['is_vop'] = $is_vop;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			
