@@ -299,10 +299,14 @@ $('.ui.fshare').on('click',function(){
 
             {% for d in scene_subject.products %}
                 <!-- 循环 -->
-                <div class="row pt-3r pb-0">
+                <div class="row pt-3r" style="background:#fff;">
                     <div class="column plr-14">
                         <h2 class="ui header">{{ d.title }}</h2>
                         <p>{{ d.summary }}</p>
+                    </div>
+                </div>
+                <div class="row ptb-2r">
+                    <div class="column plr-14">
                         <div class="block">
                             <a href="{{ d.wap_view_url }}" class="images">
                                 <img src="{{ d.banner_url }}">
