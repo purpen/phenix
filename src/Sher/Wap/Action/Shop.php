@@ -794,6 +794,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
           $sku_mode = null;
           $price = 0.0;
+          $vop_id = null;
 
           // 验证是商品还是sku
           if($type==2){
@@ -810,6 +811,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $price = (float)$inventory['price'];
             $total_price = $price*$n;
             $sku_id = $target_id;
+            $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
             
           }elseif($type==1){
             $sku_id = $target_id;
@@ -847,6 +849,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
             'view_url'  => $product['view_url'],
             'subtotal'  => $total_price,
+            'vop_id' => $vop_id,
           );
           $total_money += $total_price;
           $total_count += 1;
@@ -936,6 +939,31 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
+
+        // 验证开普勒
+        for($i=0;$i<count($order_info['items']);$i++){
+            $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
+            $sku_title = $order_info['items'][$i]['title'];
+            if(empty($vop_id)) continue;
+
+            // 是否可售
+            $vop_result = Sher_Core_Util_Vop::sku_check_one($vop_id);
+            if(!$vop_result['success']){
+ 			    return $this->ajax_json($vop_result['message'], true);
+            }
+
+            // 是否是区域限制
+            $vop_options = array();
+            $vop_options['title'] = $sku_title;
+            $vop_options['province'] = isset($add_book['province_id']) ? $add_book['province_id'] : 0;
+            $vop_options['city'] = isset($add_book['city_id']) ? $add_book['city_id'] : 0;
+            $vop_options['county'] = isset($add_book['county_id']) ? $add_book['county_id'] : 0;
+            $vop_options['town'] = isset($add_book['town_id']) ? $add_book['town_id'] : 0;
+            $vop_result = Sher_Core_Util_Vop::sku_check_area($vop_id, $vop_options);
+            if(!$vop_result['success']){
+ 			    return $this->ajax_json($vop_result['message'], true);
+            }
+        }
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];

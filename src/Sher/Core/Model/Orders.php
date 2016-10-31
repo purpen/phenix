@@ -415,7 +415,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id');
 		$int_fields = array('sku', 'product_id', 'quantity', 'kind');
 		$float_fields = array('price', 'sale_price');
 		
