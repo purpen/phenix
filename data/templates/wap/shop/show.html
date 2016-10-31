@@ -836,25 +836,57 @@ span.ui.timeout.btn{
     background-position: -18px 0;
 }
 .ui.fshare{
-    width: 50%;
     position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    padding: 2px 6px 5px;
-    margin: 4px;
-    color: #999;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 32px;
+    height: 50px;
 }
 .ui.fshare .bgimg{
     display: block;
-    margin: 2px auto 3px;
+    margin: 16px auto;
     vertical-align: middle;
     background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
     background-repeat: no-repeat;
-    background-size: 16px 16px;
-    height: 16px;
-    width: 16px;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
     background-position: 0 0;
+}
+.acacartlogin{
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 50px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    position: absolute;
+}
+.acacartlogin .caputcart {
+    background: url({{ app_url_packaged }}/images/icon/caputcartn.png);
+    width: 26px;
+    height: 20px;
+    background-size: cover;
+    margin: 15px 4px;
+}
+.acacartlogin .cartnumber {
+    position: absolute;
+    top: 11px;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background: #be8914;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
 }
 </style>
 {% endblock %}
@@ -900,6 +932,13 @@ span.ui.timeout.btn{
  			  });
           }, 'json');
       }
+      $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {type:1}, function(result){
+            if(result.success){
+              $('#wap_cart_num').show().text(result.data.count);
+            }else{
+               $('#wap_cart_num').hide().text('');             
+            }
+        }, 'json');
 
   </script>
 {% endblock %}
@@ -1171,7 +1210,19 @@ span.ui.timeout.btn{
 <div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
     <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-    <p>产品详情123</p>
+    <p>产品详情</p>
+    {% if visitor %}
+    <a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
+      <div class="caputcart"></div>
+      <!-- 购物车提醒 -->
+      <div class="cartnumber" id="wap_cart_num" style="display:none;"></div>
+    </a>
+    {% else %}
+    <a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
+      <div class="caputcart"></div>
+    </a>
+    {% endif %}
+    <div class="ui fshare"><div class="bgimg"></div></div>
   </div>
 </div>
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
