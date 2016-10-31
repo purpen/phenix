@@ -13,6 +13,22 @@
 	    height: 100%;
 	    background-size: 100% 100%;
 	}
+  .ui.category a.catelist p{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    -webkit-transform: translate3d(0,-50%,0);
+    -moz-transform: translate3d(0,-50%,0);
+    -o-transform: translate3d(0,-50%,0);
+    -ms-transform: translate3d(0,-50%,0);
+    transform: translate3d(0,-50%,0);
+    font-size: 16px;
+    font-weight: 700;
+    z-index: 3;
+  }
 	.ui.sheader form{
         display: inline-block;
         width: 100%;
@@ -60,7 +76,7 @@
   }
   .cate-list li a{
     font-size: 14px;
-    color: #666;
+    color: #222;
     width: calc(100% - 20px);
     border-bottom: 1px solid #eee;
     display: block;
@@ -150,7 +166,9 @@
 		{% for cat in category.rows %}
 		<div class="row mt-0 ptb-0">
 			<div class="column plr-0">
-                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
+                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); ">
+                  <p>{{ cat.title }}</p>
+                </a>
 			</div>
 		</div>
     <div class="row pt-0 pb-r mb-2r">
