@@ -105,6 +105,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
 
+        $options = array();
+        $options['is_vop'] = 0;
+
     //初始变量
     //是否是抢购商品
     $is_snatched = false;
@@ -263,7 +266,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count);
+        if($vop_id){
+            $options['is_vop'] = 1;
+        }
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		
 		if (!$order_info['success']){
 			return $this->show_message_page($order_info['message'], true);
@@ -451,7 +457,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count){
+	protected function create_temp_order($items=array(),$total_money,$items_count, $options=array()){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -499,6 +505,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$new_data = array();
 		$new_data['dict'] = array_merge($default_data, $data);
+        $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
 		
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
@@ -621,10 +628,26 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if (empty($cart->com_list)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
+
+        $vop_count = 0;
+        $self_count = 0;
 		
         $items = $cart->getItems();
         $total_money = $cart->getTotalAmount();
         $items_count = $cart->getItemCount();
+
+        for($i=0;$i<count($items);$i++){
+            $is_vop = isset($items[$i]['vop_id']) ? $items[$i]['vop_id'] : null;
+            if(!empty($is_vop)){
+                $vop_count += 1;
+            }else{
+                $self_count += 1;
+            }
+        }
+
+        if(!empty($vop_count) && !empty($self_count)){
+ 			return $this->show_message_page('请分开下单！', true);       
+        }
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -681,6 +704,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$new_data = array();
 			$new_data['dict'] = array_merge($default_data, $data);
 			
+            $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
       // 是否来自购物车
