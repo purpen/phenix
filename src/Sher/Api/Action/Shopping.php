@@ -509,6 +509,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if(empty($result)){
       return $this->api_json('订单已失效，请重新下单！', 3004);
 		}
+
+        $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -578,6 +580,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$order_info['user_id'] = (int)$user_id;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
+
+            $order_info['is_vop'] = $is_vop;
 			
 			// 订单备注
 			if(isset($this->stash['summary'])){
@@ -670,6 +674,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         // 设置订单状态
         $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 			}
+
+            // 创建开普勒订单
+            if(!empty($order_info['is_vop'])){
+                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+                if(!$vop_result['success']){
+				    return 	$this->ajax_json($vop_result['message'], true);
+                }
+                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
+                //print_r($vop_result);exit;
+            }
+            $order_info['jd_order_id'] = null;
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功

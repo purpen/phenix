@@ -211,6 +211,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		$status = $order_info['status'];
 		$is_presaled = $order_info['is_presaled'];
 		$order_id = (string)$order_info['_id'];
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
 		
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
@@ -220,7 +221,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 更新支付状态,付款成功并配货中
-			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_JDPAY, array('user_id'=>$order_info['user_id']));
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_JDPAY, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
 			
 			if (!$sync){
 				return $this->show_message_page('订单状态已更新!', $order_view_url);

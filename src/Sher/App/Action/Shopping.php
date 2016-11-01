@@ -929,7 +929,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 // 如果抢购价为0,设置订单状态为备货
                 if((float)$pay_money==0){
                   $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-                  $order_info['is_payed'] = 1;              
+                  $order_info['is_payed'] = 1;
                 }
 
      	      }
@@ -951,6 +951,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         
       }
 
+            // 创建开普勒订单
+            if(!empty($order_info['is_vop'])){
+                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+                if(!$vop_result['success']){
+				    return 	$this->ajax_json($vop_result['message'], true);
+                }
+                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
+                //print_r($vop_result);exit;
+            }
+            $order_info['jd_order_id'] = null;
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -970,9 +981,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			}
 			
 			// 限量抢购活动设置缓存
-      if($is_snatched){
+            if($is_snatched){
  			  $this->check_have_snatch($snatch_product_id);    
-      }
+            }
 			
 			// 删除临时订单数据
 			$model->remove($rrid);

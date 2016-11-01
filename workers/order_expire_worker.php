@@ -44,11 +44,12 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i<$max; $i++) {
     $order = $list[$i];
+    $jd_order_id = isset($order['jd_order_id']) ? $order['jd_order_id'] : null;
 		// 未支付订单才允许关闭
 		if ($order['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 关闭订单
       try{
-        $ok = $order_model->close_order($order['_id'], array('user_id'=>$order['user_id']));
+        $ok = $order_model->close_order($order['_id'], array('user_id'=>$order['user_id'], 'jd_order_id'=>$jd_order_id));
         if($ok){
           echo "success update order status:".$order['_id']."\n";
           $total++;     

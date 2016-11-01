@@ -178,13 +178,14 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 		$status = $order_info['status'];
 		$is_presaled = $order_info['is_presaled'];
 		$order_id = (string)$order_info['_id'];
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
 		
 		Doggy_Log_Helper::warn("Alipay order[$out_trade_no] status[$status] updated!");
 		
 		// 验证订单是否已经付款
 		if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 			// 更新支付状态,付款成功并配货中
-			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id']));
+			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
 			return $this->to_raw('success');
 		}
 
