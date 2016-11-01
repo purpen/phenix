@@ -71,7 +71,7 @@ body{
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	padding: 0 35px 25px;
+	padding: 0 35px 15px;
 }
 .third.login{
   position: absolute;
@@ -149,6 +149,19 @@ body{
 }
 .ui.green.button:hover{
 	background:rgba(0,0,0,0) !important;
+}
+.ui.forgot{
+	margin: 0 !important;
+}
+.fluid.ui.magenta.inverted.submit.button{
+	background:#eee !important;
+	border:none !important;
+    color: #666 !important;
+    box-shadow: none !important;
+}
+.fluid.ui.magenta.inverted.submit.button.active{
+	background:#be8914 !important;
+	color: #fff !important;
 }
 font{
 	display: none;
@@ -274,6 +287,7 @@ font{
 		
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
+			$('.fluid.ui.magenta.inverted.submit.button').addClass('active');
 			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
@@ -497,7 +511,7 @@ font{
 	                        </div>
 	                        <div id="include">
 	                            <div class="field ">
-	                                <div class="fluid ui active magenta inverted submit button">
+	                                <div class="fluid ui magenta inverted submit button">
 	                                    登录 / 注册
 	                                </div>
 	                            </div>
