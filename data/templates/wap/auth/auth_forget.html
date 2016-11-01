@@ -56,7 +56,47 @@ body{
 {% endblock %}
 
 {% block jquery %}
-	phenix.build_auth_page();
+
+  /*注册表单验证*/
+	$('#find-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				}
+			]
+		},
+		verify_code: {
+			identifier  : 'verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+				},
+				success: function(result){
+					if(result.is_error){
+						//phenix.show_error_note(result.message);
+					}else{
+                        phenix.redirect('/auth/set_passwd?account='+result.data.account+'&verify_code='+result.data.verify_code);
+					}
+					
+				}
+			});
+		}
+	});
+
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
@@ -134,7 +174,7 @@ body{
     <div class="ui responsive grid pt-7">
     	<div class="row">
     		<div class="column plr-14">
-    			<form action="{{ app_url_wap }}/auth/reset_passwd" class="ui small form" method="post" id="register-form">
+    			<form action="{{ app_url_wap }}/auth/get_passwd" class="ui small form" method="post" id="find-form">
 					
 					<div class="field">
 						<input type="text" name="account" placeholder="手机号码" id="account" />

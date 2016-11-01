@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code','get_passwd');
+	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code','get_passwd','set_passwd');
 	
 	/**
 	 * 入口
@@ -770,8 +770,35 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 找回密码页面
 	 */
 	public function get_passwd(){
-		return $this->to_html_page('wap/auth/get_password.html');
+
+		//验证码验证
+		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+		  return $this->ajax_json('验证码不正确!', true);
+		}
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
+
+		// 验证是否存在账户
+		$user_model = new Sher_Core_Model_User();
+		$user = $user_model->first(array('account'=>$this->stash['account']));
+		if (empty($user)) {
+			return $this->ajax_json('此账户不存在！', true);
+		}
+  
+        return $this->ajax_json('success', false, 0, array('user_id'=>$user['_id'], 'account'=>$this->stash['account'], 'verify_code'=>$code));
 	}
+
+	/**
+	 * 找回密码页面
+	 */
+    public function set_passwd(){
+		return $this->to_html_page('wap/auth/get_password.html');
+    }
 	
 	/**
 	 * 重置密码
@@ -782,10 +809,12 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			  return $this->ajax_note('数据错误,请重试', true);
 		}
 	
+        /**
 		//验证码验证
 		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
 		  return $this->ajax_json('验证码不正确!', true);
-		}
+        }
+        **/
 	
 		//验证密码长度
 		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
