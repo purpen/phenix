@@ -154,12 +154,6 @@
 </style>
 {% endblock %}
 {% block jquery %}
-$('.ui.fshare').on('click',function(){
-    $('#mask').css('display','block');
-  });
-  $('#mask').on('click',function(){
-    $('#mask').css('display','none');
-  });
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -214,6 +208,14 @@ $('.ui.fshare').on('click',function(){
 		}
 	});
 
+    $('.ui.comment').on('click',function(){
+        $('.ui.fiushop,.ui.zhuan').hide();
+        $('.ui.usercomment.page').show();
+    });
+    $('.comclose').on('click',function(){
+        $('.ui.usercomment.page').hide();
+        $('.ui.fiushop,.ui.zhuan').show();
+    })
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
@@ -285,9 +287,12 @@ $('.ui.fshare').on('click',function(){
         </li>
     </ul>
 </div>
-<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
-  <div class="frideshare">
-  <img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
-  </div>
+
+<div class="ui usercomment page">
+    <div class="ui sheader">
+        <a class="comclose" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+        <p>评论</p>
+    </div>
 </div>
+
 {% endblock %}
