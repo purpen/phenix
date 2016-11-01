@@ -281,7 +281,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         $old_inventory = $inventory['quantity'];
         // 增量
         $increment = $quantity - $old_inventory;
-        $ok = $inventory_model-update_set($inventory['_id'], array('quantity'=>$quantity));
+        $ok = $inventory_model->update_set($inventory['_id'], array('quantity'=>$quantity));
         if(!$ok){
             return $this->api_json('更新库存失败！', 3003);        
         }
