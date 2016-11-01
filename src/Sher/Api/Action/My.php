@@ -341,9 +341,10 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
 		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
  			return $this->api_json('该订单出现异常，请联系客服！', 3003);   
 		}
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
 		try {
 			// 关闭订单
-			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id']));
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
     } catch (Sher_Core_Model_Exception $e) {
  		  return $this->api_json('取消订单失败:'.$e->getMessage(), 3004);   
     }

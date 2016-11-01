@@ -149,6 +149,27 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
     }
 
 
+    /*
+     * ajax 查询余额
+     */
+    public function ajax_search_price_balance(){
+
+        $method = 'biz.price.balance.get';
+        $response_key = 'biz_price_balance_get_response';
+        $params = array('payType'=>4);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->ajax_json($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->ajax_json($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        return $this->ajax_json('success', false, 0, array('balance_price'=>$result['data']['result']));
+    
+    }
 
 }
 

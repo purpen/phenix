@@ -54,7 +54,8 @@ class Sher_Core_Jobs_Clean extends Doggy_Object {
 				// 未支付订单才允许关闭
 				if ($result[$i]['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
 					$expired_model = new Sher_Core_Model_Orders();
-					$expired_model->close_order($result[$i]['_id'], array('user_id'=>$result[$i]['user_id']));
+                    $jd_order_id = isset($result[$i]['jd_order_id']) ? $result[$i]['jd_order_id'] : null;
+					$expired_model->close_order($result[$i]['_id'], array('user_id'=>$result[$i]['user_id'], 'jd_order_id'=>$jd_order_id));
 					unset($expired_model);
 				} else {
 					Doggy_Log_Helper::warn("Close order status: ".$result[$i]['status']);
