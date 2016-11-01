@@ -154,7 +154,6 @@
     }
 
     .ui.usercomment.page{
-        min-height: 100%;
         position: relative;
     }
     .btsubmit{
@@ -233,7 +232,15 @@
         $('.ui.usercomment.page').hide();
         $('.ui.fiushop,.ui.zhuan').show();
     });
-    
+
+    $('.btsubmit .ui.input input').focus(function(){
+
+        var height = $('body').height();
+        var top =$('.usercomment').height();
+        if ( top < height ){
+            $('html,body').animate({scrollTop:height },500);
+        }
+    });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
