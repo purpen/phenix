@@ -261,17 +261,14 @@
 
     $('.search .fiusearch input[type="text"]').focus(function(){
     	$('.search  .ui.sheader .ui.icon.input').addClass('focus');
-    	$('.search  .ui.sheader .ui.icon.input .inputreset').show();
     }).blur(function(){
     	if( $('.search  .fiusearch input[type="text"]').val().length == 0){
     		$('.search  .fiusearch .ui.icon.input').removeClass('focus');
     		$('.search  .ui.sheader .ui.icon.input .inputreset').hide();
     	}else{
     		$('.search  .fiusearch .ui.icon.input').addClass('focus');
-    		$('.search  .ui.sheader .ui.icon.input .inputreset').show();
-
     	}
-    })
+    });
     if( $('.search  .fiusearch input[type="text"]').val().length !== 0){
     	$('.search  .fiusearch .ui.icon.input').addClass('focus');
     	$('.search  .ui.sheader .ui.icon.input .inputreset').show();
@@ -281,7 +278,13 @@
     	$('.ui.fiushop.search').show();
     	$('.search .fiusearch input[type="text"]').focus();
     });
-    $()
+    $('.search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+		$('.search .fiusearch input[type="text"]').focus();
+		$('.search  .ui.sheader .ui.icon.input .inputreset').hide();
+    });
+    $('.search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+		$('.search  .ui.sheader .ui.icon.input .inputreset').show();
+    });
     $('.ui.fiushop.search #search-close,.ui.fiushop.search #search-canlse').on('click',function(){
     	$('.ui.fiushop.search').hide();
     	$('.ui.fiushop,.sfooter.nav-menu').show();
