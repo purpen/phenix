@@ -259,22 +259,22 @@
     // 初始加载
     ajax_load_more(type, 1, size, sort);
 
-    $('.fiusearch input[type="text"]').focus(function(){
-    	$('.ui.sheader .ui.icon.input').addClass('focus');
-    	$('.ui.sheader .ui.icon.input .inputreset').show();
+    $('.search .fiusearch input[type="text"]').focus(function(){
+    	$('.search  .ui.sheader .ui.icon.input').addClass('focus');
+    	$('.search  .ui.sheader .ui.icon.input .inputreset').show();
     }).blur(function(){
-    	if( $('.fiusearch input[type="text"]').val().length == 0){
-    		$('.fiusearch .ui.icon.input').removeClass('focus');
-    		$('.ui.sheader .ui.icon.input .inputreset').hide();
+    	if( $('.search  .fiusearch input[type="text"]').val().length == 0){
+    		$('.search  .fiusearch .ui.icon.input').removeClass('focus');
+    		$('.search  .ui.sheader .ui.icon.input .inputreset').hide();
     	}else{
-    		$('.fiusearch .ui.icon.input').addClass('focus');
-    		$('.ui.sheader .ui.icon.input .inputreset').show();
+    		$('.search  .fiusearch .ui.icon.input').addClass('focus');
+    		$('.search  .ui.sheader .ui.icon.input .inputreset').show();
 
     	}
     })
-    if( $('.fiusearch input[type="text"]').val().length !== 0){
-    	$('.fiusearch .ui.icon.input').addClass('focus');
-    	$('.ui.sheader .ui.icon.input .inputreset').show();
+    if( $('.search  .fiusearch input[type="text"]').val().length !== 0){
+    	$('.search  .fiusearch .ui.icon.input').addClass('focus');
+    	$('.search  .ui.sheader .ui.icon.input .inputreset').show();
     }
     $('#inputshow').on('click',function(){
     	$('.ui.fiushop,.sfooter.nav-menu').hide();
