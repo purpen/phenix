@@ -758,6 +758,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
+        $redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
@@ -770,6 +774,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 找回密码页面
 	 */
 	public function get_passwd(){
+        session_start();
 
 		//验证码验证
 		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
