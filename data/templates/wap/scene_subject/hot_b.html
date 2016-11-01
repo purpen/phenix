@@ -156,6 +156,7 @@
     .ui.usercomment.page{
         height: 100%;
         position: relative;
+        overflow: scroll;
     }
     .btsubmit{
         padding: 10px;
@@ -232,7 +233,7 @@
     });
 
     $('.btsubmit .ui.input input').focus(function(){
-        alert(document.body.clientHeight);
+        console(document.body.clientHeight);
     });
 {% endblock %}
 {% block content %}
