@@ -809,7 +809,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 重置密码
 	 */
 	public function reset_passwd(){
-		session_start();
+		//session_start();
 		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
 			  return $this->ajax_note('数据错误,请重试', true);
 		}
