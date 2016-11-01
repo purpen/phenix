@@ -112,59 +112,6 @@
     	text-overflow: ellipsis;
 	}
 	
-	.ui.fiushop-search .ui.sheader{
-		height: 50px;
-		padding: 0 15px;
-	}
-	.ui.fiushop-search .ui.sheader .ui.input{
-		position: relative;
-	}
-	.ui.fiushop-search .ui.sheader #search-close{
-		width: 12px;
-	    height: 50px;
-	    padding: 19px 0;
-	    display: inline-block;
-	}
-	.ui.fiushop-search .ui.sheader #search-canlse{
-		display: inline-block;
-	    font-size: 12px;
-	    color: #666;
-	    height: 50px;
-	    line-height: 50px;
-	    margin: 0;
-	    vertical-align: top;
-	    padding-left: 10px;
-	}
-	.ui.fiushop-search .ui.sheader form{
-		display: inline-block;
-	    width: calc(100% - 56px );
-	    padding: 0 0;
-	    vertical-align: top;
-	    margin-left: 10px;
-	}
-	.ui.fiushop-search .ui.sheader form .ui.icon.input .inputreset{
-		position: absolute;
-	    width: 14px;
-	    height: 14px;
-	    background: #ccc;
-	    right: 8px;
-	    top: 8px;
-	    border-radius: 10px;
-	    display: none;
-	}
-	.ui.fiushop-search .ui.sheader form .ui.icon.input input[type=reset]{
-		position: absolute;
-	    top: -8px;
-	    height: 30px;
-	    width: 30px;
-	    font-size: 0;
-	    right: 0;
-	    background:url({{ app_url_packaged }}/images/icon/close.png) no-repeat;
-	    padding: 0;
-	    background-size: 6px 6px;
-	    background-position: 3px 11px;
-	    z-index: 9;
-	}
 </style>
 {% endblock %}
 
@@ -390,9 +337,61 @@
 			取消
 	    </div>
 	</div>
-	<div
+	<div class="ui responsive grid">
+		<div class="row pt-3r">
+			<div class="column plr-3r">
+				<p>大家都在搜</p>
+			</div>
+		</div>
+		<div class="row ptb-2r" style="background:#fff;">
+			<div class="column pl-3r pr-r">
+				<ul class="searchlist">
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马电动车</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马电动车</a>
+					</li>
+					<li class="ui item button">
+						<a href="{{ app_url_wap }}/search/fiu?q=云马电动车&evt=tag">云马电动车</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="row pt-3r">
+			<div class="column plr-3r">
+				<p>搜索历史</p>
+			</div>
+		</div>
+		<div class="row ptb-0" style="background:#fff;">
+			<div class="column plr-0">
+				<ul class="ullist">
+					<li>
+						<a>云马mini</a>
+					</li>
+					<li>
+						<a>云马mini</a>
+					</li>
+					<li>
+						<a>云马mini</a>
+					</li>
+				</ul>
+			</div>
+		</div>
 
-
+	</div>
 </div>
 {% endblock %}
 
