@@ -151,6 +151,16 @@
         left: 50%;
         margin-left: -5px;
     }
+
+
+    .btsubmit{
+        padding: 10px;
+        background: #ccc;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -290,8 +300,16 @@
 
 <div class="ui usercomment page">
     <div class="ui sheader">
-        <a class="comclose" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+        <a class="comclose return" href="javascript:void(0);"><i class="angle float left icon"></i></a>
         <p>评论</p>
+    </div>
+
+    <div class="btsubmit">
+        <form class="enter" method="post" action=" ">
+            <div class="ui icon input">
+                <input type="text" >
+            </div>
+        </form>
     </div>
 </div>
 
