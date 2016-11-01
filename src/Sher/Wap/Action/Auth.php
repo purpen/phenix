@@ -123,6 +123,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if(!strpos($return_url,'logout')){
 			$this->stash['return_url'] = $return_url;
 		}
+		// 过滤上一步来源为找回密码链接
+		if(!strpos($return_url,'set_passwd')){
+			$this->stash['return_url'] = $return_url;
+		}
 		
 		// 当前有登录用户
 		if ($this->visitor->id){
@@ -863,7 +867,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 删除验证码
 		$verify->remove((string)$code['_id']);
 		
-		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login');
+		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login_signup');
 	}
 
 	/**
