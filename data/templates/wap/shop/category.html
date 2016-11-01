@@ -199,7 +199,9 @@
                     <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
                 {%endif%}
             {%endfor%}
-            <li class="catemore"><div class="imgup"></div></li>
+            {% if cat.tag_count>5 %}
+                <li class="catemore"><div class="imgup"></div></li>
+            {%endif%}
         </ul>
       </div>
     </div>
