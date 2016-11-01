@@ -13,10 +13,26 @@
 	    height: 100%;
 	    background-size: 100% 100%;
 	}
+  .ui.category a.catelist p{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+    -webkit-transform: translate3d(0,-50%,0);
+    -moz-transform: translate3d(0,-50%,0);
+    -o-transform: translate3d(0,-50%,0);
+    -ms-transform: translate3d(0,-50%,0);
+    transform: translate3d(0,-50%,0);
+    font-size: 18px;
+    font-weight: 500;
+    z-index: 3;
+  }
 	.ui.sheader form{
         display: inline-block;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 15px;
         vertical-align: top;
         margin: 0;
     }
@@ -52,8 +68,8 @@
   .cate-list li{
     width: 33.3333%;
     float: left;
-    line-height: 60px;
-    height: 50px;
+    line-height: 50px;
+    height: 40px;
     box-sizing: border-box;
     overflow: hidden;
     text-align: center;
@@ -62,44 +78,85 @@
     font-size: 14px;
     color: #666;
     width: calc(100% - 20px);
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
     display: block;
     text-align: left;
     margin: 0 10px;
-    padding-left: 10px;
-    height: 50px;
+    height: 40px;
   }
   .cate-list li.catemore{
     float: right;
-    height: 50px;
+    height: 40px;
+    text-align: left;
+    padding-left: 15px;
   }
   .cate-list li.catemore .imgup{
-    width: 44px;
+    width: 40px;
     height: 12px;
     margin: 0;
     display: inline-block;
     vertical-align: middle;
-    background-image: url({{ app_url_packaged }}/images/icon/cateup.png);
-    background-size: 88px 12px;
+    background-image: url({{ app_url_packaged }}/images/icon/cateupn.png);
+    background-size: 80px 12px;
   }
   .cate-list li.catemore.up .imgup{
-    background-position: -44px 0;
+    background-position: -40px 0;
+  }
+  .ui.catemenu{
+    box-shadow:none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .ui.catemenu a{
+    padding: 12px 8px 14px;
+    position: relative;
+    line-height: 48px;
+    height: 47px;
+  }
+  .ui.catemenu a.active{
+    border-bottom: none;
+  }
+  .ui.catemenu a.active:before {
+    width: 100%;
+    content: "";
+    height: 2px;
+    background: #be8914;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
   }
 </style>
 {% endblock %}
 {% block jquery %}
-	$('.fiusearch input[type="text"]').focus(function(){
-      $('.ui.sheader .ui.icon.input').addClass('focus');
+	  $('.fiushop-search .fiusearch input[type="text"]').focus(function(){
+      $('.fiushop-search  .ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
-      if( $('.fiusearch input[type="text"]').val().length == 0){
-        $('.fiusearch .ui.icon.input').removeClass('focus');
+      if( $('.fiushop-search  .fiusearch input[type="text"]').val().length == 0){
+        $('.fiushop-search  .fiusearch .ui.icon.input').removeClass('focus');
+        $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
       }else{
-        $('.fiusearch .ui.icon.input').addClass('focus');
+        $('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
       }
+    });
+    if( $('.fiushop-search  .fiusearch input[type="text"]').val().length !== 0){
+      $('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    }
+    $('#inputshow').on('click',function(){
+      $('.ui.category,.sfooter.nav-menu').hide();
+      $('.fiushop-search').show();
+      $('.fiushop-search .fiusearch input[type="text"]').focus();
+    });
+    $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+      $('.fiushop-search .fiusearch input[type="text"]').focus();
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
+    });
+    $('.fiushop-search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    });
+    $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
+      $('.ui.fiushop-search').hide();
+      $('.ui.category,.sfooter.nav-menu').show();
     })
-    if( $('.fiusearch input[type="text"]').val().length !== 0){
-      $('.fiusearch .ui.icon.input').addClass('focus');
-    } 
 
     $(".cateall").on("click", ".catemore", function() {
         $(this).toggleClass("up"),
@@ -114,10 +171,10 @@
         <a href="{{ app_url_wap }}/shop/brand">品牌</a>
 		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
 	</div>
-	<div class="ui sheader" style="margin-top: 2px;">
+	<div class="ui sheader">
 	    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
-            <div class="ui icon input">
-                <input name="q" type="text">
+            <div class="ui icon input" id="inputshow">
+                <input name="q" type="hidden">
                 <input name="t" type="hidden">
             </div>
         </form>
@@ -125,12 +182,14 @@
 	<div class="ui responsive grid cateall" style="background-color: #fff;">
 		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
 		{% for cat in category.rows %}
-		<div class="row mt-3r ptb-0">
+		<div class="row mt-0 ptb-0">
 			<div class="column plr-0">
-                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-n.jpg" style="background-color: rgba(0, 0, 0, 0.1); "></a>
+                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-m.jpg" style="background-color: rgba(0, 0, 0, 0.1); ">
+                  <p>{{ cat.title }}</p>
+                </a>
 			</div>
 		</div>
-    <div class="row pt-0 pb-r">
+    <div class="row pt-0 pb-r mb-2r">
       <div class="column plr-2r">
         <ul class="cate-list">
             {% for d in cat.tags %}
@@ -140,7 +199,9 @@
                     <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
                 {%endif%}
             {%endfor%}
-            <li class="catemore"><div class="imgup"></div></li>
+            {% if cat.tag_count>5 %}
+                <li class="catemore"><div class="imgup"></div></li>
+            {%endif%}
         </ul>
       </div>
     </div>
@@ -148,4 +209,5 @@
 	</div>
 </div>
 
+{% include "mm/search.html" %}
 {% endblock %}

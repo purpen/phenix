@@ -786,20 +786,10 @@
 
 			<div class="six fields">
 				<div class="field">
-				  	<label>京东sku</label>
-					<input type="text" name="vop_id" value="{{ vop_id|default '' }}" />
-				  <div class="description">京东开普勒产品</div>
-				</div>
-
-			</div>
-
-			<div class="six fields">
-				<div class="field">
 				  	<label>活动标签</label>
 					<input type="text" name="extra_tag" value="{{ product.extra.tag }}" />
 				  <div class="description">例：限时特惠(手机版)</div>
 				</div>
-
 			</div>
 
 			<div class="field">
@@ -1003,6 +993,13 @@
 				  	<label>案例产品：</label>
 					<div class="ui checkbox">
 			          	<input type="checkbox" name="okcase" {% if product.okcase %}checked="checked"{% endif %} />
+			          	<label>开启</label>
+			        </div>
+				</div>
+				<div class="inline field">
+				  	<label>开普勒：</label>
+					<div class="ui checkbox">
+			          	<input type="checkbox" name="is_vop" {% if product.is_vop %}checked="checked"{% endif %} />
 			          	<label>开启</label>
 			        </div>
 				</div>
@@ -1260,6 +1257,9 @@
 									</p>
 									<p>
 										<label>销售价格：</label>￥ {{ sku.price }}
+									</p>
+									<p>
+										<label>开普勒：</label>￥ {{ sku.vop_id }}
 									</p>
 									
 									<div class="actions">

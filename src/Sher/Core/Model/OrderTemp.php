@@ -20,12 +20,14 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     'is_presaled' => 0,
     # 是否是活动订单: 1.普通订单; 2.page抢购； 3.app闪购
     'kind' => 1,
+    # 是否是京东开普勒订单
+    'is_vop' => 0,
     );
 	
     protected $joins = array();
 	
     protected $required_fields = array('user_id', 'expired');
-    protected $int_fields = array('rid', 'user_id', 'expired', 'is_cart');
+    protected $int_fields = array('rid', 'user_id', 'expired', 'is_cart', 'is_vop');
 	
 	
 	/**

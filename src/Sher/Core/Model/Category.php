@@ -149,8 +149,10 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+        $row['tag_count'] = 0;
     if(isset($row['tags']) && !empty($row['tags'])){
 		  $row['tags_s'] = implode(',', $row['tags']);
+          $row['tag_count'] = count($row['tags']);
     }
     if(isset($row['item_tags']) && !empty($row['item_tags'])){
 		  $row['item_tags_s'] = implode(',', $row['item_tags']);

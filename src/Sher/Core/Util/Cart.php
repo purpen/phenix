@@ -170,8 +170,15 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 			// 获取sku信息
 			$inventory = new Sher_Core_Model_Inventory();
 			$item = $inventory->load((int)$com_sku);
-			
-			$com_pid = !empty($item) ? $item['product_id'] : $com_sku;
+
+            $vop_id = null;
+
+            if(!empty($item)){
+                $com_pid = $item['product_id'];
+                $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+            }else{
+                $com_pid = (int)$com_sku;
+            }
 			
 			// 获取单品信息
             $product = new Sher_Core_Model_Product();
@@ -183,7 +190,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 				$true_price = !empty($item) ? $item['price'] : $row['sale_price'];
         $type = !empty($item) ? 2 : 1;
         $sku_mode = !empty($item) ? $item['mode'] : null;
-                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price']);
+                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price'], 'vop_id'=>$vop_id);
                 $this->com_item++;
             }
             unset($product);
@@ -312,4 +319,4 @@ class Sher_Core_Util_Cart extends Doggy_Object {
     
 }
 /**vim:sw=4 et ts=4 **/
-?>
+

@@ -105,10 +105,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
 
+        $options = array();
+        $options['is_vop'] = 0;
+
     //初始变量
     //是否是抢购商品
     $is_snatched = false;
     $is_exchanged = false;
+    $vop_id = null;
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -125,7 +129,21 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}
 		$item = $inventory->load((int)$sku);
 		
-		$product_id = !empty($item) ? $item['product_id'] : $sku;
+        if(!empty($item)){
+
+            // 是否可售
+            if(isset($item['vop_id']) && !empty($item['vop_id'])){
+                $vop_result = Sher_Core_Util_Vop::sku_check_one($item['vop_id']);
+                if(!$vop_result['success']){
+ 			        return $this->show_message_page($vop_result['message'], true);                   
+                }
+                $vop_id = $item['vop_id'];
+            }
+
+            $product_id = (int)$item['product_id'];
+        }else{
+            $product_id = (int)$sku;
+        }
 		
 		// 获取产品信息
 		$product = new Sher_Core_Model_Product();
@@ -232,25 +250,29 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 				'sku'  => $sku,
 				'product_id' => $product_id,
 				'quantity' => $quantity,
-        'type' => $type,
-        'sku_mode' => $sku_name,
+                'type' => $type,
+                'sku_mode' => $sku_name,
 				'price' => $price,
 				'sale_price' => $price,
 				'title' => $product_data['title'],
 				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
 				'view_url' => $product_data['view_url'],
 				'subtotal' => $price*$quantity,
-        'is_snatched' => $is_snatched?1:0,
-        'is_exchanged' => $is_exchanged?1:0,
+                'is_snatched' => $is_snatched?1:0,
+                'is_exchanged' => $is_exchanged?1:0,
+                'vop_id' => $vop_id,
 			),
 		);
 		$total_money = $price*$quantity;
 		$items_count = 1;
 		
-		$order_info = $this->create_temp_order($items, $total_money, $items_count);
+        if($vop_id){
+            $options['is_vop'] = 1;
+        }
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		
-		if (empty($order_info)){
-			return $this->show_message_page('系统出了小差，请稍后重试！', true);
+		if (!$order_info['success']){
+			return $this->show_message_page($order_info['message'], true);
 		}
 		
 		// 立即订单标识
@@ -435,7 +457,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count){
+	protected function create_temp_order($items=array(),$total_money,$items_count, $options=array()){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -483,6 +505,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$new_data = array();
 		$new_data['dict'] = array_merge($default_data, $data);
+        $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
 		
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
@@ -495,9 +518,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			if ($ok) {
 				$order_info = $model->get_data();
 			}
+            $order_info['success'] = true;
 		}catch(Sher_Core_Model_Exception $e){
+            $order_info['success'] = false;
+            $order_info['message'] = $e->getMessage();
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
-			return false;
+			return $order_info;
 		}
 		
 		return $order_info;
@@ -560,8 +586,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		$order_info = $this->create_temp_order($items, $total_money, $items_count);
 		
-		if (empty($order_info)){
-			return $this->show_message_page('系统出了小差，请稍后重试！', true);
+		if (!$order_info['success']){
+			return $this->show_message_page($order_info['message'], true);
 		}
 		
 		// 获取快递费用
@@ -602,10 +628,26 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		if (empty($cart->com_list)){
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
+
+        $vop_count = 0;
+        $self_count = 0;
 		
         $items = $cart->getItems();
         $total_money = $cart->getTotalAmount();
         $items_count = $cart->getItemCount();
+
+        for($i=0;$i<count($items);$i++){
+            $is_vop = isset($items[$i]['vop_id']) ? $items[$i]['vop_id'] : null;
+            if(!empty($is_vop)){
+                $vop_count += 1;
+            }else{
+                $self_count += 1;
+            }
+        }
+
+        if(!empty($vop_count) && !empty($self_count)){
+ 			return $this->show_message_page('请分开下单！', true);       
+        }
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -662,6 +704,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$new_data = array();
 			$new_data['dict'] = array_merge($default_data, $data);
 			
+            $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
 			$new_data['user_id'] = $user_id;
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
       // 是否来自购物车
@@ -680,6 +723,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Create temp order failed: ".$e->getMessage());
+            return $this->show_message_page($e->getMessage(), true);
 		}
 		
 		$this->stash['provinces'] = $provinces;
@@ -702,15 +746,15 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->ajax_json('请选择收货地址！', true);
 		}
 
-    // 抢购商品
-    $is_snatched = false;
+        // 抢购商品
+        $is_snatched = false;
 
-    //验证地址
-    $add_book_model = new Sher_Core_Model_DeliveryAddress();
-    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
-    if(empty($add_book)){
-			return $this->ajax_json('地址不存在！', true);
-    }
+        //验证地址
+        $add_book_model = new Sher_Core_Model_DeliveryAddress();
+        $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+        if(empty($add_book)){
+                return $this->ajax_json('地址不存在！', true);
+        }
 
 		Doggy_Log_Helper::debug("Submit Order [$rrid]！");
 		// 是否预售订单
@@ -737,9 +781,37 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
+
+        // 验证开普勒
+        for($i=0;$i<count($order_info['items']);$i++){
+            $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
+            $sku_title = $order_info['items'][$i]['title'];
+            if(empty($vop_id)) continue;
+
+            // 是否可售
+            $vop_result = Sher_Core_Util_Vop::sku_check_one($vop_id);
+            if(!$vop_result['success']){
+ 			    return $this->ajax_json($vop_result['message'], true);
+            }
+
+            // 是否是区域限制
+            $vop_options = array();
+            $vop_options['title'] = $sku_title;
+            $vop_options['province'] = isset($add_book['province_id']) ? $add_book['province_id'] : 0;
+            $vop_options['city'] = isset($add_book['city_id']) ? $add_book['city_id'] : 0;
+            $vop_options['county'] = isset($add_book['county_id']) ? $add_book['county_id'] : 0;
+            $vop_options['town'] = isset($add_book['town_id']) ? $add_book['town_id'] : 0;
+            $vop_result = Sher_Core_Util_Vop::sku_check_area($vop_id, $vop_options);
+            if(!$vop_result['success']){
+ 			    return $this->ajax_json($vop_result['message'], true);
+            }
+        }
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+
+        // 是否开普勒订单
+        $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 获取购物金额
 		if ($is_presaled || $is_nowbuy){
@@ -790,6 +862,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$orders = new Sher_Core_Model_Orders();
 			
 			$order_info['user_id'] = (int)$user_id;
+            $order_info['is_vop'] = $is_vop;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			
@@ -856,7 +929,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 // 如果抢购价为0,设置订单状态为备货
                 if((float)$pay_money==0){
                   $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
-                  $order_info['is_payed'] = 1;              
+                  $order_info['is_payed'] = 1;
                 }
 
      	      }
@@ -878,6 +951,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         
       }
 
+            // 创建开普勒订单
+            if(!empty($order_info['is_vop'])){
+                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+                if(!$vop_result['success']){
+				    return 	$this->ajax_json($vop_result['message'], true);
+                }
+                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
+                //print_r($vop_result);exit;
+            }
+            $order_info['jd_order_id'] = null;
+
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
 			if (!$ok) {
@@ -897,9 +981,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			}
 			
 			// 限量抢购活动设置缓存
-      if($is_snatched){
+            if($is_snatched){
  			  $this->check_have_snatch($snatch_product_id);    
-      }
+            }
 			
 			// 删除临时订单数据
 			$model->remove($rrid);

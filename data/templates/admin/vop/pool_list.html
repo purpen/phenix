@@ -57,6 +57,16 @@
     $('.show_big_img').mouseout(function(){
         $(this).find('.big_box').hide();
     });
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
 	
 {% endblock %}
 	
@@ -78,15 +88,10 @@
 		</a>
 
 	  	<div class="right menu">
-            <!--
-			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>添加情景
-			</a>
 			
-			<a href="javascript:void(0);" class="item ajax-delete">
-				<i class="remove icon"></i>批量删除
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
 			</a>
-			-->
 	    </div>
 	</div>
     <!--

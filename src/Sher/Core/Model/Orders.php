@@ -151,10 +151,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     'from_app' => 0,
     # channel_id
     'channel_id' => null,
+    # 是否是京东开普勒订单
+    'is_vop' => 0,
+    # 京东订单
+    'jd_order_id' => null,
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -415,7 +419,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id');
 		$int_fields = array('sku', 'product_id', 'quantity', 'kind');
 		$float_fields = array('price', 'sale_price');
 		
@@ -588,15 +592,31 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
          
         if($ok){
           // 更新用户订单提醒数量
-          $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+            $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+            $is_vop = isset($options['is_vop']) ? $options['is_vop'] : 0;
+            $jd_order_id = isset($options['jd_order_id']) ? $options['jd_order_id'] : null;
           if(!empty($user_id)){
             $user_model = new Sher_Core_Model_User();
             switch($status){
               case Sher_Core_Util_Constant::ORDER_CANCELED: // 取消
                 $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+                // 同步取消开普勒订单
+                if(!empty($is_vop) && !empty($jd_order_id)){
+                    $vop_result = Sher_Core_Util_Vop::cancel_order($jd_order_id);
+                    if(!$vop_result['success']){
+                        Doggy_Log_Helper::warn("取消开普勒订单失败! $jd_order_id");
+                    }
+                }
                 break;
               case Sher_Core_Util_Constant::ORDER_EXPIRED:  // 过期自动关闭
                 $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+                // 同步取消开普勒订单
+                if(!empty($is_vop) && !empty($jd_order_id)){
+                    $vop_result = Sher_Core_Util_Vop::cancel_order($jd_order_id);
+                    if(!$vop_result['success']){
+                        Doggy_Log_Helper::warn(sprintf("取消开普勒订单失败![%s-%s]", $jd_order_id, $vop_result['message']));
+                    }
+                }
                 break;
               case Sher_Core_Util_Constant::ORDER_READY_GOODS:  // 待发货
                 $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
@@ -618,7 +638,6 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 break;
             }         
           }
-
           
           // 同步订单索引状态 值
           $this->sync_order_index($id, $status);
@@ -1095,6 +1114,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $user_model->update_counter_byinc($options['user_id'], 'order_ready_goods', 1);
           }
             $this->sync_order_index($id, $status);
+
+          // 如果是开普勒，接口对接
+          if(isset($options['jd_order_id']) && !empty($options['jd_order_id'])){
+              $vop_result = Sher_Core_Util_Vop::sure_order($jd_order_id);
+              if(!$vop_result['success']){
+                Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $options['jd_order_id'], $vop_result['message']));
+              }
+          }
             
             // 支付成功后奖励积分
             $data = $this->load($id);

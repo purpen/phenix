@@ -10,7 +10,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 100,
 		'stage' => 0,
-        'is_vop' => '',
 	);
 	
 	public function execute(){
@@ -122,8 +121,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['view_url'] = $this->stash['view_url'];
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
         $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
-        $data['vop_id'] = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
-        $data['is_vop'] = !empty($data['vop_id']) ? 1 : 0;
+        $data['is_vop'] = isset($this->stash['is_vop']) ? 1 : 0;
 
         // 活动标签
         $data['extra']['tag'] = isset($this->stash['extra_tag']) ? $this->stash['extra_tag'] : null;
@@ -465,6 +463,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$price = $this->stash['price'];
 		$quantity = (int)$this->stash['quantity'];
         $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
+        $vop_id = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
 		
 		// 验证数据
 		if(empty($product_id) || empty($number) || empty($price) || empty($mode) || empty($quantity)){
@@ -486,7 +485,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 
             $is_exist_number = $inventory->first($number_query);
             if(!empty($is_exist_number)){
-                return $this->ajax_notification('产品编号重复！', true);               
+                return $this->ajax_notification('产品编号重复！', true);
             } 
             
 
@@ -498,6 +497,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'price' => (float)$price,
 					'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
                     'number' => $number,
+                    'vop_id' => $vop_id,
 				);
 				$ok = $inventory->apply_and_save($new_data);
 				
@@ -514,6 +514,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'price' => (float)$price,
                     'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
                     'number' => $number,
+                    'vop_id' => $vop_id,
 				);
 				$ok = $inventory->apply_and_update($updated);
 			}
@@ -598,7 +599,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	            $product = $model->extended_model_row($product);
 	        }
 			$this->stash['product'] = $product;
-            $this->stash['vop_id'] = isset($product['vop_id']) ? $product['vop_id'] : null;
 		}
 		$this->stash['mode'] = $mode;
 		

@@ -1,6 +1,9 @@
 {{#rows}}
-		<div class="row pt-0 pb-3r">
+		<div class="row pt-0" style="padding-bottom:6px;">
 			<a class="banner" href="{{ wap_view_url }}">
+                {{#is_extra_tag}}
+				    <div class="hdtitle"><p>{{ extra_tag }}</p></div>
+                {{/is_extra_tag}}
 				<div class="zcover"></div>
 				<img class="lazy" data-original="{{ cover_url }}" src="http://frstatic.qiniudn.com/images/icon/load750-422.png">
 				<div class="content">
@@ -10,7 +13,7 @@
 			</a>
 
 			<div class="overhidden">
-				<ul class="shopitem">
+				<ul class="shopitem mt-2r">
 
                     {{#products}}
 					<li>

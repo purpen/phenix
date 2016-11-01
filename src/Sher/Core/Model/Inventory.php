@@ -58,7 +58,9 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		
 		# 产品周期 (投票、预售、销售)
 		'stage' => self::STAGE_PRESALE,
-		
+
+        # 京东开普勒id
+        'vop_id' => null,
 		
 		'status' => 0,
     );
@@ -304,6 +306,20 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
         $inventory = $this->first(array('number'=> $number_id));
         if($inventory){
             return $inventory;
+        }
+        return false;
+    }
+
+    /**
+     * 查询京东开普勒产品
+     */
+    public function find_by_vop_id($vop_id){
+        if(empty($vop_id)){
+            return false;
+        }
+        $sku = $this->first(array('vop_id'=> $vop_id));
+        if($sku){
+            return $sku;
         }
         return false;
     }

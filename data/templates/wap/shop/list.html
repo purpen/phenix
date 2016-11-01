@@ -11,26 +11,26 @@
 	}
 	  .togprice{
 	    background-image: url({{ app_url_packaged }}/images/icon/price.png);
-	    background-size: 27px 12px;
+	    background-size: 21px 9px;
 	    background-repeat: no-repeat;
-	    height: 12px;
-	    width: 9px;
+	    height: 9px;
+	    width: 7px;
 	    background-position: 0 0;
 	    margin-left: 4px;
 	    margin-bottom: -1px;
 	    display: inline-block;
 	  }
-	  .center.reitem.up ,.center.reitem.down{
+	  .right.reitem.up ,.right.reitem.down{
 	    color: #be8914 !important;
 	  }
-	  .center.reitem.up .togprice{
-	    background-position: -18px 0;
+	  .right.reitem.up .togprice{
+	    background-position: -14px 0;
 	  }
-	  .center.reitem.down .togprice{
-	    background-position: -9px 0;
+	  .right.reitem.down .togprice{
+	    background-position: -7px 0;
 	  }
 	  .ui.reorder{
-    height: 30px;
+    height: 44px;
     background:#fff;
     width: 100%;
     width: 100%;
@@ -53,14 +53,14 @@
       height: 100%;
       position: relative;
       color: #999 !important;
-      line-height: 30px;
+      line-height: 44px;
       font-size: 12px;
   }
   .left.reitem{
-    padding-left: 15px;
+    padding-left: 20px;
     text-align: left;
   }
-  .left.reitem.active{
+  .left.reitem.active,.center.reitem.active{
     color: #be8914 !important;
   }
   .center.reitem{
@@ -72,7 +72,7 @@
       width: 9px;
   }
   .right.reitem{
-    padding-right: 15px;
+    padding-right: 20px;
     text-align: right;
   }
 </style>
@@ -82,7 +82,7 @@
       var page = 1;
       var size = 8;
       var category_id = '{{cid | default 0}}';
-      var sort = 0;
+      var sort = 9;
       var type = 2;
       var category_tag = '{{category_tag | default ''}}';
   
@@ -184,10 +184,21 @@
         });   
     });
 
+    // 排序--综合
+    $('.sort_all_btn').click(function(){
+        $(this).siblings().removeClass('up');
+        $(this).siblings().removeClass('down');
+        $(this).siblings().removeClass('active');
+        $(this).addClass('active');
+        sort = 9;
+        $('#mpresale .recom-item').html('');
+        ajax_load_more(category_id, category_tag, type, sort, 1, size);
+    });
     // 排序--最新
     $('.sort_new_btn').click(function(){
         $(this).siblings().removeClass('up');
         $(this).siblings().removeClass('down');
+        $(this).siblings().removeClass('active');
         $(this).addClass('active');
         sort = 0;
         $('#mpresale .recom-item').html('');
@@ -218,6 +229,7 @@
 {% block content %}
 <div class="ui category">
 	<div class="ui sheader">
+    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
 		<p>品类</p>
 	</div>
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
@@ -249,15 +261,16 @@
 
     
 	<div class="ui reorder">
-		<a href="javascript:void(0);" class="left reitem active sort_new_btn">最新</a>
-	    <a href="javascript:void(0);" class="center reitem sort_price_btn">价格
+    <a href="javascript:void(0);" class="left reitem active sort_all_btn">综合</a>
+		<a href="javascript:void(0);" class="center reitem sort_new_btn">最新</a>
+	    <a href="javascript:void(0);" class="right reitem sort_price_btn">价格
 	      <div class="togprice"></div>
 	    </a>
-	    <div class="right reitem"></div>
+	    
 	</div>
 	<div class="ui responsive brand list grid">
-		<div class="row" id="mpresale">
-			<div class="column">
+		<div class="row pt-7" id="mpresale">
+			<div class="column plr-14">
 				<div class="recom-item">
 
 				</div>

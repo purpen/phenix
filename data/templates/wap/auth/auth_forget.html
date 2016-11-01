@@ -18,11 +18,85 @@ body{
     transform: translateY(-50%);
     left: 0;
 }
+#fetch-verify-code{
+	float: right;
+	vertical-align: bottom;
+    line-height: 1.2142em;
+    padding: .67861429em 1em;
+    font-size: 0.981rem;
+    background: #e0e1e2;
+    color: #666;
+    font-weight: 400;
+    width: 106px;
+}
+#verify_code,#captcha{
+	width: calc(100% - 123px);
+}
+#captcha-img{
+	float: right;
+	width: 106px;
+	height: 35px;
+}
+#captcha-img img{
+	width: 106px;
+	height: 35px;
+}
+.fluid.ui.active.magenta.submit.button{
+	background-color: #e0e1e2;
+	color: #666;
+}
+.fluid.ui.active.magenta.submit.button.actrue{
+	background:#be8914 !important;
+	color: #fff;
+}
+.ui.loading.loading.loading.loading.loading.loading.button{
+	background:#be8914 !important;
+}
 </style>
 {% endblock %}
 
 {% block jquery %}
-	phenix.build_auth_page();
+
+  /*注册表单验证*/
+	$('#find-form').form({
+		account: {
+			identifier  : 'account',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				}
+			]
+		},
+		verify_code: {
+			identifier  : 'verify_code',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '验证码不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+				},
+				success: function(result){
+					if(result.is_error){
+						phenix.show_error_note(result.message);
+					}else{
+                        phenix.redirect('/auth/set_passwd?account='+result.data.account+'&verify_code='+result.data.verify_code);
+					}
+					
+				}
+			});
+		}
+	});
+
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
@@ -79,7 +153,7 @@ body{
                     $this.removeClass('disabled').text('获取验证码');
                   }           
                 }, 'json');
-
+				$('.fluid.ui.active.magenta.submit.button').addClass('actrue');
               }
             });
 
@@ -92,6 +166,47 @@ body{
 {% endblock %}
 
 {% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>找回密码</p>
+    </div>
+    <div class="ui responsive grid pt-7">
+    	<div class="row">
+    		<div class="column plr-14">
+    			<form action="{{ app_url_wap }}/auth/get_passwd" class="ui small form" method="post" id="find-form">
+					
+					<div class="field">
+						<input type="text" name="account" placeholder="手机号码" id="account" />
+					</div>
+
+					<div class="inline field">
+						<input type="text" name="captcha" placeholder="验证码" id="captcha" />
+            			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
+							<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" />
+						</a>
+					</div>
+					<div class="inline field">
+						<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" />
+						<a href="javascript:void(0);" class="ui small magenta button mr-0" id="fetch-verify-code">获取验证码</a>
+					</div>
+
+					<!--<div class="field">
+						<input type="password" name="password" id="password" placeholder="设置至少6位登录密码" />
+					</div>
+					<div class="field">
+						<input type="password" name="password_confirm" placeholder="确认登录密码" />
+					</div>-->
+					
+					<div class="field">
+				    	<div class="fluid ui active magenta submit button" >下一步</div>
+					</div>
+				</form>
+    		</div>
+    	</div>
+    </div>
+</div>
+<!--
 <div class="auth page">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -135,5 +250,5 @@ body{
 		</div>
 	</div>
 </div>
-
+-->
 {% endblock %}

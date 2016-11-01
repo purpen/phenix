@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code');
+	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code','get_passwd','set_passwd');
 	
 	/**
 	 * 入口
@@ -39,7 +39,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout')){
+		if(!strpos($return_url,'logout') && !strpos($return_url,'set_passwd')){
 			$this->stash['return_url'] = $return_url;
 		}
 		
@@ -116,7 +116,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout')){
+		if(!strpos($return_url,'logout') && !strpos($return_url,'set_passwd')){
 			$this->stash['return_url'] = $return_url;
 		}
 		
@@ -758,6 +758,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     $this->stash['captcha_code'] = $_SESSION['captcha_code'];
 
+        $redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+
 		// 当前有登录用户
 		if ($this->visitor->id){
 			$redirect_url = !empty($this->stash['return_url']) ? $this->stash['return_url'] : Doggy_Config::$vars['app.url.wap'];
@@ -765,20 +769,60 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		}
 		return $this->to_html_page('wap/auth/auth_forget.html');
 	}
+
+	/**
+	 * 找回密码页面
+	 */
+	public function get_passwd(){
+        session_start();
+
+		//验证码验证
+		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
+		  return $this->ajax_json('验证码不正确!', true);
+		}
+
+		// 验证验证码是否有效
+		$verify = new Sher_Core_Model_Verify();
+		$code = $verify->first(array('phone'=>$this->stash['account'],'code'=>$this->stash['verify_code']));
+		if(empty($code)){
+			return $this->ajax_json('验证码有误，请重新获取！', true);
+		}
+
+		// 验证是否存在账户
+		$user_model = new Sher_Core_Model_User();
+		$user = $user_model->first(array('account'=>$this->stash['account']));
+		if (empty($user)) {
+			return $this->ajax_json('此账户不存在！', true);
+		}
+  
+        return $this->ajax_json('success', false, 0, array('user_id'=>$user['_id'], 'account'=>$this->stash['account'], 'verify_code'=>$this->stash['verify_code']));
+	}
+
+	/**
+	 * 找回密码页面
+	 */
+    public function set_passwd(){
+        $redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+		return $this->to_html_page('wap/auth/get_password.html');
+    }
 	
 	/**
 	 * 重置密码
 	 */
 	public function reset_passwd(){
-		session_start();
+		//session_start();
 		if (empty($this->stash['account']) || empty($this->stash['password']) || empty($this->stash['verify_code'])) {
 			  return $this->ajax_note('数据错误,请重试', true);
 		}
 	
+        /**
 		//验证码验证
 		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
 		  return $this->ajax_json('验证码不正确!', true);
-		}
+        }
+        **/
 	
 		//验证密码长度
 		if(strlen($this->stash['password'])<6 || strlen($this->stash['password'])>30){
@@ -815,7 +859,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 删除验证码
 		$verify->remove((string)$code['_id']);
 		
-		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login');
+		return $this->ajax_json('重置密码成功,请立即登录！', false, Doggy_Config::$vars['app.url.wap'].'/auth/login_signup');
 	}
 
 	/**

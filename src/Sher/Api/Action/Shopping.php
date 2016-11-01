@@ -97,6 +97,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     // 记录错误数据索引
     $error_index_arr = array();
 
+        // 统计商品来源数量
+        $vop_count = 0;
+        $self_count = 0;
+
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
     foreach($cart_arr as $key=>$val){
@@ -113,6 +117,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       $sku_mode = null;
       $price = 0.0;
+      $vop_id = null;
 
       // 验证是商品还是sku
       if($type==2){
@@ -129,6 +134,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $price = (float)$inventory['price'];
         $total_price = $price*$n;
         $sku_id = $target_id;
+        $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
         
       }elseif($type==1){
         $sku_id = $target_id;
@@ -167,11 +173,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'cover'  => $product['cover']['thumbnails']['mini']['view_url'],
         'view_url'  => $product['view_url'],
         'subtotal'  => $total_price,
+        'vop_id' => $vop_id,
       );
       $total_money += $total_price;
       $total_count += 1;
 
       if(!empty($item)){
+          if($vop_id){
+            $vop_count += 1;
+          }else{
+            $self_count += 1;
+          }
         array_push($items, $item);
       }
     } // endfor
@@ -180,6 +192,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if(empty($total_money) || empty($items)){
       return $this->api_json('购物车异常！', 3009);  
     }
+
+        // 不允许自营和京东同时下单
+        if(!empty($vop_count) && !empty($self_count)){
+            return $this->api_json('请分开下单！', 4005);
+        }
 
 		try{
 			// 预生成临时订单
@@ -245,6 +262,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
       // 是否来自购物车
 			$new_data['is_cart'] = 1;
+            $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
@@ -289,6 +307,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $usable_bonus = array();
     // 促销类型: 3.app闪购
     $kind = 0;
+    $vop_id = null;
+    $options = array();
+    $options['is_vop'] = 0;
 		// 验证数据
 		if (empty($target_id) || empty($type)){
       return $this->api_json('操作异常，请重试！', 3000);
@@ -314,8 +335,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
     }
 
-		$product_id = !empty($item) ? $item['product_id'] : $target_id;
-		
+        if(!empty($item)){
+            $product_id = $item['product_id'];
+            $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+        }else{
+            $product_id = (int)$target_id;
+        }
+
 		// 获取产品信息
 		$product = new Sher_Core_Model_Product();
 		$product_data = $product->extend_load((int)$product_id);
@@ -376,12 +402,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 				'view_url' => $product_data['view_url'],
 				'subtotal' => (float)$price*$quantity,
         'kind' => $kind,
+                'vop_id' => $vop_id,
 			),
 		);
 		$total_money = (float)$price*$quantity;
 		$items_count = 1;
 
-		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type);
+        if(!empty($vop_id)){
+            $options['is_vop'] = 1;
+        }
+
+		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type, $options);
 		if (empty($order_info)){
       return $this->api_json('系统出了小差，请稍后重试！', 3006);
     }
@@ -478,12 +509,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if(empty($result)){
       return $this->api_json('订单已失效，请重新下单！', 3004);
 		}
+
+        $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
+        $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 获取购物金额
 		$total_money = $order_info['total_money'];
@@ -546,6 +580,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$order_info['user_id'] = (int)$user_id;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
+
+            $order_info['is_vop'] = $is_vop;
 			
 			// 订单备注
 			if(isset($this->stash['summary'])){
@@ -638,6 +674,17 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         // 设置订单状态
         $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 			}
+
+            // 创建开普勒订单
+            if(!empty($order_info['is_vop'])){
+                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+                if(!$vop_result['success']){
+				    return 	$this->ajax_json($vop_result['message'], true);
+                }
+                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
+                //print_r($vop_result);exit;
+            }
+            $order_info['jd_order_id'] = null;
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -1273,7 +1320,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	/**
 	 * 生产临时订单
 	 */
-	protected function create_temp_order($items=array(),$total_money,$items_count,$kind=0, $app_type=1){
+	protected function create_temp_order($items=array(),$total_money,$items_count,$kind=0, $app_type=1, $options=array()){
 		$data = array();
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
@@ -1349,6 +1396,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		  $new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
     }
     $new_data['kind'] = $kind;
+    $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
 		
 		try{
 			$order_info = array();
@@ -1683,6 +1731,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $target_id = (int)$v['target_id'];
       $type = (int)$v['type'];
       $n = (int)$v['n'];
+      $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null; 
 
       $data = array();
       $data['target_id'] = $target_id;
@@ -1691,6 +1740,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $data['sku_mode'] = null;
       $data['sku_name'] = null;
       $data['price'] = 0;
+      $data['vop_id'] = $vop_id;
 
       if($type==2){
         $inventory = $inventory_model->load($target_id);
@@ -1840,6 +1890,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+    $vop_id = null;
 
     if(empty($target_id) && empty($type)){
       return $this->api_json('请选择商品或类型！', 3001); 
@@ -1855,6 +1906,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
       $inventory = $inventory_model->load($target_id);
       $product_id = $inventory['product_id'];
+      $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
     }elseif($type==1){
       $product_id = $target_id;
     }else{
@@ -1896,7 +1948,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id' => $vop_id)),
         'item_count' => 1,
       ));     
     }else{
@@ -1910,7 +1962,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 

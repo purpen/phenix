@@ -111,6 +111,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
         $view_count = isset($this->stash['view_count']) ? (int)$this->stash['view_count'] : 0;
         $share_count = isset($this->stash['share_count']) ? (int)$this->stash['share_count'] : 0;
         $mode = isset($this->stash['mode']) ? (int)$this->stash['mode'] : 1;
+        $extra_tag = $this->stash['extra_tag'];
 
         $begin_time = isset($this->stash['begin_time']) ? $this->stash['begin_time'] : null;
         $end_time = isset($this->stash['end_time']) ? $this->stash['end_time'] : null;
@@ -150,6 +151,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'share_count' => $share_count,
             'prize_sight_ids' => $prize_sight_ids,
             'mode' => $mode,
+            'extra_tag' => $extra_tag,
 		);
 		
 		try{
