@@ -982,24 +982,24 @@ span.ui.timeout.btn{
     ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
 	
 	//点击颜色分类
-	$('#shopview .shopcart,#shopview .shopbuy').click(function(){
+	$('.flexbuy .shopcart,.flexbuy .shopbuy').click(function(){
 		if( !phenix.visitor.is_login ){
 			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
 			$('#cover').css('display','block');
 			$('body').css('overflow','hidden');
-      $('.mask').addClass('show');
+            $('.mask').addClass('show');
 			$('#shopview').addClass('show-details');
+
+            var buy_evt = $(this).data('evt');
+            $("input[name='buy_evt']").val(buy_evt);
 		}
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
 		$('#cover,body').removeAttr('style');
-    $('.mask').removeClass('show');
-
-        var buy_evt = $(this).data('evt');
-        $('input[name=buy_evt]').val(buy_evt);
+        $('.mask').removeClass('show');
 
 	});
 	
@@ -1178,7 +1178,7 @@ span.ui.timeout.btn{
             return false;
           }
 
-          var buy_evt = $('input[name=buy_evt]').val();
+          var buy_evt = $("input[name='buy_evt']").val();
           var qty_value = parseInt($('#product-qty').val());
 
           if (choosed_sku){
@@ -1394,7 +1394,7 @@ span.ui.timeout.btn{
 		</div>
 		<div class="gobuybtn">
             <input type="hidden" name="buy_evt" value="1" />
-			<ul class="btn">
+			<ul class="two btn">
 				<li class="childbtn">
 					<a href="javascript:void(0);" class="buynow" id="sure-btn">确定</a>
 				</li>
