@@ -112,19 +112,20 @@
     	text-overflow: ellipsis;
 	}
 	
-	.ui.fiushop.search .ui.sheader{
+	.ui.fiushop-search .ui.sheader{
 		height: 50px;
+		padding: 0 15px;
 	}
-	.ui.fiushop.search .ui.sheader .ui.input{
+	.ui.fiushop-search .ui.sheader .ui.input{
 		position: relative;
 	}
-	.ui.fiushop.search .ui.sheader #search-close{
+	.ui.fiushop-search .ui.sheader #search-close{
 		width: 12px;
 	    height: 50px;
 	    padding: 19px 0;
 	    display: inline-block;
 	}
-	.ui.fiushop.search .ui.sheader #search-canlse{
+	.ui.fiushop-search .ui.sheader #search-canlse{
 		display: inline-block;
 	    font-size: 12px;
 	    color: #666;
@@ -134,14 +135,14 @@
 	    vertical-align: top;
 	    padding-left: 10px;
 	}
-	.ui.fiushop.search .ui.sheader form{
+	.ui.fiushop-search .ui.sheader form{
 		display: inline-block;
 	    width: calc(100% - 56px );
 	    padding: 0 0;
 	    vertical-align: top;
 	    margin-left: 10px;
 	}
-	.ui.fiushop.search .ui.sheader .inputreset{
+	.ui.fiushop-search .ui.sheader form .ui.icon.input .inputreset{
 		position: absolute;
 	    width: 14px;
 	    height: 14px;
@@ -151,7 +152,7 @@
 	    border-radius: 10px;
 	    display: none;
 	}
-	.ui.fiushop.search .ui.sheader input[type=reset]{
+	.ui.fiushop-search .ui.sheader form .ui.icon.input input[type=reset]{
 		position: absolute;
 	    top: -8px;
 	    height: 30px;
@@ -259,34 +260,34 @@
     // 初始加载
     ajax_load_more(type, 1, size, sort);
 
-    $('.search .fiusearch input[type="text"]').focus(function(){
-    	$('.search  .ui.sheader .ui.icon.input').addClass('focus');
+    $('.fiushop-search .fiusearch input[type="text"]').focus(function(){
+    	$('.fiushop-search  .ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
-    	if( $('.search  .fiusearch input[type="text"]').val().length == 0){
-    		$('.search  .fiusearch .ui.icon.input').removeClass('focus');
-    		$('.search  .ui.sheader .ui.icon.input .inputreset').hide();
+    	if( $('.fiushop-search  .fiusearch input[type="text"]').val().length == 0){
+    		$('.fiushop-search  .fiusearch .ui.icon.input').removeClass('focus');
+    		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
     	}else{
-    		$('.search  .fiusearch .ui.icon.input').addClass('focus');
+    		$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
     	}
     });
-    if( $('.search  .fiusearch input[type="text"]').val().length !== 0){
-    	$('.search  .fiusearch .ui.icon.input').addClass('focus');
-    	$('.search  .ui.sheader .ui.icon.input .inputreset').show();
+    if( $('.fiushop-search  .fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+    	$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
     }
     $('#inputshow').on('click',function(){
     	$('.ui.fiushop,.sfooter.nav-menu').hide();
-    	$('.ui.fiushop.search').show();
-    	$('.search .fiusearch input[type="text"]').focus();
+    	$('.fiushop-search').show();
+    	$('.fiushop-search .fiusearch input[type="text"]').focus();
     });
-    $('.search  .ui.sheader .ui.icon.input .inputreset').click(function(){
-		$('.search .fiusearch input[type="text"]').focus();
-		$('.search  .ui.sheader .ui.icon.input .inputreset').hide();
+    $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+		$('.fiushop-search .fiusearch input[type="text"]').focus();
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
     });
-    $('.search  .fiusearch input[type="text"]').bind('input propertychange', function() {
-		$('.search  .ui.sheader .ui.icon.input .inputreset').show();
+    $('.fiushop-search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
     });
-    $('.ui.fiushop.search #search-close,.ui.fiushop.search #search-canlse').on('click',function(){
-    	$('.ui.fiushop.search').hide();
+    $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
+    	$('.ui.fiushop-search').hide();
     	$('.ui.fiushop,.sfooter.nav-menu').show();
     })
 	
@@ -371,7 +372,7 @@
 	</div>
 </div>
 
-<div class="ui fiushop search hide">
+<div class="ui fiushop-search hide">
 	<div class="ui sheader">
 		<div id="search-close">
 			<img src="{{ app_url_packaged }}/images/icon/loadclose.png" width="100%">
