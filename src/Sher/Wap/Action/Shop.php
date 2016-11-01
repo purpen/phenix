@@ -369,6 +369,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           $target_id = (int)$v['target_id'];
           $type = (int)$v['type'];
           $n = (int)$v['n'];
+          $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null;
 
           $data = array();
           $data['target_id'] = $target_id;
@@ -377,6 +378,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           $data['sku_mode'] = null;
           $data['sku_name'] = null;
           $data['price'] = 0;
+          $data['vop_id'] = $vop_id;
 
           if($type==2){
             $inventory = $inventory_model->load($target_id);
@@ -484,13 +486,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
 		$quantity = (int)$this->stash['n'];
-    $options = array();
+        $options = array();
+        $options['is_vop'] = 0;
 
-    //初始变量
-    //是否是抢购商品
-    $is_snatched = false;
-    //是否积分兑换
-    $is_exchanged = false;
+        //初始变量
+        //是否是抢购商品
+        $is_snatched = false;
+        //是否积分兑换
+        $is_exchanged = false;
+
+        $vop_id = null;
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -507,7 +512,12 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 		$item = $inventory->load((int)$sku);
 		
-		$product_id = !empty($item) ? $item['product_id'] : $sku;
+        if(!empty($item)){
+            $product_id = $item['product_id'];
+            $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+        }else{
+            $product_id = (int)$sku;
+        }
 		
 		// 获取产品信息
 		$product = new Sher_Core_Model_Product();
@@ -614,12 +624,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
 				'view_url' => $product_data['view_url'],
 				'subtotal' => $price*$quantity,
-        'is_snatched' => $is_snatched?1:0,
-        'is_exchanged' => $is_exchanged?1:0,
+                'is_snatched' => $is_snatched?1:0,
+                'is_exchanged' => $is_exchanged?1:0,
+                'vop_id' => $vop_id,
 			),
 		);
 		$total_money = $price*$quantity;
 		$items_count = 1;
+
+        if($vop_id){
+            $options['is_vop'] = 1;
+        }
 		
 		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		if (empty($order_info)){
@@ -755,6 +770,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
         $options = array();
         $options['is_cart'] = 1;
+        $options['is_vop'] = 0;
 		
 		//验证购物车，无购物不可以去结算
         $cart_model = new Sher_Core_Model_Cart();
@@ -771,6 +787,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
         // 记录错误数据索引
         $error_index_arr = array();
+
+        // 统计商品来源数量
+        $vop_count = 0;
+        $self_count = 0;
 
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
@@ -855,15 +875,29 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           $total_count += 1;
 
           if(!empty($item)){
+              if($vop_id){
+                $vop_count += 1;
+              }else{
+                $self_count += 1;
+              }
             array_push($items, $item);
           }
         } // endfor
 
-    //如果购物车为空，返回
-    if(empty($total_money) || empty($items)){
-      return $this->show_message_page('购物车异常！', true);
-    }
-    $items_count = count($items);
+        //如果购物车为空，返回
+        if(empty($total_money) || empty($items)){
+            return $this->show_message_page('购物车异常！', true);
+        }
+
+        if(!empty($vop_count) && !empty($self_count)){
+            return $this->show_message_page('请分开下单！', true);       
+        }
+
+        $items_count = count($items);
+
+        if(!empty($vop_count)){
+            $options['is_vop'] = 1;
+        }
 		
 		// 获取省市列表
 		$areas = new Sher_Core_Model_Areas();
@@ -936,6 +970,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
     $is_cart = isset($result['is_cart']) ? $result['is_cart'] : 0;
     $is_presaled = isset($result['is_presaled']) ? $result['is_presaled'] : 0;
+    $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -1016,6 +1051,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$orders = new Sher_Core_Model_Orders();
 			
 			$order_info['user_id'] = (int)$user_id;
+
+            $order_info['is_vop'] = $is_vop;
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			
@@ -1421,7 +1458,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     if(isset($options['kind'])){
       $new_data['kind'] = $options['kind'];
     }
-		
+		$new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
 		
@@ -1837,6 +1874,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				break;
 			case 8:
 				$options['sort_field'] = 'price_asc';
+				break;
+			case 9:
+				$options['sort_field'] = 'view_count';
 				break;
 		}
         

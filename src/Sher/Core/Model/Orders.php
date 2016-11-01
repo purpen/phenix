@@ -151,10 +151,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     'from_app' => 0,
     # channel_id
     'channel_id' => null,
+    # 是否是京东开普勒订单
+    'is_vop' => 0,
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
