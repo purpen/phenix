@@ -233,7 +233,8 @@
     });
 
     $('.btsubmit .ui.input input').focus(function(){
-        console.log(document.body.clientHeight);
+        var height = document.body.clientHeight);
+        $('.ui.usercomment').css('height',height);
     });
 {% endblock %}
 {% block content %}
@@ -307,7 +308,7 @@
     </ul>
 </div>
 
-<div class="ui usercomment page">
+<div class="ui usercomment page hide">
     <div class="ui sheader">
         <a class="comclose return" href="javascript:void(0);"><i class="angle float left icon"></i></a>
         <p>评论</p>
