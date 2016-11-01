@@ -42,6 +42,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if(!strpos($return_url,'logout')){
 			$this->stash['return_url'] = $return_url;
 		}
+		// 过滤上一步来源为找回密码链接
+		if(!strpos($return_url,'set_passwd')){
+			$this->stash['return_url'] = $return_url;
+		}
 		
 		// 当前有登录用户
 		if ($this->visitor->id){
@@ -795,13 +799,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->ajax_json('此账户不存在！', true);
 		}
   
-        return $this->ajax_json('success', false, 0, array('user_id'=>$user['_id'], 'account'=>$this->stash['account'], 'verify_code'=>$code));
+        return $this->ajax_json('success', false, 0, array('user_id'=>$user['_id'], 'account'=>$this->stash['account'], 'verify_code'=>$this->stash['verify_code']));
 	}
 
 	/**
 	 * 找回密码页面
 	 */
     public function set_passwd(){
+        $redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		return $this->to_html_page('wap/auth/get_password.html');
     }
 	
