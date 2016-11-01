@@ -6,7 +6,7 @@
 	text-align: center;
 }
 body{
-  height:auto;
+  height: 100%;
   //background:url({{ app_url_packaged }}/images/landbj.jpg) center center no-repeat;
   background-size:cover;
   background:#fff;
@@ -181,7 +181,7 @@ input,input:focus,input:active{
 {% block jquery %}
 	var bheight = $('body').height() - 240 +'px';
 	$('.ui.bottom.attached').css('height',bheight);
-
+	$('body').css('height',$('body').height());
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
