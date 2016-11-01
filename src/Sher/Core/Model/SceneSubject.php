@@ -80,6 +80,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
         # app 浏览数
         'app_view_count' => 0,
 
+        # 活动标签
+        'extra_tag' => null,
+
         # 开始/结束时间
         'begin_time' => 0,
         'end_time' => 0,
