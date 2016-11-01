@@ -12,7 +12,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		'invite_code' => null,
 	);
 	
-	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code');
+	protected $exclude_method_list = array('execute', 'login', 'login_signup', 'dynamic_do_login' , 'ajax_login', 'signup', 'ajax_signup', 'do_login', 'do_register', 'do_quick_register', 'forget', 'logout', 'verify_code', 'check_account', 'quickly_signup', 'reset_passwd', 'third_register', 'qr_code','get_passwd');
 	
 	/**
 	 * 入口
@@ -764,6 +764,13 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->to_redirect($redirect_url);
 		}
 		return $this->to_html_page('wap/auth/auth_forget.html');
+	}
+
+	/**
+	 * 找回密码页面
+	 */
+	public function get_passwd(){
+		return $this->to_html_page('wap/auth/get_password.html');
 	}
 	
 	/**

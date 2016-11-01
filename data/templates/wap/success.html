@@ -36,9 +36,9 @@
     </div>
 </div>
 <div class="checkout page">
-	<div class="ui responsive grid mt-2r">
+	<div class="ui responsive grid mt-r">
 		<div class="row">
-			<div class="column">
+			<div class="column plr-14">
 				{% if !card_payed %}
 				<div class="ui ordered danger message">
 					<h5 class="ui header">
@@ -54,10 +54,10 @@
 				<form class="ui pay form" method="post" action="{{ app_url_wap }}/shop/payed" id="pay-form" target="_blank">
 					<input type="hidden" name="rid" value="{{ rid }}" />
 					<div class="ui segment">
-						<h5 class="ui dividing header">选择支付方式</h5>
+						<h5 class="ui mb-0 pb-2r dividing header">选择支付方式</h5>
 						
-						<div class="ui relaxed divided payaway selection list">
-							<div class="item">
+						<div class="ui mt-0 relaxed divided payaway selection list">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>推荐使用支付宝快捷支付</small>
 								</div>
@@ -71,7 +71,7 @@
 								</div>
 							</div>
 							{% if is_weixin %}
-							<div class="item">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>方便快捷支付</small>
 								</div>
@@ -85,7 +85,7 @@
 								</div>
 							</div>
 							{% endif %}
-							<div class="item">
+							<div class="item ptb-3r">
 								<div class="right floated">
 									<small>京东支付</small>
 								</div>
@@ -124,7 +124,7 @@
 					<h5 class="ui header">
 						<div class="content">
 							<i class="checkmark icon"></i>
-							订单已提交成功。
+							订单已支付成功。
 							<div class="sub header mt-r">
 								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">优惠抵扣</span>
 							</div>
@@ -132,9 +132,13 @@
 					</h5>
 				</div>
 				
-				<a class="ui active block button" style="text-align:center;width:100%;" href="{{ order.mm_view_url }}">
+				<a class="ui active block button" style="text-align:center;width:48%;background:#fff;color:#222;display: inline-block;" href="{{ app_url_wap }}/home">
+					返回首页
+				</a>
+				<a class="ui active block button" style="text-align:center;width:48%;background:#be8914;display: inline-block;color:#fff;" href="{{ order.mm_view_url }}">
 					查看订单
 				</a>
+				
 				{% endif %}
 				
 			</div>

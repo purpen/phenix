@@ -5,7 +5,7 @@
     .ui.sheader form{
         display: inline-block;
         width: 100%;
-        padding: 0 20px;
+        padding: 0 15px;
         vertical-align: top;
         margin: 0;
     }
@@ -48,6 +48,28 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       white-space: normal;
+  }
+  .ui.catemenu{
+    box-shadow:none;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
+  .ui.catemenu a{
+    padding: 12px 8px 14px;
+    position: relative;
+    line-height: 48px;
+    height: 47px;
+  }
+  .ui.catemenu a.active{
+    border-bottom: none;
+  }
+  .ui.catemenu a.active:before {
+    width: 100%;
+    content: "";
+    height: 2px;
+    background: #be8914;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
   }
 </style>
 {% endblock %}
@@ -108,18 +130,36 @@
 	
 	// 初始加载商品列表
     ajax_load_more(type, stick, sort, page, size);
-    $('.fiusearch input[type="text"]').focus(function(){
-      $('.ui.sheader .ui.icon.input').addClass('focus');
+    $('.fiushop-search .fiusearch input[type="text"]').focus(function(){
+      $('.fiushop-search  .ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
-      if( $('.fiusearch input[type="text"]').val().length == 0){
-        $('.fiusearch .ui.icon.input').removeClass('focus');
+      if( $('.fiushop-search  .fiusearch input[type="text"]').val().length == 0){
+        $('.fiushop-search  .fiusearch .ui.icon.input').removeClass('focus');
+        $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
       }else{
-        $('.fiusearch .ui.icon.input').addClass('focus');
+        $('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
       }
+    });
+    if( $('.fiushop-search  .fiusearch input[type="text"]').val().length !== 0){
+      $('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    }
+    $('#inputshow').on('click',function(){
+      $('.ui.brand,.sfooter.nav-menu').hide();
+      $('.fiushop-search').show();
+      $('.fiushop-search .fiusearch input[type="text"]').focus();
+    });
+    $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+      $('.fiushop-search .fiusearch input[type="text"]').focus();
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
+    });
+    $('.fiushop-search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+      $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    });
+    $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
+      $('.ui.fiushop-search').hide();
+      $('.ui.brand,.sfooter.nav-menu').show();
     })
-    if( $('.fiusearch input[type="text"]').val().length !== 0){
-      $('.fiusearch .ui.icon.input').addClass('focus');
-    } 
 {% endblock %}
 
 {% block content %}
@@ -129,17 +169,17 @@
 		<a href="javascript:void(0);" class="active">品牌</a>
 		<a href="{{ app_url_wap }}/shop/stick">推荐</a>
 	</div>
-  <div class="ui sheader" style="margin-top: 2px;">
+  <div class="ui sheader">
     <form class="fiusearch item" method="get" action="{{ app_url_wap }}/fiusearch" id="searchbar">
-          <div class="ui icon input">
-              <input name="q" type="text">
+          <div class="ui icon input" id="inputshow">
+              <input name="q" type="hidden">
               <input name="t" type="hidden">
           </div>
       </form>
   </div>
 	<div class="ui responsive grid">
-		<div class="row" id="mpresale" style="padding: 9px 5px 0;">
-			<div class="column">
+		<div class="row pl-7" id="mpresale">
+			<div class="column plr-14">
 
 				<div class="recom-item">
 
@@ -158,6 +198,7 @@
 
 
 </div>
+{% include "mm/search.html" %}
 {% endblock %}
 
 {% block templates %}

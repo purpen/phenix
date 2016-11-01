@@ -39,7 +39,7 @@
 	margin-left:10px;
 }
 .cartitem .cartinfo h3.title{
-    font-size: 1rem;
+    font-size: 12px;
     margin-bottom: 5px;
     max-height: 34px;
     overflow: hidden;
@@ -56,15 +56,15 @@
     margin-bottom: 8px;
 }
 .cartitem .remove_cart{
-	width:24px;
-	height:24px;
+	width:20px;
+	height:20px;
 	position:relative;
 	background:rgba(0,0,0,0.5);
 	border-radius:50%;
 }
 .cartitem .remove_cart img{
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
     margin: 7px;
 }
 .cartitem .img img{
@@ -146,7 +146,7 @@
     line-height: 50px;
     background: #c1c1c1;
     color: #fff !important;
-	background:#000;
+	background:#be8914;
 }
 .sfooter.nav-menu{
     display: none;
@@ -178,7 +178,7 @@
 .quantity .ui.mini.gray.icon.button {
     background-color: rgba(200,200,200,0.1);
     color: rgba(0,0,0,0.5);
-    padding: 0.5rem 0.66rem;
+    padding: 0.5rem 0.4rem;
     margin-top: 9pt;
     border-radius: 0;
     margin: 0;
@@ -195,7 +195,7 @@
     height: 24px;
     vertical-align: top;
     line-height: 24px;
-    font-size: 14px;
+    font-size: 12px;
     background-color: #FFF;
     border-radius: 0 !important;
     border: none !important;
@@ -526,7 +526,7 @@
 	{% if products %}
 	<div class="cartmain">
 		{% for product in products %}
-		<div class="cartitem" id="cart-product-{{ product.target_id }}">
+		<div class="cartitem plr-14" id="cart-product-{{ product.target_id }}">
             <div class="ui radio single checkbox">
                 <input type="checkbox" name="radio" data-target_id="{{ product.target_id }}" checked="checked">
             </div>

@@ -6,10 +6,10 @@
 	text-align: center;
 }
 body{
-  height:100%;
+  height: 100%;
   //background:url({{ app_url_packaged }}/images/landbj.jpg) center center no-repeat;
   background-size:cover;
-  background:#f1f1f1;
+  background:#fff;
   position: relative;
 }
 .auth.page {
@@ -31,8 +31,11 @@ body{
 }
 .ui.bottom.attached{
   height:425px;
-  position:relative;
-  padding-top:25px;
+  position:absolute;
+  padding:0 35px;
+  width: 100%;
+  left: 0;
+  top: 130px;
 }
 .ui.segment,.ui.attached.header{
 	border:none !important;
@@ -45,15 +48,15 @@ body{
 }
 .ui.red.button{
 	color: #db2828;
-    background: none;
-}
+    background: none !important;
+} 
 .ui.blue.button{
 	color: #2185d0;
-	background: none;
+	background: none !important;
 }
 .ui.green.button{
 	color: #21ba45;
-	background: none;
+	background: none !important;
 }
 .ui.inverted.magenta.button{
 	box-shadow: 0 0 0 2px #be8914 inset!important;
@@ -65,18 +68,47 @@ body{
 }
 .fiublogo{
 	position: absolute;
-	bottom: 0;
+    top: 100%;
+    left: 0;
+    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
 	left: 0;
 	width: 100%;
-	padding: 0 10px 25px;
+	padding: 0 35px 10px;
 }
 .third.login{
   position: absolute;
   bottom: 0;
   width: 100%;
   left: 0;
-  padding: 20px 40px;
+  padding: 20px 35px 0;
   text-align:center;
+}
+.third.login h4{
+	color: #666 !important;
+	position: relative;
+}
+.third.login h4::before{
+	content: "";
+	width: 30%;
+    height: 1px;
+    background: url({{ app_url_packaged }}/images/icon/fiuline.png) repeat;
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    left: 0;
+    margin-top: 0;
+}
+.third.login h4::after{
+	content: "";
+	width: 30%;
+    height: 1px;
+    background: url({{ app_url_packaged }}/images/icon/fiuline.png) repeat;
+    position: absolute;
+    z-index: -2;
+    top: 50%;
+    right: 0;
+    margin-top: 0;
 }
 .third.login .three.fields{
   font-size:0;
@@ -101,8 +133,41 @@ body{
 .ui.grid.field{
 	margin-bottom:1rem;
 }
-font{
-	display: none;
+.bglogo{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 0 0 25px;
+}
+
+.large.logo img{
+	height: 26px;
+}
+.large.logo span{
+	font-size: 12px;
+	display: block;
+	color: #666;
+	margin-top: 3px;
+}
+.ui.green.button:hover{
+	background:rgba(0,0,0,0) !important;
+}
+.ui.forgot{
+	margin: 0 !important;
+}
+.fluid.ui.magenta.inverted.submit.button{
+	background:#eee !important;
+	border:none !important;
+    color: #666 !important;
+    box-shadow: none !important;
+}
+.fluid.ui.magenta.inverted.submit.button.active{
+	background:#be8914 !important;
+	color: #fff !important;
+}
+input,input:focus,input:active{
+	user-select: text;
 }
 </style>
 {% endblock %}
@@ -114,8 +179,9 @@ font{
 {% endblock %}
 
 {% block jquery %}
-	var bheight = $('body').height() - 220 +'px';
+	var bheight = $('body').height() - 240 +'px';
 	$('.ui.bottom.attached').css('height',bheight);
+	$('body').css('height',$('body').height());
 	
 	var wait = 60,can_send=true;
 	var limitime = function(){
@@ -224,7 +290,7 @@ font{
 		
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
-			$('.third.login').hide();
+			$('.fluid.ui.magenta.inverted.submit.button').addClass('active');
 			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
@@ -242,6 +308,7 @@ font{
 					$('#include').html($('#signup_block').html());
 					$('#login').hide(); 
 					$('#signup').show();
+					$('.third.login').hide();
 				}
 				/* 登录表单验证 */
 				phenix.build_auth_page();
@@ -421,175 +488,217 @@ font{
 
 {% block content %}
 <div class="auth page">
-	<div class="ui responsive grid">
-		<div class="ui column width">
-			<div class="ui log-in signup">
-				<div class="ui top attached header logo ptb-2r">
-					<a href="{{ app_url_wap }}" title="返回首页">
-						<img src="{{ app_url_packaged }}/images/icon/fiulogo.png" width="140px" />
-					</a>
-				</div>
-				
-				<div class="ui bottom attached segment">
-					<form action="" class="ui small top form static-form" name="new_login_signup" method="post">
-						
-						<div class="field">
-							<input type="text" name="account" placeholder="手机号码" style="position: relative">
-							<div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
-							  <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading" width="30" height="30">
-							</div>
-						</div>
-						
-						<div id="include">
-							<div class="field ">
-								<div class="fluid ui active magenta inverted submit button">登录 / 注册</div>
-							</div>
-							
-							<!-- 登陆时存在  -->
-							<div class="inline field">
-								<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
-								<a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">短信方式登录</a>
-							</div>
-							<!-- end -->
-						</div>
-						
-					</form>
-					
-					<form action="{{ app_url_wap }}/auth/dynamic_do_login" class="ui small form dynamic-form" method="post" id="dynamic-login-form" style="display: none">
-						
-						<div class="field">
-							<input type="text" name="dynamic_phone" placeholder="手机号码">
-						</div>
-
-            <div class="inline field">
-              <input type="text" name="dynamic_captcha" placeholder="验证码" id="dynamic_captcha" style="width:48%;" />
-              <a href="javascript:void(0);" class="ui gray" id="dynamic-captcha-img">
-                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" style="position:absolute;margin-left:5px;" />
-              </a>
-            </div>
-					
-						<div class="field">
-							<input name="dynamic_verify_code" type="text" placeholder="短信验证码" style="width:48%;margin: 0 .85714286em 0 0;" />
-							<a href="javascript:void(0);" class="ui small inverted magenta button" id="dynamic-verify-code">获取验证码</a>
-						</div>
-						
-						<div class="field ">
-							<div class="fluid ui active magenta inverted submit button">登录</div>
-						</div>
-						
-						<div class="field">
-							<a href="javascript:void(0);" title="普通方式登录" class="ui link dynamic_login">普通方式登录</a>
-						</div>
-						
-					</form>
-					
-					<!-- 第三方帐号登录 -->
-					
-					<!-- 验证手机之后隐藏 -->
-					<div class="third login">
-						<h4>第三方帐号登录</h4>
-            
-						<div class="ui center aligned three fields">
-							<div class="inline field" style="text-align:center;">
-								<a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
-									<i class="large weibo icon"></i> 
-								</a>
-							</div>
-
-							<div class="inline field" style="text-align:center;">
-								<a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
-									<i class="large qq icon"></i>
-								</a>
-							</div>
-							
-							<div class="inline field" style="text-align:center;">
-								{% if is_weixin %}
-								<a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&redirect_uri={{wx_params.redirect_uri}}&response_type=code&scope=snsapi_login&state={{wx_params.state}}" class="ui big green circular share icon button">
-									<i class="large weixin icon"></i>
-								</a>
-								{%else%}
-								<a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
-									<i class="flat large weixin icon"></i>
-								</a>
-								{%endif%}
-							</div>
-						</div>
-  					
-					</div> 
-					<!-- end --> 
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="bglogo">
+        <img src="{{ app_url_packaged }}/images/icon/bglogo.png" width="100%"
+        />
+    </div>
+    <div class="ui responsive grid">
+    	<div class="row">
+	        <div class="ui column width">
+	            <div class="ui log-in signup">
+	                <!--<div class="ui top attached header logo ptb-2r">
+	                <a href="{{ app_url_wap }}" title="返回首页">
+	                <img src="{{ app_url_packaged }}/images/icon/fiulogo.png" width="140px" />
+	                </a>
+	                </div>-->
+	                <div class="ui bottom attached segment">
+	                    <form action="" class="ui small top form static-form" name="new_login_signup"
+	                    method="post">
+	                        <div class="field">
+	                            <input type="text" name="account" placeholder="手机号码" style="position: relative"
+	                            />
+	                            <div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
+	                                <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading"
+	                                width="30" height="30" />
+	                            </div>
+	                        </div>
+	                        <div id="include">
+	                            <div class="field ">
+	                                <div class="fluid ui magenta inverted submit button">
+	                                    登录 / 注册
+	                                </div>
+	                            </div>
+	                            <!-- 登陆时存在 -->
+	                            <div class="inline field" style="text-align: right;">
+	                                <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">
+	                                    忘记密码？
+	                                </a>
+	                                |&nbsp;&nbsp;
+	                                <a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">
+	                                    短信方式登录
+	                                </a>
+	                            </div>
+	                            <!-- end -->
+	                        </div>
+	                    </form>
+	                    <form action="{{ app_url_wap }}/auth/dynamic_do_login" class="ui small form dynamic-form"
+	                    method="post" id="dynamic-login-form" style="display: none">
+	                        <div class="field">
+	                            <input type="text" name="dynamic_phone" placeholder="手机号码" />
+	                        </div>
+	                        <div class="inline field">
+	                            <input type="text" name="dynamic_captcha" placeholder="验证码" id="dynamic_captcha"
+	                            style="width:48%;" />
+	                            <a href="javascript:void(0);" class="ui gray" id="dynamic-captcha-img">
+	                                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();"
+	                                style="position:absolute;margin-left:5px;" />
+	                            </a>
+	                        </div>
+	                        <div class="field">
+	                            <input name="dynamic_verify_code" type="text" placeholder="短信验证码" style="width:48%;margin: 0 .85714286em 0 0;"
+	                            />
+	                            <a href="javascript:void(0);" class="ui small inverted magenta button"
+	                            id="dynamic-verify-code">
+	                                获取验证码
+	                            </a>
+	                        </div>
+	                        <div class="field ">
+	                            <div class="fluid ui active magenta inverted submit button">
+	                                登录
+	                            </div>
+	                        </div>
+	                        <div class="field" style="text-align: right;">
+	                            <a href="javascript:void(0);" title="普通方式登录" class="ui link dynamic_login">
+	                                普通方式登录
+	                            </a>
+	                        </div>
+	                    </form>
+	                    <!-- 第三方帐号登录 -->
+	                    <!-- 验证手机之后隐藏 -->
+	                    <div class="third login">
+	                        <h4>
+	                            第三方帐号登录
+	                        </h4>
+	                        <div class="ui center aligned three fields">
+	                            <div class="inline field pl-3r" style="text-align:left;">
+	                                {% if is_weixin %}
+	                                <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&amp;redirect_uri={{wx_params.redirect_uri}}&amp;response_type=code&amp;scope=snsapi_login&amp;state={{wx_params.state}}"
+	                                class="ui big green circular share icon button m-0">
+	                                    <div class="large weixin logo"><img src="{{ app_url_packaged }}/images/icon/weixin.png"><span>微信</span></div>
+	                                </a>
+	                                {%else%}
+	                                <a href="javascript:void(0);" class="ui big green no-weixin circular share icon button m-0">
+	                                    <div class="large weixin logo"><img src="{{ app_url_packaged }}/images/icon/weixin.png"><span>微信</span></div>
+	                                </a>
+	                                {%endif%}
+	                            </div>
+	                            <div class="inline field" style="text-align:center;">
+	                                <a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button m-0">
+	                                    <div class="large weibo logo">
+	                                    	<img src="{{ app_url_packaged }}/images/icon/weibo.png">
+	                                    	<span>微博</span>
+	                                    </div>
+	                                </a>
+	                            </div>
+	                            <div class="inline field pr-3r" style="text-align:right;">
+	                                <a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button m-0">
+	                                    <div class="large qq logo">
+	                                    	<img src="{{ app_url_packaged }}/images/icon/qq.png">
+	                                    	<span>QQ</span>
+	                                    </div>
+	                                </a>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <!-- end -->
+	                </div>
+	            </div>
+	        </div>
+        </div>
+    </div>
 </div>
 <div id="default_block" style="display: none">
-	<div class="field ">
-		<div class="fluid ui active magenta inverted submit button">登录 / 注册</div>
-	</div>
-	
-	<!-- 登陆时存在  -->
-	<div class="inline field">
-		<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>|&nbsp;&nbsp;
-		<a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">短信方式登录</a>
-	</div>
-	<!-- end -->
+    <div class="field ">
+        <div class="fluid ui active magenta inverted submit button">
+            登录 / 注册
+        </div>
+    </div>
+    <!-- 登陆时存在 -->
+    <div class="inline field" style="text-align: right;">
+        <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">
+            忘记密码？
+        </a>
+        |&nbsp;&nbsp;
+        <a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">
+            短信方式登录
+        </a>
+    </div>
+    <!-- end -->
 </div>
 <div id="login_block">
-	<!-- 用户存在 登录 -->
-	<div id="login" style="display: none">
-		
-		<div class="field">
-			<input type="password" name="password" id="password" placeholder="登录密码" />
-		</div>
-		
-		<div class="field ">
-			<div class="fluid ui active magenta inverted submit button">登录</div>
-		</div>
-		
-		<!-- 登录时存在  -->
-		<div class="inline field">
-			<a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">忘记密码？</a>
-			<a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">合作账号登录</a>&nbsp;&nbsp;|&nbsp;&nbsp;
-			<a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">短信方式登录</a>
-		</div>
-		<!-- end -->
-		
-	</div>
-	<!-- end -->
+    <!-- 用户存在 登录 -->
+    <div id="login" style="display: none">
+        <div class="field">
+            <input type="password" name="password" id="password" placeholder="登录密码"
+            />
+        </div>
+        <div class="field ">
+            <div class="fluid ui active magenta inverted submit button">
+                登录
+            </div>
+        </div>
+        <!-- 登录时存在 -->
+        <div class="inline field" style="text-align: right;">
+            <a href="{{ app_url_wap }}/auth/forget" title="忘记密码？" class="ui link forgot">
+                忘记密码？
+            </a>
+            <!--<a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">
+                合作账号登录
+            </a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;-->
+            <a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">
+                短信方式登录
+            </a>
+        </div>
+        <!-- end -->
+    </div>
+    <!-- end -->
 </div>
 <div id="signup_block">
-	<!-- 用户不存在 注册 -->
-	<div id="signup" style="display: none">
-		<input type="hidden" name="evt" value="{{ evt }}" />
-		<div class="inline field">
-			<input type="text" name="captcha" placeholder="验证码" id="captcha" style="width:48%;" />
-			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
-				<img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();" style="position:absolute;margin-left:5px;" />
-			</a>
-		</div>
-	
-		<div class="field">
-			<input name="verify_code" type="text" placeholder="短信验证码" id="verify_code" style="width:48%;margin: 0 .85714286em 0 0;" />
-			<a href="javascript:void(0);" class="ui small inverted magenta button" id="fetch-verify-code">获取验证码</a>
-		</div>
-		
-		<div class="field">
-			<input class="" type="password" name="password" id="signup_password" placeholder="设置至少6位登录密码" />
-			<div class=""></div>
-		</div> 
-	
-		<div class="field ">
-			<div class="fluid ui active magenta inverted submit button">注册</div>
-		</div>
-		
-		<div class="inline field">
-			<a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">合作账号登录</a>|&nbsp;&nbsp;
-			<a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">短信方式登录</a>
-		</div>
-	</div>
-	<!-- end -->
+    <!-- 用户不存在 注册 -->
+    <div id="signup" style="display: none">
+        <input type="hidden" name="evt" value="{{ evt }}" />
+        <div class="inline field">
+            <input type="text" name="captcha" placeholder="验证码" id="captcha" style="width:48%;"
+            />
+            <a href="javascript:void(0);" class="ui gray" id="captcha-img">
+                <img src="/app/site/captcha/view" onclick="this.src='/app/site/captcha/view?'+Math.random();"
+                style="position:absolute;margin-left:5px;" />
+            </a>
+        </div>
+        <div class="field">
+            <input name="verify_code" type="text" placeholder="短信验证码" id="verify_code"
+            style="width:48%;margin: 0 .85714286em 0 0;" />
+            <a href="javascript:void(0);" class="ui small inverted magenta button"
+            id="fetch-verify-code">
+                获取验证码
+            </a>
+        </div>
+        <div class="field">
+            <input class="" type="password" name="password" id="signup_password" placeholder="设置至少6位登录密码"
+            />
+            <div class="">
+            </div>
+        </div>
+        <div class="field ">
+            <div class="fluid ui active magenta inverted submit button">
+                注册
+            </div>
+        </div>
+        <div class="inline field" style="text-align: right;">
+            <a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">
+                第三方账号登录
+            </a>
+            |&nbsp;&nbsp;
+            <a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">
+                短信方式登录
+            </a>
+        </div>
+    </div>
+    <!-- end -->
 </div>
 <div class="fiublogo">
-	<img src="{{ app_url_packaged }}/images/icon/login.png" width="100%">
+    <img src="{{ app_url_packaged }}/images/icon/loginlogo.png" width="100%"
+    />
 </div>
 {% endblock %}

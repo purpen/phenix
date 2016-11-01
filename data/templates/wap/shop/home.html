@@ -9,7 +9,7 @@
     	margin-left: 10px;
     }
     .ui.fiushop .ui.sheader p img{
-    	height: 20px;
+    	height: 18px;
 	    margin: 0;
 	    font-size: 0;
 	    vertical-align: middle;
@@ -43,7 +43,6 @@
     	font-size: 0;
     }
     .ui.sheader p{
-    	width: 18%;
     	display: inline-block;
     	margin: 0;
     	font-size: 14px !important;
@@ -55,18 +54,20 @@
     }
     .ui.sheader form{
     	display: inline-block;
-	    width: 64%;
+	    width: calc(100% - 69px );
 	    padding: 0 0;
     	vertical-align: top;
+    	margin-left: 12px;
     }
     .ui.sheader form .ui.input{
     	height: 30px;
     	margin: 10px 0;
     	width: 100%;
-    	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
-    	background-size: 135px 18px;
-    	background-position: 15px 6px;
+    	background: url({{ app_url_packaged }}/images/fiushop/inputn.png) no-repeat 50% #f7f7f7;
+    	background-size: 93px 18px;
+    	background-position: 12px 6px;
     	border-radius: 6px;
+    	position: relative;
     }
     .ui.sheader form .ui.icon.input.focus{
     	background: none #f7f7f7;
@@ -85,6 +86,32 @@
 	.ui.fiushop .haohuo .banner::after{
 		background-size: 20px 13px;
 	}
+	.ui.fiushop .ui.sheader{
+		padding: 0 15px;
+	}
+	.ui.fiushop .ui.sheader p{
+		margin: 15px 0;
+    	line-height: 0;
+	}
+	.hdtitle{
+		font-size: 13px;
+		color: #fff;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate3d(-50%,0,0);
+		-webkit-transform: translate3d(-50%,0,0);
+		background:rgba(190,137,20,0.8);
+		padding: 10px 20px;
+		z-index: 9;
+	    max-width: 60%; 
+	}
+	.hdtitle p{
+		overflow: hidden;
+    	white-space: nowrap;
+    	text-overflow: ellipsis;
+	}
+	
 </style>
 {% endblock %}
 
@@ -180,40 +207,58 @@
     // 初始加载
     ajax_load_more(type, 1, size, sort);
 
-    $('.fiusearch input[type="text"]').focus(function(){
-    	$('.ui.sheader .ui.icon.input').addClass('focus');
+    $('.fiushop-search .fiusearch input[type="text"]').focus(function(){
+    	$('.fiushop-search  .ui.sheader .ui.icon.input').addClass('focus');
     }).blur(function(){
-    	if( $('.fiusearch input[type="text"]').val().length == 0){
-    		$('.fiusearch .ui.icon.input').removeClass('focus');
+    	if( $('.fiushop-search  .fiusearch input[type="text"]').val().length == 0){
+    		$('.fiushop-search  .fiusearch .ui.icon.input').removeClass('focus');
+    		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
     	}else{
-    		$('.fiusearch .ui.icon.input').addClass('focus');
+    		$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
     	}
+    });
+    if( $('.fiushop-search  .fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+    	$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    }
+    $('#inputshow').on('click',function(){
+    	$('.ui.fiushop,.sfooter.nav-menu').hide();
+    	$('.fiushop-search').show();
+    	$('.fiushop-search .fiusearch input[type="text"]').focus();
+    });
+    $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+		$('.fiushop-search .fiusearch input[type="text"]').focus();
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
+    });
+    $('.fiushop-search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    });
+    $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
+    	$('.ui.fiushop-search').hide();
+    	$('.ui.fiushop,.sfooter.nav-menu').show();
     })
-    if( $('.fiusearch input[type="text"]').val().length !== 0){
-    	$('.fiusearch .ui.icon.input').addClass('focus');
-    } 
 	
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop">
 	<div class="ui sheader">
-		<p><img src="{{ app_url_packaged }}/images/icon/fflogo.png"></p>
+		<p><img src="{{ app_url_packaged }}/images/icon/ffflogo.png"></p>
 		<form class="fiusearch item" method="post" action="{{ app_url_wap }}/search/fiu" id="searchbar">
         
-	        <div class="ui icon input">
-	            <input name="q" type="text" value="{{ q }}">
+	        <div class="ui icon input" id="inputshow">
+	            <input name="q" type="hidden" value="{{ q }}">
 	            <input name="t" type="hidden" value="1">
 	        </div>
 	    </form>
-	    <p>
+	    <!--<p>
 	    	{% if visitor %}
 				<a href="{{ app_url_wap }}/my/fiumy"><img src="{{ app_url_packaged }}/images/icon/fiuuser.png" align="absmiddle"></a>
 			{% else %}
 				<a href="{{ app_url_wap }}/auth">登录</a>
 			{% endif %}
 
-	    </p>
+	    </p>-->
 	</div>
 	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
 	<div id="slider" class="flexslider flex-single">
@@ -274,6 +319,7 @@
 	</div>
 </div>
 
+{% include "mm/search.html" %}
 {% endblock %}
 
 {% block templates %}

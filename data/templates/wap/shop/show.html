@@ -407,11 +407,11 @@
 .three-mesg .shopcart{
     text-align: center;
     line-height: 50px;
-	background: #BE8914;
+	background: #222;
 	color:#fff;
 }
 .three-mesg .shopbuy{
-	background: #222;
+	background: #BE8914;
     text-align: center;
     line-height: 50px;
 	color:#fff;
@@ -772,7 +772,7 @@ span.ui.timeout.btn{
 .shopbrand .sub.header {
     margin-top: 5px;
     font-size: 12px ;
-    line-height: 16px;
+    line-height: 13px;
     color: #666;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -787,11 +787,12 @@ span.ui.timeout.btn{
 }
 .shopbrand .sub.header i.float.icon{
     position: absolute;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     top: 50%;
     right: 0;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
+    top: 9px;
 }
 .sfooter.nav-menu{
   display: none;
@@ -836,6 +837,59 @@ span.ui.timeout.btn{
     background-position: -18px 0;
 }
 .ui.fshare{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 32px;
+    height: 50px;
+}
+.ui.fshare .bgimg{
+    display: block;
+    margin: 16px auto;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.acacartlogin{
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 50px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    position: absolute;
+}
+.acacartlogin .caputcart {
+    background: url({{ app_url_packaged }}/images/icon/caputcartn.png);
+    width: 26px;
+    height: 20px;
+    background-size: cover;
+    margin: 15px 4px;
+}
+.acacartlogin .cartnumber {
+    position: absolute;
+    top: 7px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    background: #222;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+}
+.ui.server{
     width: 50%;
     position: absolute;
     top: 0;
@@ -845,15 +899,15 @@ span.ui.timeout.btn{
     margin: 4px;
     color: #999;
 }
-.ui.fshare .bgimg{
+.ui.server .bgimg{
     display: block;
-    margin: 2px auto 3px;
+    margin: 1px auto 3px;
     vertical-align: middle;
-    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-image: url({{ app_url_packaged }}/images/icon/serve.png);
     background-repeat: no-repeat;
-    background-size: 16px 16px;
-    height: 16px;
-    width: 16px;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
     background-position: 0 0;
 }
 </style>
@@ -900,6 +954,13 @@ span.ui.timeout.btn{
  			  });
           }, 'json');
       }
+      $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {type:1}, function(result){
+            if(result.success){
+              $('#wap_cart_num').show().text(result.data.count);
+            }else{
+               $('#wap_cart_num').hide().text('');             
+            }
+        }, 'json');
 
   </script>
 {% endblock %}
@@ -1164,16 +1225,31 @@ span.ui.timeout.btn{
   $('#mask').on('click',function(){
     $('#mask').css('display','none');
   });
+  $('.ui.server').click(function(){
+    $('.ui.server-show').modal('show');
+  })
 {% endblock %}
 
 {% block content %}
 <div class="mask"></div>
-<!--<div class="ui category" style="padding-bottom: 0;">
+<div class="ui category" style="padding-bottom: 0;">
   <div class="ui sheader">
     <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-    <p>产品详情</p>
+    <p class="mb-0">产品详情</p>
+    {% if visitor %}
+    <a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
+      <div class="caputcart"></div>
+      <!-- 购物车提醒 -->
+      <div class="cartnumber" id="wap_cart_num" style="display:none;"></div>
+    </a>
+    {% else %}
+    <a href="{{ app_url_wap }}/shop/cart" class="acacartlogin">
+      <div class="caputcart"></div>
+    </a>
+    {% endif %}
+    <!--<div class="ui fshare"><div class="bgimg"></div></div>-->
   </div>
-</div>-->
+</div>
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
 	<ul class="slides">
@@ -1202,10 +1278,11 @@ span.ui.timeout.btn{
       </div>
 		</h4>
 	</div>
+  <!--
 	<div class="colour">
 		颜色分类
 		<i class="angle float right icon cate"></i>
-	</div>
+	</div>-->
 	<div class="ui top details">
 		<div class="close-details">
 			<img src="{{ app_url_packaged }}/images/icon/close.png">
@@ -1484,7 +1561,7 @@ span.ui.timeout.btn{
 		<ul div class="three-mesg">
 			<li class="price">
             <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
-        <div class="ui fshare"><div class="bgimg"></div>分享</div>
+        <div class="ui server"><div class="bgimg"></div>客服</div>
 			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
 			<li class="shopcart">
@@ -1500,6 +1577,21 @@ span.ui.timeout.btn{
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
   <div class="frideshare">
   <img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+
+<div class="ui small server-show modal">
+  <i class="close icon"></i>
+  <div class="content">
+    <div class="ui center aligned grid">
+      <div class="row">
+        <div class="column">
+          <p style="line-height: 24px;font-size: 17px;">客服电话<br>4008-798-751</p>
+          <p class="mb-0">长按识别二维码 直接呼叫客服</p>
+          <img src="{{ app_url_packaged }}/images/icon/servess.jpg" width="80%" />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

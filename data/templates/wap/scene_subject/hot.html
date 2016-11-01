@@ -2,7 +2,6 @@
 {% block page_css %}
 <style type="text/css">
     .ui.responsive.hot.grid{
-        padding-top: 5px;
         margin-bottom: 20px;
     }
     .ui.grid>.row>.column:only-child{
@@ -21,7 +20,7 @@
         margin: 0;
         line-height: 18px;
         word-break: break-word;
-        color: #222;
+        color: #666;
         font-size: 12px;
     }
     .ui.fiushop .haohuo .banner::after{
@@ -31,11 +30,11 @@
         font-size: 16px;
         margin: 0;
         margin-bottom: 5px;
-        color: #222;
-        text-align: center;
+        color: #222 !important;
+        text-align: left;
     }
     .block{
-        margin-top: 10px;
+        margin-top: 0;
         position: relative;
         background: #fff;
         box-shadow: 0px 0 2px 0px rgba(0,0,0,0.2);
@@ -82,7 +81,7 @@
     .buy.btn{
         color: #fff;
         font-size: 12px;
-        background: #000;
+        background: #be8914;
         text-decoration: none;
         float: right;
         margin-top: -3px;
@@ -164,7 +163,7 @@
         margin-left: -30px;
     }
 
-    li.ui.favorite,li.ui.fshare{
+    li.ui.favorite,li.ui.comment{
         padding: 2px 6px 5px;
         margin: 4px;
     }
@@ -191,21 +190,21 @@
         left: 50%;
         margin-left: -5px;
     }
-    li.ui.fshare .bgimg{
+    li.ui.comment .bgimg{
         display: block;
         vertical-align: middle;
         background-image: url({{ app_url_packaged }}/images/icon/zhuan.png);
         background-repeat: no-repeat;
         background-size: 98px 18px;
         height: 18px;
-        width: 17px;
-        background-position: -37px 0;
+        width: 20px;
+        background-position: -54px 0;
         position: absolute;
         top: 7px;
         left: 50%;
         margin-left: -30px;
     }
-    li.ui.fshare p{
+    li.ui.comment p{
         position: absolute;
         top: 5px;
         left: 50%;
@@ -214,7 +213,7 @@
 </style>
 {% endblock %}
 {% block jquery %}
-$('.ui.fshare').on('click',function(){
+ $('.ui.fshare').on('click',function(){
     $('#mask').css('display','block');
   });
   $('#mask').on('click',function(){
@@ -290,8 +289,8 @@ $('.ui.fshare').on('click',function(){
             </div>
         </div>
         <div class="ui responsive hot grid">
-            <div class="row">
-                <div class="column">
+            <div class="row pt-3r" style="background:#fff;">
+                <div class="column plr-14">
                     <p>
                         {{ scene_subject.summary }}
                     </p>
@@ -300,10 +299,14 @@ $('.ui.fshare').on('click',function(){
 
             {% for d in scene_subject.products %}
                 <!-- 循环 -->
-                <div class="row pt-r">
-                    <div class="column">
+                <div class="row plr-14 pb-0">
+                    <div class="column plr-14 ptb-2r" style="background:#fff;">
                         <h2 class="ui header">{{ d.title }}</h2>
                         <p>{{ d.summary }}</p>
+                    </div>
+                </div>
+                <div class="row pt-0 pb-3r">
+                    <div class="column plr-14">
                         <div class="block">
                             <a href="{{ d.wap_view_url }}" class="images">
                                 <img src="{{ d.banner_url }}">
@@ -335,9 +338,9 @@ $('.ui.fshare').on('click',function(){
             <div class="bgimg"></div>
             <p>{{ scene_subject.favorite_count }}</p>
         </li>
-        <li class="ui fshare">
+        <li class="ui comment">
             <div class="bgimg"></div>
-            <p>{{ scene_subject.share_count }}</p>
+            <p>{{ scene_subject.comment_count }}</p>
         </li>
     </ul>
 </div>

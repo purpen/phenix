@@ -17,9 +17,9 @@
     position: relative;
 }
 .myphoto{
-	width:60px;
+	width:65px;
 	height:50px;
-	padding-left:10px;
+	padding-left:15px;
 	position:relative;
 }
 .myphoto img{
@@ -299,6 +299,11 @@
     padding-left: 8px;
     padding-right: 0;
 }
+.menuicon i.angle.float.right.icon.cate{
+    position: absolute;
+    right: 4px;
+    font-size: 18px;
+}
 </style>
 {% endblock %}
 
@@ -339,6 +344,10 @@
 
 	// 初始加载商品列表
     ajax_load_more(category_id, category_tag, type, sort, page, size);
+
+    $('.ui.server').click(function(){
+      $('.ui.server-show').modal('show');
+    })
 {% endblock %}
 
 {% block content %}
@@ -424,29 +433,33 @@
 			
 			<ul class="navfelx item mt-2r">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
-						我的红包
-					</a>
+                    <a class="menuicon" href="{{ app_url_wap }}/my/f_product">
+                        我的收藏
+                        <i class="angle float right icon cate"></i>
+                    </a>
 				</li>
 			</ul>
 			<ul class="navfelx item">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/f_product">
-						我的收藏
-					</a>
+					<a class="menuicon" href="{{ app_url_wap }}/my/bonus">
+                        我的红包
+                        <i class="angle float right icon cate"></i>
+                    </a>
 				</li>
 			</ul>
 			<ul class="navfelx item mt-2r">
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/shipping">
 						收货地址
+                        <i class="angle float right icon cate"></i>
 					</a>
 				</li>
 			</ul>
-			<ul class="navfelx item">
+			<ul class="navfelx item ui server">
 				<li class="childcell">
-					<a class="menuicon" href="{{ app_url_wap }}/my/service">
-						退换货
+					<a class="menuicon" href="javascript:void(0);">
+						在线客服
+                        <i class="angle float right icon cate"></i>
 					</a>
 				</li>
 			</ul>
@@ -473,7 +486,20 @@
     </div>
 
 </div>
-
+<div class="ui small server-show modal">
+  <i class="close icon"></i>
+  <div class="content">
+    <div class="ui center aligned grid">
+      <div class="row">
+        <div class="column">
+          <p style="line-height: 24px;font-size: 17px;">客服电话<br>4008-798-751</p>
+          <p class="mb-0">长按识别二维码 直接呼叫客服</p>
+          <img src="{{ app_url_packaged }}/images/icon/servess.jpg" width="80%" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block templates %}
