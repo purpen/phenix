@@ -229,7 +229,11 @@
     $('.comclose').on('click',function(){
         $('.ui.usercomment.page').hide();
         $('.ui.fiushop,.ui.zhuan').show();
-    })
+    });
+
+    $('.btsubmit .ui.input input').focus(function(){
+        alert(document.body.clientHeight);
+    });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
