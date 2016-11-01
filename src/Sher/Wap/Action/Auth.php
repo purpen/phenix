@@ -39,11 +39,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout')){
-			$this->stash['return_url'] = $return_url;
-		}
-		// 过滤上一步来源为找回密码链接
-		if(!strpos($return_url,'set_passwd')){
+		if(!strpos($return_url,'logout') || !strpos($return_url,'set_passwd')){
 			$this->stash['return_url'] = $return_url;
 		}
 		
@@ -120,11 +116,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
 		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout')){
-			$this->stash['return_url'] = $return_url;
-		}
-		// 过滤上一步来源为找回密码链接
-		if(!strpos($return_url,'set_passwd')){
+		if(!strpos($return_url,'logout') || !strpos($return_url,'set_passwd')){
 			$this->stash['return_url'] = $return_url;
 		}
 		
