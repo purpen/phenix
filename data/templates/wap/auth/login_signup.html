@@ -71,7 +71,7 @@ body{
 	bottom: 0;
 	left: 0;
 	width: 100%;
-	padding: 0 35px 15px;
+	padding: 0 35px 10px;
 }
 .third.login{
   position: absolute;
@@ -82,7 +82,7 @@ body{
   text-align:center;
 }
 .third.login h4{
-	color: #333 !important;
+	color: #666 !important;
 	position: relative;
 }
 .third.login h4::before{
@@ -570,28 +570,28 @@ font{
 	                            第三方帐号登录
 	                        </h4>
 	                        <div class="ui center aligned three fields">
-	                            <div class="inline field" style="text-align:center;">
+	                            <div class="inline field pl-4r" style="text-align:left;">
 	                                {% if is_weixin %}
 	                                <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&amp;redirect_uri={{wx_params.redirect_uri}}&amp;response_type=code&amp;scope=snsapi_login&amp;state={{wx_params.state}}"
-	                                class="ui big green circular share icon button">
+	                                class="ui big green circular share icon button m-0">
 	                                    <div class="large weixin logo"><img src="{{ app_url_packaged }}/images/icon/weixin.png"><span>微信</span></div>
 	                                </a>
 	                                {%else%}
-	                                <a href="javascript:void(0);" class="ui big green no-weixin circular share icon button">
+	                                <a href="javascript:void(0);" class="ui big green no-weixin circular share icon button m-0">
 	                                    <div class="large weixin logo"><img src="{{ app_url_packaged }}/images/icon/weixin.png"><span>微信</span></div>
 	                                </a>
 	                                {%endif%}
 	                            </div>
 	                            <div class="inline field" style="text-align:center;">
-	                                <a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button">
+	                                <a href="{{ weibo_auth_url }}" class="ui big weibo red circular share icon button m-0">
 	                                    <div class="large weibo logo">
 	                                    	<img src="{{ app_url_packaged }}/images/icon/weibo.png">
 	                                    	<span>微博</span>
 	                                    </div>
 	                                </a>
 	                            </div>
-	                            <div class="inline field" style="text-align:center;">
-	                                <a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button">
+	                            <div class="inline field pr-4r" style="text-align:right;">
+	                                <a href="{{ app_url_qq_login_wap }}" class="ui big qq blue circular share icon button m-0">
 	                                    <div class="large qq logo">
 	                                    	<img src="{{ app_url_packaged }}/images/icon/qq.png">
 	                                    	<span>QQ</span>
