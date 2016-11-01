@@ -173,8 +173,8 @@
 	</div>
 	<div class="ui sheader">
 	    <form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
-            <div class="ui icon input">
-                <input name="q" type="text">
+            <div class="ui icon input" id="inputshow">
+                <input name="q" type="hidden">
                 <input name="t" type="hidden">
             </div>
         </form>
@@ -207,5 +207,5 @@
 	</div>
 </div>
 
-
+{% include "mm/search.html" %}
 {% endblock %}
