@@ -157,12 +157,36 @@
         position: relative;
     }
     .btsubmit{
-        padding: 10px;
+        padding: 10px 15px;
         background: #ccc;
         position: fixed;
         bottom: 0;
         width: 100%;
         left: 0;
+        font-size: 0;
+    }
+    .btsubmit .enter{
+        font-size: 0;
+    }
+    .ui.icon.input{
+        height:30px;
+        margin-right: 15px;
+        width: calc(100% - 65px);
+    }
+    .ui.icon.input input{
+        font-size: 12px;
+    }
+    .submit{
+        background: #be8914;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        width: 50px;
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        border-radius: 4px;
+        vertical-align: bottom;
     }
     #scrollUp{
         display: none !important;
@@ -322,18 +346,13 @@
     </div>
     <div style="height: 200px;background:red;">
     </div>
-    <!--<div style="height: 200px;background:#000;">
-    </div>
-    <div style="height: 200px;background:red;">
-    </div>
-    <div style="height: 200px;background:blue;">
-    </div>-->
 
     <div class="btsubmit">
         <form class="enter" method="post" action=" ">
             <div class="ui icon input">
-                <input type="text" >
+                <input placeholder="评论一下" type="text" >
             </div>
+            <div cals="submit">发送</div>
         </form>
     </div>
 </div>
