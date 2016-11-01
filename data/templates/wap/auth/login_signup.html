@@ -35,7 +35,7 @@ body{
   padding:0 35px;
   width: 100%;
   left: 0;
-  top: 120px;
+  top: 150px;
 }
 .ui.segment,.ui.attached.header{
 	border:none !important;
@@ -163,7 +163,7 @@ font{
 {% endblock %}
 
 {% block jquery %}
-	var bheight = $('body').height() - 260 +'px';
+	var bheight = $('body').height() - 250 +'px';
 	$('.ui.bottom.attached').css('height',bheight);
 
 	
@@ -274,7 +274,6 @@ font{
 		
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
-			//$('.third.login').hide();
 			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
@@ -292,6 +291,7 @@ font{
 					$('#include').html($('#signup_block').html());
 					$('#login').hide(); 
 					$('#signup').show();
+					$('.third.login').hide();
 				}
 				/* 登录表单验证 */
 				phenix.build_auth_page();
@@ -669,10 +669,10 @@ font{
             </div>
         </div>
         <div class="inline field" style="text-align: right;">
-            <!--<a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">
-                合作账号登录
+            <a href="javascript:void(0);" title="合作账号登录" class="ui link three_login">
+                第三方账号登录
             </a>
-            |&nbsp;&nbsp;-->
+            |&nbsp;&nbsp;
             <a href="javascript:void(0);" title="短信方式登录" class="ui link static_login">
                 短信方式登录
             </a>
