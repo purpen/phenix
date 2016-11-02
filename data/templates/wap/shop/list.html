@@ -228,10 +228,10 @@
 
 {% block content %}
 <div class="ui category">
-	<div class="ui sheader">
+	<!--<div class="ui sheader">
     <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
 		<p>品类</p>
-	</div>
+	</div>-->
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">
