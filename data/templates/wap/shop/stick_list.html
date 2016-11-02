@@ -86,11 +86,11 @@
 	}
 	.ui.brand.list #mpresale .recom-item .recom-cell .desc h2{
 		color: #222;
-		text-align: center;
+		text-align: left;
 	}
 	.ui.brand.list #mpresale .recom-item .recom-cell .desc .cats{
 		color: #BE8914;
-		text-align: center;
+		text-align: left;
 	}
 	.ui.sheader form{
         display: inline-block;
@@ -169,7 +169,7 @@
               }else{
                   $('#product-more')
                   .attr({'page': rs.data.page})
-                  .find('.p_sub').html('没有更多');
+                  //.find('.p_sub').html('没有更多');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
