@@ -15,12 +15,45 @@
 		$('#search-form').submit();
 	});
 
-	$('.datepicker').pickadate();
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
 
 
 {% endblock %}
 {% block content %}
 	<h3 class="ui header">开普勒管理</h3>
+
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
+		</a>
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
+		</a>
+
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
+			</a>
+	    </div>
+	</div>
+
 
   <div class="ui grid">
 	
