@@ -314,6 +314,7 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
                     $row['view_url'] = $product['view_url'];
                     $row['wap_view_url'] = $product['wap_view_url'];
                     $row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+                    $row['is_product'] = $product['stage']==9 ? true : false;
 
                     $result['data'][$k]['product'] = $row;
                     break;
