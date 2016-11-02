@@ -439,7 +439,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		// 立即订单标识
     $result['is_nowbuy'] = 1;
-    $result['pay_money'] = $pay_money;
+    $result['pay_money'] = sprintf("%.2f", $pay_money);
     $result['order_info'] = $order_info;
     $result['bonus'] = $usable_bonus;
 
