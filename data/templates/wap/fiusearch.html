@@ -361,7 +361,25 @@
     $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
     	$('.ui.fiushop-search').hide();
     	$('.ui.fiushop').show();
-    })
+    });
+    $('#inputshow').on('click',function(){
+    	$('.ui.fiushop,.sfooter.nav-menu').hide();
+    	$('.fiushop-search').show();
+    	$('.fiushop-search .fiusearch input[type="text"]').focus();
+        // 加载当前用户最新搜索的标签
+		if (phenix.visitor.is_login){
+            $.get("{{ app_url_wap }}/app/site/my/ajax_recent_tags", {type:2}, function(rs){
+                if(rs.success){
+                    var html = '';
+                    for(var i=0;i<rs.data.tags.length;i++){
+                        html += '<li><a href="{{ app_url_wap }}/search/fiu?q='+ rs.data.tags[i] +'&t=1">'+ rs.data.tags[i] +'</a></li>';
+                    }
+                    $('#search_recent_user_tags').html(html);
+                }
+            }, 'json')
+		}
+        
+    });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
