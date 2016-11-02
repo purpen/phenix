@@ -320,6 +320,59 @@
     padding-left: 8px;
     padding-right: 0;
 }
+
+
+.mask {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.2);
+    z-index: 9;
+    top: 0;
+    left: 0;
+}
+.nextbu{
+    width:calc(100% - 60px);
+    margin: 0 30px;
+    background:#fff;
+    position:fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 8px;
+}
+.nextbu .content{
+    padding:20px 10px;
+    text-align: center;
+    font-size: 14px;
+    color:#666;
+}
+.btnmake{
+    font-size: 0;
+    position: relative;
+    display: block;
+    border-top: 1px solid #eee;
+}
+.btnmake .cancle{
+    width: 50%;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+    border-right: 1px solid #eee;
+}
+.btnmake .caok{
+    width: 50%;
+    font-size: 14px;
+    color: #be8914;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+}  
+
 </style>
 {% endblock %}
 
@@ -409,9 +462,11 @@
     var total_price = parseFloat($('#total_price_text').text());
     var array = target_id+"|"+type;
 
-    //$('.nextbu').show();
-    //$('')
-    if(confirm('确认执行这个操作吗?')){
+    $('.nextbu,.mask').show();
+    $('.cancle').on('click',function(){
+        $('.nextbu,.mask').hide();
+    });
+    $('.caok').on('click',function(){
         $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
           if(result.success){
             $('#cart-product-'+target_id).remove();
@@ -429,9 +484,8 @@
             phenix_show_error_note(result.message, 3000);
           }
         }, 'json')
-    }
-
-    
+        $('.nextbu,.mask').hide();
+    });
   });
 
   // 全选＼取消全选
@@ -625,6 +679,20 @@
     
 </div>
 
+<div class="ui nextbu hide">
+    <div class="content">
+        <p>确认将这个商品删除 ？</p>
+    </div>
+    <div class="btnmake">
+        <div class="cancle">
+            取消
+        </div>
+        <div class="caok">
+            确认
+        </div>
+    </div>
+</div>
+<div class="ui mask hide"></div>
 {% endblock %}
 
 {% block templates %}
