@@ -347,7 +347,7 @@
     	$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
     }
     $('#inputshow').on('click',function(){
-    	$('.ui.fiushop,.sfooter.nav-menu').hide();
+    	$('.ui.fiushop').hide();
     	$('.fiushop-search').show();
     	$('.fiushop-search .fiusearch input[type="text"]').focus();
     });
@@ -360,7 +360,7 @@
     });
     $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
     	$('.ui.fiushop-search').hide();
-    	$('.ui.fiushop,.sfooter.nav-menu').show();
+    	$('.ui.fiushop').show();
     })
 {% endblock %}
 {% block content %}
