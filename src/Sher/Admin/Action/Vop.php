@@ -172,8 +172,9 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
             return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
         }
 
-        print_r($result);
-
+        $this->stash['order'] = $result['data']['result'];
+        //print_r($result['data']);
+        return $this->to_html_page('admin/vop/order_view.html');
     
     }
 

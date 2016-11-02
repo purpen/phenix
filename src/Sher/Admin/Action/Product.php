@@ -680,7 +680,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 
       if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
-        return $this->ajax_notification('没有执行权限!', true);     
+        //return $this->ajax_notification('没有执行权限!', true);     
       }
 		
 		try{
@@ -690,7 +690,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$product = $model->load((int)$id);
 				
 				if (!empty($product)){
-					$model->remove((int)$id);
+					$model->mark_remove((int)$id);
 				
 					// 删除关联对象
 					$model->mock_after_remove($id);
