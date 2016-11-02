@@ -314,7 +314,7 @@
 				<div class="recom-cell m-0">
                     {% ad_list var:'ad_r'state:2 size:2 name:'wap_shop_sub_right' %}
                     {% for d in ad_r.rows %}
-                    <a href="{{ d.mm_view_url }}" style="padding-top: calc(47.3684% - 2px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 4px;{%endif%}">
+                    <a href="{{ d.mm_view_url }}" style="padding-top: calc(47.3684% - 1px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 4px;{%endif%}">
 						<div class="uidesc">
                             {{ d.title }}
 						</div>
