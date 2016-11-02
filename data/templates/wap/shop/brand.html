@@ -95,7 +95,7 @@
               }else{
                   $('#brand-more')
                   .attr({'page': rs.data.page})
-                  .find('.p_sub').html('没有更多');
+                  .find('.p_sub').html('');
               }
               var rendered = phenix.ajax_render_result('#brand_list_tpl', rs.data);
               if(page==1){

@@ -32,7 +32,7 @@
           {%endif%}
           {% if order.is_vop %}
             <div class="item">
-              <span class="ui magenta red text">(开普勒)</span>
+                <a href="{{ app_url_admin }}/vop/order_view?id={{ order.jd_order_id }}"><span class="ui magenta red text">(开普勒)</span></a>
             </div>
           {%endif%}
         {%endif%}

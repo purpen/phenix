@@ -654,6 +654,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 
         // 仅发布
         $query['published'] = 1;
+        $query['deleted'] = 0;
         
         if($type){
             switch((int)$type){

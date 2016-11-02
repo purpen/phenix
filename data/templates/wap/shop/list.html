@@ -7,7 +7,7 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
 	.ui.category{
-		padding-bottom: 65px;
+		padding-bottom: 45px;
 	}
 	  .togprice{
 	    background-image: url({{ app_url_packaged }}/images/icon/price.png);
@@ -100,7 +100,7 @@
               }else{
                   $('#product-more')
                   .attr({'page': rs.data.page})
-                  .find('.p_sub').html('没有更多');
+                  .find('.p_sub').html('');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
@@ -228,10 +228,10 @@
 
 {% block content %}
 <div class="ui category">
-	<div class="ui sheader">
+	<!--<div class="ui sheader">
     <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
 		<p>品类</p>
-	</div>
+	</div>-->
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">

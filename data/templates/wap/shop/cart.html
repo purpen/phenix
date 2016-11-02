@@ -231,7 +231,7 @@
     background: #c1c1c1;
 }
 #shop_guess_wap_list{
-    margin-top: 15px;
+    margin-top: 30px;
     position: relative;
     padding: 0 16px;
     margin-bottom: 10px;
@@ -320,6 +320,59 @@
     padding-left: 8px;
     padding-right: 0;
 }
+
+
+.mask {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.4);
+    z-index: 9;
+    top: 0;
+    left: 0;
+}
+.nextbu{
+    width:calc(100% - 100px);
+    margin: 0 50px;
+    background:#fff;
+    position:fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 8px;
+}
+.nextbu .content{
+    padding:20px 10px;
+    text-align: center;
+    font-size: 14px;
+    color:#666;
+}
+.btnmake{
+    font-size: 0;
+    position: relative;
+    display: block;
+    border-top: 1px solid #eee;
+}
+.btnmake .cancle{
+    width: 50%;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 44px;
+    display: inline-block;
+    border-right: 1px solid #eee;
+}
+.btnmake .caok{
+    width: 50%;
+    font-size: 14px;
+    color: #be8914;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+}  
+
 </style>
 {% endblock %}
 
@@ -408,23 +461,31 @@
     var price = parseFloat($(this).data('price'));
     var total_price = parseFloat($('#total_price_text').text());
     var array = target_id+"|"+type;
-    $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
-      if(result.success){
-        $('#cart-product-'+target_id).remove();
-        // 统计选中价格
-        stat_total_price();
-        // ajax加载购物车数量
-        $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
-            if(result.success){
-              $('#wap_cart_num').show().text(result.data.count);
-            }else{
-              $('#wap_cart_num').hide().text('');
-            }
-        }, 'json');
-      }else{
-        phenix_show_error_note(result.message, 3000);
-      }
-    }, 'json')
+
+    $('.nextbu,.mask').show();
+    $('.cancle').on('click',function(){
+        $('.nextbu,.mask').hide();
+    });
+    $('.caok').on('click',function(){
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
+          if(result.success){
+            $('#cart-product-'+target_id).remove();
+            // 统计选中价格
+            stat_total_price();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }else{
+                  $('#wap_cart_num').hide().text('');
+                }
+            }, 'json');
+          }else{
+            phenix_show_error_note(result.message, 3000);
+          }
+        }, 'json')
+        $('.nextbu,.mask').hide();
+    });
   });
 
   // 全选＼取消全选
@@ -585,7 +646,7 @@
 	{%else%}
 	<div class="ui responsive grid" style="padding-top:10px;">
 		<div class="row">
-			<div class="column" id="cart-body-content">
+			<div class="column plr-14" id="cart-body-content">
 				<div class="ui empty message">
 					<h1 class="ui big header">
 						<i class="cart icon" style="font-size:1em !important;vertical-align: top;padding-top:0;"></i>
@@ -618,6 +679,20 @@
     
 </div>
 
+<div class="ui nextbu hide">
+    <div class="content">
+        <p>确认将这个商品删除 ？</p>
+    </div>
+    <div class="btnmake">
+        <div class="cancle">
+            取消
+        </div>
+        <div class="caok">
+            确认
+        </div>
+    </div>
+</div>
+<div class="ui mask hide"></div>
 {% endblock %}
 
 {% block templates %}

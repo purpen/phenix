@@ -27,7 +27,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		
 		$category_id = 0;
         $user_id = 0;
-        $deleted = 0;
+        $deleted = -1;
 		$stage = 0;
         $brand_id = 0;
 		
@@ -237,6 +237,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		        break;
 	      }
 	    }
+
+        // 是否删除
+        if($deleted){
+            if((int)$deleted==-1){
+                $query['deleted'] = 0;
+            }elseif((int)$deleted==1){
+                $query['deleted'] = 1;
+            }
+        }
 		
         $service = Sher_Core_Service_Product::instance();
         $options['page'] = $page;

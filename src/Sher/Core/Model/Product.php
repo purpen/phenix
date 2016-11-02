@@ -1249,15 +1249,23 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$asset->delete_file($asset_id);
 		unset($asset);
 	}
+
+      /**
+       * 逻辑删除
+       */
+      public function mark_remove($id){
+        $ok = $this->update_set((int)$id, array('deleted'=>1));
+        return $ok;
+      }
 	
 	/**
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id, $options=array()) {
 		// 删除Asset
-		$asset = new Sher_Core_Model_Asset();
-		$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(10,11,15))));
-		unset($asset);
+		//$asset = new Sher_Core_Model_Asset();
+		//$asset->remove_and_file(array('parent_id' => $id, 'asset_type'=>array('$in'=>array(10,11,15))));
+		//unset($asset);
 		
 		// 删除Comment
 		$comment = new Sher_Core_Model_Comment();
@@ -1276,8 +1284,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$textindex->remove(array('target_id' => $id));
 		unset($textindex);
 
-    //删除索引
-    Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
+        //删除索引
+        Sher_Core_Util_XunSearch::del_ids('product_'.(string)$id);
 		
 		return true;
 	}

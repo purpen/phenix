@@ -1117,7 +1117,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
           // 如果是开普勒，接口对接
           if(isset($options['jd_order_id']) && !empty($options['jd_order_id'])){
-              $vop_result = Sher_Core_Util_Vop::sure_order($jd_order_id);
+              $vop_result = Sher_Core_Util_Vop::sure_order($options['jd_order_id']);
               if(!$vop_result['success']){
                 Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $options['jd_order_id'], $vop_result['message']));
               }

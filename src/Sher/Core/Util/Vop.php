@@ -421,7 +421,7 @@ class Sher_Core_Util_Vop {
         }
 
         $result['success'] = true;
-        $result['data'] = $vop_result['result'];
+        $result['data'] = $vop_result['data'];
         return $result;
     
     }

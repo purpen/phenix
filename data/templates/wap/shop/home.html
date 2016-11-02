@@ -63,8 +63,8 @@
     	height: 30px;
     	margin: 10px 0;
     	width: 100%;
-    	background: url({{ app_url_packaged }}/images/fiushop/inputn.png) no-repeat 50% #f7f7f7;
-    	background-size: 93px 18px;
+    	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
+    	background-size: 134px 18px;
     	background-position: 12px 6px;
     	border-radius: 6px;
     	position: relative;
@@ -111,6 +111,13 @@
     	white-space: nowrap;
     	text-overflow: ellipsis;
 	}
+	.ui.fiulist .recom-item .recom-cell{
+		padding-right: 2px;
+	}
+	.ui.fiulist .recom-item .recom-cell:nth-child(2n) {
+    	padding-left: 2px;
+    	padding-right: 0;
+    }
 	
 </style>
 {% endblock %}
@@ -299,7 +306,7 @@
 			<div class="recom-item">
 				<div class="recom-cell m-0">
                     {% ad_list var:'ad_l'state:2 size:1 name:'wap_shop_sub_left' %}
-                    <a href="{{ ad_l.mm_view_url }}" style="padding-top: 94.7368%;background-image: url({{ ad_l.cover.fileurl }});">
+                    <a href="{{ ad_l.mm_view_url }}" style="padding-top: 100%;background-image: url({{ ad_l.cover.fileurl }});">
 						<div class="uidesc">
 						    {{ ad_l.title }}
 						</div>
@@ -308,7 +315,7 @@
 				<div class="recom-cell m-0">
                     {% ad_list var:'ad_r'state:2 size:2 name:'wap_shop_sub_right' %}
                     {% for d in ad_r.rows %}
-                    <a href="{{ d.mm_view_url }}" style="padding-top: calc(47.3684% - 4px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 8px;{%endif%}">
+                    <a href="{{ d.mm_view_url }}" style="padding-top: calc(50% - 2px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 4px;{%endif%}">
 						<div class="uidesc">
                             {{ d.title }}
 						</div>

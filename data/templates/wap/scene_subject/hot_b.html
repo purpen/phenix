@@ -82,12 +82,14 @@
         flex: 1;
         padding: 2px 6px 5px;
         margin: 4px;
+        height: 40px;
     }
     li.count p{
         position: absolute;
-        top: 5px;
+        top: 2px;
         left: 50%;
-        margin-left: -2px;
+        margin-left: 6px;
+        color: #999;
     }
     li.count .bgimg {
         display: block;
@@ -101,7 +103,7 @@
         position: absolute;
         top: 7px;
         left: 50%;
-        margin-left: -30px;
+        margin-left: -24px;
     }
 
     li.ui.favorite,li.ui.comment{
@@ -123,13 +125,14 @@
         position: absolute;
         top: 7px;
         left: 50%;
-        margin-left: -30px;
+        margin-left: -18px;
     }
     li.ui.favorite p{
         position: absolute;
-        top: 5px;
+        top: 2px;
         left: 50%;
-        margin-left: -5px;
+        margin-left: 6px;
+        color: #999;
     }
     li.ui.comment .bgimg{
         display: block;
@@ -143,23 +146,104 @@
         position: absolute;
         top: 7px;
         left: 50%;
-        margin-left: -30px;
+        margin-left: -20px;
     }
     li.ui.comment p{
         position: absolute;
-        top: 5px;
+        top: 2px;
         left: 50%;
-        margin-left: -5px;
+        margin-left: 8px;
+        color: #999;
+    }
+
+    .ui.usercomment.page{
+        position: relative;
+    }
+    .btsubmit{
+        padding: 10px 15px;
+        background: #eee;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        font-size: 0;
+    }
+    .btsubmit .enter{
+        font-size: 0;
+    }
+    .ui.icon.input{
+        height:30px;
+        margin-right: 15px;
+        width: calc(100% - 65px);
+    }
+    .ui.icon.input input{
+        font-size: 12px;
+    }
+    .submit{
+        background: #be8914;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        width: 50px;
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        border-radius: 4px;
+        vertical-align: bottom;
+    }
+    #scrollUp{
+        display: none !important;
+    }
+    
+    .ui.usercomment .ui.comments .comment{
+        font-size: 0;
+        padding-top: 15px; 
+    }
+    .ui.usercomment .ui.comments .comment .avatar{
+        width: 50px !important;
+        height: 50px !important;
+        display: inline-block;
+        float: none;
+        vertical-align: middle;
+    }
+    .ui.usercomment .ui.comments .comment>.content{
+        display: inline-block;
+        width: calc(100% - 60px);
+        margin-left: 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        margin-top: 5px;
+        position: relative;
+        padding: 0;
+    }
+    .ui.usercomment .ui.comments .comment>.content .author {
+        color: #666;
+        font-weight: 400;
+        font-size: 12px;
+    }
+    .ui.usercomment .ui.comments .comment>.content>.text {
+        color: #5d6266;
+        margin: .4em 0 0.8em;
+        font-size: 12px;
+    }
+    .ui.fiushop .haohuo .banner .content p{
+        color: #fff !important;
+    }
+    .zcover {
+        background: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+    }
+    .ui.fiushop .haohuo .banner .content {
+        z-index: 4;
     }
 </style>
 {% endblock %}
 {% block jquery %}
-$('.ui.fshare').on('click',function(){
-    $('#mask').css('display','block');
-  });
-  $('#mask').on('click',function(){
-    $('#mask').css('display','none');
-  });
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -214,6 +298,28 @@ $('.ui.fshare').on('click',function(){
 		}
 	});
 
+    /*$('.ui.comment').on('click',function(){
+        if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+            return false;
+        }else{
+            $('.ui.fiushop,.ui.zhuan').hide();
+            $('.ui.usercomment.page').show();
+        }
+    });
+    $('.comclose').on('click',function(){
+        $('.ui.usercomment.page').hide();
+        $('.ui.fiushop,.ui.zhuan').show();
+    });
+
+    $('.btsubmit .ui.input input').focus(function(){
+
+        var height = $('body').height();
+        var top =$('.usercomment').height();
+        if ( top < height ){
+            $('html,body').animate({scrollTop:height },500);
+        }
+    });*/
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
@@ -223,8 +329,10 @@ $('.ui.fshare').on('click',function(){
     </div>
     <div class="hotpage haohuo">
         <div class="ui banner">
+            <div class="zcover"></div>
             <div class="content">
                 <h3 class="ui header">{{ scene_subject.title }}</h3>
+                <p>{{ scene_subject.short_title }}</p>
             </div>
         </div>
         <div class="ui responsive hot brand list grid">
@@ -274,7 +382,6 @@ $('.ui.fshare').on('click',function(){
             <div class="bgimg"></div>
             <p>{{ scene_subject.view_count }}</p>
         </li>
-        <li></li>
         <li class="ui favorite " data-id="{{ scene_subject._id }}" data-mark="n">
             <div class="bgimg"></div>
             <p>{{ scene_subject.favorite_count }}</p>
@@ -285,9 +392,53 @@ $('.ui.fshare').on('click',function(){
         </li>
     </ul>
 </div>
-<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
-  <div class="frideshare">
-  <img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
-  </div>
+
+<div class="ui usercomment page hide">
+    <div class="ui sheader">
+        <a class="comclose return" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+        <p>评论</p>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row pt-0">
+            <div class="column plr-3r">
+                <div id="comment-list" class="">
+                    <div class="ui threaded minimal comments is-comment">
+                        <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">150****0501</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                         <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">登录用户行为</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btsubmit">
+        <form class="enter" method="post" action=" ">
+            <div class="ui icon input">
+                <input placeholder="评论一下" type="text" >
+            </div>
+            <div class="submit">发送</div>
+        </form>
+    </div>
 </div>
+
 {% endblock %}

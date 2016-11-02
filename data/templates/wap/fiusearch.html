@@ -175,7 +175,7 @@
     	background: url({{ app_url_packaged }}/images/fiushop/inputm.png) no-repeat 50% #f7f7f7;
     	background-size: 135px 18px;
     	background-position: 15px 6px;
-    	border-radius: 12px;
+    	border-radius: 6px;
     }
     .ui.sheader form .ui.icon.input.focus{
     	background: none #f7f7f7;
@@ -185,10 +185,14 @@
 	    vertical-align: middle;
 	    font-size: 14px;
 	    width: 100%;
-	    border-radius: 12px;
+	    border-radius: 6px;
 	    display: inline-block;
 	    padding: 4px 10px;
 	    background: none;
+    	border-color: rgba(0,0,0,0);
+	}
+	.ui.input input:focus{
+		border-color: rgba(0,0,0,0);
 	}
 	/*** ***/
 	a.return {
@@ -201,6 +205,39 @@
 	    color: #666;
 	}
 	/*** ***/
+	.ui.fiushop .ui.sheader{
+		font-size: 0;
+	}
+	.nav-menu.sfooter{
+		display: none;
+		visibility: hidden;
+	}
+	.ui.fiushop .ui.sheader form{
+		display: inline-block;
+	    width: calc(100% - 100px );
+	    padding: 0;
+	    vertical-align: top;
+	    margin-left: 50px;
+	}
+	.ui.fiushop .ui.sheader .gohome{
+	    display: block;
+	    padding: 15px;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    height: 50px;
+	}
+	.choice.img{
+		display: block;
+		margin-top: 1px;
+		vertical-align: middle;
+		background-image: url({{ app_url_packaged }}/images/fiushop/sfooter1.png);
+		background-repeat: no-repeat;
+		background-size: 88px 18px;
+		height: 18px;
+	    width: 20px;
+	    background-position: 0 0;
+	}
 </style>
 {% endblock %}
 
@@ -294,20 +331,73 @@
 	
 	// 初始加载商品列表
     ajax_load_more(q, t, evt, sort, page, size);
+
+    $('.fiushop-search .fiusearch input[type="text"]').focus(function(){
+    	$('.fiushop-search  .ui.sheader .ui.icon.input').addClass('focus');
+    }).blur(function(){
+    	if( $('.fiushop-search  .fiusearch input[type="text"]').val().length == 0){
+    		$('.fiushop-search  .fiusearch .ui.icon.input').removeClass('focus');
+    		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
+    	}else{
+    		$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+    	}
+    });
+    if( $('.fiushop-search  .fiusearch input[type="text"]').val().length !== 0){
+    	$('.fiushop-search  .fiusearch .ui.icon.input').addClass('focus');
+    	$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    }
+    $('#inputshow').on('click',function(){
+    	$('.ui.fiushop').hide();
+    	$('.fiushop-search').show();
+    	$('.fiushop-search .fiusearch input[type="text"]').focus();
+    });
+    $('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').click(function(){
+		$('.fiushop-search .fiusearch input[type="text"]').focus();
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').hide();
+    });
+    $('.fiushop-search  .fiusearch input[type="text"]').bind('input propertychange', function() {
+		$('.fiushop-search  .ui.sheader .ui.icon.input .inputreset').show();
+    });
+    $('.ui.fiushop-search #search-close,.ui.fiushop-search #search-canlse').on('click',function(){
+    	$('.ui.fiushop-search').hide();
+    	$('.ui.fiushop').show();
+    });
+    $('#inputshow').on('click',function(){
+    	$('.ui.fiushop,.sfooter.nav-menu').hide();
+    	$('.fiushop-search').show();
+    	$('.fiushop-search .fiusearch input[type="text"]').focus();
+        // 加载当前用户最新搜索的标签
+		if (phenix.visitor.is_login){
+            $.get("{{ app_url_wap }}/app/site/my/ajax_recent_tags", {type:2}, function(rs){
+                if(rs.success){
+                    var html = '';
+                    for(var i=0;i<rs.data.tags.length;i++){
+                        html += '<li><a href="{{ app_url_wap }}/search/fiu?q='+ rs.data.tags[i] +'&t=1">'+ rs.data.tags[i] +'</a></li>';
+                    }
+                    $('#search_recent_user_tags').html(html);
+                }
+            }, 'json')
+		}
+        
+    });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
 	<div class="ui sheader">
         {% if back_url %}
-        <!--<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>-->
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         {%endif%}
 		<form class="fiusearch item" method="get" action="{{ app_url_wap }}/search/fiu" id="searchbar">
-	        <div class="ui icon input">
+	        <div class="ui icon input" id="inputshow">
 	            <input name="q" type="text" value="{{ q }}">
 	            <input name="t" type="hidden" value="1">
 	        </div>
 	    </form>
+	    <a class="gohome" href="{{ app_url_wap }}/shop">
+			<div class="choice img"></div>
+	    </a>
 	</div>
+	
 
 	<div class="ui responsive grid pt-4r" id="is_no_found_box" style="display:none;">
 		<div class="row">
@@ -346,7 +436,7 @@
 
 </div>
 
-
+{% include "mm/search.html" %}
 {% endblock %}
 
 {% block templates %}
