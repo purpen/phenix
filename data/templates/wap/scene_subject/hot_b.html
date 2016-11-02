@@ -234,6 +234,9 @@
         left: 0;
         z-index: 3;
     }
+    .ui.fiushop .haohuo .banner .content {
+        z-index: 4;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -321,8 +324,8 @@
         <p>专题</p>
     </div>
     <div class="hotpage haohuo">
-        <div class="zcover"></div>
         <div class="ui banner">
+            <div class="zcover"></div>
             <div class="content">
                 <h3 class="ui header">{{ scene_subject.title }}</h3>
                 <p>{{ scene_subject.short_title }}</p>
