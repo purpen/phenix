@@ -405,7 +405,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 'vop_id' => $vop_id,
 			),
 		);
-		$total_money = (float)$price*$quantity;
+		$total_money = $price*$quantity;
 		$items_count = 1;
 
         if(!empty($vop_id)){
