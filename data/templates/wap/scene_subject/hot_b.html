@@ -225,6 +225,15 @@
     .ui.fiushop .haohuo .banner .content p{
         color: #fff !important;
     }
+    .zcover {
+        background: rgba(0,0,0,0.2);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 3;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -312,6 +321,7 @@
         <p>专题</p>
     </div>
     <div class="hotpage haohuo">
+        <div class="zcover"></div>
         <div class="ui banner">
             <div class="content">
                 <h3 class="ui header">{{ scene_subject.title }}</h3>
