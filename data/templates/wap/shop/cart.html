@@ -408,23 +408,30 @@
     var price = parseFloat($(this).data('price'));
     var total_price = parseFloat($('#total_price_text').text());
     var array = target_id+"|"+type;
-    $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
-      if(result.success){
-        $('#cart-product-'+target_id).remove();
-        // 统计选中价格
-        stat_total_price();
-        // ajax加载购物车数量
-        $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
-            if(result.success){
-              $('#wap_cart_num').show().text(result.data.count);
-            }else{
-              $('#wap_cart_num').hide().text('');
-            }
-        }, 'json');
-      }else{
-        phenix_show_error_note(result.message, 3000);
-      }
-    }, 'json')
+
+    //$('.nextbu').show();
+    //$('')
+    if(confirm('确认执行这个操作吗?')){
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_remove_cart", {array: array}, function(result){
+          if(result.success){
+            $('#cart-product-'+target_id).remove();
+            // 统计选中价格
+            stat_total_price();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }else{
+                  $('#wap_cart_num').hide().text('');
+                }
+            }, 'json');
+          }else{
+            phenix_show_error_note(result.message, 3000);
+          }
+        }, 'json')
+    }
+
+    
   });
 
   // 全选＼取消全选

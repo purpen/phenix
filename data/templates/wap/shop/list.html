@@ -7,7 +7,7 @@
     border-bottom: 1px solid rgba(0,0,0,0.1);
   }
 	.ui.category{
-		padding-bottom: 65px;
+		padding-bottom: 45px;
 	}
 	  .togprice{
 	    background-image: url({{ app_url_packaged }}/images/icon/price.png);
@@ -100,7 +100,7 @@
               }else{
                   $('#product-more')
                   .attr({'page': rs.data.page})
-                  .find('.p_sub').html('没有更多');
+                  .find('.p_sub').html('');
               }
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
               if(page==1){
