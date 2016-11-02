@@ -370,7 +370,7 @@
           }else{
             $('#order-'+result.data.rid).find('.order_label_txt').text('退款中');
             $('#order-'+result.data.rid).find('.status_btn_box').hide();
-  	        $('#orderitem').removeClass('showbt');
+  	        $('.ordeshow').removeClass('showbt');
             phenix.show_ok_note('操作成功,请等待客服处理!', 3000);
           }
         }
