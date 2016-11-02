@@ -1546,5 +1546,50 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->to_html_page('page/my/d_appoint.html');
   }
 
+  /**
+   * 我最近使用的标签
+   */
+  public function ajax_recent_tags(){
+    $user_id = $this->visitor_id;
+
+    $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+    $model = new Sher_Core_Model_UserTags();
+    $tags = $model->load($user_id);
+    if(empty($tags)){
+      return $this->ajax_json('标签不存在!', 0, array('has_tag'=>0));
+    }
+    $tag_arr = array();
+    switch($type){
+      case 1:
+        $field = 'scene_tags';
+        $tag_arr = $tags[$field];
+        break;
+      case 2:
+        $field = 'search_tags';
+        $tag_arr = $tags[$field];
+        break;
+      default:
+        $tag_arr = array();
+    }
+    if(empty($tag_arr)){
+      return $this->ajax_json('标签不存在', true);   
+    }
+
+    $items = array();
+    $tag_arr = array_reverse($tag_arr);
+    // 取前30个标签
+    $tag_arr = array_slice($tag_arr, 0, 30);
+    foreach($tag_arr as $v){
+        array_push($items, $v);
+    }
+
+    if(empty($items)){
+      return $this->ajax_json('标签不存在', true);   
+    }
+
+    return $this->ajax_json('success', false, 0, array('has_tag'=>1, 'tags'=>$items)); 
+  
+  }
+
 
 }

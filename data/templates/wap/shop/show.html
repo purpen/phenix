@@ -982,21 +982,25 @@ span.ui.timeout.btn{
     ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
 	
 	//点击颜色分类
-	$('#shopview .colour,#shopview .shopcart,#shopview .shopbuy').click(function(){
+	$('.flexbuy .shopcart,.flexbuy .shopbuy').click(function(){
 		if( !phenix.visitor.is_login ){
 			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
 			$('#cover').css('display','block');
 			$('body').css('overflow','hidden');
-      $('.mask').addClass('show');
+            $('.mask').addClass('show');
 			$('#shopview').addClass('show-details');
+
+            var buy_evt = $(this).data('evt');
+            $("input[name='buy_evt']").val(buy_evt);
 		}
 	});
 	$('#cover,.close-details').click(function(){
 		$('#shopview').removeClass('show-details');
 		$('#cover,body').removeAttr('style');
-    $('.mask').removeClass('show');
+        $('.mask').removeClass('show');
+
 	});
 	
 	// 如果仅一个sku,则设置默认值
@@ -1116,6 +1120,7 @@ span.ui.timeout.btn{
 		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
 	});
 
+    /**
 	// 立即购买
   $('#nowbuy-btn').livequery(function(){
     $(this).click(function(){
@@ -1163,6 +1168,45 @@ span.ui.timeout.btn{
       }
     });
   });
+  **/
+
+    $('#sure-btn').livequery(function(){
+        $(this).click(function(){
+          // 所有ajax请求，验证是否登录
+          if (!phenix.visitor.is_login){
+            phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+            return false;
+          }
+
+          var buy_evt = $("input[name='buy_evt']").val();
+          var qty_value = parseInt($('#product-qty').val());
+
+          if (choosed_sku){
+            if(buy_evt==1){ // 立即购买
+                phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value, 0);
+            }else if(buy_evt==2){   //  加入购物车
+                $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+                  if(result.success){
+                    phenix.show_ok_note('添加成功!', 2000);
+                    $('#cover,.close-details').click();
+                    // ajax加载购物车数量
+                    $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                        if(result.success){
+                          $('#wap_cart_num').show().text(result.data.count);
+                        }
+                    }, 'json');
+                  }else{
+                    phenix.show_error_note(result.message, 3000);           
+                  }
+                }, 'json');
+            }
+          } else {
+            phenix.show_error_note('请选择一个型号或颜色', 2000);
+          }
+
+  
+        });
+    });
 
   // ajax加载产品评测
   ajax_load_topic(product_id, topic_sort, 1, 8);
@@ -1228,6 +1272,8 @@ span.ui.timeout.btn{
   $('.ui.server').click(function(){
     $('.ui.server-show').modal('show');
   })
+
+
 {% endblock %}
 
 {% block content %}
@@ -1347,12 +1393,10 @@ span.ui.timeout.btn{
 			
 		</div>
 		<div class="gobuybtn">
+            <input type="hidden" name="buy_evt" value="1" />
 			<ul class="two btn">
 				<li class="childbtn">
-					<a class="joincart" href="javascript:void(0);" id="addcart-btn">加入购物车</a>
-				</li>
-				<li class="childbtn">
-					<a href="javascript:void(0);" class="buynow" id="nowbuy-btn">立即购买</a>
+					<a href="javascript:void(0);" class="buynow" id="sure-btn">确定</a>
 				</li>
 			</ul>
 		</div>
@@ -1564,10 +1608,10 @@ span.ui.timeout.btn{
         <div class="ui server"><div class="bgimg"></div>客服</div>
 			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
 			</li>
-			<li class="shopcart">
+			<li class="shopcart" data-evt="2">
 				加入购物车
 			</li>
-			<li class="shopbuy">
+			<li class="shopbuy" data-evt="1">
 				立即购买
 			</li>
 		</ul>

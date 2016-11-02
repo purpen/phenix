@@ -514,6 +514,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'price' => (float)$price,
                     'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
                     'number' => $number,
+                    'vop_id' => $vop_id,
 				);
 				$ok = $inventory->apply_and_update($updated);
 			}

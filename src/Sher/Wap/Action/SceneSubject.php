@@ -157,7 +157,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
           'publish'=>1, 'status'=>1, 'cover_id'=>1, 'comment_count'=>1, 'view_count'=>1,
           'updated_on'=>1, 'love_count'=>1, 'deleted'=>1,'publish'=>1, 'tags'=>1, 'sight_ids'=>1,
           'evt'=>1, 'product_ids'=>1, 'product_id'=>1, 'attend_count'=>1, 'share_count'=>1,
-          'begin_time'=>1, 'end_time'=>1,
+          'begin_time'=>1, 'end_time'=>1, 'extra_tag'=>1,
           
         );
         $options['some_fields'] = $some_fields;
@@ -192,6 +192,11 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
             $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
 
             $data[$i]['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+
+            $data[$i]['is_extra_tag'] = false;
+            if(isset($obj['extra_tag']) && !empty($obj['extra_tag'])){
+                $data[$i]['is_extra_tag'] = true;
+            }
 
             // 产品
             $product_arr = array();

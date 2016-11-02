@@ -1356,5 +1356,31 @@ class Sher_Core_Helper_Util {
         return $data;
     }
 
+  /**
+   * 记录用户tag
+   * ／
+   * /
+   */
+    public static function record_user_tag($user_id, $tag, $field, $options=array()){
+        if(empty($user_id) || empty($tag)){
+            return false;
+        }
+
+        if(!in_array($field, array('secne_tags', 'search_tags'))){
+            return false;
+        }
+        
+        $model = new Sher_Core_Model_UserTags();
+        $ok = $model->add_item_custom((int)$user_id, $field, $tag);
+        if($ok){
+            $user_tags = $model->load((int)$user_id);
+            if(count($user_tags[$field])>10){
+                $new_tags = array_slice($user_tags[$field], 0, 10);
+                $model->update_set((int)$user_id, array($field=>$new_tags));
+            }
+        }
+        return $ok;
+    }
+
 
 }
