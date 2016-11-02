@@ -299,6 +299,11 @@
     .ui.fiushop .haohuo .banner .content {
         z-index: 4;
     }
+    .block .content .ui.header+p{
+        border-bottom: 1px solid #f5f5f5;
+        margin-bottom: 15px;
+        padding: 0 0 10px;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -411,12 +416,12 @@
 
             {% for d in scene_subject.products %}
                 <!-- 循环 -->
-                <div class="row plr-14 pb-0">
+                <!--<div class="row plr-14 pb-0">
                     <div class="column plr-14 ptb-2r" style="background:#fff;">
                         <h2 class="ui header">{{ d.title }}</h2>
                         <p>{{ d.summary }}</p>
                     </div>
-                </div>
+                </div>-->
                 <div class="row pt-0 pb-3r">
                     <div class="column plr-14">
                         <div class="block">
@@ -424,6 +429,8 @@
                                 <img src="{{ d.banner_url }}">
                             </a>
                             <div class="content">
+                                <h2 class="ui header">{{ d.title }}</h2>
+                                <p>{{ d.summary }}</p>
                                 <span class="price">¥{{ d.sale_price }}</span>
                                 {% if d.sale_price != d.market_price %}
                                 <span class="oldprice">原价¥{{ d.market_price }}</span>
