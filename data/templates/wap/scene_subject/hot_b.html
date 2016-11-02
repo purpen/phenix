@@ -191,6 +191,36 @@
     #scrollUp{
         display: none !important;
     }
+    
+    .ui.usercomment .ui.comments .comment{
+        font-size: 0;
+        padding-top: 15px; 
+    }
+    .ui.usercomment .ui.comments .comment .avatar{
+        width: 50px !important;
+        height: 50px !important;
+        display: inline-block;
+        float: none;
+    }
+    .ui.usercomment .ui.comments .comment>.content{
+        display: inline-block;
+        width: calc(100% - 60px);
+        margin-left: 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        margin-top: 5px;
+        position: relative;
+    }
+    .ui.usercomment .ui.comments .comment>.content .author {
+        color: #666;
+        font-weight: 400;
+        font-size: 14px;
+    }
+    .ui.usercomment .ui.comments .comment>.content>.text {
+        color: #5d6266;
+        margin: .4em 0 0.8em;
+        font-size: 13px;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -342,9 +372,37 @@
         <a class="comclose return" href="javascript:void(0);"><i class="angle float left icon"></i></a>
         <p>评论</p>
     </div>
-    <div style="height: 200px;background:#000;">
-    </div>
-    <div style="height: 200px;background:red;">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div id="comment-list" class="">
+                    <div class="ui threaded minimal comments is-comment">
+                        <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">150****0501</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                         <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">登录用户行为</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="btsubmit">
