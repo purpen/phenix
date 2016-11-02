@@ -197,7 +197,7 @@
             {% for d in cat.tags %}
                 {% if loop.counter < 6 %}
                 <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
-                <!--{%else%}
+                <!--//{%else%}
                     <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
                 -->
                 {%endif%}
