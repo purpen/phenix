@@ -197,16 +197,14 @@
             {% for d in cat.tags %}
                 {% if loop.counter < 6 %}
                 <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
-                <!--//{%else%}
-                    <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
-                -->
+                {%else%}
+                    <!--<li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
+                    -->
                 {%endif%}
             {%endfor%}
-            <!--
             {% if cat.tag_count>5 %}
-                <li class="catemore"><div class="imgup"></div></li>
+                <!--<li class="catemore"><div class="imgup"></div></li>-->
             {%endif%}
-            -->
         </ul>
       </div>
     </div>
