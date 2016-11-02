@@ -1587,7 +1587,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       return $this->ajax_json('标签不存在', true);   
     }
 
-    return $this->ajax_json('success', false, 0, array('has_tag'=>1, 'tags'=>array_reverse($items))); 
+    return $this->ajax_json('success', false, 0, array('has_tag'=>1, 'tags'=>$items)); 
   
   }
 
