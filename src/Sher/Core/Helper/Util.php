@@ -1374,8 +1374,8 @@ class Sher_Core_Helper_Util {
         $ok = $model->add_item_custom((int)$user_id, $field, $tag);
         if($ok){
             $user_tags = $model->load((int)$user_id);
-            if(count($user_tags[$field])>10){
-                $new_tags = array_slice($user_tags[$field], 0, 10);
+            if(count($user_tags[$field])>5){
+                $new_tags = array_slice($user_tags[$field], -1, 5);
                 $model->update_set((int)$user_id, array($field=>$new_tags));
             }
         }
