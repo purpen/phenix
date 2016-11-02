@@ -287,6 +287,12 @@ class Sher_App_Action_Search extends Sher_App_Action_Base {
         if(empty($result['data'])){
             return $this->ajax_json('搜索内容为空!', false, '', array('show_type'=>2));
         }
+
+        //  记录当前用户搜索记录
+        if($this->visitor->id){
+            Sher_Core_Helper_Util::record_user_tag($this->visitor->id, $q, 'search_tags');
+        }
+
         $asset_model = new Sher_Core_Model_Asset();
         $product_model = new Sher_Core_Model_Product();
 
