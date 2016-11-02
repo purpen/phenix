@@ -1,4 +1,5 @@
 {{#rows}}
+    {{#is_product}}
     <div class="recom-cell three" id="product-{{ product._id }}">
         <a title="{{ product.title }}" alt="{{ product.title }}" href="{{ product.wap_view_url }}">
             <img class="lazy" data-original="{{ product.cover.thumbnails.apc.view_url }}" src="http://frstatic.qiniudn.com/images/icon/load380-380nnm.png">
@@ -10,4 +11,5 @@
             </div>
         </a>
     </div>
+    {{/is_product}}
 {{/rows}}
