@@ -1049,7 +1049,7 @@ span.ui.timeout.btn{
 	}; */ 
 	$('.inc-qty.button').bind('click', function(){
         if ( !choosed_sku){
-          phenix.show_error_note('请选择一个型号或颜色', 2000);
+          phenix.show_error_note('请选择颜色分类', 2000);
         }
 		else{
 			var sku_count = parseInt($(this).data('count')),
@@ -1068,7 +1068,7 @@ span.ui.timeout.btn{
 	
 	$('.dec-qty.button').bind('click', function(){
         if ( ! choosed_sku){
-          phenix.show_error_note('请选择一个型号或颜色', 2000);
+          phenix.show_error_note('请选择颜色分类', 2000);
         }
 		else{
 			var sku_count = parseInt($(this).data('count')),
@@ -1129,7 +1129,7 @@ span.ui.timeout.btn{
         var qty_value = parseInt($('#product-qty').val());
         phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value, 0);
       } else {
-        phenix.show_error_note('请选择一个型号或颜色', 2000);
+        phenix.show_error_note('请选择颜色分类', 2000);
       }
     });
   });
@@ -1146,7 +1146,7 @@ span.ui.timeout.btn{
         var qty_value = parseInt($('#product-qty').val());
         $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
           if(result.success){
-            phenix.show_ok_note('添加成功!', 2000);
+            phenix.show_ok_note('加入购物车成功', 2000);
             $('#cover,.close-details').click();
             // ajax加载购物车数量
             $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
@@ -1160,7 +1160,7 @@ span.ui.timeout.btn{
         }, 'json');
 
       } else {
-        phenix.show_error_note('请选择一个型号或颜色', 2000);
+        phenix.show_error_note('请选择颜色分类', 2000);
       }
     });
   });
@@ -1183,7 +1183,7 @@ span.ui.timeout.btn{
             }else if(buy_evt==2){   //  加入购物车
                 $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
                   if(result.success){
-                    phenix.show_ok_note('添加成功!', 2000);
+                    phenix.show_ok_note('加入购物车成功', 2000);
                     $('#cover,.close-details').click();
                     // ajax加载购物车数量
                     $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
@@ -1197,7 +1197,7 @@ span.ui.timeout.btn{
                 }, 'json');
             }
           } else {
-            phenix.show_error_note('请选择一个型号或颜色', 2000);
+            phenix.show_error_note('请选择颜色分类', 2000);
           }
 
   
