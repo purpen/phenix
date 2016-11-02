@@ -118,6 +118,7 @@ class Sher_Core_Util_Vop {
 
         $data = Sher_Core_Helper_Util::request($url, $params);
         $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
+        //print_r($data);exit;
 
         if(isset($data['errorResponse'])){
             $result['code'] = (int)$data['errorResponse']['code'];

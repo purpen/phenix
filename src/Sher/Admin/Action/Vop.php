@@ -18,7 +18,7 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
     }
 	
 	public function execute(){
-		return $this->get_list();
+		return $this->pool_list();
 	}
 	
 	/**
@@ -26,6 +26,8 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
      * @return string
      */
     public function pool_list() {
+
+        $this->set_target_css_state('pool');
 
         $redirect_url = Doggy_Config::$vars['app.url.domain'].'/admin';
 
@@ -49,6 +51,8 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 商品列表
 	 */
     public function product_list(){
+
+        $this->set_target_css_state('product');
 
         $pageNum = isset($this->stash['pageNum']) ? $this->stash['pageNum'] : null;
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
@@ -145,6 +149,15 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
      * 商品详情
      */
     public function product_view(){
+        $this->set_target_css_state('product');
+    
+    }
+
+    /**
+     * 订单列表
+     */
+    public function order_list(){
+        $this->set_target_css_state('order');
     
     }
 
@@ -153,6 +166,9 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
      * 订单详情
      */
     public function order_view(){
+
+        $this->set_target_css_state('order');
+
         $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         if(empty($id)){
@@ -175,6 +191,37 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         $this->stash['order'] = $result['data']['result'];
         //print_r($result['data']);
         return $this->to_html_page('admin/vop/order_view.html');
+    
+    }
+
+    /**
+     * 余额明细
+     */
+    public function balance_list(){
+         $this->set_target_css_state('balance');
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $page = isset($this->stash['pageNum']) ? $this->stash['pageNum'] : 1;
+        $size = isset($this->stash['pageSize']) ? $this->stash['pageSize'] : 20;
+
+
+        $method = 'biz.price.balancedetail.get';
+        $response_key = 'biz_price_balancedetail_get_response';
+        $params = array('pageNum'=>$page, 'pageSize'=>$size);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        $this->stash['balances'] = $result['data']['result'];
+        //print_r($result['data']['result']);
+        return $this->to_html_page('admin/vop/balance_list.html'); 
     
     }
 

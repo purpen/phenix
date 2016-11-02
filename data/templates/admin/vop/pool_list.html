@@ -71,21 +71,22 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">情境管理</h3>
+	<h3 class="ui header">商品池</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-		<a href="{{ app_url_app_admin_base }}/scene_sight?type=0" class="item {{ css_all }}">
-			全部
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
 		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?type=1" class="item {{ css_fine }}">
-			精选
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
 		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?type=2" class="item {{ css_check }}">
-			未审核
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
 		</a>
-        <a href="{{ app_url_app_admin_base }}/scene_sight?deleted=1" class="item {{ css_deleted }}">
-			已删除
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
 		</a>
+
 
 	  	<div class="right menu">
 			
