@@ -280,8 +280,13 @@
 	});
 
     $('.ui.comment').on('click',function(){
-        $('.ui.fiushop,.ui.zhuan').hide();
-        $('.ui.usercomment.page').show();
+        if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+            return false;
+        }else{
+            $('.ui.fiushop,.ui.zhuan').hide();
+            $('.ui.usercomment.page').show();
+        }
     });
     $('.comclose').on('click',function(){
         $('.ui.usercomment.page').hide();

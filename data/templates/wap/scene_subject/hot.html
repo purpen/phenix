@@ -210,6 +210,76 @@
         left: 50%;
         margin-left: -5px;
     }
+
+    .ui.usercomment.page{
+        position: relative;
+    }
+    .btsubmit{
+        padding: 10px 15px;
+        background: #eee;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        left: 0;
+        font-size: 0;
+    }
+    .btsubmit .enter{
+        font-size: 0;
+    }
+    .ui.icon.input{
+        height:30px;
+        margin-right: 15px;
+        width: calc(100% - 65px);
+    }
+    .ui.icon.input input{
+        font-size: 12px;
+    }
+    .submit{
+        background: #be8914;
+        color: #fff;
+        font-size: 12px;
+        text-align: center;
+        width: 50px;
+        height: 30px;
+        display: inline-block;
+        line-height: 30px;
+        border-radius: 4px;
+        vertical-align: bottom;
+    }
+    #scrollUp{
+        display: none !important;
+    }
+    
+    .ui.usercomment .ui.comments .comment{
+        font-size: 0;
+        padding-top: 15px; 
+    }
+    .ui.usercomment .ui.comments .comment .avatar{
+        width: 50px !important;
+        height: 50px !important;
+        display: inline-block;
+        float: none;
+        vertical-align: middle;
+    }
+    .ui.usercomment .ui.comments .comment>.content{
+        display: inline-block;
+        width: calc(100% - 60px);
+        margin-left: 10px;
+        vertical-align: middle;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        margin-top: 5px;
+        position: relative;
+    }
+    .ui.usercomment .ui.comments .comment>.content .author {
+        color: #666;
+        font-weight: 400;
+        font-size: 12px;
+    }
+    .ui.usercomment .ui.comments .comment>.content>.text {
+        color: #5d6266;
+        margin: .4em 0 0.8em;
+        font-size: 12px;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -274,7 +344,23 @@
 		}
 	});
 
+    $('.ui.comment').on('click',function(){
+        $('.ui.fiushop,.ui.zhuan').hide();
+        $('.ui.usercomment.page').show();
+    });
+    $('.comclose').on('click',function(){
+        $('.ui.usercomment.page').hide();
+        $('.ui.fiushop,.ui.zhuan').show();
+    });
 
+    $('.btsubmit .ui.input input').focus(function(){
+
+        var height = $('body').height();
+        var top =$('.usercomment').height();
+        if ( top < height ){
+            $('html,body').animate({scrollTop:height },500);
+        }
+    });
 {% endblock %}
 {% block content %}
 <div class="ui fiushop">
@@ -344,9 +430,52 @@
         </li>
     </ul>
 </div>
-<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
-  <div class="frideshare">
-  <img src="http://frstatic.qiniudn.com/images/fenxiang.png" width="100%" >
-  </div>
+
+<div class="ui usercomment page hide">
+    <div class="ui sheader">
+        <a class="comclose return" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+        <p>评论</p>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row pt-0">
+            <div class="column plr-3r">
+                <div id="comment-list" class="">
+                    <div class="ui threaded minimal comments is-comment">
+                        <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">150****0501</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                         <div class="comment">
+                            <a class="avatar" href="javascript:void(0);">
+                              <img src="http://frstatic.qiniudn.com/images/deavatar/004-s.jpg" alt="150****0501">
+                            </a>
+                            <div class="content">
+                                <a class="author ui magenta link" href="javascript:void(0);">登录用户行为</a>
+                                <div class="text">
+                                  登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为登录用户行为
+                                </div>      
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btsubmit">
+        <form class="enter" method="post" action=" ">
+            <div class="ui icon input">
+                <input placeholder="评论一下" type="text" >
+            </div>
+            <div class="submit">发送</div>
+        </form>
+    </div>
 </div>
 {% endblock %}
