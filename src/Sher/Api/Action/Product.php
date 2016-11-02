@@ -44,6 +44,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
       'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
+      'deleted'=>1,
 		);
 		
     $options['some_fields'] = $some_fields;
@@ -109,7 +110,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1, 'tips_label'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
-      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1,
+      'app_snatched_count'=>1, 'app_appoint_count'=>1, 'app_snatched_total_count'=>1, 'deleted'=>1,
 		);
 		
 		// 请求参数
@@ -166,6 +167,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		// 已发布上线
 		$query['published'] = 1;
+        $query['deleted'] = 0;
 		
 		if($stick){
 			$query['stick'] = $stick;
