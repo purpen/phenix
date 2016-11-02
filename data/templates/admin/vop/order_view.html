@@ -37,9 +37,10 @@
             <div class="description">0为取消订单  1为有效</div>
         <p>
 
+        <p>订单进度：{{ order.submitState }} <div class="description">0为未确认下单订单   1为确认下单订单(已扣款)</div><p>
+
         <p>物流状态：{{ order.state }} <div class="description">0 是新建  1是妥投   2是拒收</div><p>
         <p>运费： {{ order.freight }} <div class="description">合同有运费配置才会返回，否则不会返回该字段</div></p>
-        <p>京东父单：{{ order.submitState }}<p>
         <p>订单价格：{{ order.orderPrice }}<p>
         <p>订单裸价： {{ order.orderNakedPrice }}</p>
         <p>订单类型： {{ order.type }} <div class="description">1.是父订单;2.是子订单</div></p>
