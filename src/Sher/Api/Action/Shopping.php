@@ -405,7 +405,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 'vop_id' => $vop_id,
 			),
 		);
-		$total_money = (float)$price*$quantity;
+		$total_money = $price*$quantity;
 		$items_count = 1;
 
         if(!empty($vop_id)){
@@ -439,7 +439,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		// 立即订单标识
     $result['is_nowbuy'] = 1;
-    $result['pay_money'] = $pay_money;
+    $result['pay_money'] = sprintf("%.2f", $pay_money);
     $result['order_info'] = $order_info;
     $result['bonus'] = $usable_bonus;
 
@@ -675,16 +675,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 			}
 
+            $order_info['jd_order_id'] = null;
             // 创建开普勒订单
             if(!empty($order_info['is_vop'])){
                 $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
                 if(!$vop_result['success']){
 				    return 	$this->ajax_json($vop_result['message'], true);
                 }
-                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
-                //print_r($vop_result);exit;
+                $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
             }
-            $order_info['jd_order_id'] = null;
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功

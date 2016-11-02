@@ -149,6 +149,35 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
     }
 
 
+    /**
+     * 订单详情
+     */
+    public function order_view(){
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        if(empty($id)){
+            return $this->show_message_page("缺少请求参数！", $redirect_url);
+        }
+
+        $method = 'biz.order.jdOrder.query';
+        $response_key = 'biz_order_jdOrder_query_response';
+        $params = array('jdOrderId'=>$id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        print_r($result);
+
+    
+    }
+
+
     /*
      * ajax 查询余额
      */
