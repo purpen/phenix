@@ -1151,16 +1151,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         
       }
 
+
+            $order_info['jd_order_id'] = null;
             // 创建开普勒订单
             if(!empty($order_info['is_vop'])){
                 $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
                 if(!$vop_result['success']){
 				    return 	$this->ajax_json($vop_result['message'], true);
                 }
-                $order['jd_order_id'] = $vop_result['data']['jdOrderId'];
-                //print_r($vop_result);exit;
+                $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
             }
-            $order_info['jd_order_id'] = null;
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
