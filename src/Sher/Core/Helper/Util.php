@@ -1375,7 +1375,7 @@ class Sher_Core_Helper_Util {
         if($ok){
             $user_tags = $model->load((int)$user_id);
             if(count($user_tags[$field])>5){
-                $new_tags = array_slice($user_tags[$field], -1, 5);
+                $new_tags = array_slice($user_tags[$field], 1, 1);
                 $model->update_set((int)$user_id, array($field=>$new_tags));
             }
         }
