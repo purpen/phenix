@@ -22,18 +22,78 @@
 	background:#be8914 !important;
 	color: #fff !important;
 }
+
+.mask {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.4);
+    z-index: 9;
+    top: 0;
+    left: 0;
+}
+.nextbu{
+    width:calc(100% - 100px);
+    margin: 0 50px;
+    background:#fff;
+    position:fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 8px;
+}
+.nextbu .content{
+    padding:20px 10px;
+    text-align: center;
+    font-size: 14px;
+    color:#666;
+}
+.btnmake{
+    font-size: 0;
+    position: relative;
+    display: block;
+    border-top: 1px solid #eee;
+}
+.btnmake .cancle{
+    width: 50%;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 44px;
+    display: inline-block;
+    border-right: 1px solid #eee;
+}
+.btnmake .caok{
+    width: 50%;
+    font-size: 14px;
+    color: #be8914;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+} 
 </style>
 {% endblock %}
 
 {% block jquery %}
+	$('.return.back').click(function(){
+		$('.nextbu,.mask').show();
+	    $('.cancle').on('click',function(){
+	        $('.nextbu,.mask').hide();
+	    });
+	});
 	
+    $('.caok').on('click',function(){
+    	location.href="{{ back_url }}";
+    });
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop pb-0">
     <div class="ui sheader">
 		{% if !card_payed %}
-    	<a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+    	<a class="return back" href="javascript:void(0);"><i class="angle float left icon"></i></a>
     	{% endif %}
         <p>支付订单</p>
     </div>
@@ -148,5 +208,20 @@
 		</div>
 	</div>
 </div>
+<div class="ui nextbu hide">
+    <div class="content">
+        <p>是否退出支付 ？</p>
 
+        <p style="font-size:13px;color:#999">订单超时后将被取消，请尽快付款。</p>
+    </div>
+    <div class="btnmake">
+        <div class="cancle">
+            继续支付
+        </div>
+        <div class="caok">
+            确认离开
+        </div>
+    </div>
+</div>
+<div class="ui mask hide"></div>
 {% endblock %}
