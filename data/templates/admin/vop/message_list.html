@@ -98,31 +98,7 @@
 			</a>
 	    </div>
 	</div>
-    <!--
-	<div class="ui sub nav">
-		<form action="{{ app_url_app_admin_base }}/scene_sight/get_list" id="search-form" method="get">
-			<label>搜索：</label>
-      <div class="ui selection dropdown">
-        <input type="hidden" name="attrbute" value="" />
-        <div class="default text">选择来源</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          <div class="item" data-value="0">全部</div>
-        </div>
-      </div>
 
-			<div class="ui input">
-        <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
-			</div>
-			<div class="ui input">
-        <input placeholder="标题" type="text" name="s_title" value="{{ s_title }}" />
-			</div>
-				<div class="ui input">
-					<div class="ui active small green submit button search">搜索</div>
-				</div>
-		</form>
-	</div>
-    -->
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -132,24 +108,73 @@
 					  	<label></label>
 					</div>
 				</th>
-                <th>编号</th>
-                <th>名称</th>
-				<th>管理操作</th>
+                <th>ID</th>
+                <th>类型</th>
+                <th>说明</th>
+                <th>时间</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
 
-			{% for d in pools.data.result %}
-			<tr id="item-{{ d.page_num }}">
+			{% for d in messages %}
+			<tr id="item-{{ d.id }}">
 				<td>
 					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" value="{{ d.page_num }}" class="checkbox" />
+					  	<input name="ids" type="checkbox" value="{{ d.id }}" class="checkbox" />
 					  	<label></label>
 					</div>
 				</td>
-                <td>{{ d.page_num }}</td>
-                <td><a href="{{ app_url_admin }}/vop/product_list?pageNum={{ d.page_num }}">{{ d.name }}</a></td>
-				<td>--</td>
+                <td>{{ d.id }}</td>
+                <td>
+                    <p>ID: {{ d.type }}</p>
+                    <p>说明: 
+                    {% if d.type==1 %}
+                        订单拆分变更
+                    {%endif%}
+                    {% if d.type==2 %}
+                        商品价格变更
+                    {%endif%}
+                    {% if d.type==4 %}
+                        商品上下架变更
+                    {%endif%}
+                    {% if d.type==5 %}
+                        该订单已妥投
+                    {%endif%}
+                    {% if d.type==6 %}
+                        代表添加、删除商品池内商品
+                    {%endif%}
+                    {% if d.type==10 %}
+                        订单取消
+                    {%endif%}
+                    {% if d.type==11 %}
+                        申请开票信息
+                    {%endif%}
+                    {% if d.type==12 %}
+                        配送单生成
+                    {%endif%}
+                    {% if d.type==13 %}
+                        换新订单生成
+                    {%endif%}
+                    {% if d.type==14 %}
+                        支付失败消息
+                    {%endif%}
+                    {% if d.type==15 %}
+                        7天未支付取消消息/未确认取消
+                    {%endif%}
+                    {% if d.type==16 %}
+                        商品介绍及规格参数变更
+                    {%endif%}
+                    {% if d.type==17 %}
+                        赠品促销变更消息
+                    {%endif%}
+                    </p>
+                </td>
+                <td>
+                    {{ d.result_json }}
+                </td>
+                <td>{{ d.time }}</td>
+				<td>删除</td>
 			</tr>
 			{% endfor %}
 		</tbody>
