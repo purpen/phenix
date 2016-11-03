@@ -301,12 +301,17 @@ h3.ui.header{
 
       <div class="desitem descrit">
         <span>订单号：&nbsp;{{ order_info.rid }}</span>
-        <span>创建时间：</span>
-        <span>付款时间：</span>
-        <span>发货时间：</span>
-        <span>成交时间：</span>
+        <span>创建时间：{{ order_info.created_on|date 'Y-m-d H:i' }}</span>
+        {% if order_info.payed_date %}
+            <span>付款时间：{{ order_info.payed_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
+        {% if order_info.sended_date %}
+            <span>发货时间：{{ order_info.sended_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
+        {% if order_info.finished_date %}
+            <span>成交时间：{{ order_info.finished_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
       </div>
-			
 			
 			<div class="ordertbtn">
         {% if order_info.status == '-1' %}

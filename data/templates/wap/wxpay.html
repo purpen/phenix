@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}微信支付-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -45,13 +45,12 @@
 		}
 	}
 	
-	$('#pay_yes').click(function(){
-		callpay();
-	});
+	callpay();
 	
 {% endblock %}
 
 {% block content %}
+<!--
 <div class="checkout page">
 	<div class="ui responsive grid">
 		<div class="row">
@@ -62,4 +61,5 @@
 		</div>
 	</div>
 </div>
+-->
 {% endblock %}
