@@ -316,6 +316,7 @@
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
+          phenix.show_error_note('提交成功，正在为您取消订单', 3000);
         }else{
           phenix.show_error_note(result.message, 3000);          
         }
@@ -331,6 +332,7 @@
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
+          phenix.show_error_note('订单删除成功', 3000);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }
