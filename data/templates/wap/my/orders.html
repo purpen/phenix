@@ -7,8 +7,9 @@
 }
 .orderbottom .ui.inverted.color-be.button:hover {
     background: transparent;
-    color: #f36;
+    color: #be8914;
 }
+
 .ui.header{
 	font-weight:400;
 }
@@ -138,6 +139,11 @@
 	margin:0;
 	margin-left: 0.5716rem;
 	font-size: 0.92885rem;
+}
+#orderitem .item .orderbottom .ui.button.color-bd,#orderitem .item .orderbottom .ui.inverted.color-bd.button:hover {
+    background: transparent;
+    box-shadow: 0 0 0 1px #ccc inset!important;
+    color: #666;
 }
 .fz-12{
 	font-size:0.8574rem !important;
@@ -311,6 +317,7 @@
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
+          phenix.show_error_note('提交成功，正在为您取消订单', 3000);
         }else{
           phenix.show_error_note(result.message, 3000);          
         }
@@ -326,6 +333,7 @@
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           $('#order-'+rid).remove();
+          phenix.show_error_note('订单删除成功', 3000);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }

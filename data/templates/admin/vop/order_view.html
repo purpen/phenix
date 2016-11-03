@@ -44,6 +44,9 @@
         <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
 			余额明细
 		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
 
 
 	  	<div class="right menu">
@@ -80,6 +83,14 @@
         <p>订单税费： {{ order.orderTaxPrice }}</p>
 
       </p>
+
+        <p>
+            <span><b>物流信息：</b></span>
+            {% for d in track.orderTrack %}
+                <p>{{ d.content }} | {{ d.msgTime }} | {{ d.operator }}</p>
+            {%endfor%}
+        </p>
+
       <p>
         <span><b>商品信息:</b></span>
         <p>

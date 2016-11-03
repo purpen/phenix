@@ -110,7 +110,7 @@ h3.ui.header{
     padding: 0;
     background: #fff;
 }
-.ordertbtn .ui.button,.ordertbtn .ui.button:hover {
+.ordertbtn .ui.button.color-be,.ordertbtn .ui.button.color-be:hover {
     box-shadow: 0 0 0 1px #be8914 inset!important;
     color: #be8914;
     font-weight: 400;
@@ -118,24 +118,56 @@ h3.ui.header{
     margin: 0.7145rem 0;
     margin-left: 0.5716rem;
     font-size: 0.92885rem;
+    background: transparent !important;
+}
+.ordertbtn .ui.button.color-bd,.ordertbtn .ui.button.color-bd:hover {
+    box-shadow: 0 0 0 1px #ccc inset!important;
+    color: #666 !important;
+    font-weight: 400;
+    padding: 0.5716rem 0.7145rem;
+    margin: 0.7145rem 0;
+    margin-left: 0.5716rem;
+    font-size: 0.92885rem;
+    background: transparent !important;
 }
 .ordertbtn .ui.button:last-child{
-	margin-right:0.7145rem;
-}
-.sfooter.nav-menu{
-  display: none;
-  visibility: hidden;
+	margin-right:0.7145rem !important;
 }
 .color-be.link{
   color:#be8914 !important;
 }
-.color-be.inverted.button{
-  background:#be8914 !important;
-  color: #fff !important;
+.ui.medel.color.button{
+  width: 100%;
+  margin: 5px 0;
+  background: transparent !important;
+  color: #666;
+  box-shadow: 0 0 0 1px #eee inset,0 0 0 0 #eee inset!important;
 }
-.ui.inverted.magenta.button{
-    box-shadow: 0 0 0 1px #be8914 inset!important;
-    color: #be8914 !important;
+.ui.server{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.server .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/serve.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.desitem.descrit span{
+    font-size: 12px;
+    display: block;
+    color:#999;
 }
 </style>
 {% endblock %}
@@ -165,6 +197,7 @@ h3.ui.header{
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
           window.location.reload();
+          phenix.show_error_note('提交成功，正在为您取消订单', 3000);
         }else{
           phenix.show_error_note(result.message, 3000);          
         }
@@ -179,7 +212,8 @@ h3.ui.header{
       url = "{{ app_url_wap }}/app/site/my/ajax_remove_order";
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
-        window.location.href="{{ app_url_wap }}/shop";
+        phenix.show_error_note('订单删除成功', 2000);
+        setTimeout("window.location.href='{{ app_url_wap }}/my/orders'",2000);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }
@@ -187,19 +221,24 @@ h3.ui.header{
     });
   });
 
-	
+	$('.ui.medel.button').click(function(){
+    $('.ui.server-show').modal('show');
+  })
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop pb-0">
     <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         <p>订单详情</p>
     </div>
 </div>
-<div class="ui responsive grid mt-2r">
+<div class="ui responsive grid mt-2r" style="padding-bottom: 50px;">
 	<div class="row pt-0">
 		<div class="column p-0">
-			
+			<div class="desitem mt-0">
+        订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
+      </div>
 			<div class="addressitem mb-2r">
 				<div class="item">
 					<div class="content">
@@ -238,15 +277,14 @@ h3.ui.header{
 			{% endfor %}
 			
 			<div class="desitem">
-				订单状态：<span>{{ order_info.status_label }}</span>
+				支付方式：<span class="flt-r">在线支付</span>
 			</div>
-			<div class="desitem">
-				订单号：<span>{{ order_info.rid }}</span>
-			</div>
-			
-			<div class="desitem">
-				支付方式：<span>在线支付</span>
-			</div>
+
+      <div class="desitem">
+        <div class="ui medel color button">
+          联系客服
+        </div>
+      </div>
 			
 			<div class="desitem">
 				商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
@@ -254,17 +292,33 @@ h3.ui.header{
 			<div class="desitem">
 				运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
 			</div>
+      <div class="desitem">
+        优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
+      </div>
 			<div class="desitem">
 				应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
 			</div>
-			
+
+      <div class="desitem descrit">
+        <span>订单号：&nbsp;{{ order_info.rid }}</span>
+        <span>创建时间：{{ order_info.created_on|date 'Y-m-d H:i' }}</span>
+        {% if order_info.payed_date %}
+            <span>付款时间：{{ order_info.payed_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
+        {% if order_info.sended_date %}
+            <span>发货时间：{{ order_info.sended_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
+        {% if order_info.finished_date %}
+            <span>成交时间：{{ order_info.finished_date|date 'Y-m-d H:i' }}</span>
+        {%endif%}
+      </div>
 			
 			<div class="ordertbtn">
         {% if order_info.status == '-1' %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
         {% if order_info.status == 0 %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
         <!--
         {% if order_info.status == 16 %}
@@ -272,19 +326,35 @@ h3.ui.header{
         {%endif%}
         -->
         {% if order_info.status == 20 %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
 				{% if order_info.status == 1 %}
-				<a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui small inverted button">现在支付</a>
-        <a href="javascript:void(0);" class="ui small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
+        <a href="javascript:void(0);" class="ui color-bd small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
+        <a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui color-be small inverted button">现在支付</a>
 				{% endif %}
 				{% if order_info.status == 15 %}
-        <a href="javascript:void(0);" class="ui small ajax inverted button take_delivery_btn" rid="{{ order_info.rid }}">确认收货</a>
+        <a href="javascript:void(0);" class="ui color-be small ajax inverted button take_delivery_btn" rid="{{ order_info.rid }}">确认收货</a>
 				{% endif %}
 			</div>
 			
 				
 		</div>	
 	</div>
+</div>
+
+
+<div class="ui small server-show modal">
+  <i class="close icon"></i>
+  <div class="content">
+    <div class="ui center aligned grid">
+      <div class="row">
+        <div class="column">
+          <p style="line-height: 24px;font-size: 17px;">客服电话<br>4008-798-751</p>
+          <p class="mb-0">长按识别二维码 直接呼叫客服</p>
+          <img src="{{ app_url_packaged }}/images/icon/servess.jpg" width="80%" />
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

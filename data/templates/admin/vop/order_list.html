@@ -1,0 +1,239 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
+	
+	$('.datepicker').pickadate();
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">订单列表</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
+		</a>
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
+		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
+
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
+			</a>
+	    </div>
+	</div>
+
+	<div class="three wide column">
+        <a href="{{ app_url_admin }}/vop/order_list?evt=0&start_date={{ start_date }}" class="ui link {%if evt==0%}active{%endif%}">全部</a> |
+        <a href="{{ app_url_admin }}/vop/order_list?evt=1&start_date={{ start_date }}" class="ui link {%if evt==1%}active{%endif%}">妥投</a> | 
+        <a href="{{ app_url_admin }}/vop/order_list?evt=2&start_date={{ start_date }}" class="ui link {%if evt==2%}active{%endif%}">拒收</a>
+	</div>
+
+	<div class="ui sub nav">
+
+		<form action="{{ app_url_admin }}/vop/order_list" id="search-form" method="get">
+			<label>搜索：</label>
+            <div class="ui icon input">
+                <input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+                <i class="calendar icon"></i>
+            </div>
+
+				<div class="ui input">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+		</form>
+	</div>
+
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                {% if evt==0 %}
+                    <th>ID</th>
+                    <th>开票方式</th>
+                    <th>订单金额</th>
+                    <th>是否挂起</th>
+                    <th>状态</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                {%else%}
+                    <th>ID</th>
+                    <th>怅户类型</th>
+                    <th>订单金额</th>
+                    <th>账户名</th>
+                    <th>订单</th>
+                    <th>说明</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                {%endif%}
+			</tr>
+		</thead>
+		<tbody>
+
+            {% if evt==0 %}
+			    {% for d in orders.orders %}
+                
+                    <tr id="item-{{ d.jdOrderId }}">
+                        <td>
+                            <div class="ui checkbox">
+                                <input name="ids" type="checkbox" value="{{ d.jdOrderId }}" class="checkbox" />
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>{{ d.jdOrderId }}</td>
+                        <td>
+                            {%if d.invoiceState==0%}
+                                订单预借
+                            {%endif%}
+                            {%if d.invoiceState==1%}
+                                随货开票
+                            {%endif%}
+                            {%if d.invoiceState==2%}
+                                集中开票
+                            {%endif%}
+                        </td>
+                        <td>{{ d.orderPrice }}</td>
+                        <td>
+                            {% if d.hangUpState==0 %}
+                                <span class="ui small orange label">否</span>
+                            {%endif%}
+                            {% if d.hangUpState==1 %}
+                                <span class="ui small green label">是</span>
+                            {%endif%}
+                        </td>
+                        <td>
+                            {%if d.state==0%}
+                                新建
+                            {%endif%}
+                            {%if d.state==1%}
+                                妥投
+                            {%endif%}
+                            {%if d.state==3%}
+                                拒收
+                            {%endif%}
+                        </td>
+                        <td>{{ d.time }}</td>
+                        <td>--</td>
+                    </tr>
+                {%endfor%}
+            {%else%}
+			    {% for d in orders.data %}
+                    <tr id="item-{{ d.id }}">
+                        <td>
+                            <div class="ui checkbox">
+                                <input name="ids" type="checkbox" value="{{ d.id }}" class="checkbox" />
+                                <label></label>
+                            </div>
+                        </td>
+                        <td>{{ d.id }}</td>
+                        <td>{{ d.accountType }}</td>
+                        <td>{{ d.amount }}</td>
+                        <td>{{ d.pin }}</td>
+                        <td>
+                            <p>订单ID： {{ d.orderId }}</p>
+                            <p>订单类型： {{ d.tradeType }}</p>
+                            <p>订单号： {{ d.tradeNo }}</p>
+                            <p>订单说明： {{ d.tradeTypeName }}</p>
+                        </td>
+                        <td>
+                            <textarea readonly="readonly" rows="3" cols="80">{{ d.notePub }}</textarea>
+                        </td>
+                        <td>{{ d.createdDate }}</td>
+                        <td>--</td>
+                    </tr>
+			    {% endfor %}
+            {%endif%}
+		</tbody>
+	</table>
+
+	{% if balances %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:balances.total,total_page:balances.pageCount,current_page:pageNum, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ balances.total }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

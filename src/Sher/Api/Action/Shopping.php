@@ -195,7 +195,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         // 不允许自营和京东同时下单
         if(!empty($vop_count) && !empty($self_count)){
-            return $this->api_json('请分开下单！', 4005);
+            return $this->api_json('不能和京东配货产品同时下单！', 4005);
         }
 
 		try{
