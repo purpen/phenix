@@ -127,9 +127,6 @@
 				return $this->show_message_page('操作不当，请查看购物帮助！', true);
 			}
 
-            $redirect_url = printf("%s/shop/success?rid=%s", Doggy_Config::$vars['app.url.wap'], $rid);
-            return $this->to_redirect($redirect_url);
-
 			$model = new Sher_Core_Model_Orders();
 			$order_info = $model->find_by_rid($rid);
 			
@@ -137,10 +134,11 @@
 			if($this->visitor->id != $order_info['user_id']){
 			  return $this->show_message_page('你没有权限查看此订单！');
 			}
-				  $this->stash['order_info'] = $order_info;
+			$this->stash['order'] = $order_info;
+            $this->stash['card_payed'] = true; 
 				  
-				  return $this->to_html_page("wap/order_view.html");
-			 }
+			return $this->to_html_page("wap/success.html");
+		}
 	   
 		/**
 		 * 更新订单状态
