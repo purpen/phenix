@@ -136,14 +136,6 @@ h3.ui.header{
 .color-be.link{
   color:#be8914 !important;
 }
-.color-be.inverted.button{
-  background:#be8914 !important;
-  color: #fff !important;
-}
-.ui.inverted.magenta.button{
-    box-shadow: 0 0 0 1px #be8914 inset!important;
-    color: #be8914 !important;
-}
 </style>
 {% endblock %}
 
@@ -274,7 +266,7 @@ h3.ui.header{
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
         {% if order_info.status == 0 %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
         <!--
         {% if order_info.status == 16 %}
@@ -282,7 +274,7 @@ h3.ui.header{
         {%endif%}
         -->
         {% if order_info.status == 20 %}
-          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
+          <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
 				{% if order_info.status == 1 %}
         <a href="javascript:void(0);" class="ui color-bd small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
