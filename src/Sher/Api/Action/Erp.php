@@ -23,7 +23,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
             '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
-            'tags'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1,
+            'tags'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1, 'deleted'=>1,
 			'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'summary'=>1, 'inventory'=>1, 'category_tags'=>1,
 		);
 		
@@ -60,6 +60,8 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		$query['published'] = 1;
 		
 		if($stick) $query['stick'] = $stick;
+
+        $query['deleted'] = 0;
 
         // 模糊查标签
         if(!empty($title)) $query['title'] = array('$regex'=>$title);

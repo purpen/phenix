@@ -1828,6 +1828,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         
         // 仅发布
         $query['published'] = 1;
+        $query['deleted'] = 0;
         
         if($type){
             switch((int)$type){

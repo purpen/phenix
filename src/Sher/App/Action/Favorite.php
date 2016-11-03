@@ -314,6 +314,7 @@ class Sher_App_Action_Favorite extends Sher_App_Action_Base {
                     $product['wap_view_url'] = $obj['product']['wap_view_url'];
                     $product['cover'] = $obj['product']['cover'];
                     $product['sale_price'] = $obj['product']['sale_price'];
+                    $product['is_product'] = $obj['product']['stage']==9 ? true : false;
 
                   // tips
                   if($obj['product']['tips_label']==1){
