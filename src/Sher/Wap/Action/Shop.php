@@ -1230,6 +1230,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 下单成功，选择支付方式，开始支付
 	 */
 	public function success(){
+    // 记录上一步来源地址
+    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');
