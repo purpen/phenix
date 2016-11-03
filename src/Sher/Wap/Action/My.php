@@ -315,6 +315,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	 * 查看订单详情
 	 */
 	public function order_view(){
+		$this->set_target_css_state('page_owner');
 		$rid = $this->stash['rid'];
 		$this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		if (empty($rid)) {
