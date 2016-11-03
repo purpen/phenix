@@ -127,6 +127,9 @@
 				return $this->show_message_page('操作不当，请查看购物帮助！', true);
 			}
 
+            $redirect_url = printf("%s/shop/success?rid=%s", Doggy_Config::$vars['app.url.wap'], $rid);
+            return $this->to_redirect($redirect_url);
+
 			$model = new Sher_Core_Model_Orders();
 			$order_info = $model->find_by_rid($rid);
 			
