@@ -179,8 +179,8 @@ h3.ui.header{
       url = "{{ app_url_wap }}/app/site/my/ajax_remove_order";
       $.post(url, {rid: rid, type:1}, function(result){
         if(result.success){
-        window.location.href="{{ app_url_wap }}/shop";
-        phenix.show_error_note('订单删除成功', 3000);
+        phenix.show_error_note('订单删除成功', 2000);
+        setTimeout("window.location.href='{{ app_url_wap }}/my/orders'",2000);
         }else{
           phenix.show_error_note(result.message, 3000);  
         }
