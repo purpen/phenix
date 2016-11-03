@@ -169,6 +169,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		
 		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop/get_list";
 		if(empty($id)){
