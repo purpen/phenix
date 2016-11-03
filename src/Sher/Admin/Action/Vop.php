@@ -287,11 +287,14 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 
         $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
-
+        $type = $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 0;
+        if(empty($type)){
+            $type = "1,2,4,5,6,10,11,12,13,14,15,16,17";
+        }
 
         $method = 'biz.message.get';
         $response_key = 'biz_message_get_response';
-        $params = array('type'=>"1,2,4,5,6,10,11,12,13,14,15,16,17");
+        $params = array('type'=>$type);
         $json = !empty($params) ? json_encode($params) : '{}';
         $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
 
