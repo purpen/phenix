@@ -890,7 +890,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         }
 
         if(!empty($vop_count) && !empty($self_count)){
-            return $this->show_message_page('请分开下单！', true);       
+            return $this->show_message_page('不能和京东配货产品同时下单！', true);       
         }
 
         $items_count = count($items);
