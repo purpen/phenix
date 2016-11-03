@@ -169,6 +169,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		
 		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop/get_list";
 		if(empty($id)){
@@ -485,6 +486,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
+    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		$quantity = (int)$this->stash['n'];
         $options = array();
         $options['is_vop'] = 0;
@@ -1230,6 +1232,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 下单成功，选择支付方式，开始支付
 	 */
 	public function success(){
+    // 记录上一步来源地址
+    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');

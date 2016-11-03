@@ -22,127 +22,206 @@
 	background:#be8914 !important;
 	color: #fff !important;
 }
+
+.mask {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.4);
+    z-index: 9;
+    top: 0;
+    left: 0;
+}
+.nextbu{
+    width:calc(100% - 100px);
+    margin: 0 50px;
+    background:#fff;
+    position:fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 8px;
+}
+.nextbu .content{
+    padding:20px 10px;
+    text-align: center;
+    font-size: 14px;
+    color:#666;
+}
+.btnmake{
+    font-size: 0;
+    position: relative;
+    display: block;
+    border-top: 1px solid #eee;
+}
+.btnmake .cancle{
+    width: 50%;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 44px;
+    display: inline-block;
+    border-right: 1px solid #eee;
+}
+.btnmake .caok{
+    width: 50%;
+    font-size: 14px;
+    color: #be8914;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+} 
 </style>
 {% endblock %}
 
 {% block jquery %}
+	$('.return.back').click(function(){
+		$('.nextbu,.mask').show();
+	    $('.cancle').on('click',function(){
+	        $('.nextbu,.mask').hide();
+	    });
+	});
 	
+    $('.caok').on('click',function(){
+    	location.href="{{ back_url }}";
+    });
 {% endblock %}
 
 {% block content %}
 <div class="ui fiushop pb-0">
     <div class="ui sheader">
+		{% if !card_payed %}
+    	<a class="return back" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+    	{% endif %}
         <p>支付订单</p>
     </div>
-</div>
-<div class="checkout page">
-	<div class="ui responsive grid mt-r">
-		<div class="row">
-			<div class="column plr-14">
-				{% if !card_payed %}
-				<div class="ui ordered danger message">
-					<h5 class="ui header">
-						<div class="content">
-							订单已提交成功，如未支付,该订单会在72小时内自动关闭,请尽快付款。
-							<div class="sub header mt-r">
-								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">{{ order.payment.name }}</span>
-							</div>
-						</div>
-					</h5>
-				</div>
-				
-				<form class="ui pay form" method="post" action="{{ app_url_wap }}/shop/payed" id="pay-form" target="_blank">
-					<input type="hidden" name="rid" value="{{ rid }}" />
-					<div class="ui segment">
-						<h5 class="ui mb-0 pb-2r dividing header">选择支付方式</h5>
-						
-						<div class="ui mt-0 relaxed divided payaway selection list">
-							<div class="item ptb-3r">
-								<div class="right floated">
-									<small>推荐使用支付宝快捷支付</small>
+    <div class="checkout page">
+		<div class="ui responsive grid mt-r">
+			<div class="row">
+				<div class="column plr-14">
+					{% if !card_payed %}
+					<div class="ui ordered danger message">
+						<h5 class="ui header">
+							<div class="content">
+								订单已提交成功，如未支付,该订单会在72小时内自动关闭,请尽快付款。
+								<div class="sub header mt-r">
+									订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">{{ order.payment.name }}</span>
 								</div>
-								<div class="content">
-									<div class="header">
-										<div class="ui radio checkbox">
-											<input type="radio" value="alipay" name="payaway" checked="checked" /> 
-											<label>支付宝</label>
-										</div>
+							</div>
+						</h5>
+					</div>
+					
+					<form class="ui pay form" method="post" action="{{ app_url_wap }}/shop/payed" id="pay-form" target="_blank">
+						<input type="hidden" name="rid" value="{{ rid }}" />
+						<div class="ui segment">
+							<h5 class="ui mb-0 pb-2r dividing header">选择支付方式</h5>
+							
+							<div class="ui mt-0 relaxed divided payaway selection list">
+								<div class="item ptb-3r">
+									<div class="right floated">
+										<small>推荐使用支付宝快捷支付</small>
 									</div>
-								</div>
-							</div>
-							{% if is_weixin %}
-							<div class="item ptb-3r">
-								<div class="right floated">
-									<small>方便快捷支付</small>
-								</div>
-								<div class="content">
-									<div class="header">
-										<div class="ui radio checkbox">
-											<input type="radio" value="wxpay" name="payaway" /> 
-											<label>微信支付</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							{% endif %}
-							<div class="item ptb-3r">
-								<div class="right floated">
-									<small>京东支付</small>
-								</div>
-								<div class="content">
-									<div class="header">
-										<div class="ui radio checkbox">
-											<input type="radio" value="jdpay" name="payaway" /> 
-											<label>京东支付</label>
-										</div>
-									</div>
-								</div>
-							</div>
-							<!--
-							<div class="item">
-								<div class="right floated">
-									<small>需安装网银支付插件</small>
-								</div>
-								<div class="content">
-									<div class="header">
-										<div class="field">
+									<div class="content">
+										<div class="header">
 											<div class="ui radio checkbox">
-												<input type="radio" value="quickpay" name="payaway" /> 
-												<label>银联手机支付</label>
+												<input type="radio" value="alipay" name="payaway" checked="checked" /> 
+												<label>支付宝</label>
 											</div>
 										</div>
 									</div>
 								</div>
+								{% if is_weixin %}
+								<div class="item ptb-3r">
+									<div class="right floated">
+										<small>方便快捷支付</small>
+									</div>
+									<div class="content">
+										<div class="header">
+											<div class="ui radio checkbox">
+												<input type="radio" value="wxpay" name="payaway" /> 
+												<label>微信支付</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endif %}
+								<div class="item ptb-3r">
+									<div class="right floated">
+										<small>京东支付</small>
+									</div>
+									<div class="content">
+										<div class="header">
+											<div class="ui radio checkbox">
+												<input type="radio" value="jdpay" name="payaway" /> 
+												<label>京东支付</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!--
+								<div class="item">
+									<div class="right floated">
+										<small>需安装网银支付插件</small>
+									</div>
+									<div class="content">
+										<div class="header">
+											<div class="field">
+												<div class="ui radio checkbox">
+													<input type="radio" value="quickpay" name="payaway" /> 
+													<label>银联手机支付</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								-->
 							</div>
-							-->
 						</div>
+						<button class="ui active color-be inverted checkout button" style="text-align:center;width:100%;">去支付</button>
+					</form>
+					{% else %}
+					<div class="ui ordered magenta message">
+						<h5 class="ui header">
+							<div class="content">
+								<i class="checkmark icon"></i>
+								订单已支付成功。
+								<div class="sub header mt-r">
+									订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">优惠抵扣</span>
+								</div>
+							</div>
+						</h5>
 					</div>
-					<button class="ui active color-be inverted checkout button" style="text-align:center;width:100%;">去支付</button>
-				</form>
-				{% else %}
-				<div class="ui ordered magenta message">
-					<h5 class="ui header">
-						<div class="content">
-							<i class="checkmark icon"></i>
-							订单已支付成功。
-							<div class="sub header mt-r">
-								订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">优惠抵扣</span>
-							</div>
-						</div>
-					</h5>
+					
+					<a class="ui active block button" style="text-align:center;width:48%;background:#fff;color:#222;display: inline-block;" href="{{ app_url_wap }}/home">
+						返回首页
+					</a>
+					<a class="ui active block button" style="text-align:center;width:48%;background:#be8914;display: inline-block;color:#fff;" href="{{ order.mm_view_url }}">
+						查看订单
+					</a>
+					
+					{% endif %}
+					
 				</div>
-				
-				<a class="ui active block button" style="text-align:center;width:48%;background:#fff;color:#222;display: inline-block;" href="{{ app_url_wap }}/home">
-					返回首页
-				</a>
-				<a class="ui active block button" style="text-align:center;width:48%;background:#be8914;display: inline-block;color:#fff;" href="{{ order.mm_view_url }}">
-					查看订单
-				</a>
-				
-				{% endif %}
-				
 			</div>
 		</div>
 	</div>
 </div>
+<div class="ui nextbu hide">
+    <div class="content">
+        <p>是否退出支付 ？</p>
+
+        <p style="font-size:13px;color:#999">订单超时后将被取消，请尽快付款。</p>
+    </div>
+    <div class="btnmake">
+        <div class="cancle">
+            继续支付
+        </div>
+        <div class="caok">
+            确认离开
+        </div>
+    </div>
+</div>
+<div class="ui mask hide"></div>
 {% endblock %}
