@@ -164,6 +164,11 @@ h3.ui.header{
     width: 18px;
     background-position: 0 0;
 }
+.desitem.descrit span{
+    font-size: 12px;
+    display: block;
+    color:#999;
+}
 </style>
 {% endblock %}
 
@@ -293,6 +298,14 @@ h3.ui.header{
 			<div class="desitem">
 				应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
 			</div>
+
+      <div class="desitem descrit">
+        <span>订单号：&nbsp;{{ order_info.rid }}</span>
+        <span>创建时间：</span>
+        <span>付款时间：</span>
+        <span>发货时间：</span>
+        <span>成交时间：</span>
+      </div>
 			
 			
 			<div class="ordertbtn">
