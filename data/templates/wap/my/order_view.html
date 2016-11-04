@@ -58,6 +58,7 @@ h3.ui.header{
     width: 80px;
     height: 60px;
     position: relative;
+    border: 1px solid #eee;
 }
 .cartitem .cartinfo {
     -webkit-box-flex: 1;
@@ -337,7 +338,7 @@ span.kefu{
         {%endif%}
 				{% if order_info.status == 1 %}
         <a href="javascript:void(0);" class="ui color-bd small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
-        <a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui color-be small inverted button">现在支付</a>
+        <a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui color-be small inverted button">立即支付</a>
 				{% endif %}
 				{% if order_info.status == 15 %}
         <a href="javascript:void(0);" class="ui color-be small ajax inverted button take_delivery_btn" rid="{{ order_info.rid }}">确认收货</a>
