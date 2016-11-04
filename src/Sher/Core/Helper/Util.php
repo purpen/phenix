@@ -1383,4 +1383,16 @@ class Sher_Core_Helper_Util {
     }
 
 
+    /**
+     * 自动生成编号
+     */
+    public static function getNumber($prefix=1)
+    {
+        $number  = $prefix;
+        $number .= date('ymd');
+        $number .= sprintf("%05d", rand(1,99999));
+        return $number;
+    }
+
+
 }

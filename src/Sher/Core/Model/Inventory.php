@@ -70,7 +70,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
     );
 	
     protected $required_fields = array('product_id', 'price', 'quantity');
-    protected $int_fields = array('product_id', 'quantity', 'limited_count', 'sold', 'sync_count', 'revoke_count');
+    protected $int_fields = array('product_id', 'quantity', 'limited_count', 'sold', 'sync_count', 'revoke_count', 'number');
 	
 	/**
 	 * 扩展关联数据
@@ -84,9 +84,21 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 	// 添加自定义ID
     protected function before_insert(&$data) {
         $data['_id'] = $this->gen_product_sku();
+
 		Doggy_Log_Helper::warn("Create product new sku ".$data['_id']);
 		
 		parent::before_insert($data);
+    }
+
+	// 添加自定义ID
+    protected function before_save(&$data) {
+
+        // 自动生成编号
+        if(!isset($data['number']) || empty($data['number'])){
+            $data['number'] = Sher_Core_Helper_Util::getNumber();
+        }
+
+		parent::before_save($data);
     }
 	
 	/**
