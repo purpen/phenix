@@ -58,6 +58,7 @@ h3.ui.header{
     width: 80px;
     height: 60px;
     position: relative;
+    border: 1px solid #eee;
 }
 .cartitem .cartinfo {
     -webkit-box-flex: 1;
@@ -168,6 +169,17 @@ h3.ui.header{
     font-size: 12px;
     display: block;
     color:#999;
+}
+span.kefu{
+    display: inline-block;
+    margin: 0 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/serve.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
 }
 </style>
 {% endblock %}
@@ -282,20 +294,21 @@ h3.ui.header{
 
       <div class="desitem">
         <div class="ui medel color button">
+          <span class="kefu"></span>
           联系客服
         </div>
       </div>
 			
-			<div class="desitem">
+			<div class="desitem m-0 pb-r">
 				商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
 			</div>
-			<div class="desitem">
+			<div class="desitem m-0 pt-0 pb-r">
 				运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
 			</div>
-      <div class="desitem">
+      <div class="desitem m-0 pt-0 pb-r">
         优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
       </div>
-			<div class="desitem">
+			<div class="desitem mt-0 pt-0">
 				应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
 			</div>
 
@@ -330,7 +343,7 @@ h3.ui.header{
         {%endif%}
 				{% if order_info.status == 1 %}
         <a href="javascript:void(0);" class="ui color-bd small gray inverted button cancel_order_btn" rid="{{ order_info.rid }}">取消订单</a>
-        <a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui color-be small inverted button">现在支付</a>
+        <a href="{{ app_url_wap }}/shop/success?rid={{ order_info.rid }}" class="ui color-be small inverted button">立即支付</a>
 				{% endif %}
 				{% if order_info.status == 15 %}
         <a href="javascript:void(0);" class="ui color-be small ajax inverted button take_delivery_btn" rid="{{ order_info.rid }}">确认收货</a>
