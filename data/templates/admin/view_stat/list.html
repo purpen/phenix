@@ -44,6 +44,7 @@
 				<th>名称</th>
 				<th>IP</th>
 				<th>类型</th>
+                <th>次数</th>
 				<th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -64,7 +65,7 @@
             触宝
           {%endif%}
           {% if d.target_id==2 %}
-            --
+            兑吧1
           {%endif%}
 				</td>
 				<td>
@@ -73,6 +74,7 @@
 				<td>
           {{ d.kind }}
 				</td>
+                <td>{{ d.count }}</td>
         <td>
           {{ d.created_on|date 'y-m-d H:m:s' }}
         </td>
