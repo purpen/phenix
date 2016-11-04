@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * fix product stage => process_voted,process_presaled,process_saled
+ * fix Inventory stage => process_voted,process_presaled,process_saled
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {
@@ -18,18 +18,18 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-echo "Prepare to fix product stage ...\n";
-$product = new Sher_Core_Model_Product();
+echo "Prepare to fix Inventory stage ...\n";
+$model = new Sher_Core_Model_Inventory();
 $page = 1;
 $size = 200;
 $is_end = false;
 $total = 0;
 while(!$is_end){
-	$query = array('stage'=>9, 'deleted'=>0);
-	$options = array('field' => array('_id','deleted', 'stage', 'number'),'page'=>$page,'size'=>$size);
-	$list = $product->find($query,$options);
+	$query = array();
+	$options = array('field' => array('_id','number'),'page'=>$page,'size'=>$size);
+	$list = $model->find($query,$options);
 	if(empty($list)){
-		echo "get product list is null,exit......\n";
+		echo "get Inventory list is null,exit......\n";
 		break;
 	}
 	$max = count($list);
@@ -40,7 +40,7 @@ while(!$is_end){
         $number = Sher_Core_Helper_Util::getNumber();
 
         $ok = true;
-        //$ok = $product->update_set($id, array('number'=>$number));
+        //$ok = $model->update_set($id, array('number'=>$number));
         if($ok){
             echo "update ok $id .\n";
             $total++;
@@ -51,14 +51,14 @@ while(!$is_end){
 	}
 	
 	if($max < $size){
-		echo "product list is end!!!!!!!!!,exit.\n";
+		echo "Inventory list is end!!!!!!!!!,exit.\n";
 		break;
 	}
 	
 	$page++;
 	echo "page [$page] updated---------\n";
 }
-echo "total $total product rows updated.\n";
+echo "total $total Inventory rows updated.\n";
 
-echo "All product fix done.\n";
+echo "All Inventory fix done.\n";
 
