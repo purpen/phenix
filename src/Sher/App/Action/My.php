@@ -1105,6 +1105,19 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
             return $this->ajax_notification('该订单出现异常，请联系客服！', true);
         }
+
+          // 判断是否京东订单
+          if(!empty($order_info['is_vop'])){
+              for($i=0;$i<count($order_info['items']);$i++){
+                  $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
+                  if(!$vop_id) continue;
+                  $vop_result = Sher_Core_Util_Vop::check_after_sale($order_info['jd_order_id'], $vop_id);
+                  if(!$vop_result['success']){
+                    return $this->ajax_notification('此订单不接受退款操作,请联系客服！', true);             
+                  }
+              }
+          }
+
         $options = array('refund_reason'=>$content, 'user_id'=>$order_info['user_id']);
         try {
             // 申请退款
@@ -1153,6 +1166,20 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
         return $this->ajax_json('该订单出现异常，请联系客服！', true);
     }
+
+
+      // 判断是否京东订单
+      if(!empty($order['is_vop'])){
+          for($i=0;$i<count($order['items']);$i++){
+              $vop_id = isset($order['items'][$i]['vop_id']) ? $order['items'][$i]['vop_id'] : null;
+              if(!$vop_id) continue;
+              $vop_result = Sher_Core_Util_Vop::check_after_sale($order['jd_order_id'], $vop_id);
+              if(!$vop_result['success']){
+                return $this->api_json('此订单不接受退款操作,请联系客服！', true);             
+              }
+          }
+      }
+
     $options = array('refund_reason'=>$refund_content, 'refund_option'=>$refund_reason, 'user_id'=>$order['user_id']);
     try {
         // 申请退款
