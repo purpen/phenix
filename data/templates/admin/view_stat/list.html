@@ -12,24 +12,30 @@
 
 	</div>
 	
-  <!--
-	<div class="ui grid">
-		<div class="middle aligned row">
-
-			<div class="ten wide column">
-				<div class="ui sub nav">
-					<form action="{{ app_url_admin_base }}/inlink_tag" method="post">
-						<label>搜索：</label>
-						<div class="ui icon input">
-							<input placeholder="标题..." type="text" name="q">
-							<i class="flat search link icon"></i>
-						</div>
-					</form>
-				</div>
-			</div>
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/view_stat" method="get">
+			<label>搜索：</label>
+		<div class="ui selection dropdown">
+		  <input type="hidden" name="target_id" value="{{ target_id }}" />
+		  <div class="default text">选择条件</div>
+		  <i class="dropdown icon"></i>
+		  <div class="menu">
+			<div class="item" data-value="1">触宝</div>
+			<div class="item" data-value="2">兑吧1</div>
+			<div class="item" data-value="3">--</div>
+		  </div>
 		</div>
+
+            <div class="ui icon input">
+              <input placeholder="ip" type="text" name="ip" value="{{ ip }}" />
+            </div>
+
+			<div class="ui icon input">
+        <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
 	</div>
-  -->
 	
 	<table class="ui table segment">
 		<thead>
