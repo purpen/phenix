@@ -7,9 +7,10 @@ class Sher_Admin_Action_ViewStat extends Sher_Admin_Action_Base implements Doggy
 	
 	public $stash = array(
 		'page' => 1,
-    'size' => 100,
-    'kind' => 1,
-    'target_id' => 0,
+        'size' => 100,
+        'kind' => '',
+        'target_id' => '',
+        'ip' => '',
 	);
 	
 	public function _init() {
@@ -36,6 +37,7 @@ class Sher_Admin_Action_ViewStat extends Sher_Admin_Action_Base implements Doggy
     $size = (int)$this->stash['size'];
     $target_id = (int)$this->stash['target_id'];
     $kind = (int)$this->stash['kind'];
+    $ip = (int)$this->stash['ip'];
 
     $query = array();
     if($target_id){
@@ -43,6 +45,10 @@ class Sher_Admin_Action_ViewStat extends Sher_Admin_Action_Base implements Doggy
     }
     if($kind){
       $query['kind'] = $kind;
+    }
+
+    if($ip){
+        $query['ip'] = $ip;
     }
 
     $options = array('page'=>$page, 'size'=>$size);
@@ -53,7 +59,7 @@ class Sher_Admin_Action_ViewStat extends Sher_Admin_Action_Base implements Doggy
     $total_count = $this->stash['total_count'] = $model->count($query);
     $this->stash['total_page'] = ceil($total_count/$size);
 		
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/view_stat?kind=%d&target_id=%d&page=#p#', $kind, $target_id);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/view_stat?kind=%d&target_id=%d&ip=%s&page=#p#', $kind, $target_id, $ip);
 		
     $this->stash['obj'] = $obj;
 		$this->stash['pager_url'] = $pager_url;

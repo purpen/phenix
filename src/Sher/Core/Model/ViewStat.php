@@ -12,11 +12,13 @@ class Sher_Core_Model_ViewStat extends Sher_Core_Model_Base  {
     'user_id' => 0,
     'kind' => 1,
     'ip' => null,
+    #点击数
+    'count' => 0,
   );
 
   protected $required_fields = array('target_id');
 
-  protected $int_fields = array('target_id', 'user_id', 'kind');
+  protected $int_fields = array('target_id', 'user_id', 'kind', 'count');
 
 
 	/**
@@ -30,7 +32,7 @@ class Sher_Core_Model_ViewStat extends Sher_Core_Model_Base  {
           $row['target_label'] = '触宝';
           break;
         case 2:
-          $row['target_label'] = '未定义';
+          $row['target_label'] = '兑吧1';
           break;
         default:
           $row['target_label'] = '--';
@@ -55,11 +57,20 @@ class Sher_Core_Model_ViewStat extends Sher_Core_Model_Base  {
       return false;
     }
     $ip = Sher_Core_Helper_Auth::get_ip();
-    $ok = $this->create(array(
-      'target_id' => (int)$target_id,
-      'ip' => $ip,
-      'kind' => (int)$kind,
-    ));
+    // 排重
+    $has_one = $this->first(array('target_id'=>(int)$target_id, 'ip'=>$ip, 'kind'=>$kind));
+    if($has_one){
+        $ok = $this->inc((string)$has_one['_id'], 'count', 1);
+    }else{
+        $ok = $this->create(
+            array(
+              'target_id' => (int)$target_id,
+              'ip' => $ip,
+              'kind' => $kind,
+              'count' => 1,
+            )
+        );   
+    }
     return $ok;
   }
 	
