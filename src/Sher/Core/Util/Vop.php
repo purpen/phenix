@@ -504,7 +504,7 @@ class Sher_Core_Util_Vop {
         $method = 'biz.afterSale.availableNumberComp.query';
         $response_key = 'biz_afterSale_availableNumberComp_query_response';
         
-        $params = array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id);
+        $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id));
         $json = !empty($params) ? json_encode($params) : '{}';
         $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
         if(!empty($vop_result['code'])){

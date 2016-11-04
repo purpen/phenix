@@ -1113,7 +1113,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
                   if(!$vop_id) continue;
                   $vop_result = Sher_Core_Util_Vop::check_after_sale($order_info['jd_order_id'], $vop_id);
                   if(!$vop_result['success']){
-                    return $this->ajax_notification('此订单不接受退款操作,请联系客服！', true);             
+                    return $this->ajax_notification($vop_result['message'], true);             
+                  }
+                  if(!$vop_result['data']){
+                     return $this->ajax_notification('该订单不允许退货款！', true);                 
                   }
               }
           }
@@ -1175,10 +1178,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
               if(!$vop_id) continue;
               $vop_result = Sher_Core_Util_Vop::check_after_sale($order['jd_order_id'], $vop_id);
               if(!$vop_result['success']){
-                return $this->api_json('服务异常,请联系客服！', true);
+                return $this->api_json($vop_result['message'], true);
               }
-              if(!$vop_result['data']['result']){
-                return $this->api_json('此订单不接受退款操作,请联系客服！', true);             
+              if(!$vop_result['data']){
+                return $this->api_json('该订单不支持退货款!', true);             
               }
           }
       }

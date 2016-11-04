@@ -1621,7 +1621,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
               if(!$vop_id) continue;
               $vop_result = Sher_Core_Util_Vop::check_after_sale($order_info['jd_order_id'], $vop_id);
               if(!$vop_result['success']){
-                return $this->api_json('此订单不接受退款操作,请联系客服！', 3008);             
+                return $this->api_json($vop_result['message'], 3008);             
+              }
+              if(!$vop_result['success']){
+                return $this->api_json('此订单不接受退款操作,请联系客服！', 3009);             
               }
           }
       }
