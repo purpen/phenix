@@ -2,6 +2,14 @@
 {% block page_css %}
 {% endblock %}
 
+{% block jquery %}
+	
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+
 {% block content %}
 	<h3 class="ui header">来源统计管理</h3>
 	
