@@ -423,28 +423,34 @@
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=1">
 						<div class="bgimg fu"></div>
-                        <div class="number">1</div>
+                        {% if user.counter.order_wait_payment %}
+                            <div class="number">{{ user.counter.order_wait_payment }}</div>
+                        {%endif%}
 						待付款
 					</a>
 				</li>
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=2">
 						<div class="bgimg fa"></div>
-                        <div class="number">1</div>
+                        {% if user.counter.order_ready_goods %}
+                            <div class="number">{{ user.counter.order_ready_goods }}</div>
+                        {%endif%}
 						待发货
 					</a>
 				</li>
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=3">
 						<div class="bgimg shou"></div>
-                        <div class="number">1</div>
+                        {% if user.counter.order_sended_goods %}
+                            <div class="number">{{ user.counter.order_sended_goods }}</div>
+                        {%endif%}
 						待收货
 					</a>
 				</li>
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=8">
 						<div class="bgimg tui"></div>
-                        <div class="number">1</div>
+                        <!--<div class="number">1</div>-->
 						退款／售后
 					</a>
 				</li>

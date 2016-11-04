@@ -497,16 +497,14 @@ class Sher_Core_Util_Vop {
      */
     public static function check_after_sale($jd_order_id, $sku_id, $options=array()){
 
-        return array('success'=>true, 'message'=>'undefault', 'data'=>array());
-
         $result = array();
         $result['success'] = false;
         $result['message'] = 'success';
 
         $method = 'biz.afterSale.availableNumberComp.query';
-        $response_key = 'biz_afterSale_availableNumberComp_get_response';
-
-        $params = array('jdOrderId'=>$jd_order_id);
+        $response_key = 'biz_afterSale_availableNumberComp_query_response';
+        
+        $params = array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id);
         $json = !empty($params) ? json_encode($params) : '{}';
         $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
         if(!empty($vop_result['code'])){
@@ -519,7 +517,7 @@ class Sher_Core_Util_Vop {
         }
 
         $result['success'] = true;
-        $result['data'] = $vop_result['result'];
+        $result['data'] = $vop_result['data']['result'];
         return $result;
     
     }
