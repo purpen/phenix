@@ -361,6 +361,62 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         return $this->to_html_page('admin/vop/server_list.html'); 
     }
 
+    /**
+     * ajax 申请售后
+     */
+    public function apply_server(){
+
+        $params = array(
+            'param'=>array(
+                'jdOrderId' => "43454135570",   // 43486942134
+                'customerExpect' => 10,
+                'questionDesc' => 'test',
+                'asCustomerDto' => array(
+                    'customerContactName' => "田帅",
+                    'customerTel' => '15001120509',
+                    'customerMobilePhone' => '15001120509',
+                    'customerEmail' => '',
+                    'customerPostcode' => '',
+                ),
+                'asPickwareDto' => array(
+                    'pickwareType' => 4,
+                    'pickwareProvince' => 0,
+                    'pickwareCity' => 0,
+                    'pickwareCounty' => 0,
+                    'pickwareVillage' => 0,
+                    'pickwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asReturnwareDto' => array(
+                    'returnwareType' => 10,
+                    'returnwareProvince' => 0,
+                    'returnwareCity' => 0,
+                    'returnwareCounty' => 0,
+                    'returnwareVillage' => 0,
+                    'returnwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asDetailDto' => array(
+                    'skuId' => '2206820',   // 1978183
+                    'skuNum' => 1,
+                ),
+            ),
+        );
+        
+        $method = 'biz.afterSale.afsApply.create';
+        $response_key = 'biz_afterSale_afsApply_create_response';
+        $params = $params;
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->ajax_json($result['msg'].$result['code'], true);
+        }
+        print_r($result);
+        if(empty($result['data']['success'])){
+            return $this->ajax_json($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+        return $this->ajax_json('success', false, 0, array('balance_price'=>$result['data']['result']));
+    }
+
 
     /*
      * ajax 查询余额
