@@ -316,8 +316,105 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 
         $this->stash['messages'] = $result['data']['result'];
         return $this->to_html_page('admin/vop/message_list.html'); 
-    
-    
+    }
+
+    /**
+     * 售后列表
+     * 需要该配送单已经妥投。
+     * 需要先调用3.3接口校验订单中某商品是否可以提交售后服务
+     * 需要先调用3.4接口查询支持的服务类型
+     * 需要先调用3.5接口查询支持的商品返回京东方式
+     */
+    public function server_list(){
+        $this->set_target_css_state('server');
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $type = $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 0;
+        if(empty($type)){
+            $type = "1,2,4,5,6,10,11,12,13,14,15,16,17";
+        }
+
+        $method = 'biz.message.get';
+        $response_key = 'biz_message_get_response';
+        $params = array('type'=>$type);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        //print_r($result['data']['result']);
+        for($i=0;$i<count($result['data']['result']);$i++){
+            $r = $result['data']['result'][$i]['result'];
+            $result['data']['result'][$i]['result_json'] = $r;
+            if(is_array($r)){
+                $result['data']['result'][$i]['result_json'] = json_encode($r);
+            }
+        }
+
+        $this->stash['servers'] = $result['data']['result'];
+        return $this->to_html_page('admin/vop/server_list.html'); 
+    }
+
+    /**
+     * ajax 申请售后
+     */
+    public function apply_server(){
+
+        $params = array(
+            'param'=>array(
+                'jdOrderId' => "43454135570",   // 43486942134
+                'customerExpect' => 10,
+                'questionDesc' => 'test',
+                'asCustomerDto' => array(
+                    'customerContactName' => "田帅",
+                    'customerTel' => '15001120509',
+                    'customerMobilePhone' => '15001120509',
+                    'customerEmail' => '',
+                    'customerPostcode' => '',
+                ),
+                'asPickwareDto' => array(
+                    'pickwareType' => 4,
+                    'pickwareProvince' => 0,
+                    'pickwareCity' => 0,
+                    'pickwareCounty' => 0,
+                    'pickwareVillage' => 0,
+                    'pickwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asReturnwareDto' => array(
+                    'returnwareType' => 10,
+                    'returnwareProvince' => 0,
+                    'returnwareCity' => 0,
+                    'returnwareCounty' => 0,
+                    'returnwareVillage' => 0,
+                    'returnwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asDetailDto' => array(
+                    'skuId' => '2206820',   // 1978183
+                    'skuNum' => 1,
+                ),
+            ),
+        );
+        
+        $method = 'biz.afterSale.afsApply.create';
+        $response_key = 'biz_afterSale_afsApply_create_response';
+        $params = $params;
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->ajax_json($result['msg'].$result['code'], true);
+        }
+        print_r($result);
+        if(empty($result['data']['success'])){
+            return $this->ajax_json($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+        return $this->ajax_json('success', false, 0, array('balance_price'=>$result['data']['result']));
     }
 
 

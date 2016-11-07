@@ -11,7 +11,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 	 * 入口
 	 */
 	public function execute(){
-		return $this->getlist();
+		return $this->product_list();
 	}
 
 	/**
@@ -23,8 +23,9 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
             '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
-            'tags'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1, 'deleted'=>1,
+            'tags'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1, 'deleted'=>1, 'number'=>1,
 			'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'summary'=>1, 'inventory'=>1, 'category_tags'=>1,
+            'is_vop'=>1,
 		);
 		
 		// 请求参数
@@ -113,6 +114,73 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 
           // 保留2位小数
           $data[$i]['sale_price'] = sprintf('%.2f', $result['rows'][$i]['sale_price']);
+
+		} // endfor
+		$result['rows'] = $data;
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
+
+	/**
+	 * sku列表
+	 */
+	public function sku_list(){
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		
+		$some_fields = array(
+            '_id'=>1, 'mode'=>1, 'product_id'=>1, 'number'=>1, 'name'=>1, 'price'=>1,
+            'quantity'=>1, 'created_on'=>1, 'updated_on'=>1, 'summary'=>1, 'stage'=>1, 'status'=>1,
+            'vop_id'=>1,
+		);
+		
+		// 请求参数
+		$stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : 0;
+		$number = isset($this->stash['number']) ? (int)$this->stash['number'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$mode = isset($this->stash['mode']) ? $this->stash['mode'] : null;
+			
+		$query   = array();
+		$options = array();
+
+        $query['stage'] = 9;
+		
+		// 查询条件
+		if($number) $query['number'] = $number;
+
+        // 模糊查标签
+        if(!empty($mode)) $query['mode'] = array('$regex'=>$mode);
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		// 开启查询
+        $inventory_model = new Sher_Core_Model_Inventory();
+        $service = Sher_Core_Service_Inventory::instance();
+        $result = $service->get_sku_list($query, $options);
+		
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+            $data[$i]['product_number'] = 0;
+            if(!empty($result['rows'][$i]['product'])){
+                $data[$i]['product_number'] = $result['rows'][$i]['product']['number'];
+            }
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
+			}
+
+          // 保留2位小数
+          $data[$i]['price'] = sprintf('%.2f', $result['rows'][$i]['price']);
 
 		} // endfor
 		$result['rows'] = $data;
