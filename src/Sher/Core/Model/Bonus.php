@@ -150,13 +150,21 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
     }else{
       $expired_at = time() + 30*24*60*60;
     }
-		return $this->update_set($crt, array(
+		$ok = $this->update_set($crt, array(
 			'user_id' => (int)$user_id,
 			'get_at'  => time(),
 			'expired_at' => $expired_at,
 			# 标识所属状态
 			'status' => self::STATUS_GOT,
-		));
+        ));
+
+        // 添加提醒数量
+        if($ok){
+            // 给用户添加提醒
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_counter_byinc($user_id, 'fiu_bonus_count', 1); 
+        }
+        return $ok;
 	}
 	
 	/**
