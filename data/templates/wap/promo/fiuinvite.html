@@ -62,7 +62,7 @@
 		var ipwidth = $(window).width();
 		var ipheight = $(window).height();
 		var scal = ipheight/ipwidth*100 +'%';
-		var ptop = 0.4197*ipheight  +'px';
+		var ptop = ipheight/ipwidth*100 - 100 +'%';
 		//console.log(scal);
 		$('.invite').css('padding-top',scal);
 		$('.getuser').css('padding-top',ptop)
