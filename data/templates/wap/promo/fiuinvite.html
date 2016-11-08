@@ -156,12 +156,12 @@
 {% endblock %}
 {% block layout_js %}
 	<script type="text/javascript">
-		//var ipwidth = $(window).width();
+		var ipwidth = $(window).width();
 		var ipheight = $(window).height();
-		//var scal = ipheight/ipwidth*100 +'%';
+		var scal = ipheight/ipwidth*100 +'%';
 		//console.log(scal);
 		var ptop = 0.4198*ipheight + 'px';
-		//$('.invite').css('padding-top',scal);
+		$('.invite').css('padding-top',scal);
 		$('.getuser').css('padding-top',ptop);
 		$('.invitebtn,.goinv').click(function(){
 			$('.mask').fadeIn();
