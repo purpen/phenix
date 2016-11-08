@@ -1,0 +1,131 @@
+{%extends 'layout/fiu.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	img{
+		width: 100%;
+		vertical-align: middle;
+	}
+	a{
+		display: block;
+	}
+	.invite{
+		padding-top: 57%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s1.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.sgobtn{
+		width: 33.2%;
+		position: absolute;
+		left: 33.4%;
+		top:71%;
+	}
+	.bonus{
+		width: 70%;
+		position: absolute;
+		left: 15%;
+		top:90%;
+	}
+	.p1{
+		padding-top: 65.7333%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s5.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p2{
+		padding-top: 91.0666%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s6.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p3{
+		padding-top: 91.6%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s7.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p4{
+		padding-top: 67.0666%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s8.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.st1{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 30.426%;
+	}
+	.st2{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 30.426%;
+	}
+	.st3,.st7,.st11{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 0;
+	}
+	.st4,.st8,.st12{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 0;
+	}
+	.st5,.st9{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 49.78%;
+	}
+	.st6,.st10{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 49.78%;
+	}
+	.smore{
+		width: 28.666%;
+		position: absolute;
+		left: 35.667%;
+		bottom: 11.928%;
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/shop/sbanner.jpg">
+<div class="invite">
+	<a class="sgobtn" href=""><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
+	<a class="bonus" href="{{ app_url_wap }}/my/bonus"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
+</div>
+<img src="{{ app_url_packaged }}/images/promo/shop/s2.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/s3.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/s4.jpg">
+<div class="p1">
+	<a class="st1" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st1.jpg"></a>
+	<a class="st2" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st2.jpg"></a>
+</div>
+<div class="p2">
+	<a class="st3" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st3.jpg"></a>
+	<a class="st4" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st4.jpg"></a>
+	<a class="st5" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st5.jpg"></a>
+	<a class="st6" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st6.jpg"></a>
+</div>
+<div class="p3">
+	<a class="st7" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st7.jpg"></a>
+	<a class="st8" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st8.jpg"></a>
+	<a class="st9" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st9.jpg"></a>
+	<a class="st10" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st10.jpg"></a>
+</div>
+<div class="p4">
+	<a class="st11" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st11.jpg"></a>
+	<a class="st12" href=""><img src="{{ app_url_packaged }}/images/promo/shop/st12.jpg"></a>
+	<a class="smore" href=""><img src="{{ app_url_packaged }}/images/promo/shop/smore.png"></a>
+</div>
+{% endblock %}

@@ -19,6 +19,11 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		//return $this->coupon();
 	}
 
+    //商城分享邀请好友
+    public function tshare(){
+      return $this->to_html_page('wap/promo/tshare.html');
+    }
+
     //商城专题
     public function theme(){
       return $this->to_html_page('wap/promo/theme.html');
