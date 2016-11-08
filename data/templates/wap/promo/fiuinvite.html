@@ -15,7 +15,7 @@
 	}
 	.getuser{
 		position: absolute;
-		top: 43.47%;
+		top: 0;
 		left: 0;
 		width: 100%;
 		height: auto;
@@ -62,9 +62,10 @@
 		var ipwidth = $(window).width();
 		var ipheight = $(window).height();
 		var scal = ipheight/ipwidth*100 +'%';
+		var ptop = 0.4197*ipheight  +'px';
 		//console.log(scal);
 		$('.invite').css('padding-top',scal);
-
+		$('.getuser').css('padding-top',ptop)
 		$('.invitebtn,.goinv').click(function(){
 			$('.mask').fadeIn();
 		});
