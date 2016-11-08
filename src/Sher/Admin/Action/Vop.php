@@ -158,6 +158,42 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
      */
     public function order_list(){
         $this->set_target_css_state('order');
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['pageSize']) ? $this->stash['pageSize'] : 20;
+        $evt = $this->stash['evt'] = isset($this->stash['evt']) ? (int)$this->stash['evt'] : 0;
+
+        $yesterday = date("Y-m-d",strtotime("-1 day"));
+        $date = $this->stash['start_date'] = isset($this->stash['start_date']) ? $this->stash['start_date'] : $yesterday;
+
+        if($evt==0){    // 对账
+            $method = 'biz.order.checkNewOrder.query';
+            $response_key = 'biz_order_checkNewOrder_query_response';
+        }elseif($evt==1){   // 妥投
+            $method = 'biz.order.checkDlokOrder.query';
+            $response_key = 'biz_order_checkDlokOrder_query_response';       
+        }elseif($evt==2){   // 拒收
+            $method = 'biz.order.checkRefuseOrder.query';
+            $response_key = 'biz_order_checkRefuseOrder_query_response';        
+        }
+
+        $params = array('page'=>$page, 'date'=>$date);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            //return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+            return $this->to_html_page('admin/vop/order_list.html');
+        }
+
+        $this->stash['orders'] = $result['data']['result'];
+        //print_r($result['data']['result']);
+        return $this->to_html_page('admin/vop/order_list.html'); 
     
     }
 
@@ -189,7 +225,24 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         }
 
         $this->stash['order'] = $result['data']['result'];
-        //print_r($result['data']);
+
+        // 物流信息
+        $method = 'biz.order.orderTrack.query';
+        $response_key = 'biz_order_orderTrack_query_response';
+        $params = array('jdOrderId'=>$id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        $this->stash['track'] = $result['data']['result'];
+
+        //print_r($result['data']['result']);
         return $this->to_html_page('admin/vop/order_view.html');
     
     }
@@ -223,6 +276,145 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         //print_r($result['data']['result']);
         return $this->to_html_page('admin/vop/balance_list.html'); 
     
+    }
+
+    /**
+     * 消息列表
+     * 建议处理方式：调用5.1查询消息后，本地保存，调用5.2删除已获取消息（不删除则一直查询到最前面的100条消息）
+     */
+    public function message_list(){
+        $this->set_target_css_state('message');
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $type = $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 0;
+        if(empty($type)){
+            $type = "1,2,4,5,6,10,11,12,13,14,15,16,17";
+        }
+
+        $method = 'biz.message.get';
+        $response_key = 'biz_message_get_response';
+        $params = array('type'=>$type);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        //print_r($result['data']['result']);
+        for($i=0;$i<count($result['data']['result']);$i++){
+            $r = $result['data']['result'][$i]['result'];
+            $result['data']['result'][$i]['result_json'] = $r;
+            if(is_array($r)){
+                $result['data']['result'][$i]['result_json'] = json_encode($r);
+            }
+        }
+
+        $this->stash['messages'] = $result['data']['result'];
+        return $this->to_html_page('admin/vop/message_list.html'); 
+    }
+
+    /**
+     * 售后列表
+     * 需要该配送单已经妥投。
+     * 需要先调用3.3接口校验订单中某商品是否可以提交售后服务
+     * 需要先调用3.4接口查询支持的服务类型
+     * 需要先调用3.5接口查询支持的商品返回京东方式
+     */
+    public function server_list(){
+        $this->set_target_css_state('server');
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $type = $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 0;
+        if(empty($type)){
+            $type = "1,2,4,5,6,10,11,12,13,14,15,16,17";
+        }
+
+        $method = 'biz.message.get';
+        $response_key = 'biz_message_get_response';
+        $params = array('type'=>$type);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        //print_r($result['data']['result']);
+        for($i=0;$i<count($result['data']['result']);$i++){
+            $r = $result['data']['result'][$i]['result'];
+            $result['data']['result'][$i]['result_json'] = $r;
+            if(is_array($r)){
+                $result['data']['result'][$i]['result_json'] = json_encode($r);
+            }
+        }
+
+        $this->stash['servers'] = $result['data']['result'];
+        return $this->to_html_page('admin/vop/server_list.html'); 
+    }
+
+    /**
+     * ajax 申请售后
+     */
+    public function apply_server(){
+
+        $params = array(
+            'param'=>array(
+                'jdOrderId' => "43454135570",   // 43486942134
+                'customerExpect' => 10,
+                'questionDesc' => 'test',
+                'asCustomerDto' => array(
+                    'customerContactName' => "田帅",
+                    'customerTel' => '15001120509',
+                    'customerMobilePhone' => '15001120509',
+                    'customerEmail' => '',
+                    'customerPostcode' => '',
+                ),
+                'asPickwareDto' => array(
+                    'pickwareType' => 4,
+                    'pickwareProvince' => 0,
+                    'pickwareCity' => 0,
+                    'pickwareCounty' => 0,
+                    'pickwareVillage' => 0,
+                    'pickwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asReturnwareDto' => array(
+                    'returnwareType' => 10,
+                    'returnwareProvince' => 0,
+                    'returnwareCity' => 0,
+                    'returnwareCounty' => 0,
+                    'returnwareVillage' => 0,
+                    'returnwareAddress' => '酒仙桥北路 798 751 太火鸟',
+                ),
+                'asDetailDto' => array(
+                    'skuId' => '2206820',   // 1978183
+                    'skuNum' => 1,
+                ),
+            ),
+        );
+        
+        $method = 'biz.afterSale.afsApply.create';
+        $response_key = 'biz_afterSale_afsApply_create_response';
+        $params = $params;
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->ajax_json($result['msg'].$result['code'], true);
+        }
+        print_r($result);
+        if(empty($result['data']['success'])){
+            return $this->ajax_json($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+        return $this->ajax_json('success', false, 0, array('balance_price'=>$result['data']['result']));
     }
 
 

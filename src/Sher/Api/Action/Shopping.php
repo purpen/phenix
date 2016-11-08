@@ -195,7 +195,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         // 不允许自营和京东同时下单
         if(!empty($vop_count) && !empty($self_count)){
-            return $this->api_json('请分开下单！', 4005);
+            return $this->api_json('不能和京东配货产品同时下单！', 4005);
         }
 
 		try{
@@ -1607,12 +1607,26 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
       //零元不能退款
       if ((float)$order_info['pay_money']==0){
-          return $this->api_json('此订单不允许退款操作！', 3004);
+          return $this->api_json('零元订单不允许退款操作！', 3004);
       }
 
       // 正在配货订单才允许申请
       if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
           return $this->api_json('该订单出现异常，请联系客服！', 3005);
+      }
+      // 判断是否京东订单
+      if(!empty($order_info['is_vop'])){
+          for($i=0;$i<count($order_info['items']);$i++){
+              $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
+              if(!$vop_id) continue;
+              $vop_result = Sher_Core_Util_Vop::check_after_sale($order_info['jd_order_id'], $vop_id);
+              if(!$vop_result['success']){
+                return $this->api_json($vop_result['message'], 3008);             
+              }
+              if(!$vop_result['success']){
+                return $this->api_json('此订单不接受退款操作,请联系客服！', 3009);             
+              }
+          }
       }
       $options = array('refund_reason'=>$content, 'refund_option'=>$refund_option, 'user_id'=>$order_info['user_id']);
       try {

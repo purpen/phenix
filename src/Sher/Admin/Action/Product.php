@@ -234,10 +234,6 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 
         $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
         $data['number'] = $number;
-
-        if($data['stage']==9 && empty($number)){
-  		    return $this->ajax_json('请输入产品编号(与Erp相同)！', true);       
-        }
 		
 		try{
 			// 后台上传产品，默认通过审核
@@ -462,11 +458,11 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$mode = $this->stash['mode'];
 		$price = $this->stash['price'];
 		$quantity = (int)$this->stash['quantity'];
-        $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
+        $number = isset($this->stash['number']) ? (int)trim($this->stash['number']) : 0;
         $vop_id = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
 		
 		// 验证数据
-		if(empty($product_id) || empty($number) || empty($price) || empty($mode) || empty($quantity)){
+		if(empty($product_id) || empty($price) || empty($mode) || empty($quantity)){
 			return $this->ajax_notification('设置SKU参数不足！', true);
 		}
 		

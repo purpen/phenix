@@ -217,6 +217,10 @@ db.china_city.ensureIndex({ 'layer':1 }, {background: true});
 db.china_city.ensureIndex({ 'sort':-1 }, {background: true});
 db.china_city.ensureIndex({ 'name':1 }, {background: true});
 
+# view_stat       // 导流统计
+db.view_stat.ensureIndex({ 'target_id':1 }, {background: true});
+db.view_stat.ensureIndex({ 'ip':1 }, {background: true});
+db.view_stat.ensureIndex({ 'count':-1 }, {background: true});
 
 
 db.applitable.count()     23665

@@ -86,6 +86,12 @@
         <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
 			余额明细
 		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/server_list" class="item {{ css_server }}">
+			售后列表
+		</a>
 
 
 	  	<div class="right menu">
@@ -146,7 +152,6 @@
 				</td>
                 <td>{{ d.page_num }}</td>
                 <td><a href="{{ app_url_admin }}/vop/product_list?pageNum={{ d.page_num }}">{{ d.name }}</a></td>
-				</td>
 				<td>--</td>
 			</tr>
 			{% endfor %}

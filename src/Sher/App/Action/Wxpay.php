@@ -134,10 +134,11 @@
 			if($this->visitor->id != $order_info['user_id']){
 			  return $this->show_message_page('你没有权限查看此订单！');
 			}
-				  $this->stash['order_info'] = $order_info;
+			$this->stash['order'] = $order_info;
+            $this->stash['card_payed'] = true; 
 				  
-				  return $this->to_html_page("wap/order_view.html");
-			 }
+			return $this->to_html_page("wap/success.html");
+		}
 	   
 		/**
 		 * 更新订单状态

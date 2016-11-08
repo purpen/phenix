@@ -892,7 +892,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         }
 
         if(!empty($vop_count) && !empty($self_count)){
-            return $this->show_message_page('请分开下单！', true);       
+            return $this->show_message_page('不能和京东配货产品同时下单！', true);       
         }
 
         $items_count = count($items);
@@ -1241,29 +1241,31 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
-		
-		// 成功提交订单后，发送提醒邮件<异步进程处理>
-		
-		$this->stash['card_payed'] = false;
-		// 验证是否需要跳转支付		
-		if ($order_info['pay_money'] == 0.0 && ($order_info['total_money'] + $order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'] + $order_info['bird_coin_money'])){
-			$trade_prefix = 'Coin';
-			if($order_info['gift_money'] > 0){
-				$trade_prefix = 'Gift';
-			}
-			if($order_info['card_money'] > 0){
-				$trade_prefix = 'Card';
-			}
-			if($order_info['bird_coin_money'] > 0){
-				$trade_prefix = 'Card';
-			}
-			// 自动处理支付
-			if ($order_info['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-				$trade_no = $trade_prefix.rand();
-				$model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id']));
-			}
-			$this->stash['card_payed'] = true;
-		}
+
+        if($order_info['status']==Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+            // 成功提交订单后，发送提醒邮件<异步进程处理>
+            
+            $this->stash['card_payed'] = false;
+            // 验证是否需要跳转支付		
+            if ($order_info['pay_money'] == 0.0 && ($order_info['total_money'] + $order_info['freight'] <= $order_info['card_money'] + $order_info['coin_money'] + $order_info['gift_money'] + $order_info['bird_coin_money'])){
+                $trade_prefix = 'Coin';
+                if($order_info['gift_money'] > 0){
+                    $trade_prefix = 'Gift';
+                }
+                if($order_info['card_money'] > 0){
+                    $trade_prefix = 'Card';
+                }
+                if($order_info['bird_coin_money'] > 0){
+                    $trade_prefix = 'Card';
+                }
+                // 自动处理支付
+                $trade_no = $trade_prefix.rand();
+                $model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id']));
+                $this->stash['card_payed'] = true;
+            }       
+        }else{
+            $this->stash['card_payed'] = true;       
+        }
 		
 		$this->stash['order'] = $order_info;
 		$this->stash['is_weixin'] = Sher_Core_Helper_Util::is_weixin();

@@ -1,0 +1,219 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">商品池</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
+		</a>
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
+		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/server_list" class="item {{ css_server }}">
+			售后列表
+		</a>
+
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
+			</a>
+	    </div>
+	</div>
+
+	<div class="ui sub nav">
+
+		<form action="{{ app_url_admin }}/vop/message_list" id="search-form" method="get">
+			<label>搜索：</label>
+
+            <div class="ui selection dropdown">
+              <input type="hidden" name="type" value="{{ type }}" />
+              <div class="default text">选择类型</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" data-value="1">订单拆分变更</div>
+                <div class="item" data-value="2">商品价格变更</div>
+                <div class="item" data-value="4">商品上下架变更</div>
+                <div class="item" data-value="5">该订单已妥投ID</div>
+                <div class="item" data-value="6">添加、删除商品池内商品</div>
+                <div class="item" data-value="10">订单取消</div>
+                <div class="item" data-value="11">申请开票信息</div>
+                <div class="item" data-value="12">配送单生成</div>
+                <div class="item" data-value="13">换新订单生成</div>
+                <div class="item" data-value="14">支付失败消息</div>
+                <div class="item" data-value="15">7天未支付取消消息/未确认取消</div>
+                <div class="item" data-value="16">商品介绍及规格参数变更</div>
+                <div class="item" data-value="17">赠品促销变更消息</div>
+                <div class="item" data-value="18">--</div>
+              </div>
+            </div>
+
+            <div class="ui input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>ID</th>
+                <th>类型</th>
+                <th>说明</th>
+                <th>时间</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in messages %}
+			<tr id="item-{{ d.id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d.id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d.id }}</td>
+                <td>
+                    <p>ID: {{ d.type }}</p>
+                    <p>说明: 
+                    {% if d.type==1 %}
+                        订单拆分变更
+                    {%endif%}
+                    {% if d.type==2 %}
+                        商品价格变更
+                    {%endif%}
+                    {% if d.type==4 %}
+                        商品上下架变更
+                    {%endif%}
+                    {% if d.type==5 %}
+                        该订单已妥投
+                    {%endif%}
+                    {% if d.type==6 %}
+                        添加、删除商品池内商品
+                    {%endif%}
+                    {% if d.type==10 %}
+                        订单取消
+                    {%endif%}
+                    {% if d.type==11 %}
+                        申请开票信息
+                    {%endif%}
+                    {% if d.type==12 %}
+                        配送单生成
+                    {%endif%}
+                    {% if d.type==13 %}
+                        换新订单生成
+                    {%endif%}
+                    {% if d.type==14 %}
+                        支付失败消息
+                    {%endif%}
+                    {% if d.type==15 %}
+                        7天未支付取消消息/未确认取消
+                    {%endif%}
+                    {% if d.type==16 %}
+                        商品介绍及规格参数变更
+                    {%endif%}
+                    {% if d.type==17 %}
+                        赠品促销变更消息
+                    {%endif%}
+                    </p>
+                </td>
+                <td>
+                    {{ d.result_json }}
+                </td>
+                <td>{{ d.time }}</td>
+				<td>删除</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

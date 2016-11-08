@@ -99,7 +99,7 @@ class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_
 		
 		// 验证订单是否已经付款
 		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
-			return $this->show_message_page('订单[$rid]已付款！', false);
+			return $this->show_message_page("订单[$rid]已付款！", false);
 		}
 		
 		// 返回格式
@@ -269,6 +269,7 @@ class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_
 		
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+        $redirect_url = sprintf("%s/shop/success?rid=%s", Doggy_Config::$vars['app.url.wap'], $out_trade_no);
 		
 		Doggy_Log_Helper::warn("Alipay Mobile order[$out_trade_no] status[$status] updated!");
 		
@@ -278,15 +279,16 @@ class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_
 			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
 			
 			if (!$sync){
-				return $this->show_message_page('订单状态已更新!', false, $order_view_url);
+				return $this->show_message_page('订单状态已更新!', false, $redirect_url);
 			} else {
 				// 已支付状态
 				return $this->to_raw('success');
+
 			}
 		}
 		
 		if (!$sync){
-			return $this->to_redirect($order_view_url);
+			return $this->to_redirect($redirect_url);
 		} else {
 			return $this->to_raw('success');
 		}

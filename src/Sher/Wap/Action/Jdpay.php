@@ -215,6 +215,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		
 		// 跳转订单详情
 		$order_view_url = Sher_Core_Helper_Url::order_view_url($out_trade_no);
+        $redirect_url = sprintf("%s/shop/success?rid=%s", Doggy_Config::$vars['app.url.wap'], $out_trade_no);
 		
 		Doggy_Log_Helper::warn("JdPay wap order[$out_trade_no] status[$status] updated!");
 		
@@ -224,7 +225,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 			$model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_JDPAY, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
 			
 			if (!$sync){
-				return $this->show_message_page('订单状态已更新!', $order_view_url);
+				return $this->show_message_page('订单状态已更新!', $redirect_url);
 			} else {
 				// 已支付状态
 				return $this->to_raw('ok');
@@ -232,7 +233,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
 		}
 		
 		if (!$sync){
-			return $this->to_redirect($order_view_url);
+			return $this->to_redirect($redirect_url);
 		} else {
 			return $this->to_raw('ok');
 		}

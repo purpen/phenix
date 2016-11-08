@@ -85,7 +85,7 @@
 	});
 	
     $('.caok').on('click',function(){
-    	location.href="{{ back_url }}";
+    	location.href="{{ app_url_wap }}/shop";
     });
 {% endblock %}
 
@@ -188,13 +188,13 @@
 								<i class="checkmark icon"></i>
 								订单已支付成功。
 								<div class="sub header mt-r">
-									订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>  支付方式：<span class="count">优惠抵扣</span>
+									订单号: <span class="count">{{ order.rid }}</span> 应付金额: <span class="count"><small>￥</small>{{ order.pay_money }}</span>
 								</div>
 							</div>
 						</h5>
 					</div>
 					
-					<a class="ui active block button" style="text-align:center;width:48%;background:#fff;color:#222;display: inline-block;" href="{{ app_url_wap }}/home">
+					<a class="ui active block button" style="text-align:center;width:48%;background:#fff;color:#222;display: inline-block;" href="{{ app_url_wap }}/shop">
 						返回首页
 					</a>
 					<a class="ui active block button" style="text-align:center;width:48%;background:#be8914;display: inline-block;color:#fff;" href="{{ order.mm_view_url }}">

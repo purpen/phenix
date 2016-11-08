@@ -38,7 +38,7 @@ class Sher_Core_Util_Vop {
             $refresh_token = $dig['items']['refresh_token'];
 
             // token大于7天
-            if(($now - $created_on) < 1209600){
+            if(($now - $created_on) < 2419200){
                 $result['data'] = $dig['items'];
                 return $result;
             }
@@ -487,6 +487,37 @@ class Sher_Core_Util_Vop {
 
         $result['success'] = true;
         $result['data'] = $vop_result['result'];
+        return $result;
+    
+    }
+
+
+    /**
+     * 验证订单是否支持售后
+     */
+    public static function check_after_sale($jd_order_id, $sku_id, $options=array()){
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        $method = 'biz.afterSale.availableNumberComp.query';
+        $response_key = 'biz_afterSale_availableNumberComp_query_response';
+        
+        $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id));
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        if(!empty($vop_result['code'])){
+            $result['message'] = $vop_result['msg'];
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+
+        $result['success'] = true;
+        $result['data'] = $vop_result['data']['result'];
         return $result;
     
     }

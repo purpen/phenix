@@ -125,6 +125,7 @@ class Sher_Core_Helper_FilterFields {
           $data['counter']['fiu_comment_count'] = isset($data['counter']['fiu_comment_count']) ? $data['counter']['fiu_comment_count'] : 0;
           $data['counter']['fiu_notice_count'] = isset($data['counter']['fiu_notice_count']) ? $data['counter']['fiu_notice_count'] : 0;
           $data['counter']['fiu_alert_count'] = isset($data['counter']['fiu_alert_count']) ? $data['counter']['fiu_alert_count'] : 0;
+          $data['counter']['fiu_bonus_count'] = isset($data['counter']['fiu_bonus_count']) ? $data['counter']['fiu_bonus_count'] : 0;
 
           // 总消息数量
           $data['counter']['message_total_count'] = $data['counter']['message_count'] + $data['counter']['fiu_comment_count'] + $data['counter']['fiu_notice_count'] + $data['counter']['fiu_alert_count'] + $data['counter']['fans_count'];

@@ -461,6 +461,15 @@ class Sher_Api_Action_My extends Sher_Api_Action_Base {
             }
             $result['rows'][$i]['product_name'] = $product_name;
         }
+
+        // 清空提醒数
+        if($page==1){
+          $user_model = new Sher_Core_Model_User();
+          $user = $user_model->load($user_id);
+          if($user && isset($user['counter']['fiu_bonus_count']) && $user['counter']['fiu_bonus_count']>0){
+            $user_model->update_counter($user_id, 'fiu_bonus_count');
+          }
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
   

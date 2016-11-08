@@ -277,19 +277,6 @@
 					}
 				]
 			},
-            number: {
-                identifier  : 'number',
-                rules: [
-                    {
-                        type   : 'empty',
-                        prompt : '编号不能为空'
-                    },
-                    {
-                        type   : 'maxLength[30]',
-                        prompt : '编号最多30个字符'
-                    }
-                ]
-            },
 			price: {
 				identifier  : 'price',
 				rules: [
@@ -781,7 +768,7 @@
 			<div class="field">
 				<label>编号</label>
 			  	<input type="text" name="number" value="{{ product.number }}" />
-                <div class="description">必填，必须与erp编号相同!</div>
+                <div class="description">无需添加，自动生成!</div>
 			</div>
 
 			<div class="six fields">
@@ -1259,7 +1246,7 @@
 										<label>销售价格：</label>￥ {{ sku.price }}
 									</p>
 									<p>
-										<label>开普勒：</label>￥ {{ sku.vop_id }}
+										<label>开普勒：</label> {{ sku.vop_id }}
 									</p>
 									
 									<div class="actions">

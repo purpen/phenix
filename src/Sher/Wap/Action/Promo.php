@@ -26,7 +26,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     //双11 淘宝
     public function eleven(){
-      return $this->to_html_page('wap/promo/eleven.html');
+        // 统计兑吧
+        $model = new Sher_Core_Model_ViewStat();
+        $ok = $model->add_record(2);
+        return $this->to_html_page('wap/promo/eleven.html');
     }
 
     //云马
