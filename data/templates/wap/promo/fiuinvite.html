@@ -12,6 +12,14 @@
 	.invite{
 		/*background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;*/
 		background-size:100%;
+		position: relative;
+	}
+	.inbg{
+		position:absolute;
+		height:100%;
+		width:100%;
+		top:0;
+		left:0;
 	}
 	.getuser{
 		position: absolute;
@@ -148,12 +156,12 @@
 {% endblock %}
 {% block layout_js %}
 	<script type="text/javascript">
-		var ipwidth = $(window).width();
+		//var ipwidth = $(window).width();
 		var ipheight = $(window).height();
-		var scal = ipheight/ipwidth*100 +'%';
+		//var scal = ipheight/ipwidth*100 +'%';
 		//console.log(scal);
 		var ptop = 0.4198*ipheight + 'px';
-		$('.invite').css('padding-top',scal);
+		//$('.invite').css('padding-top',scal);
 		$('.getuser').css('padding-top',ptop);
 		$('.invitebtn,.goinv').click(function(){
 			$('.mask').fadeIn();
@@ -165,7 +173,7 @@
 {% endblock %}
 {% block content %}
 <div class="invite">
-	<img src="{{ app_url_packaged }}/images/promo/shop/fshare.jpg" style="position:absolute;height:100%;width:100%;top:0;left:0;">
+	<img class="inbg" src="{{ app_url_packaged }}/images/promo/shop/fshare.jpg">
 	<!-- 去邀请 -->
 	<!-- <div class="getuser">
 		<img src="{{ app_url_packaged }}/images/promo/shop/word.png">
