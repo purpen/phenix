@@ -10,7 +10,7 @@
 		display: block;
 	}
 	.invite{
-		background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;
+		//background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;
 		background-size:100%;
 	}
 	.getuser{
@@ -76,6 +76,7 @@
 {% endblock %}
 {% block content %}
 <div class="invite">
+	<img src="{{ app_url_packaged }}/images/promo/shop/fshare.jpg" style="position:absolute;height:100%;width:100%;top:0;left:0;">
 	<!-- 去邀请 -->
 	<!-- <div class="getuser">
 		<img src="{{ app_url_packaged }}/images/promo/shop/word.png">
