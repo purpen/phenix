@@ -10,7 +10,7 @@
 		display: block;
 	}
 	.invite{
-		//background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;
+		/*background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;*/
 		background-size:100%;
 	}
 	.getuser{
@@ -55,6 +55,95 @@
 		display: block;
     	margin: 0 auto 8px;
 	}
+
+	 @-webkit-keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      @keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      #orientLayer {
+          display: none;
+      }
+
+      @media screen and (min-aspect-ratio: 13/8) {
+          #orientLayer {
+              display: block;
+          }
+      }
+
+      .mod-orient-layer {
+          display: none;
+          position: absolute !important;
+          height: 100%;
+          width: 100%;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background: #000;
+          z-index: 9997;
+		overflow:hidden !important;
+      }
+
+      .mod-orient-layer__content {
+          position: absolute;
+          width: 100%;
+          top: 45%;
+          margin-top: -35px !important;
+          text-align: center
+      }
+
+      .mod-orient-layer__icon-orient {
+          background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+          display: inline-block;
+          width: 34px !important;
+          height: 55px !important;
+          transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          -webkit-animation: rotation infinite 1.5s ease-in-out;
+          animation: rotation infinite 1.5s ease-in-out;
+          -webkit-background-size: 34px;
+          background-size: 34px !important;
+      }
+
+      .mod-orient-layer__desc {
+          margin-top: 10px !important;
+          font-size: 9px !important;
+          color: #fff
+      }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -108,5 +197,9 @@
 <div class="ui mask hide">
 	<img src="{{ app_url_packaged }}/images/promo/shop/mask.png">
 </div>
-
+<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>
 {% endblock %}
