@@ -202,7 +202,7 @@
 		<img src="{{ app_url_packaged }}/images/promo/shop/binvi.png">
 		<!-- 未登录 -->
 		{% if !yes_login %}
-			<a class="invitebtn" href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+			<a class="login" href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
 				<img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg">
 			</a>
 		{%else%}
