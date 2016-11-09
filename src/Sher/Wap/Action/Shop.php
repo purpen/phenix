@@ -117,6 +117,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function shop(){
 		$cid = isset($this->stash['cid']) ? $this->stash['cid'] : 0;
+    $sort = isset($this->stash['sort']) ? $this->stash['sort'] : 9;
     $presale = isset($this->stash['presale'])?(int)$this->stash['presale']:0;
 		if($cid){
 			// 获取某类别列表
