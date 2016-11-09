@@ -126,9 +126,9 @@
 	$('.sgobtn').click(function(){
 		if (!phenix.visitor.is_login){
 	        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
-      	}else{
-      		phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite=1');
+	        return false;
       	}
+      		phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite=1');
 	})
 </script>
 {% endblock %}
