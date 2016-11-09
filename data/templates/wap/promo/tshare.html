@@ -96,15 +96,23 @@
 </style>
 {% endblock %}
 {% block layout_js %}
+<script type="text/javascript">
+	$('.sgobtn').click(function(){
+		if (!phenix.visitor.is_login){
+	        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+	        return false;
+      	}else{
+      		phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite=1');
+      	}
+	})
+</script>
 {% endblock %}
 {% block content %}
 <img src="{{ app_url_packaged }}/images/promo/shop/sbanner.jpg">
 <div class="invite">
-	{% if visitor %}
-		<a class="sgobtn" href="{{ app_url_wap }}/promo/fiuinvite?invite=1"><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
-	{% else %}
-		<a class="sgobtn" href="{{ app_url_wap }}/auth/login_signup"><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
-	{% endif %}
+	<a class="sgobtn" href="javascript:void(0);">
+		<img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg">
+	</a>
 	<a class="bonus" href="{{ app_url_wap }}/my/bonus"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
 </div>
 <img src="{{ app_url_packaged }}/images/promo/shop/s2.jpg">
