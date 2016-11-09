@@ -96,6 +96,7 @@
 </style>
 {% endblock %}
 {% block layout_js %}
+<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.wap.min.{{ js_jquery_bundle_version }}.js"></script>
 <script type="text/javascript">
 	$('.sgobtn').click(function(){
 		if (!phenix.visitor.is_login){
