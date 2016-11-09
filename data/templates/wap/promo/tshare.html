@@ -96,8 +96,33 @@
 </style>
 {% endblock %}
 {% block layout_js %}
-<script type="text/javascript" src="{{ app_url_packaged }}/javascript/frbird.wap.min.{{ js_jquery_bundle_version }}.js"></script>
 <script type="text/javascript">
+	var phenix = {
+	    // 当前访问者用户信息
+	    visitor: {},
+	    redirect: function(url,delay) {
+	        setTimeout(function(){
+				window.location = url;
+			},delay);
+	    },
+	};
+	phenix.initial = function(){
+		$('a.ajax').livequery(function(){
+			$(this).click(function(){
+				var res_url = $(this).attr('href');
+				// 所有ajax请求，验证是否登录
+				if (!phenix.visitor.is_login){
+					phenix.show_login_box(res_url);
+					return false;
+				}
+				// 发送ajax请求
+				$.get(res_url);
+				
+		        return false;
+			});
+		});
+	};
+
 	$('.sgobtn').click(function(){
 		if (!phenix.visitor.is_login){
 	        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
