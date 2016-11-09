@@ -28,6 +28,7 @@
 		width: 100%;
 		height: auto;
 		text-align: center;
+		display: none;
 	}
 	.number{
 		padding: 5px 20px;
@@ -168,35 +169,46 @@
 		});
 		$('.mask').click(function(){
 			$(this).fadeOut();
-		})
+		});
+		var invite = '{{ invite | default 0 }}';
+
+		if( invite == 1 ){
+			$('.goinvite').show();
+		}else{
+			$('.reinvite').show();
+		}
 	</script>
 {% endblock %}
 {% block content %}
 <div class="invite">
 	<img class="inbg" src="{{ app_url_packaged }}/images/promo/shop/fshare.jpg">
 	<!-- 去邀请 -->
-	<!-- <div class="getuser">
+	<div class="getuser goinvite">
 		<img src="{{ app_url_packaged }}/images/promo/shop/word.png">
 		<div class="number">
-			THN0007
+			{{ invite_code }}
 		</div>
 		<img src="{{ app_url_packaged }}/images/promo/shop/word2.png">
 
 		<a class="invitebtn" href="javascript:void(0);"><img src="{{ app_url_packaged }}/images/promo/shop/invite.jpg"></a>
-	</div> -->
+	</div>
 
 	<!-- 被邀请 -->
-	<div class="getuser">
+	<div class="getuser reinvite">
 		<div class="user">
-			<img src="http://frbird.qiniudn.com/avatar/160412/570cd43520de8d236a8b69f8-avs.jpg">
-			用户名
+			<img src="{{ user.small_avatar_url }}">
+			{{ user.nickname }}
 		</div>
 		<img src="{{ app_url_packaged }}/images/promo/shop/binvi.png">
 		<!-- 未登录 -->
-		{% if !visitor %}
-			<a class="login" href="{{ app_url_wap }}/auth/login_signup"><img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg"></a>
-		{% else %}
-			<img class="goinv" src="{{ app_url_packaged }}/images/promo/shop/goinv.png">
+		{% if !yes_login %}
+			<a href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+				<img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg">
+			</a>
+		{%else%}
+          	{% if !is_current_user %}
+				<img class="goinv" src="{{ app_url_packaged }}/images/promo/shop/goinv.png">
+			{% endif %}
 		{% endif %}
 	</div>
 

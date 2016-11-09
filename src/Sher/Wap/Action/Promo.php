@@ -21,6 +21,29 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     //fiu分享邀请好友
     public function fiuinvite(){
+      $invite = isset($this->stash['invite'])?$this->stash['invite']:0;
+      $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
+      $this->stash['user'] = null;
+      $this->stash['is_current_user'] = false;
+      $this->stash['yes_login'] = false;
+      //通过邀请码获取邀请者ID
+      if($code){
+        $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
+        if($user_invite_id){
+          $mode = new Sher_Core_Model_User();
+          $user = $mode->find_by_id((int)$user_invite_id);
+          if($user){
+            $this->stash['user'] = $user;
+            //判断是否为当前用户
+            if($this->visitor->id){
+              $this->stash['yes_login'] = true;
+              if((int)$this->visitor->id==$user['_id']){
+                $this->stash['is_current_user'] = true;
+              }
+            }
+          }
+        }
+      }
       return $this->to_html_page('wap/promo/fiuinvite.html');
     }
 

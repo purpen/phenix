@@ -96,12 +96,15 @@
 </style>
 {% endblock %}
 {% block layout_js %}
-
 {% endblock %}
 {% block content %}
 <img src="{{ app_url_packaged }}/images/promo/shop/sbanner.jpg">
 <div class="invite">
-	<a class="sgobtn" href=""><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
+	{% if visitor %}
+		<a class="sgobtn" href="{{ app_url_wap }}/promo/tshare?invite=1"><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
+	{% else %}
+		<a class="sgobtn" href="{{ app_url_wap }}/auth/signup"><img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg"></a>
+	{% endif %}
 	<a class="bonus" href="{{ app_url_wap }}/my/bonus"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
 </div>
 <img src="{{ app_url_packaged }}/images/promo/shop/s2.jpg">
