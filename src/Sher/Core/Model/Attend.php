@@ -17,14 +17,14 @@ class Sher_Core_Model_Attend extends Sher_Core_Model_Base  {
   # 试用预热想要
   const EVENT_TRY_WANT = 3;
 
-  # 专题
+  # 专题/送红包
   const EVENT_SUBJECT = 5;
   # app商城风格显示
   const EVENT_APP_STORE_INDEX = 6;
 	
   protected $schema = array(
     'user_id' => null,
-    # 如果是专题：1. 云马C1PK; 2. 试用抽奖; 3. 兑吧抽奖送红包 4. 火眼项目入住 5.奶爸妈PK 6.兑吧3 7.文利 8.--
+    # 如果是专题：1. 云马C1PK; 2. 试用抽奖; 3. 兑吧抽奖送红包 4. 火眼项目入住 5.奶爸妈PK 6.兑吧3 7.文利 8.Fiu新用户送红包 9.--
     'target_id' => null,
     # 父分类
     'pid' => 0,

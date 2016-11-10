@@ -45,6 +45,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'DA30', # 内测 满299减30
         'DA20', #内测 满199减20
         'LSD99', # 螺丝刀99
+        'FIU_NEW30', # Fiu店新用户送30
 	);
 	
     protected $schema = array(
@@ -299,6 +300,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'F' => 50,
       'G' => 999,
       'H' => 499,
+      'I' => 30,
     );
 		
     for($i=0; $i<$count; $i++){

@@ -20,6 +20,40 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 		//return $this->coupon();
 	}
 
+    /**
+     * 新人领红包
+     */
+    public function ajax_new_bonus(){
+        $user_id = $this->visitor->id;
+
+        $model = new Sher_Core_Model_Attend();
+
+        $row = array(
+            'user_id' => $user_id,
+            'target_id' => 8,
+            'event' => 5,
+        );
+        $has_one = $model->first($row);
+
+        // 是否已领取
+        if($has_one){
+            return $this->ajax_json('您已成功领取!', true);
+        }
+
+        $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+        if($ok){
+            $ok = $model->apply_and_save($row);
+            if($ok){
+                return $this->ajax_json('success', false, '', array());
+            }else{
+                return $this->ajax_json('未知错误!', true);
+            }
+        }else{
+            return $this->ajax_json('领取失败!', true);
+        }
+    
+    }
+
   /**
    * 试用抽奖获取值页面
    */
@@ -221,9 +255,6 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:0;
     $from_to = isset($this->stash['from_to'])?(int)$this->stash['from_to']:1;
-    if(empty($from_to)){
-      $from_to = 1;
-    }
 
     if(empty($target_id) || empty($event)){
       return $this->ajax_json('参数不存在!', true);   

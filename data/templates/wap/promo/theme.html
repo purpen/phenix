@@ -138,10 +138,31 @@
   });
  </script>
 {% endblock %}
+
+{% block jquery %}
+    $('#recive_bonus_btn').click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+
+      // 领红包
+      var url = "{{ app_url_wap }}/app/wap/promo_func/ajax_new_bonus";
+      $.post(url, {}, function(rs){
+        if(rs.success){
+            phenix.show_ok_note('领取成功!');
+        }else{
+            phenix.show_error_note(rs.message);
+        }
+      }, 'json')
+    });
+{% endblock %}
+
 {% block content %}
 <img src="{{ app_url_packaged }}/images/promo/shop/banner.jpg">
 <div class="bonus">
-	<a href="" title="立即领取">
+	<a href="javascript:void(0);" id="recive_bonus_btn" title="立即领取">
 		<img src="{{ app_url_packaged }}/images/promo/shop/gobtn.jpg">
 	</a>
 </div>

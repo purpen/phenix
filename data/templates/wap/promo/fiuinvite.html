@@ -185,6 +185,7 @@
       link: link,
       imgUrl: img_url,
       success: function (res) {
+        record_share_num();
       }
     });      
 
@@ -195,6 +196,7 @@
       link: link,
       imgUrl: img_url,
       success: function (res) {
+        record_share_num();
       }
     });
 
@@ -205,6 +207,7 @@
       link: link,
       imgUrl: img_url,
       success: function (res) {
+        record_share_num();
       }
     });
 
@@ -215,10 +218,17 @@
       link: link,
       imgUrl: img_url,
       success: function (res) {
-
+        record_share_num();
       }
     });
   });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    //$.get(url, { target_id: 6, count_name:'count', type: 4, kind:4 });
+    $('.mask').fadeOut();
+  }
  </script>
 	<script type="text/javascript">
 		var ipwidth = $(window).width();
