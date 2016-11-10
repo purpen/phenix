@@ -67,8 +67,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         # 去底图
         'png_asset_ids' => array(),
 		
-		# 类别支持多选
+		# 类别
 		'category_id' => 0,
+        # 类别支持多选(new)
+        'category_ids' => array(),
       # 分类标签
         'category_tags' => array(),
         # 所属父ID(用于3C数码父类:app_category_id)
@@ -364,26 +366,30 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$row['vote_view_url'] = Sher_Core_Helper_Url::vote_view_url($row['_id']);
 		$row['presale_view_url'] = Sher_Core_Helper_Url::sale_view_url($row['_id']);
 
-    $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.shop'].'/view/%d/%d', $row['_id'], 1);
-		
-		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+        $row['comment_view_url'] = sprintf(Doggy_Config::$vars['app.url.shop'].'/view/%d/%d', $row['_id'], 1);
+            
+            $row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
 
-    if(isset($row['category_tags']) && !empty($row['category_tags'])){
- 		  $row['category_tags_s'] = implode(',',$row['category_tags']);   
-    }
+        if(isset($row['category_ids']) && !empty($row['category_ids'])){
+              $row['category_ids_s'] = implode(',',$row['category_ids']);   
+        }
 
-    // 场景转换字符串
-    if(isset($row['scene_ids']) && !empty($row['scene_ids'])){
- 		  $row['scene_ids_to_s'] = implode(',', $row['scene_ids']);   
-    }
-    // 风格转换字符串
-    if(isset($row['style_ids']) && !empty($row['style_ids'])){
- 		  $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
-    }
+        if(isset($row['category_tags']) && !empty($row['category_tags'])){
+              $row['category_tags_s'] = implode(',',$row['category_tags']);   
+        }
 
-    // 封面图
-    $row['cover'] = $this->cover($row);
-    $row['banner'] = $this->banner($row);
+        // 场景转换字符串
+        if(isset($row['scene_ids']) && !empty($row['scene_ids'])){
+              $row['scene_ids_to_s'] = implode(',', $row['scene_ids']);   
+        }
+        // 风格转换字符串
+        if(isset($row['style_ids']) && !empty($row['style_ids'])){
+              $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
+        }
+
+        // 封面图
+        $row['cover'] = $this->cover($row);
+        $row['banner'] = $this->banner($row);
 
 
         if(isset($row['vote_favor_count']) && isset($row['vote_oppose_count'])){
@@ -616,6 +622,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $data['tags'] = array_keys(array_count_values($data['tags']));
 	    }
 
+        // 分类多选
+        if (isset($data['category_ids']) && !is_array($data['category_ids'])) {
+            $data['category_ids'] = explode(',', $data['category_ids']);
+            for($i=0;$i<count($data['category_ids']);$i++){
+                $data['category_ids'][$i] = intval($data['category_ids'][$i]);
+            }
+        }
+
         // 自动生成编号
         if($data['stage']==9 && (!isset($data['number']) || empty($data['number']))){
             $data['number'] = Sher_Core_Helper_Util::getNumber();
@@ -704,16 +718,30 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     protected function after_save(){
         // 如果是新的记录
         if($this->insert_mode){
+
+            $category_model = new Sher_Core_Model_Category();
             $category_id = $this->data['category_id'];
             if(!empty($category_id)){
-                $category = new Sher_Core_Model_Category();
-                $category->inc_counter('total_count', 1, $category_id);
+                $category_model->inc_counter('total_count', 1, $category_id);
                 // 如果是商品，更新商品分类数量
                 if($this->data['stage']==9){
-                  $category->inc_counter('sub_count', 1, $category_id);              
+                  $category_model->inc_counter('sub_count', 1, $category_id);              
                 }
-                unset($category);
             }
+
+            // 多选分类
+            $category_ids = isset($this->data['category_ids']) ? $this->data['category_ids'] : array();
+            if(!empty($category_ids)){
+                for($i=0;$i<count($category_ids);$i++){
+                    $category_model->inc_counter('total_count', 1, (int)$category_ids[$i]);
+                    // 如果是商品，更新商品分类数量
+                    if($this->data['stage']==9){
+                      $category_model->inc_counter('sub_count', 1, (int)$category_ids[$i]);
+                    }               
+                }
+            }
+
+            unset($category_model);
 
             // 更新品牌数量
             if(!empty($this->data['brand_id'])){

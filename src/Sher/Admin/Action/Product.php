@@ -114,7 +114,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['summary'] = $this->stash['summary'];
 		$data['content'] = $this->stash['content'];
 		$data['content_wap'] = isset($this->stash['content_wap']) ? $this->stash['content_wap'] : '';
-		$data['category_id'] = $this->stash['category_id'];
+		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : null;
         $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $data['app_category_id']  = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
 		$data['tags'] = $this->stash['tags'];
