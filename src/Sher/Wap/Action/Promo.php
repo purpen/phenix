@@ -19,6 +19,18 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		//return $this->coupon();
 	}
 
+    public function teeth(){
+      //微信分享
+      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+      $timestamp = $this->stash['timestamp'] = time();
+      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+      $this->stash['wxSha1'] = sha1($wxOri);
+      return $this->to_html_page('wap/promo/teeth.html');
+    }
+
     //fiu分享邀请好友
     public function fiuinvite(){
       //微信分享
@@ -29,7 +41,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
-      
+
       $invite = isset($this->stash['invite'])?$this->stash['invite']:0;
       $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
       $this->stash['user'] = null;

@@ -1,0 +1,133 @@
+{%extends 'layout/fiu.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+		display: none;
+		visibility: hidden;
+	}
+	img{
+		width: 100%;
+		vertical-align: middle;
+	}
+	a{
+		display: block;
+	}
+	.gobtn{
+		padding-top: 74.266%;
+		background:url({{ app_url_packaged }}/images/promo/shop/tooth_04.jpg) no-repeat;
+		background-size: 100%;
+		position:relative;
+	}
+	.gobtn a img{
+		width:20.6%;
+		position: absolute;
+		left:39.7%;
+		top:69.658%;
+	}
+
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = '素士新品';
+    var img_url = '{{ app_url_packaged }}/images/promo/shop/teeth.jpeg';
+    var link = '{{ app_url_wap }}/promo/teeth';
+    var desc_str = '声波级洁齿，净在素士。咦！这个新品现在买最划算了！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+ </script>
+ {% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_01.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_02.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_03.jpg">
+<div class="gobtn">
+	<a href="{{ app_url_wap }}/shop/view?id=1048520396"><img src="{{ app_url_packaged }}/images/promo/shop/tooth_btn.jpg"></a>
+</div>
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_04.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_05.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_06.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_07.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_08.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_09.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_10.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_11.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_12.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_13.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_14.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_15.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_16.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_17.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_18.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_19.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_20.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_21.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_22.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_23.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_24.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_25.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_26.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_27.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_28.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_29.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_30.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_31.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_32.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_33.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_34.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_35.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/tooth_36.jpg">
+ {% endblock %}
