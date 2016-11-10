@@ -33,9 +33,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $invite = isset($this->stash['invite'])?$this->stash['invite']:0;
       $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
       $this->stash['user'] = null;
-      $this->stash['is_current_user'] = false;
-      $this->stash['yes_login'] = false;
-
 
         $this->stash['is_current_user'] = false;
         $this->stash['yes_login'] = false;
@@ -59,7 +56,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         if($this->stash['yes_login']==true){
           if($this->stash['is_current_user']==false){
             $current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
-            $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite=1&invite_code='.$current_invite_code; 
+            $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite_code='.$current_invite_code; 
             return $this->to_redirect($redirect_url);    
           }
         }

@@ -234,13 +234,13 @@
 		$('.mask').click(function(){
 			$(this).fadeOut();
 		});
-		var invite = '{{ invite | default 0 }}';
 
-		if( invite == 1 ){
-			$('.goinvite').show();
-		}else{
-			$('.reinvite').show();
-		}
+        {% if yes_login %}
+            $('.goinvite').show();
+        {%else%}
+            $('.reinvite').show();
+        {%endif%}
+
 	</script>
 {% endblock %}
 {% block content %}
