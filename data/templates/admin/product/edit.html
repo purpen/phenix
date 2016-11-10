@@ -208,6 +208,7 @@
 		}
 	});
 	
+    /**
 	// 选择分类
 	$('body').on('click', '.category.button', function(){
 		var id = $(this).attr('data-value');
@@ -230,6 +231,28 @@
 		
         return false;
 	});
+    **/
+
+	// 选择分类(支持多选)
+	$('body').on('click', '.category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+            phenix.remove_asset_id('product-category', id);
+          // 清空标签
+          $('#category_tags_box span').html('');
+		}else{
+			$(this)
+				.addClass('active');
+            phenix.record_asset_id('product-category', id);
+          // 加载该类别下的标签库
+          load_category_tag(id, '');
+		}
+		
+        return false;
+	});
+
 
     // 选择分类标签
   $('.category-tags.button').livequery(function(){
@@ -238,14 +261,12 @@
       if ($(this).hasClass('active')){
         $(this)
           .removeClass('active');
-          
-        $('#product-category-tags').val('');
       }else{
         $(this)
-          .siblings('.category-tags.button').removeClass('active')
-          .end()
           .addClass('active');
-        $('#product-category-tags').val(id);
+      }
+      if (!$('#product-category-tags').tagExist(id)) {
+        $('#product-category-tags').addTag(id);
       }
       return false;
     }); 
@@ -348,6 +369,7 @@
     }); 
   });
 
+  /**
   // 初始化3C分类
   var current_pid_category_id = $('#app-pid-category').val();
   var current_app_category_id = $('#app-product-category').val();
@@ -355,6 +377,7 @@
     // 加载该类别下的子分类
     load_sub_category(current_pid_category_id, current_app_category_id); 
   }
+  **/
 
 	
 	// 编辑sku项
@@ -656,6 +679,24 @@
        'placeholderColor' : '#666666'
     });
 
+    // 分类标签
+    $('#product-category-tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':false,
+       'defaultText':'',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 1,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
     // 下拉搜索
   $('.js-example-basic-single').select2();
 
@@ -858,22 +899,27 @@
 			<div class="grouped inline fields">
         <div class="field">
           <label>分类:</label>
-          <input type="hidden" name="category_id" value="{{ product.category_id }}" id="product-category" />
-          {% category_list var:'category' only_open:1 domain:1 current:product.category_id %}
+          <input type="hidden" name="category_ids" value="{{ product.category_ids_s }}" id="product-category" />
+          {% category_list var:'category' only_open:1 domain:1 current:product.category_ids %}
           {% for cat in category.rows %}
           <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
         </div>
 
         <div class="field" id="category_tags_box">
-          <input type="hidden" name="category_tags" value="{{ product.category_tags_s }}" id="product-category-tags" />
-				  	<label for="category_tags">分类标签：</label>
+				  	<label for="category_tags"></label>
             <span></span>
+        </div>
+
+        <div class="field">
+		    <label for="category_tags">分类标签：</label>
+            <input type="text" name="category_tags" value="{{ product.category_tags_s }}" id="product-category-tags" />
         </div>
 
       </div>
 
 
+      <!--
 <h3 class="ui dividing header"></h3>
 			<div class="grouped inline fields">
         <div class="field">
@@ -892,6 +938,7 @@
         </div>
 
       </div>
+      -->
 
       <!--
 			<div class="inline field">
@@ -961,6 +1008,7 @@
 
 			<h3 class="ui stage header">高级设置</h3>
 			<div class="four fields">
+                <!--
 				<div class="inline field">
 				  	<label>是否3C品类：</label>
 					<div class="ui checkbox">
@@ -968,6 +1016,8 @@
 			          	<label>开启</label>
 			        </div>
 				</div>
+                -->
+                <!--
 				<div class="inline field">
 				  	<label>是否试用：</label>
 					<div class="ui checkbox">
@@ -983,6 +1033,7 @@
 			          	<label>开启</label>
 			        </div>
 				</div>
+                -->
 				<div class="inline field">
 				  	<label>开普勒：</label>
 					<div class="ui checkbox">

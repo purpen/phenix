@@ -26,7 +26,7 @@ $is_end = false;
 $total = 0;
 while(!$is_end){
 	$query = array('stage'=>9, 'deleted'=>0);
-	$options = array('field' => array('_id','deleted', 'stage', 'number'),'page'=>$page,'size'=>$size);
+	$options = array('field' => array('_id','deleted', 'stage', 'category_id', 'category_ids'),'page'=>$page,'size'=>$size);
 	$list = $product->find($query,$options);
 	if(empty($list)){
 		echo "get product list is null,exit......\n";
@@ -37,10 +37,13 @@ while(!$is_end){
 		
         $data = $list[$i];
         $id = $data['_id'];
-        $number = Sher_Core_Helper_Util::getNumber();
 
         $ok = true;
-        //$ok = $product->update_set($id, array('number'=>$number));
+        if(!empty($data['category_id'])){
+            //$ok = $product->update_set($id, array('category_ids'=>array((int)$data['category_id'])));
+        }else{
+            $ok = false;
+        }
         if($ok){
             echo "update ok $id .\n";
             $total++;

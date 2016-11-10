@@ -265,4 +265,19 @@ class Sher_Core_Model_SceneBrands extends Sher_Core_Model_Base {
 		return true;
 	}
 
+    /**
+     * 标记为推荐
+     */
+    public function mark_as_stick($id) {
+        return $this->update_set((string)$id, array('stick' => 1, 'stick_on'=>time()));
+    }
+	
+    /**
+     * 取消推荐
+     */
+	public function mark_cancel_stick($id) {
+		return $this->update_set((string)$id, array('stick' => 0));
+	}
+
+
 }

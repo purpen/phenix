@@ -308,7 +308,7 @@
                     {% ad_list var:'ad_l'state:2 size:1 name:'wap_shop_sub_left' %}
                     <a href="{{ ad_l.mm_view_url }}" style="padding-top: 100%;background-image: url({{ ad_l.cover.fileurl }});">
 						<div class="uidesc">
-						    {{ ad_l.title }}
+                            <!--{{ ad_l.title }}-->
 						</div>
 					</a>
 				</div>
@@ -317,7 +317,7 @@
                     {% for d in ad_r.rows %}
                     <a href="{{ d.mm_view_url }}" style="padding-top: calc(50% - 2px);background-image: url({{ d.cover.fileurl }});{%if loop.counter==2%}margin-top: 4px;{%endif%}">
 						<div class="uidesc">
-                            {{ d.title }}
+                            <!--{{ d.title }}-->
 						</div>
 					</a>
                     {%endfor%}
