@@ -82,7 +82,7 @@
       var page = 1;
       var size = 8;
       var category_id = '{{cid | default 0}}';
-      var sort = 9;
+      var sort = '{{sort | default 9 }}';
       var type = 2;
       var category_tag = '{{category_tag | default ''}}';
   
@@ -224,6 +224,14 @@
         ajax_load_more(category_id, category_tag, type, sort, 1, size);
     }); 
 
+    var catelist = $('.catelist').hasClass('active');
+    if(catelist){
+      $('.cateall').removeClass('active');
+    }
+    if ( sort == 8){
+      $('.reitem').removeClass('active');
+      $('.right.reitem').addClass('up');
+    }
 {% endblock %}
 
 {% block content %}
@@ -235,7 +243,7 @@
 	{% category_list var:'category' only_open:1 domain:1 show_all:0 current:cid sort_field:'total_desc' %}
 	<div class="fmenulist">
 		<ul class="menuitem">
-			<li class="category-btn" id="category-btn-0" category_id="0" category_tags="">
+			<li class="active category-btn cateall" id="category-btn-0" category_id="0" category_tags="">
 				<a href="javascript:void(0);">
 					<div class="all catename" style="background-image: url({{ app_url_packaged }}/images/fiushop/all2.png)"></div>
 					<p>全部</p>
@@ -243,7 +251,7 @@
 			</li>
 	{% for cat in category.rows %}
 	{% if cat.sub_count>0 %}
-    <li class="{{ cat.active }} category-btn" id="category-btn-{{ cat._id }}" category_id="{{ cat._id }}" category_tags="{{ cat.tags_s }}">
+    <li class="{{ cat.active }} catelist category-btn" id="category-btn-{{ cat._id }}" category_id="{{ cat._id }}" category_tags="{{ cat.tags_s }}">
 				<a href="javascript:void(0);">
 					<div class="{{ cat.name }} catename" style="background-image:url({{ app_url_packaged }}/images/fiushop/{{ cat.name }}.png)"></div>
 					<p>{{ cat.title }}</p>
