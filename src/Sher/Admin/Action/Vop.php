@@ -150,7 +150,46 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
      */
     public function product_view(){
         $this->set_target_css_state('product');
-    
+
+        $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        if(empty($id)){
+            return $this->show_message_page("缺少请求参数！", $redirect_url);
+        }
+
+        $method = 'biz.product.detail.query';
+        $response_key = 'biz_product_detail_query_response';
+        $params = array('sku'=>$id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+
+        $obj = $result['data']['result'];
+        $obj['introduction'] = htmlspecialchars($obj['introduction']);
+
+        $method = 'biz.product.skuImage.query';
+        $response_key = 'biz_product_skuImage_query_response';
+        $params = array('sku'=>$id);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page($result['msg'].$result['code'], true);
+        }
+        if(empty($result['data']['success'])){
+            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+        }
+        $obj['images'] = $result['data']['result'][$id];
+        //print_r($obj);exit;
+
+        $this->stash['product'] = $obj;
+        return $this->to_html_page('admin/vop/product_view.html'); 
     }
 
     /**

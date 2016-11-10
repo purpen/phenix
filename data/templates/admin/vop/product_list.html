@@ -163,7 +163,7 @@
 				</td>
 				<td>
                     <p>sku: {{ d.sku }}</p>
-                    <p>标题: {{ d.name }}</p>
+                    <p>标题: <a href="{{ app_url_admin }}/vop/product_view?id={{ d.sku }}" target="_blank">{{ d.name }}</a></p>
                     <p>品牌: {{ d.brandName }}</p>
                 </td>
 
