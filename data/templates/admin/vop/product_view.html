@@ -1,0 +1,115 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+{% block js %}
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
+
+
+{% endblock %}
+{% block content %}
+	<h3 class="ui header">开普勒管理</h3>
+
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
+		</a>
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
+		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/server_list" class="item {{ css_server }}">
+			售后列表
+		</a>
+
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
+			</a>
+	    </div>
+	</div>
+
+
+  <div class="ui grid">
+	
+	<div class="ui form segment">
+		<h4>商品信息</h4>
+    <div>
+      <p>
+        <span><b>商品信息:</b></span>
+
+        <p>编号： {{ product.sku }}</p>
+        <p>名称：{{ product.name }}<p>
+        <p>品牌：{{ product.brandName }}<p>
+        <p>重量：{{ product.weight }}<p>
+        <p>单位：{{ product.saleUnit }}<p>
+        <p>产地：{{ product.productArea }}<p>
+        <p>wareQD：{{ product.wareQD }}</p>
+        <p>规格参数：{{ product.param }}<p>
+      </p>
+
+      <p>
+        <span><b>图片信息:</b></span>
+        <p>
+            {% for d in product.images %}
+                <img src="http://img13.360buyimg.com/n1/{{ d.path }}" />
+            {%endfor%}
+
+        </p>
+      </p>
+
+      <p>
+        <span><b>描述信息:</b></span>
+        <p>
+            {{ product.introduction }}
+            <div class="description">复制代码到编辑器</div>
+        </p>
+      </p>
+
+
+    </div>
+
+	</div>
+
+
+      <p></p>
+    </div>
+
+	</div>
+
+      
+    </div>
+
+	</div>
+{% endblock %}
