@@ -20,6 +20,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	}
 
     public function teeth(){
+      $this->stash['page_title_suffix'] = '素士新品';
       //微信分享
       $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
       $timestamp = $this->stash['timestamp'] = time();
