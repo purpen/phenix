@@ -39,7 +39,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$product_some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'comment_star', 'tags', 'tags_s',
+			'cover_id', 'category_id', 'category_ids', 'stage', 'summary', 'comment_star', 'tags', 'tags_s',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count', 'tips_label',
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
@@ -62,7 +62,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}
       // 获取该分类下推荐的4款产品
-      $products = $product_model->find(array('category_id'=>$cid, 'stage'=>9, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('stick'=>-1,'update'=>-1)));
+      $products = $product_model->find(array('category_ids'=>$cid, 'stage'=>9, 'approved'=>1, 'published'=>1), array('page'=>1, 'size'=>4, 'sort'=>array('stick'=>-1,'update'=>-1)));
 
       $product_arr = array();
       for($j=0;$j<count($products);$j++){
@@ -103,7 +103,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
       'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1, 'brand_id'=>1,
-			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'category_ids'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1,
@@ -132,7 +132,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		// 查询条件
 		if($category_id){
-			$query['category_id'] = (int)$category_id;
+			$query['category_ids'] = (int)$category_id;
 		}
 
         // 查询条件
@@ -274,7 +274,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
+			'cover_id', 'category_id', 'category_ids', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
 			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
@@ -586,7 +586,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
-			'cover_id', 'category_id', 'stage', 'summary', 'tags', 'tags_s',
+			'cover_id', 'category_id', 'category_ids', 'stage', 'summary', 'tags', 'tags_s',
 			'comment_star', 'inventory', 'snatched',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
 		);
@@ -703,7 +703,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$some_fields = array(
       '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
       'presale_people'=>1, 'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
-			'presale_percent'=>1, 'category_id'=>1, 'stage'=>1, 'vote_favor_count'=>1,
+			'presale_percent'=>1, 'category_id'=>1, 'category_ids'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
       'presale_goals'=>1, 'stick'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1,
@@ -882,7 +882,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$options = array();
 
         $query['event'] = Sher_Core_Model_Attend::EVENT_APP_STORE_INDEX;
-        $query['category_id'] = $category_id;
+        $query['category_ids'] = $category_id;
         $query['state'] = 1;
 
 		// 分页参数

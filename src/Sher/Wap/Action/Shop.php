@@ -1818,7 +1818,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $options = array();
         
 		if ($category_id) {
-			$query['category_id'] = (int)$category_id;
+			$query['category_ids'] = (int)$category_id;
 		}
         // is_shop=1
         $query['stage'] = 9;

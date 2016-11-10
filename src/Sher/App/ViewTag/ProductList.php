@@ -119,7 +119,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
 		
 		if ($category_id) {
-			$query['category_id'] = (int)$category_id;
+			$query['category_ids'] = (int)$category_id;
 		}
 		
 		if ($stage) {
