@@ -35,25 +35,34 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $this->stash['user'] = null;
       $this->stash['is_current_user'] = false;
       $this->stash['yes_login'] = false;
-      //通过邀请码获取邀请者ID
-      if($code){
+
+
+        $this->stash['is_current_user'] = false;
+        $this->stash['yes_login'] = false;
+        if($this->visitor->id){
+          $this->stash['yes_login'] = true;
+        }
+        //通过邀请码获取邀请者ID
         $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
         if($user_invite_id){
           $mode = new Sher_Core_Model_User();
           $user = $mode->find_by_id((int)$user_invite_id);
           if($user){
-            $this->stash['user'] = $user;
             //判断是否为当前用户
-            if($this->visitor->id){
-              $this->stash['yes_login'] = true;
-              if((int)$this->visitor->id==$user['_id']){
-                $this->stash['is_current_user'] = true;
-              }
+            if($this->stash['yes_login']==true && (int)$this->visitor->id==$user['_id']){
+              $this->stash['is_current_user'] = true;
             }
           }
         }
-      }
-      return $this->to_html_page('wap/promo/fiuinvite.html');
+        //如果邀请码不是当前用户,刷新页面换为自己的邀请码
+        if($this->stash['yes_login']==true){
+          if($this->stash['is_current_user']==false){
+            $current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+            $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite=1&invite_code='.$current_invite_code; 
+            return $this->to_redirect($redirect_url);    
+          }
+        }
+        return $this->to_html_page('wap/promo/fiuinvite.html');
     }
 
     //商城分享邀请好友
