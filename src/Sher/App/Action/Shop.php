@@ -642,7 +642,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
         $options = array();
         
 		if ($category_id) {
-			$query['category_id'] = (int)$category_id;
+			$query['category_ids'] = (int)$category_id;
 		}
         // is_shop=1
         $query['stage'] = array('$in'=>array(5, 9, 12, 15));
