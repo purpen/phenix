@@ -110,13 +110,14 @@
                 <th>使用次数</th>
                 <th>索引</th>
                 <th>产品列表</th>
+                <th>来源</th>
                 <th>自营</th>
 				<th>状态</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% scene_brands_list var:'list' page:page title:title from_to:from_to kind:kind size:size %}
+			{% scene_brands_list var:'list' page:page title:title from_to:from_to kind:kind stick:stick size:size %}
 
 			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
@@ -146,6 +147,14 @@
                 <td>{{ d.mark }}</td>
                 <td>
                     产品列表({{ d.item_count|default 0 }})<a href="{{ app_url_app_admin_base }}/brands/product_list?brand_id={{ d._id }}">>></a>
+                </td>
+                <td>
+                    {% if d.from_to==1 %}
+                        官网
+                    {%endif%}
+                    {% if d.from_to==2 %}
+                        用户
+                    {%endif%}
                 </td>
                 <td>{{ d.self_run|default 0 }}</td>
 				<td>

@@ -128,6 +128,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
         $feature = isset($this->stash['feature']) ? $this->stash['feature'] : null;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		
 		// 验证内容
 		if(!$title){
@@ -155,6 +156,7 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
             'tags' => $tags,
             'kind' => $kind,
             'feature' => $feature,
+            'from_to' => $from_to,
 		);
 
 		try{
@@ -249,7 +251,11 @@ class Sher_AppAdmin_Action_Brands extends Sher_AppAdmin_Action_Base implements D
 		
 		try{
 			$model = new Sher_Core_Model_SceneBrands();
-			$model->update_set($id, array('stick'=>$evt));
+            if($evt==1){
+                $model->mark_as_stick($id);
+            }else{
+                $model->mark_cancel_stick($id);           
+            }
 		}catch(Sher_Core_Model_Exception $e){
 			return $this->ajax_json('请求操作失败，请检查后重试！', true);
 		}
