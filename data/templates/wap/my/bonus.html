@@ -108,7 +108,7 @@ h3.ui.header{
 		<div class="column plr-14">
 			{% bonus_list var:'bonus' page:page user_id:user._id size:50 %}
 			{% for b in bonus.rows %}
-		  	<div class="ui bonus segment mb-4r {% if b.used %} old {% endif%}" id="{{ b._id }}" data-id="{{ b._id }}">
+		  	<div class="ui bonus segment mb-4r {% if b.used==2 %} old {% endif%} {% if b.is_expired == true %} old {% endif%} " id="{{ b._id }}" data-id="{{ b._id }}">
 		  		<h2 class="ui header">Fiu礼券</h2>
 		  		<p>红包码：{{ b.code }}</p>
 		  		<div class="money"><span>¥</span>{{ b.amount }}</div>
