@@ -34,6 +34,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     //fiu分享邀请好友
     public function fiuinvite(){
+
+        $this->stash['page_title_suffix'] = 'Fiu店';
+
       //微信分享
       $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
       $timestamp = $this->stash['timestamp'] = time();
@@ -86,6 +89,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
+
+      // 获取用户邀请码 
+      if($this->visitor->id){
+          $this->stash['invite_code'] = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+      }else{
+        $this->stash['invite_code'] = null;
+      }
       return $this->to_html_page('wap/promo/tshare.html');
     }
 

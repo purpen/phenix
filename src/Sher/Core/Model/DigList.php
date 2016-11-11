@@ -57,6 +57,9 @@ class Sher_Core_Model_DigList extends Sher_Core_Model_Base  {
             case Sher_Core_Util_Constant::DIG_QSYD_CONTEST:
               $str = '奇思甬动大赛统计';
               break;
+            case Sher_Core_Util_Constant::DIG_INVITE_USER_STAT:
+                $str = '邀请好友注册数量统计';
+                break;
             default:
                 $str = '未定义';
         }

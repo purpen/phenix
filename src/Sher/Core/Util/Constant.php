@@ -208,6 +208,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     # 京东VOP token storage
     const DIG_JD_VOP_TOKEN = 'jd_vop_token';
 
+    # 邀请用户注册数阶段统计
+    const DIG_INVITE_USER_STAT = 'invite_user_stat';
+
     /**
      * DigList stuff计数器
      */
