@@ -55,19 +55,22 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         if($this->visitor->id){
           $this->stash['yes_login'] = true;
         }
-        //通过邀请码获取邀请者ID
-        $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
-        if($user_invite_id){
-          $mode = new Sher_Core_Model_User();
-          $user = $mode->extend_load((int)$user_invite_id);
-          if($user){
-            //判断是否为当前用户
-            if($this->stash['yes_login']==true && (int)$this->visitor->id==$user['_id']){
-              $this->stash['is_current_user'] = true;
-            }
-            $this->stash['user'] = $user;
-          }
+        if($code){
+            //通过邀请码获取邀请者ID
+            $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
+            if($user_invite_id){
+              $mode = new Sher_Core_Model_User();
+              $user = $mode->extend_load((int)$user_invite_id);
+              if($user){
+                //判断是否为当前用户
+                if($this->stash['yes_login']==true && (int)$this->visitor->id==$user['_id']){
+                  $this->stash['is_current_user'] = true;
+                }
+                $this->stash['user'] = $user;
+              }
+            }       
         }
+
         //如果邀请码不是当前用户,刷新页面换为自己的邀请码
         if($this->stash['yes_login']==true){
           if($this->stash['is_current_user']==false){
