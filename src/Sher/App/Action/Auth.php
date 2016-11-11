@@ -873,9 +873,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       //统计邀请记录
       if($user_invite_id){
         $invite_mode = new Sher_Core_Model_InviteRecord();
-        $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id);
+        $invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id, 1, 2);
         if($invite_ok){
-            $invite_count = $invite_mode->count(array('user_id'=>$user_invite_id));
+            $invite_count = $invite_mode->count(array('user_id'=>$user_invite_id, 'evt'=>2));
             if($invite_count == 10){
                 //送邀请人红包(50)
                 $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'A', 'min_amounts'=>'F'));
