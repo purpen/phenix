@@ -68,9 +68,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         //如果邀请码不是当前用户,刷新页面换为自己的邀请码
         if($this->stash['yes_login']==true){
           if($this->stash['is_current_user']==false){
-            $current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
-            $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite_code='.$current_invite_code; 
-            return $this->to_redirect($redirect_url);    
+            //$current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+            //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite_code='.$current_invite_code; 
+            //return $this->to_redirect($redirect_url);    
           }
         }
         return $this->to_html_page('wap/promo/fiuinvite.html');
