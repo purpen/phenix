@@ -698,6 +698,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $end_time = (int)$options['expired_time'];
     }
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
   }
 
   /**
