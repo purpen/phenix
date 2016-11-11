@@ -545,9 +545,18 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				//统计好友邀请
 				$this->is_user_invite($user_id);
 		
-				//活动送100红包
+				//活动送30红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $ok = $model->apply_and_save($row);
+                    }
 				}
 
 				// 删除验证码
@@ -575,12 +584,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		//活动跳到提示分享页面
 		if(Doggy_Config::$vars['app.anniversary2015.switch']){
 		  //当前用户邀请页面
-			  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/request?user_id='.$user_id; 
-		}elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
-		  //大赛2
-		  //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
+            //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/request?user_id='.$user_id;
+            $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);
 		}else{
-			  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
+		    $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
 		}
 
 		$this->clear_auth_return_url();
@@ -639,10 +646,19 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 				//统计好友邀请
 				$this->is_user_invite($user_id);
-		
-				//活动送100红包
+
+				//活动送30红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $ok = $model->apply_and_save($row);
+                    }
 				}
 
 				// 删除验证码
@@ -666,18 +682,6 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if($this->stash['evt']=='ces_praise'){
 		  $this->send_match_praise($user_id, $user_info['account'], 2);
 		  $this->give_bonus($user_id, 'D1', array('count'=>1, 'xname'=>'D1', 'bonus'=>'C', 'min_amounts'=>'A'));
-		}
-		
-		//活动跳到提示分享页面
-		if(Doggy_Config::$vars['app.anniversary2015.switch']){
-		  //当前用户邀请码
-		  //$invite_code = Sher_Core_Util_View::fetch_invite_user_code($user_id);
-			  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/year?invite_code='.$invite_code; 
-		}elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
-		  //大赛2
-		  //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/matcht?quickly_signup=1';  
-		}else{
-			  //$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
 		}
 
  		$redirect_url = Doggy_Config::$vars['app.url.wap'].'?quickly_signup=1';
@@ -938,6 +942,10 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	  
 		// 赠与红包 使用默认时间30天
 		$end_time = 0;
+
+        if(isset($options['expired_time'])){
+          $end_time = (int)$options['expired_time'];
+        }
 		$code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
 	}
 
@@ -1149,9 +1157,18 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 					}
 				}
 	  
-				//活动送100红包
+				//活动送30红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-					$this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $ok = $model->apply_and_save($row);
+                    }
 				}
 	  
 				//统计好友邀请
@@ -1168,10 +1185,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				//活动跳到提示分享页面
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
 				  //当前用户邀请页面
-				  $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/request?user_id='.$user_id; 
-				}elseif($this->stash['evt']=='match2' || $this->stash['evt']=='match2_praise'){
-				  //大赛2
-				  //$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2';  
+				  //$redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/request?user_id='.$user_id; 
+                    $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']); 
 				}else{
 				  $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);  
 				}

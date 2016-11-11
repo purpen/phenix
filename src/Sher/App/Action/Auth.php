@@ -555,10 +555,19 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 					$digged->add_item_custom($key_id, $match_item);
 				}
 
-				//活动送100红包
+				//活动送30红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
-        }
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $ok = $model->apply_and_save($row);
+                    }
+				}
 
 				// 插入易购的用户数据
 				if(isset($_COOKIE['egou_uid']) && !empty($_COOKIE['egou_uid'])){
@@ -839,6 +848,10 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     
     // 赠与红包 使用默认时间30天 $end_time = strtotime('2015-06-30 23:59')
     $end_time = 0;
+
+    if(isset($options['expired_time'])){
+      $end_time = (int)$options['expired_time'];
+    }
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
   }
 
@@ -1010,9 +1023,18 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         // 是否是好友邀请
         $this->is_user_invite($user_id);
 
-				//活动送100红包
+				//活动送30红包
 				if(Doggy_Config::$vars['app.anniversary2015.switch']){
-				  $this->give_bonus($user_id, 'QX', array('count'=>1, 'xname'=>'QX', 'bonus'=>'B', 'min_amounts'=>'D'));
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $ok = $model->apply_and_save($row);
+                    }
 				}
 
         // 如果来自第三方则统计
