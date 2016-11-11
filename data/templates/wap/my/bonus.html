@@ -133,6 +133,10 @@ h3.ui.header{
 				    {% else %}
 					<img src="{{ app_url_packaged }}/images/icon/boold.png" class="boold">
 				{%endif%}
+			{% else %}
+				{% if !b.used == 2 %}
+					<img src="{{ app_url_packaged }}/images/icon/bodo.png" class="bodo">
+				{%endif%}
             {%endif%}
 
 				<!--<div class="ui bottom attached label">
