@@ -554,7 +554,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
             );
             $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
             if($ok){
-                $ok = $model->apply_and_save($row);
+                $row['info']['new_user'] = 1;
+                $ok = $attend_model->apply_and_save($row);
             }
         }
 

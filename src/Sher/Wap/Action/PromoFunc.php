@@ -42,6 +42,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
         $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
         if($ok){
+            $row['info']['new_user'] = 0;
             $ok = $model->apply_and_save($row);
             if($ok){
                 return $this->ajax_json('success', false, '', array());
