@@ -27,7 +27,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		'TG', # 玩蛋去活动
         'VA', # 情人节红包20
         'RE', # 注册送
-        'IV', # 邀请送
+        'IV', # 邀请送 50/100
         'D1', # 线下活动,注册抽奖(ces,大赛)
         'ZP', # 招聘H5分享
         'QX', # 七夕注册送红包100 满299可用
@@ -45,6 +45,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'DA30', # 内测 满299减30
         'DA20', #内测 满199减20
         'LSD99', # 螺丝刀99
+        'FIU_NEW30', # Fiu店新用户送30
 	);
 	
     protected $schema = array(
@@ -92,6 +93,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+        $row['is_expried'] = false;
 		if ($row['used'] != 2) {
 			if ($row['expired_at'] < time()){
 				$row['is_expired'] = true;
@@ -299,6 +301,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'F' => 50,
       'G' => 999,
       'H' => 499,
+      'I' => 30,
+      'J' => 100,
     );
 		
     for($i=0; $i<$count; $i++){

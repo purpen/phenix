@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,89 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+    public function teeth(){
+      $this->stash['page_title_suffix'] = '素士新品';
+      //微信分享
+      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+      $timestamp = $this->stash['timestamp'] = time();
+      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+      $this->stash['wxSha1'] = sha1($wxOri);
+      return $this->to_html_page('wap/promo/teeth.html');
+    }
+
+    //fiu分享邀请好友
+    public function fiuinvite(){
+      //微信分享
+      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+      $timestamp = $this->stash['timestamp'] = time();
+      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+      $this->stash['wxSha1'] = sha1($wxOri);
+
+      $invite = isset($this->stash['invite'])?$this->stash['invite']:0;
+      $code = isset($this->stash['invite_code'])?$this->stash['invite_code']:0;
+      $this->stash['user'] = null;
+
+        $this->stash['is_current_user'] = false;
+        $this->stash['yes_login'] = false;
+        if($this->visitor->id){
+          $this->stash['yes_login'] = true;
+        }
+        //通过邀请码获取邀请者ID
+        $user_invite_id = Sher_Core_Util_View::fetch_invite_user_id($code);
+        if($user_invite_id){
+          $mode = new Sher_Core_Model_User();
+          $user = $mode->extend_load((int)$user_invite_id);
+          if($user){
+            //判断是否为当前用户
+            if($this->stash['yes_login']==true && (int)$this->visitor->id==$user['_id']){
+              $this->stash['is_current_user'] = true;
+            }
+            $this->stash['user'] = $user;
+          }
+        }
+        //如果邀请码不是当前用户,刷新页面换为自己的邀请码
+        if($this->stash['yes_login']==true){
+          if($this->stash['is_current_user']==false){
+            $current_invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+            $redirect_url = Doggy_Config::$vars['app.url.wap.promo'].'/fiuinvite?invite_code='.$current_invite_code; 
+            return $this->to_redirect($redirect_url);    
+          }
+        }
+        return $this->to_html_page('wap/promo/fiuinvite.html');
+    }
+
+    //商城分享邀请好友
+    public function tshare(){
+    //微信分享
+      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+      $timestamp = $this->stash['timestamp'] = time();
+      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+      $this->stash['wxSha1'] = sha1($wxOri);
+      return $this->to_html_page('wap/promo/tshare.html');
+    }
+
+    //商城专题
+    public function theme(){
+      //微信分享
+      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+      $timestamp = $this->stash['timestamp'] = time();
+      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+      $this->stash['wxSha1'] = sha1($wxOri);
+      return $this->to_html_page('wap/promo/theme.html');
+    }
 
     //双11 淘宝
     public function eleven(){

@@ -1,0 +1,212 @@
+{%extends 'layout/shop.html'%}
+{% block title %}fiu店有礼，大家齐分享{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+		display: none;
+		visibility: hidden;
+	}
+	img{
+		width: 100%;
+		vertical-align: middle;
+	}
+	a{
+		display: block;
+	}
+	.invite{
+		padding-top: 57%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s1.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.sgobtn{
+		width: 33.2%;
+		position: absolute;
+		left: 33.4%;
+		top:71%;
+	}
+	.bonus{
+		width: 70%;
+		position: absolute;
+		left: 15%;
+		top:90%;
+	}
+	.p1{
+		padding-top: 65.7333%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s5.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p2{
+		padding-top: 91.0666%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s6.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p3{
+		padding-top: 91.6%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s7.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.p4{
+		padding-top: 67.0666%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/s8.jpg) no-repeat;
+		background-size: 100%;
+	}
+	.st1{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 30.426%;
+	}
+	.st2{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 30.426%;
+	}
+	.st3,.st7,.st11{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 0;
+	}
+	.st4,.st8,.st12{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 0;
+	}
+	.st5,.st9{
+		width: 35%;
+		position: absolute;
+		left: 12%;
+		top: 49.78%;
+	}
+	.st6,.st10{
+		width: 35%;
+		position: absolute;
+		right: 12%;
+		top: 49.78%;
+	}
+	.smore{
+		width: 28.666%;
+		position: absolute;
+		left: 35.667%;
+		bottom: 11.928%;
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+<script type="text/javascript">
+	$('.sgobtn').click(function(){
+		if (!phenix.visitor.is_login){
+	        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+	        return false;
+      	}
+      	else{
+      		phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite=1');
+      	}
+	});
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = '呼朋唤友一起玩';
+    var img_url = '{{ app_url_packaged }}/images/promo/shop/fiuinvite.jpeg';
+    var link = '{{ app_url_wap }}/promo/tshare';
+    var desc_str = '邀请好友加入Fiu店即送50元、100元不限使用红包哟，还送大僵御Mavic Pro无人机哟！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+ </script>
+{% endblock %}
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/shop/sbanner.jpg">
+<div class="invite">
+	<a class="sgobtn" href="javascript:void(0);">
+		<img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg">
+	</a>
+	<a class="bonus" href="{{ app_url_wap }}/my/bonus"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
+</div>
+<img src="{{ app_url_packaged }}/images/promo/shop/s2.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/s3.jpg">
+<img src="{{ app_url_packaged }}/images/promo/shop/s4.jpg">
+<div class="p1">
+
+	<a class="st1" href="{{ app_url_wap }}/shop/view?id=1048882694">
+		<img src="{{ app_url_packaged }}/images/promo/shop/st1.jpg">
+	</a>
+	<a class="st2" href="{{ app_url_wap }}/shop/view?id=1048578733">
+		<img src="{{ app_url_packaged }}/images/promo/shop/st2.jpg">
+	</a>
+</div>
+<div class="p2">
+	<a class="st3" href="{{ app_url_wap }}/shop/view?id=1153459713"><img src="{{ app_url_packaged }}/images/promo/shop/st3.jpg"></a>
+	<a class="st4" href="{{ app_url_wap }}/shop/view?id=1048601906"><img src="{{ app_url_packaged }}/images/promo/shop/st4.jpg"></a>
+	<a class="st5" href="{{ app_url_wap }}/shop/view?id=1040612286"><img src="{{ app_url_packaged }}/images/promo/shop/st5.jpg"></a>
+	<a class="st6" href="{{ app_url_wap }}/shop/view?id=1116595857"><img src="{{ app_url_packaged }}/images/promo/shop/st6.jpg"></a>
+</div>
+<div class="p3">
+	<a class="st7" href="{{ app_url_wap }}/shop/view?id=1049457428"><img src="{{ app_url_packaged }}/images/promo/shop/st7.jpg"></a>
+	<a class="st8" href="{{ app_url_wap }}/shop/view?id=1049974458"><img src="{{ app_url_packaged }}/images/promo/shop/st8.jpg"></a>
+	<a class="st9" href="{{ app_url_wap }}/shop/view?id=1048883813"><img src="{{ app_url_packaged }}/images/promo/shop/st9.jpg"></a>
+	<a class="st10" href="{{ app_url_wap }}/shop/view?id=1048607770"><img src="{{ app_url_packaged }}/images/promo/shop/st10.jpg"></a>
+</div>
+<div class="p4">
+	<a class="st11" href="{{ app_url_wap }}/shop/view?id=1048533124"><img src="{{ app_url_packaged }}/images/promo/shop/st11.jpg"></a>
+	<a class="st12" href="{{ app_url_wap }}/shop/view?id=1049458073"><img src="{{ app_url_packaged }}/images/promo/shop/st12.jpg"></a>
+	<a class="smore" href="{{ app_url_wap }}/shop/get_list?cid=0&sort=8"><img src="{{ app_url_packaged }}/images/promo/shop/smore.png"></a>
+</div>
+{% endblock %}

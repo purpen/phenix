@@ -1,0 +1,299 @@
+{%extends 'layout/fiu.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+		display: none;
+		visibility: hidden;
+	}
+	img{
+		width: 100%;
+		vertical-align: middle;
+	}
+	a{
+		display: block;
+	}
+	.invite{
+		/*background: url({{ app_url_packaged }}/images/promo/shop/fshare.jpg) no-repeat;*/
+		background-size:100%;
+		position: relative;
+	}
+	.inbg{
+		position:absolute;
+		height:100%;
+		width:100%;
+		top:0;
+		left:0;
+	}
+	.getuser{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: auto;
+		text-align: center;
+		display: none;
+	}
+	.number{
+		padding: 5px 20px;
+		font-size: 20px;
+		color: #e71e0d;
+		text-align: center;
+		border: 1px solid #eee;
+		display: inline-block;
+		margin:6% auto 3%;
+	}
+	.invitebtn,.login{
+		width:33.2%;
+		margin:0 auto;
+	}
+	.mask{
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		top: 0;
+		left:0;
+		z-index: 9;
+		display: none;
+	}
+
+	.user {
+		text-align: center;
+		font-size: 14px;
+	}
+	.user img{
+		width:50px;
+		height: 50px;
+		border-radius: 50%; 
+		display: block;
+    	margin: 0 auto 8px;
+	}
+
+	 @-webkit-keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      @keyframes rotation {
+          10% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          50%, 60% {
+              transform: rotate(0deg);
+              -webkit-transform: rotate(0deg)
+          }
+          90% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+          100% {
+              transform: rotate(90deg);
+              -webkit-transform: rotate(90deg)
+          }
+      }
+
+      #orientLayer {
+          display: none;
+      }
+
+      @media screen and (min-aspect-ratio: 13/8) {
+          #orientLayer {
+              display: block;
+          }
+      }
+
+      .mod-orient-layer {
+          display: none;
+          position: absolute !important;
+          height: 100%;
+          width: 100%;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          background: #000;
+          z-index: 9997;
+		overflow:hidden !important;
+      }
+
+      .mod-orient-layer__content {
+          position: absolute;
+          width: 100%;
+          top: 45%;
+          margin-top: -35px !important;
+          text-align: center
+      }
+
+      .mod-orient-layer__icon-orient {
+          background-image: url(http://frstatic.qiniudn.com/images/promo/hengping.png);
+          display: inline-block;
+          width: 34px !important;
+          height: 55px !important;
+          transform: rotate(90deg);
+          -webkit-transform: rotate(90deg);
+          -webkit-animation: rotation infinite 1.5s ease-in-out;
+          animation: rotation infinite 1.5s ease-in-out;
+          -webkit-background-size: 34px;
+          background-size: 34px !important;
+      }
+
+      .mod-orient-layer__desc {
+          margin-top: 10px !important;
+          font-size: 9px !important;
+          color: #fff
+      }
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = '嗨！亲爱的朋友，来免费领取大僵/御无人机一起去看见世界呀!';
+    var img_url = '{{ app_url_packaged }}/images/promo/shop/fiuinvite.jpeg';
+    var link = '{{ current_url }}';
+    var desc_str = '成功邀请好友加入Fiu店即送红包，还有机会得大僵/御无人机，好友亦可获得30元无限制红包哟！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+    var url = '{{ app_url_wap }}/app/site/promo/ajax_stat_sum_record';
+    //$.get(url, { target_id: 6, count_name:'count', type: 4, kind:4 });
+    $('.mask').fadeOut();
+  }
+ </script>
+	<script type="text/javascript">
+		var ipwidth = $(window).width();
+		var ipheight = $(window).height();
+		var scal = ipheight/ipwidth*100 +'%';
+		//console.log(scal);
+		var ptop = 0.4198*ipheight + 'px';
+		$('.invite').css('padding-top',scal);
+		$('.getuser').css('padding-top',ptop);
+		$('.invitebtn,.goinv').click(function(){
+			$('.mask').fadeIn();
+		});
+		$('.mask').click(function(){
+			$(this).fadeOut();
+		});
+
+        {% if yes_login %}
+            $('.goinvite').show();
+        {%else%}
+            $('.reinvite').show();
+        {%endif%}
+
+	</script>
+{% endblock %}
+{% block content %}
+<div class="invite">
+	<img class="inbg" src="{{ app_url_packaged }}/images/promo/shop/fshare.jpg">
+	<!-- 去邀请 -->
+	<div class="getuser goinvite">
+		<img src="{{ app_url_packaged }}/images/promo/shop/word.png">
+		<div class="number">
+			{{ invite_code }}
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/shop/word2.png">
+
+		<a class="invitebtn" href="javascript:void(0);"><img src="{{ app_url_packaged }}/images/promo/shop/invite.jpg"></a>
+	</div>
+
+	<!-- 被邀请 -->
+	<div class="getuser reinvite">
+		<div class="user">
+			<img src="{{ user.small_avatar_url }}">
+			{{ user.nickname }}
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/shop/binvi.png">
+		<!-- 未登录 -->
+		{% if !yes_login %}
+			<a class="login" href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
+				<img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg">
+			</a>
+		{%else%}
+          	{% if !is_current_user %}
+				<img class="goinv" src="{{ app_url_packaged }}/images/promo/shop/goinv.png">
+			{% endif %}
+		{% endif %}
+	</div>
+
+
+</div>
+<div class="ui mask hide">
+	<img src="{{ app_url_packaged }}/images/promo/shop/mask.png">
+</div>
+<div id="orientLayer" class="mod-orient-layer">
+    <div class="mod-orient-layer__content"><i class="icon mod-orient-layer__icon-orient"></i>
+        <div class="mod-orient-layer__desc">为了更好的体验，请使用竖屏浏览</div>
+    </div>
+</div>
+{% endblock %}

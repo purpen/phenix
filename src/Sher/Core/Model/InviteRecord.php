@@ -16,6 +16,8 @@ class Sher_Core_Model_InviteRecord extends Sher_Core_Model_Base  {
     'user_id'=> 0,
     'by_user_id'  => 0,
     'kind'  => self::KIND_USER,
+    # 活动标识: 1.默认；2.fiu店邀请送红包
+    'evt' => 1,
   );
   protected $required_fields = array('user_id');
   protected $int_fields = array('used','user_id','by_user_id','kind');
@@ -26,10 +28,10 @@ class Sher_Core_Model_InviteRecord extends Sher_Core_Model_Base  {
 
 
   //添加邀请名单
-  public function add_invite_user($user_id, $by_user_id, $kind=self::KIND_USER) {
-    $ok = $this->create(array('user_id' => (int)$user_id, 'by_user_id'=>(int)$by_user_id));
+  public function add_invite_user($user_id, $by_user_id, $kind=self::KIND_USER, $evt=1) {
+    $ok = $this->create(array('user_id' => (int)$user_id, 'by_user_id'=>(int)$by_user_id, 'evt'=>(int)$evt));
     return $ok;
   }
 
 }
-?>
+

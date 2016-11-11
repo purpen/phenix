@@ -1,0 +1,222 @@
+{%extends 'layout/shop.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu {
+	    display: none;
+	    visibility: hidden;
+	}
+	img{
+		width: 100%;
+		vertical-align: middle;
+	}
+	a{
+		display: block;
+	}
+	.bonus{
+		padding-top:44%;
+		position: relative;
+		background: url({{ app_url_packaged }}/images/promo/shop/bonus.jpg);
+		background-size: 100%; 
+	}
+	.bonus img{
+		position: absolute;
+		left: 38%;
+		bottom:-6%;
+		width: 24%;
+		transform: translateY(50%);
+		-webkit-transform: translateY(50%);
+	}
+	.product{
+		background: url({{ app_url_packaged }}/images/promo/shop/p11.jpg) no-repeat;
+		background-size: 100%;
+		padding-top: 215%; 
+		position: relative;
+	}
+	.product a{
+		position: absolute;
+		width: 35%;
+	}
+	.product .t1{
+		top: 0;
+		left:12%;
+	}
+	.product .t2{
+		top: 0;
+		right:12%;
+	}
+	.product .t3{
+		top: 21%;
+		left:12%;
+	}
+	.product .t4{
+		top: 21%;
+		right:12%;
+	}
+	.product .t5{
+		top: 42%;
+		left:12%;
+	}
+	.product .t6{
+		top: 42%;
+		right:12%;
+	}
+	.product .t7{
+		top: 63%;
+		left:12%;
+	}
+	.product .t8{
+		top: 63%;
+		right:12%;
+	}
+	.product a.more{
+		width:28%;
+		left:36%;
+		top:86%;
+	}
+</style>
+{% endblock %}
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" >
+
+    var m_name = 'Fiu店有礼，给你30元无限制红包要不要？';
+    var img_url = '{{ app_url_packaged }}/images/promo/shop/theme.jpeg';
+    var link = '{{ current_url }}';
+    var desc_str = 'hey，给了你30元无限制红包！比某东某宝力度还大的活动来啦！';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+	wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+ </script>
+{% endblock %}
+
+{% block jquery %}
+    $('#recive_bonus_btn').click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+
+      // 领红包
+      var url = "{{ app_url_wap }}/app/wap/promo_func/ajax_new_bonus";
+      $.post(url, {}, function(rs){
+        if(rs.success){
+            phenix.show_ok_note('领取成功!');
+        }else{
+            phenix.show_error_note(rs.message);
+        }
+      }, 'json')
+    });
+{% endblock %}
+
+{% block content %}
+<img src="{{ app_url_packaged }}/images/promo/shop/banner.jpg">
+<div class="bonus">
+	<a href="javascript:void(0);" id="recive_bonus_btn" title="立即领取">
+		<img src="{{ app_url_packaged }}/images/promo/shop/gobtn.jpg">
+	</a>
+</div>
+<img src="{{ app_url_packaged }}/images/promo/shop/p1.jpg" style="margin-top: -5%;">
+<a href="{{ app_url_wap }}/shop/view?id=1048520396">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p2.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1099813547">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p3.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1021648835">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p4.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1048520269">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p5.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1116596242">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p6.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1049277857">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p7.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1049374873">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p8.jpg">
+</a>
+<a href="{{ app_url_wap }}/shop/view?id=1053618685">
+	<img src="{{ app_url_packaged }}/images/promo/shop/p9.jpg">
+</a>
+<img src="{{ app_url_packaged }}/images/promo/shop/p10.jpg">
+<div class="product">
+	<a href="{{ app_url_wap }}/shop/view?id=1050370726" class="t1">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t1.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048529959" class="t2">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t2.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1153857964" class="t3">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t3.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1153846607" class="t4">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t4.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1049814528" class="t5">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t5.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1049457327" class="t6">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t6.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050429828" class="t7">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t7.jpg">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050370565" class="t8">
+		<img src="{{ app_url_packaged }}/images/promo/shop/t8.jpg">
+	</a>
+	<a class="more" href="{{ app_url_wap }}/shop/get_list?cid=0&sort=8"><img src="{{app_url_packaged}}/images/promo/shop/more.png"></a>
+</div>
+{% endblock %}
