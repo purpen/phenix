@@ -157,6 +157,10 @@
           font-size: 9px !important;
           color: #fff
       }
+      .return{
+      	width:18%;
+      	margin:2% 41% 0;
+      }
 </style>
 {% endblock %}
 {% block layout_js %}
@@ -238,7 +242,7 @@
 		var ptop = 0.4198*ipheight + 'px';
 		$('.invite').css('padding-top',scal);
 		$('.getuser').css('padding-top',ptop);
-		$('.invitebtn,.goinv').click(function(){
+		$('.invitebtn').click(function(){
 			$('.mask').fadeIn();
 		});
 		$('.mask').click(function(){
@@ -262,9 +266,10 @@
 		<div class="number">
 			{{ invite_code }}
 		</div>
-		<img src="{{ app_url_packaged }}/images/promo/shop/word2.png">
+		<img src="{{ app_url_packaged }}/images/promo/shop/word02.png">
 
 		<a class="invitebtn" href="javascript:void(0);"><img src="{{ app_url_packaged }}/images/promo/shop/invite.jpg"></a>
+		<a class="return" style="margin-top: 8%;" href="{{app_url_wap}}/shop"><img src="{{ app_url_packaged }}/images/promo/shop/index.png"></a>
 	</div>
 
 	<!-- 被邀请 -->
@@ -273,15 +278,18 @@
 			<img src="{{ user.small_avatar_url }}">
 			{{ user.nickname }}
 		</div>
-		<img src="{{ app_url_packaged }}/images/promo/shop/binvi.png">
+		<img src="{{ app_url_packaged }}/images/promo/shop/binvi01.png">
 		<!-- 未登录 -->
-		{% if !yes_login %}
+		{% if yes_login %}
 			<a class="login" href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
 				<img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg">
 			</a>
+			<a class="return" href="{{app_url_wap}}/shop"><img src="{{ app_url_packaged }}/images/promo/shop/index.png"></a>
 		{%else%}
           	{% if !is_current_user %}
-				<img class="goinv" src="{{ app_url_packaged }}/images/promo/shop/goinv.png">
+          	<a class="goinv" href="{{ app_url_wap }}/promo/tshare">
+				<img src="{{ app_url_packaged }}/images/promo/shop/goinv01.png">
+			</a>
 			{% endif %}
 		{% endif %}
 	</div>
