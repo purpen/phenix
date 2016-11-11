@@ -112,9 +112,6 @@ h3.ui.header{
 		  		<h2 class="ui header">Fiu礼券</h2>
 		  		<p>红包码：{{ b.code }}</p>
 		  		<div class="money"><span>¥</span>{{ b.amount }}</div>
-				<!--<div class="ui icon header">
-				  	<i class="circular flat dollar icon"></i><span class="ui magenta text">{{ b.amount }}元</span>
-				  	<div class="sub header">红包码：{{ b.code }}</div>-->
             {% if b.min_amount %}
               <div class="sub header pt-4r">最低使用限额: {{ b.min_amount }}元</div>
             {%else%}
@@ -136,15 +133,6 @@ h3.ui.header{
 				</div>-->
 		  	</div>
 			{% endfor %}
-			
-            <!--
-			{% if bonus.total_rows > 10 %}
-			<div class="ui pagination mt-3r" style="text-align:center;">
-				{% pager url:pager_url,total_rows:bonus.total_rows,total_page:bonus.total_page,current_page:page, var:'pager',pager_size:9 %}
-				{%include 'block/pager.html'%}
-			</div>
-			{% endif %}
-            -->
 		</div>
 	</div>
 </div>
