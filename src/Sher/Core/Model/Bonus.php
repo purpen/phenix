@@ -93,6 +93,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 组装数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+        $row['is_expried'] = false;
 		if ($row['used'] != 2) {
 			if ($row['expired_at'] < time()){
 				$row['is_expired'] = true;
@@ -301,6 +302,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
       'G' => 999,
       'H' => 499,
       'I' => 30,
+      'J' => 100,
     );
 		
     for($i=0; $i<$count; $i++){

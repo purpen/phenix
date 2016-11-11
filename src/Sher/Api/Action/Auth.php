@@ -156,6 +156,22 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 			if($ok){
 				$user_id = $user_model->id;
                 $user = $user_model->extend_load($user_id);
+
+
+                //活动送30红包
+                if(Doggy_Config::$vars['app.anniversary2015.switch']){
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $row['info']['new_user'] = 1;
+                        $ok = $attend_model->apply_and_save($row);
+                    }
+                }
                         
                 // 过滤用户字段
                 $data = Sher_Core_Helper_FilterFields::wap_user($user);
@@ -554,7 +570,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
             );
             $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
             if($ok){
-                $ok = $model->apply_and_save($row);
+                $row['info']['new_user'] = 1;
+                $ok = $attend_model->apply_and_save($row);
             }
         }
 
@@ -697,6 +714,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
       $end_time = (int)$options['expired_time'];
     }
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
+    return $code_ok;
   }
 
   /**
