@@ -280,7 +280,7 @@
 		</div>
 		<img src="{{ app_url_packaged }}/images/promo/shop/binvi01.png">
 		<!-- 未登录 -->
-		{% if yes_login %}
+		{% if !yes_login %}
 			<a class="login" href="{{ app_url_wap }}/auth/signup?user_invite_code={{ invite_code }}">
 				<img src="{{ app_url_packaged }}/images/promo/shop/sign.jpg">
 			</a>
