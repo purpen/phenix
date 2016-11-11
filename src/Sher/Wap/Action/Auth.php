@@ -1263,6 +1263,8 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
                     if($invite_count == 10){
                         //送邀请人红包(50)
                         $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'A', 'min_amounts'=>'F'));
+                        // 记录用户
+
                     
                     }elseif($invite_count == 30){
                         //送邀请人红包(100)

@@ -93,6 +93,7 @@
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
           $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
+                  window.history.pushState({}, document.title, '{{app_url_wap}}/shop/get_list?cid='+category_id+'&category_tag='+category_tag+'&sort='+sort);
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#product-more')
                       .hide()
