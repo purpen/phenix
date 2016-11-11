@@ -459,7 +459,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
                 $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);
 				$this->clear_auth_return_url();
 				
-				$msg = "恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网个人中心修改密码，以确保账户的安全！";
+				$msg = "恭喜您成为太火鸟用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网个人中心修改密码，以确保账户的安全！";
 				// 注册成功，发送短信
 				$message = Sher_Core_Helper_Util::send_defined_mms($account, $msg);
 			}else{

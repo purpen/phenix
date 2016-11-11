@@ -113,16 +113,25 @@ h3.ui.header{
 		  		<p>红包码：{{ b.code }}</p>
 		  		<div class="money"><span>¥</span>{{ b.amount }}</div>
             {% if b.min_amount %}
-              <div class="sub header pt-4r">最低使用限额: {{ b.min_amount }}元</div>
+              <div class="sub header pt-4r">最低使用限额: {{ b.min_amount }}元
+				{% if !b.is_expired %}
+					<br/>{{ b.expired_label }}
+				{%endif%}
+              </div>
             {%else%}
-            <div class="sub header pt-4r">无最低使用限额</div>
+                <div class="sub header pt-4r">无限制
+					{% if !b.is_expired %}
+						<br/>{{ b.expired_label }}
+					{%endif%}
+                </div>
             {%endif%}
+            
             <img src="{{ app_url_packaged }}/images/icon/bofiu.png" class="bofiu">
             {% if b.used == 2 %}
 				<img src="{{ app_url_packaged }}/images/icon/bodo.png" class="bodo">
-			{% endif %}
-			{% if b.is_expired == true %}
-				<img src="{{ app_url_packaged }}/images/icon/boold.png" class="boold">
+                {% if b.is_expired %}
+				    <img src="{{ app_url_packaged }}/images/icon/boold.png" class="boold">
+                {%endif%}
 			{% endif%}
 				<!--<div class="ui bottom attached label">
 					{% if b.used == 2 %}
