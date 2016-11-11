@@ -1260,16 +1260,38 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$invite_ok = $invite_mode->add_invite_user($user_invite_id, $user_id, 1, 2);
                 if($invite_ok){
                     $invite_count = $invite_mode->count(array('user_id'=>$user_invite_id, 'evt'=>2));
+
+                    // 记录
+                    $dig_model = new Sher_Core_Model_DigList();
+
                     if($invite_count == 10){
                         //送邀请人红包(50)
                         $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'A', 'min_amounts'=>'F'));
-                        // 记录用户
+                        // 记录用户邀请数
+                        $dig_key = Sher_Core_Util_Constant::DIG_INVITE_USER_STAT10;
+                        $dig = $dig_model->load($dig_key);
+                        $dig_model->add_item_custom($dig_key, $user_invite_id);
 
-                    
                     }elseif($invite_count == 30){
                         //送邀请人红包(100)
                         $this->give_bonus($user_invite_id, 'IV', array('count'=>1, 'xname'=>'IV', 'bonus'=>'B', 'min_amounts'=>'J'));
+                        // 记录用户邀请数
+                        $dig_key = Sher_Core_Util_Constant::DIG_INVITE_USER_STAT30;
+                        $dig = $dig_model->load($dig_key);
+                        $dig_model->add_item_custom($dig_key, $user_invite_id);
+
+                    }elseif($invite_count == 1000){
+                        // 记录用户邀请数
+                        $dig_key = Sher_Core_Util_Constant::DIG_INVITE_USER_STAT1000;
+                        $dig = $dig_model->load($dig_key);
+                        $dig_model->add_item_custom($dig_key, $user_invite_id);
                     }
+
+                    // 记录用户邀请数
+                    $dig_key = Sher_Core_Util_Constant::DIG_INVITE_USER_STAT;
+                    $dig = $dig_model->load($dig_key);
+                    $dig_model->add_item_custom($dig_key, $user_invite_id); 
+
                 }
 			}
 			// 清除cookie值

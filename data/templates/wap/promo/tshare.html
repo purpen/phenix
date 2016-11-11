@@ -107,7 +107,7 @@
 	        return false;
       	}
       	else{
-      		phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite=1');
+            phenix.redirect('{{ app_url_wap }}/promo/fiuinvite?invite_code={{ invite_code }}');
       	}
 	});
 </script>
@@ -116,7 +116,7 @@
 
     var m_name = '呼朋唤友一起玩,邀请好友得大僵/御无人机。';
     var img_url = '{{ app_url_packaged }}/images/promo/shop/fiuinvite.jpeg';
-    var link = '{{ app_url_wap }}/promo/tshare';
+    var link = '{{ current_url }}';
     var desc_str = '成功邀请好友加入Fiu店即送红包，还有机会得大僵/御无人机，好友亦可获得30元无限制红包哟！';
 
     wx.config({
@@ -178,7 +178,7 @@
 	<a class="sgobtn" href="javascript:void(0);">
 		<img src="{{ app_url_packaged }}/images/promo/shop/sgobtn.jpg">
 	</a>
-	<a class="bonus" href="{{ app_url_wap }}/my/bonus"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
+	<a class="bonus" href="{{ app_url_wap }}/promo/theme"><img src="{{ app_url_packaged }}/images/promo/shop/sbonus.png"></a>
 </div>
 <img src="{{ app_url_packaged }}/images/promo/shop/s2.jpg">
 <img src="{{ app_url_packaged }}/images/promo/shop/s3.jpg">
