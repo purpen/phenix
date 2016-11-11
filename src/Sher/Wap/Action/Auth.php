@@ -422,8 +422,6 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				'account' => $account,
 				'nickname' => $account,
 				'password' => sha1($password),
-				//报名注册标记(随机密码)
-				'kind'  => 21,
 				'state' => Sher_Core_Model_User::STATE_OK
 			);
 			$user_ok = $user_model->create($user_info);
@@ -433,17 +431,32 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				// 删除验证码
 				$verify_model->remove((string)$has_code['_id']);
 
-        // 如果来自第三方则统计(兑吧)
-        if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
-          $this->from_origin_stat($user_id);
-        }
+                // 如果来自第三方则统计(兑吧)
+                if(isset($_COOKIE['from_origin']) && !empty($_COOKIE['from_origin'])){
+                  $this->from_origin_stat($user_id);
+                }
+
+				//统计好友邀请
+				$this->is_user_invite($user_id);
+
+				//活动送30红包
+				if(Doggy_Config::$vars['app.anniversary2015.switch']){
+                    $attend_model = new Sher_Core_Model_Attend();
+                    $row = array(
+                        'user_id' => $user_id,
+                        'target_id' => 8,
+                        'event' => 5,
+                    );
+                    $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+                    if($ok){
+                        $row['info']['new_user'] = 1;
+                        $ok = $attend_model->apply_and_save($row);
+                    }
+				}
 				
 				Sher_Core_Helper_Auth::create_user_session($user_id);
-				
-				$redirect_url = $this->auth_return_url(Sher_Core_Helper_Url::user_home_url($user_id));
-				if (empty($redirect_url)) {
-					$redirect_url = '/';
-				}
+
+                $redirect_url = $this->auth_return_url(Doggy_Config::$vars['app.url.wap']);
 				$this->clear_auth_return_url();
 				
 				$msg = "恭喜您成为太火鸟的用户，您的用户名是：".$account.",密码是：".$password."，请您尽快登陆官网个人中心修改密码，以确保账户的安全！";
