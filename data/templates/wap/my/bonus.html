@@ -115,7 +115,7 @@ h3.ui.header{
             {% if b.min_amount %}
               <div class="sub header pt-4r">最低使用限额: {{ b.min_amount }}元
 				{% if !b.is_expired %}
-					{% if b.used == 2 %}
+					{% if !b.used == 2 %}
 					<br/>{{ b.expired_label }}
 					{%endif%}
 				{%endif%}
@@ -123,7 +123,7 @@ h3.ui.header{
             {%else%}
                 <div class="sub header pt-4r">无限制
 					{% if !b.is_expired %}
-						{% if b.used == 2 %}
+						{% if !b.used == 2 %}
 						<br/>{{ b.expired_label }}
 						{%endif%}
 					{%endif%}
