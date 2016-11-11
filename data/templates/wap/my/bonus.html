@@ -127,12 +127,14 @@ h3.ui.header{
             {%endif%}
             
             <img src="{{ app_url_packaged }}/images/icon/bofiu.png" class="bofiu">
-            {% if b.used == 2 %}
-				<img src="{{ app_url_packaged }}/images/icon/bodo.png" class="bodo">
-                {% if b.is_expired %}
-				    <img src="{{ app_url_packaged }}/images/icon/boold.png" class="boold">
-                {%endif%}
-			{% endif%}
+			{% if b.is_expired %}
+				{% if b.used == 2 %}
+				    <img src="{{ app_url_packaged }}/images/icon/bodo.png" class="bodo">
+				    {% else %}
+					<img src="{{ app_url_packaged }}/images/icon/boold.png" class="boold">
+				{%endif%}
+            {%endif%}
+
 				<!--<div class="ui bottom attached label">
 					{% if b.used == 2 %}
 						已使用
