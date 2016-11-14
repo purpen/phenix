@@ -345,7 +345,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             return $this->ajax_json('订单类型不正确!', true);       
         }
 
-        $product_arr = array();
+        $target_arr = array();
         $sku_arr = array();
         $star_arr = array();
         $content_arr = array();
@@ -362,6 +362,10 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             array_push($sku_arr, (int)$sku[$i]);
             array_push($star_arr, (int)$star[$i]);
             array_push($content_arr, $content[$i]);
+        }
+
+        if(empty($target_arr)){
+            return $this->ajax_json('产品不存在!', true);           
         }
 
         $model = new Sher_Core_Model_Comment();
