@@ -542,7 +542,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
         $content = $v['content'];
         $star = (int)$v['star'];
         if(!in_array($star, array(1,2,3,4,5))){
-          $star = 0;
+          $star = 5;
         }
 
         if(in_array($product_id, $product_arr)){

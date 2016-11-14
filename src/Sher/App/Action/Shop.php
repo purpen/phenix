@@ -595,7 +595,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$this->stash['comment'] = &$model->extend_load($comment_id);
 		}
 		
-    return $this->ajax_json('操作成功!', false);
+        return $this->ajax_json('操作成功!', false);
 	}
 
   /**

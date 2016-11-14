@@ -1,4 +1,4 @@
-{%extends 'layout/mobile.html'%}
+{%extends 'layout/shop.html'%}
 {% block title%}发表评价-{% endblock %}
 {% block page_css %}
 <style type="text/css">
@@ -64,14 +64,25 @@
 	background:#fff;
 }
 
-.retade.magenta.button{
+.retade.button.ui.inverted.magenta.active.button{
 	border-radius:0;
 	position:fixed;
 	bottom:0;
 	max-width:767px;
 	height:3.5725rem;
+    background: #be8914 !important;
+    color: #fff;
+    box-shadow: 0 0 0 2px #be8914 inset!important;
+    text-align: center;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    display: block;
 }
-
+.sfooter.nav-menu{
+    display: none;
+}
 
 </style>
 {% endblock %}
@@ -82,58 +93,108 @@
 		}
 	});
 
+	$('.ui.evaluate.form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[1400]',
+					prompt : '评论内容不超过1400字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.is_error){
+					  phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+                    var redirect_url = "{{ app_url_wap }}/my/orders?s=7";
+						phenix.redirect(redirect_url);
+					}
+				}
+			});
+		}
+	});
+
 
 {% endblock %}
 {% block content %}
-<div id="ratedpage">
-	<div class="cartmain">
-		<form class="ui evaluate form" action="{{ app_url_shop }}/edit_ajax_evaluate" method="post" id="{{ product._id }}">
-			<input type="hidden" name="target_id" value="{{ product._id }}" />
-			<input type="hidden" name="type" value="4" />
-			<div class="cartitem">
-				<div class="img"> 
-					<img src="{{ product.cover.thumbnails.mini.view_url }}">
-				</div>
-				<div class="cartinfo">
-				
-					<h5 class="title">评分</h5>
-					<input type="hidden" name="star" class="comment-star" />
-					<div class="rate">
-					  	<div class="ui star large write rating">
-					    	<i class="icon"></i>
-					   		<i class="icon"></i>
-					    	<i class="icon"></i>
-					    	<i class="icon"></i>
-					    	<i class="icon"></i>
-					  	</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="ui responsive grid pb-2r white background">
-				<div class="row">
-					<div class="column">
-						<h5 class="ui header mt-r mb-2r">写下你对商品的感受，对他人帮助很大。</h5>
-						<textarea name="content" class="comment-textarea" ></textarea>
-					</div>
-					
-					
-				</div>
-				<div class="row pt-0">
-					<div class="column">
-						<small class="ui magenta link"> 插入图片</small>
-					</div>
-				</div>
-				
-				<input type="submit" class="ui retade fluid magenta inverted active button" value="提交评价" />
-				
-			</div>
-			
-			
-		</form>
-	</div>
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>评价商品</p>
+    </div>
+    <div id="ratedpage" style="padding-bottom: 80px;">
 
+            <div class="cartmain">
 
+                <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info._id }}">
+                    
+                    <input type="hidden" name="order_id" value="{{ order_info._id }}" />
+                    <input type="hidden" name="type" value="4" />
+                    <input type="hidden" name="from_site" value="2" />
+                    {% for d in order_info.items %}
+                        {% product_list var:'product' product_id:d.product_id %}
 
-</div>
+                        <input type="hidden" name="target_id[]" value="{{ product._id }}" />
+                        <input type="hidden" name="sku[]" value="{{ d.sku }}" />
+                        <div class="cartitem">
+                            <div class="img"> 
+                                <img src="{{ product.cover.thumbnails.mini.view_url }}" />
+                            </div>
+                            <div class="cartinfo">
+                            
+                                <h5 class="title">评分</h5>
+                                <input type="hidden" name="star[]" class="comment-star" />
+                                <div class="rate">
+                                    <div class="ui star large write rating">
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="ui responsive grid pb-2r white background">
+                            <div class="row">
+                                <div class="column">
+                                    <h5 class="ui header mt-r mb-2r">写下你对商品的感受，对他人帮助很大。</h5>
+                                    <textarea name="content[]" class="comment-textarea" ></textarea>
+                                </div>
+                                
+                            </div>
+                            <!--
+                            <div class="row pt-0">
+                                <div class="column">
+                                    <small class="ui magenta link"> 插入图片</small>
+                                </div>
+                            </div>
+                            -->
+                        
+                        </div>
+                    
+                    {%endfor%}
+
+                    <input type="submit" class="ui retade fluid magenta inverted active button" value="提交评价" />
+                </form>
+            </div>
+
+    </div>
 {% endblock %}
