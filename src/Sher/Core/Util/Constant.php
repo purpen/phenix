@@ -210,6 +210,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 
     # 邀请用户注册数阶段统计
     const DIG_INVITE_USER_STAT = 'invite_user_stat';
+    const DIG_INVITE_USER_STAT10 = 'invite_user_stat10';
+    const DIG_INVITE_USER_STAT30 = 'invite_user_stat30';
+    const DIG_INVITE_USER_STAT1000 = 'invite_user_stat1000';
 
     /**
      * DigList stuff计数器

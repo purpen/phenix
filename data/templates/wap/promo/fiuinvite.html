@@ -249,7 +249,7 @@
 			$(this).fadeOut();
 		});
 
-        {% if yes_login %}
+        {% if is_current_user %}
             $('.goinvite').show();
         {%else%}
             $('.reinvite').show();
