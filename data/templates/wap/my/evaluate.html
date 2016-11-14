@@ -83,9 +83,19 @@
 	});
 
 	$('.ui.evaluate.form').form({
-        fields:{
-        
-        }
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '评论内容不能为空'
+				},
+				{
+					type   : 'maxLength[1400]',
+					prompt : '评论内容不超过1400字符'
+				}
+			]
+		}
 	}, {
 		inline : true,
 		onSuccess: function(event){
