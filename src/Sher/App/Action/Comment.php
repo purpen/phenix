@@ -376,11 +376,15 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $row['sku_id'] = $sku_arr[$i];
             $row['from_site'] = $from_site;
 
-            $ok = $model->apply_and_save($row);
+            try{
+                $ok = $model->apply_and_save($row);
 
-            if(!$ok){
-                return $this->ajax_json('保存失败!', true);
-            }  
+                if(!$ok){
+                    return $this->ajax_json('保存失败!', true);
+                }            
+            }catch(Sher_Core_Model_Exception $e){
+                return $this->ajax_json($e->getMessage(), true);           
+            }
         
         }
 
