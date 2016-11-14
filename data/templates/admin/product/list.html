@@ -155,9 +155,9 @@
 		</thead>
 		<tbody>
 	      {% if is_search %}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q is_vop:is_vop size:size %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q is_vop:is_vop sort:sort size:size %}
 	      {%else%}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage size:size %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage sort:sort size:size %}
 	      {%endif%}
 
 			{% for product in list.rows %}
