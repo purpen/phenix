@@ -73,7 +73,9 @@
     background: #be8914 !important;
     color: #fff;
 }
-
+.sfooter.nav-menu{
+    display: none;
+}
 
 </style>
 {% endblock %}
@@ -124,63 +126,68 @@
 
 {% endblock %}
 {% block content %}
-<div id="ratedpage" style="padding-bottom: 60px;">
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>评价商品</p>
+    </div>
+    <div id="ratedpage" style="padding-bottom: 80px;">
 
-        <div class="cartmain">
+            <div class="cartmain">
 
-            <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info._id }}">
-                
-                <input type="hidden" name="order_id" value="{{ order_info._id }}" />
-                <input type="hidden" name="type" value="4" />
-                <input type="hidden" name="from_site" value="2" />
-                {% for d in order_info.items %}
-                    {% product_list var:'product' product_id:d.product_id %}
+                <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info._id }}">
+                    
+                    <input type="hidden" name="order_id" value="{{ order_info._id }}" />
+                    <input type="hidden" name="type" value="4" />
+                    <input type="hidden" name="from_site" value="2" />
+                    {% for d in order_info.items %}
+                        {% product_list var:'product' product_id:d.product_id %}
 
-                    <input type="hidden" name="target_id[]" value="{{ product._id }}" />
-                    <input type="hidden" name="sku[]" value="{{ d.sku }}" />
-                    <div class="cartitem">
-                        <div class="img"> 
-                            <img src="{{ product.cover.thumbnails.mini.view_url }}" />
-                        </div>
-                        <div class="cartinfo">
-                        
-                            <h5 class="title">评分</h5>
-                            <input type="hidden" name="star[]" class="comment-star" />
-                            <div class="rate">
-                                <div class="ui star large write rating">
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
-                                    <i class="icon"></i>
+                        <input type="hidden" name="target_id[]" value="{{ product._id }}" />
+                        <input type="hidden" name="sku[]" value="{{ d.sku }}" />
+                        <div class="cartitem">
+                            <div class="img"> 
+                                <img src="{{ product.cover.thumbnails.mini.view_url }}" />
+                            </div>
+                            <div class="cartinfo">
+                            
+                                <h5 class="title">评分</h5>
+                                <input type="hidden" name="star[]" class="comment-star" />
+                                <div class="rate">
+                                    <div class="ui star large write rating">
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                        <i class="icon"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="ui responsive grid pb-2r white background">
-                        <div class="row">
-                            <div class="column">
-                                <h5 class="ui header mt-r mb-2r">写下你对商品的感受，对他人帮助很大。</h5>
-                                <textarea name="content[]" class="comment-textarea" ></textarea>
+                        
+                        <div class="ui responsive grid pb-2r white background">
+                            <div class="row">
+                                <div class="column">
+                                    <h5 class="ui header mt-r mb-2r">写下你对商品的感受，对他人帮助很大。</h5>
+                                    <textarea name="content[]" class="comment-textarea" ></textarea>
+                                </div>
+                                
                             </div>
-                            
-                        </div>
-                        <!--
-                        <div class="row pt-0">
-                            <div class="column">
-                                <small class="ui magenta link"> 插入图片</small>
+                            <!--
+                            <div class="row pt-0">
+                                <div class="column">
+                                    <small class="ui magenta link"> 插入图片</small>
+                                </div>
                             </div>
+                            -->
+                        
                         </div>
-                        -->
                     
-                    </div>
-                
-                {%endfor%}
+                    {%endfor%}
 
-                <input type="submit" class="ui retade fluid magenta inverted active button" value="提交评价" />
-            </form>
-        </div>
+                    <input type="submit" class="ui retade fluid magenta inverted active button" value="提交评价" />
+                </form>
+            </div>
 
-</div>
+    </div>
 {% endblock %}
