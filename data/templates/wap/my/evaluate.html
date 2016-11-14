@@ -83,19 +83,9 @@
 	});
 
 	$('.ui.evaluate.form').form({
-		content: {
-			identifier  : 'content',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '评论内容不能为空'
-				},
-				{
-					type   : 'maxLength[140]',
-					prompt : '评论内容不超过140字符'
-				}
-			]
-		}
+        fields:{
+        
+        }
 	}, {
 		inline : true,
 		onSuccess: function(event){
@@ -125,18 +115,18 @@
 
         <div class="cartmain">
 
-            <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info.rid }}">
+            <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info._id }}">
                 
                 {% for d in order_info.items %}
-                    {% product_list var:'product' product_id:item.product_id %}
+                    {% product_list var:'product' product_id:d.product_id %}
 
                     <input type="hidden" name="target_id[]" value="{{ product._id }}" />
                     <input type="hidden" name="order_id[]" value="{{ order_info._id }}" />
-                    <input type="hidden" name="sku[]" value="{{ item.sku }}" />
+                    <input type="hidden" name="sku[]" value="{{ d.sku }}" />
                     <input type="hidden" name="type[]" value="4" />
                     <div class="cartitem">
                         <div class="img"> 
-                            <img src="{{ product.cover.thumbnails.mini.view_url }}">
+                            <img src="{{ product.cover.thumbnails.mini.view_url }}" />
                         </div>
                         <div class="cartinfo">
                         
