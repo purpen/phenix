@@ -68,7 +68,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		}
         
 		//添加网站meta标签
-		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟商店", $product['title'], $product['category']['title']);
+		$this->stash['page_title_suffix'] = sprintf("%s-Fiu店", $product['title']);
 		if(!empty($product['tags_s'])){
             $this->stash['page_keywords_suffix'] = $product['tags_s'];   
 		}
@@ -276,7 +276,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
 		}
 		//添加网站meta标签
-		$this->stash['page_title_suffix'] = sprintf("%s-【%s】-太火鸟智品库", $product['title'], $product['category']['title']);
+		$this->stash['page_title_suffix'] = sprintf("%s-太火鸟智品库", $product['title']);
 		if(!empty($product['tags_s'])){
             $this->stash['page_keywords_suffix'] = $product['tags_s'];   
 		}
@@ -595,7 +595,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 			$this->stash['comment'] = &$model->extend_load($comment_id);
 		}
 		
-    return $this->ajax_json('操作成功!', false);
+        return $this->ajax_json('操作成功!', false);
 	}
 
   /**
