@@ -37,7 +37,7 @@ class Sher_Core_Util_Vop {
             $expires_in = $dig['items']['expires_in'];
             $refresh_token = $dig['items']['refresh_token'];
 
-            // token大于7天
+            // token大于14天
             if(($now - $created_on) < 2419200){
                 $result['data'] = $dig['items'];
                 return $result;

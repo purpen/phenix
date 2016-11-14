@@ -10,6 +10,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		'page' => 1,
 		'size' => 100,
 		'stage' => 0,
+        'sort' => 0,
 	);
 	
 	public function execute(){
