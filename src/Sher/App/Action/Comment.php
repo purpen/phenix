@@ -381,7 +381,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $row['from_site'] = $from_site;
 
             try{
-                $ok = $model->apply_and_save($row);
+                $ok = $model->create($row);
 
                 if(!$ok){
                     return $this->ajax_json('保存失败!', true);
