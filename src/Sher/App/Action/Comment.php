@@ -318,57 +318,77 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
 	public function batch_ajax_evaluate(){
 
 		$order_id = isset($this->stash['order_id'])?$this->stash['order_id']:null;
+        $type = isset($this->stash['type'])?(int)$this->stash['type']:0;
+        $from_site = isset($this->stash['from_site'])?(int)$this->stash['from_site']:1;
 
-        $target_id = isset($this->stash['target_id'][0])?$this->stash['target_id'][0]:null;
+        $target_id = isset($this->stash['target_id'])?(array)$this->stash['target_id']:array();
+        $sku = isset($this->stash['sku'])?(array)$this->stash['sku']:array();
+        $star = isset($this->stash['star'])?(array)$this->stash['star']:array();
+        $content = isset($this->stash['content'])?(array)$this->stash['content']:array();
 
-return $this->ajax_json('操作成功!', false, null, array('target_id'=>$target_id));
+        if(empty($order_id) || empty($type)){
+            return $this->ajax_json('缺少请求参数!', true);
+        }
 
-		
-		$row = array();
-		$row['user_id'] = $this->visitor->id;
-		$row['star'] = $this->stash['star'];
-		$row['target_id'] = $this->stash['target_id'];
-		$row['content'] = $this->stash['content'];
-		$row['type'] = (int)$this->stash['type'];
-		$row['sku_id'] = isset($this->stash['sku'])?(int)$this->stash['sku']:0;
-		$row['from_site'] = isset($this->stash['from_site'])?(int)$this->stash['from_site']:1;
-		
-		// 验证数据
-		if(empty($row['target_id']) || empty($row['content']) || empty($row['star'])){
-			return $this->ajax_note('获取数据错误,请重新提交', true);
-		}
-
-		$model = new Sher_Core_Model_Comment();
-
-		$query = array();
-		$query['target_id'] = $row['target_id'];
-		$query['type'] = $row['type'];
-		$query['user_id'] = $row['user_id'];
-		$query['sku_id'] = $row['sku_id'];
-    // 不验证重复性
-    //$has_one = $model->first($query);
-    $has_one = false;
-		if(!empty($has_one)){
-		  return $this->ajax_note('该商品不能重复评价!', true);
-		}
-
-		$ok = $model->apply_and_save($row);
-		if($ok){
-			$comment_id = $model->id;
-			$this->stash['comment'] = &$model->extend_load($comment_id);
-
-      // 更新订单状态为完成
-      if(!empty($order_id)){
         $orders_model = new Sher_Core_Model_Orders();
         $order = $orders_model->load((string)$order_id);
-        if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
-          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id']));
+
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
         }
-      }
-		} // if ok
+
+        if($order['user_id'] != $this->visitor->id){
+            return $this->ajax_json('没有权限!', true);
+        }
+
+        if($order['status'] != Sher_Core_Util_Constant::ORDER_EVALUATE){
+            return $this->ajax_json('订单类型不正确!', true);       
+        }
+
+        $product_arr = array();
+        $sku_arr = array();
+        $star_arr = array();
+        $content_arr = array();
+
+        // 组装、验证数据
+        for($i=0;$i<count($target_id);$i++){
+            if(empty($content[$i])){
+                return $this->ajax_json('请添写内容!', true);
+            }
+            if(empty($star[$i])){
+                return $this->ajax_json('请打分数!', true);
+            }
+            array_push($target_arr, $target_id[$i]);
+            array_push($sku_arr, (int)$sku[$i]);
+            array_push($star_arr, (int)$star[$i]);
+            array_push($content_arr, $content[$i]);
+        }
+
+        $model = new Sher_Core_Model_Comment();
+
+        for($i=0;$i<count($target_arr);$i++){
+            $row = array();
+            $row['user_id'] = $this->visitor->id;
+            $row['star'] = $star[$i];
+            $row['target_id'] = $target_arr[$i];
+            $row['content'] = $content_arr[$i];
+            $row['type'] = $type;
+            $row['sku_id'] = $sku_arr[$i];
+            $row['from_site'] = $from_site;
+
+            $ok = $model->apply_and_save($row);
+
+            if(!$ok){
+                return $this->ajax_note('保存失败!', true);
+            }  
+        
+        }
+
+        // 更新订单状态为完成
+        $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id']));
 		
         return $this->ajax_json('操作成功!', false);
-	}
+    }
 
 	/**
 	 * 点赞

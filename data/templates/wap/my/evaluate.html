@@ -111,7 +111,8 @@
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
 					}else{
-						//phenix.redirect(data.redirect_url);
+                    var redirect_url = "{{ app_url_wap }}/my/orders?s=7";
+						phenix.redirect(redirect_url);
 					}
 				}
 			});
@@ -127,13 +128,14 @@
 
             <form class="ui evaluate form" action="{{ app_url_wap }}/app/site/comment/batch_ajax_evaluate" method="post" id="item-{{ order_info._id }}">
                 
+                <input type="hidden" name="order_id" value="{{ order_info._id }}" />
+                <input type="hidden" name="type" value="4" />
+                <input type="hidden" name="from_site" value="2" />
                 {% for d in order_info.items %}
                     {% product_list var:'product' product_id:d.product_id %}
 
                     <input type="hidden" name="target_id[]" value="{{ product._id }}" />
-                    <input type="hidden" name="order_id[]" value="{{ order_info._id }}" />
                     <input type="hidden" name="sku[]" value="{{ d.sku }}" />
-                    <input type="hidden" name="type[]" value="4" />
                     <div class="cartitem">
                         <div class="img"> 
                             <img src="{{ product.cover.thumbnails.mini.view_url }}" />
@@ -162,11 +164,13 @@
                             </div>
                             
                         </div>
+                        <!--
                         <div class="row pt-0">
                             <div class="column">
                                 <small class="ui magenta link"> 插入图片</small>
                             </div>
                         </div>
+                        -->
                     
                     </div>
                 
