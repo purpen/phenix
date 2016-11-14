@@ -369,7 +369,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         for($i=0;$i<count($target_arr);$i++){
             $row = array();
             $row['user_id'] = $this->visitor->id;
-            $row['star'] = $star[$i];
+            $row['star'] = $star_arr[$i];
             $row['target_id'] = $target_arr[$i];
             $row['content'] = $content_arr[$i];
             $row['type'] = $type;
@@ -379,7 +379,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
             $ok = $model->apply_and_save($row);
 
             if(!$ok){
-                return $this->ajax_note('保存失败!', true);
+                return $this->ajax_json('保存失败!', true);
             }  
         
         }
