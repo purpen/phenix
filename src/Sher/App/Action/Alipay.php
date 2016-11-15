@@ -453,6 +453,9 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		// ca证书路径地址，用于curl中ssl校验
 		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.fiu.cacert'];
 
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/rsa_private_pkcs8.pem';
+		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/alipay_public_key.pem';
+
 		// 建立请求
 		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
 		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
@@ -475,6 +478,9 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 
 		// ca证书路径地址，用于curl中ssl校验
 		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.fiu.cacert'];
+
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/rsa_private_pkcs8.pem';
+		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/alipay_public_key.pem';
 
 		
 		$alipayNotify = new Sher_Core_Util_AlipayNotify($this->alipay_config);
