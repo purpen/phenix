@@ -37,6 +37,12 @@ class Sher_Core_Util_AlipaySubmit extends Doggy_Object {
 			case "MD5" :
 				$mysign = Sher_Core_Util_Alipay::md5Sign($prestr, $this->alipay_config['key']);
 				break;
+			case "RSA" :
+				$mysign = Sher_Core_Util_Alipay::rsaSign($prestr, $this->alipay_config['private_key_path']);
+				break;
+			case "0001" :
+				$mysign = Sher_Core_Util_Alipay::rsaSign($prestr, $this->alipay_config['private_key_path']);
+				break;
 			default :
 				$mysign = "";
 		}
