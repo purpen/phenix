@@ -319,6 +319,10 @@
     right: 4px;
     font-size: 18px;
 }
+.ui.fiushop .nav-menu .navfelx.item.all .childcell .menuicon .bgimg.ping{
+    background-image:url({{ app_url_packaged }}/images/icon/pingj.png);
+    background-size:20px 19px; 
+}
 </style>
 {% endblock %}
 
@@ -447,6 +451,15 @@
 						待收货
 					</a>
 				</li>
+                <li class="childcell">
+                    <a class="menuicon" href="{{ app_url_wap }}/my/orders?s=7">
+                        <div class="bgimg ping"></div>
+                        {% if user.counter.order_evaluate %}
+                            <div class="number">{{ user.counter.order_evaluate }}</div>
+                        {%endif%}
+                        待评价
+                    </a>
+                </li>
 				<li class="childcell">
 					<a class="menuicon" href="{{ app_url_wap }}/my/orders?s=8">
 						<div class="bgimg tui"></div>
