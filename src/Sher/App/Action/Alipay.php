@@ -303,7 +303,75 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
 		echo $html_text;
 
-  }
+    }
+
+    /**
+     * Fiu退款
+    */
+    public function fiu_refund(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)){
+			return $this->show_message_page('操作不当，订单号丢失！', true);
+		}
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if (empty($order_info)){
+			return $this->show_message_page('抱歉，系统不存在该订单！', true);
+		}
+		$status = $order_info['status'];
+
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->ajax_notification('订单状态不正确！', true);
+        }
+
+        $pay_money = $order_info['pay_money'];
+        if((float)$pay_money==0){
+            return $this->show_message_page("订单[$rid]金额为零！", false);  
+        }
+
+		$trade_no = $order_info['trade_no'];
+		$trade_site = $order_info['trade_site'];
+		//是否来自支付宝且第三方交易号存在
+		if($trade_site != Sher_Core_Util_Constant::TRADE_ALIPAY || empty($trade_no)){
+			return $this->show_message_page("订单[$rid]支付类型错误！", false);
+		}
+	
+		//退款日期2014-12-18 24:50:50 (24小时制)
+		$refund_date = date('Y-m-d H:i:s');
+		$detail_data = $trade_no.'^'.$pay_money.'^协商退款';
+
+
+		//构造要请求的参数数组，无需改动
+		$parameter = array(
+			"service" => "refund_fastpay_by_platform_pwd",
+			"partner" => Doggy_Config::$vars['app.alipay.fiu.partner'],
+			"seller_email"	=> 'home@taihuoniao.com',
+			"refund_date"	=> $refund_date,
+			"batch_no"	=> (string)date('Ymd').(string)$rid,
+			"batch_num"	=> 1,
+			"detail_data"	=> $detail_data,
+			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
+			"notify_url"  =>  Doggy_Config::$vars['app.url.domain'].'/app/site/alipay/refund_notify',
+		);
+	
+		//删除初始化付款时调用参数
+		unset($this->alipay_config['return_url']);
+		unset($this->alipay_config['notify_url']);
+
+		// 安全检验码，以数字和字母组成的32位字符
+		$this->alipay_config['key'] = Doggy_Config::$vars['app.alipay.fiu.key'];
+		// 合作身份者id，以2088开头的16位纯数字
+		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
+		// ca证书路径地址，用于curl中ssl校验
+		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.fiu.cacert'];
+
+		// 建立请求
+		$alipaySubmit = new Sher_Core_Util_AlipaySubmit($this->alipay_config);
+		$html_text = $alipaySubmit->buildRequestForm($parameter, "get", "确认");
+		echo $html_text;
+    }
 
   /**
    * 退款异步通知url
