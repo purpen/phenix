@@ -479,5 +479,146 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
     
     }
 
+
+    /**
+     * 商品导出
+     */
+    public function export_product(){
+    
+        $this->set_target_css_state('product');
+
+        $pageNum = isset($this->stash['pageNum']) ? $this->stash['pageNum'] : null;
+
+        $redirect_url = Doggy_Config::$vars['app.url.domain'].'/admin';
+
+        $method = 'biz.product.sku.query';
+        $response_key = 'biz_product_sku_query_response';
+        $params = array('pageNum'=>$pageNum);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+
+        if(!empty($result['code'])){
+            return $this->show_message_page(sprintf("[%d]%s", $result['code'], $result['msg']), $redirect_url);      
+        }
+
+        $products = $result['data']['result'];
+        $product_arr = explode(',', $products);
+        $total_count = count($product_arr);
+
+        if(empty($total_count)){
+            return $this->show_message_page('数据不存在!', $redirect_url); 
+        }
+
+		// 设置不超时
+		set_time_limit(0);
+			
+		header('Content-Type: application/vnd.ms-excel');
+		header('Content-Disposition: attachment;filename="vop_products.csv"');
+		header('Cache-Control: max-age=0');
+		
+		// 打开PHP文件句柄，php://output表示直接输出到浏览器
+        $fp = fopen('php://output', 'a');
+
+    	// Windows下使用BOM来标记文本文件的编码方式 
+    	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
+		
+		// 输出Excel列名信息
+		$head = array('skuID', '标题', '品牌', '协议价', '京东价', '产地', '是否入库', '是否下架');
+
+		// 将数据通过fputcsv写到文件句柄
+		fputcsv($fp, $head);
+
+        $page = 1;
+        $size = 50;
+        $is_end = false;
+        $counter = 0;
+        $limit = 1000;
+
+        $product_model = new Sher_Core_Model_Product();
+        $inventory_model = new Sher_Core_Model_Inventory();
+
+        while(!$is_end){
+
+            $pnum = ceil($total_count / $size); //总页数，ceil()函数用于求大于数字的最小整数
+
+            //用array_slice(array,offset,length) 函数在数组中根据条件取出一段值;array(数组),offset(元素的开始位置),length(组的长度)
+            $newarr = array_slice($product_arr, ($page-1)*$size, $size);
+
+            if(empty($newarr)){
+                $is_end = true;
+                break;
+            }
+
+            // 获取价格
+            $price_method = 'biz.price.sellPrice.get';
+            $price_response_key = 'biz_price_sellPrice_get_response';
+            
+            $price_sku_arr = array();
+            for($i=0;$i<count($newarr);$i++){
+                array_push($price_sku_arr, sprintf("J_%s", $newarr[$i]));
+            }
+            $price_skus = implode(',', $price_sku_arr);
+            $price_params = json_encode(array('sku'=>$price_skus));
+            $price_result = Sher_Core_Util_Vop::fetchInfo($price_method, array('param'=>$price_params, 'response_key'=>$price_response_key));
+
+            if(!empty($price_result['code'])){
+                return $this->show_message_page(sprintf("[%d]%s", $price_result['code'], $price_result['msg']), $redirect_url);      
+            }
+
+            $prices = array();
+            for($i=0;$i<count($price_result['data']['result']);$i++){
+                $p = $price_result['data']['result'][$i];
+                $prices[$p['skuId']] = array('price'=>$p['price'], 'jdPrice'=>$p['jdPrice']);
+            }
+
+
+            for($i=0;$i<count($newarr);$i++){
+
+				$counter ++;
+				if($limit == $counter){
+					ob_flush();
+					flush();
+					$counter = 0;
+				}
+
+                // 获取商品详细信息
+                $sku = $newarr[$i];
+                $p_method = 'biz.product.detail.query';
+                $p_response_key = 'biz_product_detail_query_response';
+                $p_params = array('sku'=>$sku);
+                $p_json = !empty($p_params) ? json_encode($p_params) : '{}';
+                $p_result = Sher_Core_Util_Vop::fetchInfo($p_method, array('param'=>$p_json, 'response_key'=>$p_response_key));
+                if(!empty($p_result['code']) && !empty($p_result['data']['success'])){
+                    continue;
+                }
+
+                $p_result['data']['result']['state_label'] = $p_result['data']['result']['state']=='0' ? '是' : '否';
+
+                $p_result['data']['result']['price'] = isset($prices[$sku]) ? $prices[$sku] : array();
+
+                $p_result['data']['result']['storaged'] = '否';
+                $p_result['data']['result']['product_id'] = 0;
+                $p_result['data']['result']['sku_id'] = 0;
+                $is_exist_product = $inventory_model->find_by_vop_id($sku);
+                if(!empty($is_exist_product)){
+                    $p_result['data']['result']['sku_id'] = $is_exist_product['_id'];
+                    $p_result['data']['result']['product_id'] = $is_exist_product['product_id'];
+                    $p_result['data']['result']['storaged'] = '是';
+                }
+
+                $d = $p_result['data']['result'];
+				$row = array($d['sku'], $d['name'], $d['brandName'], $d['price']['price'], $d['price']['jdPrice'], $d['productArea'], $d['storaged'], $d['state_label']);
+				
+				fputcsv($fp, $row);
+
+            }   // endfor
+
+            $page++;
+		}
+		
+		fclose($fp);
+    
+    }
+
 }
 
