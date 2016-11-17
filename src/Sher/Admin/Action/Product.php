@@ -1018,8 +1018,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
   public function search(){
     $this->set_target_css_state('page_product');
     $this->stash['is_search'] = true;
+    $min_price = isset($this->stash['min_price']) ? $this->stash['min_price'] : null;
+    $max_price = isset($this->stash['max_price']) ? $this->stash['max_price'] : null;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&min_price=%f&max_price=%f&page=#p#';
 		switch($this->stash['stage']){
 			case 9:
 				$this->stash['process_saled'] = 1;
@@ -1031,7 +1033,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$this->stash['process_voted'] = 1;
 				break;
 		}
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q'], $this->stash['is_vop']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q'], $this->stash['is_vop'], $min_price, $max_price);
     return $this->to_html_page('admin/product/list.html');
   
   }

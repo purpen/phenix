@@ -63,6 +63,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$vote_type = 0;
         // 是否开普勒 
         $is_vop = 0;
+        // 价格区音
+        $min_price = 0;
+        $max_price = 0;
 
     // 孵化产品标识
     $hatched = 0;
@@ -179,6 +182,14 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		if ($only_subject){
 			$query['topic_count'] = array('$gt'=>0);
 		}
+
+        if($min_price && $max_price){
+            $query['sale_price'] = array('$gt'=>(float)$min_price, '$lt'=>(float)$max_price);
+        }elseif($min_price){
+            $query['sale_price'] = array('$gt'=>(float)$min_price);       
+        }elseif($max_price){
+            $query['sale_price'] = array('$lt'=>(float)$max_price);       
+        }
 		
 		// 是否成功案例
 		if($only_okcase){
