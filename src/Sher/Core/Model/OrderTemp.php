@@ -22,6 +22,8 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     'kind' => 1,
     # 是否是京东开普勒订单
     'is_vop' => 0,
+    # 推广码 
+    'referral_code' => null,
     );
 	
     protected $joins = array();
