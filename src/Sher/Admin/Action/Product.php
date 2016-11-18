@@ -1130,7 +1130,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
    * 获取二维码
    */
   function fetch_qr(){
-      $str = isset($this->stash['str']) ? $this->stash['str'] : null;
+      $str = isset($this->stash['str']) ? htmlspecialchars_decode($this->stash['str']) : null;
       $options = array(
         'outfile' => false,
         'level' => 'L',
