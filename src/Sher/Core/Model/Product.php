@@ -335,11 +335,15 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     'hatched_cover_url' => null,
     # 来源: 1.编辑；2.用户；3.--
     'from_to' => 1,
+    # 发货类型: 1.自营；2.代发；3.--
+    'send_type' => 1,
+    # 供应商
+    'supplier_id' => null,
 
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to', 'number');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to', 'number','send_type');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -385,6 +389,21 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         // 风格转换字符串
         if(isset($row['style_ids']) && !empty($row['style_ids'])){
               $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
+        }
+
+        // 发货类型
+        $row['send_label'] = '';
+        if(isset($row['send_type'])){
+            switch($row['send_type']){
+                case 1:
+                    $row['send_label'] = '自营';
+                    break;
+                case 2:
+                    $row['send_label'] = '代发';
+                    break;
+                default:
+                    $row['send_label'] = '--';
+            }
         }
 
         // 封面图

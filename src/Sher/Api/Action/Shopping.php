@@ -85,6 +85,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('当前购物车为空！', 3002); 
     }
 
+    // 推广码
+    $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+
     // 初始化类型
     $kind = 0;
 
@@ -253,6 +256,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$new_data['dict'] = array_merge($default_data, $data);
 			$new_data['kind'] = $kind;
 			$new_data['user_id'] = $user_id;
+            $new_data['referral_code'] = $referral_code;
 
       // 如果是闪购，过期时间仅为15分钟
       if($kind==3){
@@ -300,6 +304,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
+        // 推广码
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
     // app来源
     $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
     $result = array();
@@ -410,6 +416,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         if(!empty($vop_id)){
             $options['is_vop'] = 1;
+        }
+        if(!empty($referral_code)){
+            $options['referral_code'] = $referral_code;
         }
 
 		$order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type, $options);
@@ -1396,6 +1405,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }
     $new_data['kind'] = $kind;
     $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
+    $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
 		
 		try{
 			$order_info = array();
