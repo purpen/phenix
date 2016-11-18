@@ -501,7 +501,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         // 开普勒
         $vop_id = null;
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -778,7 +778,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         }
 
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 
         $options = array();
         $options['is_cart'] = 1;

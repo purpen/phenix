@@ -115,7 +115,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $vop_id = null;
 
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -637,7 +637,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}
 
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 
         $vop_count = 0;
         $self_count = 0;
