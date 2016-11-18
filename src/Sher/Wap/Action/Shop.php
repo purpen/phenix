@@ -498,7 +498,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         //是否积分兑换
         $is_exchanged = false;
 
+        // 开普勒
         $vop_id = null;
+        // 推广码
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -638,6 +641,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         if($vop_id){
             $options['is_vop'] = 1;
         }
+        if($referral_code){
+            $options['referral_code'] = $referral_code;
+        }
 		
 		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		if (empty($order_info)){
@@ -771,9 +777,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $target_arr[$i] = (int)$target_arr[$i];
         }
 
+        // 推广码
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
+
         $options = array();
         $options['is_cart'] = 1;
         $options['is_vop'] = 0;
+        $options['referral_code'] = $referral_code;
 		
 		//验证购物车，无购物不可以去结算
         $cart_model = new Sher_Core_Model_Cart();
@@ -977,7 +987,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
-
+        $order_info['referral_code'] = $result['referral_code'];
         // 验证开普勒
         for($i=0;$i<count($order_info['items']);$i++){
             $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
@@ -1477,6 +1487,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $new_data['kind'] = $options['kind'];
     }
 		$new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
+        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
 		

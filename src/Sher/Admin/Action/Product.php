@@ -146,6 +146,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['process_voted'] = isset($this->stash['process_voted']) ? 1 : 0;
 		$data['process_presaled'] = isset($this->stash['process_presaled']) ? 1 : 0;
 		$data['process_saled'] = isset($this->stash['process_saled']) ? 1 : 0;
+
+		// 产品阶段
+		$data['send_type'] = isset($this->stash['send_type']) ? (int)$this->stash['send_type'] : 1;
 		
 		// 是否抢购
 		$data['snatched'] = isset($this->stash['snatched']) ? 1 : 0;
@@ -618,6 +621,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		$this->stash['png_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PNG;
+
+        // 供应商
+
 		
 		return $this->to_html_page('admin/product/edit.html');
 	}
@@ -1124,7 +1130,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
    * 获取二维码
    */
   function fetch_qr(){
-      $str = isset($this->stash['str']) ? $this->stash['str'] : null;
+      $str = isset($this->stash['str']) ? htmlspecialchars_decode($this->stash['str']) : null;
       $options = array(
         'outfile' => false,
         'level' => 'L',

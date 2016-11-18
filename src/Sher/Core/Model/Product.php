@@ -36,9 +36,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 简述
 		'summary' => '',
 		# 详情内容
-    'content' => '',
-    # 手机详情
-    'content_wap' => '',
+        'content' => '',
+        # 手机详情
+        'content_wap' => '',
 		# 产品标签
 		'tags'    => array(),
         'like_tags' => array(),
@@ -71,17 +71,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'category_id' => 0,
         # 类别支持多选(new)
         'category_ids' => array(),
-      # 分类标签
+        # 分类标签
         'category_tags' => array(),
         # 所属父ID(用于3C数码父类:app_category_id)
         'pid' => 0,
-      # 3C类别
-      'app_category_id' => 0,
+        # 3C类别
+        'app_category_id' => 0,
 
-    # 场景
-    'scene_ids' => array(),
-    # 风格
-    'style_ids' => array(),
+        # 场景
+        'scene_ids' => array(),
+        # 风格
+        'style_ids' => array(),
 		
 		# 上传者
 		'user_id' => null,
@@ -185,9 +185,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		## 限时抢购
 		'snatched' => 0,
-    # 抢购开始结束时间
+        # 抢购开始结束时间
 		'snatched_time' => 0,
-    'snatched_end_time' => 0,
+        'snatched_end_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
 		# 抢购价
@@ -197,21 +197,21 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
 		## APP限时抢购
 		'app_snatched' => 0,
-    # 抢购开始结束时间
+        # 抢购开始结束时间
 		'app_snatched_time' => 0,
-    'app_snatched_end_time' => 0,
+        'app_snatched_end_time' => 0,
 		# 提醒人数
 		'app_appoint_count' => 0,
 		# 抢购价
 		'app_snatched_price' => 0,
 		# 抢购数量
 		'app_snatched_count' => 0,
-    # 抢购总数量
-		'app_snatched_total_count' => 0,
-    # 展示图
-    'app_snatched_img' => null,
-    # 限购购买数量
-    'app_snatched_limit_count' => 0,
+        # 抢购总数量
+        'app_snatched_total_count' => 0,
+        # 展示图
+        'app_snatched_img' => null,
+        # 限购购买数量
+        'app_snatched_limit_count' => 0,
 
 		## 试用
 		'trial' =>  0,
@@ -252,15 +252,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 相关灵感数
 		'stuff_count' => 0,
 
-    # 真实浏览数
-    'true_view_count' => 0,
-    # web 浏览数
-    'web_view_count' => 0,
-    # wap 浏览数 
-    'wap_view_count' => 0,
-    # app 浏览数
-    'app_view_count' => 0,
-    
+        # 真实浏览数
+        'true_view_count' => 0,
+        # web 浏览数
+        'web_view_count' => 0,
+        # wap 浏览数 
+        'wap_view_count' => 0,
+        # app 浏览数
+        'app_view_count' => 0,
 		
 		## 专家评分
 		
@@ -315,8 +314,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 是否成功案例产品
 		'okcase' => 0,
 
-    # 产品所在专辑
-    'album_ids' => array(),
+        # 产品所在专辑
+        'album_ids' => array(),
 		
 		# 状态
 		'state' => 0,
@@ -326,20 +325,24 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'random' => 0,
 		# 最近一次编辑人ID
 		'last_editor_id' => 0,
-    # 使用手册关联话题ID
-    'guide_id' => 0,
+        # 使用手册关联话题ID
+        'guide_id' => 0,
 
-    # 孵化产品标识
-    'hatched' => 0,
-    # 孵化产品封面
-    'hatched_cover_url' => null,
-    # 来源: 1.编辑；2.用户；3.--
-    'from_to' => 1,
+        # 孵化产品标识
+        'hatched' => 0,
+        # 孵化产品封面
+        'hatched_cover_url' => null,
+        # 来源: 1.编辑；2.用户；3.--
+        'from_to' => 1,
+        # 发货类型: 1.自营；2.代发；3.--
+        'send_type' => 1,
+        # 供应商
+        'supplier_id' => null,
 
     );
 	
 	protected $required_fields = array('user_id','title');
-	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to', 'number');
+	protected $int_fields = array('user_id','designer_id','category_id','inventory','sale_count','presale_count','presale_people', 'mode_count','appoint_count','state','published','deleted','process_voted','process_presaled','process_saled','presale_inventory','snatched_count','app_snatched_count','app_snatched_total_count','stuff_count','last_editor_id','max_bird_coin','min_bird_coin','exchange_count','app_snatched_limit_count','guide_id','hatched', 'app_category_id', 'pid', 'featured_on', 'stick_on', 'from_to', 'number','send_type');
 	protected $float_fields = array('cost_price', 'market_price', 'sale_price', 'hot_price', 'presale_money', 'presale_goals', 'snatched_price', 'app_snatched_price', 'exchange_price');
 	protected $counter_fields = array('inventory','sale_count','presale_count', 'mode_count','asset_count', 'view_count', 'favorite_count', 'love_count', 'comment_count','topic_count','vote_favor_count','vote_oppose_count','appoint_count','stuff_count','exchange_count', 'app_appoint_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	protected $retrieve_fields = array('content'=>0);
@@ -385,6 +388,21 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         // 风格转换字符串
         if(isset($row['style_ids']) && !empty($row['style_ids'])){
               $row['style_ids_to_s'] = implode(',', $row['style_ids']);   
+        }
+
+        // 发货类型
+        $row['send_label'] = '';
+        if(isset($row['send_type'])){
+            switch($row['send_type']){
+                case 1:
+                    $row['send_label'] = '自营';
+                    break;
+                case 2:
+                    $row['send_label'] = '代发';
+                    break;
+                default:
+                    $row['send_label'] = '--';
+            }
         }
 
         // 封面图

@@ -108,11 +108,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $options = array();
         $options['is_vop'] = 0;
 
-    //初始变量
-    //是否是抢购商品
-    $is_snatched = false;
-    $is_exchanged = false;
-    $vop_id = null;
+        //初始变量
+        //是否是抢购商品
+        $is_snatched = false;
+        $is_exchanged = false;
+        $vop_id = null;
+
+        // 推广码
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -268,6 +271,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
         if($vop_id){
             $options['is_vop'] = 1;
+        }
+        if($referral_code){
+            $options['referral_code'] = $referral_code;
         }
 		$order_info = $this->create_temp_order($items, $total_money, $items_count, $options);
 		
@@ -506,6 +512,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$new_data = array();
 		$new_data['dict'] = array_merge($default_data, $data);
         $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
+        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
 		
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
@@ -629,6 +636,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			return $this->show_message_page('操作不当，请查看购物帮助！', true);
 		}
 
+        // 推广码
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
+
         $vop_count = 0;
         $self_count = 0;
 		
@@ -709,6 +719,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
       // 是否来自购物车
 			$new_data['is_cart'] = 1;
+            $new_data['referral_code'] = $referral_code;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
@@ -863,6 +874,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			$order_info['user_id'] = (int)$user_id;
             $order_info['is_vop'] = $is_vop;
+            $order_info['referral_code'] = $result['referral_code'];
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			
