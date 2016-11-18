@@ -783,7 +783,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $options = array();
         $options['is_cart'] = 1;
         $options['is_vop'] = 0;
-        $options['referral_code'] $referral_code;
+        $options['referral_code'] = $referral_code;
 		
 		//验证购物车，无购物不可以去结算
         $cart_model = new Sher_Core_Model_Cart();

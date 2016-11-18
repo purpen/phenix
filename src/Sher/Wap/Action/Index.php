@@ -143,13 +143,13 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
      */
     public function qr(){
         $type = isset($this->stash['infoType']) ? (int)$this->stash['infoType'] : 0;
-        $id = isset($this->stash['infoId']) ? (int)$this->stash['infoId'] : 0;
+        $id = isset($this->stash['infoId']) ? $this->stash['infoId'] : 0;
         $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
 
         // 推广码记录cookie
         if(!empty($referral_code)){
             @setcookie('referral_code', $referral_code, time()+(3600*24*30), '/');
-            referral_code$_COOKIE['referral_code'] = $referral_code;       
+            $_COOKIE['referral_code'] = $referral_code;       
         }
 
         switch($type){
