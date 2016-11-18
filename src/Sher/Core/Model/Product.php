@@ -36,9 +36,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 简述
 		'summary' => '',
 		# 详情内容
-    'content' => '',
-    # 手机详情
-    'content_wap' => '',
+        'content' => '',
+        # 手机详情
+        'content_wap' => '',
 		# 产品标签
 		'tags'    => array(),
         'like_tags' => array(),
@@ -71,17 +71,17 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'category_id' => 0,
         # 类别支持多选(new)
         'category_ids' => array(),
-      # 分类标签
+        # 分类标签
         'category_tags' => array(),
         # 所属父ID(用于3C数码父类:app_category_id)
         'pid' => 0,
-      # 3C类别
-      'app_category_id' => 0,
+        # 3C类别
+        'app_category_id' => 0,
 
-    # 场景
-    'scene_ids' => array(),
-    # 风格
-    'style_ids' => array(),
+        # 场景
+        'scene_ids' => array(),
+        # 风格
+        'style_ids' => array(),
 		
 		# 上传者
 		'user_id' => null,
@@ -185,9 +185,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		
 		## 限时抢购
 		'snatched' => 0,
-    # 抢购开始结束时间
+        # 抢购开始结束时间
 		'snatched_time' => 0,
-    'snatched_end_time' => 0,
+        'snatched_end_time' => 0,
 		# 预约人数
 		'appoint_count' => 0,
 		# 抢购价
@@ -197,21 +197,21 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
 		## APP限时抢购
 		'app_snatched' => 0,
-    # 抢购开始结束时间
+        # 抢购开始结束时间
 		'app_snatched_time' => 0,
-    'app_snatched_end_time' => 0,
+        'app_snatched_end_time' => 0,
 		# 提醒人数
 		'app_appoint_count' => 0,
 		# 抢购价
 		'app_snatched_price' => 0,
 		# 抢购数量
 		'app_snatched_count' => 0,
-    # 抢购总数量
-		'app_snatched_total_count' => 0,
-    # 展示图
-    'app_snatched_img' => null,
-    # 限购购买数量
-    'app_snatched_limit_count' => 0,
+        # 抢购总数量
+        'app_snatched_total_count' => 0,
+        # 展示图
+        'app_snatched_img' => null,
+        # 限购购买数量
+        'app_snatched_limit_count' => 0,
 
 		## 试用
 		'trial' =>  0,
@@ -252,15 +252,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 相关灵感数
 		'stuff_count' => 0,
 
-    # 真实浏览数
-    'true_view_count' => 0,
-    # web 浏览数
-    'web_view_count' => 0,
-    # wap 浏览数 
-    'wap_view_count' => 0,
-    # app 浏览数
-    'app_view_count' => 0,
-    
+        # 真实浏览数
+        'true_view_count' => 0,
+        # web 浏览数
+        'web_view_count' => 0,
+        # wap 浏览数 
+        'wap_view_count' => 0,
+        # app 浏览数
+        'app_view_count' => 0,
 		
 		## 专家评分
 		
@@ -315,8 +314,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		# 是否成功案例产品
 		'okcase' => 0,
 
-    # 产品所在专辑
-    'album_ids' => array(),
+        # 产品所在专辑
+        'album_ids' => array(),
 		
 		# 状态
 		'state' => 0,
@@ -326,19 +325,19 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'random' => 0,
 		# 最近一次编辑人ID
 		'last_editor_id' => 0,
-    # 使用手册关联话题ID
-    'guide_id' => 0,
+        # 使用手册关联话题ID
+        'guide_id' => 0,
 
-    # 孵化产品标识
-    'hatched' => 0,
-    # 孵化产品封面
-    'hatched_cover_url' => null,
-    # 来源: 1.编辑；2.用户；3.--
-    'from_to' => 1,
-    # 发货类型: 1.自营；2.代发；3.--
-    'send_type' => 1,
-    # 供应商
-    'supplier_id' => null,
+        # 孵化产品标识
+        'hatched' => 0,
+        # 孵化产品封面
+        'hatched_cover_url' => null,
+        # 来源: 1.编辑；2.用户；3.--
+        'from_to' => 1,
+        # 发货类型: 1.自营；2.代发；3.--
+        'send_type' => 1,
+        # 供应商
+        'supplier_id' => null,
 
     );
 	
