@@ -874,6 +874,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			
 			$order_info['user_id'] = (int)$user_id;
             $order_info['is_vop'] = $is_vop;
+            $order_info['referral_code'] = $result['referral_code'];
 			
 			$order_info['addbook_id'] = $this->stash['addbook_id'];
 			

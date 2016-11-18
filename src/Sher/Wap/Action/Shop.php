@@ -987,7 +987,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
-
+        $order_info['referral_code'] = $result['referral_code'];
         // 验证开普勒
         for($i=0;$i<count($order_info['items']);$i++){
             $vop_id = isset($order_info['items'][$i]['vop_id']) ? $order_info['items'][$i]['vop_id'] : null;
