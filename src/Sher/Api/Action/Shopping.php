@@ -256,7 +256,6 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$new_data['dict'] = array_merge($default_data, $data);
 			$new_data['kind'] = $kind;
 			$new_data['user_id'] = $user_id;
-            $new_data['referral_code'] = $referral_code;
 
       // 如果是闪购，过期时间仅为15分钟
       if($kind==3){
@@ -267,6 +266,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       // 是否来自购物车
 			$new_data['is_cart'] = 1;
             $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
+            $new_data['referral_code'] = $referral_code;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
