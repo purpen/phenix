@@ -262,8 +262,6 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
 		);
 
-		// 服务器异步通知页面路径
-		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
 		// 合作身份者id，以2088开头的16位纯数字
 		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
 		// ca证书路径地址，用于curl中ssl校验

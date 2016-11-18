@@ -146,6 +146,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['process_voted'] = isset($this->stash['process_voted']) ? 1 : 0;
 		$data['process_presaled'] = isset($this->stash['process_presaled']) ? 1 : 0;
 		$data['process_saled'] = isset($this->stash['process_saled']) ? 1 : 0;
+
+		// 产品阶段
+		$data['send_type'] = isset($this->stash['send_type']) ? (int)$this->stash['send_type'] : 1;
 		
 		// 是否抢购
 		$data['snatched'] = isset($this->stash['snatched']) ? 1 : 0;
@@ -618,6 +621,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		$this->stash['png_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PNG;
+
+        // 供应商
+
 		
 		return $this->to_html_page('admin/product/edit.html');
 	}
@@ -1018,8 +1024,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
   public function search(){
     $this->set_target_css_state('page_product');
     $this->stash['is_search'] = true;
+    $min_price = isset($this->stash['min_price']) ? $this->stash['min_price'] : null;
+    $max_price = isset($this->stash['max_price']) ? $this->stash['max_price'] : null;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&min_price=%f&max_price=%f&page=#p#';
 		switch($this->stash['stage']){
 			case 9:
 				$this->stash['process_saled'] = 1;
@@ -1031,7 +1039,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$this->stash['process_voted'] = 1;
 				break;
 		}
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q'], $this->stash['is_vop']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage'], $this->stash['s'], $this->stash['q'], $this->stash['is_vop'], $min_price, $max_price);
     return $this->to_html_page('admin/product/list.html');
   
   }
@@ -1122,7 +1130,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
    * 获取二维码
    */
   function fetch_qr(){
-      $str = isset($this->stash['str']) ? $this->stash['str'] : null;
+      $str = isset($this->stash['str']) ? htmlspecialchars_decode($this->stash['str']) : null;
       $options = array(
         'outfile' => false,
         'level' => 'L',

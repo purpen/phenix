@@ -53,6 +53,10 @@
 
         });
     });
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 	
@@ -101,10 +105,14 @@
 	</div>
 	
 	<div class="ui sub nav">
-		<form action="{{ app_url_admin_base }}/product/search" method="get">
+		<form action="{{ app_url_admin_base }}/product/search" method="get" id="search-form">
           <input type="hidden" name="stage" value="{{ stage }}" />
                 <label>搜索：</label>
 
+            <div class="ui icon input">
+                <input placeholder="最小金额" type="text" name="min_price" value="{{ min_price }}" style="width:110px;" />
+                <input placeholder="最大金额" type="text" name="max_price" value="{{ max_price }}" style="width:110px;" />
+            </div>
           <div class="ui selection dropdown">
             <input type="hidden" name="is_vop" value="{{ is_vop }}" />
             <div class="default text">是否开普勒</div>
@@ -129,7 +137,9 @@
 
             <div class="ui icon input">
                 <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
-                <i class="flat search link icon"></i>
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
             </div>
 		</form>
 	</div>
@@ -155,7 +165,7 @@
 		</thead>
 		<tbody>
 	      {% if is_search %}
-				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q is_vop:is_vop sort:sort size:size %}
+				  {% product_list var:'list' page:page category_id:category_id stage:stage s_type:s s_mark:q is_vop:is_vop min_price:min_price max_price:max_price sort:sort size:size %}
 	      {%else%}
 				  {% product_list var:'list' page:page category_id:category_id stage:stage sort:sort size:size %}
 	      {%endif%}
@@ -182,7 +192,7 @@
 		          	<p class="attribute">ID：{{ product._id }}</p>
 		          	<p class="attribute">编号：{{ product.number }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
-                    <p class="attribute fetch_qr" data-str="{{ product.wap_view_url}}?infoType=1&infoId={{product._id}}">查看二维码</p>
+                    <p class="attribute fetch_qr" data-str="{{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}">查看二维码</p>
 				</td>
                 <td>{{ product.sale_price }}</td>
 				<td>

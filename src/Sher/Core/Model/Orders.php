@@ -155,6 +155,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     'is_vop' => 0,
     # 京东订单
     'jd_order_id' => null,
+
+    #推广码
+    'referral_code' => null,
+    'referral' => array(),
     );
 
 	protected $required_fields = array('rid', 'user_id');
