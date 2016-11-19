@@ -1001,12 +1001,12 @@
 
               <div class="three fields">
                 <div class="field">
-                  <label for="brand_id">供应商</label>
-
-                  <select name="brand_id" class="js-example-basic-single">
+                  <label for="supplier_id">供应商</label>
+                    {% supplier_list var:'suppliers' page:1 size:100 %}
+                  <select name="supplier_id" class="js-example-basic-single">
                     <option value="">--请选择--</option>
-                    {% for d in suppliers %}
-                      <option value="{{ d._id }}" {% if d._id == product.brand_id %}selected="selected"{% endif %}>{{ d.title }}</option>
+                    {% for d in suppliers.rows %}
+                      <option value="{{ d._id }}" {% if d._id == product.supplier_id %}selected="selected"{% endif %}>{{ d.title }}</option>
                     {% endfor %}
                   </select>
                 </div>

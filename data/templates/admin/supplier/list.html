@@ -1,0 +1,109 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+    .attribute {
+        font-size: 12px;
+        color: #666;
+    }
+</style>
+
+{% endblock %}
+
+{% block jquery %}
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">店铺管理</h3>
+	
+	<div class="ui secondary pointing orange menu">
+		<a href="{{ app_url_admin_base }}/supplier" class="active item">
+			<i class="list icon"></i> 全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/supplier/submit" class="item">
+				<i class="edit icon"></i> 新增
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/supplier/get_list" method="get">
+			<label>搜索：</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="s_type" value="{{ s_type }}" />
+                <div class="default text">选择条件</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="1">ID</div>
+                    <div class="item" data-value="2">标题</div>
+                </div>
+            </div>
+			<div class="ui icon input">
+                <input placeholder="关键词..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+        </form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>ID</th>
+				<th class="five wide">名称</th>
+                <th>发布时间</th>
+				<th>是否推荐</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		    {% supplier_list var:'list' page:page size:size s_type:s_type q:q %}
+
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d._id }}</td>
+                <td>{{ d.title }}</td>
+				<td>
+					{{ d.created_on|date 'Y-m-d H:i'}}
+				</td>
+				<td>
+					<p>
+						{% if d.stick == 1 %}
+							<span class="ui small orange label">是</span>
+						{% else %}
+							<span class="ui small grey label">否</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
+						<a href="{{ app_url_admin_base }}/supplier/submit?id={{ d._id }}&page={{ page }}" class="ui link item">编辑</a>
+		          		<a href="{{ app_url_admin }}/supplier/deleted?id={{ d._id }}" class="ui confirm-request link item">
+						    删除
+					    </a>
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+{% endblock %}
