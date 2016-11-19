@@ -121,8 +121,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
         $data['app_category_id']  = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
+        // 品牌
         $data['brand_id'] = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : '';
+        // 供应商
+        $data['supplier_id'] = isset($this->stash['supplier_id']) ? $this->stash['supplier_id'] : '';
         $data['png_asset_ids'] = isset($this->stash['png_asset']) ? (array)$this->stash['png_asset'] : array();
+        // 是否开普勒
         $data['is_vop'] = isset($this->stash['is_vop']) ? 1 : 0;
 
         // 活动标签

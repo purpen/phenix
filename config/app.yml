@@ -172,6 +172,7 @@ app.dt.extension_lib.sher_app:
     'ip_black_list':'Sher_Core_ViewTag_IpBlackListList'
     'user_temp_list':'Sher_Core_ViewTag_UserTempList'
     'sight_stat_list':'Sher_Core_ViewTag_SightStatList'
+    'supplier_list':'Sher_Core_ViewTag_SupplierList'
   filters: []
 
 app.js.use_bundle: false
