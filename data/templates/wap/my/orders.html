@@ -23,6 +23,18 @@
 	margin:0;
 	padding:16px 0 15px;
 }
+.ordeshow .nav-menu .navfelx .childcell .menuicon::before{
+  content: none;
+  position: absolute;
+  left: 20%;
+  bottom: 0;
+  height: 2px;
+  width: 60%;
+  background: #be8914;
+}
+.ordeshow .nav-menu .navfelx .childcell .menuicon.active::before{
+  content:'';
+}
 /*.nav-menu .navfelx .childcell::before {
     content: '';
     position: absolute;
@@ -32,9 +44,9 @@
     height: 100%;
     background: rgba(0,0,0,0.1);
 }*/
-.ui.responsive .nav-menu .navfelx  .menuicon.active{
+/*.ui.responsive .nav-menu .navfelx  .menuicon.active{
 	border-bottom:2px solid #be8914;
-}
+}*/
 .menuicon.active h5.ui.header{
 	color:#be8914 !important;
 }
@@ -143,8 +155,8 @@
 }
 #orderitem .item .orderbottom .ui.button.color-bd,#orderitem .item .orderbottom .ui.inverted.color-bd.button:hover {
     background: transparent;
-    box-shadow: 0 0 0 1px #ccc inset!important;
-    color: #666;
+    box-shadow: 0 0 0 1px #333 inset!important;
+    color: #333;
 }
 .fz-12{
 	font-size:0.8574rem !important;
@@ -449,13 +461,11 @@
 					<h5 class="ui header">待评价</h5>
 				</a>
 			</li>
-            <!--
 			<li class="childcell">
 				<a href="{{ app_url_wap }}/my/orders?s=8" class="{{ css_return }} menuicon">
 					<h5 class="ui header">退换货</h5>
 				</a>
 			</li>
-            -->
 		</ul>
 	</div>
 	
