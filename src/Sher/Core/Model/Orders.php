@@ -26,9 +26,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'rid' => 0,
 		## 订单明细项
 		#
-		# product_id, sku, size, quantity
-		# price, price, sold
-		# 
+        # product_id, sku, price, sale_price, kind, size, quantity, type, sku_mode,
+        # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id
+        # refund_type : 0.正常；1.退款；2.退货；3.换货；
+        # refund_status: 0.拒绝；1.进行中；2.已完成；
 		'items' => array(),
 		'items_count' => 0,
 		
@@ -81,9 +82,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    #申请退款标识及时间
 	    'is_refunding' => 0,
 	    'refunding_date' => 0,
-      'refund_reason'  =>  null,
-      # 退款选项：0,其它；1,不想要了；2.--
-      'refund_option' => 0,
+        'refund_reason'  =>  null,
+        # 退款选项：0,其它；1,不想要了；2.--
+        'refund_option' => 0,
 
 	    #退款成功标识及时间
 	    'is_refunded' => 0,
@@ -137,32 +138,47 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'is_presaled' => 0,
 		# 过期时间,(普通订单、预售订单、抢购订单)
 		'expired_time' => 0,
-    # 是否活动订单:1.app闪购
-    'active_type' => 0,
+        # 是否活动订单:1.app闪购
+        'active_type' => 0,
 
-    # 订单类型
-    'kind' => self::KIND_NORMAL,
-		
-    # 是否删除
-    'deleted' => 0,
+        # 订单类型
+        'kind' => self::KIND_NORMAL,
+            
+        # 是否删除
+        'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
-    # 来源app: 1.商城;2.Fiu
-    'from_app' => 0,
-    # channel_id
-    'channel_id' => null,
-    # 是否是京东开普勒订单
-    'is_vop' => 0,
-    # 京东订单
-    'jd_order_id' => null,
+        # 来源app: 1.商城;2.Fiu
+        'from_app' => 0,
+        # channel_id
+        'channel_id' => null,
+        # 是否是京东开普勒订单
+        'is_vop' => 0,
+        # 京东订单
+        'jd_order_id' => null,
 
-    #推广码
-    'referral_code' => null,
-    'referral' => array(),
+        #推广码
+        'referral_code' => null,
+        'referral' => array(),
+
+        # 是否含有子订单
+        'exist_sub_order' => 0,
+        # 子订单数据
+        # id: 子订单ID
+        # items: 商品列表
+        # items_count: 数量
+        # is_sended: 0|1是否发货
+        # express_caty: 快递类型
+        # express_no: 快递单号
+        # supplier_id: 供应商ID
+        # split_on: 拆单时间
+        # sended_on: 发货时间
+        'sub_orders' => array(),
+
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop','exist_sub_order');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -423,8 +439,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id');
-		$int_fields = array('sku', 'product_id', 'quantity', 'kind');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id', 'refund_type', 'refund_status');
+		$int_fields = array('sku', 'product_id', 'quantity', 'kind', 'refund_type', 'refund_status');
 		$float_fields = array('price', 'sale_price');
 		
 		$new_items = array();
@@ -438,7 +454,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 					}else{
 						$new_items[$i][$f] = $data['items'][$i][$f];
 					}
-	            }
+                }else{
+                    // 初始化参数 
+ 					if (in_array($f, $int_fields)){
+						$new_items[$i][$f] = 0;
+					}elseif(in_array($f, $float_fields)){
+						$new_items[$i][$f] = 0;
+					}else{
+						$new_items[$i][$f] = '';
+					}              
+                }
 	        }
 			// 验证库存数量
 			$inventory = new Sher_Core_Model_Inventory();
@@ -450,7 +475,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			}
 			
 			unset($inventory);
-		}
+		}   // endfor
 		
 		$data['items'] = $new_items;
 	}
@@ -567,7 +592,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         // 已发货订单
 		if ($status == Sher_Core_Util_Constant::ORDER_SENDED_GOODS){
             if(empty($options['express_caty']) || empty($options['express_no'])){
-                throw new Sher_Core_Model_Exception('express_caty, express_no is Null'); 
+                // 子订单不在此处添写，先注掉
+                //throw new Sher_Core_Model_Exception('express_caty, express_no is Null'); 
             }
 			$updated['express_caty'] = $options['express_caty'];
 			$updated['express_no'] = $options['express_no'];

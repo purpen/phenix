@@ -70,6 +70,8 @@ app.session.secret_key: 'Frbird#2015Up'
 
 # 序列编号表
 app.serialno.name: 'serialno'
+# 退款单 ID
+app.refund_serialno.name: 'refund_serialno'
 
 app.mongodb_host: 'mongodb://127.0.0.1'
 app.mongodb_rs: false
