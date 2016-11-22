@@ -50,6 +50,7 @@ h3.ui.header{
     -webkit-box-align: center;
     background: #fff;
     padding: 10px;
+    position: relative;
 }
 .column .cartitem+.cartitem{
 	border-top:1px solid rgba(0,0,0,0.1);
@@ -181,6 +182,37 @@ span.kefu{
     width: 18px;
     background-position: 0 0;
 }
+.deal{
+  color:#be8914;
+  font-size: 12px;
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  right: 10px;
+}
+.mtbb{
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.tx-r{
+  text-align: right;
+}
+.detx{
+  font-size: 12px;
+  color: #797979;
+}
+.dealesc .ui.button.color-bd,.dealesc .ui.button.color-bd:hover{
+    font-weight: 400;
+    padding: 0.5716rem 0.7145rem;
+    margin: 0;
+    margin-left: 0.5716rem;
+    font-size: 0.92885rem;
+    background: transparent;
+    box-shadow: 0 0 0 1px #333 inset!important;
+    color: #333;
+    min-width: 72px;
+}
 </style>
 {% endblock %}
 
@@ -245,12 +277,10 @@ span.kefu{
         <p>订单详情</p>
     </div>
 </div>
-<div class="ui responsive grid mt-2r" style="padding-bottom: 50px;">
+<div class="ui responsive grid mt-0" style="padding-bottom: 50px;">
 	<div class="row pt-0">
 		<div class="column p-0">
-			<div class="desitem mt-0">
-        订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
-      </div>
+			
 			<div class="addressitem mb-2r">
 				<div class="item">
 					<div class="content">
@@ -274,9 +304,13 @@ span.kefu{
 					 </div>
 				</div>
 			</div>
+
+      <div class="desitem mtb-0">
+        订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
+      </div>
 			
 			{% for product in order_info.items %}
-			<div class="cartitem">
+			<div class="cartitem mtbb">
 				<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
 				<div class="cartinfo">
 					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
@@ -285,34 +319,45 @@ span.kefu{
 					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
 	
 				</div>
+        <div class="deal">
+          退款中
+        </div>
 			</div>
+      <div class="desitem mtb-0 tx-r detx">
+        共1件商品   合计：¥29.00 (含运费¥6.00)
+      </div>
+      <div class="desitem mtb-0 tx-r mtbb dealesc">
+        <a href="javascript:void(0);" class="ui small color-bd inverted button cancel_order_btn">退货</a>
+      </div>
+      <div class="desitem mtb-0 detx">
+        承运来源：圆通速递      快递编号：865675656778
+      </div>
 			{% endfor %}
 			
-			<div class="desitem">
+			<!-- <div class="desitem">
 				支付方式：<span class="flt-r">在线支付</span>
-			</div>
+			</div> -->
 
-      <div class="desitem">
-        <div class="ui medel color button">
-          <span class="kefu"></span>
-          联系客服
-        </div>
-      </div>
+      
 			
-			<div class="desitem m-0 pb-r">
-				商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
-			</div>
-			<div class="desitem m-0 pt-0 pb-r">
-				运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
-			</div>
-      <div class="desitem m-0 pt-0 pb-r">
-        优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
-      </div>
-			<div class="desitem mt-0 pt-0">
-				应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
-			</div>
+		
+		<div class="desitem m-0 pt-0 pb-r">
+			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
+		</div>
+        <div class="desitem m-0 pt-0 pb-r">
+            支付方式：<span class="ui color-be text link flt-r">在线支付</span>
+        </div>
+        <div class="desitem m-0 pb-r">
+            商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
+        </div>
+        <!-- <div class="desitem m-0 pt-0 pb-r">
+            优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
+        </div> -->
+		<div class="desitem mt-0 pt-0">
+			应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
+		</div>
 
-      <div class="desitem descrit">
+      <!-- <div class="desitem descrit">
         <span>订单号：&nbsp;{{ order_info.rid }}</span>
         <span>创建时间：{{ order_info.created_on|date 'Y-m-d H:i' }}</span>
         {% if order_info.payed_date %}
@@ -324,7 +369,7 @@ span.kefu{
         {% if order_info.finished_date %}
             <span>成交时间：{{ order_info.finished_date|date 'Y-m-d H:i' }}</span>
         {%endif%}
-      </div>
+      </div> -->
 			
 			<div class="ordertbtn">
         {% if order_info.status == '-1' %}
