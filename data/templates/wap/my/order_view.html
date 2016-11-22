@@ -280,7 +280,6 @@ span.kefu{
 <div class="ui responsive grid mt-0" style="padding-bottom: 50px;">
 	<div class="row pt-0">
 		<div class="column p-0">
-			
 			<div class="addressitem mb-2r">
 				<div class="item">
 					<div class="content">
@@ -305,9 +304,9 @@ span.kefu{
 				</div>
 			</div>
 
-      <div class="desitem mtb-0">
-        订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
-      </div>
+            <div class="desitem mtb-0">
+                订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
+            </div>
 			
 			{% for product in order_info.items %}
 			<div class="cartitem mtbb">
@@ -315,23 +314,22 @@ span.kefu{
 				<div class="cartinfo">
 					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
 					
-	        <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+	                <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
 					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
-	
 				</div>
-        <div class="deal">
-          退款中
-        </div>
+                <div class="deal">
+                  退款中
+                </div>
 			</div>
-      <div class="desitem mtb-0 tx-r detx">
-        共1件商品   合计：¥29.00 (含运费¥6.00)
-      </div>
-      <div class="desitem mtb-0 tx-r mtbb dealesc">
-        <a href="javascript:void(0);" class="ui small color-bd inverted button cancel_order_btn">退货</a>
-      </div>
-      <div class="desitem mtb-0 detx">
-        承运来源：圆通速递      快递编号：865675656778
-      </div>
+            <div class="desitem mtb-0 tx-r detx">
+                共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
+            </div>
+            <div class="desitem mtb-0 tx-r mtbb dealesc">
+                <a href="javascript:void(0);" class="ui small color-bd inverted button cancel_order_btn">退货</a>
+            </div>
+            <div class="desitem mtb-0 detx">
+            承运来源：圆通速递 <text class="ml-3r">快递编号：865675656778</text>
+            </div>
 			{% endfor %}
 			
 			<!-- <div class="desitem">
@@ -341,13 +339,13 @@ span.kefu{
       
 			
 		
-		<div class="desitem m-0 pt-0 pb-r">
+		<div class="desitem mb-0 pb-r">
 			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
 		</div>
         <div class="desitem m-0 pt-0 pb-r">
             支付方式：<span class="ui color-be text link flt-r">在线支付</span>
         </div>
-        <div class="desitem m-0 pb-r">
+        <div class="desitem m-0 pt-0 pb-r">
             商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
         </div>
         <!-- <div class="desitem m-0 pt-0 pb-r">
