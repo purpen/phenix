@@ -1176,7 +1176,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
       'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
-      'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
+      'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 
@@ -1632,7 +1632,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 	}
 
   /**
-   * 申请退款
+   * 申请退款(移除)
    */
   public function apply_refund(){
       $rid = $this->stash['rid'];
@@ -1699,6 +1699,67 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }
 
   }
+
+    /**
+     * 申请退款(new)
+    */
+    public function apply_product_refund(){
+
+        $options = array();
+        $user_id = $this->current_user_id;
+        $rid = $options['rid'] = $this->stash['rid'];
+        $sku_id = $options['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+        $refund_type = $options['refund_type'] = isset($this->stash['refund_type']) ? (int)$this->stash['refund_type'] : 0;
+        $refund_reason = $options['refund_reason'] = isset($this->stash['refund_reason']) ? (int)$this->stash['refund_reason'] : 0;
+        $refund_content = $options['refund_content'] = isset($this->stash['refund_content']) ? $this->stash['refund_content'] : null;
+        $refund_price = $options['refund_price'] = isset($this->stash['refund_price']) ? (float)$this->stash['refund_price'] : 0;
+
+        if (empty($rid) || empty($sku_id)) {
+          return $this->api_json('缺少请求参数！', 3001);
+        }
+        if(empty($refund_reason) && empty($refund_content) && empty($refund_type)){
+          return $this->api_json('请说明退款原因！', 3002);   
+        }
+        $orders_model = new Sher_Core_Model_Orders();
+        $order = $options['order'] = $orders_model->find_by_rid($rid);
+
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', 3003);
+        }
+
+        // 检查是否具有权限
+        if ($order['user_id'] != $user_id) {
+            return $this->api_json('操作不当，你没有权限！', 3004);
+        }
+
+        //零元不能退款
+        if ((float)$order['pay_money']==0){
+            return $this->api_json('此订单不允许退款操作！', 3005);
+        }
+
+        // 只有已发货的订单才允许申请
+        $arr = array(
+            Sher_Core_Util_Constant::ORDER_READY_GOODS,
+            Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
+            Sher_Core_Util_Constant::ORDER_EVALUATE,
+            Sher_Core_Util_Constant::ORDER_PUBLISHED, 
+        );
+        if(!in_array($order['status'], $arr)){
+            return $this->api_json('该订单出现异常，请联系客服！', 3006);
+        }
+
+        try {
+            // 申请退款
+            $result = $orders_model->apply_refund($rid, $options);
+            if(!$result['success']){
+                return $this->api_json($result['message'], 3007);
+            }
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->api_json('申请退款失败，请联系客服:'.$e->getMessage(), 3008);
+        }
+
+        return $this->api_json("操作成功", 0, array('rid'=>$rid));
+    }
 
 	/**
 	 * 确认收货
@@ -2220,8 +2281,110 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         //print_r($result);
         return $this->api_json('success!', 0, $result);
   
-  
   }
+
+    /**
+     * 退款单列表
+    */
+    public function refund_list(){
+        $user_id = $this->current_user_id;
+        if(empty($user_id)){
+          return $this->api_json('请先登录！', 3000); 
+        }
+
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+
+		$query   = array();
+		$options = array();
+
+        $query['user_id'] = $user_id;
+        $query['deleted'] = 0;
+
+        //限制输出字段
+		$some_fields = array(
+			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1,
+			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'freight'=>1,
+			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
+            'created_on'=>1, 'updated_on'=>1,
+		);
+		$options['some_fields'] = $some_fields;
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+        $options['sort_field'] = 'latest';
+		
+		// 开启查询
+        $service = Sher_Core_Service_Refund::instance();
+        $result = $service->get_refund_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			}
+
+            $item = array();
+            $product = $product_model->extend_load($data[$i]['product_id']);
+            $item['title'] = $product['title']; 
+            $item['short_title'] = $product['short_title'];
+            $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+            $item['sku_name'] = '';
+            if($data[$i]['target_type']==1){
+                $sku = $sku_model->find_by_id($data[$i]['target_id']);
+                if($sku){
+                    $item['sku_name'] = $sku['mode']; 
+                }
+            }
+
+            $data[$i]['product'] = $item;
+
+            $data[$i]['refund_at'] = '';
+            if(!empty($data[$i]['refund_on'])){
+                $data[$i]['refund_at'] = date('y-m-d', $data[$i]['refund_on']);           
+            }
+            $data[$i]['created_at'] = date('y-m-d', $data[$i]['created_on']);
+
+        }   // endfor
+
+		$result['rows'] = $data;
+		return $this->api_json('请求成功', 0, $result);
+    }
+
+    /**
+     * 删除退款单
+     */
+    public function delete_refund(){
+        $user_id = $this->current_user_id;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+            return $this->api_json('退款单不存在！', 3002);       
+        }
+        if($refund['user_id'] != $user_id){
+            return $this->api_json('没有权限操作！', 3003);       
+        }
+        if($refund['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+            return $this->api_json('不允许的操作！', 3004);       
+        }
+        $ok = $refund_model->mark_remove($id);
+        if(!$ok){
+            return $this->api_json('删除失败！', 3005);           
+        }
+        return $this->api_json('success', 0, array('id'=>$id));
+    }
 
 	
 }

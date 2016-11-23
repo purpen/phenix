@@ -329,25 +329,56 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看此订单！');
 		}
 		
-    $product_model = new Sher_Core_Model_Product();
-    $sku_model = new Sher_Core_Model_Inventory();
-    for($i=0;$i<count($order_info['items']);$i++){
-      $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
-      if(!empty($d)){
-        $sku_mode = null;
-        if($order_info['items'][$i]['sku']!=$order_info['items'][$i]['product_id']){
-          $sku = $sku_model->find_by_id($order_info['items'][$i]['sku']);
-          if(!empty($sku)){
-            $sku_mode = $sku['mode'];
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+        for($i=0;$i<count($order_info['items']);$i++){
+          $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
+          if(!empty($d)){
+            $sku_mode = null;
+            if($order_info['items'][$i]['sku']!=$order_info['items'][$i]['product_id']){
+              $sku = $sku_model->find_by_id($order_info['items'][$i]['sku']);
+              if(!empty($sku)){
+                $sku_mode = $sku['mode'];
+              }
+            }
+            $order_info['items'][$i]['name'] = $d['title']; 
+            $order_info['items'][$i]['wap_view_url'] = $d['wap_view_url']; 
+            $order_info['items'][$i]['sku_name'] = $sku_mode; 
+            $order_info['items'][$i]['subtotal'] = (float)$order_info['items'][$i]['sale_price']*$order_info['items'][$i]['quantity']; 
+            $order_info['items'][$i]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
           }
         }
-        $order_info['items'][$i]['name'] = $d['title']; 
-        $order_info['items'][$i]['wap_view_url'] = $d['wap_view_url']; 
-        $order_info['items'][$i]['sku_name'] = $sku_mode; 
-        $order_info['items'][$i]['subtotal'] = (float)$order_info['items'][$i]['sale_price']*$order_info['items'][$i]['quantity']; 
-        $order_info['items'][$i]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
-      }
-    }
+
+        if(isset($order_info['exist_sub_order']) && !empty($order_info['exist_sub_order'])){
+            for($i=0;$i<count($order_info['sub_orders']);$i++){
+                $sub_order = $order_info['sub_orders'][$i];
+                for($j=0;$j<count($sub_order['items']);$j++){
+                    $pro = $sub_order['items'][$j];
+                  $d = $product_model->extend_load((int)$pro['product_id']);
+                  if(!empty($d)){
+                    $sku_mode = null;
+                    if($pro['sku']!=$pro['product_id']){
+                      $sku = $sku_model->find_by_id($pro['sku']);
+                      if(!empty($sku)){
+                        $sku_mode = $sku['mode'];
+                      }
+                    }
+                    $order_info['sub_orders'][$i]['items'][$j]['name'] = $d['title']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['wap_view_url'] = $d['wap_view_url']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['sku_name'] = $sku_mode; 
+                    $order_info['sub_orders'][$i]['items'][$j]['subtotal'] = (float)$pro['sale_price']*$pro['quantity']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];       
+                  }
+                }   // endfor
+
+                if(!empty($sub_order['is_sended'])){
+                    $express_company_arr = $model->find_express_category($sub_order['express_caty']);
+                    $order_info['sub_orders'][$i]['express_company'] = $express_company_arr['title'];               
+                }
+
+            }   // endfor
+        
+        }
 
 		$this->stash['order_info'] = $order_info;
 		

@@ -1202,6 +1202,101 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->ajax_json('success', false, 0, array('rid'=>$rid)); 
   }
 
+    /**
+     * ajax 申请退款(new新版)
+    */
+    public function ajax_product_refund(){
+        $options = array();
+        $rid = $options['rid'] = $this->stash['rid'];
+        $sku_id = $options['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+        $refund_type = $options['refund_type'] = isset($this->stash['refund_type']) ? (int)$this->stash['refund_type'] : 0;
+        $refund_reason = $options['refund_reason'] = isset($this->stash['refund_reason']) ? (int)$this->stash['refund_reason'] : 0;
+        $refund_content = $options['refund_content'] = isset($this->stash['refund_content']) ? $this->stash['refund_content'] : null;
+        $refund_price = $options['refund_price'] = isset($this->stash['refund_price']) ? (float)$this->stash['refund_price'] : 0;
+        if (empty($rid) || empty($sku_id)) {
+          return $this->ajax_json('操作不当，请查看购物帮助！', true);
+        }
+        if(empty($refund_reason) && empty($refund_content) && empty($refund_type)){
+          return $this->ajax_json('请说明退款原因！', true);   
+        }
+        $orders_model = new Sher_Core_Model_Orders();
+        $order = $options['order'] = $orders_model->find_by_rid($rid);
+
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+
+        // 检查是否具有权限
+        if ($order['user_id'] != $this->visitor->id) {
+            return $this->ajax_json('操作不当，你没有权限！', true);
+        }
+
+        //零元不能退款
+        if ((float)$order['pay_money']==0){
+            return $this->ajax_json('此订单不允许退款操作！', true);
+        }
+
+        // 只有已发货的订单才允许申请
+        $arr = array(
+            Sher_Core_Util_Constant::ORDER_READY_GOODS,
+            Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
+            Sher_Core_Util_Constant::ORDER_EVALUATE,
+            Sher_Core_Util_Constant::ORDER_PUBLISHED, 
+        );
+        if(!in_array($order['status'], $arr)){
+            return $this->ajax_json('不允许的操作!', true);
+        }
+
+        if($order['status']==Sher_Core_Util_Constant::ORDER_READY_GOODS && $refund_type==2){
+            return $this->ajax_json('订单未发货，不允许退货操作！', true);       
+        }
+
+        try {
+            // 申请退货款
+            $result = $orders_model->apply_refund($rid, $options);
+
+            if($result['success']==false){
+                return $this->ajax_json($result['message'], true);
+            }
+
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_json('申请退款失败，请联系客服:'.$e->getMessage(), true);
+        } catch(Exception $e){
+            return $this->ajax_json('申请退款失败，请联系客服.:'.$e->getMessage(), true);   
+        }
+        return $this->ajax_json('success', false, 0, array('rid'=>$rid, 'sub_order_id'=>$result['data']['sub_order_id'], 'sku_id'=>$sku_id)); 
+    }
+
+    /**
+     * ajax删除退款单
+     */
+    public function ajax_delete_refund(){
+        $user_id = $this->visitor->id;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+            return $this->ajax_json('退款单不存在！', true);       
+        }
+        if($refund['user_id'] != $user_id){
+            return $this->ajax_json('没有权限操作！', true);       
+        }
+        if($refund['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+            return $this->ajax_json('不允许的操作！', true);       
+        }
+        $ok = $refund_model->mark_remove($id);
+        if(!$ok){
+            return $this->ajax_json('删除失败！', true);           
+        }
+        return $this->ajax_json('success', false, '', array('id'=>$id));
+    }
+
+
   /**
    * 我的话题
    */
