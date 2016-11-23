@@ -441,37 +441,82 @@ span.kefu{
                 订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
             </div>
 			
-			{% for product in order_info.items %}
-			<div class="cartitem mtbb">
-				<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
-				<div class="cartinfo">
-					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
-					
-	                <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
-					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
-				</div>
-                <div class="deal">
-                  退款中
-                </div>
-			</div>
-            <div class="desitem mtb-0 tx-r detx">
-                共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
-            </div>
-            <div class="desitem mtb-0 tx-r mtbb dealesc">
-                <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
-                <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
-            </div>
-            <div class="desitem mtb-0 detx">
-            承运来源：圆通速递 <text class="ml-3r">快递编号：865675656778</text>
-            </div>
-			{% endfor %}
+            {% if !order_info.exist_sub_order %}
+                {% for product in order_info.items %}
+                    <div class="cartitem mtbb">
+                        <a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
+                        <div class="cartinfo">
+                            <a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
+                            
+                            <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+                            <p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
+                        </div>
+                        <div class="deal">
+                          退款中
+                        </div>
+                    </div>
+                    <div class="desitem mtb-0 tx-r detx">
+                        共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
+                    </div>
+                    <div class="desitem mtb-0 tx-r mtbb dealesc">
+                        <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
+                        <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+                    </div>
+
+                {% endfor %}
+
+                {% if order_info.status >= 15 %}
+                    <div class="desitem mtb-0 detx">
+                    承运来源：{{ order_info.express_company.title }} <text class="ml-3r">快递编号：{{ order_info.express_no }}</text>
+                    </div>
+                {% endif %}
+
+            {%else%}
+                {% for d in order_info.sub_orders %}
+
+                    <div class="desitem mtb-0">
+                        子订单号：<span>{{ d.id }}</span> 
+                    </div>
+
+                    {% for product in d.items %}
+                        <div class="cartitem mtbb">
+                            <a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
+                            <div class="cartinfo">
+                                <a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
+                                
+                                <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+                                <p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
+                            </div>
+                            <div class="deal">
+                              退款中
+                            </div>
+                        </div>
+                        <!--
+                        <div class="desitem mtb-0 tx-r detx">
+                            共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
+                        </div>
+                        -->
+                        <div class="desitem mtb-0 tx-r mtbb dealesc">
+                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
+                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+                        </div>
+                    {% endfor %}
+
+                    {% if d.is_sended %}
+                        <div class="desitem mtb-0 detx">
+                        承运来源：{{ d.express_caty }} <text class="ml-3r">快递编号：{{ d.express_no }}</text>
+                        </div>
+                    {% endif %}
+
+                {%endfor%}
+
+            {%endif%}
 			
 			<!-- <div class="desitem">
 				支付方式：<span class="flt-r">在线支付</span>
 			</div> -->
 
       
-			
 		
 		<div class="desitem mb-0 pb-r">
 			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
@@ -516,11 +561,9 @@ span.kefu{
         {% if order_info.status == 0 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
-        <!--
         {% if order_info.status == 16 %}
           <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order_info.rid }}" class="ui small magenta inverted button">评价</a>
         {%endif%}
-        -->
         {% if order_info.status == 20 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
