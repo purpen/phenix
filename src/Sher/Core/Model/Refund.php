@@ -115,6 +115,23 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
             $row['reason_label'] = '';
         }
 
+        switch($row['type']){
+            case 0:
+                $row['type_label'] = '取消退款申请';
+                break;
+            case 1:
+                $row['type_label'] = '退款中';
+                break;
+            case 2:
+                $row['type_label'] = '退款成功';
+                break;
+            case 3:
+                $row['type_label'] = '拒绝退款';
+                break;
+            default:
+                $row['type_label'] = '';
+        }
+
 	}
 
 	// 添加自定义ID
