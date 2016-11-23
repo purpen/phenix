@@ -613,5 +613,23 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	    $this->stash['result'] = $result;
 	    return $this->to_taconite_page('ajax/wap_user_sign_box.html');
 	  }
+
+	  /**
+	   * 退款／售后
+	  **/
+	  public function customer(){
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+		return $this->to_html_page("wap/my/customer.html");
+	  }
+
+	  /**
+	   * 退款详情 
+	  **/
+	  public function refund_view(){
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+		return $this->to_html_page("wap/my/refund_view.html");
+	  }
 	  
 }

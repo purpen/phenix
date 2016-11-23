@@ -50,6 +50,7 @@ h3.ui.header{
     -webkit-box-align: center;
     background: #fff;
     padding: 10px;
+    position: relative;
 }
 .column .cartitem+.cartitem{
 	border-top:1px solid rgba(0,0,0,0.1);
@@ -110,6 +111,10 @@ h3.ui.header{
 	text-align: right;
     padding: 0;
     background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 .ordertbtn .ui.button.color-be,.ordertbtn .ui.button.color-be:hover {
     box-shadow: 0 0 0 1px #be8914 inset!important;
@@ -181,6 +186,128 @@ span.kefu{
     width: 18px;
     background-position: 0 0;
 }
+.deal{
+  color:#be8914;
+  font-size: 12px;
+  position:absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  right: 10px;
+}
+.mtbb{
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.tx-r{
+  text-align: right;
+}
+.detx{
+  font-size: 12px;
+  color: #797979;
+}
+.dealesc .ui.button.color-bd,.dealesc .ui.button.color-bd:hover{
+    font-weight: 400;
+    padding: 0.5716rem 0.7145rem;
+    margin: 0;
+    margin-left: 0.5716rem;
+    font-size: 0.92885rem;
+    background: transparent;
+    box-shadow: 0 0 0 1px #333 inset!important;
+    color: #333;
+    min-width: 72px;
+}
+.showbt .refund-box,.showcan .cancel-box {
+    visibility: visible;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+.refund-box,.cancel-box{
+    max-width: 767px;
+    margin: 0 auto;
+    background: #f5f5f5;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    z-index: 100;
+    visibility: hidden;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+    padding: 0 !important;
+}
+.nextbtn {
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+}
+.nextbtn .close-btn {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
+.nextbtn .submit {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    font-size: 1rem;
+    background: #be8914;
+    color: #fff;
+    text-align: center;
+    line-height: 2.1435rem;
+    padding: 0.7145rem;
+}
+.refund_content,.cancel_content {
+    display: none;
+}
+.refund-box .ui.header,.cancel-box .ui.header{
+    font-weight: 400;
+}
+.ui.form select{
+    appearance:none;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    background: url("{{ app_url_packaged }}/images/fiushop/re-arrow.png") no-repeat scroll right center #fff;
+    background-size: 15px 8px;
+    background-position: 96% center;
+}
+.ui.form select::-ms-expand { display: none; }
+.mb-7{
+    margin-bottom: 7px !important;
+}
+.dealesc .ui.button.color-be,.dealesc .ui.button.color-be:hover{
+    background: #000 !important;
+    color: #fff;
+    box-shadow: 0 0 0 1px #000 inset!important;
+}
+.sfooter.nav-menu{
+    display: none;
+}
 </style>
 {% endblock %}
 
@@ -236,6 +363,44 @@ span.kefu{
 	$('.ui.medel.button').click(function(){
     $('.ui.server-show').modal('show');
   })
+
+  // 申请退款
+  $('.apply_refund').livequery(function(){
+    $(this).bind('click',function(){
+      $('.ordeshow').addClass('showbt');
+    });
+  });
+  $('.close-btn').bind('click',function(){
+    $('.ordeshow').removeClass('showbt showcan');
+  });
+
+  // 退款选项
+  $('#refund_reason_select').change(function(){
+    var refund_type = $(this).val();
+    if(refund_type==0){
+      $('.refund_content').show();
+    }else{
+      $('.refund_content').hide();
+    }
+  });
+
+  // 申请退货
+  $('.apply_cancel').livequery(function(){
+    $(this).bind('click',function(){
+      $('.ordeshow').addClass('showcan');
+    });
+  });
+
+  // 退货选项
+  $('#cancel_reason_select').change(function(){
+    var cancel_type = $(this).val();
+    if(cancel_type==0){
+      $('.cancel_content').show();
+    }else{
+      $('.cancel_content').hide();
+    }
+  });
+
 {% endblock %}
 
 {% block content %}
@@ -245,12 +410,9 @@ span.kefu{
         <p>订单详情</p>
     </div>
 </div>
-<div class="ui responsive grid mt-2r" style="padding-bottom: 50px;">
+<div class="ui responsive grid mt-0 ordeshow" style="padding-bottom: 50px;">
 	<div class="row pt-0">
 		<div class="column p-0">
-			<div class="desitem mt-0">
-        订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
-      </div>
 			<div class="addressitem mb-2r">
 				<div class="item">
 					<div class="content">
@@ -274,45 +436,66 @@ span.kefu{
 					 </div>
 				</div>
 			</div>
+
+            <div class="desitem mtb-0">
+                订单号：<span>{{ order_info.rid }}</span> <span class="flt-r color-be link">{{ order_info.status_label }}</span>
+            </div>
 			
 			{% for product in order_info.items %}
-			<div class="cartitem">
+			<div class="cartitem mtbb">
 				<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
 				<div class="cartinfo">
 					<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.name }}</h3></a>
 					
-	        <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+	                <p class="checkt">颜色／分类：{% if product.sku_name %}{{ product.sku_name }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
 					<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
-	
 				</div>
+                <div class="deal">
+                  退款中
+                </div>
 			</div>
+            <div class="desitem mtb-0 tx-r detx">
+                共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
+            </div>
+            <div class="desitem mtb-0 tx-r mtbb dealesc">
+                <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
+                <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+            </div>
+            <div class="desitem mtb-0 detx">
+            承运来源：圆通速递 <text class="ml-3r">快递编号：865675656778</text>
+            </div>
 			{% endfor %}
 			
-			<div class="desitem">
+			<!-- <div class="desitem">
 				支付方式：<span class="flt-r">在线支付</span>
-			</div>
+			</div> -->
 
-      <div class="desitem">
-        <div class="ui medel color button">
-          <span class="kefu"></span>
-          联系客服
-        </div>
-      </div>
+      
 			
-			<div class="desitem m-0 pb-r">
-				商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
-			</div>
-			<div class="desitem m-0 pt-0 pb-r">
-				运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
-			</div>
-      <div class="desitem m-0 pt-0 pb-r">
-        优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
-      </div>
-			<div class="desitem mt-0 pt-0">
-				应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
-			</div>
-
-      <div class="desitem descrit">
+		
+		<div class="desitem mb-0 pb-r">
+			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
+		</div>
+        <div class="desitem m-0 pt-0 pb-r">
+            支付方式：<span class="ui color-be text link flt-r">在线支付</span>
+        </div>
+        <div class="desitem m-0 pt-0 pb-r">
+            商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
+        </div>
+        <!-- <div class="desitem m-0 pt-0 pb-r">
+            优惠：<span class="ui color-be text link flt-r">-￥&nbsp;{{ order_info.card_money }}</span>
+        </div> -->
+		<div class="desitem mt-0 pt-0">
+			应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
+		</div>
+    
+        <div class="desitem">
+            <div class="ui medel color button">
+              <span class="kefu"></span>
+              联系客服
+            </div>
+        </div>
+      <!-- <div class="desitem descrit">
         <span>订单号：&nbsp;{{ order_info.rid }}</span>
         <span>创建时间：{{ order_info.created_on|date 'Y-m-d H:i' }}</span>
         {% if order_info.payed_date %}
@@ -324,9 +507,9 @@ span.kefu{
         {% if order_info.finished_date %}
             <span>成交时间：{{ order_info.finished_date|date 'Y-m-d H:i' }}</span>
         {%endif%}
-      </div>
+      </div> -->
 			
-			<div class="ordertbtn">
+			<div class="ordertbtn dealesc">
         {% if order_info.status == '-1' %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
@@ -353,6 +536,91 @@ span.kefu{
 				
 		</div>	
 	</div>
+
+
+    <div class="refund-box">
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>退款</p>
+            </div>
+        </div>
+        <div class="ui grid m-0 plr-2r">
+            <div class="row pt-3r">
+                <div class="column">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退款金额</h5>
+                            <input type="text" name="name" value="123">
+                        </div>
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退款原因</h5>
+                            <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
+                                <option value="1">我不想要了</option>
+                                <option value="0">其他</option>
+                            </select>
+                        </div>
+                        <div class="field mb-3r refund_content">
+                            <h5 class="ui header mb-7">退款说明</h5>
+                            <textarea name="refund_content" rows="3"></textarea>
+                        </div>
+                        <div class="nextbtn">
+                            <div class="close-btn">
+                              取消
+                            </div>  
+                            <div class="submit">
+                              提交
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cancel-box">
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>退货</p>
+            </div>
+        </div>
+        <div class="ui grid m-0 plr-2r">
+            <div class="row pt-3r">
+                <div class="column">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="cancel-form">
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退货金额</h5>
+                            <input type="text" name="name" value="123">
+                        </div>
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退货原因</h5>
+                            <select name="cancel_reason" value="0" id="cancel_reason_select" class="refundwhy">
+                                <option value="1">收到商品破损</option>
+                                <option value="2">商品错发／漏发</option>
+                                <option value="3">商品需要维修</option>
+                                <option value="4">收到商品与描述不符</option>
+                                <option value="5">商品质量问题</option>
+                                <option value="0">其他</option>
+                            </select>
+                        </div>
+                        <div class="field mb-3r cancel_content">
+                            <h5 class="ui header mb-7">退货说明</h5>
+                            <textarea name="cancel_content" rows="3"></textarea>
+                        </div>
+                        <div class="nextbtn">
+                            <div class="close-btn">
+                              取消
+                            </div>  
+                            <div class="submit">
+                              提交
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 

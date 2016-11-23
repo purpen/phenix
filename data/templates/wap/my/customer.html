@@ -1,0 +1,178 @@
+{%extends 'layout/shop.html'%}
+{% block title%}退款／售后{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#orderitem{
+    display: block;
+    margin-top: 1.07175rem;
+	padding: 0 0 20px!important;
+}
+#orderitem .item{
+    margin-bottom: 0.7145rem;
+    padding: 0.7145rem 0;
+    background: #fff;
+}
+#orderitem .item .product p{
+	margin:0;
+	text-align:right;
+	font-size: 0.8574rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding:0.71428571rem;
+}
+#orderitem .item .product p .rmb.icon{
+	font-size: 0.8574rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .ordertop{
+	padding: 0 0.7145rem 0.35725rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+	height:1.78625rem;
+}
+#orderitem .item .content{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+	padding: 0.7145rem;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#orderitem .item .content .img img{
+    width: 5.716rem;
+    height: 4.287rem;
+    position: relative;
+    border: 1px solid #eee;
+}
+#orderitem .item .content .orderinfo {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    padding-right: 1.429rem;
+    margin-left: 0.7145rem;
+}
+.orderdes{
+	font-size:0.8574rem;
+	color:rgba(0,0,0,0.5);
+	position:absolute;
+	width:100%;
+	height:1.429rem;
+	line-height:1.429rem;
+	left:0;
+	bottom:1.78625rem;
+	
+}
+#orderitem .item .content .orderinfo h4.title{
+    margin-bottom: 2.1435rem;
+    max-height: 2.7151rem;
+    overflow: hidden;
+    font-weight: 400;
+	font-size:1rem;
+  color: #000;
+}
+#orderitem .item .content .orderinfo p.price{
+	color:#be8914;
+	font-size:1rem;
+}
+#orderitem .item .content .orderinfo p.price .rmb.icon {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+#orderitem .item .orderbottom{
+	text-align:right;
+	padding:0.7145rem;
+	padding-bottom:0;
+}
+#orderitem .item .orderbottom .ui.button{
+	box-shadow: 0 0 0 1px #be8914 inset!important;
+    color: #be8914;
+    font-weight: 400;
+	padding:0.5716rem 0.7145rem;
+	margin:0;
+	margin-left: 0.5716rem;
+	font-size: 0.92885rem;
+}
+#orderitem .item .orderbottom .ui.button.color-bd,#orderitem .item .orderbottom .ui.inverted.color-bd.button:hover {
+    background: transparent;
+    box-shadow: 0 0 0 1px #333 inset!important;
+    color: #333;
+}
+.sfooter.nav-menu{
+	display: none;
+}
+.fz-12{
+	font-size:0.8574rem !important;
+}
+.ta-r{
+	text-align:right;
+}
+.color-be{
+  color: #be8914 !important;
+}
+</style>
+{% endblock %}
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+<div class="ui fiushop pb-0">
+    <div class="ui sheader">
+        <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+        <p>退款售后</p>
+    </div>
+</div>
+<div id="orderitem">
+	<div class="item" id="order-116110206382">	
+		<div class="ordertop">
+			<span class="ui line fz-12">2016/11/02</span>
+			<span class="ui color-be link fz-12 flt-r order_label_txt">退款中</span>
+		</div>
+		<div class="content">
+			<a href="/my/order_view?rid=116110206382" class="img"> 
+					<img src="http://frbird.qiniudn.com/product/160127/56a858723ffca269098bb039-4-s.jpg">
+			</a>
+			<div class="orderinfo">
+				<a class="ui link" href="/my/order_view?rid=116110206382">
+					<h4 class="title">
+						a1螺丝刀
+					</h4>
+				
+					<p class="price"><i class="rmb icon"></i>  0.15</p>
+				</a>
+				<div class="orderdes">
+					<span class="sku">
+						默认
+					</span>
+					<span class="count flt-r">
+						x 1
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="product">
+			<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 0.15</p>
+		</div>
+		
+		<div class="orderbottom status_btn_box">
+			<a href="javascript:void(0);" rid="116112206503" class="ui small color-bd inverted button cancel_order_btn">删除订单</a>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock %}
