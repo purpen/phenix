@@ -368,7 +368,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
                     $order_info['sub_orders'][$i]['items'][$j]['sku_name'] = $sku_mode; 
                     $order_info['sub_orders'][$i]['items'][$j]['subtotal'] = (float)$pro['sale_price']*$pro['quantity']; 
                     $order_info['sub_orders'][$i]['items'][$j]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];       
-                
+                  }
                 }   // endfor
 
                 if(!empty($sub_order['is_sended'])){
