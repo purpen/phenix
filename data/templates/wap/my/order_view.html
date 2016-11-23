@@ -111,6 +111,10 @@ h3.ui.header{
 	text-align: right;
     padding: 0;
     background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 .ordertbtn .ui.button.color-be,.ordertbtn .ui.button.color-be:hover {
     box-shadow: 0 0 0 1px #be8914 inset!important;
@@ -296,6 +300,14 @@ span.kefu{
 .mb-7{
     margin-bottom: 7px !important;
 }
+.dealesc .ui.button.color-be,.dealesc .ui.button.color-be:hover{
+    background: #000 !important;
+    color: #fff;
+    box-shadow: 0 0 0 1px #000 inset!important;
+}
+.sfooter.nav-menu{
+    display: none;
+}
 </style>
 {% endblock %}
 
@@ -476,7 +488,13 @@ span.kefu{
 		<div class="desitem mt-0 pt-0">
 			应付金额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.pay_money }}</span>
 		</div>
-
+    
+        <div class="desitem">
+            <div class="ui medel color button">
+              <span class="kefu"></span>
+              联系客服
+            </div>
+        </div>
       <!-- <div class="desitem descrit">
         <span>订单号：&nbsp;{{ order_info.rid }}</span>
         <span>创建时间：{{ order_info.created_on|date 'Y-m-d H:i' }}</span>
@@ -491,7 +509,7 @@ span.kefu{
         {%endif%}
       </div> -->
 			
-			<div class="ordertbtn">
+			<div class="ordertbtn dealesc">
         {% if order_info.status == '-1' %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small magenta inverted button remove_order_btn">删除订单</a>
         {%endif%}
