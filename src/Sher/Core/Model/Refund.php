@@ -6,16 +6,17 @@
 class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 
     protected $collection = "refund";
+	protected $mongo_id_style = DoggyX_Model_Mongo_Base::MONGO_ID_CUSTOM;
 	
 	# 产品周期stage
     const STAGE_CANCEL = 0;
-    const STAGE_APPLY = 1;
-    const STAGE_ING = 2;
-    const STAGE_FINISH = 3;
+    const STAGE_ING = 1;
+    const STAGE_FINISH = 2;
+    const STAGE_REJECT = 3;
 	
     protected $schema = array(
         # 退款编号
-		'rid'     => null,
+		'_id'     => null,
         # 站外编号(与erp对应)
         'number'    => 0,
         'user_id'   => 0,
@@ -24,24 +25,32 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         # 商品类型：1.sku；2.商品；3.--;
         'target_type' => 1,
         'product_id' => 0,
-        'order_id' => null,
+        'order_rid' => null,
         'sub_order_id' => null,
         'refund_price' => 0,
+        # 运费
+        'freight' => 0,
         'quantity' => 1,
         # 1.退款；2.退货；3.返修；4.--；
-        'kind' => 1,
-        // 0.取消；1.申请退货款；2.进行中；3.已完成；4.拒绝;
-        'stage' => self::STAGE_APPLY,
+        'type' => 1,
+        // 0.取消；1.进行中；2.已完成；3.拒绝;
+        'stage' => self::STAGE_ING,
+        # 退款原因
+        'reason' => 1,
+        # 退款说明
+        'content' => '',
         # 拒绝原因
         'summary' => null,
         'status' => 1,
         'deleted' => 0,
+        # 退款时间
+        'refund_on' => 0,
 
     );
 	
-	protected $required_fields = array('user_id', 'product_id', 'order_id', 'rid');
-	protected $int_fields = array('user_id','target_id','target_type','product_id','kind','stage','status','number','deleted');
-	protected $float_fields = array('refund_price');
+	protected $required_fields = array('user_id', 'product_id', 'order_rid');
+	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','number','deleted','reason');
+	protected $float_fields = array('refund_price', 'freight');
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
 	protected $joins = array(
@@ -57,7 +66,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 
 	// 添加自定义ID
     protected function before_insert(&$data) {
-		
+		$data['_id'] = $this->gen_refund_id();
 		parent::before_insert($data);
     }
 
@@ -68,10 +77,6 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	protected function before_save(&$data) {
 
 		// 新建数据,补全默认值
-		if ($this->is_saved()){
-			$data['rid'] = $this->gen_refund_id($data['_id'], '1');
-		}
-
         if(empty($data['number'])){
             $data['number'] = Sher_Core_Helper_Util::getNumber();
         }
@@ -85,17 +90,6 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
     protected function after_save(){
 
     }
-
-	/**
-	 * 通过rid查找
-	 */
-	public function find_by_rid($rid){
-		$row = $this->first(array('rid'=>(int)$rid));
-        if (!empty($row)) {
-            $row = $this->extended_model_row($row);
-        }
-		return $row;
-	}
 	
 	/**
 	 * 通过number查找
@@ -107,32 +101,37 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         }
 		return $row;
 	}
-	
-	
-	/**
-	 * 更新产品的状态阶段
-	 */
-	public function mark_as_stage($id, $stage) {
-		return $this->update_set($id, array('stage' => (int)$stage));
-	}
 
 	/**
 	 * 生成产品的SKU, SKU十位数字符
 	 */
-	protected function gen_refund_id($id, $prefix='1'){
-		$rid  = $prefix;
-		$len = strlen((string)$id);
+	protected function gen_refund_id($prefix='1'){
+		$name = Doggy_Config::$vars['app.refund_serialno.name'];
+		
+		$sku  = $prefix;
+		$val = $this->next_seq_id($name);
+		
+		$len = strlen((string)$val);
 		if ($len <= 5) {
-			$rid .= date('ymd');
-			$rid .= sprintf("%05d", $id);
+			$sku .= date('md');
+			$sku .= sprintf("%05d", $val);
 		}else{
-			$rid .= substr(date('md'), 0, 11 - $len);
-			$rid .= $id; 
+			$sku .= substr(date('md'), 0, 9 - $len);
+			$sku .= $val; 
 		}
 		
-		return $rid;
+		Doggy_Log_Helper::debug("Gen to refund [$sku]");
+		
+		return (int)$sku;
 	}
-
+	
+	
+	/**
+	 * 更新退款单的状态阶段
+	 */
+	public function mark_as_stage($id, $stage) {
+		return $this->update_set($id, array('stage' => (int)$stage));
+	}
 	
 	/**
 	 * 增加计数

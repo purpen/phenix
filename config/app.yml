@@ -175,6 +175,7 @@ app.dt.extension_lib.sher_app:
     'user_temp_list':'Sher_Core_ViewTag_UserTempList'
     'sight_stat_list':'Sher_Core_ViewTag_SightStatList'
     'supplier_list':'Sher_Core_ViewTag_SupplierList'
+    'refund_list':'Sher_Core_ViewTag_RefundList'
   filters: []
 
 app.js.use_bundle: false

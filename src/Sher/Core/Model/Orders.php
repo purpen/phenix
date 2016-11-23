@@ -1205,5 +1205,115 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		return $ok;
 	}
+
+    /**
+     * 申请退款/货
+     */
+    public function apply_refund($rid, $options){
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = '';
+        $result['data'] = array();
+        $order = isset($options['order']) ? $options['order'] : $this->find_by_rid($rid);
+
+        $sku_id = $options['sku_id'];
+        $refund_type = $options['refund_type'];
+        $refund_price = $options['refund_price'];
+        $refund_reason = $options['refund_reason'];
+        $refund_content = $options['refund_content'];
+
+        // 判断是否京东订单
+        if(!empty($order['is_vop'])){
+            for($i=0;$i<count($order['items']);$i++){
+                $vop_id = isset($order['items'][$i]['vop_id']) ? $order['items'][$i]['vop_id'] : null;
+                if(!$vop_id) continue;
+                $vop_result = Sher_Core_Util_Vop::check_after_sale($order['jd_order_id'], $vop_id);
+                if(!$vop_result['success']){
+                    $result['message'] = $vop_result['message'];
+                    return $result;
+                }
+                if(!$vop_result['data']){
+                    $result['message'] = '该订单不支持退货款';
+                    return $result;
+                }
+            }
+        }
+
+        $product_id = $quantity = 0;
+        for($i=0;$i<count($order['items']);$i++){
+            if($order['items'][$i]['sku']==$sku_id){
+                $order['items'][$i]['refund_type'] = $refund_type;
+                $order['items'][$i]['refund_status'] = 1;
+                $product_id = $order['items'][$i]['product_id'];
+                $quantity = $order['items'][$i]['quantity'];
+            }
+        }
+
+        if(empty($product_id)){
+            $result['message'] = '产品未找到';
+            return $result;
+        }
+
+        // 更新子订单产品状态
+        $sub_order_id = null;
+        if(isset($order['exist_sub_order']) && !empty($order['exist_sub_order'])){
+            for($i=0;$i<count($order['sub_orders']);$i++){
+                $sub_order = $order['sub_orders'][$i];
+                for($j=0;$j<count($sub_order['items']);$j++){
+                    $pro = $sub_order['items'][$j];
+                    if($pro['sku']==$sku_id){
+                        $sub_order_id = $sub_order['id'];
+                        $order['sub_orders'][$i]['items'][$j]['refund_type'] = $refund_type;
+                        $order['sub_orders'][$i]['items'][$j]['refund_status'] = 1;                   
+                    }
+                }
+            }
+        }
+
+        $query = array();
+        $query['items'] = $order['items'];
+        if(!empty($sub_order_id)){
+            $query['sub_orders'] = $order['sub_orders'];
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        // 退款单是否存在
+        $has_one = $refund_model->first(array('order_rid'=>$rid, 'target_id'=>$sku_id));
+        if(!empty($has_one)){
+            $result['message'] = '不能重复提交!';
+            return $result;        
+        }
+
+        $ok = $this->update_set((string)$order['_id'], $query);
+        if(!$ok){
+            $result['message'] = '更新订单失败!';
+            return $result;
+        }
+
+        // 生成退款单
+        $row = array(
+            'user_id' => $order['user_id'],
+            'target_id' => $sku_id,
+            'target_type' => $sku_id != $product_id ? 1 : 2,
+            'product_id' => $product_id,
+            'order_rid' => $rid,
+            'sub_order_id' => $sub_order_id,
+            'refund_price' => $refund_price,
+            'qunatity' => $quantity,
+            'type' => $refund_type,
+            'reason' => $refund_reason,
+            'content' => $refund_content,
+        );
+        $ok = $refund_model->apply_and_save($row);
+        if(!$ok){
+            $result['message'] = '生成退款单失败!';       
+            return $result;
+        }
+        $result['data']['sub_order_id'] = $sub_order_id;
+        $result['success'] = true;
+        return $result;
+    }
 	
 }

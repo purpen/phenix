@@ -1176,7 +1176,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
       'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
-      'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
+      'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 
@@ -2220,8 +2220,81 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         //print_r($result);
         return $this->api_json('success!', 0, $result);
   
-  
   }
+
+    /**
+     * 退款单列表
+    */
+    public function refund_list(){
+        $user_id = $this->current_user_id;
+        if(empty($user_id)){
+          return $this->api_json('请先登录！', 3000); 
+        }
+
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+
+		$query   = array();
+		$options = array();
+
+        $query['user_id'] = $user_id;
+        $query['deleted'] = 0;
+
+        //限制输出字段
+		$some_fields = array(
+			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1,
+			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'freight'=>1,
+			'stage'=>1, 'reason'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
+            'created_on'=>1, 'updated_on'=>1,
+		);
+		$options['some_fields'] = $some_fields;
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+        $options['sort_field'] = 'latest';
+		
+		// 开启查询
+        $service = Sher_Core_Service_Refund::instance();
+        $result = $service->get_refund_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			}
+
+            $item = array();
+            $product = $product_model->extend_load($data[$i]['product_id']);
+            $item['title'] = $product['title']; 
+            $item['short_title'] = $product['short_title'];
+            $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+            $item['sku_name'] = '';
+            if($data[$i]['target_type']==1){
+                $sku = $sku_model->find_by_id($data[$i]['target_id']);
+                if($sku){
+                    $item['sku_name'] = $sku['mode']; 
+                }
+            }
+
+            $data[$i]['product'] = $item;
+
+            $data[$i]['refund_at'] = '';
+            if(!empty($data[$i]['refund_on'])){
+                $data[$i]['refund_at'] = date('y-m-d', $data[$i]['refund_on']);           
+            }
+            $data[$i]['created_at'] = date('y-m-d', $data[$i]['created_on']);
+
+        }   // endfor
+
+		$result['rows'] = $data;
+		return $this->api_json('请求成功', 0, $result);
+    }
 
 	
 }
