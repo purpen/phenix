@@ -3,7 +3,8 @@
 {% block page_css %}
 <style class="text/css">
 	.ui.top.attached.header{
-		background: #dedede;
+		background: #ededed;
+		padding:10px;
 	}
 	.color-ee{
 		color: #999;
@@ -99,6 +100,35 @@
 								您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送
 							</div>
 						</div>
+					</div>
+					<div class="row" style="border-top: 1px solid #ccc;">
+						<div class="four wide column">
+							<div class="ui horizontal list">
+							  	<div class="item">
+							      	 收货人：{{ order_info.usrname }}
+							  	</div>
+							</div>
+						</div>
+						<div class="four wide column">
+							<div class="item color-ee">
+								订单金额：¥{{ order_info.total_money }}
+							</div>
+						</div>
+						<div class="four wide column">
+							<div class="item color-ee">
+								支付方式：
+							</div>
+						</div>
+						<div class="four wide column">
+							<div class="item color-ee">
+								订单状态
+							</div>
+						</div>
+						<!-- <div class="three wide column">
+							<div class="item color-ee">
+								
+							</div>
+						</div> -->
 					</div>
 				</div>
 			</div>
