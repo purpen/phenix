@@ -1427,7 +1427,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
         // 重建数据结果
 		$data = array();
-		for($i=0;$i<count($max);$i++){
+		for($i=0;$i<$max;$i++){
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
 			}
