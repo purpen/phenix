@@ -39,12 +39,11 @@
 		</div>
 	</div>
 	<div class="middle aligned ui celled white grid">
-		{% for item in order.items %}
 		<div class="row">
 			<div class="seven wide column">
 				<table class="ui basic table">
 					<tbody>
-						
+						{% for item in order.items %}
 						{% product_list var:'product' product_id:item.product_id %}
 						<tr>
 							<td>
@@ -68,7 +67,7 @@
 						      	</div>
 							</td>
 						</tr>
-						
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>
@@ -168,7 +167,5 @@
 				
 			</div>
 		</div>
-
-		{% endfor %}
 	</div>
 </div>
