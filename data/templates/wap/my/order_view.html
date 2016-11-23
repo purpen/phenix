@@ -293,6 +293,9 @@ span.kefu{
     background-position: 96% center;
 }
 .ui.form select::-ms-expand { display: none; }
+.mb-7{
+    margin-bottom: 7px !important;
+}
 </style>
 {% endblock %}
 
@@ -512,18 +515,18 @@ span.kefu{
                 <div class="column">
                     <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
                         <div class="field mb-3r">
-                            <h5 class="ui header mtb-r">退款金额</h5>
+                            <h5 class="ui header mb-7">退款金额</h5>
                             <input type="text" name="name" value="123">
                         </div>
                         <div class="field mb-3r">
-                            <h5 class="ui header mtb-r">退款原因</h5>
+                            <h5 class="ui header mb-7">退款原因</h5>
                             <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
                                 <option value="1">我不想要了</option>
                                 <option value="0">其他</option>
                             </select>
                         </div>
                         <div class="field mb-3r refund_content">
-                            <h5 class="ui header mtb-r">退款说明</h5>
+                            <h5 class="ui header mb-7">退款说明</h5>
                             <textarea name="refund_content" rows="3"></textarea>
                         </div>
 
