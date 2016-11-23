@@ -353,7 +353,7 @@ span.kefu{
         <p>订单详情</p>
     </div>
 </div>
-<div class="ui responsive grid mt-0" style="padding-bottom: 50px;">
+<div class="ui responsive grid mt-0 ordeshow" style="padding-bottom: 50px;">
 	<div class="row pt-0">
 		<div class="column p-0">
 			<div class="addressitem mb-2r">
@@ -400,11 +400,8 @@ span.kefu{
             <div class="desitem mtb-0 tx-r detx">
                 共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
             </div>
-            
             <div class="desitem mtb-0 tx-r mtbb dealesc">
                 <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
-            </div>
-            <div class="desitem mtb-0 tx-r mtbb dealesc">
                 <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
             </div>
             <div class="desitem mtb-0 detx">
@@ -476,72 +473,76 @@ span.kefu{
 				
 		</div>	
 	</div>
+
+
+    <div class="refund-box">
+        <div class="ui grid m-0 plr-r">
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui header pb-r mt-r">请添写退款理由:</h4>
+                </div>
+            </div>
+            <div class="row pt-0">
+                <div class="column">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                        <input type="hidden" name="rid" id="refund_rid" value="" />
+                        <div class="field">
+                            <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
+                                <option value="1">我不想要了</option>
+                                <option value="0">其他</option>
+                            </select>
+                
+                            <textarea class="refund_content" name="refund_content" rows="3"></textarea>
+                        </div>
+                        <div class="nextbtn">
+                            <div class="close-btn">
+                              取消
+                            </div>  
+                            <div class="submit">
+                              提交
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cancel-box">
+        <div class="ui grid m-0 plr-r">
+            <div class="row">
+                <div class="column">
+                    <h4 class="ui header pb-r mt-r">请添写退货理由:</h4>
+                </div>
+            </div>
+            <div class="row pt-0">
+                <div class="column">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="cancel-form">
+                        <input type="hidden" name="rid" id="refund_rid" value="" />
+                        <div class="field">
+                            <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
+                                <option value="1">我不想要了</option>
+                                <option value="0">其他</option>
+                            </select>
+                
+                            <textarea class="refund_content" name="refund_content" rows="3"></textarea>
+                        </div>
+                        <div class="nextbtn">
+                            <div class="close-btn">
+                              取消
+                            </div>  
+                            <div class="submit">
+                              提交
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<div class="refund-box">
-    <div class="ui grid m-0 plr-r">
-        <div class="row">
-            <div class="column">
-                <h4 class="ui header pb-r mt-r">请添写退款理由:</h4>
-            </div>
-        </div>
-        <div class="row pt-0">
-            <div class="column">
-                <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
-                    <input type="hidden" name="rid" id="refund_rid" value="" />
-                    <div class="field">
-                        <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-                            <option value="1">我不想要了</option>
-                            <option value="0">其他</option>
-                        </select>
-            
-                        <textarea class="refund_content" name="refund_content" rows="3"></textarea>
-                    </div>
-                    <div class="nextbtn">
-                        <div class="close-btn">
-                          取消
-                        </div>  
-                        <div class="submit">
-                          提交
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="cancel-box">
-    <div class="ui grid m-0 plr-r">
-        <div class="row">
-            <div class="column">
-                <h4 class="ui header pb-r mt-r">请添写退货理由:</h4>
-            </div>
-        </div>
-        <div class="row pt-0">
-            <div class="column">
-                <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="cancel-form">
-                    <input type="hidden" name="rid" id="refund_rid" value="" />
-                    <div class="field">
-                        <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-                            <option value="1">我不想要了</option>
-                            <option value="0">其他</option>
-                        </select>
-            
-                        <textarea class="refund_content" name="refund_content" rows="3"></textarea>
-                    </div>
-                    <div class="nextbtn">
-                        <div class="close-btn">
-                          取消
-                        </div>  
-                        <div class="submit">
-                          提交
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+
 <div class="ui small server-show modal">
   <i class="close icon"></i>
   <div class="content">
