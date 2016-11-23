@@ -9,7 +9,7 @@
 					<img src="{{ product.cover_url }}">
 			</a>
 			<div class="orderinfo">
-				<a class="ui link" href="{{ product.view_url }}">
+				<a class="ui link" href="{{ product.wap_view_url }}">
 					<h4 class="title">
 						{{ product.short_title }}
 					</h4>
@@ -32,9 +32,10 @@
 			<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 10000</p>
 		</div>
         -->
-		
+		{{#can_delete}}
 		<div class="orderbottom status_btn_box">
 			<a href="javascript:void(0);" data-id="{{ _id }}" class="ui small color-bd inverted button remove_refund_btn">删除</a>
 		</div>
+        {{/can_delete}}
 	</div>
 {{/rows}}

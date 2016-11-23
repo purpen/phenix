@@ -1450,6 +1450,13 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
             $data[$i]['product'] = $item;
 
+            // 订单是否可以删除
+            if($data[$i]['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+                $data[$i]['can_delete'] = false;           
+            }else{
+                $data[$i]['can_delete'] = true;           
+            }
+
             $data[$i]['refund_at'] = '';
             if(!empty($data[$i]['refund_on'])){
                 $data[$i]['refund_at'] = date('Y/m/d', $data[$i]['refund_on']);           
