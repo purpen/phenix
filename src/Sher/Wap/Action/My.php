@@ -613,5 +613,13 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 	    $this->stash['result'] = $result;
 	    return $this->to_taconite_page('ajax/wap_user_sign_box.html');
 	  }
+
+	  /**
+	   * 退款详情 
+	  **/
+	  public function refund_view(){
+		
+		return $this->to_html_page("wap/my/refund_view.html");
+	  }
 	  
 }
