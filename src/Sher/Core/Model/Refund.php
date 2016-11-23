@@ -56,11 +56,64 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	protected $joins = array(
 
 	);
+
+    /**
+     * 退款原因
+     */
+    private $refund_reason = array(
+		array(
+			'id' => 1,
+			'title' => '不喜欢/不想要了',
+		),
+		array(
+			'id' => 2,
+			'title' => '未按约定时间发货',
+		),
+		array(
+			'id' => 3,
+			'title' => '快递/物流没送到',
+		),
+    );
+
+    /**
+     * 退货原因
+     */
+    private $return_reason = array(
+		array(
+			'id' => 1,
+			'title' => '收到商品破损',
+		),
+		array(
+			'id' => 2,
+			'title' => '商品发货/漏发',
+		),
+		array(
+			'id' => 3,
+			'title' => '商品需要维修',
+		),
+		array(
+			'id' => 4,
+			'title' => '收到商品与描述不符',
+		),
+		array(
+			'id' => 5,
+			'title' => '商品质量问题',
+		),
+    );
 	
 	/**
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+        if($row['reason']==1){
+            $reason = $this->find_refund_reason($row['reason']);
+            $row['reason_label'] = $reason['title'];
+        }elseif($row['reason']==2){
+            $reason = $this->find_return_reason($row['reason']); 
+            $row['reason_label'] = $reason['title'];
+        }else{
+            $row['reason_label'] = '';
+        }
 
 	}
 
@@ -184,6 +237,46 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 		
 		return true;
 	}
+
+    /**
+     * 返回对应的退款原因
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function find_refund_reason($key=null){
+        if(is_null($key)){
+            return $this->refund_reason;
+        }
+		
+		for($i=0; $i<count($this->refund_reason);$i++){
+			if ($this->refund_reason[$i]['id'] == $key){
+				return $this->refund_reason[$i];
+			}
+		}
+		
+		return null;
+    }
+
+    /**
+     * 返回对应的退货原因
+     * 
+     * @param $key
+     * @return mixed
+     */
+    public function find_return_reason($key=null){
+        if(is_null($key)){
+            return $this->return_reason;
+        }
+		
+		for($i=0; $i<count($this->return_reason);$i++){
+			if ($this->return_reason[$i]['id'] == $key){
+				return $this->return_reason[$i];
+			}
+		}
+		
+		return null;
+    }
 
 	
 }

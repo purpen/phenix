@@ -1267,6 +1267,35 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         return $this->ajax_json('success', false, 0, array('rid'=>$rid, 'sub_order_id'=>$result['data']['sub_order_id'], 'sku_id'=>$sku_id)); 
     }
 
+    /**
+     * ajax删除退款单
+     */
+    public function ajax_delete_refund(){
+        $user_id = $this->visitor->id;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+            return $this->ajax_json('退款单不存在！', true);       
+        }
+        if($refund['user_id'] != $user_id){
+            return $this->ajax_json('没有权限操作！', true);       
+        }
+        if($refund['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+            return $this->ajax_json('不允许的操作！', true);       
+        }
+        $ok = $refund_model->mark_remove($id);
+        if(!$ok){
+            return $this->ajax_json('删除失败！', true);           
+        }
+        return $this->ajax_json('success', false, '', array('id'=>$id));
+    }
+
 
   /**
    * 我的话题

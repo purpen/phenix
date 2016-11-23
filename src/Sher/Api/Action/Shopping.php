@@ -2305,7 +2305,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$some_fields = array(
 			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1,
 			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'freight'=>1,
-			'stage'=>1, 'reason'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
+			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
             'created_on'=>1, 'updated_on'=>1,
 		);
 		$options['some_fields'] = $some_fields;
@@ -2355,6 +2355,35 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
 		$result['rows'] = $data;
 		return $this->api_json('请求成功', 0, $result);
+    }
+
+    /**
+     * 删除退款单
+     */
+    public function delete_refund(){
+        $user_id = $this->current_user_id;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数！', 3001);
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+            return $this->api_json('退款单不存在！', 3002);       
+        }
+        if($refund['user_id'] != $user_id){
+            return $this->api_json('没有权限操作！', 3003);       
+        }
+        if($refund['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+            return $this->api_json('不允许的操作！', 3004);       
+        }
+        $ok = $refund_model->mark_remove($id);
+        if(!$ok){
+            return $this->api_json('删除失败！', 3005);           
+        }
+        return $this->api_json('success', 0, array('id'=>$id));
     }
 
 	
