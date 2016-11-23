@@ -372,6 +372,23 @@ span.kefu{
     }
   });
 
+  // 申请退货
+  $('.apply_cancel').livequery(function(){
+    $(this).bind('click',function(){
+      $('.ordeshow').addClass('showcan');
+    });
+  });
+
+  // 退货选项
+  $('#cancel_reason_select').change(function(){
+    var cancel_type = $(this).val();
+    if(cancel_type==0){
+      $('.cancel_content').show();
+    }else{
+      $('.cancel_content').hide();
+    }
+  });
+
 {% endblock %}
 
 {% block content %}
@@ -529,17 +546,6 @@ span.kefu{
                             <h5 class="ui header mb-7">退款说明</h5>
                             <textarea name="refund_content" rows="3"></textarea>
                         </div>
-
-                        <!--<input type="hidden" name="rid" id="refund_rid" value="" />
-
-                         <div class="field">
-                            <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-                                <option value="1">我不想要了</option>
-                                <option value="0">其他</option>
-                            </select>
-                
-                            <textarea class="refund_content" name="refund_content" rows="3"></textarea>
-                        </div> -->
                         <div class="nextbtn">
                             <div class="close-btn">
                               取消
@@ -554,23 +560,34 @@ span.kefu{
         </div>
     </div>
     <div class="cancel-box">
-        <div class="ui grid m-0 plr-2r">
-            <div class="row">
-                <div class="column">
-                    <h4 class="ui header pb-r mt-r">请添写退货理由:</h4>
-                </div>
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>退货</p>
             </div>
-            <div class="row pt-0">
+        </div>
+        <div class="ui grid m-0 plr-2r">
+            <div class="row pt-3r">
                 <div class="column">
                     <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="cancel-form">
-                        <input type="hidden" name="rid" id="refund_rid" value="" />
-                        <div class="field">
-                            <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-                                <option value="1">我不想要了</option>
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退货金额</h5>
+                            <input type="text" name="name" value="123">
+                        </div>
+                        <div class="field mb-3r">
+                            <h5 class="ui header mb-7">退货原因</h5>
+                            <select name="cancel_reason" value="0" id="cancel_reason_select" class="refundwhy">
+                                <option value="1">收到商品破损</option>
+                                <option value="2">商品错发／漏发</option>
+                                <option value="3">商品需要维修</option>
+                                <option value="4">收到商品与描述不符</option>
+                                <option value="5">商品质量问题</option>
                                 <option value="0">其他</option>
                             </select>
-                
-                            <textarea class="refund_content" name="refund_content" rows="3"></textarea>
+                        </div>
+                        <div class="field mb-3r cancel_content">
+                            <h5 class="ui header mb-7">退货说明</h5>
+                            <textarea name="cancel_content" rows="3"></textarea>
                         </div>
                         <div class="nextbtn">
                             <div class="close-btn">
