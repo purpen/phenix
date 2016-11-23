@@ -341,7 +341,17 @@ span.kefu{
     });
   });
   $('.close-btn').bind('click',function(){
-    $('.ordeshow').removeClass('showbt,showcan');
+    $('.ordeshow').removeClass('showbt showcan');
+  });
+  
+  // 退款选项
+  $('#refund_reason_select').change(function(){
+    var refund_type = $(this).val();
+    if(refund_type==0){
+      $('.refund_content').show();
+    }else{
+      $('.refund_content').hide();
+    }
   });
 
 {% endblock %}
