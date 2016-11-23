@@ -54,9 +54,9 @@
 			<a href="{{ app_url_wap }}/shop/success?rid={{ rid }}" class="ui small color-be inverted button">立即支付</a>
 		  {{/status_pay}}
 
-		  {{#status_refunt}}
-		    <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ rid }}">申请退款</a>
-		  {{/status_refunt}}
+		  ##{{#status_refunt}}
+		  ##  <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ rid }}">申请退款</a>
+		  ##{{/status_refunt}}
 
 		  {{#status_ready_goods}}
 		    <a href="javascript:void(0);" class="ui small color-be inverted button take_delivery_btn" rid="{{ rid }}">确认收货</a>
