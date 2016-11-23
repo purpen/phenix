@@ -1246,15 +1246,16 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if(empty($rid)){
 			return $this->api_json('订单ID不存在！', 3000);
 		}
-
-    //限制输出字段
+        //限制输出字段
 		$some_fields = array(
 			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money',
 			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content',
 			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
-      'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
-      'gift_money', 'status_label', 'created_on', 'updated_on',
+            'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
+            'gift_money', 'status_label', 'created_on', 'updated_on',
+            // 子订单
+            'exist_sub_order', 'sub_orders'
 		);
 		
 		$model = new Sher_Core_Model_Orders();
@@ -1265,66 +1266,111 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			return $this->api_json('你没有权限查看此订单！', 5000);
 		}
 
-    $product_model = new Sher_Core_Model_Product();
-    $sku_model = new Sher_Core_Model_Inventory();
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
 
-    // 重建数据结果
-    $data = array();
-    for($i=0;$i<count($some_fields);$i++){
-      $key = $some_fields[$i];
-      $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
-    }
-
-    $data['_id'] = (string)$data['_id'];
-    // 创建时间格式化 
-    $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
-
-    // 收货信息
-    if(empty($data['express_info'])){
-      $data['express_info'] = null;
-      if(isset($order_info['addbook'])){
-        $data['express_info']['name'] = $order_info['addbook']['name'];
-        $data['express_info']['phone'] = $order_info['addbook']['phone'];
-        $data['express_info']['zip'] = $order_info['addbook']['zip'];
-        $data['express_info']['province'] = $order_info['addbook']['area_province']['city'];
-        $data['express_info']['city'] = $order_info['addbook']['area_district']['city'];
-      }   
-    }
-
-    // 快递公司
-    $data['express_company'] = null;
-    if(!empty($data['express_caty'])){
-      $express_company_arr = $model->find_express_category($data['express_caty']);
-      $data['express_company'] = $express_company_arr['title'];
-    }
-
-    //商品详情
-    if(!empty($data['items'])){
-      $m = 0;
-      foreach($data['items'] as $k=>$v){
-        $d = $product_model->extend_load((int)$v['product_id']);
-        if(!empty($d)){
-          $sku_mode = null;
-          if($v['sku']==$v['product_id']){
-            $data['items'][$m]['name'] = $d['title'];   
-          }else{
-            $sku_mode = '';
-            $sku = $sku_model->find_by_id($v['sku']);
-            if(!empty($sku)){
-              $sku_mode = $sku['mode'];
-            }
-            $data['items'][$m]['name'] = $d['title']; 
-          }
-          $data['items'][$m]['sku_name'] = $sku_mode;
-          $data['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
+        // 重建数据结果
+        $data = array();
+        for($i=0;$i<count($some_fields);$i++){
+          $key = $some_fields[$i];
+          $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
         }
 
-        $m++;
-      } // endforeach
-    }
+        $data['_id'] = (string)$data['_id'];
+        // 创建时间格式化 
+        $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
+
+        // 收货信息
+        if(empty($data['express_info'])){
+          $data['express_info'] = null;
+          if(isset($order_info['addbook'])){
+            $data['express_info']['name'] = $order_info['addbook']['name'];
+            $data['express_info']['phone'] = $order_info['addbook']['phone'];
+            $data['express_info']['zip'] = $order_info['addbook']['zip'];
+            $data['express_info']['province'] = $order_info['addbook']['area_province']['city'];
+            $data['express_info']['city'] = $order_info['addbook']['area_district']['city'];
+          }   
+        }
+
+        // 快递公司
+        $data['express_company'] = null;
+        if(!empty($data['express_caty'])){
+          $express_company_arr = $model->find_express_category($data['express_caty']);
+          $data['express_company'] = $express_company_arr['title'];
+        }
+
+        //商品详情
+        if(!empty($data['items'])){
+          $m = 0;
+          foreach($data['items'] as $k=>$v){
+            $d = $product_model->extend_load((int)$v['product_id']);
+            if(!empty($d)){
+              $sku_mode = null;
+              if($v['sku']==$v['product_id']){
+                $data['items'][$m]['name'] = $d['title'];   
+              }else{
+                $sku_mode = '';
+                $sku = $sku_model->find_by_id($v['sku']);
+                if(!empty($sku)){
+                  $sku_mode = $sku['mode'];
+                }
+                $data['items'][$m]['name'] = $d['title']; 
+              }
+              $data['items'][$m]['sku_name'] = $sku_mode;
+              $data['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
+
+              // 退货款信息
+              $data['items'][$m]['refund_type'] = isset($data['items'][$m]['refund_type']) ? (int)$data['items'][$m]['refund_type'] : 0;
+              $data['items'][$m]['refund_status'] = isset($data['items'][$m]['refund_status']) ? (int)$data['items'][$m]['refund_status'] : 0;
+            }
+
+            $m++;
+          } // endforeach
+        }
+
+        // 子订单详情
+        if(isset($data['exist_sub_order']) && !empty($data['exist_sub_order'])){
+            for($i=0;$i<count($data['sub_orders']);$i++){
+                $sub_order = $data['sub_orders'][$i];
+                $m = 0;
+                foreach($data['sub_orders'][$i]['items'] as $k=>$v){
+                    $pro = $data['sub_orders'][$i]['items'][$m];
+                    $d = $product_model->extend_load((int)$v['product_id']);
+                    if(!empty($d)){
+                      $sku_mode = null;
+                      if($v['sku']==$v['product_id']){
+                        $data['sub_orders'][$i]['items'][$m]['name'] = $d['title'];   
+                      }else{
+                        $sku_mode = '';
+                        $sku = $sku_model->find_by_id($v['sku']);
+                        if(!empty($sku)){
+                          $sku_mode = $sku['mode'];
+                        }
+                        $data['sub_orders'][$i]['items'][$m]['name'] = $d['title']; 
+                      }
+                      $data['sub_orders'][$i]['items'][$m]['sku_name'] = $sku_mode;
+                      $data['sub_orders'][$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
+
+                      // 退货款信息
+                      $data['sub_orders'][$i]['items'][$m]['refund_type'] = isset($pro['refund_type']) ? (int)$pro['refund_type'] : 0;
+                      $data['sub_orders'][$i]['items'][$m]['refund_status'] = isset($pro['refund_status']) ? (int)$pro['refund_status'] : 0;
+                    }
+                    $m++;
+                } // endforeach
+                
+                $data['sub_orders'][$i]['split_at'] = isset($sub_order['split_on']) ? date('Y-m-d H:i', $sub_order['split_on']) : '';
+                $data['sub_orders'][$i]['sended_at'] = isset($sub_order['sended_on']) ? date('Y-m-d H:i', $sub_order['sended_on']) : '';
+                $data['sub_orders'][$i]['express_company'] = '';
+                if(!empty($sub_order['is_sended'])){
+                    $express_company_arr = $model->find_express_category($sub_order['express_caty']);
+                    $data['sub_orders'][$i]['express_company'] = $express_company_arr['title'];               
+                }
+            }   // endfor
+       
+        }
 		
 		return $this->api_json('请求成功', 0, $data);
-	}
+    }
 	
 	/**
 	 * 生产临时订单
