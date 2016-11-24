@@ -205,6 +205,7 @@ span.kefu{
 .detx{
   font-size: 12px;
   color: #797979;
+  border-top: 1px solid rgba(0,0,0,0.1);
 }
 .dealesc .ui.button.color-bd,.dealesc .ui.button.color-bd:hover{
     font-weight: 400;
@@ -307,6 +308,10 @@ span.kefu{
 }
 .sfooter.nav-menu{
     display: none;
+}
+.mtzz{
+    font-size: 12px;
+    border-top:1px solid rgba(0,0,0,0.1);
 }
 </style>
 {% endblock %}
@@ -456,7 +461,7 @@ span.kefu{
                         </div>
                     </div>
 
-                    <div class="desitem mtb-0 tx-r mtbb dealesc">
+                    <div class="desitem mtb-0 tx-r dealesc">
                         <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
                         <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
                     </div>
@@ -476,7 +481,7 @@ span.kefu{
             {%else%}
                 {% for d in order_info.sub_orders %}
 
-                    <div class="desitem mtb-0">
+                    <div class="desitem mtb-0 mtzz">
                         子订单号：<span>{{ d.id }}</span> 
                     </div>
 
@@ -498,7 +503,7 @@ span.kefu{
                             共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
                         </div>
                         -->
-                        <div class="desitem mtb-0 tx-r mtbb dealesc">
+                        <div class="desitem mtb-0 tx-r dealesc">
                             <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
                             <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
                         </div>
