@@ -451,6 +451,7 @@ span.kefu{
 				},
 				success: function(data){
 					if(data.success){
+                        $('.ordeshow').removeClass('showbt showcan');
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
@@ -484,6 +485,7 @@ span.kefu{
 				},
 				success: function(data){
 					if(data.success){
+                        $('.ordeshow').removeClass('showbt showcan');
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
