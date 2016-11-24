@@ -555,9 +555,11 @@ span.kefu{
                     </div>
                 {% endif %}
 
+                <!--
                 <div class="desitem mtb-0 tx-r detx">
                     共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
                 </div>
+                -->
 
             {%else%}
                 {% for d in order_info.sub_orders %}
@@ -576,7 +578,7 @@ span.kefu{
                                 <p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
                             </div>
                             <div class="deal">
-                              退款中
+                                {{ product.refund_label }}
                             </div>
                         </div>
                         <!--
@@ -585,8 +587,13 @@ span.kefu{
                         </div>
                         -->
                         <div class="desitem mtb-0 tx-r dealesc">
-                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
-                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+                            {% if product.refund_button==1 %}
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                            {%endif%}
+                            {% if product.refund_button==2 %}
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
+                            {%endif%}
                         </div>
                     {% endfor %}
 
@@ -609,9 +616,11 @@ span.kefu{
 		<div class="desitem mb-0 pb-r">
 			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
 		</div>
+        <!--
         <div class="desitem m-0 pt-0 pb-r">
             支付方式：<span class="ui color-be text link flt-r">在线支付</span>
         </div>
+        -->
         <div class="desitem m-0 pt-0 pb-r">
             商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
         </div>
