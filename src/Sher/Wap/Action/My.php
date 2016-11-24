@@ -430,6 +430,11 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
         
         }
 
+        // 退货退款原因选项
+        $refund_model = new Sher_Core_Model_Refund();
+        $this->stash['refund_reason'] = $refund_model->find_refund_reason();
+        $this->stash['return_reason'] = $refund_model->find_return_reason();
+
 		$this->stash['order_info'] = $order_info;
 		
 		return $this->to_html_page("wap/my/order_view.html");
