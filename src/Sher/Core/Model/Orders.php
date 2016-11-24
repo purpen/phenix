@@ -1301,7 +1301,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             'order_rid' => $rid,
             'sub_order_id' => $sub_order_id,
             'refund_price' => $refund_price,
-            'qunatity' => $quantity,
+            'quantity' => $quantity,
             'pay_type' => $order['trade_site'],
             'freight' => $order['freight'],
             'type' => $refund_type,
