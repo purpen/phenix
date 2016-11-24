@@ -352,7 +352,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
             if(!isset($item['refund_type']) || $item['refund_type'] == 0){
                 if(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
                     $order_info['items'][$i]['refund_button'] = 1;           
-                }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_SENDED_GOODS::ORDER_EVALUATE))){   // 退货状态
+                }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
                     $order_info['items'][$i]['refund_button'] = 2;
                 }
             }
