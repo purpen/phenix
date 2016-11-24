@@ -2,7 +2,36 @@
 {% block title %}我的订单-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-    
+    .orders-items .ui.cover.image{
+    	float: left;
+    }
+    .orders-items .ui.cover.image img{
+    	width: 80px;
+    }
+    .orders-items .content{
+    	margin-left: 90px;
+	    display: block;
+	    font-size: 12px;
+    }
+    .ui.celled.table thead tr th{
+    	border-left: none;
+    }
+    .noleft tr th,.ui.celled.table tr.noleft td{
+    	border-left: none;
+    }
+    .people.grid{
+    	margin-top: 20px;
+    }
+    .peoitem{
+    	padding-left: 20px;
+    }
+    .peowid{
+    	width: 80px;
+    	display: inline-block;
+    }
+    .pl-30 {
+    	padding-left: 30px;
+    }
 </style>
 {% endblock %}
 {% block js %}
@@ -93,6 +122,158 @@
 							<div class="item">
 								<a href="{{ app_url_my }}/orders?s=8" class="ui {{ css_return }} link">退换货</a>
 							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+						<th>订单号：116112306508</th>
+						<th>2016-11-23 15:41:16</th>
+						<th colspan="2" class="center aligned">订单状态：等待付款</th>
+			    	</tr>
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送</th>
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+			  		<tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+							
+								
+			  			</td>
+			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  		</tr>
+			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
+			  		<tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+								
+			  			</td>
+			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+								
+			  			</td>
+			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  		</tr>
+			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
+			  	</tbody>
+			</table>
+
+
+			<!--   待付款    -->
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+						<th>订单号：116112306508</th>
+						<th>2016-11-23 15:41:16</th>
+						<th colspan="2" class="center aligned">订单状态：等待付款</th>
+			    	</tr><!-- 
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送</th>
+			    	</tr> -->
+			  	</thead>
+			  	<tbody>
+			  		<!-- <tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr> -->
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+							
+								
+			  			</td>
+			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><!-- <a href="" class="ui small inverted magenta button">退换货</a> --> 等待付款</td>
+			  		</tr>
+			  		<!-- <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr> -->
+			  	</tbody>
+			</table>
+
+			<div class="ui middle aligned people grid">
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">收货人信息</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<div class="ui segment">
+							<p><span class="peowid">收货人姓名</span> <span class="peoitem">崔波</span></p>
+							<p><span class="peowid">地址</span> <span class="peoitem">北京朝阳区四环到五环之间高家园区6号楼四单元</span></p>
+							<p><span class="peowid">联系方式</span> <span class="peoitem">13812348812</span></p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">结算信息</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<div class="ui segment">
+							<p><span class="peowid">商品金额</span> <span class="peoitem">4987元－优惠券：20.00元＋运费：0.00元＝订单总金额：400元</span></p>
 						</div>
 					</div>
 				</div>
