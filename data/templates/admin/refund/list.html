@@ -88,9 +88,10 @@
 				<th>ID</th>
                 <th>订单号</th>
 				<th>缩略图</th>
-				<th class="five wide">名称</th>
-                <th>退款金额</th>
+				<th class="three wide">名称</th>
                 <th>支付方式</th>
+                <th>退款金额</th>
+                <th class="four wide">退款原因</th>
                 <th>类型</th>
                 <th>进度</th>
 				<th>申请时间</th>
@@ -123,10 +124,14 @@
 						</a>
 					</div>
                 </td>
+                <td>{{ d.pay_label }}</td>
                 <td>
                     {{ d.refund_price }}
                 </td>
-                <td>{{ d.pay_label }}</td>
+                <td>
+                    <p>原因: {{ d.reason_label }}</p>
+                    <p>说明: {{ d.content }}</p>
+                </td>
                 <td>
                     {{ d.type_label }}
                 </td>

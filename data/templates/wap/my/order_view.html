@@ -376,7 +376,14 @@ span.kefu{
         var sku_id = $(this).data('sku_id');
         $('#refund-form :input[name=rid]').val(rid);
         $('#refund-form :input[name=sku_id]').val(sku_id);
-      $('.ordeshow').addClass('showbt');
+        $.get("{{ app_url_wap }}/app/site/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.is_error){
+                phenix.show_error_note(rs.message, 3000);
+                return false;
+            }
+            $('#refund-form :input[name=refund_price]').val(rs.data.refund_price);
+            $('.ordeshow').addClass('showbt');
+        }, 'json');
     });
   });
   $('.close-btn').bind('click',function(){
@@ -400,6 +407,14 @@ span.kefu{
         var sku_id = $(this).data('sku_id');
         $('#cancel-form :input[name=rid]').val(rid);
         $('#cancel-form :input[name=sku_id]').val(sku_id);
+        $.get("{{ app_url_wap }}/app/site/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.is_error){
+                phenix.show_error_note(rs.message, 3000);
+                return false;
+            }
+            $('#refund-form :input[name=refund_price]').val(rs.data.refund_price);
+            $('.ordeshow').addClass('showbt');
+        }, 'json');
       $('.ordeshow').addClass('showcan');
     });
   });
@@ -694,7 +709,7 @@ span.kefu{
                         <input type="hidden" name="sku_id" value="" />
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退款金额</h5>
-                            <input type="text" name="refund_price" value="">
+                            <input type="text" name="refund_price" disabled="disabled" value="">
                         </div>
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退款原因</h5>
@@ -738,7 +753,7 @@ span.kefu{
                         <input type="hidden" name="sku_id" value="" />
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退货金额</h5>
-                            <input type="text" name="refund_price" value="">
+                            <input type="text" name="refund_price" disabled="disabled" value="">
                         </div>
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退货原因</h5>

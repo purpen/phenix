@@ -1723,5 +1723,25 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
   
   }
 
+    /**
+     * ajax计算退款金额
+     */
+    public function check_refund(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+
+        if (empty($rid) || empty($sku_id)) {
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id, null);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true);            
+        }
+        
+        return $this->ajax_json('success', false, '', array('refund_price'=>$result['data']['refund_price']));
+    
+    }
+
 
 }
