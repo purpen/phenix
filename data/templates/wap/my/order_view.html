@@ -450,13 +450,12 @@ span.kefu{
 					phenix.before_submit();
 				},
 				success: function(data){
-					if(data.is_error){
-					  phenix.after_submit();
+					if(data.success){
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
-					}else{
-                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
-						//phenix.redirect(data.redirect_url);
 					}
 				}
 			});
@@ -484,13 +483,12 @@ span.kefu{
 					phenix.before_submit();
 				},
 				success: function(data){
-					if(data.is_error){
-					  phenix.after_submit();
+					if(data.success){
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
 						$(event.target).addClass('error');
 						phenix.show_error_note(data.message, event.target);
-					}else{
-                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
-						//phenix.redirect(data.redirect_url);
 					}
 				}
 			});

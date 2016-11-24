@@ -1862,14 +1862,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if(empty($refund_reason) && empty($refund_content)){
           return $this->api_json('请说明退款原因！', 3002);   
         }
-        if(empty($refund_price)){
-          return $this->api_json('请添写退款金额！', 3008);   
-        }
+
         $orders_model = new Sher_Core_Model_Orders();
         $order = $options['order'] = $orders_model->find_by_rid($rid);
 
         if(empty($order)){
-            return $this->ajax_json('订单不存在!', 3003);
+            return $this->api_json('订单不存在!', 3003);
         }
 
         // 检查是否具有权限
@@ -1892,8 +1890,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             return $this->api_json('该订单不允许退款操作，请联系客服！', 3006);
         }
 
-        // 退款金额验证
-        
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id, $order);
+        if(!$result['success']){
+            return $this->api_json($result['message'], 3009);            
+        }
+
+        $refund_price = $options['refund_price'] = $result['data']['refund_price'];
 
         try {
             // 申请退款
