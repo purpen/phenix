@@ -412,7 +412,7 @@ span.kefu{
                 phenix.show_error_note(rs.message, 3000);
                 return false;
             }
-            $('#refund-form :input[name=cancel_price]').val(rs.data.refund_price);
+            $('#cancel-form :input[name=refund_price]').val(rs.data.refund_price);
             $('.ordeshow').addClass('showbt');
         }, 'json');
       $('.ordeshow').addClass('showcan');
