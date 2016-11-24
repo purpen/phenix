@@ -32,6 +32,60 @@
     .pl-30 {
     	padding-left: 30px;
     }
+    .right.aligned{
+    	text-align: right;
+    }
+    .refund-box .ui.grid.regrid,.cancel-box .ui.grid.regrid{
+    	margin: -10px 0;
+    	border-top-left-radius: .28571429rem;
+    }
+    .refund-box .six.wide.column,.cancel-box .six.wide.column {
+    	background: #f5f5f5;
+    	padding: 0;
+    	border-top-left-radius: .28571429rem;
+    	border-bottom-left-radius: .28571429rem;
+    }
+    .refund-box .ui.header,.cancel-box .ui.header{
+    	padding: 15px 20px 10px;
+	    margin-bottom: 0;
+	    border-bottom: 1px solid rgba(0,0,0,0.1);
+	    font-size: 16px;
+    }
+    .refund-box .content,.cancel-box .content{
+    	padding:10px;
+    }
+    .refund-box .content .image,.cancel-box .content .image{
+		margin:5px 10px;
+		text-align: center;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .refund-box .content .image img,.cancel-box .content .image img{
+		width: 100px;
+		vertical-align: top;
+    }
+    .refund-box .content .image p,.cancel-box .content .image p{
+    	margin:10px 0 15px;
+    }
+    .proprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .numprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+    }
+    .refund-box .ten.wide.column,.cancel-box .ten.wide.column{
+    	padding:40px;
+    }
+    .refund-box .ui.form .field,.cancel-box .ui.form .field {
+    	margin-bottom: 30px;
+    }
+    .refund-box .ui.form .field span,.cancel-box .ui.form .field span{
+    	margin-right: 20px;
+    }
 </style>
 {% endblock %}
 {% block js %}
@@ -66,6 +120,13 @@
 			event.preventDefault();
 			$(event.target).ajaxSubmit();
 		}
+	});
+
+	$('a[name=apply-cancel]').bind('click', function(){
+    var rid = $(this).attr('rid');
+    $('div.cancel-box [name=rid]').val(rid);
+    $('div.cancel-box [name=rid-show]').text(rid);
+		$('.ui.cancel-box.modal').modal('show');
 	});
 	
 {% endblock %}
@@ -159,9 +220,12 @@
 							
 								
 			  			</td>
-			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
 			  			<td class="center aligned">数量*1</td>
-			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  			<td class="center aligned">
+			  				<a href="javascript:void(0);" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+			  				<a href="javascript:void(0);" name="apply-refund" class="ui small inverted magenta button">退款</a>
+			  			</td>
 			  		</tr>
 			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
 			  		<tr class="noleft">
@@ -182,9 +246,12 @@
 			  				</div>
 								
 			  			</td>
-			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
 			  			<td class="center aligned">数量*1</td>
-			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  			<td class="center aligned">
+							<a href="" class="ui small inverted magenta button">退货</a>
+			  				<a href="" class="ui small inverted magenta button">退款</a>
+			  			</td>
 			  		</tr>
 			  		<tr>
 			  			<td style="max-width: 300px;">
@@ -200,9 +267,12 @@
 			  				</div>
 								
 			  			</td>
-			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
 			  			<td class="center aligned">数量*1</td>
-			  			<td class="center aligned"><a href="" class="ui small inverted magenta button">退换货</a></td>
+			  			<td class="center aligned">
+							<a href="" class="ui small inverted magenta button">退货</a>
+			  				<a href="" class="ui small inverted magenta button">退款</a>
+			  			</td>
 			  		</tr>
 			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
 			  	</tbody>
@@ -241,7 +311,7 @@
 							
 								
 			  			</td>
-			  			<td class="center aligned"><a class="ui active link" href="">价格：20</a></td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
 			  			<td class="center aligned">数量*1</td>
 			  			<td class="center aligned"><!-- <a href="" class="ui small inverted magenta button">退换货</a> --> 等待付款</td>
 			  		</tr>
@@ -274,6 +344,10 @@
 					<div class="column">
 						<div class="ui segment">
 							<p><span class="peowid">商品金额</span> <span class="peoitem">4987元－优惠券：20.00元＋运费：0.00元＝订单总金额：400元</span></p>
+
+							<p class="right aligned">
+								<a href="" class="ui small inverted magenta button">立即付款</a>
+							</p>
 						</div>
 					</div>
 				</div>
@@ -299,8 +373,144 @@
 	</div>
 </div>
 
+<div class="ui refund-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退款申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+					</div>
+					<div class="proprice">
+						<p>单价：¥2890</p>
+						<p>数量：10</p>
+						<p>运费：¥10</p>
+						<p>优惠：¥10</p>
+						<p class="ui active link">总计：¥2890</p>
+					</div>
+					<div class="numprice">
+						<p>订单编号：123456</p>
+						<p>申请时间：2016-11-23 15:41:16</p>
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退款</p>
+			        </div>
+			        <div class="field">
+			        	<p><span>退款金额:</span> 2000</p>
+			        </div>
+			        <div class="field">
+			        	<span>退款原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="gender">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退款原因</div>
+						  	<div class="menu">
+						    	<div class="item" data-value="3">不喜欢／不想要了</div>
+						    	<div class="item" data-value="2">未按约定时间发货</div>
+						    	<div class="item" data-value="1">快递／物流未送到</div>
+						    	<div class="item" data-value="0">其他</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退款说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+			        	<a href="" class="ui inverted magenta button">提交申请</a>
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退货理由弹出层 -->
+<div class="ui cancel-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退货申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+					</div>
+					<div class="proprice">
+						<p>单价：¥2890</p>
+						<p>数量：10</p>
+						<p>运费：¥10</p>
+						<p>优惠：¥10</p>
+						<p class="ui active link">总计：¥2890</p>
+					</div>
+					<div class="numprice">
+						<p>订单编号：123456</p>
+						<p>申请时间：2016-11-23 15:41:16</p>
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退货</p>
+			        </div>
+			        <div class="field">
+			        	<p><span>退货金额:</span> 2000</p>
+			        </div>
+			        <div class="field">
+			        	<span>退货原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="gender">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退货原因</div>
+						  	<div class="menu">
+						    	<div class="item" data-value="4">收到商品破损</div>
+						    	<div class="item" data-value="3">商品错发／漏发</div>
+						    	<div class="item" data-value="2">商品需要维修</div>
+						    	<div class="item" data-value="1">收到商品与描述不符</div>
+						    	<div class="item" data-value="0">商品质量问题</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退货说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+			        	<a href="" class="ui inverted magenta button">提交申请</a>
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
 <!-- 退款理由弹出层 -->
-<div class="ui small refund-box modal">
+<div class="ui small refund-box-x modal">
     <i class="close icon"></i>
   <div class="header">
     请添写退款理由:
