@@ -1303,6 +1303,32 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if(!empty($data['items'])){
           $m = 0;
           foreach($data['items'] as $k=>$v){
+
+              $item = $data['items'][$m];
+                $data['items'][$m]['refund_label'] = '';
+                if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                    switch((int)$item['refund_status']){
+                        case 0:
+                            $data['items'][$m]['refund_label'] = '商家拒绝退款';
+                            break;
+                        case 1:
+                            $data['items'][$m]['refund_label'] = '退款中';
+                            break;
+                        case 2:
+                            $data['items'][$m]['refund_label'] = '已退款';
+                            break;
+                    }   
+                }
+                // 退货款按钮状态
+                $data['items'][$m]['refund_button'] = 0;
+                if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                    if(in_array($data['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                        $data['items'][$m]['refund_button'] = 1;           
+                    }elseif(in_array($data['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
+                        $data['items'][$m]['refund_button'] = 2;
+                    }
+                }
+
             $d = $product_model->extend_load((int)$v['product_id']);
             if(!empty($d)){
               $sku_mode = null;
@@ -1334,7 +1360,32 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 $sub_order = $data['sub_orders'][$i];
                 $m = 0;
                 foreach($data['sub_orders'][$i]['items'] as $k=>$v){
-                    $pro = $data['sub_orders'][$i]['items'][$m];
+                    $item = $data['sub_orders'][$i]['items'][$m];
+
+                    $data['sub_orders'][$i]['items'][$m]['refund_label'] = '';
+                    if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                        switch((int)$item['refund_status']){
+                            case 0:
+                                $data['sub_orders'][$i]['items'][$m]['refund_label'] = '商家拒绝退款';
+                                break;
+                            case 1:
+                                $data['sub_orders'][$i]['items'][$m]['refund_label'] = '退款中';
+                                break;
+                            case 2:
+                                $data['sub_orders'][$i]['items'][$m]['refund_label'] = '已退款';
+                                break;
+                        }   
+                    }
+                    // 退货款按钮状态
+                    $data['sub_orders'][$i]['items'][$m]['refund_button'] = 0;
+                    if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                        if(in_array($data['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                            $data['sub_orders'][$i]['items'][$m]['refund_button'] = 1;           
+                        }elseif(in_array($data['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
+                            $data['sub_orders'][$i]['items'][$m]['refund_button'] = 2;
+                        }
+                    }
+
                     $d = $product_model->extend_load((int)$v['product_id']);
                     if(!empty($d)){
                       $sku_mode = null;
@@ -1352,8 +1403,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                       $data['sub_orders'][$i]['items'][$m]['cover_url'] = $d['cover']['thumbnails']['apc']['view_url'];
 
                       // 退货款信息
-                      $data['sub_orders'][$i]['items'][$m]['refund_type'] = isset($pro['refund_type']) ? (int)$pro['refund_type'] : 0;
-                      $data['sub_orders'][$i]['items'][$m]['refund_status'] = isset($pro['refund_status']) ? (int)$pro['refund_status'] : 0;
+                      $data['sub_orders'][$i]['items'][$m]['refund_type'] = isset($item['refund_type']) ? (int)$item['refund_type'] : 0;
+                      $data['sub_orders'][$i]['items'][$m]['refund_status'] = isset($item['refund_status']) ? (int)$item['refund_status'] : 0;
                     }
                     $m++;
                 } // endforeach
@@ -1746,6 +1797,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if(!in_array($order['status'], $arr)){
             return $this->api_json('该订单不允许退款操作，请联系客服！', 3006);
         }
+
+        // 退款金额验证
+        
 
         try {
             // 申请退款

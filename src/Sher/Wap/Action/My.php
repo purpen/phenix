@@ -332,6 +332,31 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
         $product_model = new Sher_Core_Model_Product();
         $sku_model = new Sher_Core_Model_Inventory();
         for($i=0;$i<count($order_info['items']);$i++){
+            $item = $order_info['items'][$i];
+            $order_info['items'][$i]['refund_label'] = '';
+            if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                switch((int)$item['refund_status']){
+                    case 0:
+                        $order_info['items'][$i]['refund_label'] = '商家拒绝退款';
+                        break;
+                    case 1:
+                        $order_info['items'][$i]['refund_label'] = '退款中';
+                        break;
+                    case 2:
+                        $order_info['items'][$i]['refund_label'] = '已退款';
+                        break;
+                }   
+            }
+            // 退货款按钮状态
+            $order_info['items'][$i]['refund_button'] = 0;
+            if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                if(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                    $order_info['items'][$i]['refund_button'] = 1;           
+                }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_SENDED_GOODS::ORDER_EVALUATE))){   // 退货状态
+                    $order_info['items'][$i]['refund_button'] = 2;
+                }
+            }
+
           $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
           if(!empty($d)){
             $sku_mode = null;
@@ -353,12 +378,37 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
             for($i=0;$i<count($order_info['sub_orders']);$i++){
                 $sub_order = $order_info['sub_orders'][$i];
                 for($j=0;$j<count($sub_order['items']);$j++){
-                    $pro = $sub_order['items'][$j];
-                  $d = $product_model->extend_load((int)$pro['product_id']);
+                    $item = $sub_order['items'][$j];
+
+                    $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '';
+                    if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                        switch((int)$item['refund_status']){
+                            case 0:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '商家拒绝退款';
+                                break;
+                            case 1:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '退款中';
+                                break;
+                            case 2:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '已退款';
+                                break;
+                        }   
+                    }
+                    // 退货款按钮状态
+                    $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 0;
+                    if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                        if(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                            $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 1;           
+                        }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
+                            $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 2;
+                        }
+                    }
+
+                  $d = $product_model->extend_load((int)$item['product_id']);
                   if(!empty($d)){
                     $sku_mode = null;
-                    if($pro['sku']!=$pro['product_id']){
-                      $sku = $sku_model->find_by_id($pro['sku']);
+                    if($item['sku']!=$pro['product_id']){
+                      $sku = $sku_model->find_by_id($item['sku']);
                       if(!empty($sku)){
                         $sku_mode = $sku['mode'];
                       }
@@ -366,7 +416,7 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
                     $order_info['sub_orders'][$i]['items'][$j]['name'] = $d['title']; 
                     $order_info['sub_orders'][$i]['items'][$j]['wap_view_url'] = $d['wap_view_url']; 
                     $order_info['sub_orders'][$i]['items'][$j]['sku_name'] = $sku_mode; 
-                    $order_info['sub_orders'][$i]['items'][$j]['subtotal'] = (float)$pro['sale_price']*$pro['quantity']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['subtotal'] = (float)$item['sale_price']*$item['quantity']; 
                     $order_info['sub_orders'][$i]['items'][$j]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];       
                   }
                 }   // endfor
