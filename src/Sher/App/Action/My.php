@@ -1734,7 +1734,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             return $this->ajax_json('缺少请求参数！', true);
         }
         // 自动计算退款金额
-        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id, null);
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id);
         if(!$result['success']){
             return $this->ajax_json($result['message'], true);            
         }
