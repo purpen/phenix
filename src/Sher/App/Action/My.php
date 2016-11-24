@@ -1216,7 +1216,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         if (empty($rid) || empty($sku_id)) {
           return $this->ajax_json('操作不当，请查看购物帮助！', true);
         }
-        if(empty($refund_reason) || empty($refund_content)){
+        if(empty($refund_reason) && empty($refund_content)){
           return $this->ajax_json('请说明退款原因！', true);   
         }
         if(empty($refund_price)){

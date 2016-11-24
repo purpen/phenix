@@ -1768,8 +1768,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if (empty($rid) || empty($sku_id)) {
           return $this->api_json('缺少请求参数！', 3001);
         }
-        if(empty($refund_reason) || empty($refund_content)){
+        if(empty($refund_reason) && empty($refund_content)){
           return $this->api_json('请说明退款原因！', 3002);   
+        }
+        if(empty($refund_price)){
+          return $this->api_json('请添写退款金额！', 3008);   
         }
         $orders_model = new Sher_Core_Model_Orders();
         $order = $options['order'] = $orders_model->find_by_rid($rid);
