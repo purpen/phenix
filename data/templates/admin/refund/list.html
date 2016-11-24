@@ -1,0 +1,225 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+    .attribute {
+        font-size: 12px;
+        color: #666;
+    }
+</style>
+
+{% endblock %}
+
+{% block jquery %}
+
+	// 确认退款弹框 
+	$('.refund_btn').bind('click', function(){
+    var rid = $(this).attr('rid');
+    var id = $(this).data('id');
+    var pay_money = $(this).attr('pay_money');
+    var user_id = $(this).attr('user_id');
+    var pay_name = $(this).attr('pay_name');
+    var target_id = $(this).attr('target_id');
+    $('div.refund-box [name=id]').val(id);
+    $('div.refund-box [name=rid]').val(rid);
+    $('div.refund-box [name=rid-show]').text(rid);
+    $('div.refund-box [name=pay-money-show]').text(pay_money);
+    $('div.refund-box [name=user-id-show]').text(user_id);
+    $('div.refund-box [name=pay-name-show]').text(pay_name);
+    $('div.refund-box [name=target_id-show]').text(target_id);
+		$('.ui.refund-box.modal').modal('show');
+	});
+
+	// 确认退款按钮
+	$('.refund_btn11').click(function(){
+		$('.ui.refund-result-box.modal').modal('show');
+		$('.ui.refund-box.modal').modal('hide');
+
+	});
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">售后管理</h3>
+	
+	<div class="ui secondary pointing orange menu">
+        <a href="{{ app_url_admin_base }}/refund" class="item {%if !stage %}active{%endif%}">
+			<i class="list icon"></i> 全部
+		</a>
+        <a href="{{ app_url_admin_base }}/refund/get_list?stage=1" class="item {%if stage==1%}active{%endif%}">
+			 待处理
+		</a>
+		<a href="{{ app_url_admin_base }}/refund/get_list?stage=2" class="item {%if stage==2%}active{%endif%}">
+			 完成
+		</a>
+		<a href="{{ app_url_admin_base }}/refund/get_list?stage=3" class="item {%if stage==3%}active{%endif%}">
+			 拒绝
+		</a>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/refund/get_list" method="get">
+			<label>搜索：</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="type" value="{{ type }}" />
+                <div class="default text">选择条件</div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                    <div class="item" data-value="1">退款</div>
+                    <div class="item" data-value="2">退货</div>
+                    <div class="item" data-value="3">返修</div>
+                </div>
+            </div>
+			<div class="ui icon input">
+                <input placeholder="关键词..." type="text" name="q" value="{{ q }}" />
+				<i class="flat search link icon"></i>
+			</div>
+        </form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>ID</th>
+                <th>订单号</th>
+				<th>缩略图</th>
+				<th class="five wide">名称</th>
+                <th>退款金额</th>
+                <th>支付方式</th>
+                <th>类型</th>
+                <th>进度</th>
+				<th>申请时间</th>
+                <th>是否删除</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		    {% refund_list var:'list' page:page size:size type:type stage:stage user_id:user_id load_product:1 %}
+
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d._id }}</td>
+                <td><a href="{{ app_url_admin }}/orders/show?rid={{ d.order_rid }}" target="_blank">{{ d.order_rid }}</a></td>
+                <td>
+					<div class="ui image">
+						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+                </td>
+                <td>
+		          	<div class="header">
+						<a href="{{ d.product.view_url }}" class="ui link" target="_blank" title="{{ d.product.title }}">
+                            {{ d.product.title|truncate, 32 }}{% if d.product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
+						</a>
+					</div>
+                </td>
+                <td>
+                    {{ d.refund_price }}
+                </td>
+                <td>{{ d.pay_label }}</td>
+                <td>
+                    {{ d.type_label }}
+                </td>
+                <td>
+                    {{ d.stage_label }}
+                </td>
+				<td>
+					{{ d.created_on|date 'Y-m-d H:i'}}
+				</td>
+				<td>
+					<p>
+						{% if d.deleted == 1 %}
+							<span class="ui small orange label">是</span>
+						{% else %}
+							<span class="ui small grey label">否</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+					<p>
+                        {% if d.stage==1 %}
+                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ pay_type }}" pay_name="{{ pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
+                                确认退款
+                            </a>
+                        {%endif%}
+                        {% if d.stage==2 %}
+                            <span>已退款</span>
+                        {%endif%}
+					</P>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+	</div>
+	{% endif %}
+
+    <!-- 确认退款弹出层 -->
+    <div class="ui small refund-box modal">
+        <i class="close icon"></i>
+      <div class="header">
+        退款信息:
+      </div>
+        <div class="content">
+        <form action="{{ app_url_admin }}/orders/ajax_new_refund" class="ui form" method="post" id="refund-form" target="_blank">
+
+          <input type="hidden" name="id" value="" />
+          <div class="field">
+            <label>订单号: <span name="rid-show"></span></label>
+            <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
+          </div>
+          <div class="field">
+            <label>sku编号: <span name="target_id-show"></span></label>
+          </div>
+          <div class="field">
+            <label>退款用户ID: <span name="user-id-show"></span></label>
+          </div>
+          <div class="field">
+            <label>支付类型: <span name="pay-name-show"></span></label>
+          </div>
+          <div class="field">
+            <label>退款金额: <span name="pay-money-show"></span></label>
+          </div>
+
+          <div class="right aligned field ">
+            <div class="ui gray cancel button">取消</div>
+                    <input type="submit" class="ui active refund magenta submit button" value="确认退款" />
+          </div>
+        </form>
+        </div>
+    </div>
+
+    <!-- 退款成功后返回结果 -->
+    <div class="ui small refund-result-box modal">
+        <i class="close icon"></i>
+      <div class="header">
+        退款结果:
+      </div>
+        <div class="content">
+        <form action="" class="ui form" method="get">
+          <div class="field">
+            <label>点击确定查看退款状态是否正确</label>
+          </div>
+          <div class="right aligned field ">
+                    <input type="submit" class="ui active refund-result magenta submit button" value="确定" />
+          </div>
+        </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{%extends 'layout/admin.html'%}
+{% block title %}编辑供应商-{% endblock %}
+{% block page_css %}
+    <style type="text/css">
+        .active.category {
+            background-color: rgb(255, 51, 0) !important;
+            color: rgb(255, 255, 255) !important;
+        }
+        #product-skus {
+            margin-bottom: 0.5em;
+        }
+        .ui.link.active {
+            color: rgb(255, 51, 102);
+        }
+        #allmap {
+            width: 100%;
+            height: 550px;
+            overflow: hidden;
+            margin: 0 0 10px;
+            font-family: "微软雅黑";
+        }
+        .ui.location.button {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block layout_js %}
+{% endblock %}
+
+{% block jquery %}
+	$('#supplier-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				}
+			]
+		}
+
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(data){
+					//phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+    
+{% endblock %}
+
+{% block content %}
+<div class="admin">
+	<h3 class="ui header">供应商管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/supplier" class="item">
+			<i class="list icon"></i> 全部
+		</a>
+	  	<div class="right menu">
+			{% if mode == 'edit' %}
+			<div class="active item">
+				<i class="edit icon"></i> 编辑
+			</div>
+			{% endif %}		
+			<a href="{{ app_url_admin_base }}/supplier/edit" class="item">
+				<i class="add icon"></i> 新增
+			</a>
+	    </div>
+	</div>
+	
+	<form action="{{ app_url_admin_base }}/supplier/save?page={{ page }}" class="ui form" method="post" id="supplier-form">
+		<input type="hidden" name="_id" value="{{ supplier._id }}" />
+		
+		<div class="ui segment">
+			<h4 class="ui dividing header">基本信息</h4>
+			<div class="field">
+				<label for="name">名称</label>
+			  	<input type="text" name="title" value="{{ supplier.title }}" />
+			</div>
+			<div class="field">
+				<label for="name">短名称</label>
+			  	<input type="text" name="short_title" value="{{ supplier.short_title }}" />
+			</div>
+			<div class="field">
+				<label for="summary">简介</label>
+			  	<textarea name="summary" class="small">{{ supplier.summary }}</textarea>
+				<div class="ui pointing top label">
+					请详细的介绍
+				</div>
+			</div>
+            
+        </div>
+	    
+		<div class="ui grid">
+			<div class="column">
+				<div class="ui large red submit inverted button">
+					确认提交
+				</div>
+				<div class="ui large grey cancel inverted button">
+					取消
+				</div>
+			</div>
+		</div>
+		
+	</form>
+</div>
+{% endblock %}

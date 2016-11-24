@@ -1734,7 +1734,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         //零元不能退款
         if ((float)$order['pay_money']==0){
-            return $this->api_json('此订单不允许退款操作！', 3005);
+            return $this->api_json('0元订单不允许退款操作！', 3005);
         }
 
         // 只有已发货的订单才允许申请
@@ -1742,10 +1742,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             Sher_Core_Util_Constant::ORDER_READY_GOODS,
             Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
             Sher_Core_Util_Constant::ORDER_EVALUATE,
-            Sher_Core_Util_Constant::ORDER_PUBLISHED, 
         );
         if(!in_array($order['status'], $arr)){
-            return $this->api_json('该订单出现异常，请联系客服！', 3006);
+            return $this->api_json('该订单不允许退款操作，请联系客服！', 3006);
         }
 
         try {
