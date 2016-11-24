@@ -87,7 +87,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 		),
 		array(
 			'id' => 2,
-			'title' => '商品发货/漏发',
+			'title' => '商品错发/漏发',
 		),
 		array(
 			'id' => 3,
@@ -107,10 +107,10 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        if($row['reason']==1){
+        if($row['type']==1){
             $reason = $this->find_refund_reason($row['reason']);
             $row['reason_label'] = $reason['title'];
-        }elseif($row['reason']==2){
+        }elseif($row['type']==2){
             $reason = $this->find_return_reason($row['reason']); 
             $row['reason_label'] = $reason['title'];
         }else{
