@@ -149,9 +149,9 @@
               }
               var rendered = phenix.ajax_render_result('#refund_list_tpl', rs.data);
               if(page==1){
-                $('.recom-item').html(rendered);
+                $('.recome-item').html(rendered);
               }else{
-                $('.recom-item').append(rendered);
+                $('.recome-item').append(rendered);
               }
  			  $("img.lazy").lazyload({
  			     effect : "show"
@@ -204,7 +204,7 @@
         <p>退款售后</p>
     </div>
 </div>
-<div id="orderitem">
+<div id="orderitem" class="recome-item">
 
     <!--
 	<div class="item" id="order-116110206382">	
