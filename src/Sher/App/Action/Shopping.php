@@ -1402,7 +1402,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
         //限制输出字段
 		$some_fields = array(
-			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1,
+			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1, 'stage_label'=>1,
 			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'type_label'=>1, 'freight'=>1,
 			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
             'created_on'=>1, 'updated_on'=>1,
@@ -1439,12 +1439,14 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
             $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
             $item['wap_view_url'] = $product['wap_view_url'];
             $item['view_url'] = $product['view_url'];
+            $item['sale_price'] = $product['sale_price'];
 
             $item['sku_name'] = '默认';
             if($data[$i]['target_type']==1){
                 $sku = $sku_model->find_by_id($data[$i]['target_id']);
                 if($sku){
                     $item['sku_name'] = $sku['mode']; 
+                    $item['sale_price'] = $sku['price'];
                 }
             }
 
