@@ -512,7 +512,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
                   $d = $product_model->extend_load((int)$item['product_id']);
                   if(!empty($d)){
                     $sku_mode = null;
-                    if($item['sku']!=$pro['product_id']){
+                    if($item['sku']!=$item['product_id']){
                       $sku = $sku_model->find_by_id($item['sku']);
                       if(!empty($sku)){
                         $sku_mode = $sku['mode'];
@@ -668,7 +668,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 取消订单
+	 * ajax取消订单
 	 */
 	public function ajax_cancel_order(){
 		$rid = $this->stash['rid'];
@@ -699,6 +699,38 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['my'] = true;
 
 		return $this->to_taconite_page('ajax/order_ok.html');
+	}
+
+	/**
+	 * 取消订单
+	 */
+	public function cancel_order(){
+		$rid = $this->stash['rid'];
+        $redirect_url = sprintf("%s/my/orders", Doggy_Config::$vars['app.url.domain']);
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+			return $this->show_message_page('操作不当，你没有权限关闭！', true);
+		}
+
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->show_message_page('该订单出现异常，请联系客服！', true);
+		}
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->show_message_page('取消订单失败:'.$e->getMessage(),true);
+        }
+
+        return $this->to_redirect($redirect_url);
 	}
 
 	/**

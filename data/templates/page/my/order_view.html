@@ -99,10 +99,34 @@
 {% block jquery %}
 	// 显示退款理由框
 	$('a[name=apply-refund]').bind('click', function(){
-    var rid = $(this).attr('rid');
-    $('div.refund-box [name=rid]').val(rid);
-    $('div.refund-box [name=rid-show]').text(rid);
-		$('.ui.refund-box.modal').modal('show');
+
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+
+        $('#refund-form :input[name=rid]').val(rid);
+        $('#refund-form :input[name=sku_id]').val(sku_id);
+
+        var name = $(this).data('name');
+        var cover_url = $(this).data('cover');
+        var price = $(this).data('price');
+        var n = $(this).data('n');
+
+        $('.refund-box .p_cover').attr('src', cover_url);
+        $('.refund-box .p_title').text(name);
+        $('.refund-box .p_price').text(price);
+        $('.refund-box .p_n').text(n);
+        $('.refund-box .p_total').text(price*n);
+
+
+        $.get("{{ app_url_domain }}/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.success){
+                $('#refund-form .refund_price_box').text(rs.data.refund_price);
+                $('.ui.refund-box.modal').modal('show');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+		
 	});
 	
 	$('#refund-form').form({
@@ -127,10 +151,34 @@
 		}
 	});
 
+    // 退货
 	$('a[name=apply-cancel]').bind('click', function(){
-    var rid = $(this).attr('rid');
-    $('div.cancel-box [name=rid]').val(rid);
-    $('div.cancel-box [name=rid-show]').text(rid);
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+        $('#return-form :input[name=rid]').val(rid);
+        $('#return-form :input[name=sku_id]').val(sku_id);
+
+        var name = $(this).data('name');
+        var cover_url = $(this).data('cover');
+        var price = $(this).data('price');
+        var n = $(this).data('n');
+
+        $('.cancel-box .p_cover').attr('src', cover_url);
+        $('.cancel-box .p_title').text(name);
+        $('.cancel-box .p_price').text(price);
+        $('.cancel-box .p_n').text(n);
+        $('.cancel-box .p_total').text(price*n);
+
+        $.get("{{ app_url_domain }}/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.success){
+                $('#return-form .refund_price_box').text(rs.data.refund_price);
+                $('.ui.return-box.modal').modal('show');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+
+        }, 'json');
+
 		$('.ui.cancel-box.modal').modal('show');
 	});
 {% endblock %}
@@ -232,15 +280,15 @@
                                 </td>
                                 <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
                                 <td class="center aligned">数量*{{ d.quantity }}</td>
-                                {% if product.refund_button==1 %}
+                                {% if d.refund_button==1 %}
                                     <td class="center aligned">
-                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
                                     </td>
                                 {%endif%}
-                                {% if product.refund_button==2 %}
+                                {% if d.refund_button==2 %}
                                     <td class="center aligned">
-                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
-                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
                                     </td>
                                 {%endif%}
                             </tr>
@@ -254,12 +302,12 @@
 
                     <tbody>
 
-                        {% for d in order_info.sub_orders %}
+                        {% for sub_order in order_info.sub_orders %}
                             <tr class="noleft">
-                                <td>子订单号：{{ order_info.rid }}</td>
-                                <td colspan="3">拆单时间: {{ d.split_on|date }}</td>
+                                <td>子订单号：{{ sub_order.id }}</td>
+                                <td colspan="3">拆单时间: {{ sub_order.split_on|date }}</td>
                             </tr>
-                            {% for d in order_info.items %}
+                            {% for d in sub_order.items %}
                                 <tr>
                                     <td style="max-width: 300px;">
                                         <div class="orders-items">
@@ -277,21 +325,21 @@
                                     </td>
                                     <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
                                     <td class="center aligned">数量*{{ d.quantity }}</td>
-                                    {% if product.refund_button==1 %}
+                                    {% if d.refund_button==1 %}
                                         <td class="center aligned">
-                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
                                         </td>
                                     {%endif%}
-                                    {% if product.refund_button==2 %}
+                                    {% if d.refund_button==2 %}
                                         <td class="center aligned">
-                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
-                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
                                         </td>
                                     {%endif%}
                                 </tr>
                             {%endfor%}
-                            {% if d.is_sended %}
-                                <tr><td colspan="4">快递公司： {{ d.express_company }} <span class="pl-30" >快递号：{{ d.express_no }}</span></td></tr>
+                            {% if sub_order.is_sended %}
+                                <tr><td colspan="4">快递公司： {{ sub_order.express_company }} <span class="pl-30" >快递号：{{ sub_order.express_no }}</span></td></tr>
                             {%endif%}
                         {%endfor%}
 
@@ -352,9 +400,9 @@
                         <div class="column">
                             <div class="ui segment">
                                 <p><span class="peowid">收货人姓名</span> <span class="peoitem">{{ order_info.express_info.name }}</span></p>
-                                <p><span class="peowid">地址</span> <span class="peoitem">{{ order_info.express_info.province }} {{ order_info.express_info.city }}{{ order_info.express_info.county }} {{ order_info.express_info.town }}</span></p>
+                                <p><span class="peowid">地址</span> <span class="peoitem">{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span></p>
                                 <p><span class="peowid">详细地址</span> <span class="peoitem">{{ order_info.express_info.address }}</span></p>
-                                <p><span class="peowid">联系方式</span> <span class="peoitem">{{ order_info.addbook.phone }}</span></p>
+                                <p><span class="peowid">联系方式</span> <span class="peoitem">{{ order_info.express_info.phone }}</span></p>
                             </div>
                         </div>
                     </div>
@@ -368,10 +416,18 @@
 				<div class="row">
 					<div class="column">
 						<div class="ui segment">
-                            <p><span class="peowid">商品金额</span> <span class="peoitem">{{ order_info.card_money }}元－优惠券：{{ order_info.freight }}元＋运费：{{ order_info. }}元＝订单总金额：{{ order_info.pay_money }}元</span></p>
+                            <p><span class="peowid">商品金额</span> <span class="peoitem">{{ order_info.total_money }}元－优惠券：{{ order_info.card_money }}元＋运费：{{ order_info.freight }}元＝订单总金额：{{ order_info.pay_money }}元</span></p>
 
 							<p class="right aligned">
-								<a href="" class="ui small inverted magenta button">立即付款</a>
+                                {% if order_info.status == 1 %}
+                                    <a href="{{ app_url_my }}/cancel_order?rid={{ order_info.rid }}" class="ui small inverted grey button">取消订单</a>
+                                    <a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small inverted magenta button">立即支付</a>
+                                {% endif %}
+
+                                {% if order_info.status == 16 %}
+                                    <a href="{{ app_url_my }}/evaluate?rid={{ order_info.rid }}" class="ui small inverted magenta link">售后评价 »</a>
+                                {% endif %}
+
 							</p>
 						</div>
 					</div>
@@ -392,21 +448,21 @@
 				</div>
 				<div class="content">
 					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
-						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+						<img class="p_cover" src="" alt="">
+						<p class="p_title"></p>
 					</div>
 					<div class="proprice">
-						<p>单价：¥2890</p>
-						<p>数量：10</p>
-						<p>运费：¥10</p>
-						<p>优惠：¥10</p>
-						<p class="ui active link">总计：¥2890</p>
+                        <p>单价：¥<span class="p_price"></span></p>
+                        <p>数量：<span class="p_n"></span></p>
+                        <p class="ui active link">总计：¥<span class="p_total"></span></p>
 					</div>
 					<div class="numprice">
-						<p>订单编号：123456</p>
-						<p>申请时间：2016-11-23 15:41:16</p>
+                        <p>订单编号：{{ order_info.rid }}</p>
+						<p>下单时间：{{ order_info.created_on|date }}</p>
+                        <!--
 						<p>快递公司：圆通快递</p>
 						<p>快递编号：2016231541</p>
+                        -->
 					</div>
 
 				</div>
@@ -416,22 +472,25 @@
 
 			<div class="ui ten wide column">
 				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+                    <input type="hidden" name="refund_type" value="1" />
+                    <input type="hidden" name="rid" value="" />
+                    <input type="hidden" name="sku_id" value="" />
 			    	<div class="field">
 			        	<p><span>服务类型:</span> 退款</p>
 			        </div>
 			        <div class="field">
-			        	<p><span>退款金额:</span> 2000</p>
+                        <p><span>退款金额:</span> <span class="refund_price_box"></span></p>
 			        </div>
 			        <div class="field">
 			        	<span>退款原因:</span>
 			        	<div class="ui selection dropdown" style="width: 40%;">
-							<input type="hidden" name="gender">
+							<input type="hidden" name="refund_reason">
 						  	<i class="dropdown icon"></i>
 						  	<div class="default text">请选择退款原因</div>
 						  	<div class="menu">
-						    	<div class="item" data-value="3">不喜欢／不想要了</div>
-						    	<div class="item" data-value="2">未按约定时间发货</div>
-						    	<div class="item" data-value="1">快递／物流未送到</div>
+                                {% for d in refund_reason %}
+                                    <div class="item" data-value="{{ d.id }}">{{ d.title }}</div>
+                                {%endfor%}
 						    	<div class="item" data-value="0">其他</div>
 						  	</div>
 						</div>
@@ -460,21 +519,21 @@
 				</div>
 				<div class="content">
 					<div class="image">
-						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
-						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+						<img class="p_cover" src="" alt="">
+						<p class="p_title"></p>
 					</div>
 					<div class="proprice">
-						<p>单价：¥2890</p>
-						<p>数量：10</p>
-						<p>运费：¥10</p>
-						<p>优惠：¥10</p>
-						<p class="ui active link">总计：¥2890</p>
+                        <p>单价：¥<span class="p_price"></span></p>
+                        <p>数量：<span class="p_n"></span></p>
+                        <p class="ui active link">总计：¥<span class="p_total"></span></p>
 					</div>
 					<div class="numprice">
-						<p>订单编号：123456</p>
-						<p>申请时间：2016-11-23 15:41:16</p>
+                        <p>订单编号：{{ order_info.rid }}</p>
+						<p>下单时间：{{ order_info.created_on|date }}</p>
+                        <!--
 						<p>快递公司：圆通快递</p>
 						<p>快递编号：2016231541</p>
+                        -->
 					</div>
 
 				</div>
@@ -483,25 +542,27 @@
 			</div>
 
 			<div class="ui ten wide column">
-				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="return-form">
+                    <input type="hidden" name="refund_type" value="2" />
+                    <input type="hidden" name="rid" value="" />
+                    <input type="hidden" name="sku_id" value="" />
 			    	<div class="field">
 			        	<p><span>服务类型:</span> 退货</p>
 			        </div>
 			        <div class="field">
-			        	<p><span>退货金额:</span> 2000</p>
+                        <p><span>退货金额:</span> <span class="refund_price_box"></span></p>
 			        </div>
 			        <div class="field">
 			        	<span>退货原因:</span>
 			        	<div class="ui selection dropdown" style="width: 40%;">
-							<input type="hidden" name="gender">
+							<input type="hidden" name="refund_reason">
 						  	<i class="dropdown icon"></i>
 						  	<div class="default text">请选择退货原因</div>
 						  	<div class="menu">
-						    	<div class="item" data-value="4">收到商品破损</div>
-						    	<div class="item" data-value="3">商品错发／漏发</div>
-						    	<div class="item" data-value="2">商品需要维修</div>
-						    	<div class="item" data-value="1">收到商品与描述不符</div>
-						    	<div class="item" data-value="0">商品质量问题</div>
+                                {% for d in return_reason %}
+                                    <div class="item" data-value="{{ d.id }}">{{ d.title }}</div>
+                                {%endfor%}
+						    	<div class="item" data-value="0">其他</div>
 						  	</div>
 						</div>
 			        </div>
