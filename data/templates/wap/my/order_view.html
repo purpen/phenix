@@ -52,8 +52,8 @@ h3.ui.header{
     padding: 10px;
     position: relative;
 }
-.column .cartitem+.cartitem{
-	border-top:1px solid rgba(0,0,0,0.1);
+.column .cartitem+.cartitem,.column .cartitem + .detx{
+	border-top:none;
 }
 .cartitem .img img {
     width: 80px;
@@ -555,15 +555,19 @@ span.kefu{
                         </div>
                     </div>
 
+                    
+                    {% if product.refund_button==1 %}
                     <div class="desitem mtb-0 tx-r dealesc">
-                        {% if product.refund_button==1 %}
-                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
-                        {%endif%}
-                        {% if product.refund_button==2 %}
-                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
-                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
-                        {%endif%}
+                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
                     </div>
+                    {%endif%}
+                    {% if product.refund_button==2 %}
+                    <div class="desitem mtb-0 tx-r dealesc">
+                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
+                    </div>
+                    {%endif%}
+                    
 
                 {% endfor %}
 
@@ -607,15 +611,18 @@ span.kefu{
                             共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
                         </div>
                         -->
-                        <div class="desitem mtb-0 tx-r dealesc">
+                        
                             {% if product.refund_button==1 %}
+                            <div class="desitem mtb-0 tx-r dealesc">
                                 <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                            </div>
                             {%endif%}
                             {% if product.refund_button==2 %}
+                            <div class="desitem mtb-0 tx-r dealesc">
                                 <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
                                 <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
+                            </div>
                             {%endif%}
-                        </div>
                     {% endfor %}
 
                     {% if d.is_sended %}
