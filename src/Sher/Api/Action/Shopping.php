@@ -2484,6 +2484,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             $item['title'] = $product['title']; 
             $item['short_title'] = $product['short_title'];
             $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+            $item['sale_price'] = $product['sale_price'];
+            $item['quantity'] = $data[$i]['quantity'];
 
             $item['sku_name'] = '';
             if($data[$i]['target_type']==1){
