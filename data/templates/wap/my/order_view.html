@@ -313,6 +313,9 @@ span.kefu{
     font-size: 12px;
     border-top:1px solid rgba(0,0,0,0.1);
 }
+.bf9{
+    background: #f9fafb;
+}
 </style>
 {% endblock %}
 
@@ -538,6 +541,9 @@ span.kefu{
             </div>
 			
             {% if !order_info.exist_sub_order %}
+                <div class="desitem mtb-0 mtzz bf9">
+                    您订单中的商品在不同库房不同商家，故拆分为以下订单分开配送
+                </div>
                 {% for product in order_info.items %}
                     <div class="cartitem mtbb">
                         <a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
