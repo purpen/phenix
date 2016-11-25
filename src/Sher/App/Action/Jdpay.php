@@ -241,10 +241,22 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
    * 退款
    */
   public function refund(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)){
-			return $this->show_message_page('操作不当，订单号丢失！', true);
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->show_message_page('缺少请求参数！', true);
 		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->show_message_page('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+        $rid = $refund['order_rid'];
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
@@ -258,7 +270,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 			return $this->ajax_notification('订单状态不正确！', true);
         }
 
-        $pay_money = $order_info['pay_money'];
+        $pay_money = $refund['refund_price'];
         if((float)$pay_money==0){
             return $this->show_message_page("订单[$rid]金额为零！", true); 
         }
@@ -277,14 +289,17 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		$refund_date = date('YmdHis');
 		$detail_data = $trade_no.'^'.$pay_money.'^协商退款';
 
-        $trade_num = sprintf("%d%d", date('YmdHis'), $rid);
+        // 退款批次号
+        $trade_num = sprintf("%d%d", date('YmdHis'), $id);
+        // 退款单记录批次号
+        $refund_model->update_set($id, array('batch_no'=>$trade_num));
 
         $param = array();
 		$param["version"] = Doggy_Config::$vars['app.jd_pay']['version'];
 		$param["merchant"] = Doggy_Config::$vars['app.jd_pay']['merchant'];
 		$param["tradeNum"] = (string)$trade_num;
 		$param["oTradeNum"] = (string)$rid;
-		$param["amount"] = (string)($order_info['pay_money']*100);
+		$param["amount"] = (string)($pay_money*100);
 		$param["tradeTime"] = (string)$refund_date;
 		$param["notifyUrl"] = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/refund_notify';
 		$param["note"] = $detail_data;
@@ -313,17 +328,17 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
  				$resData['status']="未知状态";
             }
 
-            Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order status $resData[status] !");
+            Doggy_Log_Helper::warn("jdpay refund notify: $id refunde_order status $resData[status] !");
 
             if($status=="1"){
-                $ok = $model->refunded_order($order_id, array('refunded_price'=>$pay_money));
+                $ok = $refund_model->refund_call($id, array('refund_price'=>$pay_money));
                 if($ok){
                     echo '<h2>退款成功!</h2>';
-                    Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order success !");
+                    Doggy_Log_Helper::warn("jdpay refund notify: $id refunde_order success !");
                     
                 }else{
                     echo "<h2>$resData[status]</h2>";              
-                    Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order no knows !");
+                    Doggy_Log_Helper::warn("jdpay refund notify: $id refunde_order no knows !");
                 }
             }
 
@@ -357,7 +372,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 			$result_details = isset($_POST['result_details']) ? $_POST['result_details'] : '';
 
 			if($notify_type != 'batch_refund_notify'){
-				Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] is notify_type wrong!");
+				Doggy_Log_Helper::warn("JD refund notify: batch_no[$batch_no] is notify_type wrong!");
 				return $this->to_raw('fail');
 			}
 
@@ -377,50 +392,44 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 					$refund_alipay_account = $val[0];
 					$refund_alipay_id = $val[1];
 					$refund_money = $val[2];
-					Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] has serve pay: $refund_alipay_account, $refund_alipay_id, $refund_money !");
+					Doggy_Log_Helper::warn("JD refund notify: batch_no[$batch_no] has serve pay: $refund_alipay_account, $refund_alipay_id, $refund_money !");
 				}
 			}else{
-				Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] is result_details wrong!");
+				Doggy_Log_Helper::warn("JD refund notify: batch_no[$batch_no] is result_details wrong!");
 				return $this->to_raw('fail');     
 			}
 
 			if($refund_result != 'SUCCESS'){
-				Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] wrong! error_code is $refund_result");
+				Doggy_Log_Helper::warn("JD refund notify: batch_no[$batch_no] wrong! error_code is $refund_result");
 				return $this->to_raw('fail'); 
 			}
 
 			if(empty($trade_no)){
-				Doggy_Log_Helper::warn("Alipay refund notify: batch_no[$batch_no] trade_no is not found!");
+				Doggy_Log_Helper::warn("JD refund notify: batch_no[$batch_no] trade_no is not found!");
 				return $this->to_raw('fail');     
 			}
 
-			$model = new Sher_Core_Model_Orders();
-			$order = $model->first(array('trade_no'=>$trade_no));
-
-			if(empty($order)){
-				Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$trade_no] order is empty!");
-				return $this->to_raw('fail');        
+            $refund_model = new Sher_Core_Model_Refund();
+            $refund = $refund_model->first(array('batch_no'=>$batch_no));
+			if(empty($refund)){
+				Doggy_Log_Helper::warn("JD refund notify: trade_no[$trade_no] refund is empty!");
+				return $this->to_raw('fail');
 			}
 
-			$order_id = (string)$order['_id'];
+			$refund_id = $refund['_id'];
 
-      // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
-      if (!Sher_Core_Helper_Order::refund_order_status_arr($order['status'])){
-        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] stauts is wrong!");
-        return $this->to_raw('fail');
-      }
+            $ok = $refund_model->refund_call($refund_id, array('refund_price'=>$refunded_price));
 
-      $ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
       if($ok){
         //退款成功
         return $this->to_raw('success');     
       }else{
-        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] refunde_order fail !");
+        Doggy_Log_Helper::warn("JD refund notify: refund_id[$refund_id] refunde_order fail !");
         return $this->to_raw('fail');  
       }
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay refund notify verify result fail!");
+			Doggy_Log_Helper::warn("JD refund notify verify result fail!");
 			return $this->to_raw('fail');
 		}
   }
