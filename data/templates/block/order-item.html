@@ -136,6 +136,7 @@
                   {% endif %}
                 {% endif %}
 			</div>
+			{% if !order.status == 8 %}
 			<div class="center aligned three wide column">
 				{% if my %}
 					<div class="status-label">
@@ -170,6 +171,7 @@
 				{% endif %}
 				
 			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
