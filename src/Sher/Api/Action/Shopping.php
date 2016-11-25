@@ -1908,7 +1908,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             return $this->api_json('申请退款失败，请联系客服:'.$e->getMessage(), 3008);
         }
 
-        return $this->api_json("申请成功，客服会尽快处理!", 0, array('rid'=>$rid));
+        return $this->api_json("申请成功，客服会尽快处理!", 0, array('id'=>$id, 'rid'=>$rid));
     }
 
 	/**
