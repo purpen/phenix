@@ -9,11 +9,130 @@
 	.color-ee{
 		color: #999;
 	}
+	.orders-items .ui.cover.image{
+    	float: left;
+    }
+    .orders-items .ui.cover.image img{
+    	width: 80px;
+    }
+    .orders-items .content{
+    	margin-left: 90px;
+	    display: block;
+	    font-size: 12px;
+    }
+    .ui.celled.table thead tr th{
+    	border-left: none;
+    }
+    .noleft tr th,.ui.celled.table tr.noleft td{
+    	border-left: none;
+    }
+    .people.grid{
+    	margin-top: 20px;
+    }
+    .peoitem{
+    	padding-left: 20px;
+    }
+    .peowid{
+    	width: 80px;
+    	display: inline-block;
+    }
+    .pl-30 {
+    	padding-left: 30px;
+    }
+    .right.aligned{
+    	text-align: right;
+    }
+    .refund-box .ui.grid.regrid,.cancel-box .ui.grid.regrid{
+    	margin: -10px 0;
+    	border-top-left-radius: .28571429rem;
+    }
+    .refund-box .six.wide.column,.cancel-box .six.wide.column {
+    	background: #f5f5f5;
+    	padding: 0;
+    	border-top-left-radius: .28571429rem;
+    	border-bottom-left-radius: .28571429rem;
+    }
+    .refund-box .ui.header,.cancel-box .ui.header{
+    	padding: 15px 20px 10px;
+	    margin-bottom: 0;
+	    border-bottom: 1px solid rgba(0,0,0,0.1);
+	    font-size: 16px;
+    }
+    .refund-box .content,.cancel-box .content{
+    	padding:10px;
+    }
+    .refund-box .content .image,.cancel-box .content .image{
+		margin:5px 10px;
+		text-align: center;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .refund-box .content .image img,.cancel-box .content .image img{
+		width: 100px;
+		vertical-align: top;
+    }
+    .refund-box .content .image p,.cancel-box .content .image p{
+    	margin:10px 0 15px;
+    }
+    .proprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .numprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+    }
+    .refund-box .ten.wide.column,.cancel-box .ten.wide.column{
+    	padding:40px;
+    }
+    .refund-box .ui.form .field,.cancel-box .ui.form .field {
+    	margin-bottom: 30px;
+    }
+    .refund-box .ui.form .field span,.cancel-box .ui.form .field span{
+    	margin-right: 20px;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
+	// 显示退款理由框
+	$('a[name=apply-refund]').bind('click', function(){
+    var rid = $(this).attr('rid');
+    $('div.refund-box [name=rid]').val(rid);
+    $('div.refund-box [name=rid-show]').text(rid);
+		$('.ui.refund-box.modal').modal('show');
+	});
 	
+	$('#refund-form').form({
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '退款理由不能为空'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(event.target).ajaxSubmit();
+		}
+	});
+
+	$('a[name=apply-cancel]').bind('click', function(){
+    var rid = $(this).attr('rid');
+    $('div.cancel-box [name=rid]').val(rid);
+    $('div.cancel-box [name=rid-show]').text(rid);
+		$('.ui.cancel-box.modal').modal('show');
+	});
 {% endblock %}
 {% block content %}
 <div class="section breadcrumb">
@@ -76,9 +195,330 @@
 				</div>
 			</div>
 
+
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+						<th>订单号：116112306508</th>
+						<th>2016-11-23 15:41:16</th>
+						<th colspan="2" class="center aligned">订单状态：等待付款</th>
+			    	</tr>
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送</th>
+			    	</tr>
+			  	</thead>
+			  	<tbody>
+			  		<tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+							
+								
+			  			</td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned">
+			  				<a href="javascript:void(0);" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+			  				<a href="javascript:void(0);" name="apply-refund" class="ui small inverted magenta button">退款</a>
+			  			</td>
+			  		</tr>
+			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
+			  		<tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+								
+			  			</td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned">
+							<a href="" class="ui small inverted magenta button">退货</a>
+			  				<a href="" class="ui small inverted magenta button">退款</a>
+			  			</td>
+			  		</tr>
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+								
+			  			</td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned">
+							<a href="" class="ui small inverted magenta button">退货</a>
+			  				<a href="" class="ui small inverted magenta button">退款</a>
+			  			</td>
+			  		</tr>
+			  		<tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
+			  	</tbody>
+			</table>
+
+
+			<!--   待付款    -->
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+						<th>订单号：116112306508</th>
+						<th>2016-11-23 15:41:16</th>
+						<th colspan="2" class="center aligned">订单状态：等待付款</th>
+			    	</tr><!-- 
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送</th>
+			    	</tr> -->
+			  	</thead>
+			  	<tbody>
+			  		<!-- <tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr> -->
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+							
+								
+			  			</td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><!-- <a href="" class="ui small inverted magenta button">退换货</a> --> 等待付款</td>
+			  		</tr>
+			  		<!-- <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr> -->
+			  	</tbody>
+			</table>
+
+			<div class="ui middle aligned people grid">
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">收货人信息</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<div class="ui segment">
+							<p><span class="peowid">收货人姓名</span> <span class="peoitem">崔波</span></p>
+							<p><span class="peowid">地址</span> <span class="peoitem">北京朝阳区四环到五环之间高家园区6号楼四单元</span></p>
+							<p><span class="peowid">联系方式</span> <span class="peoitem">13812348812</span></p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">结算信息</h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column">
+						<div class="ui segment">
+							<p><span class="peowid">商品金额</span> <span class="peoitem">4987元－优惠券：20.00元＋运费：0.00元＝订单总金额：400元</span></p>
+
+							<p class="right aligned">
+								<a href="" class="ui small inverted magenta button">立即付款</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
 			
+			{% order_list var:'list' user_id:user.id status:s deleted:'-1' size:10 page:page %}
 			
-			<div class="ui top attached header">
+			{% for order in list.rows %}
+				{% include 'block/order-item.html' %}
+			{% else %}
+			<div class="ui segment">
+				<p>您还没有相关订单</p>
+			</div>
+			{% endfor %}
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<div class="ui refund-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退款申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+					</div>
+					<div class="proprice">
+						<p>单价：¥2890</p>
+						<p>数量：10</p>
+						<p>运费：¥10</p>
+						<p>优惠：¥10</p>
+						<p class="ui active link">总计：¥2890</p>
+					</div>
+					<div class="numprice">
+						<p>订单编号：123456</p>
+						<p>申请时间：2016-11-23 15:41:16</p>
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退款</p>
+			        </div>
+			        <div class="field">
+			        	<p><span>退款金额:</span> 2000</p>
+			        </div>
+			        <div class="field">
+			        	<span>退款原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="gender">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退款原因</div>
+						  	<div class="menu">
+						    	<div class="item" data-value="3">不喜欢／不想要了</div>
+						    	<div class="item" data-value="2">未按约定时间发货</div>
+						    	<div class="item" data-value="1">快递／物流未送到</div>
+						    	<div class="item" data-value="0">其他</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退款说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+			        	<a href="" class="ui inverted magenta button">提交申请</a>
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退货理由弹出层 -->
+<div class="ui cancel-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退货申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+						<p>BrandOne炭立方 小型桌面空气净化器 </p>
+					</div>
+					<div class="proprice">
+						<p>单价：¥2890</p>
+						<p>数量：10</p>
+						<p>运费：¥10</p>
+						<p>优惠：¥10</p>
+						<p class="ui active link">总计：¥2890</p>
+					</div>
+					<div class="numprice">
+						<p>订单编号：123456</p>
+						<p>申请时间：2016-11-23 15:41:16</p>
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退货</p>
+			        </div>
+			        <div class="field">
+			        	<p><span>退货金额:</span> 2000</p>
+			        </div>
+			        <div class="field">
+			        	<span>退货原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="gender">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退货原因</div>
+						  	<div class="menu">
+						    	<div class="item" data-value="4">收到商品破损</div>
+						    	<div class="item" data-value="3">商品错发／漏发</div>
+						    	<div class="item" data-value="2">商品需要维修</div>
+						    	<div class="item" data-value="1">收到商品与描述不符</div>
+						    	<div class="item" data-value="0">商品质量问题</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退货说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+			        	<a href="" class="ui inverted magenta button">提交申请</a>
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+
+			
+			<!-- <div class="ui top attached header">
 				<div class="ui middle aligned grid">
 					<div class="row">
 						<div class="seven wide column">
@@ -128,8 +568,8 @@
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="middle aligned ui celled white grid">
+			</div> -->
+			<!-- <div class="middle aligned ui celled white grid">
 				{% for item in order_info.items %}
 				<div class="row">
 					<div class="column">
@@ -229,13 +669,13 @@
 						<p>实付金额：<b id="order_pay_money">{{ order_info.pay_money }}</b>元</p>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			
-			<div class="ui bottom attached segment">
-				<h3 class="ui dividing header">收货信息</h3>
+			<!-- <div class="ui bottom attached segment">
+				<h3 class="ui dividing header">收货信息</h3> -->
 
                 <!--针对老数据及微信-->
-				{% if order_info.express_info %}
+				<!-- {% if order_info.express_info %}
 					<div class="ui list">
 					  	<div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
 					  	<div class="item"><label>收货地址：</label> 
@@ -254,7 +694,7 @@
 					  	<div class="item"><label>联系电话：</label> {{ order_info.addbook.phone }}</div>
 					  	<div class="item"><label>邮政编码：</label> {{ order_info.addbook.zip }}</div>
 					</div>
-				{% endif %}
+				{% endif %} -->
 				
 				<!--
 				<h3 class="ui dividing header">发票信息</h3>
@@ -271,7 +711,7 @@
 				</div>
 				-->
 				
-				<h3 class="ui dividing header">备注</h3>
+				<!-- <h3 class="ui dividing header">备注</h3>
 				<div class="ui list">
 					<div class="item">{{ order_info.summary|default '无' }}</div>
 				</div>
@@ -280,7 +720,7 @@
 				<div class="ui list">
 					<div class="item">{{ order_info.transfer_time_s.title }}</div>
 				</div>
-			</div>
+			</div> -->
 			
 			
 		</div>

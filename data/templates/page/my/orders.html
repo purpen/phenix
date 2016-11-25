@@ -2,90 +2,7 @@
 {% block title %}我的订单-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-    .orders-items .ui.cover.image{
-    	float: left;
-    }
-    .orders-items .ui.cover.image img{
-    	width: 80px;
-    }
-    .orders-items .content{
-    	margin-left: 90px;
-	    display: block;
-	    font-size: 12px;
-    }
-    .ui.celled.table thead tr th{
-    	border-left: none;
-    }
-    .noleft tr th,.ui.celled.table tr.noleft td{
-    	border-left: none;
-    }
-    .people.grid{
-    	margin-top: 20px;
-    }
-    .peoitem{
-    	padding-left: 20px;
-    }
-    .peowid{
-    	width: 80px;
-    	display: inline-block;
-    }
-    .pl-30 {
-    	padding-left: 30px;
-    }
-    .right.aligned{
-    	text-align: right;
-    }
-    .refund-box .ui.grid.regrid,.cancel-box .ui.grid.regrid{
-    	margin: -10px 0;
-    	border-top-left-radius: .28571429rem;
-    }
-    .refund-box .six.wide.column,.cancel-box .six.wide.column {
-    	background: #f5f5f5;
-    	padding: 0;
-    	border-top-left-radius: .28571429rem;
-    	border-bottom-left-radius: .28571429rem;
-    }
-    .refund-box .ui.header,.cancel-box .ui.header{
-    	padding: 15px 20px 10px;
-	    margin-bottom: 0;
-	    border-bottom: 1px solid rgba(0,0,0,0.1);
-	    font-size: 16px;
-    }
-    .refund-box .content,.cancel-box .content{
-    	padding:10px;
-    }
-    .refund-box .content .image,.cancel-box .content .image{
-		margin:5px 10px;
-		text-align: center;
-		border-bottom:1px solid rgba(0,0,0,0.1);
-    }
-    .refund-box .content .image img,.cancel-box .content .image img{
-		width: 100px;
-		vertical-align: top;
-    }
-    .refund-box .content .image p,.cancel-box .content .image p{
-    	margin:10px 0 15px;
-    }
-    .proprice{
-    	margin:0 10px;
-    	padding:15px 0;
-		text-align: left;
-		border-bottom:1px solid rgba(0,0,0,0.1);
-    }
-    .numprice{
-    	margin:0 10px;
-    	padding:15px 0;
-		text-align: left;
-    }
-    .refund-box .ten.wide.column,.cancel-box .ten.wide.column{
-    	padding:40px;
-    }
-    .refund-box .ui.form .field,.cancel-box .ui.form .field {
-    	margin-bottom: 30px;
-    }
-    .refund-box .ui.form .field span,.cancel-box .ui.form .field span{
-    	margin-right: 20px;
-    }
+    
 </style>
 {% endblock %}
 {% block js %}
@@ -122,12 +39,6 @@
 		}
 	});
 
-	$('a[name=apply-cancel]').bind('click', function(){
-    var rid = $(this).attr('rid');
-    $('div.cancel-box [name=rid]').val(rid);
-    $('div.cancel-box [name=rid-show]').text(rid);
-		$('.ui.cancel-box.modal').modal('show');
-	});
 	
 {% endblock %}
 {% block content %}
@@ -510,7 +421,7 @@
 	</div>
 </div>
 <!-- 退款理由弹出层 -->
-<div class="ui small refund-box-x modal">
+<div class="ui small refund-box modal">
     <i class="close icon"></i>
   <div class="header">
     请添写退款理由:
