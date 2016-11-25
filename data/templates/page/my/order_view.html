@@ -222,103 +222,78 @@
                                             <img src="{{ d.cover_url }}" alt="{{ d.cover_url }}">
                                         </a>
                                         <div class="content">
-                                            <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
-                                            <p style="margin:5px 0;">颜色分类：(黑色)</p>
-                                            <p class="attribute">编号：1092167272</p>
+                                            <a href="{{ d.view_url }}" class="ui link">{{ d.name }}</a>
+                                            <p style="margin:5px 0;">颜色分类：{% if d.sku_name %}{{ d.sku_name }}{%else%}默认{%endif%}</p>
+                                            <p class="attribute">编号：{{ d.sku }}</p>
                                         </div>
                                     </div>
                                     
                                         
                                 </td>
-                                <td class="center aligned"><div class="ui active link">价格：20</div></td>
-                                <td class="center aligned">数量*1</td>
-                                <td class="center aligned">
-                                    <a href="javascript:void(0);" name="apply-cancel" class="ui small inverted magenta button">退货</a>
-                                    <a href="javascript:void(0);" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                                </td>
+                                <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
+                                <td class="center aligned">数量*{{ d.quantity }}</td>
+                                {% if product.refund_button==1 %}
+                                    <td class="center aligned">
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                    </td>
+                                {%endif%}
+                                {% if product.refund_button==2 %}
+                                    <td class="center aligned">
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                    </td>
+                                {%endif%}
                             </tr>
                         {%endfor%}
-                        <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
+                        {% if order_info.status >= 15 %}
+                        <tr><td colspan="4">快递公司： {{ order_info.express_company.title }} <span class="pl-30" >快递号：{{ order_info.express_no }}</span></td></tr>
+                        {%endif%}
 
                     </tbody>
                 {%else%}
 
                     <tbody>
-                        <tr class="noleft">
-                            <td>子订单号：{{ order_info.rid }}</td>
-                            <td colspan="3">2016-11-23 15:41:16</td>
-                        </tr>
-                        <tr>
-                            <td style="max-width: 300px;">
-                                <div class="orders-items">
-                                    <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
-                                        <img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
-                                    </a>
-                                    <div class="content">
-                                        <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
-                                        <p style="margin:5px 0;">颜色分类：(黑色)</p>
-                                        <p class="attribute">编号：1092167272</p>
-                                    </div>
-                                </div>
-                                
-                                    
-                            </td>
-                            <td class="center aligned"><div class="ui active link">价格：20</div></td>
-                            <td class="center aligned">数量*1</td>
-                            <td class="center aligned">
-                                <a href="javascript:void(0);" name="apply-cancel" class="ui small inverted magenta button">退货</a>
-                                <a href="javascript:void(0);" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                            </td>
-                        </tr>
-                        <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
-                        <tr class="noleft">
-                            <td>子订单号：116112306508</td>
-                            <td colspan="3">2016-11-23 15:41:16</td>
-                        </tr>
-                        <tr>
-                            <td style="max-width: 300px;">
-                                <div class="orders-items">
-                                    <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
-                                        <img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
-                                    </a>
-                                    <div class="content">
-                                        <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
-                                        <p style="margin:5px 0;">颜色分类：(黑色)</p>
-                                        <p class="attribute">编号：1092167272</p>
-                                    </div>
-                                </div>
-                                    
-                            </td>
-                            <td class="center aligned"><div class="ui active link">价格：20</div></td>
-                            <td class="center aligned">数量*1</td>
-                            <td class="center aligned">
-                                <a href="" class="ui small inverted magenta button">退货</a>
-                                <a href="" class="ui small inverted magenta button">退款</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="max-width: 300px;">
-                                <div class="orders-items">
-                                    <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
-                                        <img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
-                                    </a>
-                                    <div class="content">
-                                        <a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物 </a>
-                                        <p style="margin:5px 0;">颜色分类：(黑色)</p>
-                                        <p class="attribute">编号：1092167272</p>
-                                    </div>
-                                </div>
-                                    
-                            </td>
-                            <td class="center aligned"><div class="ui active link">价格：20</div></td>
-                            <td class="center aligned">数量*1</td>
-                            <td class="center aligned">
-                                <a href="" class="ui small inverted magenta button">退货</a>
-                                <a href="" class="ui small inverted magenta button">退款</a>
-                            </td>
-                        </tr>
-                        <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr>
 
+                        {% for d in order_info.sub_orders %}
+                            <tr class="noleft">
+                                <td>子订单号：{{ order_info.rid }}</td>
+                                <td colspan="3">拆单时间: {{ d.split_on|date }}</td>
+                            </tr>
+                            {% for d in order_info.items %}
+                                <tr>
+                                    <td style="max-width: 300px;">
+                                        <div class="orders-items">
+                                            <a href="{{ d.view_url }}" class="ui cover image" target="_blank">
+                                                <img src="{{ d.cover_url }}" alt="{{ d.name }}">
+                                            </a>
+                                            <div class="content">
+                                                <a href="{{ d.view_url }}" class="ui link">{{ d.name }}</a>
+                                                <p style="margin:5px 0;">颜色分类：{% if d.sku_name %}{{ d.sku_name }}{%else%}默认{%endif%}</p>
+                                                <p class="attribute">编号：{{ d.sku }}</p>
+                                            </div>
+                                        </div>
+                                        
+                                            
+                                    </td>
+                                    <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
+                                    <td class="center aligned">数量*{{ d.quantity }}</td>
+                                    {% if product.refund_button==1 %}
+                                        <td class="center aligned">
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        </td>
+                                    {%endif%}
+                                    {% if product.refund_button==2 %}
+                                        <td class="center aligned">
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        </td>
+                                    {%endif%}
+                                </tr>
+                            {%endfor%}
+                            {% if d.is_sended %}
+                                <tr><td colspan="4">快递公司： {{ d.express_company }} <span class="pl-30" >快递号：{{ d.express_no }}</span></td></tr>
+                            {%endif%}
+                        {%endfor%}
 
                 {%endif%}
 			</table>
@@ -372,15 +347,18 @@
 						<h5 class="ui header">收货人信息</h5>
 					</div>
 				</div>
-				<div class="row">
-					<div class="column">
-						<div class="ui segment">
-							<p><span class="peowid">收货人姓名</span> <span class="peoitem">崔波</span></p>
-							<p><span class="peowid">地址</span> <span class="peoitem">北京朝阳区四环到五环之间高家园区6号楼四单元</span></p>
-							<p><span class="peowid">联系方式</span> <span class="peoitem">13812348812</span></p>
-						</div>
-					</div>
-				</div>
+                {% if order_info.express_info %}
+                    <div class="row">
+                        <div class="column">
+                            <div class="ui segment">
+                                <p><span class="peowid">收货人姓名</span> <span class="peoitem">{{ order_info.express_info.name }}</span></p>
+                                <p><span class="peowid">地址</span> <span class="peoitem">{{ order_info.express_info.province }} {{ order_info.express_info.city }}{{ order_info.express_info.county }} {{ order_info.express_info.town }}</span></p>
+                                <p><span class="peowid">详细地址</span> <span class="peoitem">{{ order_info.express_info.address }}</span></p>
+                                <p><span class="peowid">联系方式</span> <span class="peoitem">{{ order_info.addbook.phone }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                {%endif%}
 
 				<div class="row">
 					<div class="column">
@@ -390,7 +368,7 @@
 				<div class="row">
 					<div class="column">
 						<div class="ui segment">
-							<p><span class="peowid">商品金额</span> <span class="peoitem">4987元－优惠券：20.00元＋运费：0.00元＝订单总金额：400元</span></p>
+                            <p><span class="peowid">商品金额</span> <span class="peoitem">{{ order_info.card_money }}元－优惠券：{{ order_info.freight }}元＋运费：{{ order_info. }}元＝订单总金额：{{ order_info.pay_money }}元</span></p>
 
 							<p class="right aligned">
 								<a href="" class="ui small inverted magenta button">立即付款</a>
