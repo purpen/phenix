@@ -1314,6 +1314,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             return $result;
         }
         $result['data']['sub_order_id'] = $sub_order_id;
+        $refund = $refund_model->get_data();
+        $result['data']['refund_id'] = $refund['_id'];
         $result['success'] = true;
         return $result;
     }

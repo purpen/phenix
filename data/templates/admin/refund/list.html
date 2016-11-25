@@ -13,26 +13,27 @@
 
 	// 确认退款弹框 
 	$('.refund_btn').bind('click', function(){
-    var rid = $(this).attr('rid');
-    var id = $(this).data('id');
-    var pay_money = $(this).attr('pay_money');
-    var user_id = $(this).attr('user_id');
-    var pay_name = $(this).attr('pay_name');
-    var target_id = $(this).attr('target_id');
-    $('div.refund-box [name=id]').val(id);
-    $('div.refund-box [name=rid]').val(rid);
-    $('div.refund-box [name=rid-show]').text(rid);
-    $('div.refund-box [name=pay-money-show]').text(pay_money);
-    $('div.refund-box [name=user-id-show]').text(user_id);
-    $('div.refund-box [name=pay-name-show]').text(pay_name);
-    $('div.refund-box [name=target_id-show]').text(target_id);
-		$('.ui.refund-box.modal').modal('show');
+        var rid = $(this).attr('rid');
+        var id = $(this).data('id');
+        var pay_money = $(this).attr('pay_money');
+        var user_id = $(this).attr('user_id');
+        var pay_name = $(this).attr('pay_name');
+        var target_id = $(this).attr('target_id');
+        $('div.refund-box [name=id]').val(id);
+        $('div.refund-box [name=rid]').val(rid);
+        $('div.refund-box [name=rid-show]').text(rid);
+        $('div.refund-box [name=pay-money-show]').text(pay_money);
+        $('div.refund-box [name=user-id-show]').text(user_id);
+        $('div.refund-box [name=pay-name-show]').text(pay_name);
+        $('div.refund-box [name=target_id-show]').text(target_id);
+    
+		$('.ui.refund-result-box.modal').modal('show');
+		$('.ui.refund-box.modal').modal('hide');
 	});
 
 	// 确认退款按钮
 	$('.refund_btn11').click(function(){
-		$('.ui.refund-result-box.modal').modal('show');
-		$('.ui.refund-box.modal').modal('hide');
+
 
 	});
 	
@@ -166,7 +167,7 @@
 				<td>
 					<p>
                         {% if d.stage==1 %}
-                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ pay_type }}" pay_name="{{ pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
+                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ d.pay_type }}" pay_name="{{ d.pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
                                 确认退款
                             </a>
                         {%endif%}
@@ -208,7 +209,7 @@
             <label>退款用户ID: <span name="user-id-show"></span></label>
           </div>
           <div class="field">
-            <label>支付类型: <span name="pay-name-show"></span></label>
+            <label>支付方式: <span name="pay-name-show"></span></label>
           </div>
           <div class="field">
             <label>退款金额: <span name="pay-money-show"></span></label>

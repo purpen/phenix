@@ -129,17 +129,14 @@
 		
 	});
 	
+    // 退款表单
 	$('#refund-form').form({
-		content: {
-			identifier  : 'content',
+		refund_price: {
+			identifier  : 'refund_price',
 			rules: [
 				{
 					type   : 'empty',
-					prompt : '退款理由不能为空'
-				},
-				{
-					type   : 'maxLength[140]',
-					prompt : '内容不超过140字符'
+					prompt : '请输入退款金额'
 				}
 			]
 		}
@@ -147,7 +144,56 @@
 		inline : true,
 		onSuccess: function(event){
 			event.preventDefault();
-			$(event.target).ajaxSubmit();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ui.cancel-box.modal').modal('hide');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
+
+    // 退货表单
+	$('#return-form').form({
+		refund_price: {
+			identifier  : 'refund_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入退款金额'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ui.return-box.modal').modal('hide');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
 		}
 	});
 
@@ -280,17 +326,21 @@
                                 </td>
                                 <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
                                 <td class="center aligned">数量*{{ d.quantity }}</td>
-                                {% if d.refund_button==1 %}
-                                    <td class="center aligned">
+
+                                <td class="center aligned">
+                                    {% if d.refund_button==0 %}
+                                        {{ d.refund_label }}
+                                    {%endif%}
+
+                                    {% if d.refund_button==1 %}
                                         <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                                    </td>
-                                {%endif%}
-                                {% if d.refund_button==2 %}
-                                    <td class="center aligned">
+                                    {%endif%}
+
+                                    {% if d.refund_button==2 %}
                                         <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
                                         <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                                    </td>
-                                {%endif%}
+                                    {%endif%}
+                                </td>
                             </tr>
                         {%endfor%}
                         {% if order_info.status >= 15 %}
@@ -325,17 +375,21 @@
                                     </td>
                                     <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
                                     <td class="center aligned">数量*{{ d.quantity }}</td>
-                                    {% if d.refund_button==1 %}
-                                        <td class="center aligned">
+
+                                    <td class="center aligned">
+                                        {% if d.refund_button==0 %}
+                                            {{ d.refund_label }}
+                                        {%endif%}
+
+                                        {% if d.refund_button==1 %}
                                             <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                                        </td>
-                                    {%endif%}
-                                    {% if d.refund_button==2 %}
-                                        <td class="center aligned">
+                                        {%endif%}
+
+                                        {% if d.refund_button==2 %}
                                             <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
                                             <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
-                                        </td>
-                                    {%endif%}
+                                        {%endif%}
+                                    </td>
                                 </tr>
                             {%endfor%}
                             {% if sub_order.is_sended %}
@@ -471,7 +525,7 @@
 			</div>
 
 			<div class="ui ten wide column">
-				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+				<form action="{{ app_url_my }}/ajax_product_refund" class="ui form" method="post" id="refund-form">
                     <input type="hidden" name="refund_type" value="1" />
                     <input type="hidden" name="rid" value="" />
                     <input type="hidden" name="sku_id" value="" />
@@ -501,7 +555,7 @@
 			        </div>
 
 			        <div class="field">
-			        	<a href="" class="ui inverted magenta button">提交申请</a>
+                        <input type="submit" class="ui inverted magenta button" value="提交申请" />
 			        </div>
 			    </form>
 			</div>
@@ -542,7 +596,7 @@
 			</div>
 
 			<div class="ui ten wide column">
-				<form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="return-form">
+				<form action="{{ app_url_my }}/ajax_product_refund" class="ui form" method="post" id="return-form">
                     <input type="hidden" name="refund_type" value="2" />
                     <input type="hidden" name="rid" value="" />
                     <input type="hidden" name="sku_id" value="" />
@@ -572,7 +626,7 @@
 			        </div>
 
 			        <div class="field">
-			        	<a href="" class="ui inverted magenta button">提交申请</a>
+                        <input type="submit" class="ui inverted magenta button" value="提交申请" />
 			        </div>
 			    </form>
 			</div>
