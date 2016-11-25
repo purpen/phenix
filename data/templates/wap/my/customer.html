@@ -6,6 +6,7 @@
     display: block;
     margin-top: 1.07175rem;
 	padding: 0 0 20px!important;
+  font-size: 0;
 }
 #orderitem .item{
     margin-bottom: 0.7145rem;
@@ -14,10 +15,10 @@
 }
 #orderitem .item .product p{
 	margin:0;
-	text-align:right;
+	text-align:left;
 	font-size: 0.8574rem;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
 	padding:0.71428571rem;
+  padding-bottom: 0;
 }
 #orderitem .item .product p .rmb.icon{
 	font-size: 0.8574rem;
@@ -148,9 +149,9 @@
               }
               var rendered = phenix.ajax_render_result('#refund_list_tpl', rs.data);
               if(page==1){
-                $('.recom-item').html(rendered);
+                $('.recome-item').html(rendered);
               }else{
-                $('.recom-item').append(rendered);
+                $('.recome-item').append(rendered);
               }
  			  $("img.lazy").lazyload({
  			     effect : "show"
@@ -203,7 +204,7 @@
         <p>退款售后</p>
     </div>
 </div>
-<div id="orderitem" class="recom-item">
+<div id="orderitem" class="recome-item">
 
     <!--
 	<div class="item" id="order-116110206382">	
