@@ -138,7 +138,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
                 $row['stage_label'] = '取消';
                 break;
             case 1:
-                $row['stage_label'] = '申请中';
+                $row['stage_label'] = '退款中';
                 break;
             case 2:
                 $row['stage_label'] = '已退款';
