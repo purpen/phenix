@@ -1216,9 +1216,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         if (empty($rid) || empty($sku_id)) {
           return $this->ajax_json('操作不当，请查看购物帮助！', true);
         }
-        if(empty($refund_reason) && empty($refund_content) && empty($refund_type)){
+        if(empty($refund_reason) && empty($refund_content)){
           return $this->ajax_json('请说明退款原因！', true);   
         }
+
         $orders_model = new Sher_Core_Model_Orders();
         $order = $options['order'] = $orders_model->find_by_rid($rid);
 
@@ -1241,15 +1242,19 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             Sher_Core_Util_Constant::ORDER_READY_GOODS,
             Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
             Sher_Core_Util_Constant::ORDER_EVALUATE,
-            Sher_Core_Util_Constant::ORDER_PUBLISHED, 
+            //Sher_Core_Util_Constant::ORDER_PUBLISHED, 
         );
         if(!in_array($order['status'], $arr)){
             return $this->ajax_json('不允许的操作!', true);
         }
 
-        if($order['status']==Sher_Core_Util_Constant::ORDER_READY_GOODS && $refund_type==2){
-            return $this->ajax_json('订单未发货，不允许退货操作！', true);       
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id, $order);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true);            
         }
+
+        $refund_price = $options['refund_price'] = $result['data']['refund_price'];
 
         try {
             // 申请退货款
@@ -1719,6 +1724,26 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->ajax_json('success', false, 0, array('has_tag'=>1, 'tags'=>$items)); 
   
   }
+
+    /**
+     * ajax计算退款金额
+     */
+    public function check_refund(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+
+        if (empty($rid) || empty($sku_id)) {
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true);            
+        }
+        
+        return $this->ajax_json('success', false, '', array('refund_price'=>$result['data']['refund_price']));
+    
+    }
 
 
 }

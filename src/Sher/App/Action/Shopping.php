@@ -1362,6 +1362,119 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	public function ajax_notice(){
 		
 	}
+
+    /**
+     * 退款列表
+     */
+    public function ajax_refund_list(){
+        
+		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+        $stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : 0;
+        $deleted = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
+        
+        $query = array();
+
+        $query['user_id'] = $this->visitor->id;
+		
+		// 状态
+		$query['status'] = 1;
+
+		if($deleted){
+			if($deleted == -1){
+				$query['deleted'] = 0;
+            }else{
+                $query['deleted'] = 1;
+            }
+		}
+        
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        // 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+
+        //限制输出字段
+		$some_fields = array(
+			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1,
+			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'type_label'=>1, 'freight'=>1,
+			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
+            'created_on'=>1, 'updated_on'=>1,
+		);
+		$options['some_fields'] = $some_fields;
+        
+		// 开启查询
+        $service = Sher_Core_Service_Refund::instance();
+        $result = $service->get_refund_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+
+        $next_page = 'no';
+        if(isset($result['next_page'])){
+            if((int)$result['next_page'] > $page){
+                $next_page = (int)$result['next_page'];
+            }
+        }
+        
+        $max = count($result['rows']);
+
+        // 重建数据结果
+		$data = array();
+		for($i=0;$i<$max;$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			}
+
+            $item = array();
+            $product = $product_model->extend_load($data[$i]['product_id']);
+            $item['title'] = $product['title']; 
+            $item['short_title'] = $product['short_title'];
+            $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+            $item['wap_view_url'] = $product['wap_view_url'];
+            $item['view_url'] = $product['view_url'];
+
+            $item['sku_name'] = '默认';
+            if($data[$i]['target_type']==1){
+                $sku = $sku_model->find_by_id($data[$i]['target_id']);
+                if($sku){
+                    $item['sku_name'] = $sku['mode']; 
+                }
+            }
+
+            $data[$i]['product'] = $item;
+
+            // 订单是否可以删除
+            if($data[$i]['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+                $data[$i]['can_delete'] = false;           
+            }else{
+                $data[$i]['can_delete'] = true;           
+            }
+
+            $data[$i]['refund_at'] = '';
+            if(!empty($data[$i]['refund_on'])){
+                $data[$i]['refund_at'] = date('Y/m/d', $data[$i]['refund_on']);           
+            }
+            $data[$i]['created_at'] = date('Y/m/d', $data[$i]['created_on']);
+
+        }   // endfor
+
+        $result['rows'] = $data;
+        $result['nex_page'] = $next_page;
+
+        $result['type'] = $type;
+        $result['page'] = $page;
+        $result['sort'] = $sort;
+        $result['size'] = $size;
+        
+        return $this->ajax_json('success', false, '', $result);
+    }
 	
   /**
    * 抢购ID列表

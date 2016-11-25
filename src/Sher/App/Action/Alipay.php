@@ -246,10 +246,22 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
    * 退款
    */
   public function refund(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)){
-			return $this->show_message_page('操作不当，订单号丢失！', true);
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->show_message_page('缺少请求参数！', true);
 		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->show_message_page('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+        $rid = $refund['order_rid'];
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
@@ -263,11 +275,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->ajax_notification('订单状态不正确！', true);
         }
 
-        $pay_money = $order_info['pay_money'];
+        $pay_money = $refund['refund_price'];
         if((float)$pay_money==0){
             return $this->show_message_page("订单[$rid]金额为零！", false);  
         }
-
 
 		$trade_no = $order_info['trade_no'];
 		$trade_site = $order_info['trade_site'];
@@ -287,7 +298,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			"partner" => trim($this->alipay_config['partner']),
 			"seller_email"	=> $this->alipay_config['seller_email'],
 			"refund_date"	=> $refund_date,
-			"batch_no"	=> (string)date('Ymd').(string)$rid,
+			"batch_no"	=> (string)date('Ymd').(string)$id,
 			"batch_num"	=> 1,
 			"detail_data"	=> $detail_data,
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),

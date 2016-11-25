@@ -123,7 +123,76 @@
 }
 </style>
 {% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript" >
+      var page = 1;
+      var size = 8;
+      var sort = 0;
+      var type = 0;
+  
+      // 加载品牌列表
+      function ajax_load_more(type, sort, page, size){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          $('#item-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
+          var url = '{{ app_url_wap }}/app/site/shopping/ajax_refund_list';
+          $.get(url, { sort:sort, page:page, type:type, size:size }, function(rs){
+              if(rs.data.total_page > rs.data.current_page){
+                  $('#item-more')
+                      .hide()
+                      .attr({'status': 0, 'page': rs.data.page});
+              }else{
+                  $('#item-more')
+                  .attr({'page': rs.data.page})
+                  .find('.p_sub').html('');
+              }
+              var rendered = phenix.ajax_render_result('#refund_list_tpl', rs.data);
+              if(page==1){
+                $('.recom-item').html(rendered);
+              }else{
+                $('.recom-item').append(rendered);
+              }
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
+
+    //ajax加载更多(滚动条接近底部加载)
+    $(window).scroll(function(){
+    　　var scrollTop = $(this).scrollTop();
+    　　var scrollHeight = $(document).height();
+    　　var windowHeight = $(this).height();
+    　　if(scrollTop + windowHeight > scrollHeight-100){
+          var stat = $('#item-more').attr('status');
+          page = parseInt($('#item-more').attr('page')) + 1;
+          if(stat==0){
+            ajax_load_more(type, sort, page, size);
+          }
+    　　}
+    });
+
+	// 初始加载商品列表
+    ajax_load_more(type, sort, page, size);
+
+    // 删除
+    $('.remove_refund_btn').livequery(function(){
+        $(this).click(function(){
+            var id = $(this).data('id');
+            $.post("{{ app_url_wap }}/app/site/my/ajax_delete_refund", {id:id}, function(rs){
+                if(rs.success){
+                    $('#item-'+id).remove();
+                }else{
+                    phenix.show_error_note(rs.message, 3000);
+                }
+            }, 'json');
+        });   
+    });
 
 {% endblock %}
 
@@ -134,7 +203,9 @@
         <p>退款售后</p>
     </div>
 </div>
-<div id="orderitem">
+<div id="orderitem" class="recom-item">
+
+    <!--
 	<div class="item" id="order-116110206382">	
 		<div class="ordertop">
 			<span class="ui line fz-12">2016/11/02</span>
@@ -171,8 +242,17 @@
 			<a href="javascript:void(0);" rid="116112206503" class="ui small color-bd inverted button cancel_order_btn">删除订单</a>
 		</div>
 	</div>
+    -->
 </div>
 
+<div id="item-more" class="" style="display:none;" page="1" status="0">
+    <div class="p_sub" style="text-align:center;margin:10px auto;">
+        
+    </div>
+</div>
 
+{% endblock %}
 
+{% block templates %}
+    {% mustache id:'refund_list_tpl' tpl:'mustache_m/refund_list.mustache' %}
 {% endblock %}

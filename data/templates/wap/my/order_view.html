@@ -372,7 +372,18 @@ span.kefu{
   // 申请退款
   $('.apply_refund').livequery(function(){
     $(this).bind('click',function(){
-      $('.ordeshow').addClass('showbt');
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+        $('#refund-form :input[name=rid]').val(rid);
+        $('#refund-form :input[name=sku_id]').val(sku_id);
+        $.get("{{ app_url_wap }}/app/site/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.is_error){
+                phenix.show_error_note(rs.message, 3000);
+                return false;
+            }
+            $('#refund-form :input[name=refund_price]').val(rs.data.refund_price);
+            $('.ordeshow').addClass('showbt');
+        }, 'json');
     });
   });
   $('.close-btn').bind('click',function(){
@@ -392,6 +403,18 @@ span.kefu{
   // 申请退货
   $('.apply_cancel').livequery(function(){
     $(this).bind('click',function(){
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+        $('#cancel-form :input[name=rid]').val(rid);
+        $('#cancel-form :input[name=sku_id]').val(sku_id);
+        $.get("{{ app_url_wap }}/app/site/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.is_error){
+                phenix.show_error_note(rs.message, 3000);
+                return false;
+            }
+            $('#cancel-form :input[name=refund_price]').val(rs.data.refund_price);
+            $('.ordeshow').addClass('showbt');
+        }, 'json');
       $('.ordeshow').addClass('showcan');
     });
   });
@@ -405,6 +428,74 @@ span.kefu{
       $('.cancel_content').hide();
     }
   });
+
+    // 退款表单
+	$('#refund-form').form({
+		refund_price: {
+			identifier  : 'refund_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入退款金额'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ordeshow').removeClass('showbt showcan');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
+
+    // 退货表单
+	$('#cancel-form').form({
+		refund_price: {
+			identifier  : 'refund_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入退款金额'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ordeshow').removeClass('showbt showcan');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
 
 {% endblock %}
 
@@ -457,13 +548,18 @@ span.kefu{
                             <p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
                         </div>
                         <div class="deal">
-                          退款中
+                            {{ product.refund_label }}
                         </div>
                     </div>
 
                     <div class="desitem mtb-0 tx-r dealesc">
-                        <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
-                        <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+                        {% if product.refund_button==1 %}
+                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                        {%endif%}
+                        {% if product.refund_button==2 %}
+                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
+                        {%endif%}
                     </div>
 
                 {% endfor %}
@@ -474,9 +570,11 @@ span.kefu{
                     </div>
                 {% endif %}
 
+                <!--
                 <div class="desitem mtb-0 tx-r detx">
                     共{{ product.quantity }}件商品   <text class="ml-r">合计：{{ product.subtotal }} (含运费¥6.00)</text>
                 </div>
+                -->
 
             {%else%}
                 {% for d in order_info.sub_orders %}
@@ -495,7 +593,7 @@ span.kefu{
                                 <p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
                             </div>
                             <div class="deal">
-                              退款中
+                                {{ product.refund_label }}
                             </div>
                         </div>
                         <!--
@@ -504,8 +602,13 @@ span.kefu{
                         </div>
                         -->
                         <div class="desitem mtb-0 tx-r dealesc">
-                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_refund">退款</a>
-                            <a href="javascript:void(0);" class="ui small color-bd inverted button apply_cancel">退货</a>
+                            {% if product.refund_button==1 %}
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                            {%endif%}
+                            {% if product.refund_button==2 %}
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_refund">退款</a>
+                                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ product.sku }}" class="ui small color-bd inverted button apply_cancel">退货</a>
+                            {%endif%}
                         </div>
                     {% endfor %}
 
@@ -528,9 +631,11 @@ span.kefu{
 		<div class="desitem mb-0 pb-r">
 			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>
 		</div>
+        <!--
         <div class="desitem m-0 pt-0 pb-r">
             支付方式：<span class="ui color-be text link flt-r">在线支付</span>
         </div>
+        -->
         <div class="desitem m-0 pt-0 pb-r">
             商品总额：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.total_money }}</span>
         </div>
@@ -598,15 +703,20 @@ span.kefu{
         <div class="ui grid m-0 plr-2r">
             <div class="row pt-3r">
                 <div class="column">
-                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="refund-form">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_product_refund" class="ui form" method="post" id="refund-form">
+                        <input type="hidden" name="refund_type" value="1" />
+                        <input type="hidden" name="rid" value="" />
+                        <input type="hidden" name="sku_id" value="" />
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退款金额</h5>
-                            <input type="text" name="name" value="123">
+                            <input type="text" name="refund_price" disabled="disabled" value="">
                         </div>
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退款原因</h5>
                             <select name="refund_reason" value="0" id="refund_reason_select" class="refundwhy">
-                                <option value="1">我不想要了</option>
+                                {% for d in refund_reason %}
+                                    <option value="{{ d.id }}">{{ d.title }}</option>
+                                {%endfor%}
                                 <option value="0">其他</option>
                             </select>
                         </div>
@@ -637,25 +747,26 @@ span.kefu{
         <div class="ui grid m-0 plr-2r">
             <div class="row pt-3r">
                 <div class="column">
-                    <form action="{{ app_url_wap }}/app/site/my/ajax_apply_refund" class="ui form" method="post" id="cancel-form">
+                    <form action="{{ app_url_wap }}/app/site/my/ajax_product_refund" class="ui form" method="post" id="cancel-form">
+                        <input type="hidden" name="refund_type" value="2" />
+                        <input type="hidden" name="rid" value="" />
+                        <input type="hidden" name="sku_id" value="" />
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退货金额</h5>
-                            <input type="text" name="name" value="123">
+                            <input type="text" name="refund_price" disabled="disabled" value="">
                         </div>
                         <div class="field mb-3r">
                             <h5 class="ui header mb-7">退货原因</h5>
-                            <select name="cancel_reason" value="0" id="cancel_reason_select" class="refundwhy">
-                                <option value="1">收到商品破损</option>
-                                <option value="2">商品错发／漏发</option>
-                                <option value="3">商品需要维修</option>
-                                <option value="4">收到商品与描述不符</option>
-                                <option value="5">商品质量问题</option>
+                            <select name="refund_reason" value="0" id="cancel_reason_select" class="refundwhy">
+                                {% for d in return_reason %}
+                                    <option value="{{ d.id }}">{{ d.title }}</option>
+                                {%endfor%}
                                 <option value="0">其他</option>
                             </select>
                         </div>
                         <div class="field mb-3r cancel_content">
                             <h5 class="ui header mb-7">退货说明</h5>
-                            <textarea name="cancel_content" rows="3"></textarea>
+                            <textarea name="refund_content" rows="3"></textarea>
                         </div>
                         <div class="nextbtn">
                             <div class="close-btn">

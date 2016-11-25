@@ -26,6 +26,7 @@ class Sher_Core_ViewTag_RefundList extends Doggy_Dt_Tag {
         $sub_order_id = 0;
         $deleted = -1;
 		$sort = 'latest';
+        $load_product = 0;
         
         $var = 'list';
         $include_pager = 0;
@@ -74,7 +75,16 @@ class Sher_Core_ViewTag_RefundList extends Doggy_Dt_Tag {
         
         $result = $service->get_refund_list($query, $options);
 
+        if($load_product){
+            $product_model = new Sher_Core_Model_Product();
+            $sku_model = new Sher_Core_Model_Inventory();       
+        }
+
         for($i=0;$i<count($result['rows']);$i++){
+            if($load_product){
+                $product = $product_model->extend_load($result['rows'][$i]['product_id']);
+                $result['rows'][$i]['product'] = $product;
+            }
 
         }
         

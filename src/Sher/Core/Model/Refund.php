@@ -28,6 +28,8 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         'order_rid' => null,
         'sub_order_id' => null,
         'refund_price' => 0,
+        # 支付类型
+        'pay_type' => Sher_Core_Util_Constant::TRADE_ALIPAY,
         # 运费
         'freight' => 0,
         'quantity' => 1,
@@ -49,7 +51,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'product_id', 'order_rid');
-	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','number','deleted','reason');
+	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','number','deleted','reason','pay_type');
 	protected $float_fields = array('refund_price', 'freight');
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
@@ -85,7 +87,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 		),
 		array(
 			'id' => 2,
-			'title' => '商品发货/漏发',
+			'title' => '商品错发/漏发',
 		),
 		array(
 			'id' => 3,
@@ -105,14 +107,64 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        if($row['reason']==1){
+        if($row['type']==1){
             $reason = $this->find_refund_reason($row['reason']);
             $row['reason_label'] = $reason['title'];
-        }elseif($row['reason']==2){
+        }elseif($row['type']==2){
             $reason = $this->find_return_reason($row['reason']); 
             $row['reason_label'] = $reason['title'];
         }else{
             $row['reason_label'] = '';
+        }
+
+        switch($row['type']){
+            case 1:
+                $row['type_label'] = '退款';
+                break;
+            case 2:
+                $row['type_label'] = '退货';
+                break;
+            case 3:
+                $row['type_label'] = '返修';
+                break;
+            default:
+                $row['type_label'] = '';
+        }
+
+        switch($row['stage']){
+            case 0:
+                $row['stage_label'] = '取消';
+                break;
+            case 1:
+                $row['stage_label'] = '申请中';
+                break;
+            case 2:
+                $row['stage_label'] = '完成';
+                break;
+            case 3:
+                $row['stage_label'] = '拒绝';
+                break;
+            default:
+                $row['stage_label'] = '';
+        }
+
+        if(isset($row['pay_type'])){
+            switch($row['pay_type']){
+                case 1:
+                    $row['pay_label'] = '支付宝';
+                    break;
+                case 2:
+                    $row['pay_label'] = '银联';
+                    break;
+                case 3:
+                    $row['pay_label'] = '微信';
+                    break;
+                case 5:
+                    $row['pay_label'] = '京东';
+                    break;
+                default:
+                    $row['pay_label'] = '';
+            }       
         }
 
 	}

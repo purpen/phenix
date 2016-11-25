@@ -596,6 +596,70 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	}
 
   /**
+   * 确认退款操作
+   */
+  public function ajax_new_refund(){
+ 		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)) {
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->ajax_notification('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($refund['order_rid']);
+		//订单不存在
+		if(empty($order_info)){
+			return $this->ajax_notification('订单未找到！', true);
+		}
+
+        $rid = $order_info['rid'];
+
+		// 跳转支付宝退款
+		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_ALIPAY){
+            if($order_info['from_app']==2){
+ 			    $refund_url = Doggy_Config::$vars['app.url.alipay'].'/fiu_refund?id='.$id;           
+            }else{
+			    $refund_url = Doggy_Config::$vars['app.url.alipay'].'/refund?id='.$id;
+            }
+			return $this->to_redirect($refund_url);
+		}
+
+		// 跳转京东退款
+		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_JDPAY){
+			$refund_url = Doggy_Config::$vars['app.url.domain'].'/app/site/jdpay/refund?rid='.$rid;
+			return $this->to_redirect($refund_url);
+		}
+		
+		// 跳转微信支付退款
+		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
+          // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
+          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
+                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/app_refund?rid='.$rid;
+          }else{
+                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?rid='.$rid;
+          }
+			return $this->to_redirect($refund_url);
+		}
+		
+		return $this->show_message_page('只支持支付宝退款', true);	
+	}
+
+  /**
    * 强制退款操作－不退款，更改订单状态，用于非支付宝支付的订单或需要人工退款操作的
    */
   public function ajax_do_refund_force(){
