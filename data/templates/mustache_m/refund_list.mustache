@@ -1,8 +1,8 @@
 {{#rows}}
 	<div class="item" id="item-{{ _id }}">	
 		<div class="ordertop">
-			<span class="ui line fz-12">{{ created_at }}</span>
-			<span class="ui color-be link fz-12 flt-r order_label_txt">{{ stage_label }}</span>
+			<span class="ui line fz-12">{{ _id }}</span>
+			<span class="ui line flt-r fz-12">{{ created_at }}</span>
 		</div>
 		<div class="content">
 			<a href="{{ product.view_url }}" class="img"> 
@@ -27,15 +27,15 @@
 			</div>
 		</div>
 		
-        <!--
 		<div class="product">
-			<p>共1件商品&nbsp;&nbsp;总计：<i class="rmb icon"></i> 10000</p>
+			<p>退款金额：<i class="rmb icon"></i> <span class="color-be">{{ product.sale_price }}</span></p>
 		</div>
-        -->
+        <!--
 		{{#can_delete}}
 		<div class="orderbottom status_btn_box">
 			<a href="javascript:void(0);" data-id="{{ _id }}" class="ui small color-bd inverted button remove_refund_btn">删除</a>
 		</div>
         {{/can_delete}}
+        -->
 	</div>
 {{/rows}}
