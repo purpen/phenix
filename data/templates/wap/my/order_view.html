@@ -541,9 +541,6 @@ span.kefu{
             </div>
 			
             {% if !order_info.exist_sub_order %}
-                <div class="desitem mtb-0 mtzz bf9">
-                    您订单中的商品在不同库房不同商家，故拆分为以下订单分开配送
-                </div>
                 {% for product in order_info.items %}
                     <div class="cartitem mtbb">
                         <a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover_url }}"></a>
@@ -583,6 +580,9 @@ span.kefu{
                 -->
 
             {%else%}
+                <div class="desitem mtb-0 mtzz bf9">
+                    您订单中的商品在不同库房不同商家，故拆分为以下订单分开配送
+                </div>
                 {% for d in order_info.sub_orders %}
 
                     <div class="desitem mtb-0 mtzz">
