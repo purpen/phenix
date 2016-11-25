@@ -26,15 +26,19 @@
         $('div.refund-box [name=user-id-show]').text(user_id);
         $('div.refund-box [name=pay-name-show]').text(pay_name);
         $('div.refund-box [name=target_id-show]').text(target_id);
-    
-		$('.ui.refund-result-box.modal').modal('show');
-		$('.ui.refund-box.modal').modal('hide');
+		$('.ui.refund-box.modal').modal('show');
 	});
 
 	// 确认退款按钮
-	$('.refund_btn11').click(function(){
+	$('.ui.refund.button').click(function(){
+		$('.ui.refund-result-box.modal').modal('show');
+		$('.ui.refund-box.modal').modal('hide');
 
+	});
 
+	// 支付后查看结果
+	$('.ui.refund-result').click(function(){
+        location.reload(true);
 	});
 	
 {% endblock %}
@@ -132,6 +136,10 @@
                         <p>
                             SKU: 
                             {{ d.target_id }}
+                        </p>
+                        <p>
+                            batch_no: 
+                            {{ d.batch_no }}
                         </p>
 					</div>
                 </td>

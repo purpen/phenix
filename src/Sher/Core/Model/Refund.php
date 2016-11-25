@@ -337,7 +337,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
      */
     public function refund_call($id, $options=array()){
         $refund = $this->load((int)$id);
-        if(!empty($refund)) return false;
+        if(empty($refund)) return false;
 
         // 先更新订单商品状态，再更新退款单状态
         $order_model = new Sher_Core_Model_Orders();
@@ -360,7 +360,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
                     $item = $sub_order['items'][$j];
                     if($item['sku']==$refund['target_id']){
                         $sub_order_id = $sub_order['id'];
-                        $order['sub_orders'][$i]['items'][$j]['refund_status'] = 2;                   
+                        $order['sub_orders'][$i]['items'][$j]['refund_status'] = 2;
                     }
                 }
             }

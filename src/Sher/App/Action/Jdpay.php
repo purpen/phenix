@@ -335,18 +335,16 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
                 if($ok){
                     echo '<h2>退款成功!</h2>';
                     Doggy_Log_Helper::warn("jdpay refund notify: $id refunde_order success !");
-                    
                 }else{
                     echo "<h2>$resData[status]</h2>";              
                     Doggy_Log_Helper::warn("jdpay refund notify: $id refunde_order no knows !");
                 }
+            }else{
+                echo '<h2>退款失败!</h2>';
+                print_r($resData);
+            return;           
+            
             }
-
-            //退款成功
-            //echo '<a href="#" onClick="javascript:window.opener=null;window.close();"><input name="green" type="submit" class="ui green button" value="关闭" ></a>';
-            print_r($resData);
-            return;
-
 		}else{
             Doggy_Log_Helper::warn("jdpay refund notify: $rid refunde_order fail !");
             echo '<h2>验签失败!</h2>';

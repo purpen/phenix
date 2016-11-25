@@ -151,7 +151,7 @@
 				},
 				success: function(data){
 					if(data.success){
-                        $('.ui.cancel-box.modal').modal('hide');
+                        $('.ui.refund-box.modal').modal('hide');
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
@@ -185,7 +185,7 @@
 				},
 				success: function(data){
 					if(data.success){
-                        $('.ui.return-box.modal').modal('hide');
+                        $('.ui.cancel-box.modal').modal('hide');
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
@@ -218,14 +218,13 @@
         $.get("{{ app_url_domain }}/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
             if(rs.success){
                 $('#return-form .refund_price_box').text(rs.data.refund_price);
-                $('.ui.return-box.modal').modal('show');
+                $('.ui.cancel-box.modal').modal('show');
             }else{
                 phenix.show_error_note(rs.message, 3000);
             }
 
         }, 'json');
 
-		$('.ui.cancel-box.modal').modal('show');
 	});
 {% endblock %}
 {% block content %}
