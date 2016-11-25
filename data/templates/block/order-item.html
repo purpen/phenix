@@ -40,7 +40,7 @@
 	</div>
 	<div class="middle aligned ui celled white grid">
 		<div class="row">
-			<div class="seven wide column">
+			<div class="{% if order.status == 8 %}eight {%else%}seven {%endif%} wide column">
 				<table class="ui basic table">
 					<tbody>
 						{% for item in order.items %}
@@ -71,12 +71,13 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="center aligned three wide column">
-				<p>
-					订单金额：{{ order.pay_money }} 元
-				</p>
-				<p>
-					<small>（运费：{{ order.freight }} 元）</small>
+			<div class="center aligned {% if order.status == 8 %}four {%else%}three {%endif%} wide column">
+				<p style="margin-top: 1em;">
+					{% if order.status == 8 %}
+						退款金额：{{ order.pay_money }} 元
+					{% else %}
+						订单金额：{{ order.pay_money }} 元
+					{% endif %}
 				</p>
           {% if admin %}
                   
@@ -95,16 +96,16 @@
                 
           {% endif %}
 			</div>
-			<div class="center aligned three wide column">
+			<div class="center aligned {% if order.status == 8 %}four {%else%}three {%endif%} wide column">
 				<div id="order-{{ order.rid }}-label" class="status-label">
           <p>
 					状态: {{ order.status_label }}
           </p>
-          {% if order.trade_site_name%}
+          <!-- {% if order.trade_site_name%}
           <p>
             支付方式: {{ order.trade_site_name }}
           </p>
-          {%endif%}
+          {%endif%} -->
 				</div>
                 {% if my %}
                   {% if order.status == 1 %}
@@ -136,6 +137,7 @@
                   {% endif %}
                 {% endif %}
 			</div>
+			{% if !order.status == 8 %}
 			<div class="center aligned three wide column">
 				{% if my %}
 					<div class="status-label">
@@ -148,9 +150,6 @@
                     <!--
                     <a href="javascript:void(0);" class="ui small green inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
                     -->
-					{% endif %}
-					{% if order.status == 8 %}
-						<a href="javascript:void(0);" class="ui small green inverted button" name="apply-refund" rid="{{ order.rid }}">申请退款</a>
 					{% endif %}
                     {% if order.status == 16 %}
 						<a href="{{ app_url_my }}/evaluate?rid={{ order.rid }}" class="ui magenta link">售后评价 »</a>
@@ -172,6 +171,7 @@
 				{% endif %}
 				
 			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
