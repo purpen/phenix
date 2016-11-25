@@ -1882,6 +1882,13 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
         return $this->ajax_json('success', false, '', array('refund_price'=>$result['data']['refund_price']));
     
     }
+    /**
+	   * 退款／售后
+	  **/
+	public function customer(){
+		$this->set_target_css_state('user_orders');
+		return $this->to_html_page("page/my/customer.html");
+	}
 
 
 }
