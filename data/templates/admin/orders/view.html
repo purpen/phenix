@@ -301,6 +301,7 @@
 
                                         {% if item.refund_type %}
                                             <p class="attribute">状态：
+                                                <span style="color:red;">
                                                     {% if item.refund_status==0 %}
                                                         拒绝退款
                                                     {%endif%}
@@ -310,6 +311,7 @@
                                                     {% if item.refund_status==2 %}
                                                         已退款
                                                     {%endif%}
+                                                </span>
                                             </p>
                                         {%endif%}
                                     
@@ -328,7 +330,7 @@
 			</div>
 			<div class="center aligned three wide column">
 				<p>
-					{{ order_info.payment.name }}
+					支付方式：{{ order_info.trade_site_name }}
 				</p>
 			</div>
 			<div class="center aligned three wide column">

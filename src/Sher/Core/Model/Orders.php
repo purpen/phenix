@@ -29,7 +29,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         # product_id, sku, price, sale_price, kind, size, quantity, type, sku_mode,
         # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id
         # refund_type : 0.正常；1.退款；2.退货；3.换货；
-        # refund_status: 0.拒绝；1.进行中；2.已完成；
+        # refund_status: 0.拒绝退款；1.退款中；2.已退款；
 		'items' => array(),
 		'items_count' => 0,
 		

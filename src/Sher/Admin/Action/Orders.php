@@ -773,4 +773,52 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
     }
 
+    /**
+     * 发货前验证是否有退款
+     */
+    public function check_refund(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+ 	    $sub_order_id = isset($this->stash['sub_order_id']) ? $this->stash['sub_order_id'] : null;
+
+        if(empty($rid)){
+            return $this->ajax_json('缺少请求参数!', true);   
+        }
+		$model = new Sher_Core_Model_Orders();
+		$order = $model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+        $has_refund = false;
+        if(!empty($sub_order_id)){
+            for($i=0;$i<count($order['sub_orders']);$i++){
+                $sub_order = $order['sub_orders'][$i];
+                if($sub_order['id'] == $sub_order_id){
+                    for($j=0;$j<count($sub_order['items']);$j++){
+                        $item = $sub_order['items'][$j];
+
+                        if(isset($item['refund_type']) && !empty($item['refund_type'])){
+                            $has_refund = true;
+                            if($item['refund_status']==1){
+                                return $this->ajax_json('先处理退款!', true);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }else{
+            for($i=0;$i<count($order['items']);$i++){
+                $item = $order['items'][$i];
+                if(isset($item['refund_type']) && !empty($item['refund_type'])){
+                    $has_refund = true;
+                    if($item['refund_status']==1){
+                        return $this->ajax_json('先处理退款!', true);                      
+                    }
+                }
+            }
+        }
+
+        return $this->ajax_json('success', false, null, array('has_refund'=>$has_refund));
+    }
+
 }

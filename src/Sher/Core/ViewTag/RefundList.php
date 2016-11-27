@@ -21,6 +21,7 @@ class Sher_Core_ViewTag_RefundList extends Doggy_Dt_Tag {
         $order_rid  = 0;
         $user_id = 0;
         $type = 0;
+        $stage = 0;
         $target_id = 0;
         $product_id = 0;
         $sub_order_id = 0;
