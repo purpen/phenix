@@ -196,14 +196,24 @@
                                             <img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
                                         </a>
                                         <div class="content">
-                                            <div class="header">
-                                                {% if item.sku == item.product_id %}
+
+                                            {% if item.sku == item.product_id %}
+                                                <div class="header">
                                                     <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                {% else %}
+                                                </div>
+                                                <div class="header">
+                                                    单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                </div>
+                                            {% else %}
                                                 {% sku_list var:'sku' sku:item.sku %}
-                                                <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                {% endif %}
-                                            </div>
+                                                <div class="header">
+                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                </div>
+                                                <div class="header">
+                                                    单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                </div>
+                                            {% endif %}
+
                                             <div class="header">
                                                 编号：{{ item.sku }}
                                             </div>
@@ -282,16 +292,46 @@
                                                 <img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
                                             </a>
                                             <div class="content">
-                                                <div class="header">
-                                                    {% if item.sku == item.product_id %}
+                                                {% if item.sku == item.product_id %}
+                                                    <div class="header">
                                                         <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                    {% else %}
+                                                    </div>
+                                                    <div class="header">
+                                                        单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                    </div>
+                                                {% else %}
                                                     {% sku_list var:'sku' sku:item.sku %}
-                                          <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                    {% endif %}
+                                                    <div class="header">
+                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                    </div>
+                                                    <div class="header">
+                                                        单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                    </div>
+                                                {% endif %}
+
+                                                <div class="header">
+                                                    编号：{{ item.sku }}
                                                 </div>
-                                                <p class="attribute">编号：{{ item.sku }}</p>
+
+                                                {% if item.refund_type %}
+                                                    <div class="header">
+                                                    状态：
+                                                        <span style="color:red;">
+                                                            {% if item.refund_status==0 %}
+                                                                拒绝退款
+                                                            {%endif%}
+                                                            {% if item.refund_status==1 %}
+                                                                申请退款
+                                                            {%endif%}
+                                                            {% if item.refund_status==2 %}
+                                                                已退款
+                                                            {%endif%}
+                                                        </span>
+                                                    </div>
+                                                {%endif%}
+
                                             </div>
+
                                         </div>
                                     {% endfor %}
                                 </div>
