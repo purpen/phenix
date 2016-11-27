@@ -29,14 +29,14 @@ echo "-------------------------------------------------\n";
 echo "begin deal evaluate orders...\n";
 $order_model = new Sher_Core_Model_Orders();
 $page = 1;
-$size = 1000;
+$size = 100;
 $is_end = false;
 $total = 0;
 // 15天
 $time = time() - 1296000;
 while(!$is_end){
-	$query = array('status'=>Sher_Core_Util_Constant::ORDER_EVALUATE, 'evaluate_date'=>array('$lt'=>$time));
-	$options = array('field' => array('_id', 'user_id', 'status', 'evaluate_date', 'created_on'), 'page'=>$page, 'size'=>$size);
+	$query = array('status'=>Sher_Core_Util_Constant::ORDER_EVALUATE, 'delivery_date'=>array('$lt'=>$time));
+	$options = array('field' => array('_id', 'user_id', 'status', 'delivery_date', 'created_on'), 'page'=>$page, 'size'=>$size);
 	$list = $order_model->find($query, $options);
 	if(empty($list)){
 		echo "Get order list is null,exit......\n";

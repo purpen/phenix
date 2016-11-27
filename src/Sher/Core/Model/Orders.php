@@ -91,8 +91,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    'refunded_price'  =>  null,
 	    'refunded_date' => 0,
 
-        # 评价时间
-        'evaluate_date' => 0,
+        # 收货时间
+        'delivery_date' => 0,
 		
 		## 物流信息
 		
@@ -132,7 +132,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'status' => 0,
 		
-		## 时间（完成）
+		## 评价时间（完成）
 		'finished_date' => 0,
 		# 关闭时间
 		'closed_date' => 0,
@@ -603,9 +603,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['sended_date'] = time();
 		}
 
-		// 评价订单
+		// 确认收货订单
 		if ($status == Sher_Core_Util_Constant::ORDER_EVALUATE){
-			$updated['evaluate_date'] = time();
+			$updated['delivery_date'] = time();
 		}
 
 		// 完成订单

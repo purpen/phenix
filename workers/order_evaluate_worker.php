@@ -29,7 +29,7 @@ echo "-------------------------------------------------\n";
 echo "begin deal evaluate orders...\n";
 $order_model = new Sher_Core_Model_Orders();
 $page = 1;
-$size = 1000;
+$size = 100;
 $is_end = false;
 $total = 0;
 // 15天
