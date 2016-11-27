@@ -90,6 +90,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    'is_refunded' => 0,
 	    'refunded_price'  =>  null,
 	    'refunded_date' => 0,
+
+        # 评价时间
+        'evaluate_date' => 0,
 		
 		## 物流信息
 		
@@ -598,6 +601,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['express_caty'] = $options['express_caty'];
 			$updated['express_no'] = $options['express_no'];
 			$updated['sended_date'] = time();
+		}
+
+		// 评价订单
+		if ($status == Sher_Core_Util_Constant::ORDER_EVALUATE){
+			$updated['evaluate_date'] = time();
+		}
+
+		// 完成订单
+		if ($status == Sher_Core_Util_Constant::ORDER_PUBLISHED){
+			$updated['finished_date'] = time();
 		}
 
 		// 关闭订单，自动释放库存数量

@@ -94,7 +94,10 @@
 			待发货
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
-			已发货
+			待收货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=7" class="{% if s == 7 %}active{%endif%} item">
+			待评价
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
 			已完成
@@ -199,7 +202,7 @@
 
                                             {% if item.sku == item.product_id %}
                                                 <div class="header">
-                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
                                                 </div>
                                                 <div class="header">
                                                     单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
@@ -207,7 +210,7 @@
                                             {% else %}
                                                 {% sku_list var:'sku' sku:item.sku %}
                                                 <div class="header">
-                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
                                                 </div>
                                                 <div class="header">
                                                     单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
@@ -294,7 +297,7 @@
                                             <div class="content">
                                                 {% if item.sku == item.product_id %}
                                                     <div class="header">
-                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
                                                     </div>
                                                     <div class="header">
                                                         单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
@@ -302,7 +305,7 @@
                                                 {% else %}
                                                     {% sku_list var:'sku' sku:item.sku %}
                                                     <div class="header">
-                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
                                                     </div>
                                                     <div class="header">
                                                         单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
