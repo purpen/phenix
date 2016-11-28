@@ -1883,10 +1883,14 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     
     }
     /**
-	   * 退款／售后
-	  **/
+	 * 退款／售后
+	 **/
 	public function customer(){
 		$this->set_target_css_state('user_orders');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/customer?page=#p#');
+		$this->stash['pager_url'] = $pager_url;
+
 		return $this->to_html_page("page/my/customer.html");
 	}
 

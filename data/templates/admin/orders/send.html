@@ -51,7 +51,6 @@
 			});
 		}
 
-
 	});
 	
 	$('.datepicker').pickadate();
@@ -64,8 +63,19 @@
     $(':input[name=send-submit]').click(function(){
         var order_rid = $(':input[name=order_rid]').val();
         var sub_order_id = $(this).data('sub_order_id');
-        $(':input[name=sub_order_id]').val(sub_order_id);
-        $('.ui.send-box.modal').modal('show');
+        // 验证是否有退款行为
+        $.post("{{ app_url_admin }}/orders/check_refund", { rid:order_rid, sub_order_id: sub_order_id }, function(rs){
+            if(rs.success){
+                if(rs.data.has_refund){
+                    alert('有退款行为，请注意发货清单');
+                }
+                $(':input[name=sub_order_id]').val(sub_order_id);
+                $('.ui.send-box.modal').modal('show');           
+            }else{
+                phenix.show_error_note('请先处理退款请求!', 3000);
+            }
+        }, 'json');
+
     });
 	
 {% endblock %}
@@ -84,7 +94,10 @@
 			待发货
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
-			已发货
+			待收货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=7" class="{% if s == 7 %}active{%endif%} item">
+			待评价
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
 			已完成
@@ -186,15 +199,43 @@
                                             <img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
                                         </a>
                                         <div class="content">
-                                            <div class="header">
-                                                {% if item.sku == item.product_id %}
-                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                {% else %}
+
+                                            {% if item.sku == item.product_id %}
+                                                <div class="header">
+                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+                                                </div>
+                                                <div class="header">
+                                                    单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                </div>
+                                            {% else %}
                                                 {% sku_list var:'sku' sku:item.sku %}
-                                      <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                {% endif %}
+                                                <div class="header">
+                                                    <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+                                                </div>
+                                                <div class="header">
+                                                    单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="header">
+                                                编号：{{ item.sku }}
                                             </div>
-                                            <p class="attribute">编号：{{ item.sku }}</p>
+                                            {% if item.refund_type %}
+                                                <div class="header">
+                                                状态：
+                                                    <span style="color:red;">
+                                                        {% if item.refund_status==0 %}
+                                                            拒绝退款
+                                                        {%endif%}
+                                                        {% if item.refund_status==1 %}
+                                                            申请退款
+                                                        {%endif%}
+                                                        {% if item.refund_status==2 %}
+                                                            已退款
+                                                        {%endif%}
+                                                    </span>
+                                                </div>
+                                            {%endif%}
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -207,7 +248,7 @@
                         </div>
                         <div class="center aligned three wide column">
                             <p>
-                                {{ order_info.payment.name }}
+                                支付方式：{{ order_info.trade_site_name }}
                             </p>
                         </div>
                         <div class="center aligned three wide column send_stat">
@@ -254,16 +295,46 @@
                                                 <img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
                                             </a>
                                             <div class="content">
-                                                <div class="header">
-                                                    {% if item.sku == item.product_id %}
-                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                    {% else %}
+                                                {% if item.sku == item.product_id %}
+                                                    <div class="header">
+                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
+                                                    </div>
+                                                    <div class="header">
+                                                        单价: {{ product.sale_price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                    </div>
+                                                {% else %}
                                                     {% sku_list var:'sku' sku:item.sku %}
-                                          <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
-                                                    {% endif %}
+                                                    <div class="header">
+                                                        <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
+                                                    </div>
+                                                    <div class="header">
+                                                        单价: {{ sku.price }}&nbsp;&nbsp;x {{ item.quantity }}
+                                                    </div>
+                                                {% endif %}
+
+                                                <div class="header">
+                                                    编号：{{ item.sku }}
                                                 </div>
-                                                <p class="attribute">编号：{{ item.sku }}</p>
+
+                                                {% if item.refund_type %}
+                                                    <div class="header">
+                                                    状态：
+                                                        <span style="color:red;">
+                                                            {% if item.refund_status==0 %}
+                                                                拒绝退款
+                                                            {%endif%}
+                                                            {% if item.refund_status==1 %}
+                                                                申请退款
+                                                            {%endif%}
+                                                            {% if item.refund_status==2 %}
+                                                                已退款
+                                                            {%endif%}
+                                                        </span>
+                                                    </div>
+                                                {%endif%}
+
                                             </div>
+
                                         </div>
                                     {% endfor %}
                                 </div>

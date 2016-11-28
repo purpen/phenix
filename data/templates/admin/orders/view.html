@@ -168,7 +168,10 @@
 			已退款
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
-			已发货
+			待收货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=7" class="{% if s == 7 %}active{%endif%} item">
+			待评价
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
 			已完成
@@ -288,15 +291,33 @@
 							      	<div class="content">
 									{% if item.sku == item.product_id %}
 						          	<div class="header">
-										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
+										{{ product.title }}&nbsp;&nbsp;x {{ item.quantity }}
 									</div>
 									{% else %}
 									{% sku_list var:'sku' sku:item.sku %}
 						          	<div class="header">
-                          <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                        {{ product.title }} ({{ sku.mode }}) &nbsp;&nbsp;x {{ item.quantity }}
 									</div>
 									{% endif %}
 							          	<p class="attribute">编号：{{ item.sku }}</p>
+                                        <p class="attribute">单价：{{ item.sale_price }}</p>
+
+                                        {% if item.refund_type %}
+                                            <p class="attribute">状态：
+                                                <span style="color:red;">
+                                                    {% if item.refund_status==0 %}
+                                                        拒绝退款
+                                                    {%endif%}
+                                                    {% if item.refund_status==1 %}
+                                                        申请退款
+                                                    {%endif%}
+                                                    {% if item.refund_status==2 %}
+                                                        已退款
+                                                    {%endif%}
+                                                </span>
+                                            </p>
+                                        {%endif%}
+                                    
 							      	</div>
 								</td>
 							</tr>
@@ -312,7 +333,7 @@
 			</div>
 			<div class="center aligned three wide column">
 				<p>
-					{{ order_info.payment.name }}
+					支付方式：{{ order_info.trade_site_name }}
 				</p>
 			</div>
 			<div class="center aligned three wide column">

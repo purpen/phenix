@@ -265,7 +265,7 @@ class Sher_App_Action_Jdpay extends Sher_App_Action_Base implements DoggyX_Actio
 		}
 		$status = $order_info['status'];
 
-        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+        // 申请退款的订单才允许退款操作(包括待发货,已发货,确认收货,完成操作)
 		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
 			return $this->ajax_notification('订单状态不正确！', true);
         }

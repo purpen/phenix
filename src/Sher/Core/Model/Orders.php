@@ -29,7 +29,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         # product_id, sku, price, sale_price, kind, size, quantity, type, sku_mode,
         # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id
         # refund_type : 0.正常；1.退款；2.退货；3.换货；
-        # refund_status: 0.拒绝；1.进行中；2.已完成；
+        # refund_status: 0.拒绝退款；1.退款中；2.已退款；
 		'items' => array(),
 		'items_count' => 0,
 		
@@ -90,6 +90,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	    'is_refunded' => 0,
 	    'refunded_price'  =>  null,
 	    'refunded_date' => 0,
+
+        # 收货时间
+        'delivery_date' => 0,
 		
 		## 物流信息
 		
@@ -129,7 +132,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		
 		'status' => 0,
 		
-		## 时间（完成）
+		## 评价时间（完成）
 		'finished_date' => 0,
 		# 关闭时间
 		'closed_date' => 0,
@@ -598,6 +601,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['express_caty'] = $options['express_caty'];
 			$updated['express_no'] = $options['express_no'];
 			$updated['sended_date'] = time();
+		}
+
+		// 确认收货订单
+		if ($status == Sher_Core_Util_Constant::ORDER_EVALUATE){
+			$updated['delivery_date'] = time();
+		}
+
+		// 完成订单
+		if ($status == Sher_Core_Util_Constant::ORDER_PUBLISHED){
+			$updated['finished_date'] = time();
 		}
 
 		// 关闭订单，自动释放库存数量

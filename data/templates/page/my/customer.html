@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}我的订单-{% endblock %}
+{% block title %}退换货-{% endblock %}
 {% block page_css %}
 <style class="text/css">
     
@@ -100,19 +100,23 @@
             </div>
             
             
+			{% refund_list var:'list' user_id:user.id load_product:1 page:page size:size %}
+			
+			{% for d in list.rows %}
             
-            
-            <div id="order-{{ order._id }}" class="order-item">
+            <div id="refund-{{ d._id }}" class="order-item">
                 <div class="ui top attached header">
                     <div class="ui horizontal divided list">
                         <div class="item">
-                            订单号：116110206351
+                            退款单号：{{ d._id }}
                         </div>
+                        <!--
                         <div class="item">
                             田帅
                         </div>
+                        -->
                         <div class="item">
-                            下单时间：2016-11-02 16:12:46
+                            退单时间：{{ d.created_on|date }}
                         </div>
                     </div>
                 </div>
@@ -123,16 +127,19 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <a href="{{ product.view_url }}" class="ui cover image" target="_blank">
-                                                <img src="http://frbird.qiniudn.com/product/160126/56a731833ffca26a098baf71-5-s.jpg" alt="{{ product.title }}" />
+                                            <a href="{{ d.product.view_url }}" class="ui cover image" target="_blank">
+                                                <img src="{{ d.product.cover.thumbnails.mini.view_url }}" alt="{{ d.product.title }}" />
                                             </a>
                                         </td>
                                         <td>
                                             <div class="content">
                                                 <div class="header">
-                                                    <a href="{{ product.view_url }}" class="ui link">越南进口Tipo友谊牌牛奶味面包干300g (test)</a>&nbsp;&nbsp;x 1
+                                                    标题：<a href="{{ d.product.view_url }}" class="ui link">{{ d.product.title }}</a>
                                                 </div>
-                                                <p class="attribute">编号：1112523575</p>
+                                                <div class="header">
+                                                    单价：{{ d.product.sale_price }} &nbsp;&nbsp; x {{ d.quantity }}
+                                                </div>
+                                                <p class="attribute">编号：{{ d.target_id }}</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -141,13 +148,13 @@
                         </div>
                         <div class="center aligned four wide column">
                             <p style="margin-top: 1em;">
-                                退款金额：123 元
+                                退款金额：{{ d.refund_price }} 元
                             </p>
                         </div>
                         <div class="center aligned four wide column">
-                            <div id="order-{{ order.rid }}-label" class="status-label">
+                            <div class="status-label">
                                 <p>
-                                状态: 退款中
+                                状态: {{ d.stage_label }}
                                 </p>
                             </div>
                         </div>
@@ -155,11 +162,21 @@
                 </div>
             </div>
 
+            {%else%}
 
-            
             <div class="ui segment">
-                <p>您还没有相关订单</p>
+                <p>您还没有相关退款记录</p>
             </div>
+
+            {%endfor%}
+
+            {% if list.total_page>1 %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+
         </div>
     </div>
 </div>

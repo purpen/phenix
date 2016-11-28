@@ -2537,9 +2537,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $item = array();
         $product = $product_model->extend_load($refund['product_id']);
         $item['title'] = $product['title']; 
+        $item['name'] = $product['title']; 
         $item['short_title'] = $product['short_title'];
         $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
         $item['sale_price'] = $product['sale_price'];
+        $item['quantity'] = $refund['quantity'];
 
         $item['sku_name'] = '默认';
         if($refund['product_id'] != $refund['target_id']){
@@ -2549,6 +2551,12 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 $item['sale_price'] = $sku['price'];
             }
         }
+
+        $refund['refund_at'] = '';
+        if(!empty($refund['refund_on'])){
+            $refund['refund_at'] = date('y-m-d H:i', $refund['refund_on']);           
+        }
+        $refund['created_at'] = date('Y-m-d H:i', $refund['created_on']);
 
         $refund['product'] = $item;
         return $this->api_json('success', 0, $refund);
