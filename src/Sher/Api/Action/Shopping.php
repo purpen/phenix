@@ -2487,7 +2487,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             $item['sale_price'] = $product['sale_price'];
             $item['quantity'] = $data[$i]['quantity'];
 
-            $item['sku_name'] = '';
+            $item['sku_name'] = '默认';
             if($data[$i]['target_type']==1){
                 $sku = $sku_model->find_by_id($data[$i]['target_id']);
                 if($sku){

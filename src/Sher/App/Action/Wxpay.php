@@ -195,9 +195,9 @@
         }
         $status = $order_info['status'];
         
-        // 验证订单是否已申请退款
-        if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-            return $this->show_message_page("订单[$rid]未申请退款！", false);
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->show_message_page('订单状态不正确！', true);
         }
     
         $pay_money = $order_info['pay_money'];
@@ -262,9 +262,9 @@
         }
         $status = $order_info['status'];
         
-        // 验证订单是否已申请退款
-        if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-            return $this->show_message_page("订单[$rid]未申请退款！", false);
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->show_message_page('订单状态不正确！', true);
         }
     
         $pay_money = $order_info['pay_money'];
