@@ -1330,11 +1330,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
             $d = $product_model->extend_load((int)$v['product_id']);
             if(!empty($d)){
-              $sku_mode = null;
+              $sku_mode = '默认';
               if($v['sku']==$v['product_id']){
                 $data['items'][$m]['name'] = $d['title'];   
               }else{
-                $sku_mode = '';
                 $sku = $sku_model->find_by_id($v['sku']);
                 if(!empty($sku)){
                   $sku_mode = $sku['mode'];
@@ -1387,11 +1386,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
                     $d = $product_model->extend_load((int)$v['product_id']);
                     if(!empty($d)){
-                      $sku_mode = null;
+                      $sku_mode = '默认';
                       if($v['sku']==$v['product_id']){
                         $data['sub_orders'][$i]['items'][$m]['name'] = $d['title'];   
                       }else{
-                        $sku_mode = '';
                         $sku = $sku_model->find_by_id($v['sku']);
                         if(!empty($sku)){
                           $sku_mode = $sku['mode'];
