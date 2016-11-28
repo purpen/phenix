@@ -1213,11 +1213,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         foreach($result['rows'][$i]['items'] as $k=>$v){
           $d = $product_model->extend_load((int)$v['product_id']);
           if(!empty($d)){
-            $sku_mode = null;
+            $sku_mode = '默认';
             if($v['sku']==$v['product_id']){
               $data[$i]['items'][$m]['name'] = $d['title'];   
             }else{
-              $sku_mode = '默认';
               $sku = $sku_model->find_by_id($v['sku']);
               if(!empty($sku)){
                 $sku_mode = $sku['mode'];
