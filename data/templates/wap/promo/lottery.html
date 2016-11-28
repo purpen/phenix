@@ -18,7 +18,8 @@ body {
     background:url(http://www.jq22.com/demo/jquery-cj-150209223820/images/bg.jpg) no-repeat;
     padding:0;
     background-size:cover;
-    padding: 0.73rem 0.7981rem;
+    /*padding: 0.73rem 0.7981rem;*/
+    padding: 0.72rem 0.78rem;
 }
 
 #lottery table td{
@@ -26,18 +27,32 @@ body {
     vertical-align:middle;
     color:#333;
     font-index:-999;
+    /**/
+    background-color:#ea0000;
 }
 #lottery table{
     width: 8.34rem;
     height: 8.34rem;
 }
             #lottery table td img{
-                width:2.02rem;
-                height:2.02rem;
+                /*width:2.02rem;
+                height:2.02rem;*/
+                width:2.7rem;
+                height:2.7rem;
                 vertical-align: middle;
             }
-            #lottery table td a{width:4rem;height:4rem;display:block;text-decoration:none;}
-            #lottery table td.active{background-color:#ea0000;}
+            #lottery table td a{
+                /*width:4rem;
+                height:4rem;*/
+                width:2.7rem;
+                height:2.7rem;
+                display:block;
+                text-decoration:none;
+            }
+            #lottery table td.active{
+                /*background-color:#ea0000;*/
+                background:transparent; 
+            }
 </style>
 {% endblock %}
 
@@ -52,7 +67,7 @@ body {
         timer: 0, //setTimeout的ID，用clearTimeout清除
         speed: 20, //初始转动速度
         times: 0, //转动次数
-        cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+        cycle: 30, //转动基本次数：即至少需要转动多少次再进入抽奖环节
         prize: -1, //中奖位置
         init: function(id) {
             if ($("#" + id).find(".lottery-unit").length > 0) {
@@ -154,24 +169,25 @@ body {
                 <tr>
                     <td class="lottery-unit lottery-unit-0"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/1.png"></td>
                     <td class="lottery-unit lottery-unit-1"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/2.png"></td>
-                    <td class="lottery-unit lottery-unit-2"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/4.png"></td>
+                    <td class="lottery-unit lottery-unit-2"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
+                    <!-- <td class="lottery-unit lottery-unit-3"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td> -->
+                </tr>
+                <tr>
+                    <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
+                    <td class="active"><a href="javascript:void(0);"></a></td>
                     <td class="lottery-unit lottery-unit-3"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
                 </tr>
                 <tr>
-                    <td class="lottery-unit lottery-unit-11"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-                    <td colspan="2" rowspan="2"><a href="javascript:void(0);"></a></td>
-                    <td class="lottery-unit lottery-unit-4"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/5.png"></td>
-                </tr>
-                <tr>
-                    <td class="lottery-unit lottery-unit-10"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/1.png"></td>
+                    <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/1.png"></td>
                     <td class="lottery-unit lottery-unit-5"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
+                    <td class="lottery-unit lottery-unit-4"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td class="lottery-unit lottery-unit-9"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
                     <td class="lottery-unit lottery-unit-8"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
                     <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/8.png"></td>
                     <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-                </tr>
+                </tr> -->
             </table>
         </div>
     </div>
