@@ -117,7 +117,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         }else{
             $reason = null;
         }
-        if($eason){
+        if($reason){
             $row['reason_label'] = $reason['title'];   
         }
 
