@@ -109,7 +109,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-        $reason = $row['reason_label'] = null;
+        $reason = $row['reason_label'] = '';
         if($row['type']==1){
             $reason = $this->find_refund_reason($row['reason']);
         }elseif($row['type']==2){

@@ -297,7 +297,6 @@
             //$result = json_decode($result,true);
 
             Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
-            $result = json_encode($result);
             $this->refund_back($result);
         }
 	}
