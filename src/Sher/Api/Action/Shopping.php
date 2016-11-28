@@ -1217,7 +1217,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             if($v['sku']==$v['product_id']){
               $data[$i]['items'][$m]['name'] = $d['title'];   
             }else{
-              $sku_mode = '';
+              $sku_mode = '默认';
               $sku = $sku_model->find_by_id($v['sku']);
               if(!empty($sku)){
                 $sku_mode = $sku['mode'];
