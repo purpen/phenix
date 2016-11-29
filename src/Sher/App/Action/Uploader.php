@@ -349,6 +349,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
+	 * 上传SKU cover图
+	 */
+	public function sku_cover() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SKU;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SKU_COVER;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
 	 * 上传产品去底图
 	 */
 	public function product_png() {
@@ -859,6 +869,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		    $tpl = 'ajax/check_upload_product_png_assets.html';
       }elseif($type==4){
 		    $tpl = 'ajax/check_upload_product_cover_assets.html';
+      }elseif($type==5){
+		    $tpl = 'ajax/check_upload_product_sku_assets.html';
       }else{
 		    $tpl = 'ajax/check_upload_product_assets.html';
       }

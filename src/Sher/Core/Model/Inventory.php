@@ -36,6 +36,8 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
 		'quantity' => 0,
 		# 已销售数量
 		'sold'  => 0,
+        # 封面图
+        'cover_id' => null,
 		
 		# 限额数量
 		'limited_count' => 0,
