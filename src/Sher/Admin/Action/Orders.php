@@ -851,7 +851,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         }
 
         $express_caty = $express_no = null;
-        if(isset($order['exist_sub_order']) && empty($order['exist_sub_order'])){
+        if(isset($order['exist_sub_order']) && !empty($order['exist_sub_order'])){
             for($i=0;$i<count($order['sub_orders']);$i++){
                 $sub_order = $order['sub_orders'][$i];
                 if(isset($sub_order['express_no']) && !empty($sub_order['express_no'])){
