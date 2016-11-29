@@ -821,4 +821,58 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         return $this->ajax_json('success', false, null, array('has_refund'=>$has_refund));
     }
 
+    /**
+     * 强制发货
+     */
+    public function force_send(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        if(empty($rid)){
+            return $this->ajax_json('缺少请求参数!', true);   
+        } 
+
+		$model = new Sher_Core_Model_Orders();
+		$order = $model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+
+		// 待发货订单才允许发货
+		if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->ajax_json('订单状态不正确！', true);
+		}
+
+        $can_send = false;
+        for($i=0;$i<count($order['items']);$i++){
+            $item = $order['items'][$i];
+            if(!isset($item['refund_type']) || empty($item['refund_type'])){
+                $can_send = true;
+                break;
+            }
+        }
+
+        $express_caty = $express_no = null;
+        if(isset($order['exist_sub_order']) && empty($order['exist_sub_order'])){
+            for($i=0;$i<count($order['sub_orders']);$i++){
+                $sub_order = $order['sub_orders'][$i];
+                if(isset($sub_order['express_no']) && !empty($sub_order['express_no'])){
+                    $express_caty = $sub_order['express_caty'];
+                    $express_no = $sub_order['express_no'];
+                    break;
+                }
+            }
+        }else{
+            $express_caty = $order['express_caty'];
+            $express_no = $order['express_no'];
+        }
+
+        if(empty($express_no)){
+            return $this->ajax_json('没有物流信息!', true);           
+        }
+
+        $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+
+        return $this->ajax_json('success', false, '', array('rid'=>$rid));
+
+    }
+
 }
