@@ -28,6 +28,8 @@ class Sher_Core_ViewTag_RefundList extends Doggy_Dt_Tag {
         $deleted = -1;
 		$sort = 'latest';
         $load_product = 0;
+        $load_order = 0;
+        $load_user = 0;
         
         $var = 'list';
         $include_pager = 0;
@@ -80,11 +82,25 @@ class Sher_Core_ViewTag_RefundList extends Doggy_Dt_Tag {
             $product_model = new Sher_Core_Model_Product();
             $sku_model = new Sher_Core_Model_Inventory();       
         }
+        if($load_order){
+            $order_model = new Sher_Core_Model_Orders();
+        }
+        if($load_user){
+            $user_model = new Sher_Core_Model_User();
+        }
 
         for($i=0;$i<count($result['rows']);$i++){
             if($load_product){
                 $product = $product_model->extend_load($result['rows'][$i]['product_id']);
                 $result['rows'][$i]['product'] = $product;
+            }
+            if($load_order){
+                $order = $order_model->find_by_rid($result['rows'][$i]['order_rid']);
+                $result['rows'][$i]['order'] = $order;
+            }
+            if($load_user){
+                $user = $user_model->load($result['rows'][$i]['user_id']);
+                $result['rows'][$i]['user'] = $user;
             }
 
         }

@@ -94,18 +94,17 @@
 				<th>缩略图</th>
 				<th class="three wide">名称</th>
                 <th>退款金额</th>
-                <th>数量</th>
-                <th class="four wide">退款原因</th>
+                <th class="two wide">退款原因</th>
+                <th class="three wide">收货信息</th>
                 <th>支付方式</th>
-                <th>类型</th>
-                <th>进度</th>
-				<th>申请时间</th>
+                <th>类型/进度</th>
+				<th>申请/退款时间</th>
                 <th>是否删除</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		    {% refund_list var:'list' page:page size:size type:type stage:stage user_id:user_id load_product:1 %}
+		    {% refund_list var:'list' page:page size:size type:type stage:stage user_id:user_id load_product:1 load_order:1 load_user:1 %}
 
 			{% for d in list.rows %}
 			<tr id="item-{{ d._id }}">
@@ -144,24 +143,32 @@
 					</div>
                 </td>
                 <td>
-                    {{ d.refund_price }}
+                    {{ d.refund_price }}*{{ d.quantity }}
                 </td>
-                <td>
-                    {{ d.quantity }}
-                </td>
+
                 <td>
                     <p>原因: {{ d.reason_label }}</p>
                     <p>说明: {{ d.content }}</p>
                 </td>
-                <td>{{ d.pay_label }}</td>
                 <td>
-                    {{ d.type_label }}
+                    <p>昵称: <a href="{{ app_url_domain }}/user/{{ d.user_id }}" target="_blank">{{ d.user.nickname }}</a></p>
+                    <p>姓名: {{ d.order.express_info.name }}</p>
+                    <p>电话: {{ d.order.express_info.phone }}</p>
+                    <p>地址: {{ d.order.express_info.province }} {{ d.order.express_info.city }} {{ d.order.express_info.county }} {{ d.order.express_info.town }}</p>
+                    <p>详情: {{ d.order.express_info.address }}</p>
+                    <p>邮编: {{ d.order.express_info.zip }}</p>
                 </td>
+                <td>{{ d.pay_label }}</td>
+
                 <td>
-                    {{ d.stage_label }}
+                    <p>{{ d.stage_label }}</p>
+                    <p>{{ d.type_label }}</p>
                 </td>
 				<td>
-					{{ d.created_on|date 'Y-m-d H:i'}}
+                    <p>{{ d.created_on|date 'Y-m-d H:i'}}</p>
+                    {% if d.refund_on %}
+                        <p>{{ d.refund_on|date 'Y-m-d H:i'}}</p>
+                    {%endif%}
 				</td>
 				<td>
 					<p>
