@@ -434,6 +434,112 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			return $this->show_message_page('你没有权限查看此订单！');
 		}
 
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+        for($i=0;$i<count($order_info['items']);$i++){
+            $item = $order_info['items'][$i];
+            $order_info['items'][$i]['refund_label'] = '';
+            if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                switch((int)$item['refund_status']){
+                    case 0:
+                        $order_info['items'][$i]['refund_label'] = '商家拒绝退款';
+                        break;
+                    case 1:
+                        $order_info['items'][$i]['refund_label'] = '退款中';
+                        break;
+                    case 2:
+                        $order_info['items'][$i]['refund_label'] = '已退款';
+                        break;
+                }   
+            }
+            // 退货款按钮状态
+            $order_info['items'][$i]['refund_button'] = 0;
+            if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                if(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                    $order_info['items'][$i]['refund_button'] = 1;           
+                }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
+                    $order_info['items'][$i]['refund_button'] = 2;
+                }
+            }
+
+          $d = $product_model->extend_load((int)$order_info['items'][$i]['product_id']);
+          if(!empty($d)){
+            $sku_mode = null;
+            if($order_info['items'][$i]['sku']!=$order_info['items'][$i]['product_id']){
+              $sku = $sku_model->find_by_id($order_info['items'][$i]['sku']);
+              if(!empty($sku)){
+                $sku_mode = $sku['mode'];
+              }
+            }
+            $order_info['items'][$i]['name'] = $d['title']; 
+            $order_info['items'][$i]['view_url'] = $d['view_url']; 
+            $order_info['items'][$i]['sku_name'] = $sku_mode; 
+            $order_info['items'][$i]['subtotal'] = (float)$order_info['items'][$i]['sale_price']*$order_info['items'][$i]['quantity']; 
+            $order_info['items'][$i]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];
+          }
+        }
+
+        if(isset($order_info['exist_sub_order']) && !empty($order_info['exist_sub_order'])){
+            for($i=0;$i<count($order_info['sub_orders']);$i++){
+                $sub_order = $order_info['sub_orders'][$i];
+                for($j=0;$j<count($sub_order['items']);$j++){
+                    $item = $sub_order['items'][$j];
+
+                    $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '';
+                    if(isset($item['refund_type']) && $item['refund_type'] != 0){
+                        switch((int)$item['refund_status']){
+                            case 0:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '商家拒绝退款';
+                                break;
+                            case 1:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '退款中';
+                                break;
+                            case 2:
+                                $order_info['sub_orders'][$i]['items'][$j]['refund_label'] = '已退款';
+                                break;
+                        }   
+                    }
+                    // 退货款按钮状态
+                    $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 0;
+                    if(!isset($item['refund_type']) || $item['refund_type'] == 0){
+                        if(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_READY_GOODS))){ // 退款状态
+                            $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 1;           
+                        }elseif(in_array($order_info['status'], array(Sher_Core_Util_Constant::ORDER_SENDED_GOODS,Sher_Core_Util_Constant::ORDER_EVALUATE))){   // 退货状态
+                            $order_info['sub_orders'][$i]['items'][$j]['refund_button'] = 2;
+                        }
+                    }
+
+                  $d = $product_model->extend_load((int)$item['product_id']);
+                  if(!empty($d)){
+                    $sku_mode = null;
+                    if($item['sku']!=$item['product_id']){
+                      $sku = $sku_model->find_by_id($item['sku']);
+                      if(!empty($sku)){
+                        $sku_mode = $sku['mode'];
+                      }
+                    }
+                    $order_info['sub_orders'][$i]['items'][$j]['name'] = $d['title']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['view_url'] = $d['view_url']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['sku_name'] = $sku_mode; 
+                    $order_info['sub_orders'][$i]['items'][$j]['subtotal'] = (float)$item['sale_price']*$item['quantity']; 
+                    $order_info['sub_orders'][$i]['items'][$j]['cover_url'] = $d['cover']['thumbnails']['mini']['view_url'];       
+                  }
+                }   // endfor
+
+                if(!empty($sub_order['is_sended'])){
+                    $express_company_arr = $model->find_express_category($sub_order['express_caty']);
+                    $order_info['sub_orders'][$i]['express_company'] = $express_company_arr['title'];               
+                }
+
+            }   // endfor
+        
+        }
+
+        // 退货退款原因选项
+        $refund_model = new Sher_Core_Model_Refund();
+        $this->stash['refund_reason'] = $refund_model->find_refund_reason();
+        $this->stash['return_reason'] = $refund_model->find_return_reason();
+
 		$this->stash['order_info'] = $order_info;
 
 		return $this->to_html_page("page/my/order_view.html");
@@ -562,7 +668,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 取消订单
+	 * ajax取消订单
 	 */
 	public function ajax_cancel_order(){
 		$rid = $this->stash['rid'];
@@ -593,6 +699,38 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 		$this->stash['my'] = true;
 
 		return $this->to_taconite_page('ajax/order_ok.html');
+	}
+
+	/**
+	 * 取消订单
+	 */
+	public function cancel_order(){
+		$rid = $this->stash['rid'];
+        $redirect_url = sprintf("%s/my/orders", Doggy_Config::$vars['app.url.domain']);
+		if (empty($rid)) {
+			return $this->show_message_page('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+
+		// 检查是否具有权限
+		if ($order_info['user_id'] != $this->visitor->id && !$this->visitor->can_admin()) {
+			return $this->show_message_page('操作不当，你没有权限关闭！', true);
+		}
+
+		// 未支付订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->show_message_page('该订单出现异常，请联系客服！', true);
+		}
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
+		try {
+			// 关闭订单
+			$model->canceled_order($order_info['_id'], array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->show_message_page('取消订单失败:'.$e->getMessage(),true);
+        }
+
+        return $this->to_redirect($redirect_url);
 	}
 
 	/**
@@ -1202,6 +1340,106 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->ajax_json('success', false, 0, array('rid'=>$rid)); 
   }
 
+    /**
+     * ajax 申请退款(new新版)
+    */
+    public function ajax_product_refund(){
+        $options = array();
+        $rid = $options['rid'] = $this->stash['rid'];
+        $sku_id = $options['sku_id'] = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+        $refund_type = $options['refund_type'] = isset($this->stash['refund_type']) ? (int)$this->stash['refund_type'] : 0;
+        $refund_reason = $options['refund_reason'] = isset($this->stash['refund_reason']) ? (int)$this->stash['refund_reason'] : 0;
+        $refund_content = $options['refund_content'] = isset($this->stash['refund_content']) ? $this->stash['refund_content'] : null;
+        $refund_price = $options['refund_price'] = isset($this->stash['refund_price']) ? (float)$this->stash['refund_price'] : 0;
+        if (empty($rid) || empty($sku_id)) {
+          return $this->ajax_json('操作不当，请查看购物帮助！', true);
+        }
+        if(empty($refund_reason) && empty($refund_content)){
+          return $this->ajax_json('请说明退款原因！', true);   
+        }
+
+        $orders_model = new Sher_Core_Model_Orders();
+        $order = $options['order'] = $orders_model->find_by_rid($rid);
+
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+
+        // 检查是否具有权限
+        if ($order['user_id'] != $this->visitor->id) {
+            return $this->ajax_json('操作不当，你没有权限！', true);
+        }
+
+        //零元不能退款
+        if ((float)$order['pay_money']==0){
+            return $this->ajax_json('此订单不允许退款操作！', true);
+        }
+
+        // 只有已发货的订单才允许申请
+        $arr = array(
+            Sher_Core_Util_Constant::ORDER_READY_GOODS,
+            Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
+            Sher_Core_Util_Constant::ORDER_EVALUATE,
+            //Sher_Core_Util_Constant::ORDER_PUBLISHED, 
+        );
+        if(!in_array($order['status'], $arr)){
+            return $this->ajax_json('不允许的操作!', true);
+        }
+
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id, $order);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true);            
+        }
+
+        $refund_price = $options['refund_price'] = $result['data']['refund_price'];
+
+        try {
+            // 申请退货款
+            $result = $orders_model->apply_refund($rid, $options);
+
+            if($result['success']==false){
+                return $this->ajax_json($result['message'], true);
+            }
+
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_json('申请退款失败，请联系客服:'.$e->getMessage(), true);
+        } catch(Exception $e){
+            return $this->ajax_json('申请退款失败，请联系客服.:'.$e->getMessage(), true);   
+        }
+        return $this->ajax_json('success', false, 0, array('rid'=>$rid, 'sub_order_id'=>$result['data']['sub_order_id'], 'sku_id'=>$sku_id)); 
+    }
+
+    /**
+     * ajax删除退款单
+     */
+    public function ajax_delete_refund(){
+        $user_id = $this->visitor->id;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+
+        // 退款单Model
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+            return $this->ajax_json('退款单不存在！', true);       
+        }
+        if($refund['user_id'] != $user_id){
+            return $this->ajax_json('没有权限操作！', true);       
+        }
+        if($refund['stage'] == Sher_Core_Model_Refund::STAGE_ING){
+            return $this->ajax_json('不允许的操作！', true);       
+        }
+        $ok = $refund_model->mark_remove($id);
+        if(!$ok){
+            return $this->ajax_json('删除失败！', true);           
+        }
+        return $this->ajax_json('success', false, '', array('id'=>$id));
+    }
+
+
   /**
    * 我的话题
    */
@@ -1624,6 +1862,37 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     return $this->ajax_json('success', false, 0, array('has_tag'=>1, 'tags'=>$items)); 
   
   }
+
+    /**
+     * ajax计算退款金额
+     */
+    public function check_refund(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
+
+        if (empty($rid) || empty($sku_id)) {
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+        // 自动计算退款金额
+        $result = Sher_Core_Helper_Order::reckon_refund_price($rid, $sku_id);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true);            
+        }
+        
+        return $this->ajax_json('success', false, '', array('refund_price'=>$result['data']['refund_price']));
+    
+    }
+    /**
+	 * 退款／售后
+	 **/
+	public function customer(){
+		$this->set_target_css_state('user_orders');
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.my'].'/customer?page=#p#');
+		$this->stash['pager_url'] = $pager_url;
+
+		return $this->to_html_page("page/my/customer.html");
+	}
 
 
 }

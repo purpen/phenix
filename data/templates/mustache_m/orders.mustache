@@ -38,7 +38,7 @@
 			<div class="orderbottom status_btn_box">
 
           {{#status_invalid}}
-            <a href="javascript:void(0);" rid="{{ rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
+            <a href="javascript:void(0);" rid="{{ rid }}" class="ui small color-bd inverted button remove_order_btn">删除订单</a>
           {{/status_invalid}}
 
           {{#status_evaluate}}
@@ -46,7 +46,7 @@
           {{/status_evaluate}}
 
           {{#status_finish}}
-            <a href="javascript:void(0);" rid="{{ rid }}" class="ui small color-be inverted button remove_order_btn">删除订单</a>
+            <a href="javascript:void(0);" rid="{{ rid }}" class="ui small color-bd inverted button remove_order_btn">删除订单</a>
           {{/status_finish}}
 
 		  {{#status_pay}}
@@ -54,9 +54,9 @@
 			<a href="{{ app_url_wap }}/shop/success?rid={{ rid }}" class="ui small color-be inverted button">立即支付</a>
 		  {{/status_pay}}
 
-		  {{#status_refunt}}
-		    <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ rid }}">申请退款</a>
-		  {{/status_refunt}}
+		  <!--##{{#status_refunt}}
+		  ##  <a href="javascript:void(0);" class="ui small color-be inverted button apply-refund" name="apply-refund" rid="{{ rid }}">申请退款</a>
+		  ##{{/status_refunt}} -->
 
 		  {{#status_ready_goods}}
 		    <a href="javascript:void(0);" class="ui small color-be inverted button take_delivery_btn" rid="{{ rid }}">确认收货</a>

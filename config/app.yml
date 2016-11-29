@@ -70,6 +70,8 @@ app.session.secret_key: 'Frbird#2015Up'
 
 # 序列编号表
 app.serialno.name: 'serialno'
+# 退款单 ID
+app.refund_serialno.name: 'refund_serialno'
 
 app.mongodb_host: 'mongodb://127.0.0.1'
 app.mongodb_rs: false
@@ -173,6 +175,7 @@ app.dt.extension_lib.sher_app:
     'user_temp_list':'Sher_Core_ViewTag_UserTempList'
     'sight_stat_list':'Sher_Core_ViewTag_SightStatList'
     'supplier_list':'Sher_Core_ViewTag_SupplierList'
+    'refund_list':'Sher_Core_ViewTag_RefundList'
   filters: []
 
 app.js.use_bundle: false

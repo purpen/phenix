@@ -246,10 +246,22 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
    * 退款
    */
   public function refund(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)){
-			return $this->show_message_page('操作不当，订单号丢失！', true);
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->show_message_page('缺少请求参数！', true);
 		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->show_message_page('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+        $rid = $refund['order_rid'];
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
@@ -263,11 +275,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->ajax_notification('订单状态不正确！', true);
         }
 
-        $pay_money = $order_info['pay_money'];
+        $pay_money = $refund['refund_price'];
         if((float)$pay_money==0){
             return $this->show_message_page("订单[$rid]金额为零！", false);  
         }
-
 
 		$trade_no = $order_info['trade_no'];
 		$trade_site = $order_info['trade_site'];
@@ -280,6 +291,10 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$refund_date = date('Y-m-d H:i:s');
 		$detail_data = $trade_no.'^'.$pay_money.'^协商退款';
 
+        // 退款批次号
+        $batch_no = (string)date('Ymd').(string)$id;
+        // 退款单记录批次号
+        $refund_model->update_set($id, array('batch_no'=>$batch_no));
 
 		//构造要请求的参数数组，无需改动
 		$parameter = array(
@@ -287,7 +302,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			"partner" => trim($this->alipay_config['partner']),
 			"seller_email"	=> $this->alipay_config['seller_email'],
 			"refund_date"	=> $refund_date,
-			"batch_no"	=> (string)date('Ymd').(string)$rid,
+			"batch_no"	=> $batch_no,
 			"batch_num"	=> 1,
 			"detail_data"	=> $detail_data,
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
@@ -358,30 +373,23 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->to_raw('fail');     
 			}
 
-			$model = new Sher_Core_Model_Orders();
-			$order = $model->first(array('trade_no'=>$trade_no));
-
-			if(empty($order)){
-				Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$trade_no] order is empty!");
-				return $this->to_raw('fail');        
+            $refund_model = new Sher_Core_Model_Refund();
+            $refund = $refund_model->first(array('batch_no'=>$batch_no));
+			if(empty($refund)){
+				Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$trade_no] refund is empty!");
+				return $this->to_raw('fail');
 			}
 
-			$order_id = (string)$order['_id'];
+			$refund_id = $refund['_id'];
 
-      // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
-      if (!Sher_Core_Helper_Order::refund_order_status_arr($order['status'])){
-        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] stauts is wrong!");
-        return $this->to_raw('fail');
-      }
-
-      $ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
-      if($ok){
-        //退款成功
-        return $this->to_raw('success');     
-      }else{
-        Doggy_Log_Helper::warn("Alipay refund notify: order_id[$order_id] refunde_order fail !");
-        return $this->to_raw('fail');  
-      }
+            $ok = $refund_model->refund_call($refund_id, array('refund_price'=>$refunded_price));
+              if($ok){
+                //退款成功
+                return $this->to_raw('success');     
+              }else{
+                Doggy_Log_Helper::warn("Alipay refund notify: refund_id[$refund_id] refunde_order fail !");
+                return $this->to_raw('fail');  
+              }
 		}else{
 			// 验证失败
 			Doggy_Log_Helper::warn("Alipay refund notify verify result fail!");
@@ -393,10 +401,22 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
      * Fiu退款
     */
     public function fiu_refund(){
-		$rid = $this->stash['rid'];
-		if (empty($rid)){
-			return $this->show_message_page('操作不当，订单号丢失！', true);
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->show_message_page('操作不当， 退款单号丢失！', true);
 		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->show_message_page('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+        $rid = $refund['order_rid'];
 		
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($rid);
@@ -410,7 +430,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			return $this->ajax_notification('订单状态不正确！', true);
         }
 
-        $pay_money = $order_info['pay_money'];
+        $pay_money = $refund['refund_price'];
         if((float)$pay_money==0){
             return $this->show_message_page("订单[$rid]金额为零！", false);  
         }
@@ -426,6 +446,11 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 		$refund_date = date('Y-m-d H:i:s');
 		$detail_data = $trade_no.'^'.$pay_money.'^协商退款';
 
+        // 退款批次号
+        $batch_no = (string)date('Ymd').(string)$id;
+        // 退款单记录批次号
+        $refund_model->update_set($id, array('batch_no'=>$batch_no));
+
 
 		//构造要请求的参数数组，无需改动
 		$parameter = array(
@@ -433,7 +458,7 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 			"partner" => Doggy_Config::$vars['app.alipay.fiu.partner'],
 			"seller_email"	=> 'home@taihuoniao.com',
 			"refund_date"	=> $refund_date,
-			"batch_no"	=> (string)date('Ymd').(string)$rid,
+			"batch_no"	=> $batch_no,
 			"batch_num"	=> 1,
 			"detail_data"	=> $detail_data,
 			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
@@ -529,30 +554,24 @@ class Sher_App_Action_Alipay extends Sher_App_Action_Base implements DoggyX_Acti
 				return $this->to_raw('fail');     
 			}
 
-			$model = new Sher_Core_Model_Orders();
-			$order = $model->first(array('trade_no'=>$trade_no));
-
-			if(empty($order)){
-				Doggy_Log_Helper::warn("Alipay fiu refund notify: trade_no[$trade_no] order is empty!");
-				return $this->to_raw('fail');        
+            $refund_model = new Sher_Core_Model_Refund();
+            $refund = $refund_model->first(array('batch_no'=>$batch_no));
+			if(empty($refund)){
+				Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$trade_no] refund is empty!");
+				return $this->to_raw('fail');
 			}
 
-			$order_id = (string)$order['_id'];
+			$refund_id = $refund['_id'];
 
-      // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
-      if (!Sher_Core_Helper_Order::refund_order_status_arr($order['status'])){
-        Doggy_Log_Helper::warn("Alipay fiu refund notify: order_id[$order_id] stauts is wrong!");
-        return $this->to_raw('fail');
-      }
+            $ok = $refund_model->refund_call($refund_id, array('refund_price'=>$refunded_price));
 
-      $ok = $model->refunded_order($order_id, array('refunded_price'=>$refunded_price));
-      if($ok){
-        //退款成功
-        return $this->to_raw('success');     
-      }else{
-        Doggy_Log_Helper::warn("Alipay fiu refund notify: order_id[$order_id] refunde_order fail !");
-        return $this->to_raw('fail');  
-      }
+              if($ok){
+                //退款成功
+                return $this->to_raw('success');     
+              }else{
+                Doggy_Log_Helper::warn("Alipay fiu refund notify: order_id[$refund_id] refunde_order fail !");
+                return $this->to_raw('fail');  
+              }
 		}else{
 			// 验证失败
 			Doggy_Log_Helper::warn("Alipay fiu refund notify verify result fail!");

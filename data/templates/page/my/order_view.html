@@ -2,13 +2,232 @@
 {% block title %}订单详情-{% endblock %}
 {% block page_css %}
 <style class="text/css">
-	
-	
+	.ui.top.attached.header{
+		background: #ededed;
+		padding:10px;
+	}
+	.color-ee{
+		color: #999;
+	}
+	.orders-items .ui.cover.image{
+    	float: left;
+    }
+    .orders-items .ui.cover.image img{
+    	width: 80px;
+    }
+    .orders-items .content{
+    	margin-left: 90px;
+	    display: block;
+	    font-size: 12px;
+    }
+    .ui.celled.table thead tr th{
+    	border-left: none;
+    }
+    .noleft tr th,.ui.celled.table tr.noleft td{
+    	border-left: none;
+    }
+    .people.grid{
+    	margin-top: 20px;
+    }
+    .peoitem{
+    	padding-left: 20px;
+    }
+    .peowid{
+    	width: 80px;
+    	display: inline-block;
+    }
+    .pl-30 {
+    	padding-left: 30px;
+    }
+    .right.aligned{
+    	text-align: right;
+    }
+    .refund-box .ui.grid.regrid,.cancel-box .ui.grid.regrid{
+    	margin: -10px 0;
+    	border-top-left-radius: .28571429rem;
+    }
+    .refund-box .six.wide.column,.cancel-box .six.wide.column {
+    	background: #f5f5f5;
+    	padding: 0;
+    	border-top-left-radius: .28571429rem;
+    	border-bottom-left-radius: .28571429rem;
+    	padding-bottom: 40px;
+    }
+    .refund-box .ui.header,.cancel-box .ui.header{
+    	padding: 15px 20px 10px;
+	    margin-bottom: 0;
+	    border-bottom: 1px solid rgba(0,0,0,0.1);
+	    font-size: 16px;
+    }
+    .refund-box .content,.cancel-box .content{
+    	padding:10px;
+    }
+    .refund-box .content .image,.cancel-box .content .image{
+		margin:5px 10px;
+		text-align: center;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .refund-box .content .image img,.cancel-box .content .image img{
+		width: 100px;
+		vertical-align: top;
+    }
+    .refund-box .content .image p,.cancel-box .content .image p{
+    	margin:10px 0 15px;
+    }
+    .proprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+		border-bottom:1px solid rgba(0,0,0,0.1);
+    }
+    .numprice{
+    	margin:0 10px;
+    	padding:15px 0;
+		text-align: left;
+    }
+    .refund-box .ten.wide.column,.cancel-box .ten.wide.column{
+    	padding:40px;
+    	padding-bottom: 20px;
+    }
+    .refund-box .ui.form .field,.cancel-box .ui.form .field {
+    	margin-bottom: 30px;
+    }
+    .refund-box .ui.form .field span,.cancel-box .ui.form .field span{
+    	margin-right: 20px;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
+	// 显示退款理由框
+	$('a[name=apply-refund]').bind('click', function(){
+
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+
+        $('#refund-form :input[name=rid]').val(rid);
+        $('#refund-form :input[name=sku_id]').val(sku_id);
+
+        var name = $(this).data('name');
+        var cover_url = $(this).data('cover');
+        var price = $(this).data('price');
+        var n = $(this).data('n');
+
+        $('.refund-box .p_cover').attr('src', cover_url);
+        $('.refund-box .p_title').text(name);
+        $('.refund-box .p_price').text(price);
+        $('.refund-box .p_n').text(n);
+        $('.refund-box .p_total').text(price*n);
+
+
+        $.get("{{ app_url_domain }}/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.success){
+                $('#refund-form .refund_price_box').text(rs.data.refund_price);
+                $('.ui.refund-box.modal').modal('show');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+		
+	});
 	
+    // 退款表单
+	$('#refund-form').form({
+		refund_price: {
+			identifier  : 'refund_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入退款金额'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ui.refund-box.modal').modal('hide');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
+
+    // 退货表单
+	$('#return-form').form({
+		refund_price: {
+			identifier  : 'refund_price',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入退款金额'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					if(data.success){
+                        $('.ui.cancel-box.modal').modal('hide');
+                        phenix.show_ok_note('申请成功，等待客服处理', 3000);
+					}else{
+					    phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}
+				}
+			});
+		}
+	});
+
+    // 退货
+	$('a[name=apply-cancel]').bind('click', function(){
+        var rid = $(this).data('rid');
+        var sku_id = $(this).data('sku_id');
+        $('#return-form :input[name=rid]').val(rid);
+        $('#return-form :input[name=sku_id]').val(sku_id);
+
+        var name = $(this).data('name');
+        var cover_url = $(this).data('cover');
+        var price = $(this).data('price');
+        var n = $(this).data('n');
+
+        $('.cancel-box .p_cover').attr('src', cover_url);
+        $('.cancel-box .p_title').text(name);
+        $('.cancel-box .p_price').text(price);
+        $('.cancel-box .p_n').text(n);
+        $('.cancel-box .p_total').text(price*n);
+
+        $.get("{{ app_url_domain }}/my/check_refund", { rid:rid, sku_id:sku_id }, function(rs){
+            if(rs.success){
+                $('#return-form .refund_price_box').text(rs.data.refund_price);
+                $('.ui.cancel-box.modal').modal('show');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+
+        }, 'json');
+
+	});
 {% endblock %}
 {% block content %}
 <div class="section breadcrumb">
@@ -64,157 +283,354 @@
 								<a href="{{ app_url_my }}/orders?s=7" class="ui {{ css_evaluate }} link">待评价</a>
 							</div>
 							<div class="item">
-								<a href="{{ app_url_my }}/orders?s=8" class="ui {{ css_return }} link">退换货</a>
+								<a href="{{ app_url_my }}/customer" class="ui {{ css_return }} link">退换货</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
-			<div class="ui top attached header">
-				<div class="ui middle aligned grid">
-					<div class="row">
-						<div class="twelve wide column">
-							<div class="ui horizontal list">
-							  	<div class="item">
-							      	订单号：{{ order_info.rid }}
-							  	</div>
-								<div class="item">
-									<span class="ui magenta text" id="order-status">({{ order_info.status_label }})</span>
-								</div>
-								{% if order_info.status >= 15 %}
-								<div class="item">
-									<span class="ui gray text">{{ order_info.express_company.title }}：{{ order_info.express_no }}</span>
-								</div>
-								{% endif %}
-							</div>
-						</div>
-						<div class="right aligned four wide column">
-							{% if order_info.status == 1 %}
-							<a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small magenta inverted button">立即支付</a>
-							{% endif %}
-							
-							{% if order_info.status == 15 %}
-							<a href="{{ app_url_my }}/ajax_take_delivery?rid={{ order_info.rid }}" class="active ui small ajax magenta inverted button" id="order-action-finish">确认收货</a>
-							{% endif %}
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="middle aligned ui celled white grid">
-				<div class="row">
-					<div class="seven wide column">
-						<table class="ui basic table">
-							<tbody>
-								{% for item in order_info.items %}
-								{% product_list var:'product' product_id:item.product_id %}
-								<tr>
-									<td>
-										<a href="{{ product.view_url }}" class="ui cover image" target="_blank">
-								      		<img src="{{ product.cover.thumbnails.mini.view_url }}" alt="{{ product.title }}" />
-										</a>
-									</td>
-									<td>
-								      	<div class="content">
-											{% if item.sku == item.product_id %}
-								          	<div class="header">
-												<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>
-											</div>
-											{% else %}
-											{% sku_list var:'sku' sku:item.sku %}
-								          	<div class="header">
-												<a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>
-											</div>
-											{% endif %}
-								          	<p class="attribute">编号：{{ item.sku }}</p>
-								      	</div>
-									</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-					<div class="center aligned three wide column">
-					  	<div class="item">
-					      	{{ order_info.created_on|date }}
-					  	</div>
-					</div>
-					<div class="center aligned three wide column">
-						<p>
-							{{ order_info.payment.name }}
-						</p>
-					</div>
-					<div class="center aligned three wide column">
-						{% if order_info.status == 16 %}
-							<a href="{{ app_url_my }}/evaluate?rid={{ order_info.rid }}" class="ui magenta link">售后评价 »</a>
-						{% endif %}
-					</div>
-				</div>
-				<div class="row">
-					<div class="right aligned column">
-						<p><b id="cart_items_count">{{ order_info.items_count }}</b>件产品，金额合计： <b id="order_total_money">{{ order_info.total_money }}</b>元</p>
-				
-						<p>优惠：<b id="order_coin_money">-{{ order_info.discount_money }}</b>元</p>
-						<p>运费：<b id="order_freight_money">{{ order_info.freight }}</b>元</p>
-				
-						<p>实付金额：<b id="order_pay_money">{{ order_info.pay_money }}</b>元</p>
-					</div>
-				</div>
-			</div>
-			
-			<div class="ui bottom attached segment">
-				<h3 class="ui dividing header">收货信息</h3>
 
-                <!--针对老数据及微信-->
-				{% if order_info.express_info %}
-					<div class="ui list">
-					  	<div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
-					  	<div class="item"><label>收货地址：</label> 
-                            {{ order_info.express_info.province }}
-                            {{ order_info.express_info.city }}
-                            {{ order_info.express_info.county }}
-                            {{ order_info.express_info.town }}
-                            {{ order_info.express_info.address }}</div>
-					  	<div class="item"><label>联系电话：</label> {{ order_info.express_info.phone }}</div>
-					  	<div class="item"><label>邮政编码：</label> {{ order_info.express_info.zip }}</div>
+
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+                        <th>订单号：{{ order_info.rid }}</th>
+						<th>{{ order_info.created_on|date }}</th>
+						<th colspan="2" class="center aligned">订单状态：{{ order_info.status_label }}</th>
+			    	</tr>
+                    {% if order_info.exist_sub_order %}
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为以下订单分开配送</th>
+			    	</tr>
+                    {%endif%}
+			  	</thead>
+
+                {% if !order_info.exist_sub_order %}
+                    <tbody>
+                        {% for d in order_info.items %}
+                            <tr>
+                                <td style="max-width: 300px;">
+                                    <div class="orders-items">
+                                        <a href="{{ d.view_url }}" class="ui cover image" target="_blank">
+                                            <img src="{{ d.cover_url }}" alt="{{ d.cover_url }}">
+                                        </a>
+                                        <div class="content">
+                                            <a href="{{ d.view_url }}" class="ui link">{{ d.name }}</a>
+                                            <p style="margin:5px 0;">颜色分类：{% if d.sku_name %}{{ d.sku_name }}{%else%}默认{%endif%}</p>
+                                            <p class="attribute">编号：{{ d.sku }}</p>
+                                        </div>
+                                    </div>
+                                    
+                                        
+                                </td>
+                                <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
+                                <td class="center aligned">数量*{{ d.quantity }}</td>
+
+                                <td class="center aligned">
+                                    {% if d.refund_button==0 %}
+                                        {{ d.refund_label }}
+                                    {%endif%}
+
+                                    {% if d.refund_button==1 %}
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                    {%endif%}
+
+                                    {% if d.refund_button==2 %}
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                        <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                    {%endif%}
+                                </td>
+                            </tr>
+                        {%endfor%}
+                        {% if order_info.status >= 15 %}
+                        <tr><td colspan="4">快递公司： {{ order_info.express_company.title }} <span class="pl-30" >快递号：{{ order_info.express_no }}</span></td></tr>
+                        {%endif%}
+
+                    </tbody>
+                {%else%}
+
+                    <tbody>
+
+                        {% for sub_order in order_info.sub_orders %}
+                            <tr class="noleft">
+                                <td>子订单号：{{ sub_order.id }}</td>
+                                <td colspan="3">拆单时间: {{ sub_order.split_on|date }}</td>
+                            </tr>
+                            {% for d in sub_order.items %}
+                                <tr>
+                                    <td style="max-width: 300px;">
+                                        <div class="orders-items">
+                                            <a href="{{ d.view_url }}" class="ui cover image" target="_blank">
+                                                <img src="{{ d.cover_url }}" alt="{{ d.name }}">
+                                            </a>
+                                            <div class="content">
+                                                <a href="{{ d.view_url }}" class="ui link">{{ d.name }}</a>
+                                                <p style="margin:5px 0;">颜色分类：{% if d.sku_name %}{{ d.sku_name }}{%else%}默认{%endif%}</p>
+                                                <p class="attribute">编号：{{ d.sku }}</p>
+                                            </div>
+                                        </div>
+                                        
+                                            
+                                    </td>
+                                    <td class="center aligned"><div class="ui active link">价格：{{ d.sale_price }}</div></td>
+                                    <td class="center aligned">数量*{{ d.quantity }}</td>
+
+                                    <td class="center aligned">
+                                        {% if d.refund_button==0 %}
+                                            {{ d.refund_label }}
+                                        {%endif%}
+
+                                        {% if d.refund_button==1 %}
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        {%endif%}
+
+                                        {% if d.refund_button==2 %}
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-cancel" class="ui small inverted magenta button">退货</a>
+                                            <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" data-sku_id="{{ d.sku }}" data-name="{{ d.name }}" data-cover="{{ d.cover_url }}" data-price="{{ d.sale_price }}" data-n="{{ d.quantity }}" name="apply-refund" class="ui small inverted magenta button">退款</a>
+                                        {%endif%}
+                                    </td>
+                                </tr>
+                            {%endfor%}
+                            {% if sub_order.is_sended %}
+                                <tr><td colspan="4">快递公司： {{ sub_order.express_company }} <span class="pl-30" >快递号：{{ sub_order.express_no }}</span></td></tr>
+                            {%endif%}
+                        {%endfor%}
+
+                {%endif%}
+			</table>
+
+
+            {% if test %}
+			<!--   待付款    -->
+			<table class="ui unstackable celled table">
+			  	<thead>
+			    	<tr>
+						<th>订单号：116112306508</th>
+						<th>2016-11-23 15:41:16</th>
+						<th colspan="2" class="center aligned">订单状态：等待付款</th>
+			    	</tr><!-- 
+			    	<tr>
+			    		<th colspan="4">您订单中的商品在不同库房不同商家，故拆分为一下订单分开配送</th>
+			    	</tr> -->
+			  	</thead>
+			  	<tbody>
+			  		<!-- <tr class="noleft">
+			  			<td>子订单号：116112306508</td>
+			  			<td colspan="3">2016-11-23 15:41:16</td>
+			  		</tr> -->
+			  		<tr>
+			  			<td style="max-width: 300px;">
+			  				<div class="orders-items">
+			  					<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui cover image" target="_blank">
+						      		<img src="http://frbird.qiniudn.com/product/140924/54226020989a6a383e8b7d5f-2-s.jpg" alt="BrandOne炭立方 小型桌面空气净化器 创意礼物">
+								</a>
+								<div class="content">
+									<a href="http://dev.taihuoniao.com/shop/view-1092167271-1.html" class="ui link">BrandOne炭立方 小型桌面空气净化器 创意礼物</a>
+									<p style="margin:5px 0;">颜色分类：(黑色)</p>
+									<p class="attribute">编号：1092167272</p>
+								</div>
+			  				</div>
+							
+								
+			  			</td>
+			  			<td class="center aligned"><div class="ui active link">价格：20</div></td>
+			  			<td class="center aligned">数量*1</td>
+			  			<td class="center aligned"><!-- <a href="" class="ui small inverted magenta button">退换货</a> --> 等待付款</td>
+			  		</tr>
+			  		<!-- <tr><td colspan="4">快递公司： 申通快递 <span class="pl-30" >快递号：1092167272</span></td></tr> -->
+			  	</tbody>
+			</table>
+            {%endif%}
+
+			<div class="ui middle aligned people grid">
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">收货人信息</h5>
 					</div>
-				{% else %}
-					<div class="ui list">
-					  	<div class="item"><label>姓   名：</label> {{ order_info.addbook.name }}</div>
-					  	<div class="item"><label>收货地址：</label> {{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }}</div>
-					  	<div class="item"><label>联系电话：</label> {{ order_info.addbook.phone }}</div>
-					  	<div class="item"><label>邮政编码：</label> {{ order_info.addbook.zip }}</div>
+				</div>
+                {% if order_info.express_info %}
+                    <div class="row">
+                        <div class="column">
+                            <div class="ui segment">
+                                <p><span class="peowid">收货人姓名</span> <span class="peoitem">{{ order_info.express_info.name }}</span></p>
+                                <p><span class="peowid">地址</span> <span class="peoitem">{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span></p>
+                                <p><span class="peowid">详细地址</span> <span class="peoitem">{{ order_info.express_info.address }}</span></p>
+                                <p><span class="peowid">联系方式</span> <span class="peoitem">{{ order_info.express_info.phone }}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                {%endif%}
+
+				<div class="row">
+					<div class="column">
+						<h5 class="ui header">结算信息</h5>
 					</div>
-				{% endif %}
-				
-				<!--
-				<h3 class="ui dividing header">发票信息</h3>
-				<div class="ui list">
-					{% if order_info.invoice_type %}
-						<div class="item"><label>发票类型：</label> {{ order_info.invoice_caty_label.title }}</div>
-						{% if order_info.invoice_caty == 2 %}
-							<div class="item"><label>发票抬头：</label> {{ order_info.invoice_title }}</div>
-						{% endif %}
-						<div class="item"><label>发票内容：</label> {{ order_info.invoice_content_label.title|default '购买明细' }}</div>
-					{% else %}
-					<div class="item"><label>无需发票</label></div>
-					{% endif %}
 				</div>
-				-->
-				
-				<h3 class="ui dividing header">备注</h3>
-				<div class="ui list">
-					<div class="item">{{ order_info.summary|default '无' }}</div>
-				</div>
-				
-				<h3 class="ui dividing header">送货时间</h3>
-				<div class="ui list">
-					<div class="item">{{ order_info.transfer_time_s.title }}</div>
+				<div class="row">
+					<div class="column">
+						<div class="ui segment">
+                            <p style="margin-top: 1em;"><span class="peowid">商品金额</span> <span class="peoitem">{{ order_info.total_money }}元－优惠券：{{ order_info.card_money }}元＋运费：{{ order_info.freight }}元＝订单总金额：{{ order_info.pay_money }}元</span></p>
+
+							<p class="right aligned">
+                                {% if order_info.status == 1 %}
+                                    <a href="{{ app_url_my }}/cancel_order?rid={{ order_info.rid }}" class="ui small inverted grey button">取消订单</a>
+                                    <a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small inverted magenta button">立即支付</a>
+                                {% endif %}
+
+                                {% if order_info.status == 16 %}
+                                    <a href="{{ app_url_my }}/evaluate?rid={{ order_info.rid }}" class="ui small inverted magenta link">售后评价 »</a>
+                                {% endif %}
+
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
-			
 			
 		</div>
 	</div>
 </div>
+
+<div class="ui refund-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退款申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img class="p_cover" src="" alt="">
+						<p class="p_title"></p>
+					</div>
+					<div class="proprice">
+                        <p>单价：¥<span class="p_price"></span></p>
+                        <p>数量：<span class="p_n"></span></p>
+                        <p class="ui active link">总计：¥<span class="p_total"></span></p>
+					</div>
+					<div class="numprice">
+                        <p>订单编号：{{ order_info.rid }}</p>
+						<p>下单时间：{{ order_info.created_on|date }}</p>
+                        <!--
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+                        -->
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_product_refund" class="ui form" method="post" id="refund-form">
+                    <input type="hidden" name="refund_type" value="1" />
+                    <input type="hidden" name="rid" value="" />
+                    <input type="hidden" name="sku_id" value="" />
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退款</p>
+			        </div>
+			        <div class="field">
+                        <p><span>退款金额:</span> <span class="refund_price_box"></span></p>
+			        </div>
+			        <div class="field">
+			        	<span>退款原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="refund_reason">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退款原因</div>
+						  	<div class="menu">
+                                {% for d in refund_reason %}
+                                    <div class="item" data-value="{{ d.id }}">{{ d.title }}</div>
+                                {%endfor%}
+						    	<div class="item" data-value="0">其他</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退款说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+                        <input type="submit" class="ui inverted magenta button" value="提交申请" />
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退货理由弹出层 -->
+<div class="ui cancel-box modal" >
+	<i class="close icon"></i>
+	<div class="ui resposive grid regrid">
+		<div class="row">
+			<div class="ui six wide column">
+				<div class="ui header">
+					退货申请
+				</div>
+				<div class="content">
+					<div class="image">
+						<img class="p_cover" src="" alt="">
+						<p class="p_title"></p>
+					</div>
+					<div class="proprice">
+                        <p>单价：¥<span class="p_price"></span></p>
+                        <p>数量：<span class="p_n"></span></p>
+                        <p class="ui active link">总计：¥<span class="p_total"></span></p>
+					</div>
+					<div class="numprice">
+                        <p>订单编号：{{ order_info.rid }}</p>
+						<p>下单时间：{{ order_info.created_on|date }}</p>
+                        <!--
+						<p>快递公司：圆通快递</p>
+						<p>快递编号：2016231541</p>
+                        -->
+					</div>
+
+				</div>
+
+
+			</div>
+
+			<div class="ui ten wide column">
+				<form action="{{ app_url_my }}/ajax_product_refund" class="ui form" method="post" id="return-form">
+                    <input type="hidden" name="refund_type" value="2" />
+                    <input type="hidden" name="rid" value="" />
+                    <input type="hidden" name="sku_id" value="" />
+			    	<div class="field">
+			        	<p><span>服务类型:</span> 退货</p>
+			        </div>
+			        <div class="field">
+                        <p><span>退货金额:</span> <span class="refund_price_box"></span></p>
+			        </div>
+			        <div class="field">
+			        	<span>退货原因:</span>
+			        	<div class="ui selection dropdown" style="width: 40%;">
+							<input type="hidden" name="refund_reason">
+						  	<i class="dropdown icon"></i>
+						  	<div class="default text">请选择退货原因</div>
+						  	<div class="menu">
+                                {% for d in return_reason %}
+                                    <div class="item" data-value="{{ d.id }}">{{ d.title }}</div>
+                                {%endfor%}
+						    	<div class="item" data-value="0">其他</div>
+						  	</div>
+						</div>
+			        </div>
+			        <div class="field">
+			        	<span>退货说明：</span>
+			        	<textarea name="refund_content" rows="3" style="margin-top: 15px;"></textarea>
+			        </div>
+
+			        <div class="field">
+                        <input type="submit" class="ui inverted magenta button" value="提交申请" />
+			        </div>
+			    </form>
+			</div>
+		</div>
+	</div>
+</div>
+			
 {% endblock %}

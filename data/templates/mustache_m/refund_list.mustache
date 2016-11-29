@@ -1,0 +1,43 @@
+{{#rows}}
+	<div class="item" id="item-{{ _id }}">	
+		<div class="ordertop">
+			<span class="ui line fz-12">退款编号：{{ _id }}</span>
+			<span class="ui color-be link fz-12 flt-r order_label_txt">{{ stage_label }}</span>
+		</div>
+		<div class="content">
+			<a href="{{ product.view_url }}" class="img"> 
+					<img src="{{ product.cover_url }}">
+			</a>
+			<div class="orderinfo">
+				<a class="ui link" href="{{ product.wap_view_url }}">
+					<h4 class="title">
+						{{ product.short_title }}
+					</h4>
+				
+					<p class="price"><i class="rmb icon"></i>  {{ product.sale_price }}</p>
+				</a>
+				<div class="orderdes">
+					<span class="sku">
+						{{ product.sku_name }}
+					</span>
+					<span class="count flt-r">
+						x {{ quantity }}
+					</span>
+				</div>
+			</div>
+		</div>
+		
+		<div class="product">
+			<p>退款金额：<i class="rmb icon"></i> <span class="color-be">{{ refund_price }}</span>
+			<span class="ui line flt-r fz-12">{{ created_at }}</span>
+			</p>
+		</div>
+        <!--
+		{{#can_delete}}
+		<div class="orderbottom status_btn_box">
+			<a href="javascript:void(0);" data-id="{{ _id }}" class="ui small color-bd inverted button remove_refund_btn">删除</a>
+		</div>
+        {{/can_delete}}
+        -->
+	</div>
+{{/rows}}

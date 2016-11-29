@@ -582,6 +582,38 @@
 		}
 	});
 
+  // 上传sku封面图
+	$('#phenix-sku-cover-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ sku_pid }}', 'x:domain': '{{ sku_domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ sku_asset_type }},'x:parent_id': '','file_id': '{{ sku_pid }}' },
+        	endpoint: '{{ app_url_upload }}/sku_cover'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=5', {'id': '', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
 	
 	// 设置封面图
 	$('#asset-list .ajax-cover').livequery(function(){
@@ -607,6 +639,20 @@
 			$(this).addClass('active');
 			
 			$('#product_banner_id').val(id);
+			return false;
+		});
+	});
+
+	// 设置封面图
+	$('#asset-sku-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-sku-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#sku_cover_id').val(id);
 			return false;
 		});
 	});

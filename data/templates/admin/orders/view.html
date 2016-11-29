@@ -2,6 +2,18 @@
 {% block page_css %}
 {% endblock %}
 
+{% block layout_js %}
+    <script type="text/javascript">
+        // 初始化拆单数据
+        var id_index = 0;
+        var checked_sku_count = 0;
+        var sku_count = parseInt("{{ order_info.items_count }}");
+        var order_id = "{{ order_info.rid }}";
+        $('#split-result').val('');
+        
+    </script>
+{% endblock %}
+
 {% block jquery %}
 	$('.datepicker').pickadate();
 	
@@ -46,7 +58,7 @@
 
 	// 支付后查看结果
 	$('.ui.refund-result').click(function(){
-    location.reload(true);
+        location.reload(true);
 	});
 
 	$('#refund-force-form').form({
@@ -74,6 +86,66 @@
 			});
 		}
 	});
+
+	// 拆单弹出层
+	$('a[name=apply-split]').bind('click', function(){
+        //var rid = $(this).attr('rid');
+        //$('div.refund-box [name=rid]').val(rid);
+        //$('div.refund-box [name=rid-show]').text(rid);
+		$('.ui.split-box.modal').modal('show');
+	});
+
+    // 拆单行为
+    $(':input[name=split_btn]').click(function(){
+        var sku_arr = new Array();
+        
+        $(":input[name='split_sku[]']:checked").each(function(){
+            var sku = $(this).val();
+            sku_arr.push(sku);
+        })
+
+        if(sku_arr.length==0){
+            alert('请选择要拆分的商品!');
+            return;
+        }
+
+        // 清除已拆商品
+        for(var i=0;i<sku_arr.length;i++){
+            $('#split-sku-'+sku_arr[i]).remove();
+            checked_sku_count++;
+        }
+
+        // 更新子订单索引值
+        id_index++;
+
+        var skus = sku_arr.join(';');
+
+        var o_val = id_index+':'+skus;
+        phenix.record_asset_id('split-result', o_val);
+        var html = '<div>子订单: '+ order_id +'-'+ id_index +'| 商品编号: '+ skus +'</div>';
+        $('#split_result_box').append(html);
+        
+    });
+
+    // 提交拆单结果
+    $(':input[name=gen_sub_order]').click(function(){
+
+        var o_val = $('#split-result').val();
+        if(!o_val || sku_count!=checked_sku_count){
+            alert('请完善订单拆分!');
+            return;
+        }
+        $.post("{{ app_url_admin_base }}/orders/ajax_split_order", {rid:order_id, val:o_val}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('拆单成功!', 3000);
+                location.reload();
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+        
+    });
+
 {% endblock %}
 	
 {% block content %}
@@ -96,7 +168,10 @@
 			已退款
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=3" class="{% if s == 3 %}active{%endif%} item">
-			已发货
+			待收货
+		</a>
+		<a href="{{ app_url_admin_base }}/orders?s=7" class="{% if s == 7 %}active{%endif%} item">
+			待评价
 		</a>
 		<a href="{{ app_url_admin_base }}/orders?s=4" class="{% if s == 4 %}active{%endif%} item">
 			已完成
@@ -181,12 +256,18 @@
 						</div>						
 					</div>
 				</div>
+                <input type="hidden" name="order_id" value="{{ order_info.rid }}" />
 				<div class="right aligned six wide column">
+                    {% if order_info.is_split %}
+					  <a href="javascript:void(0);" name="apply-split" class="ui active small magenta button">拆单</a>
+                    {%endif%}
 					{% if order_info.status == 10 %}
 					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
 					{% endif %}
 					{% if can_refund %}
+                    <!--
             <a href="javascript:void(0);" class="ui small gray button" name="confirm-refund" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" pay_name="{{order_info.trade_site_name}}" >确认退款</a><a href="javascript:void(0);" class="ui small red button" name="confirm-refund-force" rid="{{ order_info.rid }}" pay_money="{{ order_info.pay_money }}" user_id="{{ order_info.user_id }}" pay_name="{{order_info.trade_site_name}}" >强制</a>
+            -->
 					{% endif %}
 				</div>
 			</div>
@@ -210,15 +291,33 @@
 							      	<div class="content">
 									{% if item.sku == item.product_id %}
 						          	<div class="header">
-										<a href="{{ product.view_url }}" class="ui link">{{ product.title }}</a>&nbsp;&nbsp;x {{ item.quantity }}
+										{{ product.title }}&nbsp;&nbsp;x {{ item.quantity }}
 									</div>
 									{% else %}
 									{% sku_list var:'sku' sku:item.sku %}
 						          	<div class="header">
-                          <a href="{{ product.view_url }}" class="ui link">{{ product.title }} ({{ sku.mode }})</a>&nbsp;&nbsp;x {{ item.quantity }}
+                                        {{ product.title }} ({{ sku.mode }}) &nbsp;&nbsp;x {{ item.quantity }}
 									</div>
 									{% endif %}
 							          	<p class="attribute">编号：{{ item.sku }}</p>
+                                        <p class="attribute">单价：{{ item.sale_price }}</p>
+
+                                        {% if item.refund_type %}
+                                            <p class="attribute">状态：
+                                                <span style="color:red;">
+                                                    {% if item.refund_status==0 %}
+                                                        拒绝退款
+                                                    {%endif%}
+                                                    {% if item.refund_status==1 %}
+                                                        申请退款
+                                                    {%endif%}
+                                                    {% if item.refund_status==2 %}
+                                                        已退款
+                                                    {%endif%}
+                                                </span>
+                                            </p>
+                                        {%endif%}
+                                    
 							      	</div>
 								</td>
 							</tr>
@@ -234,7 +333,7 @@
 			</div>
 			<div class="center aligned three wide column">
 				<p>
-					{{ order_info.payment.name }}
+					支付方式：{{ order_info.trade_site_name }}
 				</p>
 			</div>
 			<div class="center aligned three wide column">
@@ -402,6 +501,42 @@
 				<input type="submit" class="ui active refund-result magenta submit button" value="确定" />
       </div>
     </form>
+    </div>
+</div>
+
+<!-- 拆单弹出层 -->
+<div class="ui small split-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    拆单:
+  </div>
+    <div class="content">
+        <div>
+            {% for item in order_info.items %}
+            {% product_list var:'product' product_id:item.product_id %}
+                <div class="product_item" id="split-sku-{{ item.sku }}" style="float:left;margin:5px;">
+                    <img src="{{ product.cover.thumbnails.mini.view_url }}" width="100" alt="{{ product.title }}" />
+                    <input type="checkbox" name="split_sku[]" value="{{ item.sku }}" />
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="clear:both;margin:20px;">
+            结果：<br />
+            <input type="hidden" name="split-result" id="split-result" value="" />
+            <div id="split_result_box">
+                
+            </div>
+        </div>
+
+        <div style="clear:both;">
+            <input type="button" value="拆单" name="split_btn" />
+        </div>
+
+        <div class="" style="float:right;margin:20px;">
+			<input type="button" name="gen_sub_order" class="ui active magenta  button" value="提交" />
+        </div>
+        
     </div>
 </div>
 
