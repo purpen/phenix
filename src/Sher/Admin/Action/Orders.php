@@ -870,6 +870,14 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         }
 
         $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+        // 短信提醒用户
+        if($ok){
+            $order_message = sprintf("致亲爱的人：我们已将您编号为[%s]的宝贝托付到有颜靠谱的快递小哥手中，日夜兼程只为让您感受潮酷智能生活的便利。", $order['rid']);
+            $order_phone = $order['express_info']['phone'];
+            if(!empty($order_phone)){
+                Sher_Core_Helper_Util::send_defined_mms($order_phone, $order_message);
+            }
+        }
 
         return $this->ajax_json('success', false, '', array('rid'=>$rid));
 
