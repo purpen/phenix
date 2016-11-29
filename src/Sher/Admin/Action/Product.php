@@ -451,6 +451,15 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		$inventory = new Sher_Core_Model_Inventory();
 		$sku = $inventory->load((int)$r_id);
+
+		// 编辑器上传附件
+		$callback_url = Doggy_Config::$vars['app.url.qiniu.onelink'];
+
+        // sku 图片参数
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['sku_domain'] = Sher_Core_Util_Constant::STROAGE_SKU;
+		$this->stash['sku_asset_type'] = Sher_Core_Model_Asset::TYPE_SKU_COVER;
+		$this->stash['sku_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		
 		$this->stash['sku'] = $sku;
 		$this->stash['product'] = $product;
@@ -528,6 +537,12 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				$ok = $inventory->apply_and_update($updated);
 			}
 			$result = $inventory->load((int)$r_id);
+
+            $asset_model = new Sher_Core_Model_Asset();
+			// 上传成功后，更新所属的附件(封面)
+			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+				$asset_model->update_batch_assets($this->stash['asset'], $r_id);
+			}
 			
 			// 重新更新产品库存数量
 			$total_quantity = $inventory->recount_product_inventory((int)$product_id, Sher_Core_Model_Inventory::STAGE_SHOP, false);

@@ -891,6 +891,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			  $tpl = 'ajax/check_product_png_onestep.html';
       }elseif($type==4){
 			  $tpl = 'ajax/check_product_cover_onestep.html';
+      }elseif($type==5){
+			  $tpl = 'ajax/check_product_sku_onestep.html';
       }else{
 			  $tpl = 'ajax/check_product_onestep.html';
       }
