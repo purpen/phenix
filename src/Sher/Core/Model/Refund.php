@@ -349,7 +349,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         for($i=0;$i<count($order['items']);$i++){
             $item = $order['items'][$i];
             if($item['sku']==$refund['target_id']){
-                $order['items'][$i]['refund_status']==2;
+                $order['items'][$i]['refund_status'] = 2;
             }
         }
 

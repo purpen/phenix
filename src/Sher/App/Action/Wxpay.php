@@ -352,9 +352,9 @@
         $trade_no = $order_info['trade_no'];
 
         // 退款批次号
-        $out_trade_no = (string)date('Ymd').(string)$id;
+        $out_refund_no = (string)date('Ymd').(string)$id;
         // 退款单记录批次号
-        $refund_model->update_set($id, array('batch_no'=>$out_trade_no));
+        $refund_model->update_set($id, array('batch_no'=>$out_refund_no));
         
         if($trade_no != ""){
             $input = new WxPayRefund();
@@ -362,7 +362,7 @@
             $input->SetOut_trade_no($rid);
             $input->SetTotal_fee((int)($pay_money*100));
             $input->SetRefund_fee((int)($refund_price*100));
-            $input->SetOut_refund_no($out_trade_no);
+            $input->SetOut_refund_no($out_refund_no);
             $input->SetOp_user_id((int)$this->visitor->id);
             
             Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.(int)($pay_money*100).'---->'.(int)$this->visitor->id);
@@ -402,10 +402,9 @@
         }
 
         $out_refund_no = $data['out_refund_no'];
-        $out_trade_no = $data[''];
+        $out_trade_no = $data['out_trade_no'];
         $refund_model = new Sher_Core_Model_Refund();
         $refund = $refund_model->first(array('batch_no'=>$out_refund_no));
-        $refund_id = $refund['_id'];
 
         if(empty($refund)){
             Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$out_trade_no] refund is empty!");
