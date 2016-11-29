@@ -77,6 +77,22 @@
         }, 'json');
 
     });
+
+    // 强制发货
+    $('.force-send-btn').click(function(){
+        var rid = $(this).data('rid');
+		if(!window.confirm('确定已处理好订单及子订单的发货行为？')){
+		  return false;
+		}
+        $.post("{{ app_url_admin }}/orders/force_send", {rid: rid}, function(rs){
+            if(rs.success){
+                $('.force-send-btn').remove();
+                $('.order-stat-box').text('待收货');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+    });
 	
 {% endblock %}
 	
@@ -174,12 +190,14 @@
                             订单号：{{ order_info.rid }}
                         </div>
                         <div class="item">
-                            <span class="ui magenta text">{{ order_info.status_label }}</span>
+                            <span class="ui magenta text order-stat-box">{{ order_info.status_label }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="right aligned six wide column">
-                    
+      			    {% if order_info.status == 10 %}
+                    <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" class="ui active small magenta force-send-btn button">强制发货</a>
+					{% endif %}              
                 </div>
             </div>
         </div>

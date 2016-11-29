@@ -109,14 +109,16 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+        $reason = $row['reason_label'] = '';
         if($row['type']==1){
             $reason = $this->find_refund_reason($row['reason']);
-            $row['reason_label'] = $reason['title'];
         }elseif($row['type']==2){
             $reason = $this->find_return_reason($row['reason']); 
-            $row['reason_label'] = $reason['title'];
         }else{
-            $row['reason_label'] = '';
+            $reason = null;
+        }
+        if($reason){
+            $row['reason_label'] = $reason['title'];   
         }
 
         switch($row['type']){
@@ -347,7 +349,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         for($i=0;$i<count($order['items']);$i++){
             $item = $order['items'][$i];
             if($item['sku']==$refund['target_id']){
-                $order['items'][$i]['refund_status']==2;
+                $order['items'][$i]['refund_status'] = 2;
             }
         }
 

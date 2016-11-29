@@ -195,9 +195,9 @@
         }
         $status = $order_info['status'];
         
-        // 验证订单是否已申请退款
-        if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-            return $this->show_message_page("订单[$rid]未申请退款！", false);
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->show_message_page('订单状态不正确！', true);
         }
     
         $pay_money = $order_info['pay_money'];
@@ -262,9 +262,9 @@
         }
         $status = $order_info['status'];
         
-        // 验证订单是否已申请退款
-        if ($status != Sher_Core_Util_Constant::ORDER_READY_REFUND){
-            return $this->show_message_page("订单[$rid]未申请退款！", false);
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->show_message_page('订单状态不正确！', true);
         }
     
         $pay_money = $order_info['pay_money'];
@@ -280,6 +280,13 @@
         $out_trade_no = (string)date('Ymd').(string)$id;
         // 退款单记录批次号
         $refund_model->update_set($id, array('batch_no'=>$out_trade_no));
+
+        $this->options = array(
+            'appid' => Doggy_Config::$vars['app.wechat_m.app_id'],
+            'secret' => Doggy_Config::$vars['app.wechat_m.app_secret'],
+            'mchid' => Doggy_Config::$vars['app.wechat_m.partner_id'],
+            'key' => Doggy_Config::$vars['app.wechat_m.key'],
+        );
         
         if($trade_no != ""){
             $input = new Sher_Core_Util_WxPayM_WxPayData_WxPayRefund();
@@ -297,10 +304,78 @@
             //$result = json_decode($result,true);
 
             Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
-            $result = json_encode($result);
             $this->refund_back($result);
         }
 	}
+
+	/**
+	 * fiu App端微信退款请求方法
+	 */
+	public function fiu_refund(){
+        require_once "wxpay-sdk/lib/WxPay.Api.php";
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)){
+			return $this->show_message_page('缺少请求参数！', true);
+		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->show_message_page('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+        $rid = $refund['order_rid'];
+			
+        $model = new Sher_Core_Model_Orders();
+        $order_info = $model->find_by_rid($rid);
+        if (empty($order_info)){
+            return $this->show_message_page('抱歉，系统不存在该订单！', true);
+        }
+        $status = $order_info['status'];
+        
+        // 申请退款的订单才允许退款操作(包括已发货,确认收货,完成操作)
+		if (!Sher_Core_Helper_Order::refund_order_status_arr($status)){
+			return $this->show_message_page('订单状态不正确！', true);
+        }
+    
+        $pay_money = $order_info['pay_money'];
+        $refund_price = $refund['refund_price'];
+        if((float)$refund_price==0){
+            return $this->show_message_page("订单[$rid]金额为零！", false);  
+        }
+
+        // 微信交易号
+        $trade_no = $order_info['trade_no'];
+
+        // 退款批次号
+        $out_refund_no = (string)date('Ymd').(string)$id;
+        // 退款单记录批次号
+        $refund_model->update_set($id, array('batch_no'=>$out_refund_no));
+        
+        if($trade_no != ""){
+            $input = new WxPayRefund();
+            $input->SetTransaction_id($trade_no);
+            $input->SetOut_trade_no($rid);
+            $input->SetTotal_fee((int)($pay_money*100));
+            $input->SetRefund_fee((int)($refund_price*100));
+            $input->SetOut_refund_no($out_refund_no);
+            $input->SetOp_user_id((int)$this->visitor->id);
+            
+            Doggy_Log_Helper::warn("退款传入信息: ".$trade_no.'---->'.$out_trade_no.'---->'.(int)($pay_money*100).'---->'.(int)$this->visitor->id);
+            
+            $result = WxPayApi::refund($input);
+            //$result =  '{"appid":"wx75a9ffb78f202fb3","cash_fee":"1","cash_refund_fee":"1","coupon_refund_count":"0","coupon_refund_fee":"0","mch_id":"1219487201","nonce_str":"51ulFPCqdUuAzNaE","out_refund_no":"20150807115073002755","out_trade_no":"115073002755","refund_channel":[],"refund_fee":"1","refund_id":"2002800916201508070025263475","result_code":"SUCCESS","return_code":"SUCCESS","return_msg":"OK","sign":"078F044FF83CF545FAD3BEF7DE8DA43D","total_fee":"1","transaction_id":"1002800916201507300510901963"}';
+            //$result = json_decode($result,true);
+
+            Doggy_Log_Helper::warn("退款返回信息: ".json_encode($result));
+            $this->refund_back($result);
+        }
+	}
+
 		
     /**
      * 微信退款处理方法
@@ -327,10 +402,9 @@
         }
 
         $out_refund_no = $data['out_refund_no'];
-        $out_trade_no = $data[''];
+        $out_trade_no = $data['out_trade_no'];
         $refund_model = new Sher_Core_Model_Refund();
         $refund = $refund_model->first(array('batch_no'=>$out_refund_no));
-        $refund_id = $refund['_id'];
 
         if(empty($refund)){
             Doggy_Log_Helper::warn("Alipay refund notify: trade_no[$out_trade_no] refund is empty!");

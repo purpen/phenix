@@ -585,7 +585,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
           if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
-                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/app_refund?rid='.$rid;
+                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?rid='.$rid;
           }else{
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?rid='.$rid;
           }
@@ -649,7 +649,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
           if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
-                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/app_refund?id='.$id;
+                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
           }else{
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?id='.$id;
           }
@@ -819,6 +819,68 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         }
 
         return $this->ajax_json('success', false, null, array('has_refund'=>$has_refund));
+    }
+
+    /**
+     * 强制发货
+     */
+    public function force_send(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        if(empty($rid)){
+            return $this->ajax_json('缺少请求参数!', true);   
+        } 
+
+		$model = new Sher_Core_Model_Orders();
+		$order = $model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+
+		// 待发货订单才允许发货
+		if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->ajax_json('订单状态不正确！', true);
+		}
+
+        $can_send = false;
+        for($i=0;$i<count($order['items']);$i++){
+            $item = $order['items'][$i];
+            if(!isset($item['refund_type']) || empty($item['refund_type'])){
+                $can_send = true;
+                break;
+            }
+        }
+
+        $express_caty = $express_no = null;
+        if(isset($order['exist_sub_order']) && !empty($order['exist_sub_order'])){
+            for($i=0;$i<count($order['sub_orders']);$i++){
+                $sub_order = $order['sub_orders'][$i];
+                if(isset($sub_order['express_no']) && !empty($sub_order['express_no'])){
+                    $express_caty = $sub_order['express_caty'];
+                    $express_no = $sub_order['express_no'];
+                    break;
+                }
+            }
+        }else{
+            $express_caty = $order['express_caty'];
+            $express_no = $order['express_no'];
+        }
+
+        if(empty($express_no)){
+            return $this->ajax_json('没有物流信息!', true);           
+        }
+
+        $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+        // 短信提醒用户
+        if($ok){
+            $order_message = sprintf("致亲爱的人：我们已将您编号为[%s]的宝贝托付到有颜靠谱的快递小哥手中，日夜兼程只为让您感受潮酷智能生活的便利。", $order['rid']);
+            $order_phone = $order['express_info']['phone'];
+            if(!empty($order_phone)){
+                Sher_Core_Helper_Util::send_defined_mms($order_phone, $order_message);
+            }
+        }
+
+        return $this->ajax_json('success', false, '', array('rid'=>$rid));
+
     }
 
 }

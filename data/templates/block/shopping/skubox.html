@@ -40,6 +40,37 @@
 						<input type="text" name="vop_id" value="{{ sku.vop_id }}"  />
 					</div>
 				</div>
+
+                <div class="field">
+                    <label>上传封面图</label>
+                    <input type="hidden" name="cover_id" id="sku_cover_id" value="{{ sku.cover_id }}" />
+                    <div id="phenix-sku-cover-uploader"></div>
+                
+                    <div id="asset-sku-list" class="ui four blocks">
+                        {% if sku_mode == 'edit' %}
+                            {% asset_list var:'sku_assets' parent_id:sku._id asset_type:140 size:10 %}
+                            {% for asset in sku_assets.rows %}
+                            <div class="thumb block" id="{{ asset._id }}">
+                                <div class="image">
+                                    <img src="{{ asset.thumbnails.small.view_url }}" />
+                                    <input type="hidden" class="asset_id_list" name="sku_cover_asset[]" value="{{ asset._id }}" />
+                                </div>
+                                <div class="buttons">
+                                    <div class="ui large links">
+                                        <a href="{{ app_url_asset }}/deleted?asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+                                            <i class="remove icon"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="ui link ajax-cover {%if asset._id == sku.cover_id %}active{%endif%} pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+                                            <i class="checkered flag icon"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
 				
 				<div class="field">
 					<div class="ui active magenta submit button">确定</div>

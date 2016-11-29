@@ -454,6 +454,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		$this->stash['sku'] = $sku;
 		$this->stash['product'] = $product;
+        $this->stash['sku_mode'] = 'edit';
 		
 		return $this->to_taconite_page('ajax/sku_edit.html');
 	}
@@ -469,6 +470,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$quantity = (int)$this->stash['quantity'];
         $number = isset($this->stash['number']) ? (int)trim($this->stash['number']) : 0;
         $vop_id = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
+        $cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		
 		// 验证数据
 		if(empty($product_id) || empty($price) || empty($mode) || empty($quantity)){
@@ -503,6 +505,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 					'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
                     'number' => $number,
                     'vop_id' => $vop_id,
+                    'cover_id' => $cover_id,
 				);
 				$ok = $inventory->apply_and_save($new_data);
 				
@@ -520,6 +523,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
                     'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
                     'number' => $number,
                     'vop_id' => $vop_id,
+                    'cover_id' => $cover_id,
 				);
 				$ok = $inventory->apply_and_update($updated);
 			}
@@ -621,14 +625,18 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['png_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_PRODUCT;
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
 		$this->stash['png_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PNG;
 
+
+        // sku 图片参数
+		$this->stash['sku_domain'] = Sher_Core_Util_Constant::STROAGE_SKU;
+		$this->stash['sku_asset_type'] = Sher_Core_Model_Asset::TYPE_SKU_COVER;
+		$this->stash['sku_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+
         // 供应商
 
-		
 		return $this->to_html_page('admin/product/edit.html');
 	}
 	

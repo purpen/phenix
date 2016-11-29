@@ -123,6 +123,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     const TYPE_THEME = 134;
     const TYPE_THEME_BANNER = 135;
 
+    # sku封面
+    const TYPE_SKU_COVER = 140;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',

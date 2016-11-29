@@ -1213,11 +1213,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         foreach($result['rows'][$i]['items'] as $k=>$v){
           $d = $product_model->extend_load((int)$v['product_id']);
           if(!empty($d)){
-            $sku_mode = null;
+            $sku_mode = '默认';
             if($v['sku']==$v['product_id']){
               $data[$i]['items'][$m]['name'] = $d['title'];   
             }else{
-              $sku_mode = '';
               $sku = $sku_model->find_by_id($v['sku']);
               if(!empty($sku)){
                 $sku_mode = $sku['mode'];
@@ -1331,11 +1330,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
             $d = $product_model->extend_load((int)$v['product_id']);
             if(!empty($d)){
-              $sku_mode = null;
+              $sku_mode = '默认';
               if($v['sku']==$v['product_id']){
                 $data['items'][$m]['name'] = $d['title'];   
               }else{
-                $sku_mode = '';
                 $sku = $sku_model->find_by_id($v['sku']);
                 if(!empty($sku)){
                   $sku_mode = $sku['mode'];
@@ -1388,11 +1386,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
                     $d = $product_model->extend_load((int)$v['product_id']);
                     if(!empty($d)){
-                      $sku_mode = null;
+                      $sku_mode = '默认';
                       if($v['sku']==$v['product_id']){
                         $data['sub_orders'][$i]['items'][$m]['name'] = $d['title'];   
                       }else{
-                        $sku_mode = '';
                         $sku = $sku_model->find_by_id($v['sku']);
                         if(!empty($sku)){
                           $sku_mode = $sku['mode'];
@@ -1821,9 +1818,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         $product = $product_model->extend_load($product_id);
         $item['title'] = $product['title']; 
+        $item['name'] = $product['title']; 
         $item['short_title'] = $product['short_title'];
         $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
         $item['sale_price'] = $product['sale_price'];
+        $item['sku_id'] = $sku_id;
 
         $item['sku_name'] = '默认';
         if($product_id != $sku_id){
@@ -2456,7 +2455,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1, 'stage_label'=>1,
 			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'type_label'=>1, 'freight'=>1,
 			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
-            'created_on'=>1, 'updated_on'=>1,
+            'created_on'=>1, 'updated_on'=>1, 'reason_label'=>1, 'refund_on'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 
@@ -2482,12 +2481,13 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             $item = array();
             $product = $product_model->extend_load($data[$i]['product_id']);
             $item['title'] = $product['title']; 
+            $item['name'] = $product['title']; 
             $item['short_title'] = $product['short_title'];
             $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
             $item['sale_price'] = $product['sale_price'];
             $item['quantity'] = $data[$i]['quantity'];
 
-            $item['sku_name'] = '';
+            $item['sku_name'] = '默认';
             if($data[$i]['target_type']==1){
                 $sku = $sku_model->find_by_id($data[$i]['target_id']);
                 if($sku){
