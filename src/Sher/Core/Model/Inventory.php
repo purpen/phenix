@@ -337,6 +337,27 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
         }
         return false;
     }
+
+	/**
+	 * 获取封面图
+	 */
+	public function cover(&$row){
+		// 已设置封面图
+		if(isset($row['cover_id']) && !empty($row['cover_id'])){
+			$asset = new Sher_Core_Model_Asset();
+			return $asset->extend_load($row['cover_id']);
+		}
+		// 未设置封面图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SKU_COVER,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+	}
 	
 }
 
