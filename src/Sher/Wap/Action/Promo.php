@@ -39,7 +39,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
             $arr[$v['id']] = $v['v'];
         }
 
-        $prize_id = getRand($arr); //根据概率获取奖项id 
+        $prize_id = $this->getRand($arr); //根据概率获取奖项id 
         foreach($prize_arr as $k=>$v){ //获取前端奖项位置
             if($v['id'] == $prize_id){
              $prize_site = $k;
@@ -53,23 +53,24 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $data['prize_id'] = $prize_id;
         echo json_encode($data);
 
-        function getRand($proArr) {
-            $data = '';
-            $proSum = array_sum($proArr); //概率数组的总概率精度 
+        
+    }
+    public function getRand($proArr) {
+        $data = '';
+        $proSum = array_sum($proArr); //概率数组的总概率精度 
 
-            foreach ($proArr as $k => $v) { //概率数组循环
-                $randNum = mt_rand(1, $proSum);
-                if ($randNum <= $v) {
-                    $data = $k;
-                    break;
-                } else {
-                    $proSum -= $v;
-                }
+        foreach ($proArr as $k => $v) { //概率数组循环
+            $randNum = mt_rand(1, $proSum);
+            if ($randNum <= $v) {
+                $data = $k;
+                break;
+            } else {
+                $proSum -= $v;
             }
-            unset($proArr);
-
-            return $data;
         }
+        unset($proArr);
+
+        return $data;
     }
 
     public function teeth(){
