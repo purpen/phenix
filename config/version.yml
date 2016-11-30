@@ -1,3 +1,3 @@
-app.version.sher: 'v0.10b16110401'
+app.version.sher: 'v0.10b16112801'
 app.version.jquery_bundle_version: '{$app.version.sher}'
 app.version.css_bundle_version: '{$app.version.sher}'
