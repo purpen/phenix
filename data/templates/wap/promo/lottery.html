@@ -142,7 +142,7 @@ body {
             } else {
 
                 lottery.speed = 100;
-                var url ="{{ app_url_wap }}/promo/ajax.php";
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
                 //"http://www.sucaihuo.com/jquery/1/129/demo/ajax.php";
                 $.post(url, {uid: 1}, function(data) { //获取奖品，也可以在这里判断是否登陆状态
                     $("#lottery").attr("prize_site", data.prize_site);
