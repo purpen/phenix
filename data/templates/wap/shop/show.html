@@ -1023,7 +1023,7 @@ span.ui.timeout.btn{
 		  $('h4.ui.header.inline span').html($(this).data('price'));
 		  $('h4.ui.header.inline .sub.header span').html(current_count);
           if(cover_url){
-            $('.sku_cover').src(cover_url);
+            $('.sku_cover').attr('src', cover_url);
           }
       $('.inc-qty.button').data('count', current_count);
       $('#product-qty').val(1);
