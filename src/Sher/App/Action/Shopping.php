@@ -284,8 +284,9 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 立即订单标识
 		$this->stash['nowbuy'] = 1;
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
@@ -468,6 +469,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
 		$data['items_count'] = $items_count;
+        $data['addbook_id'] = '';
 	
 		// 检测是否已设置默认地址
 		$addbook = $this->get_default_addbook($this->visitor->id);
@@ -671,6 +673,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$data['items'] = $items;
 			$data['total_money'] = $total_money;
 			$data['items_count'] = $items_count;
+            $data['addbook_id'] = '';
 		
 			// 检测是否已设置默认地址
 			$addbook = $this->get_default_addbook($user_id);
@@ -724,6 +727,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
 				$order_info = $model->get_data();
+
+                // 重新计算邮费
+                $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+                $order_info['dict']['freight'] = $freight;
+
 				$this->stash['order_info'] = $order_info;
 				$this->stash['data'] = $order_info['dict'];
 			}
@@ -753,7 +761,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
-		if(empty($this->stash['addbook_id'])){
+        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+		if(empty($addbook_id)){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
 
@@ -846,9 +855,10 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		}
 		
 		$order_info['is_presaled'] = $is_presaled;
-		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $addbook_id);
+        $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
@@ -859,15 +869,15 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		// 礼品卡金额
 		$gift_money = $order_info['gift_money'];
 
-    //鸟币数量
-    $bird_coin_count = $order_info['bird_coin_count'];
-    //鸟币抵金额
-    $bird_coin_money = $order_info['bird_coin_money'];
+        //鸟币数量
+        $bird_coin_count = $order_info['bird_coin_count'];
+        //鸟币抵金额
+        $bird_coin_money = $order_info['bird_coin_money'];
 
-    //红包和礼品卡不能同时 使用
-    if(!empty($card_money) && !empty($gift_money)){
-			return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
-    }
+        //红包和礼品卡不能同时 使用
+        if(!empty($card_money) && !empty($gift_money)){
+                return 	$this->ajax_json('红包和礼品卡不能同时使用！', true);
+        }
 		
 		try{
 			$orders = new Sher_Core_Model_Orders();

@@ -124,9 +124,9 @@ body {
         //var prize_site = $("#lottery").attr("prize_site");
         //if (lottery.times > lottery.cycle + 10 && lottery.index == prize_site) {
         if (lottery.times > lottery.cycle + 10 && lottery.prize==lottery.index) {
-            //var prize_id = $("#lottery").attr("prize_id");
-            //var prize_name = $("#lottery").attr("prize_name");
-            //alert("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id)
+            var prize_id = $("#lottery").attr("prize_id");
+            var prize_name = $("#lottery").attr("prize_name");
+            alert("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id)
             clearTimeout(lottery.timer);
             lottery.prize = -1;
             lottery.times = 0;
@@ -162,21 +162,21 @@ body {
                 return false;
             } else {
 
-                //lottery.speed = 100;
-                //var url ="{{ app_url_wap }}/promo/ajax.php";
-                //"http://www.sucaihuo.com/jquery/1/129/demo/ajax.php";
-                //$.post(url, {uid: 1}, function(data) { //获取奖品，也可以在这里判断是否登陆状态
-                //    $("#lottery").attr("prize_site", data.prize_site);
-                //    $("#lottery").attr("prize_id", data.prize_id);
-                //    $("#lottery").attr("prize_name", data.prize_name);
-                //    roll();
-                //    click = true;
-                //    return false;
-                //}, "json")
                 lottery.speed = 100;
-                roll();
-                click = true;
-                return false;
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                //"http://www.sucaihuo.com/jquery/1/129/demo/ajax.php";
+                $.post(url, {uid: 1}, function(data) { //获取奖品，也可以在这里判断是否登陆状态
+                    $("#lottery").attr("prize_site", data.prize_site);
+                    $("#lottery").attr("prize_id", data.prize_id);
+                    $("#lottery").attr("prize_name", data.prize_name);
+                    roll();
+                    click = true;
+                    return false;
+                }, "json")
+                //lottery.speed = 100;
+                //roll();
+                //click = true;
+                //return false;
             }
         });
     })

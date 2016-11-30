@@ -380,7 +380,6 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     ## app首次下单优惠金额
     const APP_FIRST_COIN_MONEY = 10;
     
-    
     /**
      * 版块置顶key
      */

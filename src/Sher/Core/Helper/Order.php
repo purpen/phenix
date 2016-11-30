@@ -87,10 +87,38 @@ class Sher_Core_Helper_Order {
             $result['data']['refund_price'] = (float)$product_price*$quantity;
             $result['success'] = true;
             return $result;  
-        
         }
-
   
+    }
+
+    /**
+     * 运费计算
+    */
+    public static function freight_stat($total_money, $addbook_id, $options=array()){
+        if($total_money>=99) return 0;
+        return 10;
+    }
+
+    /**
+     * app下单随机减
+     */
+    public static function app_rand_reduce($total){
+        $total = (float)$total;
+        if(empty($total)) return 0;
+
+        if($total>0 && $total<=50){
+            return rand(1, 2);
+        }elseif($total>50 && $total<=100){
+            return rand(1, 3);
+        }elseif($total>100 && $total<=300){
+            return rand(2, 5);
+        }elseif($total>300 && $total<=500){
+            return rand(3, 7);
+        }elseif($total>500){
+            return rand(5, 10);
+        }else{
+            return 0;
+        }
     }
 
 }
