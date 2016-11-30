@@ -650,8 +650,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
@@ -925,6 +926,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         return $this->show_message_page('系统出了小差，请稍后重试！', true);
       }
 
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $order_info['dict']['freight'] = $freight;
+
       $this->stash['order_info'] = $order_info;
       $this->stash['data'] = $order_info['dict'];
 			
@@ -951,7 +956,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
-		if(empty($this->stash['addbook_id'])){
+        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+		if(empty($addbook_id)){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
 
@@ -1037,8 +1043,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 预售订单
 		$order_info['is_presaled'] = $is_presaled;
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $addbook_id);
+        $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
@@ -1431,6 +1438,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
 		$data['items_count'] = $items_count;
+        $data['addbook_id'] = '';
 	
 		// 检测是否已设置默认地址
 		$addbook = $this->get_default_addbook($this->visitor->id);

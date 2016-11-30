@@ -125,6 +125,8 @@ app.topic_category_comprehensive: 16
 # 话题产品版块ID
 app.topic_category_product: 17
 
+# fiuApp下单优惠开关
+app.fiu_order_reduce_switch: 1
 
 # 百度推送 token
 baidu_push_token: ''
