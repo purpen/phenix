@@ -13,13 +13,14 @@ body {
 *, :after, :before {
     box-sizing: inherit;
 }
-#lottery{width:10.0rem;
-	height:10rem;margin:0 auto;
-    background:url(http://www.jq22.com/demo/jquery-cj-150209223820/images/bg.jpg) no-repeat;
-    padding:0;
+#lottery{
+    width:10.0rem;
+	height:12.8rem;
+    margin:0 auto;
+    background:url({{ app_url_packaged }}/images/fiushop/drew/dbg.jpg) no-repeat;
     background-size:cover;
     /*padding: 0.73rem 0.7981rem;*/
-    padding: 0.72rem 0.78rem;
+    padding: 3.533333rem 0.84rem 0;
 }
 
 #lottery table td{
@@ -27,32 +28,52 @@ body {
     vertical-align:middle;
     color:#333;
     font-index:-999;
-    /**/
-    background-color:#ea0000;
+    position: relative;
 }
 #lottery table{
-    width: 8.34rem;
-    height: 8.34rem;
+    width: 8.32rem;
+    height: 8.32rem;
+    background: #d82622;
 }
-            #lottery table td img{
-                /*width:2.02rem;
-                height:2.02rem;*/
-                width:2.7rem;
-                height:2.7rem;
-                vertical-align: middle;
-            }
-            #lottery table td a{
-                /*width:4rem;
-                height:4rem;*/
-                width:2.7rem;
-                height:2.7rem;
-                display:block;
-                text-decoration:none;
-            }
-            #lottery table td.active{
-                /*background-color:#ea0000;*/
-                background:transparent; 
-            }
+#lottery table td img{
+    /*width:2.02rem;
+    height:2.02rem;*/
+    width:2.733333rem;
+    height:2.73333rem;
+    vertical-align: middle;
+}
+.d1{
+    background-image: url({{ app_url_packaged }}/images/fiushop/drew/d1.jpg);
+    width:2.733333rem;
+    height:2.73333rem;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#lottery table td a{
+    width:2.733333rem;
+    height:2.733333rem;
+    display:block;
+    background:url({{ app_url_packaged }}/images/fiushop/drew/go.jpg) no-repeat;
+    background-size:cover;
+    text-decoration:none;
+    vertical-align: middle;
+}
+#lottery table td.active{
+    /*background-color:#ea0000;*/
+    background:#d82622; 
+}
+#lottery table td .active{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+#lottery table td.active .active{
+    display: block;
+}
 </style>
 {% endblock %}
 
@@ -100,7 +121,7 @@ body {
     function roll() {
         lottery.times += 1;
         lottery.roll();
-        //var prize_site = $("#lottery").attr("prize_site");
+        var prize_site = $("#lottery").attr("prize_site");
         //if (lottery.times > lottery.cycle + 10 && lottery.index == prize_site) {
         if (lottery.times > lottery.cycle + 10 && lottery.prize==lottery.index) {
             var prize_id = $("#lottery").attr("prize_id");
@@ -143,7 +164,6 @@ body {
 
                 lottery.speed = 100;
                 var url ="{{ app_url_wap }}/promo/ajax_lottery";
-                //"http://www.sucaihuo.com/jquery/1/129/demo/ajax.php";
                 $.post(url, {uid: 1}, function(data) { //获取奖品，也可以在这里判断是否登陆状态
                     $("#lottery").attr("prize_site", data.prize_site);
                     $("#lottery").attr("prize_id", data.prize_id);
@@ -163,33 +183,30 @@ body {
 {% endblock %}
 {% block content %}
 <div class="container">
-    <div class="demo">
-        <div id="lottery">
-            <table border="0" cellpadding="0" cellspacing="0">
-                <tr>
-                    <td class="lottery-unit lottery-unit-0"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/1.png"></td>
-                    <td class="lottery-unit lottery-unit-1"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/2.png"></td>
-                    <td class="lottery-unit lottery-unit-2"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-                    <!-- <td class="lottery-unit lottery-unit-3"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td> -->
-                </tr>
-                <tr>
-                    <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-                    <td class="active"><a href="javascript:void(0);"></a></td>
-                    <td class="lottery-unit lottery-unit-3"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
-                </tr>
-                <tr>
-                    <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/1.png"></td>
-                    <td class="lottery-unit lottery-unit-5"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
-                    <td class="lottery-unit lottery-unit-4"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
-                </tr>
-                <!-- <tr>
-                    <td class="lottery-unit lottery-unit-9"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
-                    <td class="lottery-unit lottery-unit-8"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
-                    <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/8.png"></td>
-                    <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-                </tr> -->
-            </table>
-        </div>
+    <div id="lottery">
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="lottery-unit lottery-unit-0"><img src="{{ app_url_packaged }}/images/fiushop/drew/d1.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+                <td class="lottery-unit lottery-unit-1"><img src="{{ app_url_packaged }}/images/fiushop/drew/d2.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+                <td class="lottery-unit lottery-unit-2"><img src="{{ app_url_packaged }}/images/fiushop/drew/d3.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-7"><img src="{{ app_url_packaged }}/images/fiushop/drew/d8.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+                <td class="active"><a href="javascript:void(0);"></a></td>
+                <td class="lottery-unit lottery-unit-3"><img src="{{ app_url_packaged }}/images/fiushop/drew/d4.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-6"><img src="{{ app_url_packaged }}/images/fiushop/drew/d7.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+                <td class="lottery-unit lottery-unit-5"><img src="{{ app_url_packaged }}/images/fiushop/drew/d6.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+                <td class="lottery-unit lottery-unit-4"><img src="{{ app_url_packaged }}/images/fiushop/drew/d5.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
+            </tr>
+            <!-- <tr>
+                <td class="lottery-unit lottery-unit-9"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
+                <td class="lottery-unit lottery-unit-8"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
+                <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/8.png"></td>
+                <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
+            </tr> -->
+        </table>
     </div>
 </div>
 
