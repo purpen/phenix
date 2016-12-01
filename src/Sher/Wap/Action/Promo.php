@@ -67,46 +67,45 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $data['prize_id'] = $prize_id;
 
         if($result['obj']){
-          $sid = (string)$result['obj']['_id'];
-          $data = array(
-            'draw_times' => 2,
-            'event' => $data['type'],
-            'number_id' => $data['prize_id'],
-            'title' => $data['prize_name'],
-            'desc' => '',
-            'count' => $data['count'],
-            'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
-          );
-          $ok = $sign_draw_record_model->update_set($sid, $data);
+            $sid = (string)$result['obj']['_id'];
+            $row = array(
+                'draw_times' => 2,
+                'event' => $data['type'],
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'count' => $data['count'],
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+            );
+            $ok = $model->update_set($sid, $row);
         }else{
-          //当前日期
-          $today = (int)date('Ymd');
-          $data = array(
-            'user_id' => $user_id,
-            'target_id' => $draw_info['id'],
-            'day' => $today,
-            'event' => $is_prize_arr['type'],
-            'ip' => Sher_Core_Helper_Auth::get_ip(),
-            'number_id' => $is_prize_arr['id'],
-            'title' => $is_prize_arr['title'],
-            'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
-            'count' => $is_prize_arr['count'],
-            'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
-            'from_to' => $from_to,
-            'kind' => $kind,
-          );
-          $ok = $sign_draw_record_model->apply_and_save($data);
-          if($ok){
-            // 获取抽奖记录ID
-            $sign_draw_record = $sign_draw_record_model->get_data();
-            $sid = (string)$sign_draw_record['_id'];  
-          }
+            //当前日期
+            $today = (int)date('Ymd');
+            $row = array(
+                'user_id' => $user_id,
+                'target_id' => 1,
+                'day' => $today,
+                'event' => $is_prize_arr['type'],
+                'ip' => Sher_Core_Helper_Auth::get_ip(),
+                'number_id' => $is_prize_arr['id'],
+                'title' => $is_prize_arr['title'],
+                'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
+                'count' => $is_prize_arr['count'],
+                'state' => in_array($is_prize_arr['type'], $model->need_contact_user_event()) ? 0 : 1,
+                'from_to' => $from_to,
+                'kind' => $kind,
+            );
+            $ok = $model->apply_and_save($row);
+            if($ok){
+                // 获取抽奖记录ID
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];  
+            }
         }
 
         if(!$ok){
-          return $this->ajax_json("操作失败，请重试!", true);    
+            return $this->ajax_json("操作失败，请重试!", true);    
         }
-
 
         return $this->ajax_json('success', false, null, $data);
     }
