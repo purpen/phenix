@@ -408,8 +408,8 @@ body {
 
         $.post("{{ app_url_wap }}/app/site/promo_func/save_active_draw_address", {sid: sid, name: name, phone: phone, address: address}, function(rs){
             if(rs.success){
-                $('.ui.modalt.page,.ui.messge').removeClass('hide');
-                phenix.show_error_note('地址保存成功！', 3000);           
+                $('.ui.modalt.page,.ui.messge').removeClass('show');
+                phenix.show_ok_note('地址保存成功！', 3000);           
             }else{
                 phenix.show_error_note(rs.message, 3000);
             }
