@@ -143,7 +143,18 @@ body {
     color: #d82622;
     display: none;
 }
-.address.messge.show{
+.bounds.messge{
+    width:8.32rem;
+    height: 5.066667rem;
+    position: fixed;
+    top: 5.266667rem;
+    left: 0.84rem;
+    background-image: url({{ app_url_packaged }}/images/fiushop/drew/modalt.png);
+    background-size:cover;
+    color: #d82622;
+    display: none;
+}
+.ui.messge.show{
     animation: 0.5s zoomIn 1.2s both;
     -webkit-animation: 0.5s zoomIn 1.2s both;
     display: block;
@@ -210,6 +221,18 @@ body {
     margin: 0.4rem 0 0;
     border-radius: 4px;
 }
+.view.button{
+    width: 4.533333rem;
+    height: 0.746667rem;
+    background: #d82622 !important;
+    color: #fff !important;
+    font-size: 0.32rem;
+    text-align: center;
+    line-height: 0.746667rem;
+    padding: 0;
+    margin: 0.853333rem 0 0;
+    border-radius: 4px;
+}
 </style>
 {% endblock %}
 
@@ -264,7 +287,14 @@ body {
             var prize_event = $("#lottery").attr("prize_event");
             if ( prize_event == 3 ){
                 $('.ui.messge p span').html(prize_name);
-                $('.ui.modalt.page,.ui.messge').addClass('show');
+                $('.ui.modalt.page,.ui.address.messge').addClass('show');
+            }else{
+                $('.ui.modalt.page,.ui.bounds.messge').addClass('show');
+                if( prize_event == 4 ){
+                    $('.ui.bounds p span').html('30元现金红包');
+                }else{
+                    $('.ui.bounds p span').html('10元现金红包');
+                }
             }
             clearTimeout(lottery.timer);
             lottery.prize = -1;
@@ -301,7 +331,7 @@ body {
                 return false;
             } else {
                 lottery.speed = 100;  
-                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                var url ="http://taihuoniao.me/app/wap/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
@@ -355,7 +385,7 @@ body {
         <div class="close"></div>
         <h2 class="ui header">恭喜您</h2>
         <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
-        <p>抽中<span>卡片移动电源</span>一个，请填写收货信息!</p>
+        <p>抽中<span></span>一个，请填写收货信息!</p>
         <form action=" " class="ui form" method="post">
             <div class="field">
                 <label>姓名</label>
@@ -374,6 +404,18 @@ body {
             </div>
         </form>
     </div>
+
+    <div class="ui bounds messge">
+        <div class="close"></div>
+        <h2 class="ui header">恭喜您</h2>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <p>抽中<span></span>，请去我的红包查看!</p>
+        <a class="ui inverted active view button" href="">
+              立即查看
+        </a>
+    </div>
+
+
 
 </div>
 
