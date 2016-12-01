@@ -377,6 +377,7 @@ body {
                         $("#lottery").attr("prize_id", rs.data.prize_id);
                         $("#lottery").attr("prize_name", rs.data.prize_name);
                         $("#lottery").attr("prize_event", rs.data.event);
+                        $(":input[name=sid]").val(rs.data.sid);
                         //lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
