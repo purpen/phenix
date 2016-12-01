@@ -395,6 +395,7 @@ body {
                         $("#lottery").attr("prize_id", rs.data.prize_id);
                         $("#lottery").attr("prize_name", rs.data.prize_name);
                         $("#lottery").attr("prize_event", rs.data.event);
+                        $(":input[name=sid]").val(rs.data.sid);
                         //lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
@@ -411,6 +412,29 @@ body {
     $('.close').click(function(){
         $('.ui.modalt.page,.ui.messge').removeClass('show');
     });
+
+    // 保存收货地址
+    $('#address_btn').click(function(){
+        var name = $(':input[name=name]').val();
+        var phone = $(':input[name=phone]').val();
+        var address = $(':input[name=address]').val();
+        var sid = $(':input[name=sid]').val();
+
+        if(!sid || !name || !phone || !address){
+            phenix.show_error_note('请完善收货地址！', 3000);
+            return false;
+        }
+
+        $.post("{{ app_url_wap }}/app/site/promo/save_active_draw_address", {sid: sid, name: name, phone: phone, address: address}, function(rs){
+            if(rs.success){
+                $('.ui.modalt.page,.ui.messge').removeClass('hide');
+                phenix.show_error_note('地址保存成功！', 3000);           
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+    });
+
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -460,22 +484,23 @@ body {
     <div class="ui address messge">
         <div class="close"></div>
         <h2 class="ui header">恭喜您</h2>
-        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%" id="address-from">
         <p>抽中<span></span>一个，请填写收货信息!</p>
         <form action=" " class="ui form" method="post">
+            <input type="hidden" name="sid" value="" />
             <div class="field">
                 <label>姓名</label>
-                <input type="text" name="name" value=" ">
+                <input type="text" name="name" value="">
             </div>
             <div class="field">
                 <label>手机</label>
-                <input type="text" name="phone" value=" " placeholder="填写手机号，方便信息核实">
+                <input type="text" name="phone" value="" placeholder="填写手机号，方便信息核实">
             </div>
             <div class="field">
                 <label>地址</label>
-                <input type="text" name="address" value=" ">
+                <input type="text" name="address" value="">
             </div>
-            <div class="ui inverted active submit button">
+            <div class="ui inverted active submit button" id="address_btn">
               确认收货地址
             </div>
         </form>
@@ -486,7 +511,7 @@ body {
         <h2 class="ui header">恭喜您</h2>
         <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
         <p>抽中<span></span>，请去我的红包查看!</p>
-        <a class="ui inverted active view button" href="">
+        <a class="ui inverted active view button" href="{{ app_url_wap }}/my/bonus">
               立即查看
         </a>
     </div>

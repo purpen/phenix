@@ -37,25 +37,39 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $model = new Sher_Core_Model_ActiveDrawRecord();
         $result = $model->check_can_draw($user_id, $target_id, 1);
         if(!$result['success']){
-            return $this->ajax_json($result['message'], true); 
+            //return $this->ajax_json($result['message'], true); 
         }
 
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $prize_arr = array(
-            '0' => array('id' => 1, 'event'=>3, 'prize' => '云马C1智行车', 'v' => 5),
-            '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 5),
-            '2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
+            //'0' => array('id' => 1, 'event'=>3, 'prize' => '云马C1智行车', 'v' => 5),
+            '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 5), // 200个
+            //'2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
             '3' => array('id' => 4, 'event'=>2, 'prize' => '30元优惠券', 'v' => 25),
-            '4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
-            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),
-            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),
-            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 5),
+            //'4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
+            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),  // 200个
+            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),   // 100个
+            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 25),
         );
         foreach ($prize_arr as $k=>$v) {
             $arr[$v['id']] = $v['v'];
         }
 
-        $prize_id = $this->getRand($arr); //根据概率获取奖项id 
+        $rand = '';
+        $proSum = array_sum($arr); //概率数组的总概率精度 
+
+        foreach ($arr as $k => $v) { //概率数组循环
+            $randNum = mt_rand(1, $proSum);
+            if ($randNum <= $v) {
+                $rand = $k;
+                break;
+            } else {
+                $proSum -= $v;
+            }
+        }
+        unset($proArr);
+        $prize_id = $rand;
+
         foreach($prize_arr as $k=>$v){ //获取前端奖项位置
             if($v['id'] == $prize_id){
              $prize_site = $k;
@@ -97,13 +111,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
                 'from_to' => $from_to,
                 'kind' => $kind,
             );
-            $ok = true;
-            //$ok = $model->apply_and_save($row);
+            //$ok = true;
+            $ok = $model->apply_and_save($row);
             if($ok){
                 // 获取抽奖记录ID
-                //$active_draw_record = $model->get_data();
-                //$sid = (string)$active_draw_record['_id'];  
-                $sid = 1;
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];  
             }
         }
 
@@ -111,36 +124,19 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $data['sid'] = $sid;
 
         if(!$ok){
-            return $this->ajax_json("操作失败，请重试!", true);    
+            return $this->ajax_json("操作失败，请重试!", true);
         }
 
         // 直接送红包
         if($data['event']==2){
-        
-        
-        }
-
-
-        return $this->ajax_json('success', false, null, $data);
-    }
-
-
-    public function getRand($proArr) {
-        $data = '';
-        $proSum = array_sum($proArr); //概率数组的总概率精度 
-
-        foreach ($proArr as $k => $v) { //概率数组循环
-            $randNum = mt_rand(1, $proSum);
-            if ($randNum <= $v) {
-                $data = $k;
-                break;
-            } else {
-                $proSum -= $v;
+            if($data['prize_id']==4){   // 30元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'C', 'min_amounts'=>'B'));
+            }elseif($data['prize_id']==8){  // 10元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'G', 'min_amounts'=>'K'));
             }
         }
-        unset($proArr);
 
-        return $data;
+        return $this->ajax_json('success', false, null, $data);
     }
 
     public function teeth(){
