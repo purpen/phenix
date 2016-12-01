@@ -26,14 +26,14 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     public function ajax_lottery(){
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $prize_arr = array(
-            '0' => array('id' => 1, 'prize' => '一等奖', 'v' => 5),
-            '1' => array('id' => 2, 'prize' => '二等奖', 'v' => 5),
-            '2' => array('id' => 3, 'prize' => '三等奖', 'v' => 5),
-            '3' => array('id' => 4, 'prize' => '四等奖', 'v' => 5),
-            '4' => array('id' => 5, 'prize' => '五等奖', 'v' => 5),
-            '5' => array('id' => 6, 'prize' => '六等奖', 'v' => 5),
-            '6' => array('id' => 7, 'prize' => '七等奖', 'v' => 5),
-            '7' => array('id' => 8, 'prize' => '八等奖', 'v' => 5),
+            '0' => array('id' => 1, 'prize' => '云马C1智行车', 'v' => 5),
+            '1' => array('id' => 2, 'prize' => '小黄鸭', 'v' => 5),
+            '2' => array('id' => 3, 'prize' => '素士牙刷', 'v' => 5),
+            '3' => array('id' => 4, 'prize' => '30元优惠劵', 'v' => 5),
+            '4' => array('id' => 5, 'prize' => '电动螺丝刀', 'v' => 5),
+            '5' => array('id' => 6, 'prize' => 'KALAR便携筷子', 'v' => 5),
+            '6' => array('id' => 7, 'prize' => '卡片移动电源', 'v' => 5),
+            '7' => array('id' => 8, 'prize' => '10元优惠劵', 'v' => 5),
         );
         foreach ($prize_arr as $k=>$v) {
             $arr[$v['id']] = $v['v'];
@@ -46,7 +46,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
              break;
             }
         }
-        $res = $prize_arr[$prize_id - 1]; //中奖项 
+        $res = $prize_arr[$prize_id -1]; //中奖项 
 
         $data['prize_name'] = $res['prize'];
         $data['prize_site'] = $prize_site;//前端奖项从-1开始
