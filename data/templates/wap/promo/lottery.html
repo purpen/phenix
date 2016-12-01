@@ -85,7 +85,51 @@ body {
     text-align: center;
     display: none;
 }
-.ui.modalt.page.active{
+@-webkit-keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3,.3,.3);
+        transform: scale3d(.3,.3,.3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3,.3,.3);
+        transform: scale3d(.3,.3,.3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+.ui.modalt.page.show{
+    animation: 0.5s fadeIn 1s both;
+    -webkit-animation: 0.5s fadeIn 1s both;
     display: block;
 }
 .address.messge{
@@ -97,15 +141,21 @@ body {
     background-image: url({{ app_url_packaged }}/images/fiushop/drew/modal.png);
     background-size:cover;
     color: #d82622;
+    display: none;
+}
+.address.messge.show{
+    animation: 0.5s zoomIn 1.2s both;
+    -webkit-animation: 0.5s zoomIn 1.2s both;
+    display: block;
 }
 .ui.messge .close{
     width: 1.066667rem;
     height: 1.066667rem;
     background-image: url({{ app_url_packaged }}/images/fiushop/drew/close.png);
     background-size:cover;
-    position: fixed;
-    right: 0.44rem;
-    top: 3.066667rem;
+    position: absolute;
+    right: -0.35rem;
+    top: -0.35rem;
 }
 .ui.messge h2.ui.header{
     font-size: 0.586667rem;
@@ -174,7 +224,7 @@ body {
         timer: 0, //setTimeout的ID，用clearTimeout清除
         speed: 20, //初始转动速度
         times: 0, //转动次数
-        cycle: 30, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+        cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
         prize: -1, //中奖位置
         init: function(id) {
             if ($("#" + id).find(".lottery-unit").length > 0) {
@@ -208,21 +258,18 @@ body {
         lottery.times += 1;
         lottery.roll();
         var prize_site = $("#lottery").attr("prize_site");
-        var prize_id = $("#lottery").attr("prize_id");
-        var prize_name = $("#lottery").attr("prize_name");
-        var prize_event = $("#lottery").attr("prize_event");
         if (lottery.times > lottery.cycle + 10 && lottery.index== prize_site ) {
+            var prize_id = $("#lottery").attr("prize_id");
+            var prize_name = $("#lottery").attr("prize_name");
+            var prize_event = $("#lottery").attr("prize_event");
+            if ( prize_event == 3 ){
+                $('.ui.messge p span').html(prize_name);
+                $('.ui.modalt.page,.ui.messge').addClass('show');
+            }
             clearTimeout(lottery.timer);
             lottery.prize = -1;
             lottery.times = 0;
             click = false;
-            
-            if ( prize_event == 3 ){
-                $('.ui.messge p span').html(prize_name);
-                setTimeout($('.ui.modalt.page').addClass('active'),1000);
-            }
-            
-            console.log("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id);
 
         } else {
             if (lottery.times < lottery.cycle) {
@@ -261,7 +308,7 @@ body {
                         $("#lottery").attr("prize_id", rs.data.prize_id);
                         $("#lottery").attr("prize_name", rs.data.prize_name);
                         $("#lottery").attr("prize_event", rs.data.event);
-                        lottery.index = rs.data.prize_id;
+                        //lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
                         return false;                   
@@ -275,7 +322,7 @@ body {
     });
 
     $('.close').click(function(){
-        $('.ui.modalt.page').removeClass('active');
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
     });
 {% endblock %}
 {% block content %}
