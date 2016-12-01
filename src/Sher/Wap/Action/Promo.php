@@ -29,6 +29,8 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
             return $this->ajax_json('请先登录！', true);
         }
         $user_id = $this->visitor->id;
+        $from_to = 2;
+        $kind = 1;
 
         // 验证是否还能抽奖
         $model = new Sher_Core_Model_ActiveDrawRecord();
@@ -63,6 +65,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
         $data['prize_name'] = $res['prize'];
         $data['event'] = $res['event'];
+        $data['count'] = $res['count'];
         $data['prize_site'] = $prize_site;//前端奖项从-1开始
         $data['prize_id'] = $prize_id;
 
@@ -70,7 +73,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
             $sid = (string)$result['obj']['_id'];
             $row = array(
                 'draw_times' => 2,
-                'event' => $data['type'],
+                'event' => $data['event'],
                 'number_id' => $data['prize_id'],
                 'title' => $data['prize_name'],
                 'desc' => '',
@@ -85,13 +88,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
                 'user_id' => $user_id,
                 'target_id' => 1,
                 'day' => $today,
-                'event' => $is_prize_arr['type'],
+                'event' => $data['event'],
                 'ip' => Sher_Core_Helper_Auth::get_ip(),
-                'number_id' => $is_prize_arr['id'],
-                'title' => $is_prize_arr['title'],
-                'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
-                'count' => $is_prize_arr['count'],
-                'state' => in_array($is_prize_arr['type'], $model->need_contact_user_event()) ? 0 : 1,
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'count' => $data['count'],
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
                 'from_to' => $from_to,
                 'kind' => $kind,
             );
