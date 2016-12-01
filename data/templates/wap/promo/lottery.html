@@ -246,18 +246,19 @@ body {
 {% endblock %}
 {% block jquery %} 
 
+    var ua = navigator.userAgent.toLowerCase(); 
+    if (/iphone|ipad|ipod/.test(ua)) {
+        cycle = 50;
+    } else if (/android/.test(ua)){
+        cycle = 20;
+    }
     var lottery = {
         index: -1, //当前转动到哪个位置，起点位置
         count: 0, //总共有多少个位置
         timer: 0, //setTimeout的ID，用clearTimeout清除
         speed: 20, //初始转动速度
         times: 0, //转动次数
-        var ua = navigator.userAgent.toLowerCase(); 
-        if (/iphone|ipad|ipod/.test(ua)) {
-            cycle: 50,
-        } else if (/android/.test(ua)) {
-            cycle: 20,
-        }
+        cycle:cycle,
         prize: -1, //中奖位置
         init: function(id) {
             if ($("#" + id).find(".lottery-unit").length > 0) {
