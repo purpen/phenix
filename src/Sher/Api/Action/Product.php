@@ -493,6 +493,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
             $result['rows'][$i]['target_user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['target_user']);
           }
         }
+
+        // 活动说明
+        $data['active_summary'] = array(
+            'order_reduce' => 0,
+            'other' => 0,
+        );
+        // app下单随机减
+        if(!empty(Doggy_Config::$vars['app.fiu_order_reduce_switch'])){
+            $data['active_summary']['order_reduce'] = 1;
+        } 
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
