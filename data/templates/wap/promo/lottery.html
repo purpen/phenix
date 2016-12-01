@@ -121,14 +121,12 @@ body {
     function roll() {
         lottery.times += 1;
 
-        var prize_site = $("#lottery").attr("prize_site");
-        var prize_id = $("#lottery").attr("prize_id");
-        var prize_name = $("#lottery").attr("prize_name");
-
         lottery.roll();
         //if (lottery.times > lottery.cycle + 10 && lottery.index == prize_site) {
         if (lottery.times > lottery.cycle + 10 && lottery.prize==lottery.index) {
-
+            var prize_site = $("#lottery").attr("prize_site");
+            var prize_id = $("#lottery").attr("prize_id");
+            var prize_name = $("#lottery").attr("prize_name");
             alert("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id);
             clearTimeout(lottery.timer);
             lottery.prize = -1;
