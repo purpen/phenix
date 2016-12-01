@@ -378,7 +378,6 @@ body {
                         $("#lottery").attr("prize_name", rs.data.prize_name);
                         $("#lottery").attr("prize_event", rs.data.event);
                         $(":input[name=sid]").val(rs.data.sid);
-                        //lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
                         return false;                   
@@ -407,7 +406,7 @@ body {
             return false;
         }
 
-        $.post("{{ app_url_wap }}/app/site/promo/save_active_draw_address", {sid: sid, name: name, phone: phone, address: address}, function(rs){
+        $.post("{{ app_url_wap }}/app/site/promo_func/save_active_draw_address", {sid: sid, name: name, phone: phone, address: address}, function(rs){
             if(rs.success){
                 $('.ui.modalt.page,.ui.messge').removeClass('hide');
                 phenix.show_error_note('地址保存成功！', 3000);           
