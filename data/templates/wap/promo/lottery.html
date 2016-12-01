@@ -85,7 +85,51 @@ body {
     text-align: center;
     display: none;
 }
+@-webkit-keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3,.3,.3);
+        transform: scale3d(.3,.3,.3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+@keyframes zoomIn {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale3d(.3,.3,.3);
+        transform: scale3d(.3,.3,.3)
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1
+    }
+}
 .ui.modalt.page.show{
+    animation: 0.5s fadeIn 1s both;
+    -webkit-animation: 0.5s fadeIn 1s both;
     display: block;
 }
 .address.messge{
@@ -97,15 +141,21 @@ body {
     background-image: url({{ app_url_packaged }}/images/fiushop/drew/modal.png);
     background-size:cover;
     color: #d82622;
+    display: none;
+}
+.address.messge.show{
+    animation: 0.5s zoomIn 1.2s both;
+    -webkit-animation: 0.5s zoomIn 1.2s both;
+    display: block;
 }
 .ui.messge .close{
     width: 1.066667rem;
     height: 1.066667rem;
     background-image: url({{ app_url_packaged }}/images/fiushop/drew/close.png);
     background-size:cover;
-    position: fixed;
-    right: 0.44rem;
-    top: 3.066667rem;
+    position: absolute;
+    right: -0.35rem;
+    top: -0.35rem;
 }
 .ui.messge h2.ui.header{
     font-size: 0.586667rem;
@@ -214,7 +264,7 @@ body {
             var prize_event = $("#lottery").attr("prize_event");
             if ( prize_event == 3 ){
                 $('.ui.messge p span').html(prize_name);
-                setTimeout($('.ui.modalt.page').addClass('show'),1000);
+                $('.ui.modalt.page,.ui.messge').addClass('show');
             }
             clearTimeout(lottery.timer);
             lottery.prize = -1;
@@ -251,7 +301,7 @@ body {
                 return false;
             } else {
                 lottery.speed = 100;  
-                var url ="{{app_url_wap}}/promo/ajax_lottery";
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
@@ -272,7 +322,7 @@ body {
     });
 
     $('.close').click(function(){
-        $('.ui.modalt.page').removeClass('show');
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
     });
 {% endblock %}
 {% block content %}
