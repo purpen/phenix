@@ -245,11 +245,9 @@ body {
 
 {% endblock %}
 {% block jquery %} 
-
+    var cycle = 50;
     var ua = navigator.userAgent.toLowerCase(); 
-    if (/iphone|ipad|ipod/.test(ua)) {
-        cycle = 50;
-    } else if (/android/.test(ua)){
+    if (/android/.test(ua)){
         cycle = 20;
     }
     var lottery = {
