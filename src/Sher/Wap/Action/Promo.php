@@ -24,16 +24,29 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     }
 
     public function ajax_lottery(){
+
+        if(!$this->visitor->id){
+            return $this->ajax_json('请先登录！', true);
+        }
+        $user_id = $this->visitor->id;
+
+        // 验证是否还能抽奖
+        $model = new Sher_Core_Model_ActiveDrawRecord();
+        $result = $model->check_can_draw($user_id, 1, 1);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true); 
+        }
+
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $prize_arr = array(
-            '0' => array('id' => 1, 'prize' => '一等奖', 'v' => 5),
-            '1' => array('id' => 2, 'prize' => '二等奖', 'v' => 5),
-            '2' => array('id' => 3, 'prize' => '三等奖', 'v' => 5),
-            '3' => array('id' => 4, 'prize' => '四等奖', 'v' => 5),
-            '4' => array('id' => 5, 'prize' => '五等奖', 'v' => 5),
-            '5' => array('id' => 6, 'prize' => '六等奖', 'v' => 5),
-            '6' => array('id' => 7, 'prize' => '七等奖', 'v' => 5),
-            '7' => array('id' => 8, 'prize' => '八等奖', 'v' => 5),
+            '0' => array('id' => 1, 'event'=>1, 'prize' => '一等奖', 'v' => 5),
+            '1' => array('id' => 2, 'event'=>1, 'prize' => '二等奖', 'v' => 5),
+            '2' => array('id' => 3, 'event'=>1, 'prize' => '三等奖', 'v' => 5),
+            '3' => array('id' => 4, 'event'=>1, 'prize' => '四等奖', 'v' => 5),
+            '4' => array('id' => 5, 'event'=>1, 'prize' => '五等奖', 'v' => 5),
+            '5' => array('id' => 6, 'event'=>1, 'prize' => '六等奖', 'v' => 5),
+            '6' => array('id' => 7, 'event'=>1, 'prize' => '七等奖', 'v' => 5),
+            '7' => array('id' => 8, 'event'=>1, 'prize' => '八等奖', 'v' => 5),
         );
         foreach ($prize_arr as $k=>$v) {
             $arr[$v['id']] = $v['v'];
@@ -49,12 +62,56 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $res = $prize_arr[$prize_id - 1]; //中奖项 
 
         $data['prize_name'] = $res['prize'];
+        $data['event'] = $res['event'];
         $data['prize_site'] = $prize_site;//前端奖项从-1开始
         $data['prize_id'] = $prize_id;
-        echo json_encode($data);
 
-        
+        if($result['obj']){
+          $sid = (string)$result['obj']['_id'];
+          $data = array(
+            'draw_times' => 2,
+            'event' => $data['type'],
+            'number_id' => $data['prize_id'],
+            'title' => $data['prize_name'],
+            'desc' => '',
+            'count' => $data['count'],
+            'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+          );
+          $ok = $sign_draw_record_model->update_set($sid, $data);
+        }else{
+          //当前日期
+          $today = (int)date('Ymd');
+          $data = array(
+            'user_id' => $user_id,
+            'target_id' => $draw_info['id'],
+            'day' => $today,
+            'event' => $is_prize_arr['type'],
+            'ip' => Sher_Core_Helper_Auth::get_ip(),
+            'number_id' => $is_prize_arr['id'],
+            'title' => $is_prize_arr['title'],
+            'desc' => sprintf("%s: %d", $is_prize_arr['title'], $is_prize_arr['count']),
+            'count' => $is_prize_arr['count'],
+            'state' => in_array($is_prize_arr['type'], $sign_draw_record_model->need_contact_user_event()) ? 0 : 1,
+            'from_to' => $from_to,
+            'kind' => $kind,
+          );
+          $ok = $sign_draw_record_model->apply_and_save($data);
+          if($ok){
+            // 获取抽奖记录ID
+            $sign_draw_record = $sign_draw_record_model->get_data();
+            $sid = (string)$sign_draw_record['_id'];  
+          }
+        }
+
+        if(!$ok){
+          return $this->ajax_json("操作失败，请重试!", true);    
+        }
+
+
+        return $this->ajax_json('success', false, null, $data);
     }
+
+
     public function getRand($proArr) {
         $data = '';
         $proSum = array_sum($proArr); //概率数组的总概率精度 

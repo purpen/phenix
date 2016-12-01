@@ -347,7 +347,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'product_id' => $id,
 			'stage' => $product['stage'],
 		));
-		$data['skus'] = $skus;
+
         if(!empty($skus)){
             for($k=0;$k<count($skus);$k++){
                 $skus[$k]['cover_url'] = '';
@@ -359,6 +359,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
                 }
             }
         }
+		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
 
     // 闪购标识
