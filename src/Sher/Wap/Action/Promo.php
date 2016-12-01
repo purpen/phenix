@@ -43,12 +43,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $prize_arr = array(
             '0' => array('id' => 1, 'event'=>3, 'prize' => '云马C1智行车', 'v' => 5),
-            '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 5),
+            '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 5), // 200个
             '2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
             '3' => array('id' => 4, 'event'=>2, 'prize' => '30元优惠券', 'v' => 25),
             '4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
-            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),
-            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),
+            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),  // 200个
+            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),   // 100个
             '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 5),
         );
         foreach ($prize_arr as $k=>$v) {
@@ -111,15 +111,17 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $data['sid'] = $sid;
 
         if(!$ok){
-            return $this->ajax_json("操作失败，请重试!", true);    
+            return $this->ajax_json("操作失败，请重试!", true);
         }
 
         // 直接送红包
         if($data['event']==2){
-        
-        
+            if($data['prize_id']==4){   // 30元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'C', 'min_amounts'=>'B'));
+            }elseif($data['prize_id']==8){  // 10元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'G', 'min_amounts'=>'K'));
+            }
         }
-
 
         return $this->ajax_json('success', false, null, $data);
     }
