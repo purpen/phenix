@@ -74,6 +74,92 @@ body {
 #lottery table td.active .active{
     display: block;
 }
+
+.ui.modalt.page{
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    text-align: center;
+    display: none;
+}
+.ui.modalt.page.active{
+    display: block;
+}
+.address.messge{
+    width:8.32rem;
+    height: 8.626667rem;
+    position: fixed;
+    top: 3.4rem;
+    left: 0.84rem;
+    background-image: url({{ app_url_packaged }}/images/fiushop/drew/modal.png);
+    background-size:cover;
+    color: #d82622;
+}
+.ui.messge .close{
+    width: 1.066667rem;
+    height: 1.066667rem;
+    background-image: url({{ app_url_packaged }}/images/fiushop/drew/close.png);
+    background-size:cover;
+    position: fixed;
+    right: 0.44rem;
+    top: 3.066667rem;
+}
+.ui.messge h2.ui.header{
+    font-size: 0.586667rem;
+    color: #d82622 !important;
+    margin-top: 0.733333rem;
+    margin-bottom: 0.066667rem;
+}
+.ui.messge p{
+    font-size: 0.32rem;
+    margin-top: 0.066667rem;
+}
+.ui.form{
+    margin-top: 0.666667rem;
+}
+.ui.form .field{
+    display: block;
+    margin-bottom: 0.373333rem;
+    font-size: 0;
+}
+.ui.form .field>label{
+    font-size: 0.266667rem;
+    display: inline-block;
+    margin: 0;
+    color: #d82622;
+    text-transform: none;
+    vertical-align: middle;
+    font-weight: 400;
+    line-height: 0.666667rem;
+}
+.ui.form .field>input{
+    width: 4.533333rem !important;
+    height: 0.666667rem;
+    padding: 0 0.106667rem!important;
+    margin:0 0 0 0.24rem !important;
+    border-radius: 4px !important;
+    font-size: 0.266667rem;
+    line-height: 0.666667rem;
+    border:1px solid rgba(216,38,34,0.5);
+}
+.ui.form .field>input:focus{
+    border:1px solid rgba(216,38,34,0.8);
+}
+.ui.form .ui.submit.button{
+    width: 4.533333rem;
+    height: 0.746667rem;
+    background:#d82622;
+    color: #fff;
+    font-size: 0.32rem;
+    text-align: center;
+    line-height: 0.746667rem; 
+    padding: 0;
+    margin: 0.4rem 0 0;
+    border-radius: 4px;
+}
 </style>
 {% endblock %}
 
@@ -81,7 +167,7 @@ body {
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/flexible.min.js"></script>
 
 {% endblock %}
-{% block jquery %}
+{% block jquery %} 
     var lottery = {
         index: -1, //当前转动到哪个位置，起点位置
         count: 0, //总共有多少个位置
@@ -120,18 +206,23 @@ body {
 
     function roll() {
         lottery.times += 1;
-
         lottery.roll();
-        //if (lottery.times > lottery.cycle + 10 && lottery.index == prize_site) {
-        if (lottery.times > lottery.cycle + 10 && lottery.prize==lottery.index) {
-            var prize_site = $("#lottery").attr("prize_site");
-            var prize_id = $("#lottery").attr("prize_id");
-            var prize_name = $("#lottery").attr("prize_name");
-            alert("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id);
+        var prize_site = $("#lottery").attr("prize_site");
+        var prize_id = $("#lottery").attr("prize_id");
+        var prize_name = $("#lottery").attr("prize_name");
+        var prize_event = $("#lottery").attr("prize_event");
+        if (lottery.times > lottery.cycle + 10 && lottery.index== prize_site ) {
             clearTimeout(lottery.timer);
             lottery.prize = -1;
             lottery.times = 0;
             click = false;
+            
+            if ( prize_event == 3 ){
+                $('.ui.messge p span').html(prize_name);
+                setTimeout($('.ui.modalt.page').addClass('active'),1000);
+            }
+            
+            console.log("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id);
 
         } else {
             if (lottery.times < lottery.cycle) {
@@ -162,14 +253,14 @@ body {
              if (click) {
                 return false;
             } else {
-                lottery.speed = 100;
+                lottery.speed = 100;  
                 var url ="{{ app_url_wap }}/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
                         $("#lottery").attr("prize_id", rs.data.prize_id);
                         $("#lottery").attr("prize_name", rs.data.prize_name);
-
+                        $("#lottery").attr("prize_event", rs.data.event);
                         lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
@@ -181,8 +272,11 @@ body {
                 }, "json")
             }
         });
-    })
+    });
 
+    $('.close').click(function(){
+        $('.ui.modalt.page').removeClass('active');
+    });
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -203,15 +297,39 @@ body {
                 <td class="lottery-unit lottery-unit-5"><img src="{{ app_url_packaged }}/images/fiushop/drew/d6.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
                 <td class="lottery-unit lottery-unit-4"><img src="{{ app_url_packaged }}/images/fiushop/drew/d5.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
             </tr>
-            <!-- <tr>
-                <td class="lottery-unit lottery-unit-9"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/3.png"></td>
-                <td class="lottery-unit lottery-unit-8"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/6.png"></td>
-                <td class="lottery-unit lottery-unit-7"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/8.png"></td>
-                <td class="lottery-unit lottery-unit-6"><img src="http://www.jq22.com/demo/jquery-cj-150209223820/images/7.png"></td>
-            </tr> -->
         </table>
     </div>
 </div>
+
+<!-- 弹出层 -->
+<div class="ui modalt page">
+
+    <div class="ui address messge">
+        <div class="close"></div>
+        <h2 class="ui header">恭喜您</h2>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <p>抽中<span>卡片移动电源</span>一个，请填写收货信息!</p>
+        <form action=" " class="ui form" method="post">
+            <div class="field">
+                <label>姓名</label>
+                <input type="text" name="name" value=" ">
+            </div>
+            <div class="field">
+                <label>手机</label>
+                <input type="text" name="phone" value=" " placeholder="填写手机号，方便信息核实">
+            </div>
+            <div class="field">
+                <label>地址</label>
+                <input type="text" name="address" value=" ">
+            </div>
+            <div class="ui inverted active submit button">
+              确认收货地址
+            </div>
+        </form>
+    </div>
+
+</div>
+
 
 
 {% endblock %}
