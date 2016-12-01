@@ -67,12 +67,12 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0;
+    display: none;
     width: 100%;
     height: 100%;
 }
 #lottery table td.active .active{
-    opacity: 1;
+    display: block;
 }
 
 .ui.modalt.page{
@@ -245,13 +245,19 @@ body {
 
 {% endblock %}
 {% block jquery %} 
+
     var lottery = {
         index: -1, //当前转动到哪个位置，起点位置
         count: 0, //总共有多少个位置
         timer: 0, //setTimeout的ID，用clearTimeout清除
         speed: 20, //初始转动速度
         times: 0, //转动次数
-        cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+        var ua = navigator.userAgent.toLowerCase(); 
+        if (/iphone|ipad|ipod/.test(ua)) {
+            cycle: 50,
+        } else if (/android/.test(ua)) {
+            cycle: 20,
+        }
         prize: -1, //中奖位置
         init: function(id) {
             if ($("#" + id).find(".lottery-unit").length > 0) {
@@ -306,18 +312,35 @@ body {
             click = false;
 
         } else {
-            if (lottery.times < lottery.cycle) {
-                lottery.speed -= 10;
-            } else if (lottery.times == lottery.cycle) {
-                var index = Math.random() * (lottery.count) | 0;
-                lottery.prize = index;
-            } else {
-                if (lottery.times > lottery.cycle + 10 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
-                    lottery.speed += 110;
+            var ua = navigator.userAgent.toLowerCase(); 
+            if (/iphone|ipad|ipod/.test(ua)) {
+                if (lottery.times < lottery.cycle) {
+                    lottery.speed -= 10;
+                } else if (lottery.times == lottery.cycle) {
+                    var index = Math.random() * (lottery.count) | 0;
+                    lottery.prize = index;
                 } else {
-                    lottery.speed += 20;
+                    if (lottery.times > lottery.cycle + 10 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                        lottery.speed += 110;
+                    } else {
+                        lottery.speed += 20;
+                    }
+                }    
+            } else if (/android/.test(ua)) {
+                if (lottery.times < lottery.cycle) {
+                    lottery.speed -= 5;
+                } else if (lottery.times == lottery.cycle) {
+                    var index = Math.random() * (lottery.count) | 0;
+                    lottery.prize = index;
+                } else {
+                    if (lottery.times > lottery.cycle + 5 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                        lottery.speed += 110;
+                    } else {
+                        lottery.speed += 20;
+                    }
                 }
             }
+            
             if (lottery.speed < 40) {
                 lottery.speed = 40;
             }
@@ -335,12 +358,17 @@ body {
                 return false;
             } else {
               // 所有ajax请求，验证是否登录
-              if (!phenix.visitor.is_login){
+            if (!phenix.visitor.is_login){
                 phenix.redirect('{{ app_url_wap }}/auth/login_signup');
                 return false;
-              }
-                lottery.speed = 100;  
-                var url ="{{app_url_wap}}/promo/ajax_lottery";
+            }
+                var ua = navigator.userAgent.toLowerCase(); 
+                if (/iphone|ipad|ipod/.test(ua)) {
+                    lottery.speed = 100;        
+                } else if (/android/.test(ua)) {
+                    lottery.speed = 200;  
+                }
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
