@@ -85,7 +85,7 @@ body {
     text-align: center;
     display: none;
 }
-.ui.modalt.page.active{
+.ui.modalt.page.show{
     display: block;
 }
 .address.messge{
@@ -174,7 +174,7 @@ body {
         timer: 0, //setTimeout的ID，用clearTimeout清除
         speed: 20, //初始转动速度
         times: 0, //转动次数
-        cycle: 30, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+        cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
         prize: -1, //中奖位置
         init: function(id) {
             if ($("#" + id).find(".lottery-unit").length > 0) {
@@ -208,21 +208,18 @@ body {
         lottery.times += 1;
         lottery.roll();
         var prize_site = $("#lottery").attr("prize_site");
-        var prize_id = $("#lottery").attr("prize_id");
-        var prize_name = $("#lottery").attr("prize_name");
-        var prize_event = $("#lottery").attr("prize_event");
         if (lottery.times > lottery.cycle + 10 && lottery.index== prize_site ) {
+            var prize_id = $("#lottery").attr("prize_id");
+            var prize_name = $("#lottery").attr("prize_name");
+            var prize_event = $("#lottery").attr("prize_event");
+            if ( prize_event == 3 ){
+                $('.ui.messge p span').html(prize_name);
+                setTimeout($('.ui.modalt.page').addClass('show'),1000);
+            }
             clearTimeout(lottery.timer);
             lottery.prize = -1;
             lottery.times = 0;
             click = false;
-            
-            if ( prize_event == 3 ){
-                $('.ui.messge p span').html(prize_name);
-                setTimeout($('.ui.modalt.page').addClass('active'),1000);
-            }
-            
-            console.log("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id);
 
         } else {
             if (lottery.times < lottery.cycle) {
@@ -254,14 +251,14 @@ body {
                 return false;
             } else {
                 lottery.speed = 100;  
-                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                var url ="http://taihuoniao.me/app/wap/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
                         $("#lottery").attr("prize_id", rs.data.prize_id);
                         $("#lottery").attr("prize_name", rs.data.prize_name);
                         $("#lottery").attr("prize_event", rs.data.event);
-                        lottery.index = rs.data.prize_id;
+                        //lottery.index = rs.data.prize_id;
                         roll();
                         click = true;
                         return false;                   
@@ -275,7 +272,7 @@ body {
     });
 
     $('.close').click(function(){
-        $('.ui.modalt.page').removeClass('active');
+        $('.ui.modalt.page').removeClass('show');
     });
 {% endblock %}
 {% block content %}
