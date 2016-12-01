@@ -32,7 +32,7 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
         # 中奖信息描述
         'desc' => null,
         # 奖品数量
-        'count' => 0,
+        'count' => 1,
         'kind' => self::KIND_PAGE,
         # 状态：是否奖品已发放(鸟币红包及未中奖自动发放)
         'state' => 0,
