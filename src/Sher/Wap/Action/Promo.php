@@ -95,11 +95,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
                 'from_to' => $from_to,
                 'kind' => $kind,
             );
-            $ok = $model->apply_and_save($row);
+            $ok = true;
+            //$ok = $model->apply_and_save($row);
             if($ok){
                 // 获取抽奖记录ID
-                $active_draw_record = $model->get_data();
-                $sid = (string)$active_draw_record['_id'];  
+                //$active_draw_record = $model->get_data();
+                //$sid = (string)$active_draw_record['_id'];  
+                $sid = 1;
             }
         }
 
