@@ -67,12 +67,12 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    display: none;
+    opacity: 0;
     width: 100%;
     height: 100%;
 }
 #lottery table td.active .active{
-    display: block;
+    opacity: 1;
 }
 
 .ui.modalt.page{
@@ -233,6 +233,10 @@ body {
     margin: 0.853333rem 0 0;
     border-radius: 4px;
 }
+.descript{
+    background:#a42f28;
+    padding: 0.6rem 0.8rem;
+}
 </style>
 {% endblock %}
 
@@ -336,7 +340,7 @@ body {
                 return false;
               }
                 lottery.speed = 100;  
-                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                var url ="{{app_url_wap}}/promo/ajax_lottery";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
@@ -380,6 +384,9 @@ body {
                 <td class="lottery-unit lottery-unit-4"><img src="{{ app_url_packaged }}/images/fiushop/drew/d5.jpg"><img class="active" src="{{ app_url_packaged }}/images/fiushop/drew/active.png"></td>
             </tr>
         </table>
+    </div>
+    <div class="descript">
+        
     </div>
 </div>
 
