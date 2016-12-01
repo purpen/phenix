@@ -49,7 +49,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
             //'4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
             '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),  // 200个
             '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),   // 100个
-            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 5),
+            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 25),
         );
         foreach ($prize_arr as $k=>$v) {
             $arr[$v['id']] = $v['v'];
