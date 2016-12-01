@@ -45,9 +45,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
             '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 5),
             '2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
             '3' => array('id' => 4, 'event'=>2, 'prize' => '30元优惠券', 'v' => 5),
-            '4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
-            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 5),
-            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 5),
+            '4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 25),
+            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 25),
+            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 25),
             '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 5),
         );
         foreach ($prize_arr as $k=>$v) {
@@ -67,6 +67,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $data['event'] = $res['event'];
         $data['prize_site'] = $prize_site;//前端奖项从-1开始
         $data['prize_id'] = $prize_id;
+
 
         if($result['obj']){
             $sid = (string)$result['obj']['_id'];
