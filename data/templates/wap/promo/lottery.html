@@ -5,10 +5,14 @@
 .sfooter.nav-menu{
 	display: none;
 }
+::-webkit-scrollbar {/*隐藏滚轮*/
+    display: none;
+}
 body {
     position: relative;
     margin: 0 auto!important;
     width: 10rem;
+    background: #a42f28;
 }
 *, :after, :before {
     box-sizing: inherit;
@@ -78,8 +82,8 @@ body {
 .ui.modalt.page{
     background: rgba(0,0,0,0.5);
     width: 10rem;
-    height: 100%;
-    position: fixed;
+    height: 18.133333rem; 
+    position: absolute;
     top: 0;
     left: 50%;
     margin-left: -5rem;
@@ -136,7 +140,7 @@ body {
 .address.messge{
     width:8.32rem;
     height: 8.626667rem;
-    position: fixed;
+    position: absolute;
     top: 3.4rem;
     left: 50%;
     margin-left: -4.16rem;
@@ -148,7 +152,7 @@ body {
 .bounds.messge{
     width:8.32rem;
     height: 5.066667rem;
-    position: fixed;
+    position: absolute;
     top: 5.266667rem;
     left: 50%;
     margin-left: -4.16rem;
@@ -238,14 +242,86 @@ body {
 }
 .descript{
     background:#a42f28;
-    padding: 0.6rem 0.8rem;
+    padding: 0.6rem 0.5rem 0.6rem 0.8rem;
+}
+.descript li{
+    font-size: 0.24rem;
+    padding:0.106667rem 0;
+    color: #fff;
+    list-style-type: none;
+}
+.descript li img{
+    vertical-align: middle;
+    margin-right: 0.08rem;
+    width: 0.106667rem;
+}
+.descript li.first{
+    padding-top: 0.6rem;
 }
 </style>
 {% endblock %}
 
 {% block layout_js %}
 	<script type="text/javascript" src="{{ app_url_packaged }}/javascript/flexible.min.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" >
+        var m_name = 'Fiu店大不同，新姿势迎接双12 ';
+        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/lottery.jpg';
+        var link = '{{ app_url_wap }}/promo/lottery';
+        var desc_str = '美学智能类商品大集合，红包礼品无限送，嗨翻朋友圈的双十二剁手新体验';
 
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{ app_id }}', // 必填，公众号的唯一标识
+            timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+            nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+            signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+       });
+
+        wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+
+          }
+        });
+      });
+</script>
 {% endblock %}
 {% block jquery %} 
     var cycle = 50;
@@ -439,7 +515,23 @@ body {
         </table>
     </div>
     <div class="descript">
-        
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/guide.png" style="width:2.133333rem" align="absmiddle"> 
+        <ul>
+            <li class="first">
+                <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">活动时间：2016年12月07日至2016年12月12日；</li>
+            <li>
+                <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">
+                参与Fiu店双12活动即可获取每账号每天一次免费抽奖机会，中奖率100%；
+            </li>
+            <li>
+                <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">
+                其中10元优惠券满10元可用，30元优惠券满199可用每单限用一张优惠券；
+            </li>
+            <li>
+                <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">
+                优惠券最终使用解释权归太火鸟科技所有。
+            </li>
+        </ul>
     </div>
 </div>
 
