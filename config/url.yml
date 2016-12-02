@@ -142,7 +142,8 @@ app.url.native.warning: '{$app.url.domain}/wxpay/warning'
 
 # 七牛存储
 app.url.qiniu.upload: 'http://up.qiniu.com'
-app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
+#app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
+app.url.qiniu.frbird: 'http://fs.taihuoniao.com'
 app.url.qiniu.frstatic: 'http://frstatic.qiniudn.com'
 #备用域名
 #app.url.qiniu.frbird: 'http://7fvhln.com2.z0.glb.qiniucdn.com'
