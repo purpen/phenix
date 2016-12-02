@@ -398,6 +398,45 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		
 		return $this->to_taconite_page('ajax/order_ok.html');
 	}
+
+	/**
+	 * 退款后关闭订单（忽略库存）
+	 */
+	public function ajax_close_order_and_ignore_inventory(){
+		$rid = $this->stash['rid'];
+		if (empty($rid)) {
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
+		}
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		
+		// 检查是否具有权限
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_json('操作不当，你没有权限关闭！', true);
+		}
+		
+		// 待发货订单才允许关闭
+		if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS){
+			return $this->ajax_json('该订单状态不允许操作！', true);
+		}
+
+        // 验证该订单是否全部完成退款
+        for($i=0;$i<count($order_info['items']);$i++){
+            $item = $order_info['items'][$i];
+            if(!isset($item['refund_type']) || $item['refund_status']!=2){
+  			    return $this->ajax_json('该订单下商品没有完成退款操作！', true);              
+            }
+        }
+
+		try {
+			// 关闭订单
+			$model->close_order_and_ingore_inventory((string)$order_info['_id'], array('user_id'=>$order_info['user_id']));
+        } catch (Sher_Core_Model_Exception $e) {
+            return $this->ajax_json('关闭订单失败:'.$e->getMessage(),true);
+        }
+		
+		return $this->ajax_json('success', false, null, array('rid'=>$rid));
+	}
 	
 	/**
 	 * 撤销发货

@@ -146,6 +146,23 @@
         
     });
 
+    // 关闭订单
+    $('#close_order').click(function(){
+		if(!window.confirm('确定该订单下产品已全部完成退款操作，是否关闭订单？')){
+		  return false;
+		}
+        var rid = $(this).data('rid');
+        $.post("{{ app_url_admin }}/orders/ajax_close_order_and_ignore_inventory", {rid:rid}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('操作成功！');
+                $(this).text('已关闭');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json')
+
+    });
+
 {% endblock %}
 	
 {% block content %}
@@ -263,6 +280,7 @@
                     {%endif%}
 					{% if order_info.status == 10 %}
 					  <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui active small magenta button">开始发货</a>
+					  <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" id="close_order" class="ui active small magenta button">关闭订单</a>
 					{% endif %}
 					{% if can_refund %}
                     <!--

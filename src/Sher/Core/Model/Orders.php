@@ -1334,5 +1334,28 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $result['success'] = true;
         return $result;
     }
+
+    /**
+     * 关闭订单且忽略库存
+     */
+    public function close_order_and_ingore_inventory($id, $options=array()){
+        if(empty($id)){
+            return false;
+        }
+        $updated['status'] = Sher_Core_Util_Constant::ORDER_CANCELED;
+        $updated['is_canceled'] = 1;
+	    $updated['canceled_date'] = time();
+
+        $ok = $this->update_set($id, $updated);
+        if(!$ok){
+            return false;
+        }
+        $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+        if($user_id){
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_counter_byinc($user_id, 'order_ready_goods', -1);
+        }
+    
+    }
 	
 }
