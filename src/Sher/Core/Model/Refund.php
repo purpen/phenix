@@ -28,6 +28,9 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         'order_rid' => null,
         'sub_order_id' => null,
         'refund_price' => 0,
+        # 修改退款金额后保留用户申请时的金额
+        'old_price' => 0,
+        'change_user_id' => 0,
         # 支付类型
         'pay_type' => Sher_Core_Util_Constant::TRADE_ALIPAY,
         # 运费
@@ -54,7 +57,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	
 	protected $required_fields = array('user_id', 'product_id', 'order_rid');
 	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','number','deleted','reason','pay_type');
-	protected $float_fields = array('refund_price', 'freight');
+	protected $float_fields = array('refund_price', 'freight', 'old_price');
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
 	protected $joins = array(
