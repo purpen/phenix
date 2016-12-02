@@ -20,6 +20,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     const KIND_APP_SNATCH = 3;
     # app首次下单立减
     const KIND_APP_FIRST_MINUS = 4;
+    # fiuApp下单随机减
+    const KIND_APP_REDUCE = 5;
 	
     protected $schema = array(
 		# 订单编号
@@ -1331,6 +1333,29 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $result['data']['refund_id'] = $refund['_id'];
         $result['success'] = true;
         return $result;
+    }
+
+    /**
+     * 关闭订单且忽略库存
+     */
+    public function close_order_and_ingore_inventory($id, $options=array()){
+        if(empty($id)){
+            return false;
+        }
+        $updated['status'] = Sher_Core_Util_Constant::ORDER_CANCELED;
+        $updated['is_canceled'] = 1;
+	    $updated['canceled_date'] = time();
+
+        $ok = $this->update_set($id, $updated);
+        if(!$ok){
+            return false;
+        }
+        $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+        if($user_id){
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_counter_byinc($user_id, 'order_ready_goods', -1);
+        }
+    
     }
 	
 }

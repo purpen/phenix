@@ -1019,8 +1019,12 @@ span.ui.timeout.btn{
 		{% if !product.snatched %}
       var current_count = $(this).data('inventory');
       var sku_type = $(this).data('type');
+      var cover_url = $(this).data('cover');
 		  $('h4.ui.header.inline span').html($(this).data('price'));
 		  $('h4.ui.header.inline .sub.header span').html(current_count);
+          if(cover_url){
+            $('.sku_cover').attr('src', cover_url);
+          }
       $('.inc-qty.button').data('count', current_count);
       $('#product-qty').val(1);
       
@@ -1333,7 +1337,7 @@ span.ui.timeout.btn{
 		<div class="ui respontion grid">
 			<div class="row pb-0">
 				<div class="column">
-					<img class="ui middle aligned image" src="{{ product.cover.thumbnails.small.view_url }}">
+					<img class="ui middle aligned image sku_cover" src="{{ product.cover.thumbnails.apc.view_url }}" />
 					<h4 class="ui header inline">
 						价格：<i class="rmb icon"></i><span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
 						<div class="sub header">
@@ -1354,7 +1358,7 @@ span.ui.timeout.btn{
 					<div class="product attrs">
 						 {% if skus %}
 							{% for m in skus %}
-							<span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}">{{ m.mode }}</span>		
+                            <span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}" data-cover="{{ m.cover_url }}" >{{ m.mode }}</span>		
 							{% endfor %}
 						{%else%}
 							<span class="ui small magenta active inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>

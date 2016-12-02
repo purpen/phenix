@@ -269,7 +269,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		}
 
 		if(!$product['published']){
-			return $this->api_json('访问的产品未发布！', 3002);
+			return $this->api_json('访问的产品已下架！', 3002);
 		}
 
 		$some_fields = array(
@@ -347,6 +347,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'product_id' => $id,
 			'stage' => $product['stage'],
 		));
+
+        if(!empty($skus)){
+            for($k=0;$k<count($skus);$k++){
+                $skus[$k]['cover_url'] = '';
+                if(isset($skus[$k]['cover_id']) && !empty($skus[$k]['cover_id'])){
+                    $sku_cover = $inventory->cover($skus[$k]);
+                    if($sku_cover){
+                        $skus[$k]['cover_url'] = $sku_cover['thumbnails']['apc']['view_url'];
+                    }
+                }
+            }
+        }
 		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
 
@@ -429,6 +441,16 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       }
 
 		}
+
+        // 活动说明
+        $data['active_summary'] = array(
+            'order_reduce' => 0,
+            'other' => 0,
+        );
+        // app下单随机减
+        if(!empty(Doggy_Config::$vars['app.fiu_order_reduce_switch'])){
+            $data['active_summary']['order_reduce'] = 1;
+        } 
 
 		$data['relation_products'] = $r_items;
 		return $this->api_json('请求成功', 0, $data);

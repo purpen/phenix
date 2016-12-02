@@ -271,7 +271,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         $prize_min_amounts = 'E';     
       }else{
         $prize_bonus = 'B';
-        $prize_min_amounts = 'E';     
+        $prize_min_amounts = 'E';
       }
       $this->give_bonus($user_id, 'SD', array('count'=>1, 'xname'=>'SD', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
       break;
@@ -518,6 +518,42 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     }
   
   }
+
+	/**
+	 * 活动抽奖添写收货地址
+	 */
+	public function save_active_draw_address(){
+        $id = $this->stash['sid'];
+		if (empty($id)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+
+        try{
+			// 验证是否存在该对象
+			$active_draw_record_model = new Sher_Core_Model_ActiveDrawRecord();
+			$row = $active_draw_record_model->load($id);
+
+            if(empty($row)){
+                return $this->ajax_json('抽奖记录不存在！', true);
+            }
+
+            $data = array();
+            $data['receipt'] = array(
+                'name' => $this->stash['name'],
+                'phone' => $this->stash['phone'],
+                'address' => $this->stash['address'],
+            );
+            $ok = $active_draw_record_model->update_set($id, $data);
+            if(!$ok){
+                return $this->ajax_json('保存失败，请联系管理员！', true);  
+            }
+
+		}catch(Sher_Core_Model_Exception $e){
+			Doggy_Log_Helper::warn("Create active draw record failed: ".$e->getMessage());
+			return $this->ajax_json('提交失败，请重试！', true);
+		}
+		return $this->ajax_json('提交成功！', false);
+	}
 
 
   //红包赠于

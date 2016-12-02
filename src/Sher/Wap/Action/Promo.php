@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,152 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+    /**
+     * 2016双12
+     */
+    public function double(){
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+        return $this->to_html_page('wap/promo/double.html');
+    }
+
+    /**
+     * 双12抽奖
+     */
+    public function lottery(){
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+        return $this->to_html_page('wap/promo/lottery.html');
+    }
+
+    public function ajax_lottery(){
+
+        if(!$this->visitor->id){
+            return $this->ajax_json('请先登录！', true);
+        }
+        $user_id = $this->visitor->id;
+        $from_to = 2;
+        $kind = 1;
+        $target_id = 1;
+
+        // 验证是否还能抽奖
+        $model = new Sher_Core_Model_ActiveDrawRecord();
+        $result = $model->check_can_draw($user_id, $target_id, 1);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true); 
+        }
+
+        //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
+        $prize_arr = array(
+            //'0' => array('id' => 1, 'event'=>3, 'prize' => '云马C1智行车', 'v' => 5),
+            '1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 1), // 200个
+            //'2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
+            '3' => array('id' => 4, 'event'=>2, 'prize' => '30元优惠券', 'v' => 25),
+            //'4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
+            '5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 1),  // 200个
+            '6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 1),   // 100个
+            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 25),
+        );
+        foreach ($prize_arr as $k=>$v) {
+            $arr[$v['id']] = $v['v'];
+        }
+
+        $rand = '';
+        $proSum = array_sum($arr); //概率数组的总概率精度 
+
+        foreach ($arr as $k => $v) { //概率数组循环
+            $randNum = mt_rand(1, $proSum);
+            if ($randNum <= $v) {
+                $rand = $k;
+                break;
+            } else {
+                $proSum -= $v;
+            }
+        }
+        unset($proArr);
+        $prize_id = $rand;
+
+        foreach($prize_arr as $k=>$v){ //获取前端奖项位置
+            if($v['id'] == $prize_id){
+             $prize_site = $k;
+             break;
+            }
+        }
+        $res = $prize_arr[$prize_id -1]; //中奖项 
+
+        $data['prize_name'] = $res['prize'];
+        $data['event'] = $res['event'];
+        $data['prize_site'] = $prize_site;//前端奖项从-1开始
+        $data['prize_id'] = $prize_id;
+
+
+        if($result['obj']){
+            $sid = (string)$result['obj']['_id'];
+            $row = array(
+                'draw_times' => 2,
+                'event' => $data['event'],
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+            );
+            $ok = $model->update_set($sid, $row);
+        }else{
+            //当前日期
+            $today = (int)date('Ymd');
+            $row = array(
+                'user_id' => $user_id,
+                'target_id' => $target_id,
+                'day' => $today,
+                'event' => $data['event'],
+                'ip' => Sher_Core_Helper_Auth::get_ip(),
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+                'from_to' => $from_to,
+                'kind' => $kind,
+            );
+            //$ok = true;
+            $ok = $model->apply_and_save($row);
+            if($ok){
+                // 获取抽奖记录ID
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];  
+            }
+        }
+
+        // 记录抽奖ID
+        $data['sid'] = $sid;
+
+        if(!$ok){
+            return $this->ajax_json("操作失败，请重试!", true);
+        }
+
+        // 直接送红包
+        if($data['event']==2){
+            if($data['prize_id']==4){   // 30元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'C', 'min_amounts'=>'B'));
+            }elseif($data['prize_id']==8){  // 10元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'G', 'min_amounts'=>'K'));
+            }
+        }
+
+        return $this->ajax_json('success', false, null, $data);
+    }
 
     public function teeth(){
       $this->stash['page_title_suffix'] = '素士新品';

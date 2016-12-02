@@ -128,6 +128,9 @@ app.topic_category_official: 16
 # 话题用户版块ID
 app.topic_category_user: 17
 
+# fiuApp下单优惠开关
+app.fiu_order_reduce_switch: 1
+
 app.url.action_base:    '{$app.domain.app}'
 
 app.url.upload_url: '{$app.domain.app}/uploader'

@@ -1,0 +1,265 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+	// 发货弹框
+	$('.message-alert-btn').bind('click', function(){
+    var sid = $(this).attr('sid');
+    var title = $(this).attr('draw_title');
+    $('#message-form [name=sid]').val(sid);
+    $('#message-form [name=title-show]').text(title);
+		$('.ui.message-box.modal').modal('show');
+	});
+
+	$('#message-form').form({
+		desc: {
+			identifier  : 'desc',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请记录发货信息'
+				},
+				{
+					type   : 'maxLength[140]',
+					prompt : '内容不超过140字符'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					//phenix.before_submit();
+				},
+				success: function(data){
+					if(data.is_error){
+					  //phenix.after_submit();
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message);
+					}else{
+            $("#stat-"+data.data).html('<label class="ui green label">是</label>');
+ 						phenix.show_ok_note(data.message);
+		        $('.ui.message-box.modal').modal('hide');
+					}
+				}
+			});
+		}
+	});
+
+	$('.datepicker').pickadate();
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">抽奖管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+    <a href="{{ app_url_admin_base }}/active_draw_record" class="{{ css_all }} item">
+			全部
+		</a>
+    <a href="{{ app_url_admin_base }}/active_draw_record/get_list?kind=1" class="{{ css_page }} item">
+			Page
+		</a>
+    <a href="{{ app_url_admin_base }}/active_draw_record/get_list?kind=2" class="{{ css_app }} item">
+		  App
+		</a>
+
+	  <div class="right menu">
+      <a href="{{ app_url_admin_base }}/active_draw_record/export?target_id={{target_id}}&event={{event}}&kind={{ kind }}" class="item">
+				导出
+			</a>
+	  </div>
+
+	</div>
+
+	<div class="ui sub search">
+		<form action="{{ app_url_admin_base }}/active_draw_record" method="get" class="ui form" id="search-form">
+      <input type="hidden" name="kind" value="{{ kind }}" />
+			<div class="eight fields">
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="ip" placeholder="IP" value="{{ ip }}" />
+				</div>
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="event" value="{{ event }}" />
+					    <div class="default text">类型</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if event=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if event=='-1' %}active {% endif %}item">未中</div>
+							<div data-value="2" class="{% if event == 2 %}active {% endif %}item">红包</div>
+							<div data-value="3" class="{% if event == 3 %}active {% endif %}item">实物</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="state" value="{{ state }}" />
+					    <div class="default text">是否处理</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if state=='' %}active {% endif %}item">全部</div>
+							<div data-value="-1" class="{% if state=='-1' %}active {% endif %}item">否</div>
+							<div data-value="1" class="{% if state == 1 %}active {% endif %}item">是</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui icon input">
+					  	<input type="text" name="end_date" placeholder="截止时间" value="{{ end_date }}" class="datepicker" />
+					  	<i class="calendar icon"></i>
+					</div>
+				</div>
+
+
+				<div class="field">
+					<div class="ui active small green submit button search">搜索</div>
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>用户</th>
+        <th>期数</th>
+				<th>中奖信息</th>
+				<th>时间/IP</th>
+        <th>抽奖/分享次数</th>
+        <th>是否处理</th>
+        <th>来源</th>
+        <th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% active_draw_record_list var:'list' target_id:target_id day:day event:event state:state user_id:user_id ip:ip kind:kind from_to:from_to start_time:start_time end_time:end_time page:page size:size %}
+
+			{% for f in list.rows %}
+        
+          <tr id="{{ f._id }}">
+            <td>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ f._id }}" class="checkbox" />
+                  <label></label>
+              </div>
+            </td>
+            <td>
+              <a class="ui image label link" href="{{ f.user.home_url }}" target="_blank">
+                  <img src="{{ f.user.mini_avatar_url }}">
+                  {{ f.user.nickname }}
+              </a>
+            </td>
+            <td>{{ f.target_id }}</td>
+            <td class="four wide">
+              <P>{{ f.number_id }}.{{ f.title|default '--' }}</p>
+              <p>{{ f.event_str }}</p>
+              {% if f.desc %}<p>描述:{{ f.desc }}</p>{%endif%}
+              {% if f.receipt %}
+              <P>姓名:{{ f.receipt.name }}</p>
+              <p>电话:{{ f.receipt.phone }}</p>
+              <p>地址:{{ f.receipt.address }}</p>
+              <p>邮编:{{ f.receipt.zip }}</p>
+              {%endif%}
+            </td>
+            <td>
+              <p>{{ f.created_on|date 'y-m-d H:i:s' }}</p>
+              <p>{{ f.ip }}</p>
+            </td>
+            <td>{{ f.draw_times }}/{{ f.is_share }}</td>
+
+            <td id="stat-{{ f._id }}">
+              {% if f.state == 1 %}
+              <label class="ui green label">是</label>
+              {% endif %}
+              
+              {% if f.state == 0 %}
+              <label class="ui red label">否</label>
+              {% endif %}
+            </td>
+            <td>
+              {{ f.from_label }}
+            </td>
+            <td>
+              <div class="ui divided horizontal list">
+                <a href="javascript:void(0);" draw_title="{{ f.title }}" sid="{{ f._id }}" class="ui ajax link item message-alert-btn">
+                  处理
+                </a>
+                <!--
+			          <a href="{{ app_url_admin }}/sign_draw_record/ajax_state?id={{ f._id }}&state=0" id="stat-btn-{{f._id}}" class="ui ajax link item">
+                  取消
+                </a>
+                -->
+                <a href="{{ app_url_admin }}/active_draw_record/deleted?id={{ f._id }}" class="ui confirm-request link item">删除</a>
+              </div>
+            </td>
+          </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+
+<!-- 发货提醒弹出层 -->
+<div class="ui small message-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    发货记录:
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/active_draw_record/ajax_record_desc" class="ui form" method="post" id="message-form">
+      <div class="field">
+        <label>奖品: <span name="title-show"></span></label>
+        <input type="hidden" name="sid" value="" />
+        <input type="hidden" name="state" value="1" />
+      </div>
+      <div class="three fields">
+      </div>
+      <div class="field">
+        <label>内容：</label>
+        <input type="text" name="desc" value="" />
+        <div class="description">运单号或兑换码 eg:顺丰110 or 兑换码</div>
+      </div>
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+        <div class="ui active magenta submit button" >发送</div>
+      </div>
+    </form>
+    </div>
+</div>
+{% endblock %}

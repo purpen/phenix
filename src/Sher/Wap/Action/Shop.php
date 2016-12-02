@@ -184,27 +184,27 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         // 记录上一步来源地址
         $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 
-    // 记录某个商品推广统计，统计注册量浏览量
-    if(isset($this->stash['from']) && $this->stash['from']==2 && $id==1042791409){
-      // 存cookie
-      @setcookie('from_origin', '4', time()+3600*24, '/');
-      $_COOKIE['from_origin'] = '4';
-      @setcookie('from_target_id', (string)$id, time()+3600*24, '/');
-      $_COOKIE['from_target_id'] = (string)$id;
+        // 记录某个商品推广统计，统计注册量浏览量
+        if(isset($this->stash['from']) && $this->stash['from']==2 && $id==1042791409){
+          // 存cookie
+          @setcookie('from_origin', '4', time()+3600*24, '/');
+          $_COOKIE['from_origin'] = '4';
+          @setcookie('from_target_id', (string)$id, time()+3600*24, '/');
+          $_COOKIE['from_target_id'] = (string)$id;
 
-      // 统计点击数量
-      $dig_model = new Sher_Core_Model_DigList();
-      $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
+          // 统计点击数量
+          $dig_model = new Sher_Core_Model_DigList();
+          $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
 
-      $dig = $dig_model->load($dig_key);
-      if(empty($dig) || !isset($dig['items']["view_04"])){
-        $dig_model->update_set($dig_key, array("items.view_04"=>1), true);     
-      }else{
-        // 增加浏览量
-        $dig_model->inc($dig_key, "items.view_04", 1);
-      }
-      
-    }
+          $dig = $dig_model->load($dig_key);
+          if(empty($dig) || !isset($dig['items']["view_04"])){
+            $dig_model->update_set($dig_key, array("items.view_04"=>1), true);     
+          }else{
+            // 增加浏览量
+            $dig_model->inc($dig_key, "items.view_04", 1);
+          }
+          
+        }
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
@@ -262,7 +262,21 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			'product_id' => $id,
 			'stage' => $sku_stage,
 		));
+
+        if(!empty($skus)){
+            for($k=0;$k<count($skus);$k++){
+                $skus[$k]['cover_url'] = '';
+                if(isset($skus[$k]['cover_id']) && !empty($skus[$k]['cover_id'])){
+                    $sku_cover = $inventory->cover($skus[$k]);
+                    if($sku_cover){
+                        $skus[$k]['cover_url'] = $sku_cover['thumbnails']['apc']['view_url'];
+                    }
+                }
+            }
+        }
+
 		$this->stash['skus'] = $skus;
+
 		$this->stash['skus_count'] = count($skus);
 
     // 使用手册链接
@@ -650,8 +664,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->show_message_page('系统出了小差，请稍后重试！', true);
 		}
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
@@ -925,6 +940,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         return $this->show_message_page('系统出了小差，请稍后重试！', true);
       }
 
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $order_info['dict']['freight'] = $freight;
+
       $this->stash['order_info'] = $order_info;
       $this->stash['data'] = $order_info['dict'];
 			
@@ -951,19 +970,20 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
-		if(empty($this->stash['addbook_id'])){
+        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+		if(empty($addbook_id)){
 			return $this->ajax_json('请选择收货地址！', true);
 		}
 
-    // 抢购商品
-    $is_snatched = false;
-		
-    //验证地址
-    $add_book_model = new Sher_Core_Model_DeliveryAddress();
-    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
-    if(empty($add_book)){
-      return $this->ajax_json('地址不存在！', true);
-    }
+        // 抢购商品
+        $is_snatched = false;
+            
+        //验证地址
+        $add_book_model = new Sher_Core_Model_DeliveryAddress();
+        $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+        if(empty($add_book)){
+          return $this->ajax_json('地址不存在！', true);
+        }
 
 		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
@@ -1037,8 +1057,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 预售订单
 		$order_info['is_presaled'] = $is_presaled;
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $addbook_id);
+        $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
@@ -1431,6 +1452,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$data['items'] = $items;
 		$data['total_money'] = $total_money;
 		$data['items_count'] = $items_count;
+        $data['addbook_id'] = '';
 	
 		// 检测是否已设置默认地址
 		$addbook = $this->get_default_addbook($this->visitor->id);

@@ -90,6 +90,7 @@ app.dt.extension_lib.sher_app:
     'style_tag_list':'Sher_Core_ViewTag_StyleTagList'
     'style_tag_record_list':'Sher_Core_ViewTag_StyleTagRecordList'
     'sign_draw_record_list':'Sher_Core_ViewTag_SignDrawRecordList'
+    'active_draw_record_list':'Sher_Core_ViewTag_ActiveDrawRecordList'
     'topic_list':'Sher_App_ViewTag_TopicList'
     'product_list':'Sher_App_ViewTag_ProductList'
     'stuff_list':'Sher_Core_ViewTag_StuffList'

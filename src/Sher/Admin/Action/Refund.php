@@ -38,7 +38,7 @@ class Sher_Admin_Action_Refund extends Sher_Admin_Action_Base implements DoggyX_
 	 * 删除
 	 */
 	public function deleted() {
-		$id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		if(empty($id)){
 			return $this->ajax_notification('退款单不存在！', true);
 		}
@@ -49,9 +49,9 @@ class Sher_Admin_Action_Refund extends Sher_Admin_Action_Base implements DoggyX_
 			$model = new Sher_Core_Model_Refund();
 			
 			foreach($ids as $id){
-				$result = $model->load((int)$id);
+				$result = $model->load($id);
 				if (!empty($result)){
-					$model->remove((int)$id);
+					$model->remove($id);
 					// 删除关联对象
 					$model->mock_after_remove($id);
 				}
@@ -65,5 +65,39 @@ class Sher_Admin_Action_Refund extends Sher_Admin_Action_Base implements DoggyX_
 		
 		return $this->to_taconite_page('ajax/delete.html');
 	}
+
+    /**
+     * 修改价格
+     */
+    public function modify_price(){
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$new_price = isset($this->stash['new_price']) ? (float)$this->stash['new_price'] : 0;
+		if(empty($id) || empty($new_price)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+        $model = new Sher_Core_Model_Refund();
+        $refund = $model->load($id);
+        if(empty($refund)){
+  		    return $this->ajax_json('退款单不存在！', true);      
+        }
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+   		    return $this->ajax_json('该状态不允许修改！', true);       
+        }
+
+        $update = array();
+        $update['refund_price'] = $new_price;
+        $update['change_user_id'] = $this->visitor->id;
+        if(!isset($refund['old_price']) || empty($refund['old_price'])){
+            $old_price = $refund['refund_price'];
+            $update['old_price'] = $old_price;
+        }
+
+        $ok = $model->update_set($id, $update);
+        if(!$ok){
+    	    return $this->ajax_json('修改失败！', true);           
+        }
+        return $this->ajax_json('success', false, null, array('id'=>$id));
+    
+    }
 
 }
