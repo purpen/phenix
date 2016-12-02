@@ -1,0 +1,155 @@
+{%extends 'layout/shop.html'%}
+{% block title%}商城-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sfooter.nav-menu{
+	display: none;
+}
+.topbg{
+	background: url({{ app_url_packaged }}/images/fiushop/drew/e1.jpg) no-repeat;
+	background-size: cover;
+	padding-top:89.3333%;
+	position: relative;
+}
+.topbg a img{
+	width: 23.74444%;
+	position: absolute;
+	bottom: 9%;
+	left:50%;
+	margin-left: -11.87222%; 
+}
+.double img{
+	width: 100%;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+	$('.return').click(function(){
+		$(document.body).animate({'scrollTop':0},1000);
+	})
+</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" >
+        var m_name = 'Fiu店大不同，新姿势迎接双12 ';
+        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/lottery.jpg';
+        var link = '{{ app_url_wap }}/promo/double';
+        var desc_str = '美学智能类商品大集合，红包礼品无限送，嗨翻朋友圈的双十二剁手新体验';
+
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{ app_id }}', // 必填，公众号的唯一标识
+            timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+            nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+            signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+       });
+
+        wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+
+          }
+        });
+      });
+</script>
+
+{% endblock %}
+{% block content %}
+<div class="double">
+	<div class="topbg">
+		<a href="{{ app_url_wap }}/shop"><img src="{{ app_url_packaged }}/images/fiushop/drew/return.jpg"></a>
+	</div>
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e2.jpg" align="absmiddle">
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e3.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e4.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e5.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e6.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e7.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e8.jpg" align="absmiddle">
+	</a>
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e9.jpg" align="absmiddle">
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e10.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e11.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e12.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e13.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e14.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/shop/view?id=">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e15.jpg" align="absmiddle">
+	</a>
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e16.jpg" align="absmiddle">
+	<a href="{{ app_url_wap }}/promo/theme">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e17.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/promo/tshare">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e18.jpg" align="absmiddle">
+	</a>
+	<a href="{{ app_url_wap }}/promo/teeth">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e19.jpg" align="absmiddle">
+	</a>
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e20.jpg" align="absmiddle">
+	<a href="{{ app_url_wap }}/promo/lottery">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e21.jpg" align="absmiddle">
+	</a>
+	<a href="javascript:void(0);" class="return">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e22.jpg" align="absmiddle">
+	</a>
+</div>
+{% endblock %}
