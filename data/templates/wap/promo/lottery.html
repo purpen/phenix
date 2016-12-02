@@ -12,7 +12,7 @@ body {
     position: relative;
     margin: 0 auto!important;
     width: 10rem;
-    background: #a42f28;
+    //background: #a42f28;
 }
 *, :after, :before {
     box-sizing: inherit;
@@ -82,7 +82,7 @@ body {
 .ui.modalt.page{
     background: rgba(0,0,0,0.5);
     width: 10rem;
-    height: 18.133333rem; 
+    height: 19.666667rem; 
     position: absolute;
     top: 0;
     left: 50%;
@@ -257,6 +257,22 @@ body {
 }
 .descript li.first{
     padding-top: 0.6rem;
+}
+.botbg{
+    width: 10rem;
+    height: 1.066667rem;
+    text-align: center;
+    background:#efc87f;
+    color:#a42f28;
+    font-size:0.453333rem;
+    line-height: 1.066667rem;
+    display: block;
+    font-weight:700;
+}
+.botbg img{
+    width: 0.4rem;
+    height: 1.066667rem;
+    vertical-align: top;
 }
 </style>
 {% endblock %}
@@ -533,6 +549,10 @@ body {
             </li>
         </ul>
     </div>
+    <a href="{{ app_url_wap }}/promo/double" class="botbg">
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/dreturn.png">
+        返回主会场
+    </a>
 </div>
 
 <!-- 弹出层 -->
