@@ -14,9 +14,17 @@
 .topbg a img{
 	width: 23.74444%;
 	position: absolute;
-	bottom: 9%;
+	bottom: 10%;
 	left:50%;
 	margin-left: -11.87222%; 
+}
+.topbg a .top{
+	width: 0.533333rem;
+	height: 0.533333rem;
+	position: absolute;
+	left:50%;
+	margin-left: -0.266667rem;
+	bottom:5%;
 }
 .double img{
 	width: 100%;
@@ -33,7 +41,7 @@
 <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script type="text/javascript" >
         var m_name = 'Fiu店大不同，新姿势迎接双12 ';
-        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/lottery.jpg';
+        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/shdou.jpg';
         var link = '{{ app_url_wap }}/promo/double';
         var desc_str = '美学智能类商品大集合，红包礼品无限送，嗨翻朋友圈的双十二剁手新体验';
 
@@ -94,7 +102,9 @@
 {% block content %}
 <div class="double">
 	<div class="topbg">
-		<a href="{{ app_url_wap }}/shop"><img src="{{ app_url_packaged }}/images/fiushop/drew/return.jpg"></a>
+		<a href="{{ app_url_wap }}/shop"><img src="{{ app_url_packaged }}/images/fiushop/drew/return.jpg">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/top.png" class="top">
+		</a>
 	</div>
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/e2.jpg" align="absmiddle">
 	<a href="{{ app_url_wap }}/shop/view?id=">
@@ -113,11 +123,11 @@
 		<img src="{{ app_url_packaged }}/images/fiushop/drew/e7.jpg" align="absmiddle">
 	</a>
 	<a href="{{ app_url_wap }}/shop/view?id=">
-		<img src="{{ app_url_packaged }}/images/fiushop/drew/e8.jpg" align="absmiddle">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e08.jpg" align="absmiddle">
 	</a>
-	<img src="{{ app_url_packaged }}/images/fiushop/drew/e9.jpg" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e09.jpg" align="absmiddle">
 	<a href="{{ app_url_wap }}/shop/view?id=">
-		<img src="{{ app_url_packaged }}/images/fiushop/drew/e10.jpg" align="absmiddle">
+		<img src="{{ app_url_packaged }}/images/fiushop/drew/e010.jpg" align="absmiddle">
 	</a>
 	<a href="{{ app_url_wap }}/shop/view?id=">
 		<img src="{{ app_url_packaged }}/images/fiushop/drew/e11.jpg" align="absmiddle">
@@ -134,7 +144,7 @@
 	<a href="{{ app_url_wap }}/shop/view?id=">
 		<img src="{{ app_url_packaged }}/images/fiushop/drew/e15.jpg" align="absmiddle">
 	</a>
-	<img src="{{ app_url_packaged }}/images/fiushop/drew/e16.jpg" align="absmiddle">
+	<img src="{{ app_url_packaged }}/images/fiushop/drew/e016.jpg" align="absmiddle">
 	<a href="{{ app_url_wap }}/promo/theme">
 		<img src="{{ app_url_packaged }}/images/fiushop/drew/e17.jpg" align="absmiddle">
 	</a>
