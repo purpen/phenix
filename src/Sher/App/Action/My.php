@@ -1317,10 +1317,10 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
               if(!$vop_id) continue;
               $vop_result = Sher_Core_Util_Vop::check_after_sale($order['jd_order_id'], $vop_id);
               if(!$vop_result['success']){
-                return $this->api_json($vop_result['message'], true);
+                return $this->ajax_json($vop_result['message'], true);
               }
               if(!$vop_result['data']){
-                return $this->api_json('该订单不支持退货款!', true);             
+                return $this->ajax_json('该订单不支持退货款!', true);             
               }
           }
       }
@@ -1893,6 +1893,44 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 		return $this->to_html_page("page/my/customer.html");
 	}
+
+
+    /**
+     * 查询物流
+     */
+    public function ajax_logistic_tracking(){
+
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $express_caty = isset($this->stash['express_caty']) ? $this->stash['express_caty'] : null;
+        $express_no = isset($this->stash['express_no']) ? $this->stash['express_no'] : null;
+
+        // 快递公司编号转换
+        $express_caty = Sher_Core_Util_Kdniao::express_change($express_caty);
+
+        if(empty($express_no) || empty($express_caty) || empty($rid)){
+            return $this->ajax_json('缺少请求参数！', true);       
+        }
+
+        $order_model = new Sher_Core_Model_Orders();
+        $order = $order_model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+        if($order['user_id'] != $this->visitor->id){
+            return $this->ajax_json('没有权限！', true);       
+        }
+
+        $result = Sher_Core_Util_Kdniao::orderTracesSubByJson($express_no, $express_caty, $rid);
+        if(!$result['Success']){
+            return $this->ajax_json($result['Reason'], true);      
+        }
+        if(empty($result['Traces'])){
+            return $this->ajax_json('物流信息为空', true);
+        }
+        //print_r($result);
+        return $this->ajax_json('success', false, null, $result);
+
+    }
 
 
 }
