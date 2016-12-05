@@ -620,6 +620,65 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
       return $this->api_json('success', 0, array('img_url'=>$img_url, 'switch'=>$switch, 'type'=>$type, 'id'=>$id));
   }
 
+    /**
+     * 首页检查新版本
+     */
+    public function check_version(){
+        $version = isset($this->stash['version']) ? $this->stash['version'] : null;
+        $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+        $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+
+        if(empty($version) || empty($from_to) || empty($uuid)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+
+        $result = array('code'=>0);
+
+        $ios_version = Doggy_Config::$vars['app.ios_version'];
+        $android_version = Doggy_Config::$vars['app.android_version'];
+
+        if($from_to==1){    // ios
+            $from_site = Sher_Core_Util_Constant::FROM_IAPP;
+            $version_arr = array(
+                '1.9.1',
+            );
+        }elseif($from_to==2){   // android
+            $version_arr = array(
+                '1.9.1',
+            );
+            $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID; 
+        }else{
+            return $this->api_json('来源设备不明确!', 3002);   
+        }
+
+        return $this->api_json('success', 0, array('code'=>0));
+  
+    }
+
+    /**
+     * 获取最版本信息
+     */
+    public function fetch_version(){
+        $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+        if($from_to==1){    // ios
+            $from_site = Sher_Core_Util_Constant::FROM_IAPP;
+            $version = Doggy_Config::$vars['app.ios_version'];
+        }elseif($from_to==2){   // android
+            $version = Doggy_Config::$vars['app.android_version'];
+            $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID;   
+        }elseif($from_to==3){   // win
+            $version = '';
+            $from_site = Sher_Core_Util_Constant::FROM_APP_WIN;
+            return $this->api_json('来源设备不明确!', 3001);
+        }else{
+            return $this->api_json('来源设备不明确!', 3001);   
+        }
+
+        $download = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
+
+        return $this->api_json('success', 0, array('version'=>$version, 'download'=>$download));
+    }
+
   /**
    * 获取中文分词
    */

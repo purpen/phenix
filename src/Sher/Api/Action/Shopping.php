@@ -2582,6 +2582,44 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json('success', 0, array('id'=>$id));
     }
 
+
+    /**
+     * 查询物流
+     */
+    public function logistic_tracking(){
+
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $express_caty = isset($this->stash['express_caty']) ? $this->stash['express_caty'] : null;
+        $express_no = isset($this->stash['express_no']) ? $this->stash['express_no'] : null;
+
+        // 快递公司编号转换
+        $express_caty = Sher_Core_Util_Kdniao::express_change($express_caty);
+
+        if(empty($express_no) || empty($express_caty) || empty($rid)){
+            return $this->api_json('缺少请求参数！', 3001);       
+        }
+
+        $order_model = new Sher_Core_Model_Orders();
+        $order = $order_model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->api_json('缺少请求参数！', 3002);
+        }
+        if($order['user_id'] != $this->current_user_id){
+            return $this->api_json('没有权限！', 3003);       
+        }
+
+        $result = Sher_Core_Util_Kdniao::orderTracesSubByJson($express_no, $express_caty, $rid);
+        if(!$result['Success']){
+            return $this->api_json($result['Reason'], 3004);      
+        }
+        if(empty($result['Traces'])){
+            return $this->api_json('物流信息为空', 3005);
+        }
+        //print_r($result);
+        return $this->api_json('success', 0, $result);
+
+    }
+
 	
 }
 

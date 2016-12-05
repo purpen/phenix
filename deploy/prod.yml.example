@@ -26,6 +26,9 @@ app.keychains.private: 'xxxxOOOOxxxx'
 
 app.url.packaged: '{$app.url.qiniu.frstatic}'
 
+app.ios_version: '1.9.1'
+app.android_version: '1.9.1'
+
 #dt cache
 app.dt:
   cache: 'MemFile'
