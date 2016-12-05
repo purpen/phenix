@@ -632,26 +632,35 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
             return $this->api_json('缺少请求参数!', 3001);
         }
 
-        $result = array('code'=>0);
+        $arr = explode('.', $version);
+        if(count($arr) != 3){
+            return $this->api_json('版本号不合法!', 3002);           
+        }
+
+        $code = 0;
+        $result = array('code'=>0, 'msg'=>'', 'download'=>'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix');
+
+        $x=(int)$arr[0]; $y=(int)$arr[1]; $z=(int)$arr[2];
 
         $ios_version = Doggy_Config::$vars['app.ios_version'];
         $android_version = Doggy_Config::$vars['app.android_version'];
 
         if($from_to==1){    // ios
             $from_site = Sher_Core_Util_Constant::FROM_IAPP;
-            $version_arr = array(
-                '1.9.1',
-            );
         }elseif($from_to==2){   // android
-            $version_arr = array(
-                '1.9.1',
-            );
-            $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID; 
+            $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID;
+            
+            if($y==1 && $z < 6){
+                $code = 1;
+            }
+
         }else{
             return $this->api_json('来源设备不明确!', 3002);   
         }
 
-        return $this->api_json('success', 0, array('code'=>0));
+        $result['code'] = $code;
+
+        return $this->api_json('success', 0, $result);
   
     }
 
