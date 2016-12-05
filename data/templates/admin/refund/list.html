@@ -40,6 +40,30 @@
 	$('.ui.refund-result').click(function(){
         location.reload(true);
 	});
+
+    // 改价弹出层
+    $('.change_price_btn').click(function(){
+        var id = $(this).data('id');
+        var pay_money = $(this).attr('pay_money');
+        $(":input[name=id]").val(id);
+        $(":input[name=old_price]").val(pay_money);
+		$('.ui.change-price-box.modal').modal('show');
+    });
+
+    // 执行改价操作
+    $('.modify-price-btn').click(function(){
+        var id = $(":input[name=id]").val();
+        var new_price = $(":input[name=new_price]").val();
+        $.post("{{ app_url_admin }}/refund/modify_price", {id:id, new_price:new_price}, function(rs){
+            if(rs.success){
+ 		        $('.ui.change-price-box.modal').modal('hide');               
+                phenix.show_ok_note('修改成功!');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json')
+    
+    });
 	
 {% endblock %}
 	
@@ -93,7 +117,7 @@
 				<th>ID</th>
 				<th>缩略图</th>
 				<th class="three wide">名称</th>
-                <th>退款金额</th>
+                <th>退款金额/数量</th>
                 <th class="two wide">退款原因</th>
                 <th class="three wide">收货信息</th>
                 <th>支付方式</th>
@@ -143,7 +167,11 @@
 					</div>
                 </td>
                 <td>
-                    {{ d.refund_price }}*{{ d.quantity }}
+                    <p>金额: {{ d.refund_price }}</p>
+                    <p>数量: {{ d.quantity }}</p>
+                    {% if d.old_price %}
+                        <p>申请价格：{{ d.old_price }}</p>
+                    {%endif%}
                 </td>
 
                 <td>
@@ -184,6 +212,9 @@
                         {% if d.stage==1 %}
                         <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ d.pay_type }}" pay_name="{{ d.pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
                                 确认退款
+                            </a>
+                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" user_id="{{ d.user_id }}" class="ui link item change_price_btn">
+                                改价
                             </a>
                         {%endif%}
                         {% if d.stage==2 %}
@@ -251,6 +282,29 @@
           </div>
           <div class="right aligned field ">
                     <input type="submit" class="ui active refund-result magenta submit button" value="确定" />
+          </div>
+        </form>
+        </div>
+    </div>
+
+    <!-- 修改价格弹出层 -->
+    <div class="ui small change-price-box modal">
+        <i class="close icon"></i>
+      <div class="header">
+        修改金额:
+      </div>
+        <div class="content">
+        <form action="" class="ui form" method="get">
+          <div class="field">
+            <label>申请金额:</label>
+            <input type="text" name="old_price" value="" disabled="disabled" />
+          </div>
+          <div class="field">
+            <label>修改金额:</label>
+            <input type="text" name="new_price" value="" />
+          </div>
+          <div class="right aligned field ">
+                <input type="button" class="ui active modify-price-btn magenta submit button" value="确定" />
           </div>
         </form>
         </div>
