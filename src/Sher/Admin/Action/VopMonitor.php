@@ -104,6 +104,8 @@ class Sher_Admin_Action_VopMonitor extends Sher_Admin_Action_Base {
             }
         }
 
+        $vop_monitor_model->update_set($id, array('price'=>$vop['new_price']));
+
         return $this->ajax_json('success', false, null, array('id'=>$id));
 
     }
