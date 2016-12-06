@@ -133,17 +133,11 @@ class Sher_Admin_Action_VopMonitor extends Sher_Admin_Action_Base {
             return $this->ajax_json('商品不存在!', true);       
         }
         $stat = $product['published'];
-        if($type==0 && $stat==0){
-            return $this->ajax_json('已经是下架状态!', true);       
-        }
-        if($type==1 && $stat==1){
-            return $this->ajax_json('已经是上线状态!', true);       
-        }
 
-        if($type==0){
-            $ok = $product_model->mark_as_published($product['_id'], 0);
-        }elseif($type==1){
-            $ok = $product_model->mark_as_published($product['_id']);       
+        if($type==0 && $stat != 0){
+            $product_model->mark_as_published($product['_id'], 0);
+        }elseif($type==1 && $stat != 1){
+            $product_model->mark_as_published($product['_id']);       
         }else{
             return $this->ajax_json('参数有错误!', true);       
         }
