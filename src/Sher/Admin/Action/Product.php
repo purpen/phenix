@@ -402,7 +402,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			Doggy_Log_Helper::warn("Save product failed: ".$e->getMessage());
 			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
 		}
-		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product?stage='.$data['stage'].'&page='.$this->stash['page'];
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/product/edit?id='.$id;
 		
 		return $this->ajax_json('保存成功.', false, $redirect_url);
 	}
