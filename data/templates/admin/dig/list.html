@@ -71,11 +71,11 @@
 		</tbody>
 	</table>
 	
-	{% if bonus.total_rows %}
+    {% if total_page>1 %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:blocks.total_rows,total_page:blocks.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
-		<label class="page_count">{{ blocks.total_rows }}个</label>
+		<label class="page_count">{{ total_count }}个</label>
 	</div>
 	{% endif %}
 	

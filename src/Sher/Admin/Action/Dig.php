@@ -27,19 +27,22 @@ class Sher_Admin_Action_Dig extends Sher_Admin_Action_Base implements DoggyX_Act
 	 * 列表
 	 */
 	public function get_list() {
-    $this->set_target_css_state('page_all');
+        $this->set_target_css_state('page_all');
 
-    $model = new Sher_Core_Model_DigList();
-    $query = array();
-    $options['page'] = $this->stash['page'];
-    $options['size'] = 100;
-    //$options['sort'] = array();
-    $data = $model->find($query, $options);
-    foreach($data as $key=>$val){
-      $data[$key] = $model->extended_model_row($val);
-    }
+        $model = new Sher_Core_Model_DigList();
+        $query = array();
+        $options['page'] = $this->stash['page'];
+        $options['size'] = 100;
+        //$options['sort'] = array();
+        $data = $model->find($query, $options);
+        foreach($data as $key=>$val){
+          $data[$key] = $model->extended_model_row($val);
+        }
 
-    $this->stash['digs'] = $data;
+        $this->stash['digs'] = $data;
+
+        $total_count = $this->stash['total_count'] = $model->count($query);
+        $this->stash['total_page'] = ceil($total_count/$options['size']);
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/dig?page=#p#');
 		
