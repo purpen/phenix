@@ -478,7 +478,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$price = $this->stash['price'];
 		$quantity = (int)$this->stash['quantity'];
         $number = isset($this->stash['number']) ? (int)trim($this->stash['number']) : 0;
-        $vop_id = isset($this->stash['vop_id']) ? $this->stash['vop_id'] : null;
+        $vop_id = isset($this->stash['vop_id']) ? trim($this->stash['vop_id']) : null;
         $cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
 		
 		// 验证数据
