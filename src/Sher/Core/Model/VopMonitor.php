@@ -17,10 +17,13 @@ class Sher_Core_Model_VopMonitor extends Sher_Core_Model_Base  {
         'new_price' => 0,
         // 是否下架
         'stat' => 1,
+        'jd_stat' => 1,
+        // 更新时间
+        'modify_on' => 0,
   	);
 
     protected $required_fields = array('sku_id', 'product_id', 'jd_sku_id');
-    protected $int_fields = array('sku_id', 'product_id', 'jd_sku_id', 'stat');
+    protected $int_fields = array('sku_id', 'product_id', 'jd_sku_id', 'stat', 'jd_stat', 'modify_on');
 	protected $float_fields = array('price', 'new_price', 'protocol_price');
 
 
