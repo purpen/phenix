@@ -1021,6 +1021,34 @@
 				        		{% endif %}
 				    		</div>
 				        </div>
+
+                        {%else%}
+                            {% if visitor.can_service %}
+                                <div class="sellwrap admin">
+                                    管理：
+                                    <div class="ui icon green editable inverted buttons">
+                                        {% if product.featured %}
+                                        <div class="ui pop fine active button" data-content="取消精选"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+                                            <i class="star icon"></i>
+                                        </div>
+                                        {% else %}
+                                        <div class="ui pop fine button" data-content="标记精选" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+                                            <i class="star empty icon"></i>
+                                        </div>
+                                        {% endif %}
+                                        {% if product.stick %}
+                                        <div class="ui pop stick active button" data-content="取消推荐"  data-variation="inverted" data-mark="y" data-id="{{ product._id }}">
+                                            <i class="flag icon"></i>
+                                        </div>
+                                        {% else %}
+                                        <div class="ui pop stick button" data-content="编辑推荐" data-variation="inverted" data-mark="n" data-id="{{ product._id }}">
+                                            <i class="flag outline icon"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {%endif%}
+
 				        {%endif%}
                    	</div>
                 </div>

@@ -72,6 +72,8 @@ while(!$is_end){
         array_push($price_sku_arr, sprintf("J_%s", $k));
         array_push($stat_sku_arr, $k);
     }
+
+    if(empty($stat_sku_arr)) continue;
     $price_skus = implode(',', $price_sku_arr);
     $stat_skus = implode(',', $stat_sku_arr);
 
