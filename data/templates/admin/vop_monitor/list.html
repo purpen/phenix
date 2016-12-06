@@ -1,0 +1,211 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block layout_js %}
+    <script type="text/javascript">
+
+        function sync_price(id, type){
+            var url = "{{ app_url_admin_base }}/vop_monitor/ajax_sync_price";
+            $.post(url, {id: id, type: type}, function(rs){
+                if(rs.success){
+                    phenix.show_ok_note('操作成功！');
+                }else{
+                    phenix.show_error_note('操作失败!', 3000);
+                }
+            }, 'json');
+        }
+        
+    </script>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.sync_sku_price').click(function(){
+        var id = $(this).data('id');
+        sync_price(id, 1);
+    });
+    $('.sync_product_price').click(function(){
+        var id = $(this).data('id');
+        sync_price(id, 2);
+    });
+
+    $('.deleted').click(function(){
+        var id = $(this).data('id');
+        $.post("{{ app_url_admin_base }}/vop_monitor/deleted", { id:id }, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('操作成功！');
+                $('#item-'+id).remove();
+            }else{
+                phenix.show_error_note('操作失败!', 3000);
+            }
+        }, 'json');
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/product" class="item">
+			全部
+		</a>
+
+		<a href="{{ app_url_admin_base }}/product?stage=9" class="{% if stage == 9 %}active{%endif%} item">
+			商店
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=12" class="{% if stage == 12 %}active{%endif%} item">
+			积分兑换
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=15" class="{% if stage == 15 %}active{%endif%} item">
+			产品灵感
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=16" class="{% if stage == 16 %}active{%endif%} item">
+			情境产品
+		</a>
+		<a href="{{ app_url_admin_base }}/vop_monitor" class="{% if vop_monitor == 1 %}active{%endif%} item">
+			开普格监控
+		</a>
+	  	<div class="right menu">
+			
+            <!--
+			<a href="{{ app_url_admin }}/product/deleted" class="item ajax-delete">
+				<i class="remove icon"></i> 批量删除
+			</a>
+            -->
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/product/search" method="get" id="search-form">
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
+
+            <div class="ui icon input">
+                <input placeholder="最小金额" type="text" name="min_price" value="{{ min_price }}" style="width:110px;" />
+                <input placeholder="最大金额" type="text" name="max_price" value="{{ max_price }}" style="width:110px;" />
+            </div>
+          <div class="ui selection dropdown">
+            <input type="hidden" name="is_vop" value="{{ is_vop }}" />
+            <div class="default text">是否开普勒</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="0">全部</div>
+              <div class="item" data-value="1">是</div>
+              <div class="item" data-value="-1">否</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="s" value="{{ s }}" />
+            <div class="default text">选择条件</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">编号</div>
+              <div class="item" data-value="2">标题</div>
+              <div class="item" data-value="3">标签</div>
+            </div>
+          </div>
+
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th class="five wide">产品名称</th>
+                <th>价格</th>
+				<th>是否下架</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ d.product.view_url }}" class="ui link" target="_blank" title="{{ d.product.title }}">
+                            {{ d.product.title|truncate, 32 }}
+						</a>
+					</div>
+		          	<p class="attribute">产品ID：{{ d.product_id }}</p>
+		          	<p class="attribute">skuID：{{ d.sku_id }}</p>
+					<p class="attribute">vopID：{{ d.jd_sku_id }}</p>
+				</td>
+                <td>
+                    <p>协议价: {{ d.protocol_price }}</p>
+                    <p>官方价: {{ d.price }}</p>
+                    <p>京东价: {{ d.new_price }}</p>
+                </td>
+
+				<td>
+					<p>
+						{% if d.stat==0 %}
+							<span class="ui small red label">是</span>
+						{% else %}
+							<span class="ui small green label">否</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+
+					<p>
+                        <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item sync_sku_price">同步sku价格</a>
+					</p>
+                    <p>
+                        <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item sync_product_price">
+						    同步sku及产品价格
+					    </a>
+                    </p>
+                    <p>
+		          		<a href="{{ app_url_admin_base }}/product/edit?id={{ d.product_id }}" class="ui link item">编辑产品</a>
+                    </p>
+                    <p>
+                        <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item deleted">删除记录</a>
+                    </p>
+
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+    {% if total_count>1 %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+
+{% endblock %}
