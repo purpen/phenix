@@ -948,7 +948,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		try{
             // 验证是否具有权限
-            if(!$this->visitor->can_edit()){
+            if(!$this->visitor->can_edit() || !$this->visitor->can_service()){
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
 			$model = new Sher_Core_Model_Product();
@@ -972,7 +972,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		try{
             // 验证是否具有权限
-            if(!$this->visitor->can_edit()){
+            if(!$this->visitor->can_edit() || !$this->visitor->can_service()){
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
             
@@ -997,7 +997,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		try{
             // 验证是否具有权限
-            if(!$this->visitor->can_edit()){
+            if(!$this->visitor->can_edit() || !$this->visitor->can_service()){
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
 			$model = new Sher_Core_Model_Product();
@@ -1020,7 +1020,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		
 		try{
             // 验证是否具有权限
-            if(!$this->visitor->can_edit()){
+            if(!$this->visitor->can_edit() || !$this->visitor->can_service()){
                 return $this->ajax_json('抱歉，你没有权限操作此项！', true);
             }
 			$model = new Sher_Core_Model_Product();
