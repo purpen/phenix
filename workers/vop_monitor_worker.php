@@ -39,7 +39,7 @@ $record_count = 0;
 
 while(!$is_end){
 	$query = array('vop_id'=>array('$ne'=>null));
-	$options = array('field'=>array('_id','vop_id','price'), 'page'=>$page, 'size'=>$size);
+	$options = array('field'=>array('_id','vop_id','price','stat','jd_stat'), 'page'=>$page, 'size'=>$size);
 	$list = $inventory_mode->find($query, $options);
 	if(empty($list)){
 		echo "jd sku list is null,exit......\n";
@@ -92,26 +92,31 @@ while(!$is_end){
 
         for($i=0;$i<count($stat_result['data']['result']);$i++){
             $p = $stat_result['data']['result'][$i];
+
+            $has_one = $vop_monitor_model->first(array('sku_id'=>$item[$p['sku']][0], 'evt'=>1));
             if(isset($item[$p['sku']]) && $p['state'] != 1){   // 下架提醒
-                
-                $has_one = $vop_monitor_model->first(array('sku_id'=>$item[$p['sku']][0], 'evt'=>1));
                 if($has_one){
-                    $ok = $vop_monitor_model->update_set((string)$has_one['_id'], array('stat'=>0));
+                    if($has_one['jd_stat']==1){
+                        $ok = $vop_monitor_model->update_set((string)$has_one['_id'], array('jd_stat'=>0, 'modify_on'=>time()));
+                    }
                 }else{
                     $row = array(
                         'sku_id' => (int)$item[$p['sku']][0],
                         'product_id' => (int)$item[$p['sku']][1],
                         'jd_sku_id' => (int)$p['sku'],
-                        'stat' => 0,
+                        'jd_stat' => 0,
+                        'stat' => 1,
+                        'modify_on' => time(),
                     );
                     $ok = $vop_monitor_model->create($row);
                 }
 
-                if(!$ok){
-                    continue;
-                }
                 $record_count++;
-
+            }else{
+                // 更新时间
+                if($has_one && $has_one['stat']==0){
+                    $ok = $vop_monitor_model->update_set((string)$has_one['_id'], array('jd_stat'=>1));             
+                }
             }
 
         }   // endfor
@@ -120,7 +125,6 @@ while(!$is_end){
         // 查询价格
         $price_params = json_encode(array('sku'=>$price_skus));
         $price_result = Sher_Core_Util_Vop::fetchInfo($price_method, array('param'=>$price_params, 'response_key'=>$price_response_key));
-
 
         if(!empty($price_result['code'])){
             echo "获取价格失败: ".$price_result['msg']."\n";
@@ -135,7 +139,7 @@ while(!$is_end){
             if(isset($item[$p['skuId']]) && $item[$p['skuId']][2]!=$jd_price){
                 $has_one = $vop_monitor_model->first(array('sku_id'=>$item[$p['skuId']][0], 'evt'=>1));
                 if($has_one){
-                    $ok = $vop_monitor_model->update_set((string)$has_one['_id'], array('protocol_price'=>$protocol_price, 'new_price'=>$jd_price));
+                    $ok = $vop_monitor_model->update_set((string)$has_one['_id'], array('protocol_price'=>$protocol_price, 'price'=>$item[$p['skuId']][2], 'new_price'=>$jd_price, 'modify_on'=> time()));
                 }else{
                     $row = array(
                         'sku_id' => (int)$item[$p['skuId']][0],
@@ -144,13 +148,11 @@ while(!$is_end){
                         'protocol_price' => $protocol_price,
                         'price' => $item[$p['skuId']][2],
                         'new_price' => $jd_price,
+                        'modify_on' => time(),
                     );
                     $ok = $vop_monitor_model->create($row);
                 }
 
-                if(!$ok){
-                    continue;
-                }
                 $record_count++;
             }
         }   // endfor

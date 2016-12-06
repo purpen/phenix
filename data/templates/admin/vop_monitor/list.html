@@ -15,6 +15,17 @@
                 }
             }, 'json');
         }
+
+        function product_publish(id, type){
+            var url = "{{ app_url_admin_base }}/vop_monitor/ajax_product_publish";
+            $.post(url, {id: id, type: type}, function(rs){
+                if(rs.success){
+                    phenix.show_ok_note('操作成功！');
+                }else{
+                    phenix.show_error_note(rs.message, 3000);
+                }
+            }, 'json');
+        }
         
     </script>
 {% endblock %}
@@ -25,6 +36,7 @@
 		$('#search-form').submit();
 	});
 
+    // 同部商品及sku价格
     $('.sync_sku_price').click(function(){
         var id = $(this).data('id');
         sync_price(id, 1);
@@ -32,6 +44,16 @@
     $('.sync_product_price').click(function(){
         var id = $(this).data('id');
         sync_price(id, 2);
+    });
+
+    // 商品上下架
+    $('.product_publish_no').click(function(){
+        var id = $(this).data('id');
+        product_publish(id, 0);
+    });
+    $('.product_publish_ok').click(function(){
+        var id = $(this).data('id');
+        product_publish(id, 1);
     });
 
     $('.deleted').click(function(){
@@ -133,7 +155,7 @@
 				<th>缩略图</th>
 				<th class="five wide">产品名称</th>
                 <th>价格</th>
-				<th>是否下架</th>
+				<th>是否下架(/JD/THN)</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -170,6 +192,12 @@
 
 				<td>
 					<p>
+						{% if d.jd_stat==0 %}
+							<span class="ui small red label">是</span>
+						{% else %}
+							<span class="ui small green label">否</span>
+						{% endif %}
+                        |
 						{% if d.stat==0 %}
 							<span class="ui small red label">是</span>
 						{% else %}
@@ -187,6 +215,10 @@
 						    同步sku及产品价格
 					    </a>
                     </p>
+					<p>
+                        <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item product_publish_no">下架</a> | 
+                        <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item product_publish_ok">上架</a>
+					</p>
                     <p>
 		          		<a href="{{ app_url_admin_base }}/product/edit?id={{ d.product_id }}" class="ui link item">编辑产品</a>
                     </p>

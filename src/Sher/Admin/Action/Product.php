@@ -1054,7 +1054,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
     $min_price = isset($this->stash['min_price']) ? $this->stash['min_price'] : null;
     $max_price = isset($this->stash['max_price']) ? $this->stash['max_price'] : null;
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&min_price=%f&max_price=%f&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/search?stage=%d&s=%d&q=%s&is_vop=%s&min_price=%s&max_price=%s&page=#p#';
 		switch($this->stash['stage']){
 			case 9:
 				$this->stash['process_saled'] = 1;

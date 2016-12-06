@@ -46,7 +46,7 @@ class Sher_Admin_Action_VopMonitor extends Sher_Admin_Action_Base {
             $query['jd_sku_id'] = (int)$this->stash['jd_sku_id'];
         }
 
-        $options = array('page'=>$page, 'size'=>$size, 'sort'=>array('created_on'=>1));
+        $options = array('page'=>$page, 'size'=>$size, 'sort'=>array('modify_on'=>-1));
 
         $vop_monitor_model = new Sher_Core_Model_VopMonitor();
         $product_model = new Sher_Core_Model_Product();
@@ -106,6 +106,53 @@ class Sher_Admin_Action_VopMonitor extends Sher_Admin_Action_Base {
 
         return $this->ajax_json('success', false, null, array('id'=>$id));
 
+    }
+
+    /**
+     * 商品上下架操作
+     */
+    public function ajax_product_publish(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数!', true);
+        }
+
+        $vop_monitor_model = new Sher_Core_Model_VopMonitor();
+        $inventory_model = new Sher_Core_Model_Inventory();
+        $product_model = new Sher_Core_Model_Product();
+
+        $vop = $vop_monitor_model->load($id);
+        if(empty($vop)){
+            return $this->ajax_json('内容不存在!', true);
+        }
+
+        $product = $product_model->load($vop['product_id']);
+        if(empty($product)){
+            return $this->ajax_json('商品不存在!', true);       
+        }
+        $stat = $product['published'];
+        if($type==0 && $stat==0){
+            return $this->ajax_json('已经是下架状态!', true);       
+        }
+        if($type==1 && $stat==1){
+            return $this->ajax_json('已经是上线状态!', true);       
+        }
+
+        if($type==0){
+            $ok = $product_model->mark_as_published($product['_id'], 0);
+        }elseif($type==1){
+            $ok = $product_model->mark_as_published($product['_id']);       
+        }else{
+            return $this->ajax_json('参数有错误!', true);       
+        }
+
+        $ok = $vop_monitor_model->update_set($id, array('stat'=>$type));
+        if(!$ok){
+            return $this->ajax_json('更新失败!', true);       
+        }
+        return $this->ajax_json('success', false, null, array('id'=>$id));
     }
 
     /**
