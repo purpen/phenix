@@ -138,8 +138,6 @@ class Sher_Admin_Action_VopMonitor extends Sher_Admin_Action_Base {
             $product_model->mark_as_published($product['_id'], 0);
         }elseif($type==1 && $stat != 1){
             $product_model->mark_as_published($product['_id']);       
-        }else{
-            return $this->ajax_json('参数有错误!', true);       
         }
 
         $ok = $vop_monitor_model->update_set($id, array('stat'=>$type));
