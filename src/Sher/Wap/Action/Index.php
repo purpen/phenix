@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','scan_qr');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','scan_qr','fiu_download');
 	
 	/**
 	 * 商城入口
@@ -162,6 +162,14 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
         }
 
         return $this->to_redirect($redirect_url);
+    }
+
+    /**
+     * fiu 下载
+     */
+    public function fiu_download(){
+        $url = "http://frstatic.qiniudn.com/download/app-release_1.1.6.apk";
+        return $this->to_redirect($url);
     }
 
 }

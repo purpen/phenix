@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download');
 	
 	protected $admin_method_list = array();
 	
@@ -278,5 +278,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		
 		echo json_encode($date);
 	}
+
+    /**
+     * fiu 下载
+     */
+    public function fiu_download(){
+        $url = "http://frstatic.qiniudn.com/download/app-release_1.1.6.apk";
+        return $this->to_redirect($url);
+    }
 }
-?>
+

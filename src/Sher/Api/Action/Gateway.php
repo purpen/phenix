@@ -638,7 +638,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         }
 
         $code = 0;
-        $result = array('code'=>0, 'msg'=>'', 'download'=>'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix');
+        $result = array('code'=>0, 'msg'=>'', 'download'=>"http://m.taihuoniao.com/fiu_download");
 
         $x=(int)$arr[0]; $y=(int)$arr[1]; $z=(int)$arr[2];
 
@@ -683,7 +683,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
             return $this->api_json('来源设备不明确!', 3001);   
         }
 
-        $download = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
+        //$download = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
+        $download = "http://m.taihuoniao.com/fiu_download";
 
         return $this->api_json('success', 0, array('version'=>$version, 'download'=>$download));
     }
