@@ -218,12 +218,12 @@ span.kefu{
     color: #333;
     min-width: 72px;
 }
-.showbt .refund-box,.showcan .cancel-box {
+.showbt .refund-box,.showcan .cancel-box,.showcc .logistics-box {
     visibility: visible;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
 }
-.refund-box,.cancel-box{
+.refund-box,.cancel-box,.logistics-box{
     max-width: 767px;
     margin: 0 auto;
     background: #f5f5f5;
@@ -507,6 +507,12 @@ span.kefu{
 		}
 	});
 
+    //查物流
+    $('.logistics').livequery(function(){
+        $(this).bind('click',function(){
+            $('.ordeshow').addClass('showcc');
+        }
+    });
 {% endblock %}
 
 {% block content %}
@@ -579,8 +585,9 @@ span.kefu{
                 {% endfor %}
 
                 {% if order_info.status >= 15 %}
-                    <div class="desitem mtb-0 detx">
-                    承运来源：{{ order_info.express_company.title }} <text class="ml-3r">快递编号：{{ order_info.express_no }}</text>
+                    <div class="desitem mtb-0 detx dealesc">
+                        {{ order_info.express_company }} ({{ order_info.express_no }})
+                        <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -634,8 +641,8 @@ span.kefu{
 
                     {% if d.is_sended %}
                         <div class="desitem mtb-0 detx dealesc">
-                        {{ d.express_company }} ({{ d.express_no }})
-                        <a href="javascript:void(0);" class="ui small color-bd inverted button fl-r">查物流</a>
+                            {{ d.express_company }} ({{ d.express_no }})
+                            <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
@@ -798,6 +805,22 @@ span.kefu{
                             </div>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logistics-box">
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>物流详情</p>
+            </div>
+        </div>
+        <div class="ui grid m-0 plr-2r">
+            <div class="row pt-3r">
+                <div class="column">
+                    
                 </div>
             </div>
         </div>
