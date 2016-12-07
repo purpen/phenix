@@ -232,6 +232,9 @@
 	background:#be8914 !important;
 	color: #fff !important;
 }
+.ui.money.list,.ui.money.list>.item .header{
+	color:rgba(0,0,0,.4) !important;
+}
 </style>
 {% endblock %}
 
@@ -501,17 +504,14 @@
                 {%endif%}
   					</div>
 					
-					<div class="ui segment" style="margin-bottom:4rem;">
+					<div class="ui segment" >
 						<h5 class="ui header mb-2r">备注信息:</h5>
 						<div class="field">
 							<textarea name="summary" class="mini" maxlength="140"></textarea>
 						</div>
 					</div>
-					
-					
-			
-				
-					<div class="ui segment">
+
+					<div class="ui segment" style="margin-bottom:4rem;">
 						<div class="ui very relaxed divided money list">
 							<div class="item">
 								<div class="right floated">
