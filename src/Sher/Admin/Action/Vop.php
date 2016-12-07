@@ -375,7 +375,7 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 
         $method = 'biz.afterSale.serviceListPage.query';
         $response_key = 'biz_afterSale_serviceListPage_query_response';
-        $params = array('jdOrderId'=>$jd_order_id, 'pageIndex'=>$page, 'pageSize'=>$size);
+        $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'pageIndex'=>$page, 'pageSize'=>$size));
         $json = !empty($params) ? json_encode($params) : '{}';
         $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
 
