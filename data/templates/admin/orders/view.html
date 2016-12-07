@@ -270,7 +270,14 @@
 						</div>
 						<div class="item">
 							<span class="ui gray text">@{{ order_info.from_site_label }}订单</span>
-						</div>						
+						</div>
+
+                          {% if order_info.is_vop %}
+                            <div class="item">
+                                <a href="{{ app_url_admin }}/vop/order_view?id={{ order_info.jd_order_id }}"><span class="ui magenta red text">(开普勒[{{ order_info.jd_order_id }}])</span></a>
+                            </div>
+                          {%endif%}
+
 					</div>
 				</div>
                 <input type="hidden" name="order_id" value="{{ order_info.rid }}" />
