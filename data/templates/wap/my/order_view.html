@@ -218,12 +218,12 @@ span.kefu{
     color: #333;
     min-width: 72px;
 }
-.showbt .refund-box,.showcan .cancel-box {
+.showbt .refund-box,.showcan .cancel-box,.showcc .logistics-box {
     visibility: visible;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
 }
-.refund-box,.cancel-box{
+.refund-box,.cancel-box,.logistics-box{
     max-width: 767px;
     margin: 0 auto;
     background: #f5f5f5;
@@ -316,6 +316,49 @@ span.kefu{
 .bf9{
     background: #f9fafb;
 }
+.detx.dealesc{
+    line-height: 29px;
+}
+.fl-r{
+    float: right;
+    vertical-align: middle;
+}
+.meslog{
+    margin: 20px;
+    padding: 5px 10px 30px;
+    border-left: 1px dashed #ccc;
+    position:relative;
+}
+.meslog ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.meslog ul li{
+    position: relative;
+    padding: 15px 10px;
+    border-bottom: 1px dotted rgba(0,0,0,0.15);
+    font-size: 12px;
+}
+.meslog ul li span {
+    display: block;
+    font-size: 14px;
+}
+.meslog ul li span.dian {
+    position: absolute;
+    top: 42%;
+    left: -15px;
+    width: 9px;
+    height: 9px;
+    border-radius: 5px;
+    background-color: #ccc;
+}
+.meslog ul li span.dian.active{
+    background-color: #be8914;
+}
+.scroll{
+    overflow: scroll;
+}
 </style>
 {% endblock %}
 
@@ -390,7 +433,7 @@ span.kefu{
     });
   });
   $('.close-btn').bind('click',function(){
-    $('.ordeshow').removeClass('showbt showcan');
+    $('.ordeshow').removeClass('showbt showcan showcc');
   });
 
   // 退款选项
@@ -500,6 +543,39 @@ span.kefu{
 		}
 	});
 
+    //查物流
+    $('.logistics').livequery(function(){
+        $(this).bind('click',function(){
+            var rid = "{{ order_info.rid }}";
+            var express_company = $(this).data('company');
+            var express_caty = $(this).data('caty');
+            var express_no = $(this).data('no');
+            $.post("{{ app_url_wap }}/app/site/my/ajax_logistic_tracking", {rid: rid, express_caty:express_caty, express_no:express_no}, function(rs){
+                if(rs.success){
+                    var html = "";
+                    $('.ordeshow ul').html(html);
+
+                    $('.ordeshow .express_company_show').text(express_company);
+                    $('.ordeshow .express_no_show').text(express_no);
+                    for(var i=0;i<rs.data.Traces.length;i++){
+                        var trace = rs.data.Traces[i];
+                        html += '<li>';
+                        html += '<span class="dian active"></span>';
+                        html += '<span>'+ trace.AcceptStation +'</span>';
+                        html += '<span>'+ trace.AcceptTime +'</span>';
+                        html += '</li>';
+                    }
+
+                    $('.ordeshow ul').html(html);
+                    $('.ordeshow').addClass('showcc');
+                }else{
+                    phenix.show_error_note(rs.message, 3000);
+                }
+            }, 'json');
+        })
+    });
+    var sheight = $('body').height() - 140 +'px';
+    $('.scroll').css('max-height',sheight);
 {% endblock %}
 
 {% block content %}
@@ -572,8 +648,9 @@ span.kefu{
                 {% endfor %}
 
                 {% if order_info.status >= 15 %}
-                    <div class="desitem mtb-0 detx">
-                    承运来源：{{ order_info.express_company.title }} <text class="ml-3r">快递编号：{{ order_info.express_no }}</text>
+                    <div class="desitem mtb-0 detx dealesc">
+                        {{ order_info.express_company.title }} ({{ order_info.express_no }})
+                        <a href="javascript:void(0);" data-company="{{ order_info.express_company.title }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -626,8 +703,9 @@ span.kefu{
                     {% endfor %}
 
                     {% if d.is_sended %}
-                        <div class="desitem mtb-0 detx">
-                        承运来源：{{ d.express_company }} <text class="ml-3r">快递编号：{{ d.express_no }}</text>
+                        <div class="desitem mtb-0 detx dealesc">
+                            {{ d.express_company }} ({{ d.express_no }})
+                            <a href="javascript:void(0);" data-company="{{ d.express_company }}" data-caty="{{ d.express_caty }}" data-no="{{ d.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
@@ -791,6 +869,35 @@ span.kefu{
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logistics-box">
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>物流详情</p>
+            </div>
+        </div>
+        <div class="desitem mb-0 mt-3r pt-3r plr-4r pb-r">
+            快递公司：<span class="express_company_show"></span> 
+        </div>
+        <div class="desitem mtb-0 pt-0 pb-3r plr-4r color-be link">
+            运单号：<span class="express_no_show"></span>
+        </div>
+        <div class="scroll">
+            <div class="meslog">
+                <ul>
+                    <!--
+                    <li>
+                        <span class="dian active"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    -->
+                </ul>
+
             </div>
         </div>
     </div>

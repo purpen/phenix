@@ -1925,7 +1925,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             return $this->ajax_json($result['Reason'], true);      
         }
         if(empty($result['Traces'])){
-            return $this->ajax_json('物流信息为空', true);
+            return $this->ajax_json('还没有查到记录!', true);
         }
         //print_r($result);
         return $this->ajax_json('success', false, null, $result);
