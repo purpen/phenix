@@ -368,15 +368,14 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         $this->set_target_css_state('server');
 
         $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
-        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
-        $type = $this->stash['type'] = isset($this->stash['type']) ? $this->stash['type'] : 0;
-        if(empty($type)){
-            $type = "1,2,4,5,6,10,11,12,13,14,15,16,17";
-        }
+        $jd_order_id = isset($this->stash['jd_order_id']) ? $this->stash['jd_order_id'] : null;
+        $page = isset($this->stash['pageNum']) ? $this->stash['pageNum'] : 1;
+        $size = isset($this->stash['pageSize']) ? $this->stash['pageSize'] : 20;
 
-        $method = 'biz.message.get';
-        $response_key = 'biz_message_get_response';
-        $params = array('type'=>$type);
+
+        $method = 'biz.afterSale.serviceListPage.query';
+        $response_key = 'biz_afterSale_serviceListPage_query_response';
+        $params = array('jdOrderId'=>$jd_order_id, 'pageIndex'=>$page, 'pageSize'=>$size);
         $json = !empty($params) ? json_encode($params) : '{}';
         $result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
 
@@ -385,15 +384,6 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         }
         if(empty($result['data']['success'])){
             return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
-        }
-
-        //print_r($result['data']['result']);
-        for($i=0;$i<count($result['data']['result']);$i++){
-            $r = $result['data']['result'][$i]['result'];
-            $result['data']['result'][$i]['result_json'] = $r;
-            if(is_array($r)){
-                $result['data']['result'][$i]['result_json'] = json_encode($r);
-            }
         }
 
         $this->stash['servers'] = $result['data']['result'];

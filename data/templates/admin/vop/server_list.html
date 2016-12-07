@@ -1,0 +1,174 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+  // 搜索
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    $('.show_big_img').mouseover(function(){
+        $(this).find('.big_box').show();
+
+    });
+
+    $('.show_big_img').mouseout(function(){
+        $(this).find('.big_box').hide();
+    });
+
+    $('.check_banlance_price').click(function(){
+        $.get("{{ app_url_admin }}/vop/ajax_search_price_balance", {type: 1}, function(rs){
+        if(rs.success){
+            alert(rs.data.balance_price);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+        }, 'json')
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">售后</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin }}/vop/pool_list" class="item {{ css_pool }}">
+			商品池
+		</a>
+        <a href="{{ app_url_admin }}/vop/product_list" class="item {{ css_product }}">
+			商品列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/order_list" class="item {{ css_order }}">
+			订单列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/balance_list" class="item {{ css_balance }}">
+			余额明细
+		</a>
+        <a href="{{ app_url_admin }}/vop/message_list" class="item {{ css_message }}">
+			消息列表
+		</a>
+        <a href="{{ app_url_admin }}/vop/server_list" class="item {{ css_server }}">
+			售后列表
+		</a>
+
+
+	  	<div class="right menu">
+			
+			<a href="javascript:void(0);" class="item check_banlance_price">
+				</i>查询余额
+			</a>
+	    </div>
+	</div>
+
+	<div class="ui sub nav">
+
+		<form action="{{ app_url_admin }}/vop/server_list" id="search-form" method="get">
+			<label>搜索：</label>
+            <div class="ui icon input">
+                <input type="text" name="jd_order_id" placeholder="订单号" value="{{ jd_order_id }}" class="" />
+                <i class="calendar icon"></i>
+            </div>
+
+            <div class="ui input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>服务号</th>
+                <th>产品信息</th>
+                <th>类型</th>
+                <th>进度</th>
+                <th>申请时间</th>
+                <th>是否可取消</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in servers.serviceInfoList %}
+			<tr id="item-{{ d.afsServiceId }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d.afsServiceId }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d.afsServiceId }}</td>
+                <td>
+                    <p>订单号：{{ d.orderId }}</p>
+                    <p>skuID：{{ d.wareId }}</p>
+                    <p>商品名：{{ d.wareName }}</p>
+                </td>
+                <td>
+                    <p>{{ d.customerExpectName }}</p>
+                </td>
+                <td>
+                    {{ d.afsServiceStepName }}
+                </td>
+                <td>{{ d.afsApplyTime }}</td>
+                <td>
+					{% if d.cancel == 1 %}
+					<label class="ui green label">是</label>
+                    {%else%}
+					<label class="ui orange label">否</label>
+					{% endif %}
+				</td>
+				<td>删除</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}
