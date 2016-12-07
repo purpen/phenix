@@ -316,6 +316,13 @@ span.kefu{
 .bf9{
     background: #f9fafb;
 }
+.detx.dealesc{
+    line-height: 29px;
+}
+.fl-r{
+    float: right;
+    vertical-align: middle;
+}
 </style>
 {% endblock %}
 
@@ -626,8 +633,9 @@ span.kefu{
                     {% endfor %}
 
                     {% if d.is_sended %}
-                        <div class="desitem mtb-0 detx">
-                        承运来源：{{ d.express_company }} <text class="ml-3r">快递编号：{{ d.express_no }}</text>
+                        <div class="desitem mtb-0 detx dealesc">
+                        {{ d.express_company }} ({{ d.express_no }})
+                        <a href="javascript:void(0);" class="ui small color-bd inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
