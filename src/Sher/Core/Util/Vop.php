@@ -519,7 +519,64 @@ class Sher_Core_Util_Vop {
         $result['success'] = true;
         $result['data'] = $vop_result['data']['result'];
         return $result;
-    
+    }
+
+    /**
+     * 验证订单支持服务类型(退货、换货、返修)
+     */
+    public static function check_after_sale_customer($jd_order_id, $sku_id, $options=array()){
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        $method = 'biz.afterSale.customerExpectComp.query';
+        $response_key = 'biz_afterSale_customerExpectComp_get_response';
+        
+        $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id));
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        if(!empty($vop_result['code'])){
+            $result['message'] = $vop_result['msg'];
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+
+        $result['success'] = true;
+        $result['data'] = $vop_result['data']['result'];
+        return $result;
+    }
+
+    /**
+     * 验证订单支持商品返回京东方式(上门取件、客户发货、客户送货)
+     */
+    public static function check_after_sale_return($jd_order_id, $sku_id, $options=array()){
+
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        $method = 'biz.afterSale.wareReturnJdComp.query';
+        $response_key = 'biz_afterSale_wareReturnJdComp_query_response';
+        
+        $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id));
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        if(!empty($vop_result['code'])){
+            $result['message'] = $vop_result['msg'];
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+
+        $result['success'] = true;
+        $result['data'] = $vop_result['data']['result'];
+        return $result;
     }
 
 
