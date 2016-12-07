@@ -546,7 +546,27 @@ span.kefu{
     //查物流
     $('.logistics').livequery(function(){
         $(this).bind('click',function(){
-            $('.ordeshow').addClass('showcc');
+            var rid = "{{ order_info.rid }}";
+            var express_caty = $(this).data('caty');
+            var express_no = $(this).data('no');
+            $.post("{{ app_url_wap }}/app/site/my/ajax_logistic_tracking" {rid: rid, express_caty:express_caty, express_no:express_no}, function(rs){
+                if(rs.success){
+                    html = "";
+                    for(var i=0;i<rs.data.Traces.length;i++){
+                        var trace = rs.data.Traces[i];
+                        html += '<li>';
+                        html += '<span class="dian active"></span>';
+                        html += '<span>'+ trace.AcceptStation +'</span>';
+                        html += '<span>'+ trace.AcceptTime +'</span>';
+                        html += '</li>';
+                    }
+
+                    $('.ordeshow ul').html(html);
+                    $('.ordeshow').addClass('showcc');
+                }else{
+                    phenix.show_error_note(rs.message, 3000);
+                }
+            }, 'json');
         })
     });
     var sheight = $('body').height() - 140 +'px';
@@ -625,7 +645,7 @@ span.kefu{
                 {% if order_info.status >= 15 %}
                     <div class="desitem mtb-0 detx dealesc">
                         {{ order_info.express_company }} ({{ order_info.express_no }})
-                        <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                        <a href="javascript:void(0);" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -680,7 +700,7 @@ span.kefu{
                     {% if d.is_sended %}
                         <div class="desitem mtb-0 detx dealesc">
                             {{ d.express_company }} ({{ d.express_no }})
-                            <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                            <a href="javascript:void(0);" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
@@ -864,61 +884,13 @@ span.kefu{
         <div class="scroll">
             <div class="meslog">
                 <ul>
+                    <!--
                     <li>
                         <span class="dian active"></span>
                         <span>感谢您在京东购物，欢迎您再次光临</span>
                         <span>2016-09-01 10:24:24</span>
                     </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
-                    <li>
-                        <span class="dian"></span>
-                        <span>感谢您在京东购物，欢迎您再次光临</span>
-                        <span>2016-09-01 10:24:24</span>
-                    </li>
+                    -->
                 </ul>
 
             </div>
