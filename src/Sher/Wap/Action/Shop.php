@@ -761,6 +761,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 		
+        $order_info['dict']['freight'] = $freight;
 		$this->stash['order_info'] = $order_info;
 		$this->stash['data'] = $order_info['dict'];
 		$this->stash['pay_money'] = $pay_money;
