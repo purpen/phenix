@@ -649,8 +649,8 @@ span.kefu{
 
                 {% if order_info.status >= 15 %}
                     <div class="desitem mtb-0 detx dealesc">
-                        {{ order_info.express_company }} ({{ order_info.express_no }})
-                        <a href="javascript:void(0);" data-company="{{ order_info.express_company }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                        {{ order_info.express_company.title }} ({{ order_info.express_no }})
+                        <a href="javascript:void(0);" data-company="{{ order_info.express_company.title }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -705,7 +705,7 @@ span.kefu{
                     {% if d.is_sended %}
                         <div class="desitem mtb-0 detx dealesc">
                             {{ d.express_company }} ({{ d.express_no }})
-                            <a href="javascript:void(0);" data-company="{{ order_info.express_company }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                            <a href="javascript:void(0);" data-company="{{ d.express_company }}" data-caty="{{ d.express_caty }}" data-no="{{ d.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
