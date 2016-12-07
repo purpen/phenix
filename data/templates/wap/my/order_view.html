@@ -218,12 +218,12 @@ span.kefu{
     color: #333;
     min-width: 72px;
 }
-.showbt .refund-box,.showcan .cancel-box {
+.showbt .refund-box,.showcan .cancel-box,.showcc .logistics-box {
     visibility: visible;
     -webkit-transform: translate3d(0,0,0);
     transform: translate3d(0,0,0);
 }
-.refund-box,.cancel-box{
+.refund-box,.cancel-box,.logistics-box{
     max-width: 767px;
     margin: 0 auto;
     background: #f5f5f5;
@@ -316,6 +316,49 @@ span.kefu{
 .bf9{
     background: #f9fafb;
 }
+.detx.dealesc{
+    line-height: 29px;
+}
+.fl-r{
+    float: right;
+    vertical-align: middle;
+}
+.meslog{
+    margin: 20px;
+    padding: 5px 10px 30px;
+    border-left: 1px dashed #ccc;
+    position:relative;
+}
+.meslog ul{
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.meslog ul li{
+    position: relative;
+    padding: 15px 10px;
+    border-bottom: 1px dotted rgba(0,0,0,0.15);
+    font-size: 12px;
+}
+.meslog ul li span {
+    display: block;
+    font-size: 14px;
+}
+.meslog ul li span.dian {
+    position: absolute;
+    top: 42%;
+    left: -15px;
+    width: 9px;
+    height: 9px;
+    border-radius: 5px;
+    background-color: #ccc;
+}
+.meslog ul li span.dian.active{
+    background-color: #be8914;
+}
+.scroll{
+    overflow: scroll;
+}
 </style>
 {% endblock %}
 
@@ -390,7 +433,7 @@ span.kefu{
     });
   });
   $('.close-btn').bind('click',function(){
-    $('.ordeshow').removeClass('showbt showcan');
+    $('.ordeshow').removeClass('showbt showcan showcc');
   });
 
   // 退款选项
@@ -500,6 +543,14 @@ span.kefu{
 		}
 	});
 
+    //查物流
+    $('.logistics').livequery(function(){
+        $(this).bind('click',function(){
+            $('.ordeshow').addClass('showcc');
+        })
+    });
+    var sheight = $('body').height() - 140 +'px';
+    $('.scroll').css('max-height',sheight);
 {% endblock %}
 
 {% block content %}
@@ -572,8 +623,9 @@ span.kefu{
                 {% endfor %}
 
                 {% if order_info.status >= 15 %}
-                    <div class="desitem mtb-0 detx">
-                    承运来源：{{ order_info.express_company.title }} <text class="ml-3r">快递编号：{{ order_info.express_no }}</text>
+                    <div class="desitem mtb-0 detx dealesc">
+                        {{ order_info.express_company }} ({{ order_info.express_no }})
+                        <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -626,8 +678,9 @@ span.kefu{
                     {% endfor %}
 
                     {% if d.is_sended %}
-                        <div class="desitem mtb-0 detx">
-                        承运来源：{{ d.express_company }} <text class="ml-3r">快递编号：{{ d.express_no }}</text>
+                        <div class="desitem mtb-0 detx dealesc">
+                            {{ d.express_company }} ({{ d.express_no }})
+                            <a href="javascript:void(0);" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
@@ -791,6 +844,83 @@ span.kefu{
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="logistics-box">
+        <div class="ui fiushop pb-0">
+            <div class="ui sheader">
+                <a class="return close-btn" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+                <p>物流详情</p>
+            </div>
+        </div>
+        <div class="desitem mb-0 mt-3r pt-3r plr-4r pb-r">
+            订单号：<span>116120706714</span> 
+        </div>
+        <div class="desitem mtb-0 pt-0 pb-3r plr-4r color-be link">
+            状态：完成
+        </div>
+        <div class="scroll">
+            <div class="meslog">
+                <ul>
+                    <li>
+                        <span class="dian active"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                    <li>
+                        <span class="dian"></span>
+                        <span>感谢您在京东购物，欢迎您再次光临</span>
+                        <span>2016-09-01 10:24:24</span>
+                    </li>
+                </ul>
+
             </div>
         </div>
     </div>
