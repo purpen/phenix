@@ -547,11 +547,16 @@ span.kefu{
     $('.logistics').livequery(function(){
         $(this).bind('click',function(){
             var rid = "{{ order_info.rid }}";
+            var express_company = $(this).data('company');
             var express_caty = $(this).data('caty');
             var express_no = $(this).data('no');
-            $.post("{{ app_url_wap }}/app/site/my/ajax_logistic_tracking" {rid: rid, express_caty:express_caty, express_no:express_no}, function(rs){
+            $.post("{{ app_url_wap }}/app/site/my/ajax_logistic_tracking", {rid: rid, express_caty:express_caty, express_no:express_no}, function(rs){
                 if(rs.success){
-                    html = "";
+                    var html = "";
+                    $('.ordeshow ul').html(html);
+
+                    $('.ordeshow .express_company_show').text(express_company);
+                    $('.ordeshow .express_no_show').text(express_no);
                     for(var i=0;i<rs.data.Traces.length;i++){
                         var trace = rs.data.Traces[i];
                         html += '<li>';
@@ -645,7 +650,7 @@ span.kefu{
                 {% if order_info.status >= 15 %}
                     <div class="desitem mtb-0 detx dealesc">
                         {{ order_info.express_company }} ({{ order_info.express_no }})
-                        <a href="javascript:void(0);" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                        <a href="javascript:void(0);" data-company="{{ order_info.express_company }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                     </div>
                 {% endif %}
 
@@ -700,7 +705,7 @@ span.kefu{
                     {% if d.is_sended %}
                         <div class="desitem mtb-0 detx dealesc">
                             {{ d.express_company }} ({{ d.express_no }})
-                            <a href="javascript:void(0);" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                            <a href="javascript:void(0);" data-company="{{ order_info.express_company }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
                         </div>
                     {% endif %}
 
@@ -876,10 +881,10 @@ span.kefu{
             </div>
         </div>
         <div class="desitem mb-0 mt-3r pt-3r plr-4r pb-r">
-            订单号：<span>116120706714</span> 
+            快递公司：<span class="express_company_show"></span> 
         </div>
         <div class="desitem mtb-0 pt-0 pb-3r plr-4r color-be link">
-            状态：完成
+            运单号：<span class="express_no_show"></span>
         </div>
         <div class="scroll">
             <div class="meslog">
