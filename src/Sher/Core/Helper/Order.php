@@ -94,8 +94,68 @@ class Sher_Core_Helper_Order {
     /**
      * 运费计算
     */
-    public static function freight_stat($total_money, $addbook_id, $options=array()){
-        if($total_money>=99) return 0;
+    public static function freight_stat($rid, $addbook_id, $options=array()){
+        if(empty($addbook_id)){
+            return 0;
+        }
+
+        $items = isset($options['items']) ? $options['items'] : array();
+        $is_vop = isset($options['is_vop']) ? (int)$options['is_vop'] : 0;
+        $total_money = isset($options['total_money']) ? (float)$options['total_money'] : 0;
+        if(empty($items)){
+            // 调用临时订单
+            $model = new Sher_Core_Model_OrderTemp();
+            $order = $model->find_by_rid($rid);
+            $items = $order['dict']['items'];
+            $total_money = $order['dict']['total_money'];
+            $is_vop = $order['is_vop'];
+        }
+
+        if(empty($items)){
+            return 0;
+        }
+
+        // 获取京东邮费
+        if(!empty($is_vop)){
+            $vop_skus = array();
+            for($i=0;$i<count($items);$i++){
+                $item = $items[$i];
+                $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+                $quantity = $item['quantity'];
+                if(!empty($vop_id)){
+                    array_push($vop_skus, array('skuId'=>$vop_id, 'num'=>$quantity));
+                }
+            }   // endfor
+            if(empty($vop_skus)){
+                return 0;
+            }
+
+            //验证地址
+            $add_book_model = new Sher_Core_Model_DeliveryAddress();
+            $add_book = $add_book_model->find_by_id($addbook_id);
+
+            if(empty($add_book)){
+                return 0;
+            }
+
+            $add_arr = array(
+                'province' => $add_book['province_id'],
+                'city' => $add_book['city_id'],
+                'county' => $add_book['county_id'],
+                'town' => $add_book['town_id'],
+            );
+            $result = Sher_Core_Util_Vop::fetch_freight($vop_skus, 4, $add_arr);
+            if($result['success'] && isset($result['data']['freight'])){
+                return (float)$result['data']['freight'];
+            }else{
+                return 0;
+            }
+        }
+        
+        if($total_money>=99){
+            return 0;
+        }
+
         return 10;
     }
 

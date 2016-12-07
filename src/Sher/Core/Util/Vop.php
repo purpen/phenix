@@ -522,6 +522,40 @@ class Sher_Core_Util_Vop {
     
     }
 
+
+    /**
+     * 通过地址自动获取邮费
+     */
+    public static function fetch_freight($skus, $paymentType, $options=array()){
+        $result = array();
+        $result['success'] = false;
+        $result['message'] = 'success';
+
+        // 获取邮费
+        $method = 'biz.order.freight.get';
+        $response_key = 'biz_order_freight_get_response';
+        $province = $options['province'];
+        $city = $options['city'];
+        $county = $options['county'];
+        $town = $options['town'];
+        $params = array('sku'=>$skus, 'province'=>$province, 'city'=>$city, 'county'=>$county, 'town'=>$town, 'paymentType'=>$paymentType);
+        $json = !empty($params) ? json_encode($params) : '{}';
+        $vop_result = Sher_Core_Util_Vop::fetchInfo($method, array('param'=>$json, 'response_key'=>$response_key));
+        if(!empty($vop_result['code'])){
+            $result['message'] = '接口异常！';
+            return $result;
+        }
+        if(empty($vop_result['data']['success'])){
+            $result['message'] = $vop_result['data']['resultMessage'];
+            return $result;
+        }
+
+        $result['success'] = true;
+        $result['data'] = $vop_result['data']['result'];
+        return $result;   
+    
+    }
+
 	
 }
 
