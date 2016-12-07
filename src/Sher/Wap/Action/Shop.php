@@ -746,7 +746,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $rrid, array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $addrid, array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
+        $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
@@ -762,7 +763,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$pay_money = $total_money + $freight - $coin_money - $card_money - $gift_money - $bird_coin_money;
 		
-        $order_info['dict']['freight'] = $freight;
 		$this->stash['order_info'] = $order_info;
 		$this->stash['data'] = $order_info['dict'];
 		$this->stash['pay_money'] = $pay_money;
