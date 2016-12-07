@@ -169,10 +169,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 商品详情
 	 */
 	public function view(){
-		$id = (int)$this->stash['id'];
-    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+        $id = (int)$this->stash['id'];
 		
-		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop/get_list";
+		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
 		if(empty($id)){
 			return $this->show_message_page('访问的产品不存在！', $redirect_url);
 		}
@@ -501,7 +500,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 */
 	public function nowbuy(){
 		$sku = $this->stash['sku'];
-    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		$quantity = (int)$this->stash['n'];
         $options = array();
         $options['is_vop'] = 0;
@@ -688,7 +688,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	public function address_checkout(){
 		$rrid = $this->stash['rrid'];
 		$addrid = $this->stash['addrid'];
-		
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+		$this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		// 获取临时订单信息
 		$model = new Sher_Core_Model_OrderTemp();
 		$order_info = $model->first(array('rid'=>$rrid));
@@ -787,6 +788,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         if(empty($target_ids)){
             return $this->show_message_page('清选择要购买的商品！', true);
         }
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 
         $target_arr = explode(',', $target_ids);
         for($i=0;$i<count($target_arr);$i++){
@@ -1265,8 +1268,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	 * 下单成功，选择支付方式，开始支付
 	 */
 	public function success(){
-    // 记录上一步来源地址
-    $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 		$rid = $this->stash['rid'];
 		if (empty($rid)) {
 			return $this->show_message_page('操作不当，请查看购物帮助！');

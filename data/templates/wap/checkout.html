@@ -362,7 +362,7 @@
 {% block content %}
 <div class="ui fiushop pb-0">
     <div class="ui sheader">
-    	<a class="return back" href="javascript:void(0);"><i class="angle float left icon"></i></a>
+        <a class="return back" href="{{ back_url }}"><i class="angle float left icon"></i></a>
         <p>确认订单</p>
     </div>
 </div>
@@ -511,7 +511,7 @@
 					
 			
 				
-					<!--<div class="ui segment">
+					<div class="ui segment">
 						<div class="ui very relaxed divided money list">
 							<div class="item">
 								<div class="right floated">
@@ -537,21 +537,12 @@
 									<div class="header">优惠金额：</div>
 								</div>
 							</div>	
-							<div class="item">
-								<div class="right floated">
-									<small>￥</small><span class="ui magenta text" id="order-pay-money">{{ pay_money }}</span>
-								</div>
-								<div class="content">
-									<div class="header">订单金额：</div>
-								</div>
-							</div>
+
 						</div>
-					</div>-->
+					</div>
 					
 					<div class="checkdes">
 						<div class="checksum">
-                            运费：<span><i class="rmb icon"></i><span id="order-freight-money"  data-freight_money="{{ data.freight }}">{{ data.freight|default 0 }}</span></span>&nbsp;&nbsp;
-                            节省：<span><i class="rmb icon"></i><span id="order-discount-money">{{ data.discount_money|default 0 }}</span></span>&nbsp;&nbsp;
 							合计：<span><i class="rmb icon"></i><span id="order-pay-money"  data-pay_money="{{ pay_money }}">{{ pay_money }}</span></span>
 						</div>
 						<div class="checkbtn ui active fluid black submit inverted button" style="background:#be8914 !important;font-weight:400;">
