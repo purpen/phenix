@@ -275,7 +275,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           $usable_bonus = !empty($bonus_result['rows']) ? $bonus_result['rows'] : array();
 
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
         $order_info['dict']['freight'] = $freight;
                 
                 $pay_money = $total_money + $freight - $coin_money - $card_money;
@@ -434,7 +434,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
         $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
@@ -554,7 +554,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$order_info['is_presaled'] = 0;
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $addbook_id);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $this->stash['addbook_id'], array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money']));
         $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
@@ -2618,6 +2618,21 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         //print_r($result);
         return $this->api_json('success', 0, $result);
 
+    }
+
+    /**
+     * 获取邮费
+     */
+    public function fetch_freight(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null; 
+        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+
+        if(empty($rid) || empty($addbook_id)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+
+        $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id);
+        return $this->api_json('success', 0, array('freight'=>$freight, 'rid'=>$rid));
     }
 
 	

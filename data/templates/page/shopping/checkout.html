@@ -202,6 +202,27 @@
         
     }
 
+    // 重新获取邮费
+    function fetch_freight(rid, addbook_id){
+        if(!rid || !addbook_id){
+            phenix.show_error_note('缺少请求参数!');
+        }
+        $.post("{{ app_url_domain }}/app/site/shopping/ajax_fetch_freight", {rid:rid, addbook_id:addbook_id}, function(rs){
+            if(rs.success){
+                var freight = parseFloat(rs.data.freight);
+                var old_freight = parseFloat($('#order-freight-money').data('freight_money'));
+                var pay_show = parseFloat($('#order-pay-money').data('pay_money'));
+                var new_pay = pay_show - old_freight + freight;
+                new_pay = new_pay.toFixed(2);
+
+                $('#order-freight-money').data('freight_money', freight).text(freight);
+                $('#order-pay-money').data('pay_money', new_pay).text(new_pay);
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+    }
+
   </script>
 {% endblock %}
 
@@ -372,6 +393,8 @@
 			$(this).addClass('active');
 			
 			$('#addbook_default_id').val(addbook_id);
+            // 重新计算邮费
+            fetch_freight('{{ order_info.rid }}', addbook_id);
 		}
 	});
 	
@@ -899,10 +922,10 @@
 										优惠：<b id="order-coin-money" class="money">-{{ data.coin_money }}</b>元
 									</p>
 									<p class="item">
-										运费：<b id="order-freight-money" class="money">{{ data.freight }}</b>元
+										运费：<b id="order-freight-money" class="money" data-freight_money="{{ data.freight }}">{{ data.freight }}</b>元
 									</p>
 									<p class="item">
-										应付金额：<b id="order-pay-money" class="money">{{ pay_money }}</b>元
+										应付金额：<b id="order-pay-money" class="money" data-pay_money="{{ pay_money }}">{{ pay_money }}</b>元
 									</p>
 								</div>
 							</div>

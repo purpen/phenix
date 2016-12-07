@@ -422,9 +422,7 @@
 				
 					<div class="ui mtb-2r segment">
 						<div class="ui very relaxed divided list">
-							<div class="item">
-								配送方式： <span class="ui magenta text">免费配送</span>
-							</div>
+
 							<div class="item">
 								配送时间：
 							</div>
@@ -533,7 +531,7 @@
 							</div>
 							<div class="item">
 								<div class="right floated">
-									<small>￥</small><span class="ui text" id="order-discount-money">{{ data.discount|default 0 }}</span>
+									<small>￥</small><span class="ui text" id="order-discount-money">{{ data.discount_money|default 0 }}</span>
 								</div>
 								<div class="content">
 									<div class="header">优惠金额：</div>
@@ -552,8 +550,9 @@
 					
 					<div class="checkdes">
 						<div class="checksum">
-							合计：<span><i class="rmb icon"></i><span id="order-pay-money">{{ pay_money }}</span></span>&nbsp;&nbsp;
-							节省：<span><i class="rmb icon"></i><span id="order-discount-money">{{ data.discount|default 0 }}</span></span>
+                            运费：<span><i class="rmb icon"></i><span id="order-freight-money"  data-freight_money="{{ data.freight }}">{{ data.freight|default 0 }}</span></span>&nbsp;&nbsp;
+                            节省：<span><i class="rmb icon"></i><span id="order-discount-money">{{ data.discount_money|default 0 }}</span></span>&nbsp;&nbsp;
+							合计：<span><i class="rmb icon"></i><span id="order-pay-money"  data-pay_money="{{ pay_money }}">{{ pay_money }}</span></span>
 						</div>
 						<div class="checkbtn ui active fluid black submit inverted button" style="background:#be8914 !important;font-weight:400;">
 							去结算

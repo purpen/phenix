@@ -665,7 +665,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
         $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
@@ -744,8 +744,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     
     }
 		
-		// 获取快递费用
-		$freight = Sher_Core_Util_Shopping::getFees();
+        // 重新计算邮费
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $rrid, array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
@@ -941,7 +941,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       }
 
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $order_info['dict']['addbook_id']);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
         $order_info['dict']['freight'] = $freight;
 
       $this->stash['order_info'] = $order_info;
@@ -1058,7 +1058,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$order_info['is_presaled'] = $is_presaled;
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($total_money, $addbook_id);
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $this->stash['addbook_id'], array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money']));
         $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
