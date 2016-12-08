@@ -1245,7 +1245,10 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
                 $vop_id = isset($order['items'][$i]['vop_id']) ? $order['items'][$i]['vop_id'] : null;
                 $quantity = $order['items'][$i]['quantity'];
-                if(!$vop_id) continue;
+                if(!$vop_id) {
+                    $result['message'] = '退款失败，请联系客服!';
+                    return $result;
+                }
 
                 // 是否允许退货
                 $vop_result = Sher_Core_Util_Vop::check_after_sale($order['jd_order_id'], $vop_id);
