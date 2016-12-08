@@ -420,6 +420,7 @@
 
         if($ok){
             //退款成功
+            echo '<h1>退款成功</h1>';
             echo '<a href="#" onClick="javascript:window.opener=null;window.close();"><input name="green" type="submit" class="ui green button" value="关闭" ></a>';
         }else{
             Doggy_Log_Helper::warn("Wxpay refund notify: refund_id[$refund_id] refunde_order fail !");
