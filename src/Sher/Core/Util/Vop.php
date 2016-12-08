@@ -280,7 +280,7 @@ class Sher_Core_Util_Vop {
         $order['express_info']['town_id'] = $addbook['town_id'];
         $order['express_info']['address'] = $addbook['address'];
         $order['express_info']['zip'] = $addbook['zip'];
-        $order['express_info']['email'] = !empty($addbook['email']) ? $addbook['email'] : 'tianshuai@taihuoniao.com';
+        $order['express_info']['email'] = !empty($addbook['email']) ? $addbook['email'] : 'service@taihuoniao.com';
 
         $data = array();
         $items = array();
