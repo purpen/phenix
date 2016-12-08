@@ -65,6 +65,9 @@
 									{% endif %}
 						          	<p class="attribute">编号：{{ item.sku }}</p>
 
+                                    {% if item.vop_id %}
+						          	    <p class="attribute">京东SKU：{{ item.vop_id }}</p>
+                                    {%endif%}
                                     {% if item.refund_type %}
                                         <p>状态: 
                                             <span style="color:red;">

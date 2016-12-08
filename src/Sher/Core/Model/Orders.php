@@ -1224,7 +1224,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     /**
      * 申请退款/货
      */
-    public function apply_refund($rid, $options){
+    public function apply_refund($rid, $options=array()){
 
         $result = array();
         $result['success'] = false;
@@ -1254,7 +1254,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                     return $result;
                 }
                 if(!$vop_result['data']){
-                    $result['message'] = '该订单不支持退货款';
+                    $result['message'] = '该订单不支持退货款或已申请退货';
                     return $result;
                 }
 
