@@ -531,7 +531,7 @@ class Sher_Core_Util_Vop {
         $result['message'] = 'success';
 
         $method = 'biz.afterSale.customerExpectComp.query';
-        $response_key = 'biz_afterSale_customerExpectComp_get_response';
+        $response_key = 'biz_afterSale_customerExpectComp_query_response';
         
         $params = array('param'=>array('jdOrderId'=>$jd_order_id, 'skuId'=>$sku_id));
         $json = !empty($params) ? json_encode($params) : '{}';
