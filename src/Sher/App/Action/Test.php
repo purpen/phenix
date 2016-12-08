@@ -429,5 +429,134 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     
   }
 
+    /**
+     * 测试京东退货
+    */
+    public function jd_refund(){
+        $model = new Sher_Core_Model_Orders();
+
+        $jd_order_id = '46856418564';
+
+                $vop_id = '2097954';
+                $quantity = 1;
+
+                // 是否允许退货
+                $vop_result = Sher_Core_Util_Vop::check_after_sale($jd_order_id, $vop_id);
+                if(!$vop_result['success']){
+                    echo $vop_result['message'];
+                    return false;
+                }
+                if(!$vop_result['data']){
+                    echo '该订单不支持退货款';
+                    return false;
+                }
+
+                // 支持服务类型 
+                $vop_result = Sher_Core_Util_Vop::check_after_sale_customer($jd_order_id, $vop_id);
+                if(!$vop_result['success']){
+                    echo $vop_result['message'];
+                    return false;
+                }
+
+                if(!$vop_result['data']){
+                    echo '请联系客服!';
+                    return false;
+                }
+
+                $pass = false;
+                for($j=0;$j<count($vop_result['data']);$j++){
+                    if($vop_result['data'][$j]['code']=="10"){
+                        $pass = true;
+                        break;
+                    }
+                }
+                if(!$pass){
+                    echo '该商品不支持退货! 请联系客服';
+                    return false;               
+                }
+
+                // 支持的商品返回京东方式 
+                $vop_result = Sher_Core_Util_Vop::check_after_sale_return($jd_order_id, $vop_id);
+                if(!$vop_result['success']){
+                    echo $vop_result['message'];
+                    return false;
+                }
+
+                if(!$vop_result['data']){
+                    echo '请联系客服!';
+                    return false;
+                }
+
+                $pass = false;
+                for($j=0;$j<count($vop_result['data']);$j++){
+                    if($vop_result['data'][$j]['code']=="4"){
+                        $pass = true;
+                        break;
+                    }
+                }
+                if(!$pass){
+                    echo '该商品不支持上门取件! 请联系客服';
+                    return false;               
+                }
+
+                exit;
+                // 申请京东退货服务
+                //
+                $vop_params = array(
+                    'param'=>array(
+                        'jdOrderId' => $jd_order_id,   // 43486942134
+                        'customerExpect' => 10, // 退货
+                        'questionDesc' => '申请退货',
+                        'asCustomerDto' => array(
+                            'customerContactName' => '田帅',
+                            'customerTel' => '15001120509',
+                            'customerMobilePhone' => '15001120509',
+                            'customerEmail' => '',
+                            'customerPostcode' => '',
+                        ),
+                        'asPickwareDto' => array(
+                            'pickwareType' => 4,    // 上门取件
+                            'pickwareProvince' => 0,
+                            'pickwareCity' => 0,
+                            'pickwareCounty' => 0,
+                            'pickwareVillage' => 0,
+                            'pickwareAddress' => '798 751 B7 太火鸟',
+                        ),
+                        'asReturnwareDto' => array(
+                            'returnwareType' => 10, // 自营配送
+                            'returnwareProvince' => 0,
+                            'returnwareCity' => 0,
+                            'returnwareCounty' => 0,
+                            'returnwareVillage' => 0,
+                            'returnwareAddress' => '798 751 B7 太火鸟',
+                        ),
+                        'asDetailDto' => array(
+                            'skuId' => $vop_id,   // 1978183
+                            'skuNum' => $quantity,
+                        ),
+                    ),
+                );
+                
+                $vop_method = 'biz.afterSale.afsApply.create';
+                $vop_response_key = 'biz_afterSale_afsApply_create_response';
+                $vop_params = $vop_params;
+                $vop_json = !empty($vop_params) ? json_encode($vop_params) : '{}';
+                $vop_result = Sher_Core_Util_Vop::fetchInfo($vop_method, array('param'=>$vop_json, 'response_key'=>$vop_response_key));
+
+                print_r($vop_result);
+                if(!empty($vop_result['code'])){
+                    echo $vop_result['msg'];
+                    return false; 
+                }
+                if(empty($vop_result['data']['success'])){
+                    echo $vop_result['data']['resultMessage'];
+                    return false; 
+                }
+
+
+        echo "success!!!";
+  
+    }
+
 }
 
