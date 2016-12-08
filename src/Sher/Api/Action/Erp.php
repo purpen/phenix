@@ -318,10 +318,10 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 
         // 短信提醒用户
         if($ok){
-            $order_message = sprintf("致亲爱的人：我们已将您编号为[%s]的宝贝托付到有颜靠谱的快递小哥手中，日夜兼程只为让您感受潮酷智能生活的便利。", $order_info['rid']);
+            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验", $order_info['rid']);
             $order_phone = $order['express_info']['phone'];
             if(!empty($order_phone)){
-                Sher_Core_Helper_Util::send_defined_mms($order_phone, $order_message);
+                Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
             }
 
             return $this->api_json('success', 0, array('rid'=>$rid));

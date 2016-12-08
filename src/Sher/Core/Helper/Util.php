@@ -227,6 +227,14 @@ class Sher_Core_Helper_Util {
 		$message = "【太火鸟】${msg}";
 		return self::send_yp_mms($phone, $message);
 	}
+
+	/**
+	 * 发送短信--自定义 (云片-备选)[fiu店]
+	 */
+	public static function send_yp_defined_fiu_mms($phone, $msg) {
+		$message = "【fiu店】${msg}";
+		return self::send_yp_mms($phone, $message);
+	}
 	
 	/**
 	 * 发送短信息
