@@ -435,9 +435,9 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     public function jd_refund(){
         $model = new Sher_Core_Model_Orders();
 
-        $jd_order_id = '46856418564';
+        $jd_order_id = '46965266729';
 
-                $vop_id = '2097954';
+                $vop_id = '2195401';
                 $quantity = 1;
 
                 // 是否允许退货
