@@ -235,6 +235,10 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
             'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
             'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
+            // 子订单
+            'exist_sub_order'=>1, 'sub_orders'=>1,
+            // 是否京东订单
+            'jd_order_id'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 
@@ -318,7 +322,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 
         // 短信提醒用户
         if($ok){
-            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验", $order_info['rid']);
+            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
             $order_phone = $order['express_info']['phone'];
             if(!empty($order_phone)){
                 Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
