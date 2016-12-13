@@ -304,34 +304,92 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 	 */
 	public function send_goods(){
 		$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
-		$express_caty = $this->stash['express_caty'];
-		$express_no = $this->stash['express_no'];
-		if (empty($rid) || empty($express_caty) || empty($express_no)) {
-			return $this->api_json('缺少请求参数！', 3001);
+		$express_caty = isset($this->stash['express_caty']) ? $this->stash['express_caty'] : null;
+		$express_no = isset($this->stash['express_no']) ? $this->stash['express_no'] : null;
+
+        $all_sended = true;
+
+        // 子订单发货状态
+        $array = isset($this->stash['array']) ? $this->stash['array'] : null;
+
+		if (empty($rid)) {
+			return $this->api_json('订单号不存在！', 3001);
 		}
 
-		$order_model = new Sher_Core_Model_Orders();
+		$model = new Sher_Core_Model_Orders();
 		
-		$order = $order_model->find_by_rid($rid);
+		$order = $model->find_by_rid($rid);
 
         if(empty($order)){
             return $this->api_json('订单不存在!', 3002);
         }
-		
-        $ok = $order_model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
 
-        // 短信提醒用户
-        if($ok){
-            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
-            $order_phone = $order['express_info']['phone'];
-            if(!empty($order_phone)){
-                Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+        // 仅待发货订单
+        if ($order['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS) {
+            return $this->api_json('订单非待发货状态！', 3003);
+        }
+
+        // 是否否有子订单
+        $is_sub_order = !empty($order['exist_sub_order']) ? true : false;
+
+        if($is_sub_order){
+
+            if(empty($array)){
+                return $this->api_json('缺少子订单请求参数!', 3004);
             }
 
-            return $this->api_json('success', 0, array('rid'=>$rid));
-        }else{
-            return $this->api_json('订单更新失败！', 3003);
+            $array = Sher_Core_Helper_Util::object_to_array(json_decode($array)); 
+            if(count($array)<=1){
+                return $this->api_json('至少两个订单!', 3005);
+            }
+
+            for($i=0;$i<count($array);$i++){
+                $sub_order_id = isset($array[$i]['id']) ? $array[$i]['id'] : null;
+                $express_caty = isset($array[$i]['express_caty']) ? $array[$i]['express_caty'] : null;
+                $express_no = isset($array[$i]['express_no']) ? $array[$i]['express_no'] : null;
+                if(empty($sub_order_id) || empty($express_caty) || empty($express_no)){
+                    return $this->api_json('子订单物流信息不完整!', 3009);               
+                }
+                
+                for($j=0;$j<count($order['sub_orders']);$j++){
+                    if($order['sub_orders'][$j]['id']==$sub_order_id){
+                        $order['sub_orders'][$j]['is_sended'] = 1;
+                        $order['sub_orders'][$j]['express_caty'] = $express_caty;
+                        $order['sub_orders'][$j]['express_no'] = $express_no;
+                        $order['sub_orders'][$j]['sended_on'] = time();
+                    }
+                
+                }   // endfor
+
+            }   // endfor
+
+            if(!$all_sended){
+                return $this->api_json('更新子订单失败，子订单数量不全！', 3006);               
+            }
+            $sub_ok = $model->update_set((string)$order['_id'], array('sub_orders'=>$order['sub_orders']));
+            if(!$sub_ok){
+                return $this->api_json('更新子订单物流失败！', 3007);                   
+            }
+        }   // endif is_sub_order
+
+        if (empty($express_caty) || empty($express_no)) {
+            return $this->api_json('缺少请求参数！', 3008);
         }
+
+        $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
+
+        if(!$ok){
+            return $this->api_json('更新订单失败！', 3010);
+        }
+
+        // 短信提醒用户
+        $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order['rid']);
+        $order_phone = $order['express_info']['phone'];
+        if(!empty($order_phone)){
+            Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+        }
+
+        return $this->api_json('success', 0, array('rid'=>$rid));
 		
 	}
 
@@ -360,6 +418,10 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
             return $this->api_json('该订单状态不允许拆分操作!', 3003);
         }
 
+        if(!empty($order['exist_sub_order'])){
+            return $this->api_json('不允许重复操作!', 3008);       
+        }
+
         $array = Sher_Core_Helper_Util::object_to_array(json_decode($array)); 
         if(count($array)<=1){
             return $this->api_json('至少拆分两个订单!', 3004);
@@ -385,6 +447,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
                     }
                 }
             }   // endfor
+            $sub_order['id'] = $sub_order_id;
             $sub_order['items'] = $items;
             $sub_order['items_count'] = count($items);
             $sub_order['split_on'] = time();
@@ -446,6 +509,86 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 
         return $this->api_json('success', 0, array('number'=>$number));
     }
+
+	/**
+	 * 退款单列表
+	 */
+	public function refund_list(){
+
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
+		$stage = isset($this->stash['stage'])?(int)$this->stash['stage']:0;
+
+		$query   = array();
+		$options = array();
+
+        if($type){
+            $query['type'] = $type;
+        }
+        if($stage){
+            $query['stage'] = $stage;
+        }
+        $query['deleted'] = 0;
+
+        //限制输出字段
+		$some_fields = array(
+			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1, 'stage_label'=>1,
+			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'type_label'=>1, 'freight'=>1,
+			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
+            'created_on'=>1, 'updated_on'=>1, 'reason_label'=>1, 'refund_on'=>1, 'batch_no'=>1,
+		);
+		$options['some_fields'] = $some_fields;
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+        $options['sort_field'] = 'latest';
+		
+		// 开启查询
+        $service = Sher_Core_Service_Refund::instance();
+        $result = $service->get_refund_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $sku_model = new Sher_Core_Model_Inventory();
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
+			}
+
+            $item = array();
+            $product = $product_model->extend_load($data[$i]['product_id']);
+            $item['title'] = $product['title']; 
+            $item['name'] = $product['title']; 
+            $item['short_title'] = $product['short_title'];
+            $item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+            $item['sale_price'] = $product['sale_price'];
+            $item['quantity'] = $data[$i]['quantity'];
+
+            $item['sku_name'] = '默认';
+            if($data[$i]['target_type']==1){
+                $sku = $sku_model->find_by_id($data[$i]['target_id']);
+                if($sku){
+                    $item['sku_name'] = $sku['mode']; 
+                }
+            }
+
+            $data[$i]['product'] = $item;
+
+            $data[$i]['refund_at'] = '';
+            if(!empty($data[$i]['refund_on'])){
+                $data[$i]['refund_at'] = date('y-m-d', $data[$i]['refund_on']);           
+            }
+            $data[$i]['created_at'] = date('y-m-d', $data[$i]['created_on']);
+
+        }   // endfor
+
+		$result['rows'] = $data;
+		return $this->api_json('请求成功', 0, $result);
+	}
 
 
 }
