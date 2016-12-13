@@ -20,9 +20,21 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
         
         $time = rand(30,120);
         
-        print date('G')."\n";
+        //print date('G')."\n";
         
-        print $time."\n";
+        //print $time."\n";
+        $arr = array(
+            array(
+                'id'=> '116121300412-1',
+                'items'=> array(1012500678,1041001080),           
+            ),
+            array(
+                'id'=> '116121300412-1',
+                'items'=> array(1041001081),
+            ),
+
+        );
+        echo json_encode($arr);
 	}
 	
 	/**

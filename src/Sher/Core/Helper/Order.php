@@ -98,7 +98,6 @@ class Sher_Core_Helper_Order {
         if(empty($addbook_id)){
             return 0;
         }
-return 0;
         $items = isset($options['items']) ? $options['items'] : array();
         $is_vop = isset($options['is_vop']) ? (int)$options['is_vop'] : 0;
         $total_money = isset($options['total_money']) ? (float)$options['total_money'] : 0;
