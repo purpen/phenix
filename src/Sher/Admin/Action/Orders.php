@@ -776,7 +776,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
             for($j=0;$j<count($sku_arr);$j++){
                 $sku_id = (int)$sku_arr[$j];
                 if(empty($sku_id)){
-                    return $this->ajax_json('参数结构不正确02!', true);              
+                    return $this->ajax_json('参数结构不正确02!', true);
                 }
 
                 for($k=0;$k<count($order['items']);$k++){

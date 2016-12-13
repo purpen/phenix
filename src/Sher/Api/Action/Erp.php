@@ -332,9 +332,83 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         }else{
             return $this->api_json('订单更新失败！', 3003);
         }
-
 		
 	}
+
+    /**
+     * 拆单
+     */
+    public function split_order(){
+
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $array = isset($this->stash['array']) ? $this->stash['array'] : null;
+        if(empty($rid) || empty($array)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+		$model = new Sher_Core_Model_Orders();
+		$order = $model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->api_json('订单不存在!', 3002);
+        }
+
+        // 可拆单的状态
+        $arr = array(
+            Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
+            Sher_Core_Util_Constant::ORDER_READY_GOODS, 
+        );
+        if(!in_array($order['status'], $arr)){
+            return $this->api_json('该订单状态不允许拆分操作!', 3003);
+        }
+
+        $array = Sher_Core_Helper_Util::object_to_array(json_decode($array)); 
+        if(count($array)<=1){
+            return $this->api_json('至少拆分两个订单!', 3004);
+        }
+    
+        $sub_orders = array();
+        for($i=0;$i<count($array);$i++){
+            $sub_order = array();
+            $sub_order_id = $array[$i]['id'];
+
+            $items = array();
+            for($j=0;$j<count($array[$i]['items']);$j++){
+                $sku_id = (int)$array[$i]['items'][$j];
+                if(empty($sku_id)){
+                    return $this->api_json('参数结构不正确02!', 3005);
+                }
+
+                for($k=0;$k<count($order['items']);$k++){
+                    if($order['items'][$k]['sku']==$sku_id){
+                        $item = $order['items'][$k];
+                        array_push($items, $item);
+                        break;
+                    }
+                }
+            }   // endfor
+            $sub_order['items'] = $items;
+            $sub_order['items_count'] = count($items);
+            $sub_order['split_on'] = time();
+            $sub_order['is_sended'] = 0;
+            $sub_order['sended_on'] = 0;
+            $sub_order['express_caty'] = '';
+            $sub_order['express_no'] = '';
+            $sub_order['supplier_id'] = '';
+
+            array_push($sub_orders, $sub_order);
+        }   // endfor
+
+        if(empty($sub_orders)){
+            return $this->api_json('无法获取子订单!', 3006);       
+        }
+
+        $ok = $model->update_set((string)$order['_id'], array('exist_sub_order'=>1 ,'sub_orders'=>$sub_orders));
+
+        if(!$ok){
+            return $this->api_json('拆单保存失败!', 3007);            
+        }
+
+        return $this->api_json('success', 0, array('rid'=>$rid));
+    }
 
     /**
      * 更新sku库存
