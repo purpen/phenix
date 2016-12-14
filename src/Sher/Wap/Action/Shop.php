@@ -180,6 +180,14 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
 
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+
+        // 推广码记录cookie
+        if(!empty($referral_code)){
+            @setcookie('referral_code', $referral_code, time()+(3600*24*30), '/');
+            $_COOKIE['referral_code'] = $referral_code;       
+        }
+
         // 记录上一步来源地址
         $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
 
