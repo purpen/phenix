@@ -25,25 +25,34 @@ class Sher_Core_Cache_Redis extends Doggy_Object {
 		
 		$ret = $redis->connect($options['host'], $options['port']);
 
-    if ($ret === false) {
-      die($redis->getLastError());
+        if ($ret === false) {
+          die($redis->getLastError());
+        }
+
+        $verified = (int)Doggy_Config::$vars['app.redis.default']['verified'];
+        if(!empty($verified)){
+          $ret = $redis->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
+          if ($ret === false) {
+            die($redis->getLastError());
+          }   
+        }
+
+        $this->redis = $redis;
     }
 
-    $verified = (int)Doggy_Config::$vars['app.redis.default']['verified'];
-    if(!empty($verified)){
-      $ret = $redis->auth(Doggy_Config::$vars['app.redis.default']['requirepass']);
-      if ($ret === false) {
-        die($redis->getLastError());
-      }   
+    /// 析构函数.
+    /// 脚本结束时，phpredis不会自动关闭redis连接，这里添加自动关闭连接支持.
+    /// 可以通过手动unset本类对象快速释放资源.
+    public function __destruct() {
+        if(isset($this->redis)){
+            $this->redis->close();
+        }
     }
-
-		$this->redis = $redis;
-  }
 	
 	/**
 	 * 普通字符串
 	 */
-	public function set($key, $val, $ttl=0) {
+	public function set($key, $val, $ttl=86400) {
 		$this->redis->set($key, $val);
 		if ($ttl){
 			$this->redis->expire($key, $ttl);
