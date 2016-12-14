@@ -121,6 +121,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $sku_mode = null;
       $price = 0.0;
       $vop_id = null;
+      $number = '';
 
       // 验证是商品还是sku
       if($type==2){
@@ -138,6 +139,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $total_price = $price*$n;
         $sku_id = $target_id;
         $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
+        $number = $inventory['number'];
         
       }elseif($type==1){
         $sku_id = $target_id;
@@ -177,6 +179,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'view_url'  => $product['view_url'],
         'subtotal'  => $total_price,
         'vop_id' => $vop_id,
+        'number' => $number,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -314,6 +317,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         // 促销类型: 3.app闪购
         $kind = 0;
         $vop_id = null;
+        $number = '';
         $options = array();
         $options['is_vop'] = 0;
 		// 验证数据
@@ -344,6 +348,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if(!empty($item)){
             $product_id = $item['product_id'];
             $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+            $number = $item['number'];
         }else{
             $product_id = (int)$target_id;
         }
@@ -409,6 +414,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 'subtotal' => (float)$price*$quantity,
         'kind' => $kind,
                 'vop_id' => $vop_id,
+                'number' => $number,
             ),
         );
         $total_money = $price*$quantity;

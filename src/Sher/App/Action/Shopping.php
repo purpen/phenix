@@ -113,6 +113,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $is_snatched = false;
         $is_exchanged = false;
         $vop_id = null;
+        $number = '';
 
         // 推广码
         $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
@@ -144,6 +145,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
             }
 
             $product_id = (int)$item['product_id'];
+            $number = $item['number'];
         }else{
             $product_id = (int)$sku;
         }
@@ -264,6 +266,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 'is_snatched' => $is_snatched?1:0,
                 'is_exchanged' => $is_exchanged?1:0,
                 'vop_id' => $vop_id,
+                'number' => $number,
 			),
 		);
 		$total_money = $price*$quantity;

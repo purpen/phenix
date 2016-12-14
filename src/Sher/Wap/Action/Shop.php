@@ -522,6 +522,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
         // 开普勒
         $vop_id = null;
+        $number = '';
         // 推广码
         $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
 		
@@ -543,6 +544,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         if(!empty($item)){
             $product_id = $item['product_id'];
             $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+            $number = $item['number'];
         }else{
             $product_id = (int)$sku;
         }
@@ -655,6 +657,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 'is_snatched' => $is_snatched?1:0,
                 'is_exchanged' => $is_exchanged?1:0,
                 'vop_id' => $vop_id,
+                'number' => $number,
 			),
 		);
 		$total_money = $price*$quantity;
@@ -855,6 +858,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
           $sku_mode = null;
           $price = 0.0;
           $vop_id = null;
+          $number = '';
 
           // 验证是商品还是sku
           if($type==2){
@@ -872,6 +876,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $total_price = $price*$n;
             $sku_id = $target_id;
             $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
+            $number = $inventory['number'];
             
           }elseif($type==1){
             $sku_id = $target_id;
@@ -910,6 +915,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             'view_url'  => $product['view_url'],
             'subtotal'  => $total_price,
             'vop_id' => $vop_id,
+            'number' => $number,
           );
           $total_money += $total_price;
           $total_count += 1;
