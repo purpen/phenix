@@ -95,8 +95,9 @@ class Sher_Core_Helper_Order {
      * 运费计算
     */
     public static function freight_stat($rid, $addbook_id, $options=array()){
+        $freight = (int)Doggy_Config::$vars['app.default_freight'];
         if(empty($addbook_id)){
-            return 0;
+            return $freight;
         }
         $items = isset($options['items']) ? $options['items'] : array();
         $is_vop = isset($options['is_vop']) ? (int)$options['is_vop'] : 0;
@@ -111,7 +112,7 @@ class Sher_Core_Helper_Order {
         }
 
         if(empty($items)){
-            return 0;
+            return $freight;
         }
 
         // 获取京东邮费
@@ -149,13 +150,13 @@ class Sher_Core_Helper_Order {
             }else{
                 return 0;
             }
-        }
+        }   // endif is_vop
         
         if($total_money>=99){
             return 0;
         }
 
-        return 10;
+        return $freight;
     }
 
     /**
