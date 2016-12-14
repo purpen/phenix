@@ -35,10 +35,9 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $redis = new Sher_Core_Cache_Redis();
         $cache = $redis->get($r_key);
         if($cache){
-		    return $this->api_json('请求成功', 0, json_decode($cache));
+		    return $this->api_json('请求成功', 0, json_decode($cache, true));
         }
 
-		
 		// 获取某位置的推荐内容
     if(!empty($name) && empty($space_id)){
 			$model = new Sher_Core_Model_Space();
@@ -649,7 +648,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         }
 
         $code = 0;
-        $result = array('code'=>0, 'msg'=>'', 'download'=>"http://m.taihuoniao.com/app/wap/index/fiu_download");
+        $new_version = '';
+        $download = "http://m.taihuoniao.com/app/wap/index/fiu_download";
 
         $x=(int)$arr[0]; $y=(int)$arr[1]; $z=(int)$arr[2];
 
@@ -658,8 +658,10 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
         if($from_to==1){    // ios
             $from_site = Sher_Core_Util_Constant::FROM_IAPP;
+            $new_version = $ios_version;
         }elseif($from_to==2){   // android
             $from_site = Sher_Core_Util_Constant::FROM_APP_ANDROID;
+            $new_version = $android_version;
             
             if($y==1 && $z < 6){
                 $code = 1;
@@ -669,7 +671,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
             return $this->api_json('来源设备不明确!', 3002);   
         }
 
-        $result['code'] = $code;
+        $result = array('code'=>$code, 'msg'=>'', 'version'=>$new_version, 'download'=>$download);
 
         return $this->api_json('success', 0, $result);
   

@@ -29,7 +29,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		## 订单明细项
 		#
         # product_id, sku, price, sale_price, kind, size, quantity, type, sku_mode,
-        # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id
+        # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id, number,
         # refund_type : 0.正常；1.退款；2.退货；3.换货；
         # refund_status: 0.拒绝退款；1.退款中；2.已退款；
 		'items' => array(),
@@ -444,7 +444,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 	 * 过滤items
 	 */
 	protected function validate_order_items(&$data){
-		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id', 'refund_type', 'refund_status');
+		$item_fields = array('sku', 'product_id', 'quantity', 'price', 'sale_price', 'kind', 'vop_id', 'refund_type', 'refund_status', 'number');
 		$int_fields = array('sku', 'product_id', 'quantity', 'kind', 'refund_type', 'refund_status');
 		$float_fields = array('price', 'sale_price');
 		

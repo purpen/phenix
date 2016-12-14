@@ -148,9 +148,14 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
             $row = $model->extend_load((int)$this->stash['id']);
             if(!empty($row)){
                 $cache_key = $row['space']['name'];
-                // 清理缓存
+                // 清理memcached缓存
                 $mem = Doggy_Cache_Memcached::get_cluster();
                 $mem->delete($cache_key);
+
+                // 清理redis缓存
+                $redis = new Sher_Core_Cache_Redis();
+                $r_key = "api:slide:*";
+                $redis->del($r_key);
                 
                 Doggy_Log_Helper::debug('Delete cache ['.$cache_key.']!');
             }
