@@ -260,6 +260,14 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		if(isset($this->stash['referer'])){
 			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
 		}
+
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+
+        // 推广码记录cookie
+        if(!empty($referral_code)){
+            @setcookie('referral_code', $referral_code, time()+(3600*24*30), '/');
+            $_COOKIE['referral_code'] = $referral_code;       
+        }
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
