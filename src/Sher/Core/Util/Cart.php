@@ -192,7 +192,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 				$true_price = !empty($item) ? $item['price'] : $row['sale_price'];
         $type = !empty($item) ? 2 : 1;
         $sku_mode = !empty($item) ? $item['mode'] : null;
-                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price'], 'vop_id'=>$vop_id, 'number'=>$number);
+                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price'], 'vop_id'=>$vop_id, 'number'=>(string)$number);
                 $this->com_item++;
             }
             unset($product);

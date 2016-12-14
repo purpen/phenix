@@ -657,7 +657,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 'is_snatched' => $is_snatched?1:0,
                 'is_exchanged' => $is_exchanged?1:0,
                 'vop_id' => $vop_id,
-                'number' => $number,
+                'number' => (string)$number,
 			),
 		);
 		$total_money = $price*$quantity;
@@ -915,7 +915,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             'view_url'  => $product['view_url'],
             'subtotal'  => $total_price,
             'vop_id' => $vop_id,
-            'number' => $number,
+            'number' => (string)$number,
           );
           $total_money += $total_price;
           $total_count += 1;

@@ -179,7 +179,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'view_url'  => $product['view_url'],
         'subtotal'  => $total_price,
         'vop_id' => $vop_id,
-        'number' => $number,
+        'number' => (string)$number,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -414,7 +414,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                 'subtotal' => (float)$price*$quantity,
         'kind' => $kind,
                 'vop_id' => $vop_id,
-                'number' => $number,
+                'number' => (string)$number,
             ),
         );
         $total_money = $price*$quantity;
