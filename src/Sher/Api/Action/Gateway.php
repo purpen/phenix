@@ -25,10 +25,19 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		// 请求参数
 		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;
 		$name = isset($this->stash['name']) ? $this->stash['name'] : '';
-    $category_name = isset($this->stash['category_name']) ? $this->stash['category_name'] : '';
+        $category_name = isset($this->stash['category_name']) ? $this->stash['category_name'] : '';
 		if(empty($name) && empty($space_id)){
 			return $this->api_json('请求参数不足', 3000);
 		}
+
+        // 从redis获取 
+        $r_key = sprintf("api:slide:%s_%s_%s", $name, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
+        $cache = $redis->get($r_key);
+        if($cache){
+		    return $this->api_json('请求成功', 0, json_decode($cache));
+        }
+
 		
 		// 获取某位置的推荐内容
     if(!empty($name) && empty($space_id)){
@@ -101,6 +110,8 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		if($size == 1 && !empty($result['rows'])){
 			//$result = $result['rows'][0];
 		}
+
+        $redis->set($r_key, json_encode($result), 300);
 		
 		return $this->api_json('请求成功', 0, $result);
 	}
