@@ -89,13 +89,14 @@
 				<th>用户</th>
                 <th>地址</th>
 				<th>是否默认</th>
-                <th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
 
-			{% for d in delivery_addresses.rows %}
+			{% addbooks_list var:'list' user_id:user_id page:page size:size load_user:1 %}
+
+			{% for d in list.rows %}
 			<tr id="{{ d._id }}">
 				<td>
 					<div class="ui checkbox">
@@ -125,7 +126,8 @@
                 <td>
                     <p>收货人：{{ d.name }}</p>
                     <p>电话：{{ d.phone }}</p>
-                    <p>省/市/区/县/镇：{{ d.province }} {{ d.city }} {{ d.county }} {{ d.town }}</p>
+                    <p>省份：{{ d.area_province.city }}</p>
+                    <p>城市：{{ d.area_district.city }}</p>
                     <p>地址：{{ d.address }}</p>
                     <p>邮编：{{ d.zip }}</p>
                 </td>
@@ -138,11 +140,10 @@
 						{% endif %}
 					</p>
 				</td>
-                <td>{{ d.created_on|date 'y-m-d' }}</td>
 
 				<td>
 					<p>
-		          		<a href="javascript:void(0);" class="ui confirm-request link item">
+		          		<a href="{{ app_url_admin }}/add_book/deleted?id={{ d._id }}" class="ui confirm-request link item">
 						    删除
 					    </a>
 					</P>
@@ -154,9 +155,9 @@
 	
 	{% if list.rows %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:delivery_addresses.total_rows,total_page:delivery_addresses.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
-		<label class="page_count">{{ delivery_addresses.total_rows }}个</label>
+		<label class="page_count">{{ list.total_rows }}个</label>
 	</div>
 	{% endif %}
 {% endblock %}
