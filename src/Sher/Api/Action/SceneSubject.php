@@ -443,34 +443,58 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
      * 首页专题推荐
      */
     public function index_subject_stick(){
-        $conf = Sher_Core_Util_View::load_block('index_subject_stick', 1);
-        $items = array();
-        if(empty($conf)){
-            return $this->api_json('数据不存在!', 0, array('total_rows'=>0, 'total_page'=>1, 'rows'=>array())); 
-        }
-        $scene_subject_model = new Sher_Core_Model_SceneSubject();
-        $arr = explode(',', $conf);
-        for($i=0;$i<count($arr);$i++){
-            $id = (int)$arr[$i];
-            $scene_subject = $scene_subject_model->extend_load($id);
-            if(empty($scene_subject)) continue;
-            $row = array(
-                '_id' => $scene_subject['_id'],
-                'title' => $scene_subject['title'],
-                'short_title' => $scene_subject['short_title'],
-                'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
-                'banner_url' => $scene_subject['banner']['thumbnails']['aub']['view_url'],
-                'type' => $scene_subject['type'],
-                'evt' => $scene_subject['evt'],
-                'attend_count' => $scene_subject['attend_count'],
-                'view_count' => $scene_subject['view_count'],
-                'type_label' => $scene_subject['type_label'],
-            );
 
-            array_push($items, $row);
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
+
+        $r_key = sprintf("api:index_scene_subject_stick");
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
         }
 
-        return $this->api_json('success', 0, array('rows'=>$items, 'total_rows'=>count($items), 'total_page'=>1)); 
+        // 无缓存读数据库
+        if(empty($result)){
+            $conf = Sher_Core_Util_View::load_block('index_subject_stick', 1);
+            $items = array();
+            if(empty($conf)){
+                return $this->api_json('数据不存在!', 0, array('total_rows'=>0, 'total_page'=>1, 'rows'=>array())); 
+            }
+            $scene_subject_model = new Sher_Core_Model_SceneSubject();
+            $arr = explode(',', $conf);
+            for($i=0;$i<count($arr);$i++){
+                $id = (int)$arr[$i];
+                $scene_subject = $scene_subject_model->extend_load($id);
+                if(empty($scene_subject)) continue;
+                $row = array(
+                    '_id' => $scene_subject['_id'],
+                    'title' => $scene_subject['title'],
+                    'short_title' => $scene_subject['short_title'],
+                    'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
+                    'banner_url' => $scene_subject['banner']['thumbnails']['aub']['view_url'],
+                    'type' => $scene_subject['type'],
+                    'evt' => $scene_subject['evt'],
+                    'attend_count' => $scene_subject['attend_count'],
+                    'view_count' => $scene_subject['view_count'],
+                    'type_label' => $scene_subject['type_label'],
+                );
+
+                array_push($items, $row);
+            }   // endfor
+            $result = $items;
+            
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), 300);
+            }
+        }   // endif !cache
+
+        return $this->api_json('success', 0, array('rows'=>$result, 'total_rows'=>count($result), 'total_page'=>1)); 
     }
 	
 }
