@@ -29,13 +29,76 @@ class Sher_Admin_Action_AddBook extends Sher_Admin_Action_Base implements DoggyX
 	 */
 	public function get_list() {
 
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+        $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : '';
+
+        $query = array();
+        $options = array();
+
+        if($user_id){
+            $query['user_id'] = $user_id;
+        }
+
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+        // 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+
+        //限制输出字段
+		$some_fields = array(
+            '_id'=>1, 'user_id'=>1,'name'=>1,'phone'=>1,'province'=>1,'city'=>1,'county'=>1, 'town'=>1,
+            'province_id'=>1, 'city_id'=>1, 'county_id'=>1, 'town_id'=>1,
+            'zip'=>1, 'is_default'=>1, 'address'=>1, 'created_on'=>1,
+		);
+        $options['some_fields'] = $some_fields;
+
+        $user_model = new Sher_Core_Model_User();
+        
+		// 开启查询
+        $service = Sher_Core_Service_DeliveryAddress::instance();
+        $result = $service->get_address_list($query, $options);
+
+		// 重建数据结果
+		$data = array();
+		for($i=0;$i<count($result['rows']);$i++){
+			foreach($some_fields as $key=>$value){
+                $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : '';
+			}
+            $data[$i]['_id'] = (string)$data[$i]['_id'];
+            $data[$i]['is_default'] = empty($data[$i]['is_default']) ? false : true;
+
+            $user = $user_model->extend_load($data[$i]['user_id']);
+            $data[$i]['user'] = $user;
+		}
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/add_book?user_id=%d&page=#p#', $user_id);
+		
+        $result['rows'] = $data;
+        $this->stash['delivery_addresses'] = $result;
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/add_book/list.html');
+	}
+
+	/**
+	 * old列表
+	 */
+	public function get_old_list() {
+
         $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : '';
 		
 		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/add_book?user_id=%d&page=#p#', $user_id);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
-		return $this->to_html_page('admin/add_book/list.html');
+		return $this->to_html_page('admin/add_book/old_list.html');
 	}
 
 	/**

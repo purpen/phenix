@@ -155,7 +155,8 @@ class Sher_Admin_Action_Advertise extends Sher_Admin_Action_Base implements Dogg
                 // 清理redis缓存
                 $redis = new Sher_Core_Cache_Redis();
                 $r_key = "api:slide:*";
-                $redis->del($r_key);
+                $r_keys = $redis->keys($r_key);
+                $redis->del($r_keys);
                 
                 Doggy_Log_Helper::debug('Delete cache ['.$cache_key.']!');
             }

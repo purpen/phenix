@@ -33,6 +33,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		$query   = array();
 		$options = array();
+        $result = array();
 		
 		// 请求参数
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -44,6 +45,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$subject_id = isset($this->stash['subject_id']) ? (int)$this->stash['subject_id'] : 0;
         $show_all = isset($this->stash['show_all']) ? (int)$this->stash['show_all'] : 0;
 
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
 		
 		// 基于地理位置的查询，从城市内查询
         $distance = isset($this->stash['dis']) ? (int)$this->stash['dis'] : 0; // 距离、半径
@@ -113,7 +116,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $query['subject_ids'] = $subject_id;
         }
 
-    $query['deleted'] = 0;
+        $query['deleted'] = 0;
 		
 		// 分页参数
         $options['page'] = $page;
@@ -133,98 +136,118 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		}
 		
 		$options['some_fields'] = $some_fields;
-		
-		// 开启查询
-        $service = Sher_Core_Service_SceneSight::instance();
-        $result = $service->get_scene_sight_list($query, $options);
 
         // 评论
         $comment_model = new Sher_Core_Model_Comment();
         $user_model = new Sher_Core_Model_User();
-
 		$favorite_model = new Sher_Core_Model_Favorite();
-
         $follow_model = new Sher_Core_Model_Follow();
-
         $scene_sight_model = new Sher_Core_Model_SceneSight();
-		
-		// 重建数据结果
-		foreach($result['rows'] as $k => $v){
-			
-			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
-			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
-            $result['rows'][$k]['title'] = !empty($v['title']) ? $v['title'] : '';
-			
-			$result['rows'][$k]['product'] = array();
-			if($v['product']){
-				$result['rows'][$k]['product'] =$v['product'];
-			}
 
+        $r_key = sprintf("api:scene_sight:%s_%s_%s_%s_%s", $stick, $fine, $sort, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
+        }
+
+        // 无缓存读数据库
+        if(empty($result)){
+            // 开启查询
+            $service = Sher_Core_Service_SceneSight::instance();
+            $result = $service->get_scene_sight_list($query, $options);
+            
+            // 重建数据结果
+            foreach($result['rows'] as $k => $v){
+                
+                $result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+                $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+                $result['rows'][$k]['title'] = !empty($v['title']) ? $v['title'] : '';
+                
+                $result['rows'][$k]['product'] = array();
+                if($v['product']){
+                    $result['rows'][$k]['product'] =$v['product'];
+                }
+                
+                $user = array();
+                
+                if($v['user']){
+                    $user['user_id'] = $v['user']['_id'];
+                    $user['nickname'] = $v['user']['nickname'];
+                    $user['avatar_url'] = $v['user']['medium_avatar_url'];
+                    $user['summary'] = $v['user']['summary'];
+                    $user['counter'] = $v['user']['counter'];
+                    $user['follow_count'] = $v['user']['follow_count'];
+                    $user['fans_count'] = $v['user']['fans_count'];
+                    $user['love_count'] = $v['user']['love_count'];
+                    $user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
+                    $user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
+                    $user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
+                    $user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
+
+                    // 当前用户是否关注创建者
+                    $user['is_follow'] = 0;
+              }
+                
+                $result['rows'][$k]['user_info'] = $user;
+
+                // 获取评论(2条)
+                $comments = array();
+                $comment_query = array('target_id'=>(string)$result['rows'][$k]['_id'], 'type'=>12, 'deleted'=>0);
+                $comment_options = array('page'=>1, 'size'=>2, 'sort'=>array('created_on'=>-1));
+                $comment_list = $comment_model->find($comment_query, $comment_options);
+                if($comment_list){
+                    $comments = array();
+                    for($j=0;$j<count($comment_list);$j++){
+                        $comment_user = $user_model->extend_load($comment_list[$j]['user_id']);
+                        if($comment_user){
+                            $comment_row = array(
+                                '_id' => (string)$comment_list[$j]['_id'],
+                                'content' => $comment_list[$j]['content'],
+                                'user_id' => $comment_user['_id'],
+                                'user_nickname' => $comment_user['nickname'],
+                                'user_avatar_url' => $comment_user['mini_avatar_url'],
+                            );
+                            array_push($comments, $comment_row);
+                        }
+                    }   // endfor
+
+                }   // endif comment_list
+
+                $result['rows'][$k]['comments'] = $comments;
+
+                $result['rows'][$k]['is_love'] = 0;
+                $result['rows'][$k]['is_favorite'] = 0;
+
+            }   // endfor $result['rows']     
+
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), 300);
+            }
+        
+        }   // endif !cache
+
+
+        // 加载用户关注／点赞行为/浏览量／
+        foreach($result['rows'] as $k => $v){
             // 添加浏览量
             $rand = rand(1, 5);
             $scene_sight_model->inc($v['_id'], 'view_count', $rand);
             $scene_sight_model->inc($v['_id'], 'true_view_count', 1);
             $scene_sight_model->inc($v['_id'], 'app_view_count', 1);
-			
-			$user = array();
-			
-			if($v['user']){
-				$user['user_id'] = $v['user']['_id'];
-				$user['nickname'] = $v['user']['nickname'];
-				$user['avatar_url'] = $v['user']['medium_avatar_url'];
-				$user['summary'] = $v['user']['summary'];
-				$user['counter'] = $v['user']['counter'];
-				$user['follow_count'] = $v['user']['follow_count'];
-				$user['fans_count'] = $v['user']['fans_count'];
-				$user['love_count'] = $v['user']['love_count'];
-				$user['is_expert'] = isset($v['user']['identify']['is_expert']) ? (int)$v['user']['identify']['is_expert'] : 0;
-				$user['label'] = isset($v['user']['profile']['label']) ? $v['user']['profile']['label'] : '';
-				$user['expert_label'] = isset($v['user']['profile']['expert_label']) ? $v['user']['profile']['expert_label'] : '';
-				$user['expert_info'] = isset($v['user']['profile']['expert_info']) ? $v['user']['profile']['expert_info'] : '';
 
-                // 当前用户是否关注创建者
-                $user['is_follow'] = 0;
+            if($result['rows'][$k]['user_info']){
                 if($current_user_id){
-                    if($follow_model->has_exist_ship($this->current_user_id, $user['user_id'])){
-						$user['is_follow'] = 1;
+                    if($follow_model->has_exist_ship($current_user_id, $result['rows'][$k]['user_info']['user_id'])){
+						$result['rows'][$k]['user_info']['is_follow'] = 1;
 					}
                 }
-
-		  }
-			
-			//$result['rows'][$k]['scene_title'] = '';
-            /*
-			if($result['rows'][$k]['scene']){
-				$result['rows'][$k]['scene_title'] = $v['scene']['title'];
             }
-             */
-			
-			$result['rows'][$k]['user_info'] = $user;
-
-            // 获取评论(2条)
-            $comments = array();
-            $comment_query = array('target_id'=>(string)$result['rows'][$k]['_id'], 'type'=>12, 'deleted'=>0);
-            $comment_options = array('page'=>1, 'size'=>2, 'sort'=>array('created_on'=>-1));
-            $comment_list = $comment_model->find($comment_query, $comment_options);
-            if($comment_list){
-                $comments = array();
-                for($j=0;$j<count($comment_list);$j++){
-                    $comment_user = $user_model->extend_load($comment_list[$j]['user_id']);
-                    if($comment_user){
-                        $comment_row = array(
-                            '_id' => (string)$comment_list[$j]['_id'],
-                            'content' => $comment_list[$j]['content'],
-                            'user_id' => $comment_user['_id'],
-                            'user_nickname' => $comment_user['nickname'],
-                            'user_avatar_url' => $comment_user['mini_avatar_url'],
-                        );
-                        array_push($comments, $comment_row);
-                    }
-                }   // endfor
-
-            }   // endif comment_list
-
-            $result['rows'][$k]['comments'] = $comments;
 
             // 用户是否点赞/收藏
             $is_love = 0;
@@ -247,12 +270,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 );
                 $has_favorite = $favorite_model->first($fav_query);
                 if($has_favorite) $is_favorite = 1;
-
             }
+
             $result['rows'][$k]['is_love'] = $is_love;
             $result['rows'][$k]['is_favorite'] = $is_favorite;
-
-        }   // endfor $result['rows']
+        }   // endfor
 		
 		// 过滤多余属性
         $filter_fields  = array('scene','cover','user','cover_id','__extend__');

@@ -21,6 +21,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		$result = array();
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 1;
 		
 		// 请求参数
 		$space_id = isset($this->stash['space_id']) ? $this->stash['space_id'] : 0;
@@ -31,42 +32,43 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 		}
 
         // 从redis获取 
-        $r_key = sprintf("api:slide:%s_%s_%s", $name, $page, $size);
-        $redis = new Sher_Core_Cache_Redis();
-        $cache = $redis->get($r_key);
-        if($cache){
-		    return $this->api_json('请求成功', 0, json_decode($cache, true));
+        if($use_cache){
+            $r_key = sprintf("api:slide:%s_%s_%s", $name, $page, $size);
+            $redis = new Sher_Core_Cache_Redis();
+            $cache = $redis->get($r_key);
+            if($cache){
+                return $this->api_json('请求成功', 0, json_decode($cache, true));
+            }       
         }
 
 		// 获取某位置的推荐内容
-    if(!empty($name) && empty($space_id)){
+        if(!empty($name) && empty($space_id)){
 			$model = new Sher_Core_Model_Space();
-      if(!empty($category_name)){
-        $c_name = sprintf("%s_%s", $name, $category_name);
-			  $row = $model->first(array('name' => $c_name));
-        if(!empty($row)){
-          $space_id = (int)$row['_id'];
-        }else{
-          $row = $model->first(array('name' => $name));
-          if(!empty($row)){
-            $space_id = (int)$row['_id'];
+          if(!empty($category_name)){
+            $c_name = sprintf("%s_%s", $name, $category_name);
+                  $row = $model->first(array('name' => $c_name));
+            if(!empty($row)){
+              $space_id = (int)$row['_id'];
+            }else{
+              $row = $model->first(array('name' => $name));
+              if(!empty($row)){
+                $space_id = (int)$row['_id'];
+              }else{
+                return $this->api_json('请求参数不足', 3002);
+              }
+            }
           }else{
-            return $this->api_json('请求参数不足', 3002);
+            $row = $model->first(array('name' => $name));
+            if(!empty($row)){
+              $space_id = (int)$row['_id'];
+            }else{
+              return $this->api_json('请求参数不足', 3002);
+            }
           }
-        }
-      }else{
-        $row = $model->first(array('name' => $name));
-        if(!empty($row)){
-          $space_id = (int)$row['_id'];
-        }else{
-          return $this->api_json('请求参数不足', 3002);
-        }
-      }
 
 		}
 
-    // 
-		
+        // 
 		$query   = array();
 		$options = array();
 		
@@ -86,18 +88,18 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $result = $service->get_ad_list($query,$options);
 	
 
-    //显示的字段
-    $options['some_fields'] = array(
-      '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
-      'created_on'=>1, 'state'=>1
-    );
+        //显示的字段
+        $options['some_fields'] = array(
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          'created_on'=>1, 'state'=>1
+        );
 
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
 			foreach($options['some_fields'] as $key=>$value){
 				$data[$i][$key] = $result['rows'][$i][$key];
-      }
+        }
 
 			// 封面图url
 			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['fileurl'];
@@ -110,7 +112,9 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 			//$result = $result['rows'][0];
 		}
 
-        $redis->set($r_key, json_encode($result), 300);
+        if($use_cache){
+            $redis->set($r_key, json_encode($result), 300);
+        }
 		
 		return $this->api_json('请求成功', 0, $result);
 	}

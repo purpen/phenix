@@ -30,10 +30,14 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
-		$type = isset($this->stash['type']) ? $this->stash['type'] : null;
+        $type = isset($this->stash['type']) ? $this->stash['type'] : null;
+
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
 			
 		$query   = array();
 		$options = array();
+        $result = array();
 
 		$some_fields = array(
 			'_id'=>1, 'title'=>1, 'short_title'=>1, 'category_id'=>1, 'publish'=>1, 'type'=>1,
@@ -96,49 +100,69 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 		}
 		
 		$options['some_fields'] = $some_fields;
-		// 开启查询
-		$service = Sher_Core_Service_SceneSubject::instance();
-		$result = $service->get_scene_subject_list($query, $options);
 
-        $product_model = new Sher_Core_Model_Product();
-		
-		// 重建数据结果
-        $data = array();
-		for($i=0;$i<count($result['rows']);$i++){
-            foreach($some_fields as $key=>$value){
-				$data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
-			}
-			// 封面图url
-			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
-			// Banner url
-			//$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
+        $r_key = sprintf("api:scene_subject:%s_%s_%s_%s_%s_%s_%s", $type, $category_id, $stick, $fine, $sort, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
 
-            $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
-            $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
+        }
 
-            // 产品
-            $product_arr = array();
-            if(!empty($data[$i]['product_ids'])){
-                for($j=0;$j<count($data[$i]['product_ids']);$j++){
-                    $product = $product_model->extend_load((int)$data[$i]['product_ids'][$j]);
-                    if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
-                    $row = array(
-                        '_id' => $product['_id'],
-                        'title' => $product['short_title'],
-                        'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
-                        'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
-                        'summary' => $product['summary'],
-                        'sale_price' => $product['sale_price'],
-                    );
-                    array_push($product_arr, $row);
+        // 无缓存读数据库
+        if(empty($result)){
+            // 开启查询
+            $service = Sher_Core_Service_SceneSubject::instance();
+            $result = $service->get_scene_subject_list($query, $options);
+
+            $product_model = new Sher_Core_Model_Product();
+            
+            // 重建数据结果
+            $data = array();
+            for($i=0;$i<count($result['rows']);$i++){
+                foreach($some_fields as $key=>$value){
+                    $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : null;
                 }
-            }
-            $data[$i]['products'] = $product_arr;
+                // 封面图url
+                $data[$i]['cover_url'] = $result['rows'][$i]['cover']['thumbnails']['aub']['view_url'];
+                // Banner url
+                //$data[$i]['banner_url'] = $result['rows'][$i]['banner']['thumbnails']['aub']['view_url'];
 
-		}
-		$result['rows'] = $data;
+                $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
+                $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
+
+                // 产品
+                $product_arr = array();
+                if(!empty($data[$i]['product_ids'])){
+                    for($j=0;$j<count($data[$i]['product_ids']);$j++){
+                        $product = $product_model->extend_load((int)$data[$i]['product_ids'][$j]);
+                        if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                        $row = array(
+                            '_id' => $product['_id'],
+                            'title' => $product['short_title'],
+                            'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
+                            'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                            'summary' => $product['summary'],
+                            'sale_price' => $product['sale_price'],
+                        );
+                        array_push($product_arr, $row);
+                    }
+                }
+                $data[$i]['products'] = $product_arr;
+
+            } // endfor
+
+		    $result['rows'] = $data;
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), 300);
+            }
+        }   // endif !cache
 		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->api_json('请求成功!', 0, $result);
 	}
 	
 	/**
@@ -419,34 +443,58 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
      * 首页专题推荐
      */
     public function index_subject_stick(){
-        $conf = Sher_Core_Util_View::load_block('index_subject_stick', 1);
-        $items = array();
-        if(empty($conf)){
-            return $this->api_json('数据不存在!', 0, array('total_rows'=>0, 'total_page'=>1, 'rows'=>array())); 
-        }
-        $scene_subject_model = new Sher_Core_Model_SceneSubject();
-        $arr = explode(',', $conf);
-        for($i=0;$i<count($arr);$i++){
-            $id = (int)$arr[$i];
-            $scene_subject = $scene_subject_model->extend_load($id);
-            if(empty($scene_subject)) continue;
-            $row = array(
-                '_id' => $scene_subject['_id'],
-                'title' => $scene_subject['title'],
-                'short_title' => $scene_subject['short_title'],
-                'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
-                'banner_url' => $scene_subject['banner']['thumbnails']['aub']['view_url'],
-                'type' => $scene_subject['type'],
-                'evt' => $scene_subject['evt'],
-                'attend_count' => $scene_subject['attend_count'],
-                'view_count' => $scene_subject['view_count'],
-                'type_label' => $scene_subject['type_label'],
-            );
 
-            array_push($items, $row);
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 1;
+
+        $r_key = sprintf("api:index_scene_subject_stick");
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
         }
 
-        return $this->api_json('success', 0, array('rows'=>$items, 'total_rows'=>count($items), 'total_page'=>1)); 
+        // 无缓存读数据库
+        if(empty($result)){
+            $conf = Sher_Core_Util_View::load_block('index_subject_stick', 1);
+            $items = array();
+            if(empty($conf)){
+                return $this->api_json('数据不存在!', 0, array('total_rows'=>0, 'total_page'=>1, 'rows'=>array())); 
+            }
+            $scene_subject_model = new Sher_Core_Model_SceneSubject();
+            $arr = explode(',', $conf);
+            for($i=0;$i<count($arr);$i++){
+                $id = (int)$arr[$i];
+                $scene_subject = $scene_subject_model->extend_load($id);
+                if(empty($scene_subject)) continue;
+                $row = array(
+                    '_id' => $scene_subject['_id'],
+                    'title' => $scene_subject['title'],
+                    'short_title' => $scene_subject['short_title'],
+                    'cover_url' => $scene_subject['cover']['thumbnails']['aub']['view_url'],
+                    'banner_url' => $scene_subject['banner']['thumbnails']['aub']['view_url'],
+                    'type' => $scene_subject['type'],
+                    'evt' => $scene_subject['evt'],
+                    'attend_count' => $scene_subject['attend_count'],
+                    'view_count' => $scene_subject['view_count'],
+                    'type_label' => $scene_subject['type_label'],
+                );
+
+                array_push($items, $row);
+            }   // endfor
+            $result = $items;
+            
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), 300);
+            }
+        }   // endif !cache
+
+        return $this->api_json('success', 0, array('rows'=>$result, 'total_rows'=>count($result), 'total_page'=>1)); 
     }
 	
 }

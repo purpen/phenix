@@ -987,31 +987,57 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     *
     */
     public function index_new(){
-        $conf = Sher_Core_Util_View::load_block('fiu_product_new', 1);
-        $active_arr = array('items'=>array());
-        if(empty($conf)){
-            return $this->api_json('数据不存在!', 0, $active_arr); 
+
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
+        $result = array();
+
+        $r_key = sprintf("api:product_new_stick");
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
         }
-		$product_model = new Sher_Core_Model_Product();
-        $arr = explode(',', $conf);
-        for($i=0;$i<count($arr);$i++){
-            $product = $product_model->extend_load((int)$arr[$i]);
-            if(empty($product)) continue;
 
-            $row = array();
-			$row['_id'] = $product['_id'];
-			$row['title'] = $product['short_title'];
-			// 封面图url
-			$row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+        // 无缓存读数据库
+        if(empty($result)){
 
-            $row['brand_id'] = isset($product['brand_id']) ? $product['brand_id'] : '';
-            $row['brand_cover_url'] = isset($product['brand']['cover']['thumbnails']['ava']['view_url']) ? $product['brand']['cover']['thumbnails']['ava']['view_url'] : '';
-            $row['sale_price'] = $product['sale_price'];
-            
-            array_push($active_arr['items'], $row);
-        } 
+            $conf = Sher_Core_Util_View::load_block('fiu_product_new', 1);
+            $active_arr = array('items'=>array());
+            if(empty($conf)){
+                return $this->api_json('数据不存在!', 0, $active_arr); 
+            }
+            $product_model = new Sher_Core_Model_Product();
+            $arr = explode(',', $conf);
+            for($i=0;$i<count($arr);$i++){
+                $product = $product_model->extend_load((int)$arr[$i]);
+                if(empty($product)) continue;
 
-        return $this->api_json('success', 0, $active_arr);
+                $row = array();
+                $row['_id'] = $product['_id'];
+                $row['title'] = $product['short_title'];
+                // 封面图url
+                $row['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+
+                $row['brand_id'] = isset($product['brand_id']) ? $product['brand_id'] : '';
+                $row['brand_cover_url'] = isset($product['brand']['cover']['thumbnails']['ava']['view_url']) ? $product['brand']['cover']['thumbnails']['ava']['view_url'] : '';
+                $row['sale_price'] = $product['sale_price'];
+                
+                array_push($active_arr['items'], $row);
+            } // endfor
+            $result = $active_arr;
+
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), 300);
+            }
+        }   // endif !cache
+
+        return $this->api_json('success', 0, $result);
     }
 
     /**

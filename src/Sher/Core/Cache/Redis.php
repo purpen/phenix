@@ -79,5 +79,12 @@ class Sher_Core_Cache_Redis extends Doggy_Object {
     public function del($key){
         return $this->redis->del($key);
     }
+
+    /**
+     * 获取$key
+     */
+    public function keys($key){
+        return $this->redis->keys($key);
+    }
 	
 }
