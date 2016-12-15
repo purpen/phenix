@@ -24,9 +24,11 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
 		$show_all = isset($this->stash['show_all'])?(int)$this->stash['show_all']:0;
 		$show_sub = isset($this->stash['show_sub'])?(int)$this->stash['show_sub']:0;
 		$pid = isset($this->stash['pid'])?(int)$this->stash['pid']:0;
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 1;
 		
 		$query   = array();
 		$options = array();
+        $result = array();
 		
 		$query['domain'] = $domain;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
@@ -55,6 +57,16 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
         );
 		
         $options['some_fields'] = $some_fields;
+
+        // 从redis获取 
+        if($use_cache){
+            $r_key = sprintf("api:category:%s_%s_%s_%s_%s_%s", $domain, $show_all, $show_sub, $pid, $page, $size);
+            $redis = new Sher_Core_Cache_Redis();
+            $result = $redis->get($r_key);
+            if($result){
+                return $this->api_json('请求成功', 0, json_decode($result, true));
+            }       
+        }
 
         $category_model = new Sher_Core_Model_Category();
         $service = Sher_Core_Service_Category::instance();
@@ -135,8 +147,12 @@ class Sher_Api_Action_Category extends Sher_Api_Action_Base {
           array_unshift($data, $arr);
         }
 
-		    $result['rows'] = $data;
+		$result['rows'] = $data;
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+
+        if($use_cache && !empty($result)){
+            $redis->set($r_key, json_encode($result), 3600);
+        }
 
 		return $this->api_json('请求成功', 0, $result);
 	}

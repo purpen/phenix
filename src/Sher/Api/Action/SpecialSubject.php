@@ -35,9 +35,13 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+        // 是否使用缓存
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
 			
 		$query   = array();
 		$options = array();
+        $result = array();
 		
 		// 查询条件
 		if($category_id){
@@ -72,6 +76,7 @@ class Sher_Api_Action_SpecialSubject extends Sher_Api_Action_Base {
 		}
 		
 		$options['some_fields'] = $some_fields;
+
 		// 开启查询
 		$service = Sher_Core_Service_SpecialSubject::instance();
 		$result = $service->get_special_subject_list($query, $options);
