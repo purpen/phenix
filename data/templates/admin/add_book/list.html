@@ -152,7 +152,7 @@
 		</tbody>
 	</table>
 	
-	{% if list.rows %}
+	{% if delivery_addresses.rows %}
 	<div class="ui pagination">
 		{% pager url:pager_url,total_rows:delivery_addresses.total_rows,total_page:delivery_addresses.total_page,current_page:page,var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
