@@ -445,7 +445,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
     public function index_subject_stick(){
 
         // 是否使用缓存
-		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
+		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 1;
 
         $r_key = sprintf("api:index_scene_subject_stick");
         $redis = new Sher_Core_Cache_Redis();
