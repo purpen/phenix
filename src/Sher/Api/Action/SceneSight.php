@@ -226,7 +226,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             }   // endfor $result['rows']     
 
             // 写入缓存
-            if($user_cache && !empty($result)){
+            if(!empty($use_cache) && !empty($result)){
                 $redis->set($r_key, json_encode($result), 300);
             }
         
