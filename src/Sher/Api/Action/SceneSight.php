@@ -151,7 +151,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         if($use_cache){
             $result = $redis->get($r_key);
             if($result){
-                $result = json_decode($cache, true);
+                $result = json_decode($result, true);
             }       
         }
 
