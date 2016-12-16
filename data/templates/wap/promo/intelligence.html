@@ -93,33 +93,90 @@
 {% endblock %}
 
 {% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" >
+        var m_name = 'fiu店给您列好年会礼品甄选方案';
+        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/intss.jpg';
+        var link = '{{ app_url_wap }}/promo/intelligence';
+        var desc_str = '新年礼品不用愁，美学智能任你选，为您定制专属您的新年礼，成为热门中那个“别人家的公司”';
 
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{ app_id }}', // 必填，公众号的唯一标识
+            timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+            nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+            signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+       });
 
+        wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+
+          }
+        });
+      });
+</script>
 {% endblock %}
 {% block content %}
 <div class="int">
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int1.jpg">
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int2.jpg">
-	<a class="bg int01" href=""></a>
-	<a class="bg int02" href=""></a>
-	<a class="bg int03" href=""></a>
-	<a class="bg int04" href=""></a>
-	<a class="bg int05" href=""></a>
-	<a class="bg int06" href=""></a>
+	<a class="bg int01" href="{{ app_url_wap }}/shop/view?id=1048615589"></a>
+	<a class="bg int02" href="{{ app_url_wap }}/shop/view?id=1154524263"></a>
+	<a class="bg int03" href="{{ app_url_wap }}/shop/view?id=1049278133"></a>
+	<a class="bg int04" href="{{ app_url_wap }}/shop/view?id=1047627991"></a>
+	<a class="bg int05" href="{{ app_url_wap }}/shop/view?id=1023269145"></a>
+	<a class="bg int06" href="{{ app_url_wap }}/shop/view?id=1154524263"></a>
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int3.jpg">
-	<a class="bg int001" href=""></a>
-	<a class="bg int002" href=""></a>
-	<a class="bg int003" href=""></a>
-	<a class="bg int004" href=""></a>
-	<a class="bg int005" href=""></a>
-	<a class="bg int006" href=""></a>
+	<a class="bg int001" href="{{ app_url_wap }}/shop/view?id=1049268652"></a>
+	<a class="bg int002" href="{{ app_url_wap }}/shop/view?id=1047627261"></a>
+	<a class="bg int003" href="{{ app_url_wap }}/shop/view?id=1030407964"></a>
+	<a class="bg int004" href="{{ app_url_wap }}/shop/view?id=1023310794"></a>
+	<a class="bg int005" href="{{ app_url_wap }}/shop/view?id=1049268196"></a>
+	<a class="bg int006" href="{{ app_url_wap }}/shop/view?id=1047627264"></a>
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int4.jpg">
-	<a class="bg int0001" href=""></a>
-	<a class="bg int0002" href=""></a>
-	<a class="bg int0003" href=""></a>
-	<a class="bg int0004" href=""></a>
-	<a class="bg int0005" href=""></a>
-	<a class="bg int0006" href=""></a>
+	<a class="bg int0001" href="{{ app_url_wap }}/shop/view?id=1047627350"></a>
+	<a class="bg int0002" href="{{ app_url_wap }}/shop/view?id=1047627337"></a>
+	<a class="bg int0003" href="{{ app_url_wap }}/shop/view?id=1047627408"></a>
+	<a class="bg int0004" href="{{ app_url_wap }}/shop/view?id=1047627428"></a>
+	<a class="bg int0005" href="{{ app_url_wap }}/shop/view?id=1047627433"></a>
+	<a class="bg int0006" href="{{ app_url_wap }}/shop/view?id=1047628067"></a>
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int5.jpg">
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int6.jpg">
 	<img src="{{ app_url_packaged }}/images/fiushop/drew/int7.jpg">
