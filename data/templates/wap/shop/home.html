@@ -182,7 +182,7 @@
     // 专题列表
     function ajax_load_more(type, page, size, sort){
         var url = '{{ app_url_wap }}/app/wap/scene_subject/ajax_fetch_more';
-        $.get(url, { page:page, type:type, sort:sort, size:size }, function(rs){
+        $.get(url, { page:page, type:type, sort:sort, size:size, use_cache:1 }, function(rs){
             rs.data['phenix'] = phenix.url;
             var rendered = phenix.ajax_render_result('#scene_subject_list_tpl', rs.data);
             $('#scene-subject-more').html(rendered);
@@ -282,18 +282,21 @@
 
 	    </p>-->
 	</div>
-	{% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
-	<div id="slider" class="flexslider flex-single">
-	  <ul class="slides">
-	    {% for ad in ad.rows %}
-	      <li style="background-image: url('{{ ad.cover.fileurl }}');">
-	        <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
-	            <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
-	        </a>
-	      </li>
-	    {% endfor %}
-	  </ul>
-	</div>
+
+    {% cache cache_key:'wap_index_shop_slide' ttl:600 disable_cache:app_disable_cached %}
+        {% ad_list var:'ad'state:2 size:5 name:'wap_index_shop_slide' %}
+        <div id="slider" class="flexslider flex-single">
+          <ul class="slides">
+            {% for ad in ad.rows %}
+              <li style="background-image: url('{{ ad.cover.fileurl }}');">
+                <a href="{{ ad.mm_view_url }}" title="{{ ad.title }}" alt="{{ ad.title }}">
+                    <img src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}" style="display: none;" />
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+    {%endcache%}
 	<div class="ui hotshop responsive grid">
 		<div class="row">
 			<div class="column">
@@ -303,6 +306,8 @@
 	</div>
 	<div class="ui fiulist responsive grid">
 		<div class="row p-0">
+
+        {% cache cache_key:'wap_shop_sub_left_right' ttl:600 disable_cache:app_disable_cached %}
 			<div class="recom-item">
 				<div class="recom-cell m-0">
                     {% ad_list var:'ad_l'state:2 size:1 name:'wap_shop_sub_left' %}
@@ -323,6 +328,8 @@
                     {%endfor%}
 				</div>
 			</div>
+        {%endcache%}
+
 		</div>
 	</div>
 	<div class="ui haohuo responsive grid">
