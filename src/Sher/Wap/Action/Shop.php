@@ -1861,14 +1861,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
         $type = $this->stash['type'];
 
+        // 是否使用缓存
+        $use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
+
         
         $page = $this->stash['page'];
         $size = $this->stash['size'];
         $sort = $this->stash['sort'];
         
-        $service = Sher_Core_Service_Product::instance();
         $query = array();
         $options = array();
+        $result = array();
         
 		if ($category_id) {
 			$query['category_ids'] = (int)$category_id;
@@ -1965,33 +1968,55 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         );
         $options['some_fields'] = $some_fields;
         
-        $result = $service->get_product_list($query, $options);
+        $r_key = sprintf("wap:shop_list:%s_%s_%s_%s_%s_%s_%s", $type, $category_id, $category_tags, $brand_id, $sort, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
 
-        $max = count($result['rows']);
-        for($i=0;$i<$max;$i++){
-          // 过滤用户表
-          if(isset($result['rows'][$i]['user'])){
-            $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
-          }
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
+        }
 
-          // tips
-          if($result['rows'][$i]['tips_label']==1){
-            $result['rows'][$i]['new_tips'] = true;
-          }elseif($result['rows'][$i]['tips_label']==2){
-            $result['rows'][$i]['hot_tips'] = true;         
-          }
+        // 无缓存读数据库
+        if(empty($result)){
 
-        } //end for
+            $service = Sher_Core_Service_Product::instance();
+            $result = $service->get_product_list($query, $options);
 
-        $data = array();
+            $max = count($result['rows']);
+            for($i=0;$i<$max;$i++){
+              // 过滤用户表
+              if(isset($result['rows'][$i]['user'])){
+                $result['rows'][$i]['user'] = Sher_Core_Helper_FilterFields::user_list($result['rows'][$i]['user']);
+              }
 
-        $data['type'] = $type;
-        $data['page'] = $page;
-        $data['sort'] = $sort;
-        $data['size'] = $size;
-        $data['presaled'] = $presaled;
-        $data['category_id'] = $category_id;
-        $data['results'] = $result;
+              // tips
+              if($result['rows'][$i]['tips_label']==1){
+                $result['rows'][$i]['new_tips'] = true;
+              }elseif($result['rows'][$i]['tips_label']==2){
+                $result['rows'][$i]['hot_tips'] = true;         
+              }
+
+            } //end for
+
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), Sher_Core_Util_Constant::REDIS_CACHE_EXPIRED);
+            }
+
+            $data = array();
+
+            $data['type'] = $type;
+            $data['page'] = $page;
+            $data['sort'] = $sort;
+            $data['size'] = $size;
+            $data['presaled'] = $presaled;
+            $data['category_id'] = $category_id;
+            $data['results'] = $result;
+
+        }   // endif !cache
         
         return $this->ajax_json('', false, '', $data);
   }

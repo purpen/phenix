@@ -135,6 +135,7 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
         
         $options['page'] = $page;
         $options['size'] = $size;
+        $result = array();
 
         // 排序
         switch ((int)$sort) {
@@ -163,67 +164,87 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
           
         );
         $options['some_fields'] = $some_fields;
-        
-        $service = Sher_Core_Service_SceneSubject::instance();
-        $result = $service->get_scene_subject_list($query,$options);
 
-		$product_model = new Sher_Core_Model_Product();
-        $next_page = 'no';
-        if(isset($result['next_page'])){
-            if((int)$result['next_page'] > $page){
-                $next_page = (int)$result['next_page'];
-            }
+        $r_key = sprintf("wap:scene_subject:%s_%s_%s_%s_%s", $type, $user_id, $sort, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
         }
         
-        $max = count($result['rows']);
+        // 无缓存读数据库
+        if(empty($result)){
 
-        // 重建数据结果
-        $data = array();
-        for($i=0;$i<$max;$i++){
-            $obj = $result['rows'][$i];
+            $service = Sher_Core_Service_SceneSubject::instance();
+            $result = $service->get_scene_subject_list($query,$options);
 
-            foreach($some_fields as $key=>$value){
-				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
-			}
-			// 封面图url
-			$data[$i]['cover_url'] = $obj['cover']['thumbnails']['aub']['view_url'];
-			// Banner url
-			//$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
-
-            $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
-            $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
-
-            $data[$i]['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
-
-            $data[$i]['is_extra_tag'] = false;
-            if(isset($obj['extra_tag']) && !empty($obj['extra_tag'])){
-                $data[$i]['is_extra_tag'] = true;
-            }
-
-            // 产品
-            $product_arr = array();
-            if(!empty($data[$i]['product_ids'])){
-                for($j=0;$j<count($data[$i]['product_ids']);$j++){
-                    $product = $product_model->extend_load((int)$data[$i]['product_ids'][$j]);
-                    if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
-                    $row = array(
-                        '_id' => $product['_id'],
-                        'title' => $product['short_title'],
-                        'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
-                        'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
-                        'summary' => $product['summary'],
-                        'sale_price' => $product['sale_price'],
-                        'wap_view_url' => $product['wap_view_url'],
-                    );
-                    array_push($product_arr, $row);
+            $product_model = new Sher_Core_Model_Product();
+            $next_page = 'no';
+            if(isset($result['next_page'])){
+                if((int)$result['next_page'] > $page){
+                    $next_page = (int)$result['next_page'];
                 }
             }
-            $data[$i]['products'] = $product_arr;
+            
+            $max = count($result['rows']);
 
-        } //end for
+            // 重建数据结果
+            $data = array();
+            for($i=0;$i<$max;$i++){
+                $obj = $result['rows'][$i];
 
-        $result['rows'] = $data;
-        $result['nex_page'] = $next_page;
+                foreach($some_fields as $key=>$value){
+                    $data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
+                }
+                // 封面图url
+                $data[$i]['cover_url'] = $obj['cover']['thumbnails']['aub']['view_url'];
+                // Banner url
+                //$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
+
+                $data[$i]['begin_time_at'] = date('m/d', $data[$i]['begin_time']);
+                $data[$i]['end_time_at'] = date('m/d', $data[$i]['end_time']);
+
+                $data[$i]['wap_view_url'] = sprintf("%s/scene_subject/view?id=%d", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+
+                $data[$i]['is_extra_tag'] = false;
+                if(isset($obj['extra_tag']) && !empty($obj['extra_tag'])){
+                    $data[$i]['is_extra_tag'] = true;
+                }
+
+                // 产品
+                $product_arr = array();
+                if(!empty($data[$i]['product_ids'])){
+                    for($j=0;$j<count($data[$i]['product_ids']);$j++){
+                        $product = $product_model->extend_load((int)$data[$i]['product_ids'][$j]);
+                        if(empty($product) || $product['deleted']==1 || $product['published']==0) continue;
+                        $row = array(
+                            '_id' => $product['_id'],
+                            'title' => $product['short_title'],
+                            'cover_url' => $product['cover']['thumbnails']['apc']['view_url'],
+                            'banner_url' => $product['banner']['thumbnails']['aub']['view_url'],
+                            'summary' => $product['summary'],
+                            'sale_price' => $product['sale_price'],
+                            'wap_view_url' => $product['wap_view_url'],
+                        );
+                        array_push($product_arr, $row);
+                    }
+                }
+                $data[$i]['products'] = $product_arr;
+
+            } //end for
+
+            $result['rows'] = $data;
+            $result['nex_page'] = $next_page;
+
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), Sher_Core_Util_Constant::REDIS_CACHE_EXPIRED);
+            }
+        }   // endif !cache
 
         $result['type'] = $type;
         $result['page'] = $page;

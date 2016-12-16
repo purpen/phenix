@@ -35,8 +35,13 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
 		$self_run = isset($this->stash['self_run']) ? (int)$this->stash['self_run'] : 0;
 		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
         $title = isset($this->stash['title']) ? $this->stash['title'] : null;
+
+        // 是否使用缓存
+        $use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
         
         $query = array();
+        $options = array();
+        $result = array();
         $query['kind'] = $kind;
 		
 		if($stick){
@@ -99,42 +104,62 @@ class Sher_App_Action_SceneBrand extends Sher_App_Action_Base {
             'self_run'=>1, 'from_to'=>1, 'product_cover_id'=>1, 'product_cover'=>1, 'feature'=>1,
 		);
         $options['some_fields'] = $some_fields;
-        
-		// 开启查询
-        $service = Sher_Core_Service_SceneBrands::instance();
-        $result = $service->get_scene_brands_list($query, $options);
 
-        $next_page = 'no';
-        if(isset($result['next_page'])){
-            if((int)$result['next_page'] > $page){
-                $next_page = (int)$result['next_page'];
-            }
+        $r_key = sprintf("wap:scene_brand:%s_%s_%s_%s_%s_%s_%s_%s_%s", $type, $user_id, $kind, $stick, $self_run, $from_to, $sort, $page, $size);
+        $redis = new Sher_Core_Cache_Redis();
+
+        // 从redis获取 
+        if($use_cache){
+            $result = $redis->get($r_key);
+            if($result){
+                $result = json_decode($result, true);
+            }       
         }
         
-        $max = count($result['rows']);
+        // 无缓存读数据库
+        if(empty($result)){
+            // 开启查询
+            $service = Sher_Core_Service_SceneBrands::instance();
+            $result = $service->get_scene_brands_list($query, $options);
 
-        // 重建数据结果
-        $data = array();
-        for($i=0;$i<$max;$i++){
-            $obj = $result['rows'][$i];
+            $next_page = 'no';
+            if(isset($result['next_page'])){
+                if((int)$result['next_page'] > $page){
+                    $next_page = (int)$result['next_page'];
+                }
+            }
+            
+            $max = count($result['rows']);
 
-            foreach($some_fields as $key=>$value){
-				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
-			}
-            $data[$i]['_id'] = (string)$obj['_id'];
-			// 头像 url
-			$data[$i]['cover_url'] = $obj['cover']['thumbnails']['huge']['view_url'];
-			// Banner url
-			$data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
-			// product cover url
-			$data[$i]['product_cover_url'] = $obj['product_cover']['thumbnails']['apc']['view_url'];
+            // 重建数据结果
+            $data = array();
+            for($i=0;$i<$max;$i++){
+                $obj = $result['rows'][$i];
 
-            $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
+                foreach($some_fields as $key=>$value){
+                    $data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
+                }
+                $data[$i]['_id'] = (string)$obj['_id'];
+                // 头像 url
+                $data[$i]['cover_url'] = $obj['cover']['thumbnails']['huge']['view_url'];
+                // Banner url
+                $data[$i]['banner_url'] = $obj['banner']['thumbnails']['aub']['view_url'];
+                // product cover url
+                $data[$i]['product_cover_url'] = $obj['product_cover']['thumbnails']['apc']['view_url'];
 
-        } //end for
+                $data[$i]['wap_view_url'] = sprintf("%s/scene_brand/view?id=%s", Doggy_Config::$vars['app.url.wap'], $data[$i]['_id']);
 
-        $result['rows'] = $data;
-        $result['nex_page'] = $next_page;
+            } //end for
+
+            $result['rows'] = $data;
+            $result['nex_page'] = $next_page;
+
+            // 写入缓存
+            if(!empty($use_cache) && !empty($result)){
+                $redis->set($r_key, json_encode($result), Sher_Core_Util_Constant::REDIS_CACHE_EXPIRED);
+            }
+
+        }   // endif !cache
 
         $result['type'] = $type;
         $result['page'] = $page;

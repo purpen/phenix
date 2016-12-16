@@ -195,32 +195,34 @@
         </form>
     </div>
 	<div class="ui responsive grid cateall" style="background-color: #fff;">
-		{% category_list var:'category' only_open:1 domain:1 show_all:0 %}
-		{% for cat in category.rows %}
-		<div class="row mt-0 ptb-0">
-			<div class="column plr-0">
-                <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-mm.jpg" style="background-color: rgba(0, 0, 0, 0.1); ">
-                  <p>{{ cat.title }}</p>
-                </a>
-			</div>
-		</div>
-    <div class="row pt-0 pb-r mb-2r">
-      <div class="column plr-2r">
-        <ul class="cate-list">
-            {% for d in cat.tags %}
-                {% if loop.counter < 6 %}
-                <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
-                {%else%}
-                    <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
-                {%endif%}
-            {%endfor%}
-            {% if cat.tag_count>5 %}
-                <li class="catemore"><div class="imgup"></div></li>
-            {%endif%}
-        </ul>
-      </div>
-    </div>
-		{% endfor %}
+        {% cache cache_key:'wap_shop_category' ttl:600 disable_cache:app_disable_cached %}
+            {% category_list var:'category' only_open:1 domain:1 show_all:0 %}
+                {% for cat in category.rows %}
+                    <div class="row mt-0 ptb-0">
+                        <div class="column plr-0">
+                            <a class="catelist {{ cat.name }} bglazy" href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}" data-original="{{ app_url_packaged }}/images/fiushop/{{ cat.name }}-mm.jpg" style="background-color: rgba(0, 0, 0, 0.1); ">
+                              <p>{{ cat.title }}</p>
+                            </a>
+                        </div>
+                    </div>
+                <div class="row pt-0 pb-r mb-2r">
+                  <div class="column plr-2r">
+                    <ul class="cate-list">
+                        {% for d in cat.tags %}
+                            {% if loop.counter < 6 %}
+                            <li><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
+                            {%else%}
+                                <li class="hide"><a href="{{ app_url_wap }}/shop/get_list?cid={{ cat._id }}&category_tag={{ d }}">{{ d }}</a></li>
+                            {%endif%}
+                        {%endfor%}
+                        {% if cat.tag_count>5 %}
+                            <li class="catemore"><div class="imgup"></div></li>
+                        {%endif%}
+                    </ul>
+                  </div>
+                </div>
+            {% endfor %}
+        {%endcache%}
 	</div>
 </div>
 

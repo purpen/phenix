@@ -84,7 +84,7 @@
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#brand-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/app/site/scene_brand/ajax_fetch_more';
-          $.get(url, { sort:sort, page:page, type:type, size:size, stick:stick }, function(rs){
+          $.get(url, { sort:sort, page:page, type:type, size:size, stick:stick, use_cache:1 }, function(rs){
               if(rs.data.total_page > rs.data.current_page){
                   $('#brand-more')
                       .hide()
