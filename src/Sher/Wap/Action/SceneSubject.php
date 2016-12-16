@@ -118,6 +118,8 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+        // 是否使用缓存
+        $use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
         
         $query = array();
         $query['publish'] = 1;
