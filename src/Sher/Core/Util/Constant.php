@@ -379,6 +379,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 
     ## app首次下单优惠金额
     const APP_FIRST_COIN_MONEY = 10;
+
+    ## redis 缓存默认时间(5分钟)
+    const REDIS_CACHE_EXPIRED = 300;
     
     /**
      * 版块置顶key

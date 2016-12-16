@@ -160,7 +160,7 @@
           //防止频繁请求(在没加载完成时只允许请求一次)
           $('#product-more').show().attr('status', 1).find('.p_sub').html('<img src="{{ app_url_packaged }}/images/loading03.gif" alt="loading" width="30" height="30">');
           var url = '{{ app_url_wap }}/shop/ajax_load_list';
-          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size }, function(rs){
+          $.get(url, { category_id:category_id, category_tags:category_tag, sort:sort, page:page, type:type, size:size, use_cache:1 }, function(rs){
               // console.log('total page: '+ rs.data.results.total_page + ' page: '+ rs.data.results.current_page);
               if(rs.data.results.total_page > rs.data.results.current_page){
                   $('#product-more')
