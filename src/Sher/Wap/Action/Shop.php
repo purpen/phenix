@@ -2005,21 +2005,20 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             if(!empty($use_cache) && !empty($result)){
                 $redis->set($r_key, json_encode($result), Sher_Core_Util_Constant::REDIS_CACHE_EXPIRED);
             }
-
-            $data = array();
-
-            $data['type'] = $type;
-            $data['page'] = $page;
-            $data['sort'] = $sort;
-            $data['size'] = $size;
-            $data['presaled'] = $presaled;
-            $data['category_id'] = $category_id;
-            $data['results'] = $result;
-
         }   // endif !cache
+
+        $data = array();
+
+        $data['type'] = $type;
+        $data['page'] = $page;
+        $data['sort'] = $sort;
+        $data['size'] = $size;
+        $data['presaled'] = $presaled;
+        $data['category_id'] = $category_id;
+        $data['results'] = $result;
         
         return $this->ajax_json('', false, '', $data);
-  }
+    }
 	
 
 }
