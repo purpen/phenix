@@ -1,0 +1,102 @@
+{%extends 'layout/shop.html'%}
+{% block title%}年会礼品-美学篇{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sfooter.nav-menu{
+	display: none;
+}
+.est img{
+	width: 100%;
+	vertical-align: middle;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" >
+        var m_name = 'fiu店给您列好年会礼品甄选方案';
+        var img_url = '{{ app_url_packaged }}/images/fiushop/drew/estss.jpg';
+        var link = '{{ app_url_wap }}/promo/esthetics';
+        var desc_str = '新年礼品不用愁，美学智能任你选，为您定制专属您的新年礼，成为热门中那个“别人家的公司”';
+
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: '{{ app_id }}', // 必填，公众号的唯一标识
+            timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+            nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+            signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+       });
+
+        wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+
+          }
+        });
+      });
+</script>
+{% endblock %}
+{% block content %}
+<div class="est">
+	<img src="{{app_url_packaged}}/images/fiushop/drew/est1.jpg">
+	<img src="{{app_url_packaged}}/images/fiushop/drew/est2.jpg">
+	<a href="{{app_url_wap}}/scene_brand/view?id=57cc0189fc8b12fa178b9087">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est3.jpg">
+	</a>
+	<a href="{{app_url_wap}}/scene_brand/view?id=57cd436ffc8b12ef178ba1a3">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est4.jpg">
+	</a>
+	<a href="{{app_url_wap}}/scene_brand/view?id=57cd031bfc8b1202188b9a0f">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est5.jpg">
+	</a>
+	<a href="{{app_url_wap}}/scene_brand/view?id=57d7ab0ffc8b126f048b6fbc">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est6.jpg">
+	</a>
+	<a href="{{app_url_wap}}/scene_brand/view?id=57cd031bfc8b1202188b9a0f">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est7.jpg">
+	</a>
+	<a href="{{app_url_wap}}/scene_brand/view?id=57cd7ae8fc8b12af178ba4ac">
+		<img src="{{app_url_packaged}}/images/fiushop/drew/est8.jpg">
+	</a>
+	<img src="{{app_url_packaged}}/images/fiushop/drew/est9.jpg">
+	<img src="{{app_url_packaged}}/images/fiushop/drew/est10.jpg">
+	<img src="{{app_url_packaged}}/images/fiushop/drew/est11.jpg">
+</div>
+{% endblock %}
