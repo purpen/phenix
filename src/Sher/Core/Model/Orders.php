@@ -1364,6 +1364,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             }   // endfor
         }   // endif is_vop
 
+        $sku_number = '';
         $product_id = $quantity = 0;
         for($i=0;$i<count($order['items']);$i++){
             if($order['items'][$i]['sku']==$sku_id){
@@ -1371,6 +1372,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 $order['items'][$i]['refund_status'] = 1;
                 $product_id = $order['items'][$i]['product_id'];
                 $quantity = $order['items'][$i]['quantity'];
+                $sku_number = $order['items']['number'];
             }
         }
 
@@ -1420,6 +1422,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $row = array(
             'user_id' => $order['user_id'],
             'target_id' => $sku_id,
+            'sku_number' => $sku_number,
             'target_type' => $sku_id != $product_id ? 1 : 2,
             'product_id' => $product_id,
             'order_rid' => $rid,

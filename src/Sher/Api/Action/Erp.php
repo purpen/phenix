@@ -536,7 +536,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 			'_id'=>1, 'number'=>1, 'user_id'=>1, 'target_id'=>1, 'product_id'=>1, 'target_type'=>1, 'stage_label'=>1,
 			'order_rid'=>1, 'sub_order_id'=>1, 'refund_price'=>1, 'quantity'=>1, 'type'=>1, 'type_label'=>1, 'freight'=>1,
 			'stage'=>1, 'reason'=>1, 'reason_label'=>1, 'content'=>1, 'summary'=>1, 'status'=>1, 'deleted'=>1,
-            'created_on'=>1, 'updated_on'=>1, 'reason_label'=>1, 'refund_on'=>1, 'batch_no'=>1,
+            'created_on'=>1, 'updated_on'=>1, 'reason_label'=>1, 'refund_on'=>1, 'batch_no'=>1, 'sku_number'=>1,
 		);
 		$options['some_fields'] = $some_fields;
 

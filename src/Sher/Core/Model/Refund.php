@@ -25,6 +25,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         # 商品类型：1.sku；2.商品；3.--;
         'target_type' => 1,
         'product_id' => 0,
+        'sku_number' => null,
         'order_rid' => null,
         'sub_order_id' => null,
         'refund_price' => 0,
