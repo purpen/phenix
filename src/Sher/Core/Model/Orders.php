@@ -1372,7 +1372,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 $order['items'][$i]['refund_status'] = 1;
                 $product_id = $order['items'][$i]['product_id'];
                 $quantity = $order['items'][$i]['quantity'];
-                $sku_number = $order['items']['number'];
+                $sku_number = $order['items'][$i]['number'];
             }
         }
 
