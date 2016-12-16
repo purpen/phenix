@@ -594,7 +594,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
      * 退款单详情
      */
     public function refund_show(){
-        $number = isset($this->stash['number']) ? (int)$this->stash['number'] : 0;
+        $number = isset($this->stash['number']) ? $this->stash['number'] : 0;
         if(empty($number)){
             return $this->api_json('缺少请求参数！', 3001);
         }

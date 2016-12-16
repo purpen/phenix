@@ -18,7 +18,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         # 退款编号
 		'_id'     => null,
         # 站外编号(与erp对应)
-        'number'    => 0,
+        'number'    => '',
         'user_id'   => 0,
         # sku或商品ID
         'target_id' => 0,
@@ -57,7 +57,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id', 'product_id', 'order_rid');
-	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','number','deleted','reason','pay_type');
+	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','deleted','reason','pay_type');
 	protected $float_fields = array('refund_price', 'freight', 'old_price');
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
@@ -208,7 +208,7 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
 	 * 通过number查找
 	 */
 	public function find_by_number($number){
-		$row = $this->first(array('number'=>(int)$number));
+		$row = $this->first(array('number'=>$number));
         if (!empty($row)) {
             $row = $this->extended_model_row($row);
         }
