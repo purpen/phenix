@@ -107,6 +107,18 @@
 		{% block layout_css %}{% endblock %}
 		{% block page_css %}{% endblock %}
 
+
+        <!---百度移动端统计-->
+        <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?db22f2cd57330bf18e5b0ff1e27e745f";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
     <!--需要body之前加载的js-->
     {% block before_layout_js %}{% endblock %}
 		<!--把jquery放到body之前-->
@@ -153,10 +165,6 @@
 		
 		{% if css_use_bundle %}
 		<div class="ui tongji hide">
-			<script type="text/javascript">
-			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdb22f2cd57330bf18e5b0ff1e27e745f' type='text/javascript'%3E%3C/script%3E"));
-			</script>
 			
 			<script>
 			  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
