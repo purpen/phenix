@@ -432,21 +432,29 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
             $sub_order = array();
             $sub_order_id = $array[$i]['id'];
 
+            if(!is_array($array[$i]['items'])){
+                return $this->api_json('子订单商品列表非数组结构!', 3005);
+            }
+
             $items = array();
             for($j=0;$j<count($array[$i]['items']);$j++){
-                $sku_id = (int)$array[$i]['items'][$j];
-                if(empty($sku_id)){
-                    return $this->api_json('参数结构不正确02!', 3005);
+                $sku_number = $array[$i]['items'][$j];
+                if(empty($sku_number)){
+                    return $this->api_json('参数结构不正确02!', 3006);
                 }
 
                 for($k=0;$k<count($order['items']);$k++){
-                    if($order['items'][$k]['sku']==$sku_id){
+                    if($order['items'][$k]['number']==$sku_number){
                         $item = $order['items'][$k];
                         array_push($items, $item);
                         break;
                     }
                 }
             }   // endfor
+
+            if(empty($items)){
+                return $this->api_json('子订单商品信息不存在!', 3007);  
+            }
             $sub_order['id'] = $sub_order_id;
             $sub_order['items'] = $items;
             $sub_order['items_count'] = count($items);
@@ -461,13 +469,13 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         }   // endfor
 
         if(empty($sub_orders)){
-            return $this->api_json('无法获取子订单!', 3006);       
+            return $this->api_json('无法获取子订单!', 3008);       
         }
 
         $ok = $model->update_set((string)$order['_id'], array('exist_sub_order'=>1 ,'sub_orders'=>$sub_orders));
 
         if(!$ok){
-            return $this->api_json('拆单保存失败!', 3007);            
+            return $this->api_json('拆单保存失败!', 3009);            
         }
 
         return $this->api_json('success', 0, array('rid'=>$rid));
