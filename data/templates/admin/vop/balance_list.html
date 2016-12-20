@@ -177,7 +177,7 @@
 
 	{% if balances %}
 	<div class="ui pagination">
-		{% pager url:pager_url,total_rows:balances.total,total_page:balances.pageCount,current_page:pageNum, var:'pager',pager_size:9 %}
+		{% pager url:pager_url,total_rows:balances.total,total_page:balances.pageCount,current_page:page, var:'pager',pager_size:9 %}
 		{%include 'block/pager.html'%}
 		<label class="page_count">{{ balances.total }}个</label>
 	</div>
