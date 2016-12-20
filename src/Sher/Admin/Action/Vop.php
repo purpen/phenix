@@ -294,8 +294,8 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
 
         $redirect_url = Doggy_Config::$vars['app.url.admin'].'/vop';
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
-        $page = isset($this->stash['pageNum']) ? $this->stash['pageNum'] : 1;
-        $size = isset($this->stash['pageSize']) ? $this->stash['pageSize'] : 20;
+        $page = isset($this->stash['page']) ? $this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? $this->stash['size'] : 20;
 
 
         $method = 'biz.price.balancedetail.get';
