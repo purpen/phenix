@@ -56,6 +56,8 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         $user_id = 0;
 		// 批量获取用户
 		$user_ids = array();
+        $search_type = 0;
+        $search_q = 0;
         
         $sort = 0;
         $var = 'list';
@@ -110,6 +112,22 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
         if ($quality) {
             $query['quality'] = 1;       
+        }
+
+        if($search_type && $search_q){
+            $search_type = (int)$search_type;
+            switch($search_type){
+                case 1:
+                    $query['_id'] = (int)$search_q;
+                    break;
+                case 2:
+                    $query['account'] = (string)$search_q;
+                    break;
+                case 3:
+                    $query['nickname'] = (string)$search_q;
+                    break;
+            }
+            
         }
 		
 		// 获取全部专家
@@ -229,4 +247,4 @@ class Sher_App_ViewTag_UserList extends Doggy_Dt_Tag {
         }
     }
 }
-?>
+

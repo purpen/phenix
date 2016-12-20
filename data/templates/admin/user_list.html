@@ -85,6 +85,18 @@
 				</div>
 
 				<div class="field">
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="search_type" value="{{ search_type }}" />
+					    <div class="default text">方式</div>
+					    <div class="menu">
+							<div data-value="1" class="{% if search_type==1 %}active {% endif %}item">ID</div>
+							<div data-value="2" class="{% if search_type==2 %}active {% endif %}item">账户</div>
+							<div data-value="3" class="{% if search_type ==3 %}active {% endif %}item">昵称</div>
+					    </div>
+					</div>
+				</div>
+
+				<div class="field">
 					<input placeholder="Search..." type="text" name="q" />
 				</div>
 
@@ -96,7 +108,7 @@
 	</div>
 
 	
-	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page size:size start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind sort:sort %}
+	{% user_list var:'list' only_ok:only_ok only_pending:only_pending only_blocked:only_blocked page:page size:size start_time:start_time end_time:end_time search_passport:search_passport search_id:search_id only_admin:only_admin only_editor:only_editor only_chief:only_chief only_customer:only_customer quality:quality kind:kind sort:sort search_type:search_type search_q:q %}
 	<table class="ui small table segment">
 		<thead>
 			<tr>
@@ -132,7 +144,7 @@
 						{% if user.qq_uid %}
 						<i class="qq icon"></i>
 						{% endif %}
-						{% if user.wx_open_id %}
+						{% if user.wx_union_id %}
 						<i class="wechat icon"></i>
 						{% endif %}
 

@@ -312,6 +312,7 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         }
 
         $this->stash['balances'] = $result['data']['result'];
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/vop/balance_list?pageNum=%s&size=%d&page=#p#', $pageNum, $size);
         //print_r($result['data']['result']);
         return $this->to_html_page('admin/vop/balance_list.html'); 
     
