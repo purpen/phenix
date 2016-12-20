@@ -90,6 +90,18 @@
 		{% block page_css %}{% endblock %}
         <!--把jquery放到body之前-->
 		<script type="text/javascript" src="{{ app_url_packaged }}/javascript/jquery-2.min.js"></script>
+
+        <!---百度移动端统计-->
+        <script>
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?db22f2cd57330bf18e5b0ff1e27e745f";
+          var s = document.getElementsByTagName("script")[0]; 
+          s.parentNode.insertBefore(hm, s);
+        })();
+        </script>
+
 	</head>
 	
 	<body>
