@@ -39,7 +39,8 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		
 		$state = $this->stash['state'];
 		$time = $this->stash['time'];
-		$q = $this->stash['q'];
+		$q = isset($this->stash['q']) ? $this->stash['q'] : '';
+        $search_type = isset($this->stash['search_type']) ? (int)$this->stash['search_type'] : 1;
 		
 		if(empty($state) && empty($time) && empty($q) && empty($this->stash['role']) && empty($this->stash['quality_user'])){
 			$this->set_target_css_state('all');
@@ -82,15 +83,6 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
           $this->set_target_css_state('quality');   
         }
 		
-		if (!empty($q)) {
-			// 是否为数字
-			if (is_numeric($q)){
-				$this->stash['search_id'] = $q;
-			} else {
-				$this->stash['search_passport'] = $q;
-			}
-		}
-		
 		// 某时间段内
     if(!empty($time)){
       $start_time = 0;
@@ -117,7 +109,7 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 		$this->stash['start_time'] = $start_time;
 		$this->stash['end_time'] = $end_time;
 		
-		$pager_url = sprintf("%s/user?state=%d&time=%s&start_date=%s&end_date=%s&kind=%d&sort=%d&role=%s&page=#p#", Doggy_Config::$vars['app.url.admin'], $state, $time, $this->stash['start_date'], $this->stash['end_date'], $this->stash['kind'], $this->stash['sort'], $this->stash['role']);
+		$pager_url = sprintf("%s/user?state=%d&time=%s&start_date=%s&end_date=%s&kind=%d&sort=%d&role=%s&search_type=%d&q=%s&page=#p#", Doggy_Config::$vars['app.url.admin'], $state, $time, $this->stash['start_date'], $this->stash['end_date'], $this->stash['kind'], $this->stash['sort'], $this->stash['role'], $search_type, $q);
 		
 		$this->stash['pager_url'] = $pager_url;
 		
