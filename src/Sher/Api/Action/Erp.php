@@ -447,6 +447,10 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
                     }
                 }
             }   // endfor
+
+            if(empty($items)){
+                return $this->api_json('子订单商品信息不存在!', 3006);           
+            }
             $sub_order['id'] = $sub_order_id;
             $sub_order['items'] = $items;
             $sub_order['items_count'] = count($items);
@@ -461,13 +465,13 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
         }   // endfor
 
         if(empty($sub_orders)){
-            return $this->api_json('无法获取子订单!', 3006);       
+            return $this->api_json('无法获取子订单!', 3007);       
         }
 
         $ok = $model->update_set((string)$order['_id'], array('exist_sub_order'=>1 ,'sub_orders'=>$sub_orders));
 
         if(!$ok){
-            return $this->api_json('拆单保存失败!', 3007);            
+            return $this->api_json('拆单保存失败!', 3008);            
         }
 
         return $this->api_json('success', 0, array('rid'=>$rid));
