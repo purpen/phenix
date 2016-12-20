@@ -213,6 +213,7 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
         if($result['success']){
             
             $open_id = $result['data']['openid'];
+            $union_id = $result['data']['unionid'];
             $access_token = $result['data']['access_token'];
             if(empty($open_id) || empty($access_token)){
               return $this->show_message_page('open_id or access_token is null！', $redirect_url);
@@ -220,13 +221,14 @@ class Sher_App_Action_BindAccount extends Sher_App_Action_Base {
             
             $date = array();
             $date['wx_open_id'] = $open_id;
+            $date['wx_union_id'] = $union_id;
             $date['wx_access_token'] = $access_token;
             
             $user_id = (int)$this->visitor->id;
             
             $user = new Sher_Core_Model_User();
 			
-			$wechat_id = $user->first(array('wx_open_id' => $open_id));
+			$wechat_id = $user->first(array('wx_union_id' => $union_id));
 			
 			if(!empty($wechat_id)){
 				return $this->display_note_page("账号已被绑定，请先用微信账号登陆解绑后在操作！", $redirect_url);
