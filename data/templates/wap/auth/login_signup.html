@@ -537,11 +537,11 @@ input,input:focus,input:active{
 	                <div class="ui bottom attached segment">
 	                    <form action="" class="ui small top form static-form" name="new_login_signup"
 	                    method="post">
-	                        <div class="field">
+	                        <div class="field" style="position: relative;">
 	                            <input type="text" name="account" placeholder="手机号码" style="position: relative"
 	                            />
-                                <div id="sure_btn_box" style="position: absolute; top: 2px; right: 2px;">
-                                    <input type="button" class="ui mini button" name="check_account_btn" value="确定" />
+                                <div id="sure_btn_box" style="position: absolute; top: 50%; right: -2px;transform: translateY(-50%);">
+                                    <input type="button" class="ui mini button" name="check_account_btn" value="确定" style="transform: scale(0.9);" />
                                 </div>
 	                            <div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
 	                                <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading"
