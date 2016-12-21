@@ -181,13 +181,12 @@ input,input:focus,input:active{
 		if(!validatemobile(phone)){
 			// 隐藏第三方登陆
 			$('.fluid.ui.magenta.inverted.submit.button').addClass('active');
-			$('#loading').show();
             $('#sure_btn_box').hide();
+			$('#loading').show();
 			//验证手机是否注册过
 			var check_phone_url = '/app/site/auth/check_account';
 			$.get(check_phone_url, {phone: phone}, function(r){
 				$('#loading').hide();
-                $('#sure_btn_box').show();
 				if(r == 1){
 					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
 					$('form[name=new_login_signup]').attr('id','login-form');
@@ -208,6 +207,28 @@ input,input:focus,input:active{
 		}
 
     }
+
+	// js验证手机号码格式
+	function validatemobile(mobile) 
+	{ 
+		if(mobile.length==0) 
+		{ 
+		   return 1; // 手机号码不能为空
+		}
+		
+		if(mobile.length!==11) 
+		{   
+			return 2; // 手机号码长度不对
+		} 
+		 
+		var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
+		if(!myreg.test(mobile)) 
+		{
+			return 3; // 手机号码格式不对
+		}
+		
+		return false;
+	}
 
   </script>
 {% endblock %}
@@ -280,27 +301,6 @@ input,input:focus,input:active{
 		phenix.redirect("{{ app_url_wap }}/auth/qr_code");
 	});
 	
-	// js验证手机号码格式
-	function validatemobile(mobile) 
-	{ 
-		if(mobile.length==0) 
-		{ 
-		   return 1; // 手机号码不能为空
-		}
-		
-		if(mobile.length!==11) 
-		{   
-			return 2; // 手机号码长度不对
-		} 
-		 
-		var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/; 
-		if(!myreg.test(mobile)) 
-		{
-			return 3; // 手机号码格式不对
-		}
-		
-		return false;
-	}
 	
 	// 手机号码验证事件
 	$('input[name=account]').keyup(function(){
@@ -314,6 +314,7 @@ input,input:focus,input:active{
 			$('#include').html($('#default_block').html());
 			$('form[name=new_login_signup]').attr('action','');
 			$('.third.login').show();
+            $('#sure_btn_box').show();
 			//phenix.show_error_note('手机号码长度不对！');
 			return false;
 		}
@@ -325,7 +326,7 @@ input,input:focus,input:active{
         check_account(phone);
 	});
 
-    $('input:[name=check_account_btn]').click(function(){
+    $(':input[name=check_account_btn]').click(function(){
 		var phone = $('input[name=account]').val();
 		if(validatemobile(phone) == 1){
 			phenix.show_error_note('手机号码不能为空！');
@@ -335,6 +336,7 @@ input,input:focus,input:active{
 			$('#include').html($('#default_block').html());
 			$('form[name=new_login_signup]').attr('action','');
 			$('.third.login').show();
+            $('#sure_btn_box').show();
 			phenix.show_error_note('手机号码长度不对！');
 			return false;
 		}
