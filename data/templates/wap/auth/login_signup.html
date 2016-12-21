@@ -175,6 +175,40 @@ input,input:focus,input:active{
 {% block layout_js %}
   <script type="text/javascript">
 
+    // 验证手机号码
+    function check_account(phone){
+		
+		if(!validatemobile(phone)){
+			// 隐藏第三方登陆
+			$('.fluid.ui.magenta.inverted.submit.button').addClass('active');
+			$('#loading').show();
+            $('#sure_btn_box').hide();
+			//验证手机是否注册过
+			var check_phone_url = '/app/site/auth/check_account';
+			$.get(check_phone_url, {phone: phone}, function(r){
+				$('#loading').hide();
+                $('#sure_btn_box').show();
+				if(r == 1){
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
+					$('form[name=new_login_signup]').attr('id','login-form');
+					$('#include').html($('#login_block').html());
+					$('#signup').hide();
+					$('#login').show();
+				}else{
+					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_register');
+					$('form[name=new_login_signup]').attr('id','register-form');
+					$('#include').html($('#signup_block').html());
+					$('#login').hide(); 
+					$('#signup').show();
+					$('.third.login').hide();
+				}
+				/* 登录表单验证 */
+				phenix.build_auth_page();
+			});
+		}
+
+    }
+
   </script>
 {% endblock %}
 
@@ -287,34 +321,31 @@ input,input:focus,input:active{
 			//phenix.show_error_note('手机号码格式不对！');
 			return false;
 		}
-		
-		if(!validatemobile(phone)){
-			// 隐藏第三方登陆
-			$('.fluid.ui.magenta.inverted.submit.button').addClass('active');
-			$('#loading').show();
-			//验证手机是否注册过
-			var check_phone_url = '/app/site/auth/check_account';
-			$.get(check_phone_url, {phone: phone}, function(r){
-				$('#loading').hide();
-				if(r == 1){
-					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_login');
-					$('form[name=new_login_signup]').attr('id','login-form');
-					$('#include').html($('#login_block').html());
-					$('#signup').hide();
-					$('#login').show();
-				}else{
-					$('form[name=new_login_signup]').attr('action','{{ app_url_wap }}/auth/do_register');
-					$('form[name=new_login_signup]').attr('id','register-form');
-					$('#include').html($('#signup_block').html());
-					$('#login').hide(); 
-					$('#signup').show();
-					$('.third.login').hide();
-				}
-				/* 登录表单验证 */
-				phenix.build_auth_page();
-			});
-		}
+
+        check_account(phone);
 	});
+
+    $('input:[name=check_account_btn]').click(function(){
+		var phone = $('input[name=account]').val();
+		if(validatemobile(phone) == 1){
+			phenix.show_error_note('手机号码不能为空！');
+			return false;
+		}
+		if(validatemobile(phone) == 2){
+			$('#include').html($('#default_block').html());
+			$('form[name=new_login_signup]').attr('action','');
+			$('.third.login').show();
+			phenix.show_error_note('手机号码长度不对！');
+			return false;
+		}
+		if(validatemobile(phone) == 3){
+			phenix.show_error_note('手机号码格式不对！');
+			return false;
+		}
+
+        check_account(phone);
+    
+    });
 	
 	$('.show_password').livequery(function(){
 		$(this).click(function(){
@@ -507,6 +538,9 @@ input,input:focus,input:active{
 	                        <div class="field">
 	                            <input type="text" name="account" placeholder="手机号码" style="position: relative"
 	                            />
+                                <div id="sure_btn_box" style="position: absolute; top: 2px; right: 2px;">
+                                    <input type="button" class="ui mini button" name="check_account_btn" value="确定" />
+                                </div>
 	                            <div style="position: absolute; top: 2px; right: 2px; display: none" id="loading">
 	                                <img src="{{ app_url_packaged }}/images/mall/loading2.gif" alt="loading"
 	                                width="30" height="30" />
