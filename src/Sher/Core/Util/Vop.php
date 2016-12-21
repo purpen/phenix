@@ -320,7 +320,7 @@ class Sher_Core_Util_Vop {
         // 开票方式: 0.订单预借；1.随货开票；2.集中开票；
         $data['invoiceState'] = 2;
         // 发货类型：1.普通发票；2.增值发票；
-        $data['invoiceType'] = 1;
+        $data['invoiceType'] = 2;
         // 4。个人；5。单位；
         $data['selectedInvoiceTitle'] = 5;
         $data['companyName'] = '北京太火红鸟科技有限公司';
@@ -333,17 +333,17 @@ class Sher_Core_Util_Vop {
         // 是否预占库存，0是预占库存（需要调用确认订单接口），1是不预占库存
         $data['submitState'] = 0;
         // 增值票收票人姓名
-        //$data['invoiceName'] = '';
+        $data['invoiceName'] = '北京太火红鸟科技有限公司';
         // 增值票收票人电话
-        //$data['invoicePhone'] = '';
+        $data['invoicePhone'] = '01084599328';
         // 增值票收票人所在省(京东地址编码)
-        //$data['invoiceProvice'] = '';
+        $data['invoiceProvice'] = '1';  // 北京
         // 增值票收票人所在市(京东地址编码)
-        //$data['invoiceCity'] = '';
+        $data['invoiceCity'] = '72';    // 朝阳区
         // 增值票收票人所在区/县(京东地址编码)
-        //$data['invoiceCounty'] = '';
+        $data['invoiceCounty'] = '2839';    // 四环到五环之间
         // 增值票收票人所在地址
-        //$data['invoiceAddress'] = '';
+        $data['invoiceAddress'] = '北京市朝阳区酒仙桥路4号正东集团院内A9-1楼二层218室';
         // 下单价格模式: 0: 客户端订单价格快照不做验证对比，还是以京东端价格正常下单;1:必需验证客户端订单价格快照，如果快照与京东端价格不一致返回下单失败，需要更新商品价格后，重新下单;
         $data['doOrderPriceMode'] = 0;
         /** 买断模式下，该参数必传:   
