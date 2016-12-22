@@ -570,5 +570,45 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
   
     }
 
+    public function wx_login(){
+
+        include "wx_encrypt_data/wxBizDataCrypt.php";
+
+        $js_code = '011kTfLH0y8oZj2RHGKH0C4rLH0kTfLb';
+        $encryptedData = 'DG93GvZuiLSHj750oaoz2Hv95B+J2bTeJx59ULN96hsBfkuuWTI0/IKM9riiGdVo4zCvSMjTRMyZFEG8UNlcaYgI77m0Y4Me1nTEXsLKMaklNRUEOTMDMKrqvK4z/jIXG2EdhvC00ckymdre27n7z733zAmPdNyhMpZtOHL4Z9LpulJATe0WX9l3/vx9fyC+l3T+Cc5t1uVfau7B7CnLaVEgRwB8xdaA2chree7t9BU7FaMIKLmzsu74bvsgVYREv58InrMOYElOErxZJ/7eK2lktyw1LwpEzKDT4Axk8/+nG3+6N+Yt4Stw340xKcQrh+yMFPaA9g3MmGSFWbvlSKjPuLw5Qq7qs2P1R/3OQk/TBfkskeR+f6MhNpIBjOzBsYuO8etEaxTYiTnOrpZxExnTl//WSvBgyTAF3rPkOd2TdO1Lv5QdBaYUZ4mW+jJz5+nt+D9YAGYseR4oo+LEObIsTxCwJGyaNSOLvSTG9hR6rdXoSpVf3rfHN3UjrpyLV2CrguvgJ0gxJbvxQJjrNg==';
+        $iv = 'bJQuLkq///OCZZo1ych33A==';
+        $appid = 'wx0691a2c7fc3ed597';
+        $secret =  '3eed8c2a25c6c85f7dd0821de15514b9';
+        $grant_type =  'authorization_code';
+        $arr = array(
+            'appid' => $appid,
+            'secret' => $secret,
+            'js_code' => $js_code,
+            'grant_type' => $grant_type,
+        );
+        //从微信获取session_key
+        $user_info_url = 'https://api.weixin.qq.com/sns/jscode2session';
+        $user_info_url = sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",$user_info_url,$appid,$secret,$js_code,$grant_type);
+        //$weixin_user_data = json_decode(file_get_contents($user_info_url));
+        $user_data = Sher_Core_Helper_Util::request($user_info_url, $arr);
+        $user_data = Sher_Core_Helper_Util::object_to_array(json_decode($user_data));
+        if(isset($user_data['errcode'])){
+            echo $user_data['errmsg'];
+            return;
+        }
+
+        //print_r($user_data);
+        $session_key = $user_data['session_key'];
+        //echo $session_key;
+
+        //解密数据
+        $data = '';
+        $wxBizDataCrypt = new WXBizDataCrypt($appid, $session_key);
+        $errCode=$wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
+        echo $errCode;
+        print_r($data);
+    
+    }
+
 }
 
