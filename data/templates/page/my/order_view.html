@@ -464,7 +464,8 @@
                         </div>
                     </div>
                 {%endif%}
-
+            
+                {% if order_info.summary %}
                 <div class="row pt-0">
                     <div class="column">
                         <h5 class="ui header">备注</h5>
@@ -475,11 +476,12 @@
                     <div class="column">
                         <div class="ui segment">
                             <p style="margin: 1em;">
-                                请开发票，请开发票，请开发票，请开发票，请开发票，请开发票，请开发票，请开发票，请开发票，请开发票
+                               {{ order_info.summary }}
                             </p>
                         </div>
                     </div>
                 </div>
+                {%endif%}
 
 				<div class="row pt-0">
 					<div class="column">
