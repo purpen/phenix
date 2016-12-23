@@ -41,6 +41,9 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
       case 4:
         $row['kind_str'] = '单独商品推广';
         break;
+      case 5:
+        $row['kind_str'] = '花瓣';
+        break;
       default:
         $row['kind_str'] = '--';
     }
