@@ -117,6 +117,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
         // 推广码
         $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : '';
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -267,6 +268,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 'is_exchanged' => $is_exchanged?1:0,
                 'vop_id' => $vop_id,
                 'number' => (string)$number,
+                'storage_id' => $storage_id,
+                'referral_code' => $referral_code,
 			),
 		);
 		$total_money = $price*$quantity;

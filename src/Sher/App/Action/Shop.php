@@ -34,6 +34,30 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 	 * 社区
 	 */
 	public function execute(){
+
+        // 来自花瓣送红包统计
+        $from = isset($this->stash['from']) ? $this->stash['from'] : null;
+        if(!empty($from) && $from=='hb'){
+          // 存cookie
+          @setcookie('from_origin', '5', time()+3600*24, '/');
+          $_COOKIE['from_origin'] = '5';
+          @setcookie('from_target_id', (string)$id, time()+3600*24, '/');
+          $_COOKIE['from_target_id'] = (string)$id;
+
+          // 统计点击数量
+          $dig_model = new Sher_Core_Model_DigList();
+          $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
+
+          $dig = $dig_model->load($dig_key);
+          if(empty($dig) || !isset($dig['items']["view_05"])){
+            $dig_model->update_set($dig_key, array("items.view_05"=>1), true);     
+          }else{
+            // 增加浏览量
+            $dig_model->inc($dig_key, "items.view_05", 1);
+          }
+
+        }
+
 		return $this->index();
 	}
 	

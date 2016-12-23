@@ -234,7 +234,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
             'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
-            'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on',
+            'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on'=>1,
             // 子订单
             'exist_sub_order'=>1, 'sub_orders'=>1,
             // 是否京东订单
@@ -662,7 +662,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content', 'trade_site_name',
 			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
             'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
-            'gift_money', 'status_label', 'created_on', 'updated_on',
+            'gift_money', 'status_label', 'created_on', 'updated_on', 'referral_code',
             // 子订单
             'exist_sub_order', 'sub_orders'
 		);

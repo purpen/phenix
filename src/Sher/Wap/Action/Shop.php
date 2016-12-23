@@ -525,6 +525,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $number = '';
         // 推广码
         $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : '';
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -658,6 +659,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 'is_exchanged' => $is_exchanged?1:0,
                 'vop_id' => $vop_id,
                 'number' => (string)$number,
+                'storage_id' => $storage_id,
+                'referral_code' => $referral_code,
 			),
 		);
 		$total_money = $price*$quantity;
@@ -855,6 +858,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $n = 1;
           }
 
+            // 推广码
+            $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
+            $storage_id = isset($val['storage_id']) ? $val['storage_id'] : '';
+
           $sku_mode = null;
           $price = 0.0;
           $vop_id = null;
@@ -916,6 +923,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             'subtotal'  => $total_price,
             'vop_id' => $vop_id,
             'number' => (string)$number,
+            'referral_code' => $referral_code,
+            'storage_id' => $storage_id,
           );
           $total_money += $total_price;
           $total_count += 1;

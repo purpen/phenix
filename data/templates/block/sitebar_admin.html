@@ -135,6 +135,25 @@
 
 	</div>
     {% endif %}	
+
+    {% if visitor.is_admin %}
+	<div class="header item menu-admin">
+	    <i class="{% if show_type == 'alliance' %} plus {% else %} minus {% endif %} icon"></i><b>分账模块</b>
+	</div>
+	<div date="menu-admin" {% if show_type == 'alliance' %} style="display:block" {% else %} style="display:none" {% endif %}>
+
+		<a class="{{ css_page_alliance }} item" href="{{ app_url_admin_base }}/alliance">
+			联盟账户
+		</a>
+		<a class="{{ css_page_order_record }} item" href="{{ app_url_admin_base }}/alliance">
+			交易记录
+		</a>
+		<a class="{{ css_page_sign_draw_record }} item" href="{{ app_url_admin_base }}/alliance">
+			提现记录
+		</a>
+
+	</div>
+    {% endif %}	
     
     {% if visitor.is_chief %}
 	<div class="header item menu-admin">

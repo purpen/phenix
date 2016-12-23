@@ -118,6 +118,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $n = 1;
       }
 
+        $referral_code = isset($val['referral_code']) ? $val['referral_code'] : null;
+        $storage_id = isset($val['storage_id']) ? $val['storage_id'] : null;
+
       $sku_mode = null;
       $price = 0.0;
       $vop_id = null;
@@ -180,6 +183,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'subtotal'  => $total_price,
         'vop_id' => $vop_id,
         'number' => (string)$number,
+        'referral_code' => $referral_code,
+        'storage_id' => $storage_id,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -309,6 +314,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
         // 推广码
         $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
         // app来源
         $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
         $result = array();
@@ -400,21 +406,23 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         $items = array(
             array(
-        'target_id' => $target_id,
+                'target_id' => $target_id,
                 'sku'  => $target_id,
                 'product_id' => $product_id,
-        'type' => $type,
+                'type' => $type,
                 'quantity' => $quantity,
                 'price' => (float)$price,
                 'sale_price' => $price,
                 'title' => $product_data['title'],
-        'sku_mode' => $sku_name,
+                'sku_mode' => $sku_name,
                 'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
                 'view_url' => $product_data['view_url'],
                 'subtotal' => (float)$price*$quantity,
-        'kind' => $kind,
+                'kind' => $kind,
                 'vop_id' => $vop_id,
                 'number' => (string)$number,
+                'referral_code' => $referral_code,
+                'storage_id' => $storage_id,
             ),
         );
         $total_money = $price*$quantity;
@@ -2167,6 +2175,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+    // 推广码
+    $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
     $vop_id = null;
 
     if(empty($target_id) && empty($type)){
@@ -2225,7 +2236,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id' => $vop_id)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id' => $vop_id, 'referral_code'=>$referral_code, 'storage_id'=>$storage_id)),
         'item_count' => 1,
       ));     
     }else{
@@ -2239,7 +2250,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id, 'referral_code'=>$referral_code, 'storage_id'=>$storage_id));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 
