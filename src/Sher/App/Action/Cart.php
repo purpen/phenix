@@ -31,6 +31,9 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
     $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
+    // 推广码
+    $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
     $vop_id = null;
 
     if(empty($target_id) && empty($type)){
@@ -89,7 +92,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
         'kind' => 1,
         'state' => 1,
         'remark' => null,
-        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id)),
+        'items' => array(array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id, 'referral_code'=>$referral_code, 'storage_id'=>$storage_id)),
         'item_count' => 1,
       ));     
     }else{
@@ -103,7 +106,7 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
       }// endfor
 
       if($new_item){
-        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id));
+        array_push($cart['items'], array('target_id'=>$target_id, 'product_id'=>$product_id, 'type'=>$type, 'n'=>$n, 'vop_id'=>$vop_id, 'referral_code'=>$referral_code, 'storage_id'=>$storage_id));
       }
       $ok = $cart_model->update_set($user_id, array('items'=>$cart['items'], 'item_count'=>count($cart['items'])));
 

@@ -1313,6 +1313,11 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       'ip' => Sher_Core_Helper_Auth::get_ip(),
     );
     $ok = $third_site_stat_model->create($data);
+
+    // 来自花瓣送红包
+    if($from_origin=='5'){
+        $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+    }
 		// 清除cookie值
 		setcookie('from_origin', '', time()-9999999, '/');
 		setcookie('from_target_id', '', time()-9999999, '/');

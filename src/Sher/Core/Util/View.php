@@ -358,7 +358,7 @@ EOF;
   }
 
   /**
-   * 短网址
+   * 短网址、推广码
    * 
    */
   public static function url_short($url){
