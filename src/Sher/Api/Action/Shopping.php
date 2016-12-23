@@ -1260,7 +1260,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content', 'trade_site_name',
 			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
-            'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money',
+            'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money', 'summary',
             'gift_money', 'status_label', 'created_on', 'updated_on',
             // 子订单
             'exist_sub_order', 'sub_orders'

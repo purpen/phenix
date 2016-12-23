@@ -716,8 +716,15 @@ span.kefu{
 			<!-- <div class="desitem">
 				支付方式：<span class="flt-r">在线支付</span>
 			</div> -->
-
-      
+        
+        {% if order_info.summary %}
+        <div class="desitem mb-0 pb-0">
+            备注：
+        </div>
+        <div class="desitem mt-0 pt-r">
+            {{ order_info.summary }}
+        </div>
+        {%endif%}
 		
 		<div class="desitem mb-0 pb-r">
 			运费：<span class="ui color-be text link flt-r">￥&nbsp;{{ order_info.freight }}</span>

@@ -27,7 +27,11 @@
     	border-left: none;
     }
     .people.grid{
-    	margin-top: 20px;
+    	margin-top: 0;
+    }
+    .row.pt-0{
+        padding-bottom: 0 !important;
+        padding-top: 20px !important;
     }
     .peoitem{
     	padding-left: 20px;
@@ -443,7 +447,7 @@
             {%endif%}
 
 			<div class="ui middle aligned people grid">
-				<div class="row">
+				<div class="row pt-0">
 					<div class="column">
 						<h5 class="ui header">收货人信息</h5>
 					</div>
@@ -460,8 +464,26 @@
                         </div>
                     </div>
                 {%endif%}
+            
+                {% if order_info.summary %}
+                <div class="row pt-0">
+                    <div class="column">
+                        <h5 class="ui header">备注</h5>
+                    </div>
+                </div>
 
-				<div class="row">
+                <div class="row">
+                    <div class="column">
+                        <div class="ui segment">
+                            <p style="margin: 1em;">
+                               {{ order_info.summary }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {%endif%}
+
+				<div class="row pt-0">
 					<div class="column">
 						<h5 class="ui header">结算信息</h5>
 					</div>
