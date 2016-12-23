@@ -41,8 +41,8 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
           // 存cookie
           @setcookie('from_origin', '5', time()+3600*24, '/');
           $_COOKIE['from_origin'] = '5';
-          @setcookie('from_target_id', (string)$id, time()+3600*24, '/');
-          $_COOKIE['from_target_id'] = (string)$id;
+          @setcookie('from_target_id', '1', time()+3600*24, '/');
+          $_COOKIE['from_target_id'] = '1';
 
           // 统计点击数量
           $dig_model = new Sher_Core_Model_DigList();
