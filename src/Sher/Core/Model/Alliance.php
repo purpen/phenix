@@ -50,7 +50,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'success_count' => 0,
   	);
 
-    protected $required_fields = array('code');
+    protected $required_fields = array('code', 'user_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on');
 	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount');
