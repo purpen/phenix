@@ -32,8 +32,8 @@ $page = 1;
 $size = 100;
 $is_end = false;
 $total = 0;
-// 15天
-$time = time() - 1296000;
+// 7天
+$time = time() - 604800;
 while(!$is_end){
 	$query = array('status'=>Sher_Core_Util_Constant::ORDER_EVALUATE, 'delivery_date'=>array('$lt'=>$time));
 	$options = array('field' => array('_id', 'user_id', 'status', 'delivery_date', 'created_on'), 'page'=>$page, 'size'=>$size);
