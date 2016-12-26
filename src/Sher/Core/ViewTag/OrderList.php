@@ -39,8 +39,10 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		$start_time = 0;
 		// 截止时间
 		$end_time = 0;
-    // 是否删除
-    $deleted = 0;
+        // 来源
+        $from_site = 0;
+        // 是否删除
+        $deleted = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -121,6 +123,10 @@ class Sher_Core_ViewTag_OrderList extends Doggy_Dt_Tag {
 		if($sku){
 			$query['sku'] = (int)$sku;
 		}
+
+        if($from_site){
+            $query['from_site'] = (int)$from_site;
+        }
 		
 		if($start_time && $end_time){
 			$query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);

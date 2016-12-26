@@ -98,6 +98,19 @@
 				</div>
 				<div class="field">
 					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="from_site" value="{{ from_site }}" />
+					    <div class="default text">订单来源</div>
+					    <div class="menu">
+							<div data-value="0" class="{% if !from_site %}active {% endif %}item">全部</div>
+							<div data-value="1" class="{% if from_site == 1 %}active {% endif %}item">PC</div>
+                            <div data-value="6" class="{% if from_site == 2 %}active {% endif %}item">Wap</div>
+							<div data-value="7" class="{% if from_site == 7 %}active {% endif %}item">IOS</div>
+							<div data-value="8" class="{% if from_site == 8 %}active {% endif %}item">Android</div>
+					    </div>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui fluid selection dropdown">
 						<input type="hidden" name="s" value="{{ s }}" />
 					    <div class="default text">订单状态</div>
 					    <div class="menu">
@@ -119,7 +132,7 @@
 		</form>
 	</div>
 	
-	{% order_list var:'list' searched:1 status:s q:q name:name mobile:mobile start_time:start_time end_time:end_time product:product sku:sku page:page size:size  %}
+	{% order_list var:'list' searched:1 status:s q:q name:name mobile:mobile start_time:start_time end_time:end_time product:product from_site:from_site sku:sku page:page size:size  %}
 	
 	{% for item in list.rows %}
 		<div id="order-{{ item.order._id }}" class="order-item">

@@ -11,6 +11,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		'size' => 50,
 		's' => 0,
 		'q' => '',
+        'from_site' => '',
 	);
 	
 	public function execute(){
@@ -52,6 +53,10 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		}
 		if(!empty($this->stash['s'])){
 			$params['s'] = $this->stash['s'];
+		}
+
+		if(!empty($this->stash['from_site'])){
+			$params['from_site'] = $this->stash['from_site'];
 		}
 		
 		$arg = "";
