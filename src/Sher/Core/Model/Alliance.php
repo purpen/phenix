@@ -12,13 +12,17 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	
 	protected $schema = array(
         'user_id' => 0,
+        # 昵称
         'name' => null,
         # 推广码
         'code' => null,
         # 备注
         'summary'  => null,
         # 银行卡信息
-        'bank_info' = array(),
+        'bank_info' = array(
+            'id' => '',
+            'name' => '',
+        ),
         # 类型
         'type' => self::TYPE_PERSON,
         # 类型: 1.链接推广；2.地盘；3.--
@@ -26,6 +30,15 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         # 状态: 0.禁用；1.审核中； 3.拒绝；3.通过；
 		'status' => 1,
 
+        # 个人或公司信息
+        'contact' = array(
+            'name' => '',
+            'phone' => '',
+            'position' => '',
+            'company_name' => '',
+            'email' => '',
+        );
+        
         # 上一次结算时间
         'last_balance_on' => 0,
         'last_balance_amount' => 0,
@@ -40,8 +53,13 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'total_cash_amount' => 0,
         # 待提现金额
         'wait_cash_amount' => 0,
+        # 审核中的提现金额(已从待提现金额中扣除)**注：因不支持事务，如果是提现审核状态，不允许再次提交提现功能
+        'whether_apply_cash' => 0,
+        'verify_cash_amount' => 0,
         # 待结算金额
         'wait_balance_amount' => 0,
+        # 是否结算统计中 **注：因不支持事务，如果正在结算统计中，不允许重复或并行执行结算统计任务
+        'whether_balance_stat' => 0, 
 
         ## counter
         # 推广次数(用户下单支付为准)
@@ -52,8 +70,8 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 
     protected $required_fields = array('code', 'user_id');
 
-    protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on');
-	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount');
+    protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat');
+	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount');
 	protected $counter_fields = array('total_count', 'success_count');
 
 
