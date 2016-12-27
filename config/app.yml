@@ -177,6 +177,10 @@ app.dt.extension_lib.sher_app:
     'sight_stat_list':'Sher_Core_ViewTag_SightStatList'
     'supplier_list':'Sher_Core_ViewTag_SupplierList'
     'refund_list':'Sher_Core_ViewTag_RefundList'
+    'alliance_list':'Sher_Core_ViewTag_AllianceList'
+    'balance_list':'Sher_Core_ViewTag_BalanceList'
+    'balance_record_list':'Sher_Core_ViewTag_BalanceRecordList'
+    'withdraw_cash_list':'Sher_Core_ViewTag_WithdrawCashList'
   filters: []
 
 app.js.use_bundle: false
