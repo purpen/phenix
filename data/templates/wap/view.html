@@ -179,7 +179,7 @@ i.cart.icon,i.exchange.icon{
     {% if product.cover %}
       var img_url = '{{ product.cover.thumbnails.big.view_url }}';
     {%else%}
-      var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+      var img_url = 'https://s3.taihuoniao.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ product.wap_view_url }}';
     var desc_str = '{{ page_description_suffix }}';

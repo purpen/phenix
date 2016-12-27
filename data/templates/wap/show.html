@@ -46,7 +46,7 @@
     {% if topic.cover %}
       var img_url = '{{ topic.cover.thumbnails.big.view_url }}';
     {%else%}
-      var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+      var img_url = 'https://s3.taihuoniao.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ topic.wap_view_url }}';
     {% if topic._id == 112453 %}

@@ -1,8 +1,8 @@
 {%extends 'layout/xy.html'%}
 {% block title %}小蚁行车记录仪{% endblock %}
 {% block page_css %}
-	<link href="http://frstatic.qiniudn.com/wechat/xy/style1.css" type="text/css" rel="stylesheet" />
-	<link href="http://frstatic.qiniudn.com/wechat/xy/mobile_act_global.css" type="text/css" rel="stylesheet">
+	<link href="https://s3.taihuoniao.com/wechat/xy/style1.css" type="text/css" rel="stylesheet" />
+	<link href="https://s3.taihuoniao.com/wechat/xy/mobile_act_global.css" type="text/css" rel="stylesheet">
 	<style type="text/css">
 	.page4 .ele-txttitle {
 	    background-position: -287px -507px;
@@ -47,7 +47,7 @@
   	}
     .music {
         position: fixed;
-        background: url(http://frstatic.qiniudn.com/images/promo/music_bg.png) 0 0 no-repeat;
+        background: url(https://s3.taihuoniao.com/images/promo/music_bg.png) 0 0 no-repeat;
         z-index: 9;
         width: 1.5rem;
         height: 1.5rem;
@@ -62,9 +62,9 @@
 {% endblock %}
 {% block layout_js %}
   <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/xy/loader.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/xy/jquery.js"></script>
-	<script src="http://frstatic.qiniudn.com/wechat/xy/index.js"></script>
+	<script src="https://s3.taihuoniao.com/wechat/xy/loader.js"></script>
+	<script src="https://s3.taihuoniao.com/wechat/xy/jquery.js"></script>
+	<script src="https://s3.taihuoniao.com/wechat/xy/index.js"></script>
 	<script>
 		seajs.use('qzact/common.m/imageLoader/index.js', function(loader){
         //预加载图片按钮
@@ -279,7 +279,7 @@
 
 
     var m_name = '小蚁行车记录仪闪送—募百人首批样机体验团';
-    var img_url = 'http://frstatic.qiniudn.com/wechat/xy/images/xy.jpg';
+    var img_url = 'https://s3.taihuoniao.com/wechat/xy/images/xy.jpg';
     var link = '{{ app_url_wap_promo }}/xy';
     var desc_str = '小蚁智能行车记录仪，专为发烧设计的行车记录仪';
 
@@ -348,7 +348,7 @@
 {% endblock %}
 {% block content %}
 <h1 class="thumbnails" style="display:none">
-    <img src="http://frstatic.qiniudn.com/wechat/xy/images/xy.jpg"/><!--缩略图路径-->
+    <img src="https://s3.taihuoniao.com/wechat/xy/images/xy.jpg"/><!--缩略图路径-->
 </h1>
 
 	<div class="mask" style="display: none"></div>
@@ -596,7 +596,7 @@
 		</section>
 	</div>
 	<div class="music playing" style="display:block;"></div>
-	<audio id="app_bgm" src="http://frstatic.qiniudn.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
+	<audio id="app_bgm" src="https://s3.taihuoniao.com/wechat/xy/xy.mp3" loop="true" autoplay></audio>
 {% endblock %}
 
 <!--[if !IE]>|xGv00|30c8e81410c111bd0e64aec69d38e7c1<![endif]-->

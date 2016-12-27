@@ -48,7 +48,7 @@
     {% if stuff.cover %}
       var img_url = '{{ stuff.cover.thumbnails.big.view_url }}';
     {%else%}
-      var img_url = 'http://frstatic.qiniudn.com/images/logo/logo.png';
+      var img_url = 'https://s3.taihuoniao.com/images/logo/logo.png';
     {%endif%}
     var link = '{{ stuff.wap_view_url }}';
     var desc_str = '太火鸟科技 Taihuoniao.com 是中国火爆的智能硬件孵化平台。太火鸟致力于建设重构产品研发创新流程，努力帮助设计师和创意者实现商业价值，从广泛的创意中寻找具有「创新价值」且可以被称为「性感设计」的产品，开启一个全新的众包设计时代。太火鸟孵化的团队将从商品定义、投资融资、硬件品控、软件体验、推广营销、渠道建设等每个环节全程全力支持，真正做到一条龙服务式的智能硬件孵化平台；全力打造一个完美的智能硬件创意生态系统。';
