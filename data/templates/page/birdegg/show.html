@@ -1,7 +1,7 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
 {% block page_css %}
-<link href="http://frstatic.qiniudn.com/css/jquery.sliderTabs.min.css" type="text/css" rel="stylesheet" />
+<link href="https://s3.taihuoniao.com/css/jquery.sliderTabs.min.css" type="text/css" rel="stylesheet" />
 <style type="text/css">
 body{
 	background-color:#1b0217;
@@ -105,10 +105,10 @@ body{
 }
 
 .ui-slider-tabs-leftPanelArrow{
-background-image: url('http://frstatic.qiniudn.com/images/leftPanelArrow.png');
+background-image: url('https://s3.taihuoniao.com/images/leftPanelArrow.png');
 }
 .ui-slider-tabs-rightPanelArrow{
-background-image: url('http://frstatic.qiniudn.com/images/rightPanelArrow.png');
+background-image: url('https://s3.taihuoniao.com/images/rightPanelArrow.png');
 }
 .ui-slider-tabs-list{
 display: none;
@@ -153,7 +153,7 @@ display: none;
 {% endblock %}
 
 {% block layout_js %}
-  <script src="http://frstatic.qiniudn.com/javascript/jquery.sliderTabs1.min.js"></script>
+  <script src="{{ app_url_packaged }}/javascript/jquery.sliderTabs1.min.js"></script>
 
   <script type="text/javascript">
     var per_page = 10;

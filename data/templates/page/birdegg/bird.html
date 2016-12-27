@@ -4,7 +4,7 @@
 <style type="text/css">
 #bird{
 	background-color:rgba(30,0,59,1);
-	background:url(http://frstatic.qiniudn.com/images/birdegg/bird_bg1.jpg) no-repeat left top;
+	background:url({{ app_url_packaged }}/images/birdegg/bird_bg1.jpg) no-repeat left top;
 	background-size:cover;
 }
 .pagex {
@@ -454,7 +454,7 @@ transition: all .3s ease-in-out 0s;
   });
 
 	// 分享按钮
-	var pic_url = 'http://frstatic.qiniudn.com/images/egg-header.jpg';
+	var pic_url = '{{ app_url_packaged }}/images/egg-header.jpg';
 	phenix.bind_share_list(pic_url);
 
 	// 生成二维码
@@ -471,8 +471,8 @@ transition: all .3s ease-in-out 0s;
 		<div class="w-1180" style="position:relative;">
 			<img src="{{ app_url_packaged }}/images/birdegg/nvideo.png">
 			<div id="vio">
-				<video width="560" controls="controls" poster="http://frstatic.qiniudn.com/images/birdegg/wap/tovio.jpg">
-				  <source type="video/mp4" src="http://frstatic.qiniudn.com/images/birdegg/egg2.mp4">
+				<video width="560" controls="controls" poster="{{ app_url_packaged }}/images/birdegg/wap/tovio.jpg">
+				  <source type="video/mp4" src="{{ app_url_packaged }}/images/birdegg/egg2.mp4">
 				</video>
 			</div>
 		</div>
