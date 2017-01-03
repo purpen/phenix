@@ -590,7 +590,20 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('操作失败:'.$e->getMessage(), 3008);
 		}
 
-    $order_ok = $orders_model->finish_order((string)$order['_id'], array('user_id'=>$order['user_id']));
+        // 检测是否含有推广记录,更新佣金结算状态
+        $is_referral = false;
+        $rid = $rid;
+        for($i=0;$i<count($order['items']);$i++){
+            $item = $order['items'][$i];
+            $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
+            $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
+            if(!empty($scene_id) || !empty($referral_code)){
+                $is_referral = true;
+                break;
+            }
+        }// endfor
+
+    $order_ok = $orders_model->finish_order((string)$order['_id'], array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
     if(!$order_ok){
       return $this->api_json('操作失败！', 3009);   
     }

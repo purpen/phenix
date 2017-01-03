@@ -276,7 +276,8 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
             return $this->show_message_page($result['msg'].$result['code'], true);
         }
         if(empty($result['data']['success'])){
-            return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
+            // 如果是拒收，没有物流信息，会报错，先注掉
+            //return $this->show_message_page($result['data']['resultMessage'].$result['data']['code'], true);
         }
 
         $this->stash['track'] = $result['data']['result'];

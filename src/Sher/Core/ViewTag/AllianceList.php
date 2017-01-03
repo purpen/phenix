@@ -25,7 +25,6 @@ class Sher_Core_ViewTag_AllianceList extends Doggy_Dt_Tag {
         $user_id = 0;
 		$status = 0;
 
-		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -53,10 +52,13 @@ class Sher_Core_ViewTag_AllianceList extends Doggy_Dt_Tag {
 			$query['type'] = (int)$type;
 		}
 		if($status){
-			$query['status'] = (int)$status;
+            if($status==-1){
+ 			    $query['status'] = 0;           
+            }else{
+			    $query['status'] = (int)$status;
+            }
 		}
 
-		
         $service = Sher_Core_Service_Alliance::instance();
         $options['page'] = $page;
         $options['size'] = $size;

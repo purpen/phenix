@@ -24,6 +24,7 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
         $type = 0;
         $user_id = 0;
 		$status = 0;
+        $stage = 0;
 
         $alliance_id = 0;
         $order_rid = 0;
@@ -31,6 +32,9 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
         $product_id = 0;
         $sku_id = 0;
 
+        $load_user = 0;
+        $load_sku = 0;
+        $load_product = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -75,8 +79,15 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
 		if($type){
 			$query['type'] = (int)$type;
 		}
+		if($stage){
+			$query['stage'] = (int)$stage;
+		}
 		if($status){
-			$query['status'] = (int)$status;
+            if($status==-1){
+ 			    $query['status'] = 0;           
+            }else{
+			    $query['status'] = (int)$status;
+            }
 		}
 
 		
@@ -92,6 +103,38 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
 		}
 
         $result = $service->get_balance_list($query,$options);
+
+        if($load_user){
+            $user_model = new Sher_Core_Model_User();
+        }
+        if($load_product){
+            $product_model = new Sher_Core_Model_Product();
+            $inventory_model = new Sher_Core_Model_Inventory();
+        }
+
+        for($i=0;$i<count($result['rows']);$i++){
+            // 加载用户信息
+            if($load_user){
+                $user_id = $result['rows'][$i]['user_id'];
+                $user = $user_model->extend_load($user_id);
+                $result['rows'][$i]['user'] = $user;
+            }
+            // 加载商品信息
+            if($load_product){
+                $product_id = $result['rows'][$i]['product_id'];
+                $sku_id = $result['rows'][$i]['sku_id'];
+                $product = $product_model->extend_load($product_id);
+                if($product){
+                    $sku = $inventory_model->load($sku_id);
+                    if($sku){
+                        $product['sku'] = $sku;
+                    }
+                    $result['rows'][$i]['product'] = $product;
+                }
+            }
+
+
+        }   // endfor
 		
         $context->set($var, $result);
 		

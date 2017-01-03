@@ -19,25 +19,25 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         # 备注
         'summary'  => null,
         # 银行卡信息
-        'bank_info' = array(
+        'bank_info' => array(
             'id' => '',
             'name' => '',
         ),
         # 类型
         'type' => self::TYPE_PERSON,
-        # 类型: 1.链接推广；2.地盘；3.--
+        # 来源: 1.链接推广；2.地盘；3.--
         'kind' => 1,
-        # 状态: 0.禁用；1.审核中； 3.拒绝；3.通过；
+        # 状态: 0.禁用；1.审核中； 2.拒绝；5.通过；
 		'status' => 1,
 
         # 个人或公司信息
-        'contact' = array(
+        'contact' => array(
             'name' => '',
             'phone' => '',
             'position' => '',
             'company_name' => '',
             'email' => '',
-        );
+        ),
         
         # 上一次结算时间
         'last_balance_on' => 0,
@@ -68,17 +68,44 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'success_count' => 0,
   	);
 
-    protected $required_fields = array('code', 'user_id');
+    protected $required_fields = array('user_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat');
 	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount');
 	protected $counter_fields = array('total_count', 'success_count');
 
+	protected $joins = array(
+	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
+	);
 
 	/**
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
+
+        // 类型
+        switch($row['type']){
+            case 1:
+                $row['type_label'] = '个人';
+                break;
+            case 2:
+                $row['type_label'] = '公司';
+                break;
+            default:
+                $row['type_label'] = '--';
+        }
+
+        // 来源
+        switch($row['kind']){
+            case 1:
+                $row['kind_label'] = '推广';
+                break;
+            case 2:
+                $row['kind_label'] = '地盘';
+                break;
+            default:
+                $row['kind_label'] = '--';
+        }
 
 	}
 
@@ -88,10 +115,12 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	 */
 	protected function before_save(&$data) {
 
-
         // 自动生成推广码
         if(!isset($data['code']) || empty($data['code'])){
-            $data['code'] = Sher_Core_Util_View::url_short((string)$data['_id']);
+            $user_id = $data['user_id'];
+            $r = Sher_Core_Helper_Util::generate_mongo_id();
+            $code = sprintf("%s_%s", $user_id, $r);
+            $data['code'] = Sher_Core_Util_View::url_short($code);
         }
 		
 	    parent::before_save($data);
@@ -117,9 +146,67 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id, $options=array()) {
+
+        $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
+        if($user_id){
+            // 更新关联用户表
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_set($user_id, array('alliance_id'=>''));
+        }
 		
 		return true;
 	}
+
+    /**
+     * 更新账户状态
+     */
+    public function mark_as_status($id, $value=1) {
+        if(!in_array($value, array(0,1,2,5))){
+            return false;
+        }
+
+        return $this->update_set($id, array('status' => $value));
+    }
+
+    /**
+     * 通过code查找
+     */
+    public function find_by_code($code){
+        if(empty($code)) return false;
+        $row = $this->first(array('code'=>$code));
+        if(empty($row)) return false;
+        return $row;
+    }
+
+	/**
+	 * 更新计数
+	 */
+    public function inc_counter($field_name, $id=null) {
+        if (is_null($id)) {
+            $id = $this->id;
+        }
+        
+        if (empty($id) || !in_array($field_name, $this->counter_fields)) {
+            return false;
+        }
+        
+        $id = DoggyX_Mongo_Db::id($id);
+        return $this->inc($id, $field_name);
+    }
+	
+	/**
+	 * 更新计数
+	 */
+    public function dec_counter($field_name, $id=null, $force=false) {
+        if (is_null($id)) {
+            $id = $this->id;
+        }
+        if (empty($id) || !in_array($field_name, $this->counter_fields)) {
+            return;
+        }
+        $id = DoggyX_Mongo_Db::id($id);
+        return $this->dec($id, $field_name);
+    }
 	
 }
 

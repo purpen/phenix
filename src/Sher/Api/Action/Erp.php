@@ -129,7 +129,7 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
 		
 		$some_fields = array(
-            '_id'=>1, 'mode'=>1, 'product_id'=>1, 'number'=>1, 'name'=>1, 'price'=>1,
+            '_id'=>1, 'mode'=>1, 'product_id'=>1, 'number'=>1, 'name'=>1, 'price'=>1, 'cover_id'=>1,
             'quantity'=>1, 'created_on'=>1, 'updated_on'=>1, 'summary'=>1, 'stage'=>1, 'status'=>1,
             'vop_id'=>1,
 		);
@@ -175,6 +175,10 @@ class Sher_Api_Action_Erp extends Sher_Api_Action_Base {
             if(!empty($result['rows'][$i]['product'])){
                 $data[$i]['product_number'] = $result['rows'][$i]['product']['number'];
             }
+
+			// 封面图url
+			$data[$i]['cover_url'] = $result['rows'][$i]['cover']['fileurl'];
+
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
 			}

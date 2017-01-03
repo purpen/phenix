@@ -157,7 +157,7 @@ echo "Start to evt_model ....todo: $total \n";
 
 
 $page = 1;
-$size = 1000;
+$size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){
@@ -237,7 +237,7 @@ $today_account_day = intval(date('Ymd'));
 $this_account_month = intval(date('Ym'));
 
 $page = 1;
-$size = 1000;
+$size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){
@@ -301,7 +301,7 @@ echo "Start to point_record_model ....todo: $total \n";
 // 未结帐的非当日的总账
 
 $page = 1;
-$size = 1000;
+$size = 100;
 $is_end = false;
 $total = 0;
 while(!$is_end){

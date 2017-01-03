@@ -7,8 +7,8 @@ class Sher_Core_Service_Alliance extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
-        'balance_amount' => array('total_balance_amount'),
-        'cash_amount' => array('total_cash_amount'),
+        'balance_amount' => array('total_balance_amount' => -1),
+        'cash_amount' => array('total_cash_amount' => -1),
 	);
 
     protected static $instance;
