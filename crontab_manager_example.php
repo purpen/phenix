@@ -9,18 +9,21 @@ date_default_timezone_set('PRC');
 
 error_reporting(E_ALL);
 
+$php_path = "/usr/bin/env php";
+$pro_path = "/opt/project/phenix";
+
 $crontab_config = [
     'test' => [
         'name' => 'Test',
         'cmd' => 'date',
-        'output' => '/Users/tian/test.log',
+        'output' => '/home/tianxiaoyi/test.log',
         'time' => '*/5 * * * *'
     ],
     'balance_stat' => [
         'name' => '每日定时佣金结算',
-        'cmd' => 'php cron_workers/balance_stat_worker.php',
-        'output' => '/Users/tian/cron.log',
-        'time' => '*/5 * * * *',
+        'cmd' => sprintf("%s cron_workers/balance_stat_worker.php", $php_path),
+        'output' => '/www/phenix/logs/crontab/balance_stat.log',
+        'time' => '*/1 * * * *',
     ],
 
 ];
