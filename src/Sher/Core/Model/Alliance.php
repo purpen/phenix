@@ -53,9 +53,10 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'total_cash_amount' => 0,
         # 待提现金额
         'wait_cash_amount' => 0,
+        # 申请中的提现金额
+        'verify_cash_amount' => 0,
         # 审核中的提现金额(已从待提现金额中扣除)**注：因不支持事务，如果是提现审核状态，不允许再次提交提现功能
         'whether_apply_cash' => 0,
-        'verify_cash_amount' => 0,
         # 待结算金额
         'wait_balance_amount' => 0,
         # 是否结算统计中 **注：因不支持事务，如果正在结算统计中，不允许重复或并行执行结算统计任务

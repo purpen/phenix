@@ -77,6 +77,7 @@ class Sher_Admin_Action_Alliance extends Sher_Admin_Action_Base implements Doggy
 		$data['summary'] = $this->stash['summary'];
         $data['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
         $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+        $data['code'] = isset($this->stash['code']) ? $this->stash['code'] : '';
 
         $data['contact'] = array(
             'name' => $this->stash['contact_name'],

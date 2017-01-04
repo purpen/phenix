@@ -122,6 +122,7 @@
                 <th>推广码</th>
 				<th>用户</th>
                 <th>个人/机构信息</th>
+                <th>佣金统计</th>
                 <th>类型</th>
 				<th>来源</th>
                 <th>推广次数</th>
@@ -167,6 +168,13 @@
                     <p>邮箱: {{ d.contact.email }}</p>
                     <p>职位: {{ d.contact.position }}</p>
                     <p>公司: {{ d.contact.company_name }}</p>
+                </td>
+                <td>
+                    <p>结算总额: {{ d.total_balance_amount }}</p>
+                    <p>提现总额: {{ d.total_cash_amount }}</p>
+                    <p>待提现金额: {{ d.wait_cash_amount }}</p>
+                    <p>申请提现金额: {{ d.verify_cash_amount }}</p>
+                    <p>待结算金额: {{ d.wait_balance_amount }}</p>              
                 </td>
 				<td>
                     {{ d.type_label }}

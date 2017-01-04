@@ -14,12 +14,14 @@ class Sher_Core_Model_WithdrawCash extends Sher_Core_Model_Base  {
         'amount' => 0,
         # 状态: 0.失败；1.申请中；2.审核中；5.成功；
 		'status' => 1,
+        # 打款时间
+        'present_on' => 0,
 
   	);
 
     protected $required_fields = array('alliance_id', 'user_id', 'amount');
 
-    protected $int_fields = array('status', 'user_id');
+    protected $int_fields = array('status', 'user_id', 'present_on');
 	protected $float_fields = array('amount');
 	protected $counter_fields = array();
 
