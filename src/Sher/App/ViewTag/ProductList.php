@@ -246,7 +246,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
 		
 	    // 搜索
-	    if($s_type){
+	    if($s_type && $s_mark){
 	      switch ((int)$s_type){
 		      case 1:
 		        $query['_id'] = (int)$s_mark;
@@ -299,6 +299,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 				break;
 			case 7:
 				$options['sort_field'] = 'price_asc';
+				break;
+			case 8:
+				$options['sort_field'] = 'commision_desc';
 				break;
 		}
 		

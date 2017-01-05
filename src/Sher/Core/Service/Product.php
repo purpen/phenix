@@ -22,6 +22,7 @@ class Sher_Core_Service_Product extends Sher_Core_Service_Base {
 	  'love' => array('love_count' => -1),
     'app_snatched' => array('app_snatched_time'=> 1),
         'view_count' => array('view_count' => -1),
+        'commision_desc' => array('commision_percent' => -1),
 	);
 
     protected static $instance;

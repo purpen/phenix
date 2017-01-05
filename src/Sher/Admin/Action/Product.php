@@ -11,6 +11,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		'size' => 100,
 		'stage' => 0,
         'sort' => 0,
+        's' => '',
+        'q' => '',
 	);
 	
 	public function execute(){
@@ -1161,23 +1163,9 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
      */
     function commision_list(){
     	$this->set_target_css_state('page_commision');
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/commision_list?stage=%d&page=#p#';
-		switch($this->stash['stage']){
-		    case 12:
-				$this->stash['process_exchange'] = 1;
-				break;
-			case 9:
-				$this->stash['process_saled'] = 1;
-				break;
-			case 5:
-				$this->stash['process_presaled'] = 1;
-				break;
-			case 1:
-				$this->stash['process_voted'] = 1;
-				break;
-		}
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
-    	$this->stash['is_search'] = false;
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/product/commision_list?sort=%d&s=%d&q=%s&page=#p#', $this->stash['sort'], $this->stash['s'], $this->stash['q']);
+
+		$this->stash['pager_url'] = $pager_url;
 		
 		// 判断左栏类型
 		$this->stash['show_type'] = "product";
