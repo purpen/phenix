@@ -1,0 +1,128 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">结算明细管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/balance_record" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/balance_record/get_list" method="get" id="search-form">
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="t" value="{{ t }}" />
+            <div class="default text">类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">用户ID</div>
+              <div class="item" data-value="2">联盟ID</div>
+            </div>
+          </div>
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+                <th>结算记录ID</th>
+                <th>佣金记录ID</th>
+				<th>联盟ID</th>
+                <th>用户ID</th>
+                <th>金额</th>
+                <th>结算时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% for d in balance_items %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+                    {{ d.balance_record_id }}
+				</td>
+				<td>
+                    {{ d.balance_id }}
+				</td>
+				<td>
+                    {{ d.alliance_id }}
+				</td>
+                <td> {{ d.user_id }} </td>
+                <td>
+                    {{ d.amount }}
+                </td>
+
+                <td>
+                    <p>{{ d.created_on|date 'y-m-d H:m' }}</p>
+                </td>
+                <td>
+
+                    <a href="{{ app_url_admin }}/balance_record/item_deleted?id={{ d._id }}" class="ui confirm-request link item">
+                      删除
+                    </a>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if total_count %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

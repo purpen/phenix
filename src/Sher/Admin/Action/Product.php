@@ -196,7 +196,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	    $data['is_app_category'] = isset($this->stash['is_app_category']) ? 1 : 0;
 
         // 分成比例
-        $data['commision_percent'] = isset($this->stash['commision_percent']) ? (int)$this->stash['commision_percent'] : 0;
+        $data['commision_percent'] = isset($this->stash['commision_percent']) ? (float)$this->stash['commision_percent'] : 0;
 		
 		// 是否案例产品
 		$data['okcase'] = isset($this->stash['okcase']) ? 1 : 0;

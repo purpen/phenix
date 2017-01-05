@@ -1,0 +1,247 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    // 更新状态
+    $('.stat-btn').click(function(){
+        var id = $(this).data('id');
+        var status = $(this).data('status');
+        var url = "{{ app_url_admin_base }}/alliance/ajax_set_status";
+        $.post(url, {id:id, status:status}, function(rs){
+            if(!rs.success){
+                phenix.show_error_note(rs.message, 3000);
+            }else{
+                phenix.show_ok_note(rs.message, 2000);
+            }
+        }, 'json');
+
+    });
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">佣金管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/balance" class="{{ css_all }} item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/balance/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/balance/get_list" method="get" id="search-form">
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <div class="default text">类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">个人</div>
+              <div class="item" data-value="2">公司</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="kind" value="{{ kind }}" />
+            <div class="default text">来源</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">推广</div>
+              <div class="item" data-value="2">地盘</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="stage" value="{{ stage }}" />
+            <div class="default text">进度</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">已支付</div>
+              <div class="item" data-value="2">退款</div>
+              <div class="item" data-value="5">可结算</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="status" value="{{ status }}" />
+            <div class="default text">状态</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="-1">未结算</div>
+              <div class="item" data-value="1">已结算</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="t" value="{{ t }}" />
+            <div class="default text">类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">用户ID</div>
+              <div class="item" data-value="2">联盟ID</div>
+              <div class="item" data-value="3">商品ID</div>
+              <div class="item" data-value="4">订单ID</div>
+            </div>
+          </div>
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+                <th>产品图</th>
+                <th>产品信息</th>
+				<th>用户</th>
+                <th>佣金</th>
+                <th>类型</th>
+				<th>来源</th>
+                <th>进度</th>
+                <th>是否结算</th>
+                <th>创建/结算时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% balance_list var:'list' user_id:user_id code:code type:type kind:kind status:status stage:stage alliance_id:alliance_id product_id:product_id sort:sort page:page size:size load_user:1 load_product:1 %}
+			
+			{% for d in list.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+					<div class="ui image">
+						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ d.product.view_url }}" class="ui link" target="_blank" title="{{ d.product.title }}">
+                            {{ d.product.title|truncate, 32 }}({{ d.product.sku.mode }}){% if d.product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
+						</a>
+					</div>
+		          	<p class="attribute">商品ID：{{ d.product_id }}</p>
+		          	<p class="attribute">商品数量：{{ d.quantity }}</p>
+		          	<p class="attribute">skuID：{{ d.sku_id }}</p>
+					<p class="attribute">订单号：{{ d.order_rid }}</p>
+					<p class="attribute">订单来源：{{ d.from_site }}</p>
+                    <p class="attribute">联盟ID: {{ d.alliance_id }}</p>
+				</td>
+				<td>
+					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+					  	{{ d.user.nickname }}
+					</a>
+					<p>
+						{% if d.user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if d.user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if d.user.wx_union_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
+				</td>
+                <td>
+                    <p>比例: {{ d.commision_percent }}</p>
+                    <p>单价: {{ d.unit_price }}</p>
+                    <p>数量: {{ d.quantity }}</p>
+                    <p>总额: {{ d.total_price }}</p>
+                </td>
+				<td>
+                    {{ d.type_label }}
+				</td>
+                <td>
+                  {{ d.kind_label }}
+                </td>
+                <td>
+                    {{ d.stage_label }}
+                </td>
+                <td>
+					<p>
+						{% if d.status == 0 %}
+						    <label class="ui gray label">否</label>
+						{% endif %}
+						{% if d.status == 1 %}
+						    <label class="ui magenta orange label">是</label>
+						{% endif %}
+					</p>
+                </td>
+                <td>
+                    <p>{{ d.created_on|date 'y-m-d H:m' }}</p>
+                    <p>{{ d.balance_on|date 'y-m-d H:m' }}</p>
+                </td>
+                <td>
+
+                    <a href="{{ app_url_admin }}/balance/deleted?id={{ d._id }}" class="ui confirm-request link item">
+                      删除
+                    </a>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

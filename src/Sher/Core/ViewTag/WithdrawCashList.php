@@ -19,8 +19,11 @@ class Sher_Core_ViewTag_WithdrawCashList extends Doggy_Dt_Tag {
         $size = 10;
         $sort = 0;
 
+        $alliance_id = 0;
         $user_id = 0;
-		$status = 0;
+        $status = 0;
+
+        $load_user = 0;
 
         $var = 'list';
         $include_pager = 0;
@@ -35,9 +38,10 @@ class Sher_Core_ViewTag_WithdrawCashList extends Doggy_Dt_Tag {
         $query = array();
         $options = array();
 
-		if($code){
-			$query['code'] = $code;
+		if($alliance_id){
+			$query['alliance_id'] = $alliance_id;
 		}
+
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
@@ -59,6 +63,20 @@ class Sher_Core_ViewTag_WithdrawCashList extends Doggy_Dt_Tag {
 		}
 
         $result = $service->get_withdraw_cash_list($query,$options);
+
+        if($load_user){
+            $user_model = new Sher_Core_Model_User();
+        }
+
+        for($i=0;$i<count($result['rows']);$i++){
+            // 加载用户信息
+            if($load_user){
+                $user_id = $result['rows'][$i]['user_id'];
+                $user = $user_model->extend_load($user_id);
+                $result['rows'][$i]['user'] = $user;
+            }
+
+        }   // endfor
 		
         $context->set($var, $result);
 		

@@ -171,6 +171,9 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 			$inventory = new Sher_Core_Model_Inventory();
 			$item = $inventory->load((int)$com_sku);
 
+            // 推广码
+            $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
+            $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
             $vop_id = null;
             $number = '';
 
@@ -192,7 +195,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 				$true_price = !empty($item) ? $item['price'] : $row['sale_price'];
         $type = !empty($item) ? 2 : 1;
         $sku_mode = !empty($item) ? $item['mode'] : null;
-                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price'], 'vop_id'=>$vop_id, 'number'=>(string)$number);
+                $this->com_list[] = array('sku'=>$com_sku,'product_id'=>$com_pid, 'quantity'=>(int)$count, 'type'=>$type, 'sku_mode'=>$sku_mode, 'price'=>$true_price,'sale_price'=>$true_price,'title'=>$com_title,'cover'=>$row['cover']['thumbnails']['mini']['view_url'],'view_url'=>$row['view_url'],'subtotal'=>$count*$row['sale_price'], 'vop_id'=>$vop_id, 'number'=>(string)$number, 'referral_code'=>$referral_code, 'storage_id'=>$storage_id);
                 $this->com_item++;
             }
             unset($product);

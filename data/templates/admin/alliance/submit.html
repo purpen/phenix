@@ -1,0 +1,151 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+
+{% endblock %}
+
+{% block layout_js %}
+
+{% endblock %}
+
+{% block jquery %}
+
+	$('#alliance-form').form({
+		user_id: {
+			identifier  : 'user_id',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '用户能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">联盟账户管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/alliance" class="{{ css_all }} item">
+			全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/alliance/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+
+	
+	<form class="ui form segment" action="{{ app_url_admin_base }}/alliance/save" method="post" id="alliance-form">
+		<input name="id" type="hidden" value="{{ alliance._id }}" />
+		
+        <h4 class="ui stage header">类型:</h4>
+        <div class="grouped inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="type" value="1" {% if alliance.type == 1 %}checked="checked"{% endif %} /> 
+              <label>个人</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="type" value="2" {% if alliance.type == 2 %}checked="checked"{% endif %} /> 
+              <label>公司</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="type" value="3" {% if alliance.type == 3 %}checked="checked"{% endif %} /> 
+              <label>其它</label>
+            </div>
+          </div>
+        </div>
+
+        <h4 class="ui stage header">来源:</h4>
+        <div class="grouped inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="kind" value="1" {% if alliance.kind == 1 %}checked="checked"{% endif %} /> 
+              <label>链接</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="kind" value="2" {% if alliance.kind == 2 %}checked="checked"{% endif %} /> 
+              <label>地盘</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>所属用户ID:</label>
+            <input type="text" name="user_id" value="{{ alliance.user_id }}" />
+          </div>
+          <div class="field">
+            <label>推广码:</label>
+            <input type="text" name="code" value="{{ alliance.code }}" />
+            <div class="description">*不需要添写，系统自动生成</div>
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>联系人:</label>
+            <input type="text" name="contact_name" value="{{ alliance.contact.name }}" />
+          </div>
+          <div class="field">
+            <label>电话:</label>
+            <input type="text" name="contact_phone" value="{{ alliance.contact.phone }}" />
+          </div>
+          <div class="field">
+            <label>邮箱:</label>
+            <input type="text" name="contact_email" value="{{ alliance.contact.email }}" />
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>职位:</label>
+            <input type="text" name="contact_position" value="{{ alliance.contact.position }}" />
+          </div>
+          <div class="field">
+            <label>公司:</label>
+            <input type="text" name="contact_company_name" value="{{ alliance.contact.company_name }}" />
+          </div>
+        </div>
+
+
+        <div class="field">
+          <label>备注:</label>
+          <textarea name="summary" placeholder="备注">{{ alliance.summary }}</textarea>
+        </div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit inverted button">
+				确认提交
+			</div>
+			<div class="ui gray cancel inverted button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}

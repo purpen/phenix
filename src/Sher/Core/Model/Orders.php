@@ -32,7 +32,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         # title, cover, view_url, subtotal, is_snatched, is_exchanged, vop_id, number,
         # refund_type : 0.正常；1.退款；2.退货；3.换货；
         # refund_status: 0.拒绝退款；1.退款中；2.已退款；
-        # scene_id: 地盘ID， referral_code: 推广码
+        # storage_id: 店铺ID， referral_code: 推广码
 		'items' => array(),
 		'items_count' => 0,
 		
@@ -232,7 +232,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
     // 支付方式
     $row['trade_site_name'] = null;
-    if (in_array($row['status'], array(10, 12, 13, 15, 20))){
+    if (in_array($row['status'], array(10, 12, 13, 15, 16, 20))){
       if (isset($row['trade_site']) && !empty($row['trade_site'])){
         $row['trade_site_name'] = $this->get_trade_site_label($row['trade_site']);
       }   
@@ -641,6 +641,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $user_id = isset($options['user_id']) ? (int)$options['user_id'] : 0;
             $is_vop = isset($options['is_vop']) ? $options['is_vop'] : 0;
             $jd_order_id = isset($options['jd_order_id']) ? $options['jd_order_id'] : null;
+            $is_referral = isset($options['is_referral']) ? $options['is_referral'] : false;
+            $rid = isset($options['rid']) ? $options['rid'] : null;
           if(!empty($user_id)){
             $user_model = new Sher_Core_Model_User();
             switch($status){
@@ -681,6 +683,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 break;
               case Sher_Core_Util_Constant::ORDER_PUBLISHED:  // 已完成
                 $user_model->update_counter_byinc($user_id, 'order_evaluate', -1);
+                // 更新佣金结算
+                if($is_referral && $rid){
+                    $balance_model = new Sher_Core_Model_Balance();
+                    $balance_model->update_success_stage($rid);
+                }
+
                 break;
             }         
           }
@@ -1157,24 +1165,44 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $ok = $this->update_set($id, $updated);
         
         if($ok){
-          // 更新用户订单提醒状态
-          if(isset($options['user_id'])){
-            $user_model = new Sher_Core_Model_User();
-            $user_model->update_counter_byinc($options['user_id'], 'order_wait_payment', -1);
-            $user_model->update_counter_byinc($options['user_id'], 'order_ready_goods', 1);
-          }
-            $this->sync_order_index($id, $status);
-
-          // 如果是开普勒，接口对接
-          if(isset($options['jd_order_id']) && !empty($options['jd_order_id'])){
-              $vop_result = Sher_Core_Util_Vop::sure_order($options['jd_order_id']);
-              if(!$vop_result['success']){
-                Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $options['jd_order_id'], $vop_result['message']));
-              }
-          }
             
-            // 支付成功后奖励积分
             $data = $this->load($id);
+
+            // 更新用户订单提醒状态
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_counter_byinc($data['user_id'], 'order_wait_payment', -1);
+            $user_model->update_counter_byinc($data['user_id'], 'order_ready_goods', 1);
+
+            // 如果是开普勒，接口对接
+            if(isset($data['jd_order_id']) && !empty($data['jd_order_id'])){
+                $vop_result = Sher_Core_Util_Vop::sure_order($data['jd_order_id']);
+                // 出现严重错误，发送给管理员
+                if(!$vop_result['success']){
+                    $wrong_msg = "用户下单成功，开普勒更新状态失败！";
+                    Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $data['jd_order_id'], $vop_result['message']));
+                }
+            }
+
+            // 检测是否含有推广记录
+            $is_referral = false;
+            for($i=0;$i<count($data['items']);$i++){
+                $item = $data['items'][$i];
+                $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
+                $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
+                if(!empty($scene_id) || !empty($referral_code)){
+                    $is_referral = true;
+                    break;
+                }
+            }
+
+            // 如果有推广，统计到Balance
+            if($is_referral){
+                $balance_model = new Sher_Core_Model_Balance();
+                $balance_model->record_balance($data['rid'], $data);
+            }
+
+
+            $this->sync_order_index($id, $status);
             
             // 增加积分
             $service = Sher_Core_Service_Point::instance();
@@ -1183,6 +1211,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             // 购买商品增加鸟币
             $amount = ceil($data['pay_money']/20);
             $service->make_money_in($data['user_id'], $amount, '购买赠送鸟币');
+
         }
         return $ok;
 	}
@@ -1367,6 +1396,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
         $sku_number = '';
         $product_id = $quantity = 0;
+        $is_referral = false;
         for($i=0;$i<count($order['items']);$i++){
             if($order['items'][$i]['sku']==$sku_id){
                 $order['items'][$i]['refund_type'] = $refund_type;
@@ -1374,6 +1404,11 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 $product_id = $order['items'][$i]['product_id'];
                 $quantity = $order['items'][$i]['quantity'];
                 $sku_number = $order['items'][$i]['number'];
+
+                // 是否存在推广信息
+                if(!empty($order['items'][$i]['referral_code']) || !empty($order['items'][$i]['scene_id'])){
+                    $is_referral = true;
+                }
             }
         }
 
@@ -1438,9 +1473,16 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         );
         $ok = $refund_model->apply_and_save($row);
         if(!$ok){
-            $result['message'] = '生成退款单失败!';       
+            $result['message'] = '生成退款单失败!';
             return $result;
         }
+
+        // 如果有推广，统计到Balance
+        if($is_referral){
+            $balance_model = new Sher_Core_Model_Balance();
+            $balance_model->update_refund_stage($rid, $sku_id);
+        }
+
         $result['data']['sub_order_id'] = $sub_order_id;
         $refund = $refund_model->get_data();
         $result['data']['refund_id'] = $refund['_id'];

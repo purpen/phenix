@@ -141,7 +141,8 @@ app.url.native.feedback: '{$app.url.domain}/wxpay/feedback'
 app.url.native.warning: '{$app.url.domain}/wxpay/warning'
 
 # 七牛存储
-app.url.qiniu.upload: 'http://up.qiniu.com'
+#app.url.qiniu.upload: 'http://up.qiniu.com'
+app.url.qiniu.upload: 'https://up.qbox.me'
 #app.url.qiniu.frbird: 'http://frbird.qiniudn.com'
 #app.url.qiniu.frbird: 'http://fs.taihuoniao.com'
 app.url.qiniu.frbird: 'https://p4.taihuoniao.com'

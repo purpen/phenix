@@ -71,7 +71,7 @@ class Sher_Core_Model_Inventory extends Sher_Core_Model_Base  {
     	'product' => array('product_id' => 'Sher_Core_Model_Product'),
     );
 	
-    protected $required_fields = array('product_id', 'price', 'quantity');
+    protected $required_fields = array('product_id', 'price');
     protected $int_fields = array('product_id', 'quantity', 'limited_count', 'sold', 'sync_count', 'revoke_count', 'number');
 	
 	/**

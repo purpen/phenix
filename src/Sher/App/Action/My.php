@@ -594,7 +594,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 	}
 
 	/**
-	 * 确认收货 --以后去掉此方法，用下边统一公共方法
+	 * 确认收货 --web应用
 	 */
 	public function ajax_take_delivery(){
 		$rid = $this->stash['rid'];

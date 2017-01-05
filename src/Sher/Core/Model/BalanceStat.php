@@ -1,6 +1,6 @@
 <?php
 /**
- * 拥金结算明细表
+ * 拥金结算每日统计
  * @author tianshuai
  */
 class Sher_Core_Model_BalanceStat extends Sher_Core_Model_Base  {
@@ -9,14 +9,13 @@ class Sher_Core_Model_BalanceStat extends Sher_Core_Model_Base  {
 	protected $schema = array(
         'balance_id' => null,
         'balance_record_id' => null,
-        # 佣金总额
+        # 佣金
         'amount' => 0,
         # 联盟账户
         'alliance_id' => null,
         'user_id' => 0,
         # 状态: 
 		'status' => 1,
-
   	);
 
     protected $required_fields = array('balance_id', 'balance_record_id');

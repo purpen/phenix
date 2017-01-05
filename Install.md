@@ -191,6 +191,11 @@ supervisorctl update，根据最新的配置文件，启动新配置或有改动
 注意：显示用stop停止掉的进程，用reload或者update都不会自动重启。
 
 
+## 基于Linux Crontab 订时任务
+1. 依赖于Composer: "jenner/crontab": "1.0.0"
+2. 配置文件位于根目录: crontab_manager_example.php *复制此文件并改名 crontab_manager.php
+3. 执行系统crontab命令：crontab -e 并追加一条配置 ** 注意路径
+*/1 * * * *  cd /opt/project/phenix && /usr/bin/env php crontab_manager.php
 
 
  

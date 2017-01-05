@@ -303,8 +303,22 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
       if(!empty($order_id)){
         $orders_model = new Sher_Core_Model_Orders();
         $order = $orders_model->load((string)$order_id);
+        $rid = $order['rid'];
         if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
-          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id']));
+            
+            // 检测是否含有推广记录,更新佣金结算状态
+            $is_referral = false;
+            for($i=0;$i<count($order['items']);$i++){
+                $item = $order['items'][$i];
+                $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
+                $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
+                if(!empty($scene_id) || !empty($referral_code)){
+                    $is_referral = true;
+                    break;
+                }
+            }// endfor
+
+          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
         }
       }
 		} // if ok
@@ -349,6 +363,7 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         $sku_arr = array();
         $star_arr = array();
         $content_arr = array();
+        $rid = $order['rid'];
 
         // 组装、验证数据
         for($i=0;$i<count($target_id);$i++){
@@ -392,8 +407,20 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         
         }
 
+        // 检测是否含有推广记录,更新佣金结算状态
+        $is_referral = false;
+        for($i=0;$i<count($order['items']);$i++){
+            $item = $order['items'][$i];
+            $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
+            $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
+            if(!empty($scene_id) || !empty($referral_code)){
+                $is_referral = true;
+                break;
+            }
+        }// endfor
+
         // 更新订单状态为完成
-        $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id']));
+        $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
 		
         return $this->ajax_json('操作成功!', false);
     }

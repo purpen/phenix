@@ -19,7 +19,9 @@ set_time_limit(0);
 ini_set('memory_limit','512M');
 
 echo "Prepare to fix product stage ...\n";
-$product = new Sher_Core_Model_Product();
+$product_model = new Sher_Core_Model_Product();
+$inventory_model = new Sher_Core_Model_Inventory();
+
 $page = 1;
 $size = 200;
 $is_end = false;
@@ -27,7 +29,7 @@ $total = 0;
 while(!$is_end){
 	$query = array('stage'=>9, 'deleted'=>0);
 	$options = array('field' => array('_id','deleted', 'stage', 'category_id', 'category_ids'),'page'=>$page,'size'=>$size);
-	$list = $product->find($query,$options);
+	$list = $product_model->find($query,$options);
 	if(empty($list)){
 		echo "get product list is null,exit......\n";
 		break;
@@ -36,20 +38,37 @@ while(!$is_end){
 	for ($i=0; $i<$max; $i++) {
 		
         $data = $list[$i];
-        $id = $data['_id'];
+        $product_id = $data['_id'];
+
+        // 更新佣金
+        if(!isset($data['commision_percent']) || empty($data['commision_percent'])){
+            //$ok = $product_model->update_set($product_id, array('commision_percent'=>0.1, 'is_commision'=>1));
+        }
+
+        $inventory = $inventory_model->first(array('product_id'=>$product_id));
+        if(!empty($inventory)){
+            continue;
+        }
+
+        echo "exec id: $product_id.\n";
+        $row = array(
+            'product_id' => $product_id,
+            'mode' => '默认',
+            'quantity' => $data['inventory'],
+            'sold' => $data['sale_count'],
+            'price' => $data['sale_price'],
+            'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
+        );
 
         $ok = true;
-        if(!empty($data['category_id'])){
-            //$ok = $product->update_set($id, array('category_ids'=>array((int)$data['category_id'])));
-        }else{
-            $ok = false;
-        }
+        //$ok = $inventory_model->create($row);
         if($ok){
-            echo "update ok $id .\n";
+            echo "update ok $product_id .\n";
             $total++;
         }else{
-            echo "update fail $id .\n";
+            echo "update fail $product_id .\n";
         }
+
 		
 	}
 	

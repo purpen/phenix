@@ -1,0 +1,254 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    // 更新状态
+    $('.stat-btn').click(function(){
+        var id = $(this).data('id');
+        var status = $(this).data('status');
+        var url = "{{ app_url_admin_base }}/alliance/ajax_set_status";
+        $.post(url, {id:id, status:status}, function(rs){
+            if(!rs.success){
+                phenix.show_error_note(rs.message, 3000);
+            }else{
+                phenix.show_ok_note(rs.message, 2000);
+            }
+        }, 'json');
+
+    });
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">联盟账户管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/alliance" class="{{ css_all }} item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/alliance/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/alliance/get_list" method="get" id="search-form">
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <div class="default text">类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">个人</div>
+              <div class="item" data-value="2">公司</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="kind" value="{{ kind }}" />
+            <div class="default text">来源</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">推广</div>
+              <div class="item" data-value="2">地盘</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="status" value="{{ status }}" />
+            <div class="default text">状态</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="-1">禁用</div>
+              <div class="item" data-value="1">审核</div>
+              <div class="item" data-value="2">拒绝</div>
+              <div class="item" data-value="5">通过</div>
+            </div>
+          </div>
+
+            <div class="ui icon input">
+                <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+            </div>
+
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+                <th>推广码</th>
+				<th>用户</th>
+                <th>个人/机构信息</th>
+                <th>佣金统计</th>
+                <th>类型</th>
+				<th>来源</th>
+                <th>推广次数</th>
+                <th>状态</th>
+                <th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% alliance_list var:'alliances' user_id:user_id code:code type:type kind:kind status:status page:page size:size %}
+			
+			{% for d in alliances.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+                <td>{{ d.code }}</td>
+				<td>
+					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+					  	{{ d.user.nickname }}
+					</a>
+					<p>
+						{% if d.user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if d.user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if d.user.wx_union_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
+				</td>
+                <td>
+                    <p>姓名: {{ d.contact.name }}</p>
+                    <p>电话: {{ d.contact.phone }}</p>
+                    <p>邮箱: {{ d.contact.email }}</p>
+                    <p>职位: {{ d.contact.position }}</p>
+                    <p>公司: {{ d.contact.company_name }}</p>
+                </td>
+                <td>
+                    <p>结算总额: {{ d.total_balance_amount }}</p>
+                    <p>提现总额: {{ d.total_cash_amount }}</p>
+                    <p>待提现金额: {{ d.wait_cash_amount }}</p>
+                    <p>申请提现金额: {{ d.verify_cash_amount }}</p>
+                    <p>待结算金额: {{ d.wait_balance_amount }}</p>              
+                </td>
+				<td>
+                    {{ d.type_label }}
+				</td>
+                <td>
+                  {{ d.kind_label }}
+                </td>
+                <td>
+                    {{ d.success_count }}/{{ d.total_count }}
+                </td>
+                <td>
+					<p>
+						{% if d.status == 0 %}
+						    <label class="ui gray label">禁用</label>
+						{% endif %}
+						{% if d.status == 1 %}
+						    <label class="ui magenta orange label">审核</label>
+						{% endif %}
+						{% if d.status == 2 %}
+						    <label class="ui magenta label">拒绝</label>
+						{% endif %}
+						
+						{% if d.status == 5 %}
+						    <label class="ui green label">通过</label>
+						{% endif %}
+						
+					</p>
+                </td>
+                <td>
+                  {{ d.created_on|date 'y-m-d' }}
+                </td>
+                <td>
+                    {% if d.status==0 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="1" class="ui link item stat-btn">
+                        解禁
+                    </a>
+                    {% endif %}
+                    {% if d.status==1 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="5" class="ui link item stat-btn">
+                        通过
+                    </a>
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="2" class="ui link item stat-btn">
+                        拒绝
+                    </a>
+                    {% endif %}
+                    {% if d.status==2 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="1" class="ui link item stat-btn">
+                        重审
+                    </a>
+                    {% endif %}
+                    {% if d.status==5 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="0" class="ui link item stat-btn">
+                        禁用
+                    </a>
+                    {% endif %}
+
+                    |
+					<a href="{{ app_url_admin_base }}/alliance/submit?id={{ d._id }}" class="ui link item">编辑</a>
+                    | 
+                    <a href="{{ app_url_admin }}/alliance/deleted?id={{ d._id }}" class="ui confirm-request link item">
+                      删除
+                    </a>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if alliances.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:alliances.total_rows,total_page:alliances.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ alliances.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

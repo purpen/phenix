@@ -232,6 +232,22 @@
         }, 'json');
 
 	});
+
+  // 确认收货
+	$('.take_delivery_btn').livequery(function(){
+    $(this).click(function(){
+      var rid = $(this).attr('rid');
+      url = "{{ app_url_wap }}/my/ajax_take_over";
+      $.post(url, {rid: rid, from_to: 1}, function(result){
+        if(result.success){
+          phenix.redirect(result.redirect_url);
+        }else{
+          phenix.show_error_note(result.message, 3000);  
+        }
+      }, 'json');
+    });
+  });
+
 {% endblock %}
 {% block content %}
 <div class="section breadcrumb">
@@ -497,6 +513,10 @@
                                 {% if order_info.status == 1 %}
                                     <a href="{{ app_url_my }}/cancel_order?rid={{ order_info.rid }}" class="ui small inverted grey button">取消订单</a>
                                     <a href="{{ app_url_shopping }}/success?rid={{ order_info.rid }}" class="ui small inverted magenta button">立即支付</a>
+                                {% endif %}
+
+                                {% if order_info.status == 15 %}
+                                    <a href="javascript:void(0);"  rid="{{ order_info.rid }}" class="ui small inverted grey button take_delivery_btn">确认收货</a>
                                 {% endif %}
 
                                 {% if order_info.status == 16 %}

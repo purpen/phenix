@@ -610,5 +610,47 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     
     }
 
+    /**
+     * auto pay
+     */
+    public function auto_pay(){
+        $user_id = $this->visitor->id;
+        echo "Test......";
+        exit;
+        if(empty($user_id) || $user_id != 20448){
+             echo "没有权限!";
+             exit;
+        }
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+
+        if(empty($rid)){
+            echo "缺少请示参数！";
+            exit;
+        }
+        $model = new Sher_Core_Model_Orders();
+        $order = $model->find_by_rid($rid);
+        if(empty($order)){
+            echo "订单不存在！";
+            exit;
+        }
+
+		// 验证订单是否已经付款
+        if ($order['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+            echo "订单状态不正确!";
+            exit;
+        }
+
+		// 更新支付状态,付款成功并配货中
+        $ok = $model->update_order_payment_info((string)$order['_id'], 'test', Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order['user_id'], 'jd_order_id'=>null));
+        if(!$ok){
+            echo "更新失败！";
+            exit;
+        }
+
+        echo "Success!!!";
+        exit;
+    
+    }
+
 }
 
