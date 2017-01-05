@@ -26,7 +26,9 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
         'quantity' => 1,
         # 拥金比例
         'commision_percent' => 0,
-        # 拥金单价
+        # 账户加成
+        'addition' => 0,
+        # 拥金单价 商品单价*商品分成*账户加成
         'unit_price' => 0,
         # 拥金总额 单价*数量
         'total_price' => 0,
@@ -53,7 +55,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
     protected $required_fields = array('order_rid', 'product_id', 'user_id', 'alliance_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'product_id', 'sku_id', 'quantity', 'stage', 'balance_on');
-	protected $float_fields = array('commision_percent', 'unit_price', 'total_price');
+	protected $float_fields = array('commision_percent', 'unit_price', 'total_price', 'addition');
 	protected $counter_fields = array();
 
 
@@ -203,12 +205,15 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                 // 禁用的联盟账户不会记录
                 if($alliance['status']==0) continue;
 
+                // 账户加成
+                $addition = (float)$alliance['addition'];
+
                 if(empty($product)){
                     $product = $product_model->load((int)$item['product_id']);
                 }
                 if(empty($product)) continue;
                 $commision_percent = isset($product['commision_percent']) ? (float)$product['commision_percent'] : 0;
-                $unit_price = (float)sprintf("%.2f", $item['price'] * $commision_percent);
+                $unit_price = (float)sprintf("%.2f", $item['price'] * $commision_percent * $addition);
                 $total_price = (float)sprintf("%.2f", $unit_price * $item['quantity']);
                 
                 $row = array(
@@ -219,6 +224,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                     'sku_id' => $item['sku'],
                     'quantity' => $item['quantity'],
                     'commision_percent' => $commision_percent,
+                    'addition' => $addition,
                     'code' => $alliance['code'],
                     'unit_price' => $unit_price,
                     'total_price' => $total_price,

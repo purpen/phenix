@@ -71,12 +71,9 @@
             </div>
             <div class="ui radio checkbox">
               <input type="radio" name="type" value="2" {% if alliance.type == 2 %}checked="checked"{% endif %} /> 
-              <label>公司</label>
+              <label>机构</label>
             </div>
-            <div class="ui radio checkbox">
-              <input type="radio" name="type" value="3" {% if alliance.type == 3 %}checked="checked"{% endif %} /> 
-              <label>其它</label>
-            </div>
+
           </div>
         </div>
 
@@ -85,11 +82,11 @@
           <div class="field">
             <div class="ui radio checkbox">
               <input type="radio" name="kind" value="1" {% if alliance.kind == 1 %}checked="checked"{% endif %} /> 
-              <label>链接</label>
+              <label>链接推广</label>
             </div>
             <div class="ui radio checkbox">
               <input type="radio" name="kind" value="2" {% if alliance.kind == 2 %}checked="checked"{% endif %} /> 
-              <label>地盘</label>
+              <label>地盘推广</label>
             </div>
           </div>
         </div>
@@ -100,8 +97,13 @@
             <input type="text" name="user_id" value="{{ alliance.user_id }}" />
           </div>
           <div class="field">
+            <label>佣金加成:</label>
+            <input type="text" name="addition" value="{{ alliance.addition }}" />
+            <div class="description">*默认为1不加成，如1.2</div>
+          </div>
+          <div class="field">
             <label>推广码:</label>
-            <input type="text" name="code" value="{{ alliance.code }}" />
+            <input type="text" name="code" disabled="disabled" value="{{ alliance.code }}" />
             <div class="description">*不需要添写，系统自动生成</div>
           </div>
         </div>
@@ -129,6 +131,17 @@
           <div class="field">
             <label>公司:</label>
             <input type="text" name="contact_company_name" value="{{ alliance.contact.company_name }}" />
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>银行卡号:</label>
+            <input type="text" name="bank_id" value="{{ alliance.bank_info.id }}" />
+          </div>
+          <div class="field">
+            <label>银行名称:</label>
+            <input type="text" name="bank_name" value="{{ alliance.bank_info.name }}" />
           </div>
         </div>
 
