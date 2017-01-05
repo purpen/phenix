@@ -77,7 +77,11 @@ class Sher_Admin_Action_Alliance extends Sher_Admin_Action_Base implements Doggy
 		$data['summary'] = $this->stash['summary'];
         $data['type'] = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
         $data['kind'] = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
-        $data['code'] = isset($this->stash['code']) ? $this->stash['code'] : '';
+        $data['addition'] = isset($this->stash['addition']) ? (float)$this->stash['addition'] : 0;
+
+        if(isset($this->stash['code']) && !empty($this->stash['code'])){
+            $data['code'] = $this->stash['code'];
+        }
 
         $data['contact'] = array(
             'name' => $this->stash['contact_name'],
@@ -85,6 +89,11 @@ class Sher_Admin_Action_Alliance extends Sher_Admin_Action_Base implements Doggy
             'email' => $this->stash['contact_email'],
             'position' => $this->stash['contact_position'],
             'company_name' => $this->stash['contact_company_name'],
+        );
+
+        $data['bank_info'] = array(
+            'id' => $this->stash['bank_id'],
+            'name' => $this->stash['bank_name'],
         );
 
 		try{

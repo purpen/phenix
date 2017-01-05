@@ -197,10 +197,11 @@
 					</p>
 				</td>
                 <td>
-                    <p>比例: {{ d.commision_percent }}</p>
-                    <p>单价: {{ d.unit_price }}</p>
-                    <p>数量: {{ d.quantity }}</p>
-                    <p>总额: {{ d.total_price }}</p>
+                    <p>商品佣金: {{ d.commision_percent }}</p>
+                    <p>账户加成: {{ d.addition }}</p>
+                    <p>商品数量: {{ d.quantity }}</p>
+                    <p>佣金单价: {{ d.unit_price }}</p>
+                    <p>佣金总额: {{ d.total_price }}</p>
                 </td>
 				<td>
                     {{ d.type_label }}
@@ -217,7 +218,7 @@
 						    <label class="ui gray label">否</label>
 						{% endif %}
 						{% if d.status == 1 %}
-						    <label class="ui magenta orange label">是</label>
+						    <label class="ui magenta green label">是</label>
 						{% endif %}
 					</p>
                 </td>

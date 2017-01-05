@@ -38,6 +38,9 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
             'company_name' => '',
             'email' => '',
         ),
+
+        # 分佣加成
+        'addition' => 1,
         
         # 上一次结算时间
         'last_balance_on' => 0,
@@ -72,7 +75,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
     protected $required_fields = array('user_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat');
-	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount');
+	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount', 'addition');
 	protected $counter_fields = array('total_count', 'success_count');
 
 	protected $joins = array(
@@ -116,12 +119,19 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	 */
 	protected function before_save(&$data) {
 
-        // 自动生成推广码
-        if(!isset($data['code']) || empty($data['code'])){
-            $user_id = $data['user_id'];
-            $r = Sher_Core_Helper_Util::generate_mongo_id();
-            $code = sprintf("%s_%s", $user_id, $r);
-            $data['code'] = Sher_Core_Util_View::url_short($code);
+        //如果是新的记录
+        if($this->insert_mode) {
+            // 自动生成推广码
+            if(!isset($data['code']) || empty($data['code'])){
+                $user_id = $data['user_id'];
+                $r = Sher_Core_Helper_Util::generate_mongo_id();
+                $code = sprintf("%s_%s", $user_id, $r);
+                $data['code'] = Sher_Core_Util_View::url_short($code);
+            }
+        }
+
+        if(!isset($data['addition']) || (float)$data['addition']<=0){
+            $data['addition'] = 1;
         }
 		
 	    parent::before_save($data);
