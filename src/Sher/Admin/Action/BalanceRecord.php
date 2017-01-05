@@ -95,7 +95,7 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
 
         if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
-            //return $this->ajax_notification('没有执行权限!', true);     
+            return $this->ajax_notification('没有执行权限!', true);     
         }
 		
 		try{
