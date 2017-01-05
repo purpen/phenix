@@ -103,6 +103,9 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                 $row['stage_label'] = '--';
         }
 
+        // 分成百分比转化
+        $row['commision_percent_p'] = isset($row['commision_percent']) ? $row['commision_percent']*100 : 0;
+
 	}
 
 

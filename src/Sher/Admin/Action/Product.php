@@ -1156,6 +1156,69 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
   
   }
 
+    /**
+     * 佣金管理
+     */
+    function commision_list(){
+    	$this->set_target_css_state('page_commision');
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/product/commision_list?stage=%d&page=#p#';
+		switch($this->stash['stage']){
+		    case 12:
+				$this->stash['process_exchange'] = 1;
+				break;
+			case 9:
+				$this->stash['process_saled'] = 1;
+				break;
+			case 5:
+				$this->stash['process_presaled'] = 1;
+				break;
+			case 1:
+				$this->stash['process_voted'] = 1;
+				break;
+		}
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['stage']);
+    	$this->stash['is_search'] = false;
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "product";
+		
+        return $this->to_html_page('admin/product/commision_list.html');
+  
+    }
+
+    /**
+     * ajax 设置佣金比例
+     */
+    public function ajax_set_commision(){
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        $commision = isset($this->stash['commision']) ? (float)$this->stash['commision'] : 0;
+
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数！', true);
+        }
+
+        $model = new Sher_Core_Model_Product();
+        $product = $model->load($id);
+
+        if(empty($product)){
+            return $this->ajax_json('产品不存在！', true);
+        }
+        $query = array();
+        $query['commision_percent'] = $commision/100;
+        if(empty($commision)){
+            $query['is_commision'] = 0;
+        }else{
+            $query['is_commision'] = 1;      
+        }
+
+        $ok = $model->update_set($id, $query);
+        if(!$ok){
+            return $this->ajax_json('设置失败！', true);
+        }
+
+        return $this->ajax_json('设置成功！', false, 0, array('id'=>$id));
+    }
+
   /**
    * 获取二维码
    */
