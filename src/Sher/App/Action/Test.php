@@ -615,6 +615,8 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
      */
     public function auto_pay(){
         $user_id = $this->visitor->id;
+        echo "Test......";
+        exit;
         if(empty($user_id) || $user_id != 20448){
              echo "没有权限!";
              exit;
