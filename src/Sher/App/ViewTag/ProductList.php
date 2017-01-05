@@ -53,6 +53,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$s_mark = null;
 		// 是否成功案例
 		$only_okcase = 0;
+        // 是否可推广
+        $is_commision = 0;
 		
 		// 是否有话题
 		$only_subject = 0;
@@ -149,6 +151,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
                 $query['is_vop'] = 0;
             }else{
                 $query['is_vop'] = 1;
+            }
+        }
+
+        // 是否可推广
+        if($is_commision){
+            if((int)$is_commision==-1){
+                $query['is_commision'] = 0;
+            }else{
+                $query['is_commision'] = 1;
             }
         }
 

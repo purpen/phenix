@@ -520,6 +520,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             $row['stars_value'] = sprintf("%.1f", $stars*2);        
           }
         }
+
+        // 分成百分比转化
+        $row['commision_percent_p'] = isset($row['commision_percent']) ? $row['commision_percent']*100 : 0;
 	}
 	
 	/**
@@ -664,6 +667,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
         // 是否可推广
         if(isset($data['commision_percent']) && !empty($data['commision_percent'])){
+            $data['commision_percent'] = $data['commision_percent']/100;
             $data['is_commision'] = 1;
         }
 
