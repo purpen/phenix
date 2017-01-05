@@ -43,6 +43,16 @@
                 <label>搜索：</label>
 
           <div class="ui selection dropdown">
+            <input type="hidden" name="sort" value="{{ sort }}" />
+            <div class="default text">排序</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="0">最新</div>
+              <div class="item" data-value="8">佣金比例</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
             <input type="hidden" name="s" value="{{ s }}" />
             <div class="default text">选择条件</div>
             <i class="dropdown icon"></i>
@@ -81,7 +91,7 @@
 		</thead>
 		<tbody>
 
-			{% product_list var:'list' page:page category_id:category_id stage:9 s_type:s s_mark:q is_commision:1 sort:sort size:size %}
+			{% product_list var:'list' page:page s_type:s s_mark:q stage:9 s_type:s s_mark:q is_commision:1 sort:sort size:size %}
 
 			{% for product in list.rows %}
 			<tr id="{{ product._id }}">
@@ -102,8 +112,7 @@
                             {{ product.title|truncate, 32 }}{% if product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
 						</a>
 					</div>
-		          	<p class="attribute">ID：{{ product._id }}</p>
-		          	<p class="attribute">编号：{{ product.number }}</p>
+		          	<p class="attribute">编号：{{ product._id }}</p>
 				</td>
                 <td>{{ product.sale_price }}</td>
                 <td>
