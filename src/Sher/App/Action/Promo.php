@@ -10,7 +10,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces','huaban');
 	
 	/**
 	 * 网站入口
@@ -19,6 +19,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->coupon();
 	}
 
+	/**
+	  * 花瓣
+	 **/
+	public function huaban(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/promo/huaban.html');
+	}
   /**
    * andorid下载地址
    */
