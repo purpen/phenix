@@ -1,0 +1,314 @@
+{%extends 'layout/column.html'%}
+{% block title %} -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.huabg{
+		background: url({{ app_url_packaged }}/images/promo/huaban.jpg) no-repeat center center;
+		background-size: 100% 100%;
+		padding-top: 33.8%;
+	    min-width: 1200px;
+	    min-height: 406px;
+	}
+	.contentt{
+		background: #f23d61;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		position: relative;
+	}
+	.owner{
+		position: relative;
+		margin:0 auto;
+		width: 908px;
+		border-left: 4px solid #fff;
+		border-right: 4px solid #fff;
+	}
+	.owner h2.title{
+		color: #f5de58;
+		text-align: center;
+		padding: 35px 0 30px;
+		margin-bottom:0;
+	}
+	.owner h2.title img{
+		height: 30px;
+		vertical-align: top;
+	}
+	.packet{
+		width: 700px;
+		height: 220px;
+		background: url({{ app_url_packaged }}/images/promo/huabous.jpg );
+		position: relative;
+		text-align: center;
+		margin: 0 auto;
+		margin-bottom: 0;
+		cursor: pointer;
+	}
+	.packet p{
+		position: absolute;
+		color: #fd0318;
+		bottom: 30px;
+		left: 30px;
+	}
+	.line{
+		margin:45px 0;
+		width: 100%;
+		height: 65px;
+		background: url({{ app_url_packaged }}/images/promo/hualine.png)
+	}
+	.huashop{
+		width:700px;
+		margin:0 auto;
+		position: relative;
+	}
+	.allitems{
+		margin:10px -10px -10px;
+	}
+	.allitems .huaitem{
+		margin:10px;
+		font-size: 0;
+	}
+	.allitems .huaitem img{
+		margin:10px 0;
+	}
+	.line+h2.title{
+		margin-top: 0;
+		padding-top: 0;
+	}
+	.huashop.sence a img{
+		margin-bottom: 10px;
+	}
+	.huabot img{
+		margin:45px 0 30px;
+	}
+	.p1{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.p2{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 0;
+		left: 175px;
+	}
+	.p3{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 0;
+		right: 175px;
+	}
+	.p4{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.p5{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 176px;
+		left: 0;
+	}
+	.p6{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 176px;
+		left: 175px;
+	}
+	.p7{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 176px;
+		right: 175px;
+	}
+	.p8{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 176px;
+		right: 0;
+	}
+	.p9{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 352px;
+		left: 0;
+	}
+	.p10{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 352px;
+		left: 175px;
+	}
+	.p11{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 352px;
+		right: 175px;
+	}
+	.p12{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 352px;
+		right: 0;
+	}
+	.p13{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 528px;
+		left: 0;
+	}
+	.p14{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 528px;
+		left: 175px;
+	}
+	.p15{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 528px;
+		right: 175px;
+	}
+	.p16{
+		width: 173px;
+		height: 173px;
+		position: absolute;
+		top: 528px;
+		right: 0;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+    $('#fetch_bonus').click(function(){
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+        $.post("{{ app_url_domain }}/app/wap/promo_func/ajax_new_bonus", {}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('领取成功！');
+            }else{
+                phenix.show_error_note(rs.message,3000);
+            }
+        }, 'json');
+    });
+{% endblock %}
+
+{% block content %}
+<div class="huaban">
+	<div class="huabg">
+	</div>
+	<div class="contentt">
+		<div class="owner">
+			<div class="bonus">
+				<h2 class="title">
+					<img src="{{app_url_packaged}}/images/promo/hualeft.png">
+					花瓣专享30元红包
+					<img src="{{app_url_packaged}}/images/promo/huaright.png">
+				</h2>
+
+				<div class="packet" id="fetch_bonus">
+					<p>仅限2017.1.5-1.30期间领取，领取后3天内使用</p>
+				</div>
+				<div class="line"></div>
+			</div>
+
+			<div class="huashop">
+				<a href="http://www.taihuoniao.com/shop/view-1048520396-1.html">
+					<img src="{{ app_url_packaged }}/images/promo/soocare.jpg" align="absmiddle">
+				</a>
+				<div class="allitems">
+					<a href="http://www.taihuoniao.com/shop/view-1021648835-1.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap1.jpg" align="absmiddle">
+					</a>
+					<a href="http://www.taihuoniao.com/shop/view-1048986358-1.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap2.jpg" align="absmiddle">
+					</a>
+					<a href="http://www.taihuoniao.com/shop/1047627311.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap3.jpg" align="absmiddle">
+					</a>
+					<a href="http://www.taihuoniao.com/shop/view-1048615589-1.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap4.jpg" align="absmiddle">
+					</a>
+					<a href="http://www.taihuoniao.com/shop/view-1048584670-1.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap5.jpg" align="absmiddle">
+					</a>
+					<a href="http://www.taihuoniao.com/shop/1111546391.html" class="huaitem">
+						<img src="{{ app_url_packaged }}/images/promo/huap6.jpg" align="absmiddle">
+					</a>
+				</div>
+			</div>
+			<div class="line"></div>
+			<h2 class="title">
+				<img src="{{app_url_packaged}}/images/promo/hualeft.png">
+				岁末美学大趴 全场6折起
+				<img src="{{app_url_packaged}}/images/promo/huaright.png">
+			</h2>
+			<div class="huashop sence">
+				<a href="https://www.taihuoniao.com/search?q=%E7%89%A9%E8%88%8D&t=1">
+					<img src="{{ app_url_packaged }}/images/promo/huas1.jpg" align="absmiddle">
+				</a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%A9%99%E8%88%8D&t=1">
+					<img src="{{ app_url_packaged }}/images/promo/huas2.jpg" align="absmiddle">
+				</a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%84%8F%E5%A4%96%E8%AE%BE%E8%AE%A1&t=1">
+					<img src="{{ app_url_packaged }}/images/promo/huas3.jpg" align="absmiddle">
+				</a>
+				<a href="https://www.taihuoniao.com/search?q=ONEDAY&t=1">
+					<img src="{{ app_url_packaged }}/images/promo/huas4.jpg" align="absmiddle">
+				</a>
+				<a href="https://www.taihuoniao.com/search?q=OFESS&t=1">
+					<img src="{{ app_url_packaged }}/images/promo/huas5.jpg" align="absmiddle">
+				</a>
+			</div>
+			<div class="line"></div>
+			<h2 class="title">
+				<img src="{{app_url_packaged}}/images/promo/hualeft.png">
+				回顾2016 你不得不记住的品牌
+				<img src="{{app_url_packaged}}/images/promo/huaright.png">
+			</h2>
+			<div class="huashop">
+				<img src="{{app_url_packaged}}/images/promo/hualogo.png">
+				<a href="https://www.taihuoniao.com/search?q=%E7%89%A9%E8%88%8D&t=1" class="p1"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%A9%99%E8%88%8D&t=1" class="p2"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%84%8F%E5%A4%96%E8%AE%BE%E8%AE%A1&t=1" class="p3"></a>
+				<a href="https://www.taihuoniao.com/search?q=OFESS&t=1" class="p4"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E8%87%AA%E7%84%B6%E5%AE%B6&t=1" class="p5"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E5%93%B2%E5%93%81&t=1" class="p6"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%A0%91%E5%BE%B7&t=1" class="p7"></a>
+				<a href="https://www.taihuoniao.com/search?q=umbra&t=1" class="p8"></a>
+				<a href="http://www.taihuoniao.com/shop/1154430953.html" class="p9"></a>
+				<a href="https://www.taihuoniao.com/search?t=1&q=%E6%A8%A1%E8%8C%83%E9%95%87" class="p10"></a>
+				<a href="https://www.taihuoniao.com/search?q=%E6%9C%AC%E5%9C%9F&t=1" class="p11"></a>
+				<a href="https://www.taihuoniao.com/search?t=1&q=%E5%B0%8F%E7%B1%B3" class="p12"></a>
+				<a href="https://www.taihuoniao.com/search?q=9-A-M&t=1" class="p13"></a>
+				<a href="https://www.taihuoniao.com/search?q=ONEDAY&t=1" class="p14"></a>
+				<a href="https://www.taihuoniao.com/search?q=katewood&t=1" class="p15"></a>
+				<a href="https://www.taihuoniao.com/search?q=celia&t=1" class="p16"></a>
+				<a href="{{ app_url_domain }}/shop" class="huabot">
+					<img src="{{app_url_packaged}}/images/promo/huabot.jpg">
+				</a>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
