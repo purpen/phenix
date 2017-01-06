@@ -77,7 +77,7 @@ class Sher_Admin_Action_WithdrawCash extends Sher_Admin_Action_Base implements D
 		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $status = isset($this->stash['status']) ? (int)$this->stash['status'] : 1;
 
-        $model = new Sher_Core_Model_Balance();
+        $model = new Sher_Core_Model_WithdrawCash();
         $ok = $model->mark_as_status($id, $status);
         if(!$ok){
             return $this->ajax_json('更新失败！', true);

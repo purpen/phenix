@@ -24,6 +24,23 @@
             }
         }, 'json');
     });
+
+    // 获取产品二维码
+    $('.fetch_qr').click(function(){
+        var str = $(this).data('str');
+        $.get("{{ app_url_admin_base }}/product/fetch_qr", {str:str, referral_code:"{{referral_code}}"}, function(result){
+            //alert(result);
+
+            $('#qr_box').html(result);
+		$('.ui.qr-box.modal')
+		.modal('show');
+
+        });
+    });
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 	
@@ -40,7 +57,13 @@
 	<div class="ui sub nav">
 		<form action="{{ app_url_admin_base }}/product/commision_list" method="get" id="search-form">
           <input type="hidden" name="stage" value="{{ stage }}" />
-                <label>搜索：</label>
+
+            <div class="ui icon input">
+                <input placeholder="推广码" type="text" name="referral_code" value="{{ referral_code }}" />
+            </div>
+
+            <span class="" style="margin-left:10px;"></span>
+            <label>搜索：</label>
 
           <div class="ui selection dropdown">
             <input type="hidden" name="sort" value="{{ sort }}" />
@@ -113,6 +136,19 @@
 						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
+                    <p class="attribute">推广链接：
+                        {% if referral_code %}
+                            {{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}
+                        {%else%}
+                            {{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}
+                        {%endif%}
+                    </p>
+                    {% if referral_code %}
+                        <p class="attribute fetch_qr" data-str="{{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}">查看二维码>></p>
+                    {%else%}
+                        <p class="attribute fetch_qr" data-str="{{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}">查看二维码>></p>
+                    {%endif%}
+
 				</td>
                 <td>{{ product.sale_price }}</td>
                 <td>

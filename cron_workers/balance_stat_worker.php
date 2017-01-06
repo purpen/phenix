@@ -118,11 +118,13 @@ while(!$is_end){
 
         // 更新联盟表结算数据且解冻
         $total_balance_amount = $list[$i]['total_balance_amount'] + $total_price;
+        $wait_cash_amount = $list[$i]['wait_cash_amount'] + $total_price;
         $row = array(
             'total_balance_amount' => $total_balance_amount,
             'last_balance_on' => time(),
             'last_balance_amount' => $total_price,
             'whether_balance_stat' => 0,
+            'wait_cash_amount' => $wait_cash_amount,
         );
         $ok = $alliance_mode->update_set($alliance_id, $row);
         if(!$ok){

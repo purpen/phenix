@@ -60,7 +60,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'verify_cash_amount' => 0,
         # 审核中的提现金额(已从待提现金额中扣除)**注：因不支持事务，如果是提现审核状态，不允许再次提交提现功能
         'whether_apply_cash' => 0,
-        # 待结算金额
+        # 可结算金额
         'wait_balance_amount' => 0,
         # 是否结算统计中 **注：因不支持事务，如果正在结算统计中，不允许重复或并行执行结算统计任务
         'whether_balance_stat' => 0, 
@@ -70,13 +70,15 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'total_count' => 0,
         # 成功次数（以订单完成为准）
         'success_count' => 0,
+        # 推广产品总金额
+        'total_product_money' => 0,
   	);
 
     protected $required_fields = array('user_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat');
-	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount', 'addition');
-	protected $counter_fields = array('total_count', 'success_count');
+	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount', 'addition', 'total_product_money');
+	protected $counter_fields = array('total_count', 'success_count', 'total_product_money');
 
 	protected $joins = array(
 	    'user'  => array('user_id'  => 'Sher_Core_Model_User'),
@@ -176,7 +178,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
             return false;
         }
 
-        return $this->update_set($id, array('status' => $value));
+        return $this->update_set($id, array('status' => (int)$value));
     }
 
     /**
@@ -192,7 +194,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	/**
 	 * 更新计数
 	 */
-    public function inc_counter($field_name, $id=null) {
+    public function inc_counter($field_name, $id=null, $inc=1) {
         if (is_null($id)) {
             $id = $this->id;
         }
@@ -202,7 +204,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         }
         
         $id = DoggyX_Mongo_Db::id($id);
-        return $this->inc($id, $field_name);
+        return $this->inc($id, $field_name, $inc);
     }
 	
 	/**

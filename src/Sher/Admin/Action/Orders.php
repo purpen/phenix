@@ -927,4 +927,52 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
     }
 
+    /**
+     * 改价行为
+     * /
+     */
+    public function ajax_change_price(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        $new_price = isset($this->stash['new_price']) ? (float)$this->stash['new_price'] : 0;
+        if(empty($rid) || empty($new_price)){
+            return $this->ajax_json('缺少请求参数!', true);   
+        } 
+
+		$model = new Sher_Core_Model_Orders();
+		$order = $model->find_by_rid($rid);
+        if(empty($order)){
+            return $this->ajax_json('订单不存在!', true);
+        }
+
+		// 待付款的订单才允许发货
+		if ($order['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->ajax_json('订单状态不正确！', true);
+		}
+
+        $old_price = $order['pay_money'];
+        if(($new_price*2)<$old_price){
+            return $this->ajax_json('价格不能小于原价的一半!', true);
+        }
+
+        $current_user_id = $this->visitor->id;
+
+        $query = array();
+        $query['pay_money'] = $new_price;
+        $query['change_price_on'] = time();
+        $query['change_price_user_id'] = $current_user_id;
+
+        if(!isset($order['old_pay_money']) || empty($order['old_pay_money'])){
+            $query['old_pay_money'] = $old_price;
+        }
+
+        $ok = $model->update_set((string)$order['_id'], $query);
+
+        if(!$ok){
+            return $this->ajax_json('操作失败!', true);
+        }
+
+        return $this->ajax_json('success!', false, null, array('rid'=>$rid));
+    
+    }
+
 }

@@ -80,7 +80,42 @@
 						phenix.show_error_note(data.message, 3000);
 					}else{
 						phenix.show_ok_note(data.message, 3000);
-            location.reload();
+                        location.reload();
+					}
+				}
+			});
+		}
+	});
+
+    // 改价表单
+	$('#change-price-form').form({
+        new_price: {
+            identifier  : 'new_price',
+            rules: [
+                {
+                    type   : 'empty',
+                    prompt : '价格不能为空'
+                }
+            ]
+        }
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, 3000);
+					}else{
+						phenix.show_ok_note(data.message, 3000);
+                        location.reload();
 					}
 				}
 			});
@@ -160,6 +195,13 @@
                 phenix.show_error_note(rs.message, 3000);
             }
         }, 'json')
+
+    });
+
+    // 改价
+    $('.change-price-btn').click(function(){
+        var rid = $(this).data('rid');
+		$('.ui.change-price-box.modal').modal('show');
 
     });
 
@@ -362,8 +404,11 @@
 				</p>
 			</div>
 			<div class="center aligned three wide column">
-				{% if order.status < 5 %}
+                {% if order_info.status > 5 %}
 					<a href="{{ order_info.view_url }}" class="ui link">评价 »</a>
+				{% endif %}
+                {% if order_info.status == 1 %}
+                <a href="javascript:void(0);" data-rid="{{ order_info.rid }}" class="ui red small magenta button change-price-btn">改价</a>
 				{% endif %}
 			</div>
 		</div>
@@ -374,6 +419,9 @@
 				<p>优惠：<b id="order_coin_money">-{{ order_info.discount_money }}</b>元</p>
 				<p>运费：<b id="order_freight_money">{{ order_info.freight }}</b>元</p>
 		
+                {% if order_info.old_pay_money %}
+				    <p>原实付金额：<b id="order_pay_money">{{ order_info.old_pay_money }}</b>元</p>
+                {%endif%}
 				<p>实付金额：<b id="order_pay_money">{{ order_info.pay_money }}</b>元</p>
 			</div>
 		</div>
@@ -562,6 +610,34 @@
 			<input type="button" name="gen_sub_order" class="ui active magenta  button" value="提交" />
         </div>
         
+    </div>
+</div>
+
+<!-- 改价弹出层 -->
+<div class="ui small change-price-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    改价
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/orders/ajax_change_price" class="ui form" method="post" id="change-price-form">
+      <div class="field">
+          <label>订单号: <span name="rid-show">{{ order_info.rid }}</span></label>
+        <input type="hidden" name="rid" value="{{ order_info.rid }}" />
+      </div>
+      <div class="field">
+          <label>原价格: <span name="old-price-show">{{ order_info.pay_money }}</span></label>
+      </div>
+      <div class="field">
+          <label>现价: </label>
+        <input type="text" name="new_price" value="" />
+      </div>
+
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+		<input type="submit" class="ui active change-price magenta submit button" value="确认" />
+      </div>
+    </form>
     </div>
 </div>
 

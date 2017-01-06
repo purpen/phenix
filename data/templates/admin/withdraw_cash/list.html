@@ -8,7 +8,7 @@
     $('.stat-btn').click(function(){
         var id = $(this).data('id');
         var status = $(this).data('status');
-        var url = "{{ app_url_admin_base }}/alliance/ajax_set_status";
+        var url = "{{ app_url_admin_base }}/withdraw_cash/ajax_set_status";
         $.post(url, {id:id, status:status}, function(rs){
             if(!rs.success){
                 phenix.show_error_note(rs.message, 3000);
@@ -133,9 +133,22 @@
                 </td>
                 <td>
 
-                    <a href="{{ app_url_admin }}/withdraw_cash/deleted?id={{ d._id }}" class="ui confirm-request link item">
-                      删除
+                    {% if d.status==0 %}
+                        --
+                    {% endif %}
+                    {% if d.status==1 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="2" class="ui link item stat-btn">
+                        审核
                     </a>
+                    {% endif %}
+                    {% if d.status==2 %}
+                    <a href="javascript:void(0);" data-id="{{ d._id }}" data-status="5" class="ui link item stat-btn">
+                        通过
+                    </a>
+                    {% endif %}
+                    {% if d.status==5 %}
+                        --
+                    {% endif %}
                 </td>
 			</tr>
 			{% endfor %}
