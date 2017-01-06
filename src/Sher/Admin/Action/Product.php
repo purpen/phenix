@@ -13,6 +13,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
         'sort' => 0,
         's' => '',
         'q' => '',
+        'referral_code' => '',
 	);
 	
 	public function execute(){
@@ -1163,7 +1164,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
      */
     function commision_list(){
     	$this->set_target_css_state('page_commision');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/product/commision_list?sort=%d&s=%d&q=%s&page=#p#', $this->stash['sort'], $this->stash['s'], $this->stash['q']);
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/product/commision_list?sort=%d&s=%d&q=%s&referral_code=%s&page=#p#', $this->stash['sort'], $this->stash['s'], $this->stash['q'], $this->stash['referral_code']);
 
 		$this->stash['pager_url'] = $pager_url;
 		

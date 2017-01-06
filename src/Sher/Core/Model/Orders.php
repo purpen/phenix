@@ -50,6 +50,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 		'bird_coin_count' => 0,
 		# 鸟币金额
 		'bird_coin_money' => 0,
+
+        # 原订单价格(改价后记录原价格)
+        'old_pay_money' => 0,
+        # 改价操作用户
+        'change_price_user_id' => 0,
+        # 改价时间
+        'change_price_on' => 0,
 		
 		# 物流费用
 		'freight'  => 0,

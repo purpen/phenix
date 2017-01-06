@@ -87,6 +87,11 @@
 			<div class="center aligned three wide column">
 				<p>
 					订单金额：{{ order.pay_money }} 元
+                    {% if admin %}
+                        {% if order.old_pay_money %}
+                            <small>原价格：({{ order.old_pay_money }})</small>
+                        {%endif%}
+                    {%endif%}
 				</p>
 				<p>
 					<small>（运费：{{ order.freight }} 元/优惠：{{ order.discount_money }} 元）</small>

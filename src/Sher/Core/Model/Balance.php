@@ -23,6 +23,9 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
         'sub_order_id' => null,
         'product_id' => 0,
         'sku_id' => 0,
+        # 产品单价
+        'sku_price' => 0,
+        # 数量
         'quantity' => 1,
         # 拥金比例
         'commision_percent' => 0,
@@ -55,7 +58,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
     protected $required_fields = array('order_rid', 'product_id', 'user_id', 'alliance_id');
 
     protected $int_fields = array('status', 'user_id', 'kind', 'type', 'product_id', 'sku_id', 'quantity', 'stage', 'balance_on');
-	protected $float_fields = array('commision_percent', 'unit_price', 'total_price', 'addition');
+	protected $float_fields = array('commision_percent', 'unit_price', 'total_price', 'addition', 'sku_price');
 	protected $counter_fields = array();
 
 
@@ -155,7 +158,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
     /**
      * 更新进度
      */
-    public function set_stage($id, $stage){
+    public function set_stage($id, $stage, $options=array()){
         $row = $this->load($id);
 
         if(empty($row)) return false;
@@ -168,7 +171,10 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
         if($stage==5){
             $alliance_id = $row['alliance_id'];
             $alliance_model = new Sher_Core_Model_Alliance();
-            $alliance_model->inc_counter('success_count', $alliance_id);       
+            $alliance_model->inc_counter('success_count', $alliance_id);
+            if(isset($options['price']) && !empty($options['price'])){
+                $alliance_model->inc_counter('total_product_money', $alliance_id, (float)$options['price']);           
+            }
         }
         return $ok;
     }
@@ -229,6 +235,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                     'commision_percent' => $commision_percent,
                     'addition' => $addition,
                     'code' => $alliance['code'],
+                    'sku_price' => $item['price'],
                     'unit_price' => $unit_price,
                     'total_price' => $total_price,
                     'kind' => 1,
@@ -272,9 +279,10 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                 }
                 $balances = $this->find(array('order_rid'=>$rid, 'sku_id'=>$item['sku'], 'kind'=>1, 'status'=>0));
                 if(empty($balances)) continue;
+                $price = sprintf("%.2f", ($item['price'] * $item['quantity']));
                 for($j=0;$j<count($balances);$j++){
                     $balance_id = (string)$balances[$j]['_id'];
-                    $ok = $this->set_stage($balance_id, 5);
+                    $ok = $this->set_stage($balance_id, 5, array('price'=>$price));
                 } // endfor
 
             }
