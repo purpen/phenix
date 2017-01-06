@@ -195,6 +195,23 @@
 	}
 </style>
 {% endblock %}
+
+{% block jquery %}
+    $('#fetch_bonus').click(function(){
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+        $.post("{{ app_url_domain }}/app/wap/promo_func/ajax_new_bonus", {}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('领取成功！');
+            }else{
+                phenix.show_error_note(rs.message,3000);
+            }
+        }, 'json');
+    });
+{% endblock %}
+
 {% block content %}
 <div class="huaban">
 	<div class="huabg">
@@ -208,7 +225,7 @@
 					<img src="{{app_url_packaged}}/images/promo/huaright.png">
 				</h2>
 
-				<div class="packet">
+				<div class="packet" id="fetch_bonus">
 					<p>仅限2017.1.5-1.30期间领取，领取后3天内使用</p>
 				</div>
 				<div class="line"></div>

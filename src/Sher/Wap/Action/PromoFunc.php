@@ -30,7 +30,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
         $row = array(
             'user_id' => $user_id,
-            'target_id' => 8,
+            'target_id' => 9,
             'event' => 5,
         );
         $has_one = $model->first($row);
