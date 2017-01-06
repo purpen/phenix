@@ -192,8 +192,8 @@
                             {{ product.title|truncate, 32 }}{% if product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
 						</a>
 					</div>
-		          	<p class="attribute">ID：{{ product._id }}</p>
-		          	<p class="attribute">编号：{{ product.number }}</p>
+		          	<p class="attribute">编号：{{ product._id }}</p>
+		          	<p class="attribute">erp编号：{{ product.number }}</p>
 					<p class="attribute">上架时间：{{ product.created_on|date 'Y-m-d H:i'}}</p>
                     <p class="attribute fetch_qr" data-str="{{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}">查看二维码</p>
 				</td>

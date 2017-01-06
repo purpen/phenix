@@ -1,0 +1,161 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+
+    // 设置佣金
+    $(':input[name=set_commision]').click(function(){
+        var product_id = $(this).data('product_id');
+        var commision = $(this).parent('div.set_commision').find('[name=commision_percent]').val();
+        if(commision>10){
+            phenix.show_error_note('设置佣金不能超过10%');
+            return false;
+        }
+        $.post("{{ app_url_admin }}/product/ajax_set_commision", {id:product_id, commision:commision}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('设置成功!');
+            }else{
+                phenix.show_error_note(rs.message);
+            }
+        }, 'json');
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">产品佣金管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/product/commision_list" class="active item">
+			全部
+		</a>
+
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/product/commision_list" method="get" id="search-form">
+          <input type="hidden" name="stage" value="{{ stage }}" />
+                <label>搜索：</label>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="sort" value="{{ sort }}" />
+            <div class="default text">排序</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="0">最新</div>
+              <div class="item" data-value="8">佣金比例</div>
+            </div>
+          </div>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="s" value="{{ s }}" />
+            <div class="default text">选择条件</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="1">编号</div>
+              <div class="item" data-value="2">标题</div>
+              <div class="item" data-value="3">标签</div>
+            </div>
+          </div>
+
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+				<th>缩略图</th>
+				<th class="five wide">产品名称</th>
+                <th>价格</th>
+                <th>佣金</th>
+				<th>状态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% product_list var:'list' page:page s_type:s s_mark:q stage:9 s_type:s s_mark:q is_commision:1 sort:sort size:size %}
+
+			{% for product in list.rows %}
+			<tr id="{{ product._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ product._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>
+					<div class="ui image">
+						<img src="{{ product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+				</td>
+				<td>
+		          	<div class="header">
+						<a href="{{ product.view_url }}" class="ui link" target="_blank" title="{{ product.title }}">
+                            {{ product.title|truncate, 32 }}{% if product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
+						</a>
+					</div>
+		          	<p class="attribute">编号：{{ product._id }}</p>
+				</td>
+                <td>{{ product.sale_price }}</td>
+                <td>
+                    <div class="set_commision">
+                        %<input type="text" name="commision_percent" style="width:50px;" value="{{ product.commision_percent_p }}" />
+                        <input type="button" name="set_commision" data-product_id="{{ product._id }}" value="确定" />
+                    </div>
+                </td>
+
+				<td>
+					<p>
+						{% if product.published %}
+							<span class="ui small green label">已发布</span>
+						{% else %}
+							<span class="ui small orange label">待发布</span>
+						{% endif %}
+					</p>
+				</td>
+				<td>
+                    --
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+
+
+<div class="ui qr-box small modal transition">
+	<div class="header" style="position: relative;">
+	    产品二维码
+	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container" id="qr_box">
+	</div>
+</div>
+
+
+{% endblock %}

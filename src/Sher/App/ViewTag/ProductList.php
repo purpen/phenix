@@ -53,6 +53,8 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 		$s_mark = null;
 		// 是否成功案例
 		$only_okcase = 0;
+        // 是否可推广
+        $is_commision = 0;
 		
 		// 是否有话题
 		$only_subject = 0;
@@ -152,6 +154,15 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
             }
         }
 
+        // 是否可推广
+        if($is_commision){
+            if((int)$is_commision==-1){
+                $query['is_commision'] = 0;
+            }else{
+                $query['is_commision'] = 1;
+            }
+        }
+
 		//预售
 		if($presaled){
 		  $query['stage'] = 5;
@@ -235,7 +246,7 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
         }
 		
 	    // 搜索
-	    if($s_type){
+	    if($s_type && $s_mark){
 	      switch ((int)$s_type){
 		      case 1:
 		        $query['_id'] = (int)$s_mark;
@@ -288,6 +299,9 @@ class Sher_App_ViewTag_ProductList extends Doggy_Dt_Tag {
 				break;
 			case 7:
 				$options['sort_field'] = 'price_asc';
+				break;
+			case 8:
+				$options['sort_field'] = 'commision_desc';
 				break;
 		}
 		
