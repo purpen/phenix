@@ -120,6 +120,7 @@
 			<tr>
 				<th></th>
                 <th>推广码</th>
+                <th>名称</th>
 				<th>用户</th>
                 <th>个人/机构信息</th>
                 <th>佣金统计</th>
@@ -143,6 +144,7 @@
 				</td>
 
                 <td>{{ d.code }}</td>
+                <td>{{ d.name }}</td>
 				<td>
 					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
 					  	<img src="{{ d.user.mini_avatar_url }}">
