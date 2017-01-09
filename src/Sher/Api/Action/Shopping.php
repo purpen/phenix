@@ -2017,6 +2017,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $type = (int)$v['type'];
       $n = (int)$v['n'];
       $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null; 
+        $referral_code = isset($v['referral_code']) ? $v['referral_code'] : '';
+        $storage_id = isset($v['storage_id']) ? $v['storage_id'] : '';
 
       $data = array();
       $data['target_id'] = $target_id;
@@ -2026,6 +2028,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $data['sku_name'] = null;
       $data['price'] = 0;
       $data['vop_id'] = $vop_id;
+      $data['referral_code'] = $referral_code;
+      $data['storage_id'] = $storage_id;
 
       if($type==2){
         $inventory = $inventory_model->load($target_id);
