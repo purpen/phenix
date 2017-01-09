@@ -33,6 +33,11 @@ app.modules.api:
   namespace: 'Sher_Api'
   index_action: 'Data'
 
+app.modules.league: 
+  state: 'on'
+  namespace: 'Sher_League'
+  index_action: 'Index'
+
 app.dispatcher.routes:
 app.dispatcher.result.map:
   redirect: 'Doggy_Dispatcher_Result_Redirect'
