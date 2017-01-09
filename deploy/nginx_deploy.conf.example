@@ -277,7 +277,8 @@ server {
           rewrite ^/goccia(.*)$ /app/site/index/goccia$1 last;
           rewrite ^/activity(.*)$ /app/site/activity$1 last;
           rewrite ^/dm(.*)$ /app/site/index/dm$1 last;
-		  rewrite ^/tracker(.*)$ /app/site/tracker$1 last;  
+		  rewrite ^/tracker(.*)$ /app/site/tracker$1 last;
+          rewrite ^/league(.*)$ /app/league$1 last;
         }
 		
         location /promo {
