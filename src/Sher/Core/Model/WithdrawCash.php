@@ -83,13 +83,19 @@ class Sher_Core_Model_WithdrawCash extends Sher_Core_Model_Base  {
         }
 
         if($value==5){
+            $cash = $this->load((string)$id);
+            if(!$cash){
+                return false;
+            }
+
             $alliance_model = new Sher_Core_Model_Alliance();
             $alliance = $alliance_model->load($row['alliance_id']);
             if(empty($alliance)){
                 return false;
             }
-            $total_cash_amount = $alliance['total_cash_amount'] + $alliance['verify_cash_amount'];
-            $ok = $alliance_model->update_set($row['alliance_id'], array('total_cash_amount'=>$total_cash_amount, 'verify_cash_amount'=>0, 'whether_apply_cash'=>0));
+            $total_cash_amount = $alliance['total_cash_amount'] + $cash['amount'];
+            $verify_cash_amount = $alliance['verify_cash_amount'] - $cash['amount'];
+            $ok = $alliance_model->update_set($row['alliance_id'], array('total_cash_amount'=>$total_cash_amount, 'verify_cash_amount'=>$verify_cash_amount));
             if(!$ok){
                 return false;
             }

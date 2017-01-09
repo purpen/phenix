@@ -121,6 +121,14 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 	 */
 	protected function before_save(&$data) {
 
+        if(isset($data['verify_cash_amount']) && $data['verify_cash_amount']<0){
+            $data['verify_cash_amount'] = 0;
+        }
+
+        if(isset($data['wait_balance_amount']) && $data['wait_balance_amount']<0){
+            $data['wait_balance_amount'] = 0;
+        }
+
         //如果是新的记录
         if($this->insert_mode) {
             // 自动生成推广码

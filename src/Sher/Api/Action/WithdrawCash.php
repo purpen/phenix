@@ -156,18 +156,13 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
  			return $this->api_json('账户未审核通过！', 3004);       
         }
 
-        if($alliance['whether_apply_cash']==1 || $alliance['verify_cash_amount']>0){
-  			return $this->api_json('有待审核的提现操作，不允许操作！', 3005);        
-        }
-
         if($alliance['wait_cash_amount'] < $amount){
   			return $this->api_json('超出可用提现金额！', 3006);
         }
 
         // 开始提现
         $row = array(
-            'verify_cash_amount' => $amount,
-            'whether_apply_cash' => 1,
+            'verify_cash_amount' => $alliance['verify_cash_amount'] + $amount,
             'wait_cash_amount' => $alliance['wait_cash_amount'] - $amount,
             'last_cash_on' => time(),
             'last_cash_amount' => $amount,
