@@ -574,9 +574,9 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 
         include "wx_encrypt_data/wxBizDataCrypt.php";
 
-        $js_code = '011kTfLH0y8oZj2RHGKH0C4rLH0kTfLb';
-        $encryptedData = 'DG93GvZuiLSHj750oaoz2Hv95B+J2bTeJx59ULN96hsBfkuuWTI0/IKM9riiGdVo4zCvSMjTRMyZFEG8UNlcaYgI77m0Y4Me1nTEXsLKMaklNRUEOTMDMKrqvK4z/jIXG2EdhvC00ckymdre27n7z733zAmPdNyhMpZtOHL4Z9LpulJATe0WX9l3/vx9fyC+l3T+Cc5t1uVfau7B7CnLaVEgRwB8xdaA2chree7t9BU7FaMIKLmzsu74bvsgVYREv58InrMOYElOErxZJ/7eK2lktyw1LwpEzKDT4Axk8/+nG3+6N+Yt4Stw340xKcQrh+yMFPaA9g3MmGSFWbvlSKjPuLw5Qq7qs2P1R/3OQk/TBfkskeR+f6MhNpIBjOzBsYuO8etEaxTYiTnOrpZxExnTl//WSvBgyTAF3rPkOd2TdO1Lv5QdBaYUZ4mW+jJz5+nt+D9YAGYseR4oo+LEObIsTxCwJGyaNSOLvSTG9hR6rdXoSpVf3rfHN3UjrpyLV2CrguvgJ0gxJbvxQJjrNg==';
-        $iv = 'bJQuLkq///OCZZo1ych33A==';
+        $js_code = '011UBCld2s0UUA0Ukumd2oZnld2UBCls';
+        $encryptedData = 'A0PgIm8z0gY7cjpQy9QmPt3Uf1wUGIk+jVwmj06tLwA3p3vfpU7q5fgUZDAx6jaLmA2YDir3KZRb13DdjXVFV6Yrd99g0GVLZpKveoj/E28gX7XkYACoh624liNPBMffK2AI932GqLzUItOiPyqz2ku0irpXZG2jriYvkJppFWhtQGsVIvSz91oFOl1L2tGxGJ5Qd33lqHIHkqrhNGRmUs16l3VL5K98BnH1IQlIwQVCd4CcUh6sO2c4oYYzO0gg46sxgxgNQz1hYYkx9phIGqOhaH9RbIrpix8ewYcfEeSG7LYCg0hiF/pqGLCfNnqzUHk2AeFYtif6KZEdSA4ZycoMPb7OBEnRgwvJhQZfNzlswMaxkv0in5CXfPgQYXOoTKvtdAesysEf/PhPnxR3C5I/DEnhaAIcti8syE7HHuTAX1wnf5TsY+D1EqySeJn273rC5PItTPdATC3x6//Ub57pB+PrjgPYY6cVKPPt4ZuX7QsO02Vy3t9kYmAEUtcpCNVxy4PVw+aLJ16O6usXDw==';
+        $iv = '2ngyjzilZA5kkIx78EOsJA==';
         $appid = 'wx0691a2c7fc3ed597';
         $secret =  '3eed8c2a25c6c85f7dd0821de15514b9';
         $grant_type =  'authorization_code';
@@ -597,15 +597,19 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
             return;
         }
 
-        //print_r($user_data);
+        //print_r($user_data);exit;
         $session_key = $user_data['session_key'];
         //echo $session_key;
 
         //解密数据
         $data = '';
         $wxBizDataCrypt = new WXBizDataCrypt($appid, $session_key);
-        $errCode=$wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
-        echo $errCode;
+        $errCode = $wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
+        if($errCode != 0){
+            echo $errCode;
+            return;
+        }
+        $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
         print_r($data);
     
     }

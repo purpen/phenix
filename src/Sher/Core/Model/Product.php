@@ -454,7 +454,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		}
 		
 		// 去除 html/php标签
-		$row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+        if(isset($row['summary']) && !empty($row['summary'])){
+		    $row['strip_summary'] = strip_tags(htmlspecialchars_decode($row['summary']));
+        }
 		
 		$this->expert_assess($row);
 		
