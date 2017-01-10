@@ -17,7 +17,7 @@ Class Sher_Core_Action_WApiCheck extends Sher_Core_Action_Base implements Sher_C
 
         $result = array();
         $result['success'] = true;
-        $result['message'] = null;
+        $result['message'] = '';
         //匿名用户可执行方法
         if (!($this->filter_auth_methods === '*' || in_array($invoke_method, $this->filter_auth_methods))) {
           if(empty($uid)){

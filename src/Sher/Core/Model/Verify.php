@@ -8,9 +8,11 @@ class Sher_Core_Model_Verify extends Sher_Core_Model_Base {
 
     protected $schema = array(
 		'phone' => null,
-    'code' => null,
-    # 超时时间
-    'expired_on' => 0,
+        'code' => null,
+        # 类型：1.注册；2.短信登录注册；
+        'type' => 1,
+        # 超时时间
+        'expired_on' => 0,
     );
 	
 	protected $required_fields = array('phone', 'code');

@@ -390,9 +390,10 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
     } // end switch
 
     $user = $user_model->first($query);
-    $user_id = $user['_id'];
 
     if($user){
+
+        $user_id = $user['_id'];
       if ($user['state'] == Sher_Core_Model_User::STATE_BLOCKED) {
         return $this->api_json('此帐号涉嫌违规已经被锁定!', 3004);
       }
