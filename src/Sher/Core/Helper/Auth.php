@@ -136,6 +136,23 @@ class Sher_Core_Helper_Auth {
             $service->bind_session_to_action($action);
         }
     }
+
+    /**
+     * create a new authenticated token to the user
+     *
+     * @param int $user_id 
+     * @param Sher_App_Action_Base $action 
+     * @return void
+     */
+    public static function create_user_token($user_id, &$action) {
+        $user_id = (int) $user_id;
+        $service = Sher_Core_Session_Token::getInstance();
+        $token = $service->create_auth_token($user_id);
+        $action->uid = $user_id;
+        $action->token = $token;
+
+    }
+
     /**
      * Generate random speicific length password
      *

@@ -38,6 +38,11 @@ app.modules.league:
   namespace: 'Sher_League'
   index_action: 'Index'
 
+app.modules.w_api: 
+  state: 'on'
+  namespace: 'Sher_WApi'
+  index_action: 'Data'
+
 app.dispatcher.routes:
 app.dispatcher.result.map:
   redirect: 'Doggy_Dispatcher_Result_Redirect'
@@ -55,6 +60,7 @@ app.dispatcher.interceptors.run:
   - Doggy_Dispatcher_Interceptor_Parameters
   - Doggy_Dispatcher_Interceptor_UploadSupport
   - Sher_Core_Interceptor_ValidSign
+  - Sher_Core_Interceptor_ValidToken
   - Sher_Core_Interceptor_Filter
   - Sher_Core_Interceptor_XSession
   - DoggyX_Interceptor_BeforeInvoke

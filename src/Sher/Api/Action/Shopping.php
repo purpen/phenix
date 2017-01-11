@@ -707,7 +707,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             if(!empty($order_info['is_vop'])){
                 $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
                 if(!$vop_result['success']){
-				    return 	$this->ajax_json($vop_result['message'], true);
+				    return 	$this->api_json($vop_result['message'], 3030);
                 }
                 $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
             }

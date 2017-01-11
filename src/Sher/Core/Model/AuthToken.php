@@ -19,4 +19,4 @@ class Sher_Core_Model_AuthToken extends Sher_Core_Model_Base {
         return $this->remove(array('user_id' => (int)$user_id));
     }
 }
-?>
+

@@ -361,8 +361,10 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'position' => 0,
       'user_name' => null,
     ),
-		# 来源站点
+		# 来源站点(注册方式)
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
+        # 来源: 1.默认；8.小程序；
+        'from_to' => 1,
 
         # 用户唯一邀请码
         'invite_code' => null,
@@ -370,7 +372,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号或现有账户, 21.报名注册用户(随机密码);
+        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号, 21.短信注册(随机密码);
         'kind' => 0,
         # symbol认证
         'symbol' => 0,
@@ -385,11 +387,11 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         'alliance_id' => null,
     );
 	
-	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1,'head_pic'=>1, 'scene_count'=>1, 'sight_count'=>1, 'subscription_count' => 1, 'sight_love_count' => 1, 'alliance_id'=>1);
+	protected $retrieve_fields = array('account'=>1,'nickname'=>1,'email'=>1,'avatar'=>1,'state'=>1,'role_id'=>1,'permission'=>1,'first_login'=>1,'profile'=>1,'city'=>1,'sex'=>1,'tags'=>1,'summary'=>1,'created_on'=>1,'from_site'=>1,'fans_count'=>1,'mentor'=>1,'topic_count'=>1,'product_count'=>1,'counter'=>1,'quality'=>1,'follow_count'=>1,'love_count'=>1,'favorite_count'=>1,'kind'=>1,'identify'=>1,'identify_info'=>1,'sina_uid'=>1,'qq_uid'=>1,'wx_open_id'=>1,'wx_union_id'=>1,'symbol'=>1,'last_ip'=>1,'age'=>1,'head_pic'=>1, 'scene_count'=>1, 'sight_count'=>1, 'subscription_count' => 1, 'sight_love_count' => 1, 'alliance_id'=>1,'from_to'=>1);
 	
     protected $required_fields = array('account', 'password');
 
-    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind','symbol');
+    protected $int_fields = array('role_id','state','role_id','marital','sex','height','weight','mentor','district','quality','kind','symbol','from_to');
     
 	protected $counter_fields = array('follow_count', 'fans_count', 'photo_count', 'love_count', 'favorite_count', 'topic_count', 'product_count', 'stuff_count', 'subscription_count', 'sight_love_count', 'scene_count', 'sight_count');
 	

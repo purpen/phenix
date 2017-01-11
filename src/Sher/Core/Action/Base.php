@@ -45,6 +45,18 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 		$is_error = !empty($error_code) ? true : false;
 		return $this->ajax_json($msg, $is_error, null, $data, $error_code, 2);
 	}
+
+	/**
+	 * WAPI接口返回数据
+	 */
+	public function wapi_json($msg, $error_code=0, $data=array()){
+		if(is_array($data)){
+		    $data['uid'] = isset($this->uid) ? $this->uid : 0;
+		    $data['token'] = isset($this->token) ? $this->token : '';
+		}
+		$is_error = !empty($error_code) ? true : false;
+		return $this->ajax_json($msg, $is_error, null, $data, $error_code, 3);
+	}
 	
     /**
      * alias to_raw_json
@@ -64,9 +76,14 @@ class Sher_Core_Action_Base extends DoggyX_Action_Base {
 			$result['data'] = $data;
 		}
 		if($evt==2){
-		  $result['current_user_id'] = $data['current_user_id'];
-		  unset($data['current_user_id']);
-		}
+		    $result['current_user_id'] = $data['current_user_id'];
+		    unset($data['current_user_id']);
+        }elseif($evt==3){
+ 		    $result['uid'] = $data['uid'];
+ 		    $result['token'] = $data['token'];
+            unset($result['data']['uid']);
+		    unset($result['data']['token']);
+        }
 		
 		return $this->to_raw_json($result);
 	}

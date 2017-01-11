@@ -3,7 +3,7 @@
  *  收货地址接口(new)
  * @author tianshuai
  */
-class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
+class Sher_WApi_Action_DeliveryAddress extends Sher_WApi_Action_Base{
 	
 	protected $filter_user_method_list = array('execute');
 
@@ -11,14 +11,14 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 	 * 入口
 	 */
 	public function execute(){
-		
+		return $this->getlist();
 	}
 	
 
  	/**
 	 * 收货地址列表(new)
 	 */
-	public function get_list(){
+	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		$some_fields = array(
@@ -27,9 +27,9 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
             'zip'=>1, 'is_default'=>1, 'address'=>1,
 		);
 
-        $user_id = $this->current_user_id;
+        $user_id = $this->uid;
         if(empty($user_id)){
-          return $this->api_json('请先登录！', 3001); 
+          return $this->wapi_json('请先登录！', 3000); 
         }
 		
 		$query   = array();
@@ -57,11 +57,11 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 		}
 		$result['rows'] = $data;
 		
-		return $this->api_json('请求成功', 0, $result);
+		return $this->wapi_json('请求成功', 0, $result);
     }
 
 	/**
-	 * 获取默认收货地址(new)
+	 * 获取默认收货地址
 	 */
 	public function defaulted(){
 
@@ -71,15 +71,15 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
             'zip'=>1, 'is_default'=>1, 'address'=>1,
 		);
 
-        $user_id = $this->current_user_id;
+        $user_id = $this->uid;
         if(empty($user_id)){
-          return $this->api_json('请先登录！', 3001); 
+          return $this->wapi_json('请先登录！', 3000); 
         }
 
         $delivery_address_model = new Sher_Core_Model_DeliveryAddress();
         $address = $delivery_address_model->first(array('user_id'=>$user_id, 'is_default'=>1));
         if(empty($address)){
-              return $this->api_json('默认地址不存在!', 0, array('has_default'=>0));   
+              return $this->wapi_json('默认地址不存在!', 0, array('has_default'=>0));   
         }
 
         $address = $delivery_address_model->extended_model_row($address);
@@ -93,7 +93,7 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 
         $data['has_default'] = 1;
 		
-		return $this->api_json('请求成功', 0, $data);
+		return $this->wapi_json('请求成功', 0, $data);
 	}
 
 	/**
@@ -102,12 +102,12 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 	public function save(){
 		// 验证数据
 		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
-        $user_id = $this->current_user_id;
+        $user_id = $this->uid;
 		if(empty($user_id)){
-			return $this->api_json('请先登录!', 3000);
+			return $this->wapi_json('请先登录!', 3000);
 		}
 		if(empty($this->stash['name']) || empty($this->stash['phone']) || empty($this->stash['province_id']) || empty($this->stash['city_id']) || empty($this->stash['address'])){
-			return $this->api_json('请求参数错误', 3000);
+			return $this->wapi_json('请求参数错误', 3001);
 		}
         $is_default = isset($this->stash['is_default'])?(int)$this->stash['is_default']:0;
 		
@@ -167,12 +167,12 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 			}
 			
 			if(!$ok){
-				return $this->api_json('新地址保存失败,请重新提交', 3003);
+				return $this->wapi_json('新地址保存失败,请重新提交', 3003);
 			}
 			
 			$result = $model->extend_load($id);
             if(empty($result)){
-                return $this->api_json('系统错误！', 3002);  
+                return $this->wapi_json('系统错误！', 3004);  
             }
 
 			foreach($some_fields as $key=>$value){
@@ -186,7 +186,7 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 			return $this->api_json('新地址保存失败:'.$e->getMessage(), 3002);
 		}
 		
-		return $this->api_json('请求成功', 0, $new_data);
+		return $this->wapi_json('请求成功', 0, $new_data);
     }
 
   /**
@@ -194,17 +194,17 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
    */
     public function set_default(){
         $id = $this->stash['id'];
-        $user_id = $this->current_user_id;
+        $user_id = $this->uid;
         if(empty($id)){
-            return $this->api_json('参数错误', 3001);  
+            return $this->wapi_json('参数错误', 3001);  
         }
         $model = new Sher_Core_Model_DeliveryAddress();
         $addbook = $model->find_by_id($id);
         if(empty($addbook)){
-            return $this->api_json('未找到地址', 3002);  
+            return $this->wapi_json('未找到地址', 3002);  
         }
         if($addbook['user_id'] != (int)$user_id){
-            return $this->api_json('权限错误', 3003);    
+            return $this->wapi_json('权限错误', 3003);    
         }
         // 检测是否有默认地址
         $ids = array();
@@ -228,9 +228,9 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
         //设置默认地址
         $ok = $model->update_set((string)$id, array('is_default' => 1));
         if($ok){
-          return $this->api_json('设置成功!', 0, array('id'=>$id));   
+          return $this->wapi_json('设置成功!', 0, array('id'=>$id));   
         }else{
-          return $this->api_json('设置失败!', 3005);   
+          return $this->wapi_json('设置失败!', 3005);   
         }
   
     }
@@ -240,9 +240,9 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 	 */
 	public function deleted(){
 		$id = $this->stash['id'];
-        $user_id = $this->current_user_id;
+        $user_id = $this->uid;
 		if(empty($user_id) || empty($id)){
-			return $this->api_json('请求参数错误', 3000);
+			return $this->wapi_json('请求参数错误', 3001);
 		}
 		
 		try{
@@ -254,10 +254,10 @@ class Sher_Api_Action_DeliveryAddress extends Sher_Api_Action_Base{
 				$ok = $model->remove($id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
-			return $this->api_json('操作失败,请重新再试', 3002);
+			return $this->wapi_json('操作失败,请重新再试', 3002);
 		}
 		
-		return $this->api_json('请求成功', 0, array('id'=>$id));
+		return $this->wapi_json('请求成功', 0, array('id'=>$id));
 	}
 
 	

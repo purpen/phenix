@@ -64,6 +64,14 @@
         }, 'json')
     
     });
+
+    // 强行退款
+    $('.refund-force').click(function(){
+        var id = $(":input[name=id]").val();
+
+        alert(id);
+    
+    });
 	
 {% endblock %}
 	
@@ -264,10 +272,43 @@
           <div class="right aligned field ">
             <div class="ui gray cancel button">取消</div>
                     <input type="submit" class="ui active refund magenta submit button" value="确认退款" />
+                    <div class="ui red refund-force button">强行退款</div>
           </div>
+
         </form>
         </div>
     </div>
+
+<!-- 确认退款弹出层 强制 -->
+<div class="ui small refund-force-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    注: <span style="color:red;">此方法在使用非支付宝支付情况或退款出现问题时使用，执行此操作，不退款，只更改当前状态为退款成功，且退款金额记录为用户购买时所支付的金额,最后还需要编辑人员手动完成退款操作，请谨慎操作!!!</span>
+  </div>
+    <div class="content">
+    <form action="{{ app_url_admin }}/refund/ajax_do_refund_force" class="ui form" method="post" id="refund-force-form">
+      <div class="field">
+        <label>订单号: <span name="rid-show"></span></label>
+        <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
+        <input type="hidden" name="rid" value="" />
+      </div>
+      <div class="field">
+        <label>退款用户ID: <span name="user-id-show"></span></label>
+      </div>
+      <div class="field">
+        <label>支付类型: <span name="pay-name-show"></span></label>
+      </div>
+      <div class="field">
+        <label>退款金额: <span name="pay-money-show"></span></label>
+      </div>
+
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+				<input type="submit" class="ui active refund-force magenta submit button" value="确认更改状态" />
+      </div>
+    </form>
+    </div>
+</div>
 
     <!-- 退款成功后返回结果 -->
     <div class="ui small refund-result-box modal">
