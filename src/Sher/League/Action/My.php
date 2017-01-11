@@ -49,4 +49,39 @@ class Sher_League_Action_My extends Sher_League_Action_Base implements DoggyX_Ac
 		return $this->to_html_page("league/my/index.html");
 	}
 
+	/**
+	 * 分成列表
+	 */
+	public function balance_list(){
+		return $this->to_html_page("league/my/balance_list.html");
+	}
+
+	/**
+	 * 结算列表
+	 */
+	public function balance_record_list(){
+		return $this->to_html_page("league/my/balance_record_list.html");
+	}
+
+	/**
+	 * 结算名细
+	 */
+	public function balance_item_list(){
+		return $this->to_html_page("league/my/balance_item_list.html");
+	}
+
+	/**
+	 * 提现列表
+	 */
+	public function withdraw_cash_list(){
+		return $this->to_html_page("league/my/withdraw_cash_list.html");
+	}
+
+	/**
+	 * 提现详情
+	 */
+	public function withdraw_cash_view(){
+		return $this->to_html_page("league/my/withdraw_cash_view.html");
+	}
+
 }
