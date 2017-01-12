@@ -1,0 +1,157 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">短地址管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/s_url" class="{{ css_all }} item">
+			全部
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/s_url/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/s_url/get_list" method="get" id="search-form">
+                <label>搜索：</label>
+
+          <div class="ui selection dropdown">
+            <input type="hidden" name="type" value="{{ type }}" />
+            <div class="default text">类型</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="">全部</div>
+              <div class="item" data-value="1">自定义</div>
+              <div class="item" data-value="2">推广链接</div>
+            </div>
+          </div>
+
+            <div class="ui icon input">
+                <input placeholder="用户ID" type="text" name="user_id" value="{{ user_id }}" />
+            </div>
+            <div class="ui icon input">
+                <input placeholder="短标识" type="text" name="code" value="{{ code }}" />
+            </div>
+
+            <div class="ui icon input">
+                <input placeholder="Search..." type="text" name="q" value="{{ q }}" />
+            </div>
+            <div class="ui icon input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+                <th>短地址</th>
+                <th>原地址</th>
+				<th>用户</th>
+                <th>类型</th>
+                <th>点击量</th>
+                <th>创建|最后访问时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% s_url_list var:'list' user_id:user_id code:code type:type status:status page:page size:size load_user:1 %}
+			
+			{% for d in list.rows %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+                <td>{{ d.code }}</td>
+                <td>{{ d.url }}</td>
+				<td>
+					<a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
+					  	<img src="{{ d.user.mini_avatar_url }}">
+					  	{{ d.user.nickname }}
+					</a>
+					<p>
+						{% if d.user.sina_uid %}
+						<i class="weibo icon"></i>
+						{% endif %}
+						{% if d.user.qq_uid %}
+						<i class="qq icon"></i>
+						{% endif %}
+						{% if d.user.wx_union_id %}
+						<i class="wechat icon"></i>
+						{% endif %}
+
+					</p>
+				</td>
+				<td>
+                    {{ d.type_label }}
+				</td>
+                <td>
+                    {{ d.view_count }}
+                </td>
+
+                <td>
+                    <p>{{ d.created_on|date 'y-m-d' }}</p>
+                    {% if d.last_time_on %}
+                        <p>{{ d.last_time_on|date 'y-m-d' }}</p>
+                    {%endif%}
+                </td>
+                <td>
+					<a href="{{ app_url_admin_base }}/s_url/submit?id={{ d._id }}" class="ui link item">编辑</a>
+                    | 
+                    <a href="{{ app_url_admin }}/s_url/deleted?id={{ d._id }}" class="ui confirm-request link item">删除</a>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

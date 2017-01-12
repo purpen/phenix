@@ -1,0 +1,103 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+
+{% endblock %}
+
+{% block layout_js %}
+
+{% endblock %}
+
+{% block jquery %}
+
+	$('#surl-form').form({
+		url: {
+			identifier  : 'url',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '地址不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">短地址管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/s_url" class="{{ css_all }} item">
+			全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/s_url/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+
+	
+	<form class="ui form segment" action="{{ app_url_admin_base }}/s_url/save" method="post" id="surl-form">
+		<input name="id" type="hidden" value="{{ surl._id }}" />
+		
+        <h4 class="ui stage header">类型:</h4>
+        <div class="grouped inline fields">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input type="radio" name="type" value="1" {% if surl.type == 1 %}checked="checked"{% endif %} /> 
+              <label>自定义</label>
+            </div>
+            <div class="ui radio checkbox">
+              <input type="radio" name="type" value="2" {% if surl.type == 2 %}checked="checked"{% endif %} /> 
+              <label>推广链接</label>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>原地址:</label>
+            <input type="text" name="url" value="{{ surl.url }}" />
+            <div class="description">*全路径: http://**</div>
+          </div>
+          <div class="field">
+            <label>推广码:</label>
+            <input type="text" name="code" disabled="disabled" value="{{ surl.code }}" />
+            <div class="description">*系统根据原地址自动生成</div>
+          </div>
+        </div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit inverted button">
+				确认提交
+			</div>
+			<div class="ui gray cancel inverted button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}

@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'surl');
 	
 	protected $admin_method_list = array();
 	
@@ -286,5 +286,32 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $url = "http://frstatic.qiniudn.com/download/app-release_1.8.1.apk";
         return $this->to_redirect($url);
     }
+
+    /**
+     * 短网址
+     */
+    public function surl(){
+        $code = isset($this->stash['code']) ? $this->stash['code'] : null;
+		$redirect_url = Doggy_Config::$vars['app.url.domain'];
+		if(empty($code)){
+			return $this->show_message_page('缺少请求参数！', $redirect_url);
+		}
+
+        $model = new Sher_Core_Model_SUrl();
+        $surl = $model->find_by_code($code);
+		if(empty($surl)){
+			return $this->show_message_page('地址不存在！', $redirect_url);
+		}
+		if($surl['status']==0){
+			return $this->show_message_page('无效的地址！', $redirect_url);
+		}
+
+        // 更新
+        $model->inc_counter('view_count', (string)$surl['_id']);
+        $model->update_set((string)$surl['_id'], array('last_time_on'=>time()));
+
+        return $this->to_redirect($surl['url']);
+    }
+
 }
 
