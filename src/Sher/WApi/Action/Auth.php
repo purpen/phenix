@@ -139,7 +139,7 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
             'open_id' => $data['openId'],
             'nick_name' => $data['nickName'],
             'gender' => $data['gender'],
-            'avatar_url' => $data['avatarUrl'],
+            'avatar_url' => urlencode($data['avatarUrl']),
         );
 
         $user_model = new Sher_Core_Model_User();
