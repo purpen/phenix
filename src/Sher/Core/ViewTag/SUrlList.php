@@ -1,9 +1,9 @@
 <?php
 /**
- * 佣金结算列表标签
+ * 短地址列表标签
  * @author tianshuai
  */
-class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
+class Sher_Core_ViewTag_SUrlList extends Doggy_Dt_Tag {
     protected $argstring;
 	
     public function __construct($argstring, $parser, $pos = 0) {
@@ -20,22 +20,11 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
         $sort = 0;
 
         $code = 0;
-        $kind = 0;
         $type = 0;
         $user_id = 0;
 		$status = 0;
-        $stage = 0;
-
-        $alliance_id = 0;
-        $order_rid = 0;
-        $sub_order_id = 0;
-        $product_id = 0;
-        $sku_id = 0;
-
         $load_user = 0;
-        $load_sku = 0;
-        $load_product = 0;
-		
+
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
@@ -53,34 +42,11 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
 		if($code){
 			$query['code'] = $code;
 		}
-
-		if($alliance_id){
-			$query['alliance_id'] = $alliance_id;
-		}
-		if($order_rid){
-			$query['order_rid'] = $order_rid;
-		}
-		if($sub_order_id){
-			$query['sub_order_id'] = $sub_order_id;
-		}
-		if($product_id){
-			$query['product_id'] = (int)$product_id;
-		}
-		if($sku_id){
-			$query['sku_id'] = (int)$sku_id;
-		}
-
 		if($user_id){
 			$query['user_id'] = (int)$user_id;
 		}
-		if($kind){
-			$query['kind'] = (int)$kind;
-		}
 		if($type){
 			$query['type'] = (int)$type;
-		}
-		if($stage){
-			$query['stage'] = (int)$stage;
 		}
 		if($status){
             if($status==-1){
@@ -90,26 +56,25 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
             }
 		}
 
-		
-        $service = Sher_Core_Service_Balance::instance();
+        $service = Sher_Core_Service_SUrl::instance();
         $options['page'] = $page;
         $options['size'] = $size;
+
 
 		// 排序
 		switch ((int)$sort) {
 			case 0:
 				$options['sort_field'] = 'latest';
 				break;
+			case 1:
+				$options['sort_field'] = 'view';
+				break;
 		}
 
-        $result = $service->get_balance_list($query,$options);
+        $result = $service->get_surl_list($query,$options);
 
         if($load_user){
             $user_model = new Sher_Core_Model_User();
-        }
-        if($load_product){
-            $product_model = new Sher_Core_Model_Product();
-            $inventory_model = new Sher_Core_Model_Inventory();
         }
 
         for($i=0;$i<count($result['rows']);$i++){
@@ -119,20 +84,6 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
                 $user = $user_model->extend_load($user_id);
                 $result['rows'][$i]['user'] = $user;
             }
-            // 加载商品信息
-            if($load_product){
-                $product_id = $result['rows'][$i]['product_id'];
-                $sku_id = $result['rows'][$i]['sku_id'];
-                $product = $product_model->extend_load($product_id);
-                if($product){
-                    $sku = $inventory_model->load($sku_id);
-                    if($sku){
-                        $product['sku'] = $sku;
-                    }
-                    $result['rows'][$i]['product'] = $product;
-                }
-            }
-
         }   // endfor
 		
         $context->set($var, $result);
