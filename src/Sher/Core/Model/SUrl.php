@@ -15,6 +15,12 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
         'type' => 1,
         # 点击数
         'view_count' => 0,
+        # web 浏览数
+        'web_view_count' => 0,
+        # wap 浏览数 
+        'wap_view_count' => 0,
+        # app 浏览数
+        'app_view_count' => 0,
         'user_id' => 0,
         'status' => 1,
         # 上一次访问时间
@@ -23,7 +29,7 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
 
     protected $required_fields = array('url');
     protected $int_fields = array('type', 'user_id', 'status', 'last_time_on');
-	protected $counter_fields = array('view_count');
+	protected $counter_fields = array('view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 
 
 	/**

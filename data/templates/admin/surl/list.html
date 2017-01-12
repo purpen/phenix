@@ -86,7 +86,7 @@
                 <th>原地址</th>
 				<th>用户</th>
                 <th>类型</th>
-                <th>点击量</th>
+                <th>点击量(A|W|P|M)</th>
                 <th>创建|最后访问时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -127,7 +127,7 @@
                     {{ d.type_label }}
 				</td>
                 <td>
-                    {{ d.view_count }}
+                    {{ d.view_count }}|{{ d.web_view_count }}|{{ d.wap_view_count }}|{{ d.app_view_count }}
                 </td>
 
                 <td>

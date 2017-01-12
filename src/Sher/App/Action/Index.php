@@ -308,6 +308,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 
         // 更新
         $model->inc_counter('view_count', (string)$surl['_id']);
+        $model->inc_counter('web_view_count', (string)$surl['_id']);
         $model->update_set((string)$surl['_id'], array('last_time_on'=>time()));
 
         return $this->to_redirect($surl['url']);
