@@ -212,11 +212,13 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         $data['brand'] = $brand;
         if(isset($data['content_wap']) && !empty($data['content_wap'])){
             $des_images = Sher_Core_Helper_Util::fetch_description_img($data['content_wap']);
+            unset($data['content_wap']);
         }
 
         if(empty($des_images)){
-            $des_images = Sher_Core_Helper_Util::fetch_description_img($data['content']);       
+            $des_images = Sher_Core_Helper_Util::fetch_description_img($data['content']);    
         }
+        unset($data['content']);
         
         $data['des_images'] = $des_images;
 
