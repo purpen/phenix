@@ -109,9 +109,13 @@ class Sher_Core_Helper_FilterFields {
           if(!isset($data['identify']['is_expert'])){ // 达人
               $data['identify']['is_expert'] = 0;
           }
+          if(!isset($data['identify']['alliance_id'])){ // 达人
+              $data['identify']['alliance_id'] = '';    // 联盟账户ID
+          }
         }else{
           $data['identify']['is_scene_subscribe'] = 0;
           $data['identify']['is_expert'] = 0;
+          $data['identify']['alliance_id'] = '';
         }
 
 
