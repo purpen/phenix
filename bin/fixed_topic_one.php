@@ -27,7 +27,7 @@ $updated = array(
     'category_id' => 15,
     'fid' => 11,
 );
-$ok = $topic->update_set(103215, $updated);
+//$ok = $topic->update_set(103215, $updated);
 
 echo "All category remath ok.\n";
 

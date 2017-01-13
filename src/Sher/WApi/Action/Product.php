@@ -140,7 +140,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$some_fields = array(
 			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
 			'cover_id', 'category_ids', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand',
+			'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'content_wap', 'content',
             'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
 		);
 		
@@ -198,6 +198,27 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         }
 		$data['skus'] = $skus;
 		$data['skus_count'] = count($skus);
+
+        // 品牌
+        $brand = null;
+        if(isset($data['brand']) && !empty($data['brand'])){
+            $brand = array();
+            $brand['_id'] = (string)$data['brand']['_id'];
+            $brand['title'] = $data['brand']['title'];
+            $brand['cover_url'] = $data['brand']['cover']['thumbnails']['huge']['view_url'];
+            $brand['banner_url'] = $data['brand']['banner']['thumbnails']['aub']['view_url'];
+            $brand['content'] = $data['brand']['des'];
+        }
+        $data['brand'] = $brand;
+        if(isset($data['content_wap']) && !empty($data['content_wap'])){
+            $des_images = Sher_Core_Helper_Util::fetch_description_img($data['content_wap']);
+        }
+
+        if(empty($des_images)){
+            $des_images = Sher_Core_Helper_Util::fetch_description_img($data['content']);       
+        }
+        
+        $data['des_images'] = $des_images;
 
 		return $this->wapi_json('请求成功', 0, $data);
 	}
