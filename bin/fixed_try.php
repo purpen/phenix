@@ -41,7 +41,8 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     if(!isset($list[$i]['kind'])){
-      $ok = $try_model->update_set($id, array('kind'=>1));
+        $ok = true;
+      //$ok = $try_model->update_set($id, array('kind'=>1));
       if($ok){
         $total++;
       }

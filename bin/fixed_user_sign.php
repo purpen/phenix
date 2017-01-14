@@ -41,6 +41,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     $max_sign_times = isset($list[$i]['max_sign_times']) ? (int)$list[$i]['max_sign_times'] : 0;
+    $ok = true;
     //$ok = $model->update_set($id, array('total_sign_times'=>$max_sign_times));
     if($ok){
       echo "success user_sign_id: $id update!!!\n";

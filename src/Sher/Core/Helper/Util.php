@@ -925,6 +925,29 @@ class Sher_Core_Helper_Util {
   
   }
 
+  /**
+   * 获取编辑器里的图片地址
+   * type: 1.all;2.topic;3.stuff;4.shop;5.vote;6.try;7.--
+   */
+  public static function fetch_description_img($content){
+    if(empty($content)){
+      return array();
+    }
+
+    preg_match_all('/<img.+src="\"?(.+\.(jpg|gif|bmp|bnp|png))\"?.+>/Ui', $content, $urls);
+    /**
+    $url_arr = array();
+    if(!empty($urls[1])){
+        for($i=0;$i<count($urls[1]);$i++){
+            $url = str_replace('"', '', $urls[1][$i]);
+            array_push($url_arr, $url); 
+        }
+    }
+    **/
+    
+    return $urls[1]; 
+  }
+
     /**
      * 转换为utf8编码
      */
