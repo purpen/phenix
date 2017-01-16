@@ -1,0 +1,136 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	
+	// 删除
+	$('.item.ajax-delete').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+	
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">结算每日统计</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/balance_record/stat_list" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/balance_record/stat_list" class="ui form" method="get" id="search-form">
+			<div class="five fields">
+				<div class="field">
+					<input type="text" name="alliance_id" placeholder="联盟ID" value="{{ alliance_id }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="user_id" placeholder="用户ID" value="{{ user_id }}" />
+				</div>
+                <!--
+				<div class="field">
+					<input type="text" name="month" placeholder="月: 201505" value="{{ month }}" />
+				</div>
+				<div class="field">
+					<input type="text" name="week" placeholder="周: 201516" value="{{ week }}" />
+				</div>
+                -->
+				<div class="field">
+					<input type="text" name="day" placeholder="日: 20150606" value="{{ day }}" />
+				</div>
+				<div class="field">
+					<div id="search-btn" class="ui active small green submit button search">搜索</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>联盟ID</th>
+				<th>用户ID</th>
+                <th>天</th>
+                <th>周</th>
+                <th>月</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% for d in obj %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+                    {{ d.alliance_id }}
+				</td>
+                <td>
+                    {{ d.user_id }}
+                </td>
+                <td>
+                    <p>{{ d.day }}</p>
+                    <p>结算数: {{ d.day_num_count }}</p>
+                    <p>结算金额: {{ d.day_amount_count }}</p>
+                </td>
+                <td>
+                    <p>{{ d.week }}</p>
+                    <p>结算数: {{ d.week_num_count }}</p>
+                    <p>结算金额: {{ d.week_amount_count }}</p>
+                </td>
+                <td>
+                    <p>{{ d.month }}</p>
+                    <p>结算数: {{ d.month_num_count }}</p>
+                    <p>结算金额: {{ d.month_num_count }}</p>
+                </td>
+
+                <td>
+
+                    <a href="{{ app_url_admin }}/balance_record/stat_deleted?id={{ d._id }}" class="ui confirm-request link item">
+                      删除
+                    </a>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if obj %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_count,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

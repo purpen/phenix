@@ -122,6 +122,55 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+    /**
+     * 结算每日统计列表
+     */
+    public function stat_list(){
+		$page = (int)$this->stash['page'];
+        $size = (int)$this->stash['size'];
+        $day = isset($this->stash['day']) ? (int)$this->stash['day'] : 0;
+        $alliance_id = isset($this->stash['alliance_id']) ? $this->stash['alliance_id'] : null;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+
+        $query = array();
+
+        if($day){
+          $query['day'] = $day;
+        }
+
+        if($alliance_id){
+          $query['alliance_id'] = $alliance_id;
+        }
+
+        if($user_id){
+          $query['user_id'] = $user_id;
+        }
+
+        $options = array('page'=>$page, 'size'=>$size);
+
+        $model = new Sher_Core_Model_BalanceStat();
+        $obj = $model->find($query, $options);
+
+        $total_count = $this->stash['total_count'] = $model->count($query);
+        $this->stash['total_page'] = ceil($total_count/$size);
+            
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/balance_record/stat_list?alliance_id=%s&user_id=%d&day=%d&page=#p#', $alliance_id, $user_id, $day);
+            
+        $this->stash['obj'] = $obj;
+        $this->stash['pager_url'] = $pager_url;
+
+		return $this->to_html_page('admin/balance_record/stat_list.html'); 
+    
+    }
+
+    /**
+     * 结算统计删除
+     */
+    public function stat_deleted(){
+    
+    
+    }
+
 
 }
 
