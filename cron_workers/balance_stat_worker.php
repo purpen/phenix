@@ -1,6 +1,6 @@
 <?php
 /**
- * 每日定时佣金结算
+ * 联盟账户结算每日/周/月统计
  * @author tianshuai
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
@@ -23,13 +23,25 @@ date_default_timezone_set('Asia/shanghai');
 echo "-------------------------------------------------\n";
 echo "===============ALLIANCE BALANCE STAT WORKER WAKE UP===============\n";
 echo "-------------------------------------------------\n";
-
+echo "Time: ".date('Y-m-d H:i:s', time())."\n";
 echo "Start to Alliance balance stating...\n";
 
 $alliance_mode = new Sher_Core_Model_Alliance();
-$balance_mode = new Sher_Core_Model_Balance();
 $balance_record_model = new Sher_Core_Model_BalanceRecord();
-$balance_item_model = new Sher_Core_Model_BalanceItem();
+$balance_stat_model = new Sher_Core_Model_BalanceStat();
+
+$n_day = '-1 day';
+$yesterday = (int)date('Ymd', strtotime($n_day));
+$month = (int)date('Ym', strtotime($n_day));
+$year = (int)date('Y', strtotime($n_day));
+
+//昨天周数
+$week_num = Sher_Core_Helper_Util::get_week_now(strtotime($n_day));
+$week = (int)((string)$year.(string)$week_num);
+
+$star_tmp = strtotime(sprintf("%s 00:00:00", date('Y-m-d', strtotime($n_day))));
+$end_tmp = strtotime(sprintf("%s 23:59:59", date('Y-m-d', strtotime($n_day))));
+
 $page = 1;
 $size = 100;
 $is_end = false;
@@ -38,7 +50,7 @@ $total = 0;
 
 while(!$is_end){
     $query = array('status' => 5);
-	$options = array('field'=>array('_id','status','whether_balance_stat'), 'page'=>$page, 'size'=>$size);
+	$options = array('field'=>array('_id', 'status', 'user_id'), 'page'=>$page, 'size'=>$size);
 	$list = $alliance_mode->find($query, $options);
 	if(empty($list)){
 		echo "Alliance list is null,exit......\n";
@@ -48,89 +60,90 @@ while(!$is_end){
     for ($i=0; $i<$max; $i++) {
         $alliance_id = (string)$list[$i]['_id'];
         $user_id = $list[$i]['user_id'];
-        // 如果正在结算中状态，则跳过，不结算
-        if(!empty($list[$i]['whether_balance_stat'])){
-            continue;
-        }
-        $balance_query = array('alliance_id'=>$alliance_id, 'status'=>0, 'stage'=>Sher_Core_Model_Balance::STAGE_FINISH);
-	    $balance_options = array('field'=>array('_id','status','stage'), 'page'=>$page, 'size'=>$size);
-        $balance_list = $balance_mode->find($balance_query, $balance_options);
-        if(empty($balance_list)){
-            echo "balance list is empty! next..\n";
-            continue;
-        }
-        // 开始结算，并冻结联盟账户结算额
-        $ok = $alliance_mode->update_set($alliance_id, array('whether_balance_stat'=>1));
-        if(!$ok) {
-            echo "update alliance balance_stat is fail! next....";
+
+        //如果统计表存在,跳过
+        $is_exist = $balance_stat_model->first(array('day'=>(int)$yesterday, 'alliance_id'=>$alliance_id));
+        if(!empty($is_exist)){
+            echo "today is stated...\n";
             continue;
         }
 
-        $total_price = 0;
-        $rows = array();
-        $balance_count = count($balance_list);
-        for ($j=0;$j<$balance_count;$j++){
-            $item = $balance_list[$j];
-            $balance_id = (string)$item['_id'];
-            $price = $item['total_price'];
+        $balance_query = array('alliance_id'=>$alliance_id, 'status'=>1, 'created_on'=>array('$gte'=>$star_tmp, '$lte'=>$end_tmp));
+	    $balance_options = array('field'=>array('_id','status','alliance_id'), 'page'=>1, 'size'=>1000);
+        $balance_record_list = $balance_record_model->find($balance_query, $balance_options);
+        if(empty($balance_record_list)){
+            echo "balance_record list is empty! next..\n";
+            continue;
+        }
 
-            $total_price += $price;
+        // 获取昨天增长数量(数量／金额)
+        $current_num_count = 0;
+        $current_amount_count = 0;
 
-            $row = array(
-                'balance_id' => $balance_id,
-                'price' => $price,
-            );
-            array_push($rows, $row);
-            
+        $balance_record_max = count($balance_record_list);
+        for($j=0;$j<count($balance_record_max);$j++){
+            $balance_record = $balance_record_list[$j];
+            $current_amount_count = $current_amount_count + $balance_record['amount'];
+            $current_num_count = $current_num_count + $balance_record['balance_count'];
+        
         } // endfor
 
-        // 他建结算记录表
-        $row = array(
-            'balance_count' => count($rows),
+        //查询上一次所在周
+        $week_num_count = 0;
+        $week_amount_count = 0;
+        $current_week = $balance_stat_model->first(array('week'=>$week, 'week_latest'=>1, 'alliance_id'=>$alliance_id));
+        if(!empty($current_week)){
+            //周汇总
+            $week_num_count = $current_week['week_num_count'];
+            $week_amount_count = $current_week['week_amount_count'];
+
+            //清除最后一周标记
+            $balance_stat_model->update_set((string)$current_week['_id'], array('week_latest'=>0));
+        }
+
+        //查询上一次所在月
+        $month_num_count = 0;
+        $month_amount_count = 0;
+        $current_month = $balance_stat_model->first(array('month'=>$month, 'month_latest'=>1, 'alliance_id'=>$alliance_id));
+        if(!empty($current_month)){
+            //月汇总
+            $month_num_count = $current_month['month_num_count'];
+            $month_amount_count = $current_month['month_amount_count'];
+
+            //清除最后一月标记
+            $balance_stat_model->update_set((string)$current_month['_id'], array('month_latest'=>0));       
+        }
+
+        $data = array(
             'alliance_id' => $alliance_id,
-            'amount' => $total_price,
-            'user_id' => $user_id,       
+            'user_id' => $user_id,
+
+            'day' => $yesterday,
+            'week' => $week,
+            # 是否当前周最终统计
+            'week_latest' => 1,
+            'month' => $month,
+            # 是否当前月最终统计
+            'month_latest' => 1,
+
+            // 当日/周/月/ 数量、金额
+            'day_num_count' => $current_num_count,
+            'week_num_count' => $current_num_count+$week_num_count,
+            'month_num_count' => $current_num_count+$month_num_count,
+
+            'day_amount_count' => $current_amount_count,
+            'week_amount_count' => $current_amount_count+$week_amount_count,
+            'month_amount_count' => $current_amount_count+$month_amount_count,
+
         );
-        $ok = $balance_record_model->create($row);
 
-        if(!$ok){
-            $alliance_mode->update_set($alliance_id, array('whether_balance_stat'=>0));
-            continue;
+        $ok = $balance_stat_model->create($data);
+        if($ok){
+            echo "balance_stat created success....\n";
+            $total++;
+        }else{
+ 		    echo "balance_stat created is fail!!!!.\n"; 
         }
-
-        $balance_record = $balance_record_model->get_data();
-        $balance_record_id = (string)$balance_record['_id'];
-
-        // 批量创建结算明细表
-        for($k=0;$k<count($rows);$k++){
-            $row = array(
-                'balance_id' => $rows[$k]['balance_id'],
-                'balance_record_id' => $balance_record_id,
-                'alliance_id' => $alliance_id,
-                'amount' => $rows[$k]['price'],
-                'user_id' => $user_id,
-            );
-            $ok = $balance_item_model->create($row);
-            if($ok){
-                $balance_mode->update_set($rows[$k]['balance_id'], array('status'=>1, 'balance_on'=>time()));
-            }
-        } // endfor
-
-        // 更新联盟表结算数据且解冻
-        $total_balance_amount = $list[$i]['total_balance_amount'] + $total_price;
-        $wait_cash_amount = $list[$i]['wait_cash_amount'] + $total_price;
-        $row = array(
-            'total_balance_amount' => $total_balance_amount,
-            'last_balance_on' => time(),
-            'last_balance_amount' => $total_price,
-            'whether_balance_stat' => 0,
-            'wait_cash_amount' => $wait_cash_amount,
-        );
-        $ok = $alliance_mode->update_set($alliance_id, $row);
-        if(!$ok){
-            continue;
-        }
-        $total++;
 		
 	}   // endfor
 	if($max < $size){

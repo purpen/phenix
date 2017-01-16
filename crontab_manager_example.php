@@ -19,8 +19,14 @@ $crontab_config = [
         'output' => '/home/tianxiaoyi/test.log',
         'time' => '*/5 * * * *'
     ],
-    'balance_stat' => [
+    'balance_record' => [
         'name' => '每日定时佣金结算',
+        'cmd' => sprintf("%s cron_workers/balance_record_worker.php", $php_path),
+        'output' => '/www/phenix/logs/crontab/balance_record.log',
+        'time' => '*/5 * * * *',
+    ],
+    'balance_stat' => [
+        'name' => '联盟账户结算每日/周/月统计',
         'cmd' => sprintf("%s cron_workers/balance_stat_worker.php", $php_path),
         'output' => '/www/phenix/logs/crontab/balance_stat.log',
         'time' => '*/5 * * * *',
