@@ -351,44 +351,38 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
             return $this->wapi_json('挑选的产品已售完', 3002);
 		}
         $item = null;
-        if($type==2){
-              $item = $inventory->load((int)$target_id);
-          if(empty($item)){
-            return $this->wapi_json('挑选的产品不存在或被删除，请核对！', 3003);    
-          }
+        $item = $inventory->load((int)$target_id);
+        if(empty($item)){
+            return $this->wapi_json('挑选的产品不存在或被删除，请核对！', 3003);
         }
 
-        if(!empty($item)){
-            $product_id = $item['product_id'];
-            $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
-            $number = $item['number'];
-        }else{
-            $product_id = (int)$target_id;
-        }
+        $product_id = $item['product_id'];
+        $vop_id = isset($item['vop_id']) ? $item['vop_id'] : null;
+        $number = $item['number'];
 
 		// 获取产品信息
-		$product = new Sher_Core_Model_Product();
-		$product_data = $product->extend_load((int)$product_id);
-		if(empty($product_data)){
+		$product_model = new Sher_Core_Model_Product();
+		$product = $product_model->extend_load((int)$product_id);
+		if(empty($product)){
             return $this->wapi_json('挑选的产品不存在或被删除，请核对！', 3005);
         }
 
-        if(!$product_data['published']){
+        if(!$product['published']){
             return $this->wapi_json('该产品还未发布！', 3006);   
         }
 
         //试用产品，不可购买
-        if($product_data['is_try']){
+        if($product['is_try']){
           return $this->wapi_json('试用产品，不可购买！', 3007);
         }
 
         // 销售价格
-        $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
+        $price = !empty($item) ? $item['price'] : $product['sale_price'];
         // sku属性
         $sku_name = !empty($item) ? $item['mode'] : null;
 
         // 是否是抢购产品且正在抢购中
-        $app_snatched_stat = $product->app_snatched_stat($product_data);
+        $app_snatched_stat = $product_model->app_snatched_stat($product);
         if($app_snatched_stat==2){
 
           if(!$this->validate_snatch($product_id)){
@@ -399,12 +393,12 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
           if($quantity>$app_snatched_limit_count){
             return $this->wapi_json("闪购产品，只能购买 $app_snatched_limit_count 件！", 3009);       
           }
-          if($product_data['app_snatched_count']>=$product_data['app_snatched_total_count']){
+          if($product['app_snatched_count']>=$product['app_snatched_total_count']){
             return $this->wapi_json("已抢完！", 3010);      
           } 
 
           // 闪购价
-          $price = $product_data['app_snatched_price'];
+          $price = $product['app_snatched_price'];
           // 正在闪购状态
           $is_app_snatched = true;
           $kind = 3;
@@ -420,10 +414,10 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
                 'quantity' => $quantity,
                 'price' => (float)$price,
                 'sale_price' => $price,
-                'title' => $product_data['title'],
+                'title' => $product['title'],
                 'sku_mode' => $sku_name,
-                'cover' => $product_data['cover']['thumbnails']['mini']['view_url'],
-                'view_url' => $product_data['view_url'],
+                'cover' => $product['cover']['thumbnails']['mini']['view_url'],
+                'view_url' => $product['view_url'],
                 'subtotal' => (float)$price*$quantity,
                 'kind' => $kind,
                 'vop_id' => $vop_id,
@@ -1110,6 +1104,30 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
         $redis = new Sher_Core_Cache_Redis();
         $redis->set($cache_key, 1, 3600*24);
     }
+
+	/**
+	 * 获取默认地址，无默认地址，取第一个地址
+	 */
+	protected function get_default_addbook($user_id){
+		$addbooks = new Sher_Core_Model_DeliveryAddress();
+		
+		$query = array(
+			'user_id' => (int)$this->uid,
+			'is_default' => 1
+		);
+		$options = array(
+			'sort' => array('created_on' => -1),
+		);
+		$result = $addbooks->first($query);
+
+        // 兼容老版本
+        if(empty($result)){
+            $addbooks = new Sher_Core_Model_AddBooks();
+            $result = $addbooks->first($query);
+        }
+		
+		return $result;
+	}
 
 
 

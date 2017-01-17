@@ -40,6 +40,10 @@ app.mongo.default:
 # redisdb
 app.redis_host: 'localhost:6379'
 
+# resque
+app.resque:
+    on: 1
+
 # redisdb
 app.redis.default:
     host: '127.0.0.1'
