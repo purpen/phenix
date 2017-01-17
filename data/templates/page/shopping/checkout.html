@@ -640,6 +640,12 @@
 			});
 		}
 	});
+
+  //插入已存在的红包
+  $('.code-select').click(function(){
+    var code = $(this).attr('code');
+    $("input[name='bonus']").val(code);
+  });
 	
 {% endblock %}
 
@@ -885,9 +891,24 @@
                                     <div class="forms-block">
     									<div class="ui bonus hide segment">
                                             <h4>使用红包抵消部分金额</h4>
+
+  							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
+  							{% for b in bonus.rows %}
+  							<div class="bonus item" style="margin-bottom:1em;">
+  								<div class="field">
+  									<div class="ui">
+                      <label style="display:inline-block;">
+                        <span class="ui color-be link text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                        <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ b.code }}"> 插入</a>
+                      </label>
+  									</div>
+  								</div>
+  							</div>
+  							{% endfor %}
+
     										<div class="ui fluid action input">
                                                 <input placeholder="输入红包码..." name="bonus" type="text" id="bonus-code" />
-                                                <div class="ui active magenta button" id="submit-bonus">确定</div>
+                                                <div class="ui active magenta inverted button" id="submit-bonus">确定</div>
     										</div>
     									</div>
     									<div class="ui gift hide segment">

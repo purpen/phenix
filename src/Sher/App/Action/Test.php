@@ -621,7 +621,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
         $user_id = $this->visitor->id;
         //echo "Test......";
         //exit;
-        if(empty($user_id) || $user_id != 36){
+        if(empty($user_id) || $user_id != 20448){
              echo "没有权限!";
              exit;
         }
@@ -646,7 +646,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 
 		// 更新支付状态,付款成功并配货中
         $ok = true;
-        $ok = $model->update_order_payment_info((string)$order['_id'], 'test', Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order['user_id'], 'jd_order_id'=>null));
+        //$ok = $model->update_order_payment_info((string)$order['_id'], 'test', Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order['user_id'], 'jd_order_id'=>null));
         if(!$ok){
             echo "更新失败！";
             exit;
