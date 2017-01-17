@@ -47,6 +47,10 @@ app.redis.default:
 # redisdb-resque
 app.redis_host: '10.10.39.2:6379'
 
+# resque
+app.resque:
+    on: 1
+
 app.disable_cached: 0
 app.cache.memcached.default:
   servers:

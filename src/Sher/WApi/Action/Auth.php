@@ -178,11 +178,9 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
 		$province = isset($this->stash['province'])?$this->stash['province']:null;
 		$avatar_url = isset($this->stash['avatar_url'])?$this->stash['avatar_url']:null;
 
-
         if(empty($oid) || empty($nickname) || empty($union_id)){
             return $this->wapi_json('缺少参数！', 3001);
         }
-
 
         $user_model = new Sher_Core_Model_User();
 
@@ -228,7 +226,7 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
         try{
             $ok = $user_model->create($user_data);
             if(!$ok){
-                return $this->wapi_json('注册失败！', 3003);            
+                return $this->wapi_json('注册失败！', 3003);
             }
 
 			$user_id = $user_model->id;
@@ -237,34 +235,40 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
             // 如果存在头像,更新
             if(!empty($avatar_url)){
 
-                $accessKey = Doggy_Config::$vars['app.qiniu.key'];
-                $secretKey = Doggy_Config::$vars['app.qiniu.secret'];
-                $bucket = Doggy_Config::$vars['app.qiniu.bucket'];
-                // 新截图文件Key
-                $qkey = Sher_Core_Util_Image::gen_path_cloud();
-
-                $client = \Qiniu\Qiniu::create(array(
-                    'access_key' => $accessKey,
-                    'secret_key' => $secretKey,
-                    'bucket'     => $bucket
-                ));
-
-                // 存储新图片
-                $res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
-                if (empty($res['error'])){
-                    $avatar_up = $qkey;
+                // 是否开启redis队列
+                if(isset(Doggy_Config::$vars['app.resque']['on']) && !empty(Doggy_Config::$vars['app.resque']['on'])){
+                    // 设置发送任务
+                    Sher_Core_Util_Resque::queue('user_avatar', 'Sher_Core_Jobs_UserAvatar', array('user_id' => $user_id, 'avatar_url'=>$avatar_url));               
                 }else{
-                    $avatar_up = false;
-                }
+                    $accessKey = Doggy_Config::$vars['app.qiniu.key'];
+                    $secretKey = Doggy_Config::$vars['app.qiniu.secret'];
+                    $bucket = Doggy_Config::$vars['app.qiniu.bucket'];
+                    // 新截图文件Key
+                    $qkey = Sher_Core_Util_Image::gen_path_cloud();
 
-                if($avatar_up){
-                    // 更新用户头像
-                    $user_model->update_avatar(array(
-                        'big' => $qkey,
-                        'medium' => $qkey,
-                        'small' => $qkey,
-                        'mini' => $qkey
-                    ));   
+                    $client = \Qiniu\Qiniu::create(array(
+                        'access_key' => $accessKey,
+                        'secret_key' => $secretKey,
+                        'bucket'     => $bucket
+                    ));
+
+                    // 存储新图片
+                    $res = $client->upload(@file_get_contents($this->stash['avatar_url']), $qkey);
+                    if (empty($res['error'])){
+                        $avatar_up = $qkey;
+                    }else{
+                        $avatar_up = false;
+                    }
+
+                    if($avatar_up){
+                        // 更新用户头像
+                        $user_model->update_avatar(array(
+                            'big' => $qkey,
+                            'medium' => $qkey,
+                            'small' => $qkey,
+                            'mini' => $qkey
+                        ));   
+                    }               
                 }
 
             }// has avatar
