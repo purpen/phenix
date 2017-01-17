@@ -53,11 +53,13 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         'refund_on' => 0,
         # 退款批次号
         'batch_no' => null,
+        # 拒绝时间
+        'reject_on' => 0,
 
     );
 	
 	protected $required_fields = array('user_id', 'product_id', 'order_rid');
-	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','deleted','reason','pay_type');
+	protected $int_fields = array('user_id','target_id','target_type','product_id','type','stage','status','deleted','reason','pay_type','reject_on');
 	protected $float_fields = array('refund_price', 'freight', 'old_price');
 	protected $counter_fields = array();
 	protected $retrieve_fields = array();
@@ -379,6 +381,53 @@ class Sher_Core_Model_Refund extends Sher_Core_Model_Base {
         if(!$ok) return false;
 
         $ok = $this->update_set((int)$id, array('stage'=>2, 'refund_on'=>time()));
+        return $ok;
+    }
+
+    /**
+     * 拒绝退款后回调
+     */
+    public function reject_refund($id, $options=array()){
+        $refund = $this->load((int)$id);
+        $reason = isset($options['reason']) ? $options['reason'] : null;
+        if(empty($refund)) return false;
+
+        if($refund['stage'] != self::STAGE_ING) return false;
+
+        // 先更新订单商品状态，再更新退款单状态
+        $order_model = new Sher_Core_Model_Orders();
+        $order = $order_model->find_by_rid($refund['order_rid']);
+        if(empty($order)) return false;
+
+        for($i=0;$i<count($order['items']);$i++){
+            $item = $order['items'][$i];
+            if($item['sku']==$refund['target_id']){
+                $order['items'][$i]['refund_status'] = 0;
+            }
+        }
+
+        // 更新子订单产品状态
+        $sub_order_id = null;
+        if(isset($order['exist_sub_order']) && !empty($order['exist_sub_order'])){
+            for($i=0;$i<count($order['sub_orders']);$i++){
+                $sub_order = $order['sub_orders'][$i];
+                for($j=0;$j<count($sub_order['items']);$j++){
+                    $item = $sub_order['items'][$j];
+                    if($item['sku']==$refund['target_id']){
+                        $sub_order_id = $sub_order['id'];
+                        $order['sub_orders'][$i]['items'][$j]['refund_status'] = 0;
+                    }
+                }
+            }
+        }
+
+        $query = array();
+        $query['items'] = $order['items'];
+        if(!empty($sub_order_id)) $query['sub_orders'] = $order['sub_orders'];
+        $ok = $order_model->update_set((string)$order['_id'], $query);
+        if(!$ok) return false;
+
+        $ok = $this->update_set((int)$id, array('stage'=>3, 'summary'=>$reason, 'reject_on'=>time()));
         return $ok;
     }
 
