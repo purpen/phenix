@@ -16,14 +16,15 @@ class Sher_Core_Jobs_UserAvatar extends Doggy_Object {
 	 */
 	public function perform(){
 		Doggy_Log_Helper::debug("Make user avatar task jobs!");
-		$user_id = $this->args['user_id'];
-        $avatar_url = $this->args['avatar_url'];
+		$user_id = isset($this->args['user_id']) ? (int)$this->args['user_id'] : 0;
+        $avatar_url = isset($this->args['avatar_url']) ? $this->args['avatar_url'] : null;
+
+        if(empty($user_id) || empty($avatar_url)){
+            Doggy_Log_Helper::warn("Waiting user_id or avatar url is empty!");
+            return false;
+        }
 		
 		try{
-			if(empty($user_id)){
-				Doggy_Log_Helper::warn("Waiting user_id is empty!");
-				return false;
-			}
 			// 检测用户是否存在
 			$user_model = new Sher_Core_Model_User();
 			$user = $user_model->load($user_id);
@@ -60,7 +61,8 @@ class Sher_Core_Jobs_UserAvatar extends Doggy_Object {
                     'small' => $qkey,
                     'mini' => $qkey
                 ));   
-            }               
+            }
+			Doggy_Log_Helper::warn("Queue upload user avatar success!!!");
 
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Queue user avatar failed: ".$e->getMessage());

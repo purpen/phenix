@@ -93,46 +93,17 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
 	 * 微信授权登录
 	 */
 	public function wechat_token(){
-        include "wx_encrypt_data/wxBizDataCrypt.php";
 
 		// 请求参数
 		$code = isset($this->stash['code'])?$this->stash['code']:null;
 		$encryptedData = isset($this->stash['encryptedData'])?$this->stash['encryptedData']:null;
 		$iv = isset($this->stash['iv']) ? $this->stash['iv'] : null;
 
-        $appid = 'wx0691a2c7fc3ed597';
-        $secret =  '3eed8c2a25c6c85f7dd0821de15514b9';
-        $grant_type =  'authorization_code';
-        $arr = array(
-            'appid' => $appid,
-            'secret' => $secret,
-            'js_code' => $code,
-            'grant_type' => $grant_type,
-        );
-
-        //从微信获取session_key
-        $user_info_url = 'https://api.weixin.qq.com/sns/jscode2session';
-        $user_info_url = sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",$user_info_url,$appid,$secret,$code,$grant_type);
-
-        $user_data = Sher_Core_Helper_Util::request($user_info_url, $arr);
-        $user_data = Sher_Core_Helper_Util::object_to_array(json_decode($user_data));
-
-        if(isset($user_data['errcode'])){
-		    return $this->wapi_json($user_data['errmsg'], 3002);
+        $result = $this->fetch_wx_info($code, $encryptedData, $iv);
+        if($result['code']){
+            return $this->wapi_json($result['message'], $result['code']);           
         }
-
-        $session_key = $user_data['session_key'];
-
-        //解密数据
-        $data = '';
-        $wxBizDataCrypt = new WXBizDataCrypt($appid, $session_key);
-        $errCode=$wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
-        if($errCode != 0){
-		    return $this->wapi_json($errCode, 3003);
-        }
-        $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
-
-        $unionId = $data['unionId'];
+        $data = $result['data'];
 
         $auth_info = array(
             'union_id' => $data['unionId'],
@@ -143,7 +114,7 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
         );
 
         $user_model = new Sher_Core_Model_User();
-        $user = $user_model->first(array('wx_union_id'=>$unionId));
+        $user = $user_model->first(array('wx_union_id'=>$data['unionId']));
 
         if($user){
             if ($user['state'] == Sher_Core_Model_User::STATE_BLOCKED) {
@@ -379,6 +350,55 @@ class Sher_WApi_Action_Auth extends Sher_WApi_Action_Base {
 		
 		return $this->wapi_json('正在发送');
 	}
+
+    /**
+     * 获取微信授权信息
+     */
+    protected function fetch_wx_info($code, $encryptedData, $iv){
+        include "wx_encrypt_data/wxBizDataCrypt.php";
+
+        $appid = 'wx0691a2c7fc3ed597';
+        $secret =  '3eed8c2a25c6c85f7dd0821de15514b9';
+        $grant_type =  'authorization_code';
+        $arr = array(
+            'appid' => $appid,
+            'secret' => $secret,
+            'js_code' => $code,
+            'grant_type' => $grant_type,
+        );
+
+        //从微信获取session_key
+        $user_info_url = 'https://api.weixin.qq.com/sns/jscode2session';
+        $user_info_url = sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",$user_info_url,$appid,$secret,$code,$grant_type);
+
+        $user_data = Sher_Core_Helper_Util::request($user_info_url, $arr);
+        $user_data = Sher_Core_Helper_Util::object_to_array(json_decode($user_data));
+
+        $result = array();
+        $result['code'] = 0;
+        $result['message'] = '';
+
+        if(isset($user_data['errcode'])){
+            $result['code'] = 3002;
+            $result['message'] = $user_data['errmsg'];
+            return $result;
+        }
+
+        $session_key = $user_data['session_key'];
+
+        //解密数据
+        $data = '';
+        $wxBizDataCrypt = new WXBizDataCrypt($appid, $session_key);
+        $errCode=$wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
+        if($errCode != 0){
+            $result['code'] = 3003;
+            $result['message'] = $errCode;
+		    return $result;
+        }
+        $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
+        $result['data'] = $data;
+        return $result;
+    }
 
 }
 

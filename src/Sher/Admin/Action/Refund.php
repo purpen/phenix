@@ -100,4 +100,29 @@ class Sher_Admin_Action_Refund extends Sher_Admin_Action_Base implements DoggyX_
     
     }
 
+    /**
+     * 拒绝退款
+     */
+    public function ajax_reject_refund(){
+ 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		$reason = isset($this->stash['reason']) ? $this->stash['reason'] : null;
+		if(empty($id) || empty($reason)){
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+        $model = new Sher_Core_Model_Refund();
+        $refund = $model->load($id);
+        if(empty($refund)){
+  		    return $this->ajax_json('退款单不存在！', true);      
+        }
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+   		    return $this->ajax_json('该状态不允许修改！', true);
+        }
+
+        $ok = $model->reject_refund($id, array('reason'=>$reason));
+        if(!$ok){
+            return $this->ajax_json('操作失败!', true);
+        }
+        return $this->ajax_json('success!', false);
+    }
+
 }

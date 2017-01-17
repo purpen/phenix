@@ -36,6 +36,33 @@
 
 	});
 
+	// 拒绝退款弹框 
+	$('.reject_btn').bind('click', function(){
+        var id = $(this).data('id');
+        $('#reject-form :input[name=id]').val(id);
+		$('.ui.reject-reason-box.modal').modal('show');
+	});
+
+	// 确认拒绝退款按钮
+	$('.ui.reject-btn-do.button').click(function(){
+        var id = $('#reject-form :input[name=id]').val();     
+        var reason = $('#reject-form :input[name=reject_reason]').val();
+
+        if(id=='' || reason==''){
+            return false;
+        }
+
+        $.post("{{ app_url_admin }}/refund/ajax_reject_refund", {id:id, reason:reason}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('操作成功!');
+		        $('.ui.reject-reason-box.modal').modal('hide');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+
+	});
+
 	// 支付后查看结果
 	$('.ui.refund-result').click(function(){
         location.reload(true);
@@ -164,6 +191,9 @@
                             订单号: 
                             <a href="{{ app_url_admin }}/orders/show?rid={{ d.order_rid }}" target="_blank">{{ d.order_rid }}</a>
                         </p>
+                        {% if d.sub_order_id %}
+                            <p>子单号: {{ d.sub_order_id }}</p>
+                        {%endif%}
                         <p>
                             SKU: 
                             {{ d.target_id }}
@@ -185,6 +215,9 @@
                 <td>
                     <p>原因: {{ d.reason_label }}</p>
                     <p>说明: {{ d.content }}</p>
+                    {% if d.summary %}
+                        <p>拒绝原因: {{ d.summary }}</p>
+                    {%endif%}
                 </td>
                 <td>
                     <p>昵称: <a href="{{ app_url_domain }}/user/{{ d.user_id }}" target="_blank">{{ d.user.nickname }}</a></p>
@@ -218,15 +251,21 @@
 				<td>
 					<p>
                         {% if d.stage==1 %}
-                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ d.pay_type }}" pay_name="{{ d.pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
+                            <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" user_id="{{ d.user_id }}" class="ui link item change_price_btn">
+                                改价
+                            </a>
+                            <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" pay_type="{{ d.pay_type }}" pay_name="{{ d.pay_label }}" user_id="{{ d.user_id }}" class="ui link item refund_btn">
                                 确认退款
                             </a>
-                        <a href="javascript:void(0);" rid="{{ d.order_rid }}" data-id="{{ d._id }}" target_id="{{ d.target_id }}" pay_money="{{ d.refund_price }}" user_id="{{ d.user_id }}" class="ui link item change_price_btn">
-                                改价
+                            <a href="javascript:void(0);" data-id="{{ d._id }}" class="ui link item reject_btn">
+                                拒绝
                             </a>
                         {%endif%}
                         {% if d.stage==2 %}
                             <span>已退款</span>
+                        {%endif%}
+                        {% if d.stage==3 %}
+                            <p><span>拒绝退款</span></p>
                         {%endif%}
 					</P>
 				</td>
@@ -346,6 +385,26 @@
           </div>
           <div class="right aligned field ">
                 <input type="button" class="ui active modify-price-btn magenta submit button" value="确定" />
+          </div>
+        </form>
+        </div>
+    </div>
+
+    <!-- 拒绝理由弹出层 -->
+    <div class="ui small reject-reason-box modal">
+        <i class="close icon"></i>
+      <div class="header">
+        拒绝退款:
+      </div>
+        <div class="content">
+        <form action="" class="ui form" id="reject-form" method="get">
+            <input type="hidden" name="id" value="" />
+          <div class="field">
+            <label>拒绝理由:</label>
+            <input type="text" name="reject_reason" value="" />
+          </div>
+          <div class="right aligned field ">
+                <input type="button" class="ui active reject-btn-do magenta submit button" value="确定" />
           </div>
         </form>
         </div>
