@@ -61,7 +61,8 @@ class Sher_Core_Jobs_UserAvatar extends Doggy_Object {
                     'small' => $qkey,
                     'mini' => $qkey
                 ));   
-            }               
+            }
+			Doggy_Log_Helper::warn("Queue upload user avatar success!!!");
 
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Queue user avatar failed: ".$e->getMessage());
