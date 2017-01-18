@@ -139,7 +139,7 @@ class Sher_Api_Action_BalanceRecord extends Sher_Api_Action_Base {
             $data[$i]['_id'] = (string)$data[$i]['_id'];
 
             $balance = array();
-            $row = $balance_model->load($data[$i]['balance_id']);
+            $row = $balance_model->extend_load($data[$i]['balance_id']);
             if(!empty($row)){
                 $product_id = $row['product_id'];
                 $p = $product_model->load($product_id);
@@ -150,6 +150,7 @@ class Sher_Api_Action_BalanceRecord extends Sher_Api_Action_Base {
                 }else{
                     $product = null;
                 }
+                $balance = $row;
                 $balance['_id'] = (string)$row['_id'];
                 $balance['product'] = $product;
             }
