@@ -25,7 +25,7 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
      * Fiu 支付流程
      */
     public function payment(){
-        require_once "wxpay-sdk/lib/WxPay.Api.php";
+        require_once "wxpay-xcx-sdk/lib/WxPay.Api.php";
         //require_once 'log.php';
         //
 
@@ -63,8 +63,6 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
 
 		// 统一下单
         $input = new WxPayUnifiedOrder();
-        $input->SetAppid(Doggy_Config::$vars['app.wechat.xcx']['app_id']);
-        $input->SetMch_id(Doggy_Config::$vars['app.wechat.xcx']['mch_id']);
         $input->SetBody('太火鸟商城'.$order_info['rid'].'的订单');
         $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
         $input->SetOut_trade_no($order_info['rid']);
@@ -134,9 +132,9 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
 	 */
 	public function notify(){
 
-        require_once "wxpay-sdk/lib/WxPay.Api.php";
-        require_once 'wxpay-sdk/lib/WxPay.Notify.php';
-        require_once 'wxpay-sdk/lib/WxPay.PayNotifyCallBack.php';
+        require_once "wxpay-xcx-sdk/lib/WxPay.Api.php";
+        require_once 'wxpay-xcx-sdk/lib/WxPay.Notify.php';
+        require_once 'wxpay-xcx-sdk/lib/WxPay.PayNotifyCallBack.php';
 			
 	    // 返回微信支付结果通知信息
         $notify = new PayNotifyCallBack();
