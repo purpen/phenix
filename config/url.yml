@@ -11,6 +11,8 @@ app.url.app_admin_base:    '{$app.domain.app}/app/app_admin'
 app.domain.mobile: 'http://wap.taihuoniao.me'
 app.url.mobile: '{$app.domain.mobile}'
 app.url.wap: '{$app.domain.mobile}'
+app.url.api: '{$app.domain.mobile}/app/api'
+app.url.wapi: '{$app.domain.mobile}/app/w_api'
 
 #wap
 app.url.wap.social: '{$app.url.wap}/topic'

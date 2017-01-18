@@ -106,6 +106,21 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                 $row['stage_label'] = '--';
         }
 
+        // 进度
+        switch($row['status']){
+            case 0:
+                $row['status_label'] = '未结算';
+                break;
+            case 1:
+                $row['status_label'] = '已结算';
+                break;
+            default:
+                $row['status_label'] = '--';
+        }
+        if($row['stage'] == 2){
+            $row['status_label'] = '已关闭';
+        }
+
         // 分成百分比转化
         $row['commision_percent_p'] = isset($row['commision_percent']) ? $row['commision_percent']*100 : 0;
 
