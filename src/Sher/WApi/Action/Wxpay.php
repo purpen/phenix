@@ -4,9 +4,8 @@
  * @author tianshuai 
  */
 class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Action_Initialize {
-		
-	// 配置微信参数
-	public $options = array();
+
+	protected $filter_auth_methods = array('execute', 'notify');
 		
 	/**
 	 * 初始化参数
@@ -60,7 +59,7 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
         }
         
         // 支付完成通知回调接口
-        $notify_url = sprintf("%s/wxpay/fiu_notify", Doggy_Config::$vars['app.url.api']);
+        $notify_url = sprintf("%s/wxpay/notify", Doggy_Config::$vars['app.url.wapi']);
 
 		// 统一下单
         $input = new WxPayUnifiedOrder();
@@ -129,6 +128,71 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
         }
     
     }
+
+	/**
+	 * 微信支付异步返回通知信息--fiu
+	 */
+	public function notify(){
+
+        require_once "wxpay-sdk/lib/WxPay.Api.php";
+        require_once 'wxpay-sdk/lib/WxPay.Notify.php';
+        require_once 'wxpay-sdk/lib/WxPay.PayNotifyCallBack.php';
+			
+	    // 返回微信支付结果通知信息
+        $notify = new PayNotifyCallBack();
+		$notify->Handle();
+			
+        // 获取通知信息
+        $notifyInfo = $notify->arr_notify; 
+        
+        Doggy_Log_Helper::warn("微信小程序获取通知信息~fiu: ".json_encode($notifyInfo));
+
+        // 商户订单号
+        $out_trade_no = $notifyInfo['out_trade_no'];
+        // 微信交易号
+        $trade_no = $notifyInfo['transaction_id'];
+        // 交易状态
+        $trade_status = $notifyInfo['result_code'];
+			
+		if($trade_status == 'SUCCESS') {
+			if($this->update_order_process($out_trade_no, $trade_no)){
+				return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+            }else{
+    		    Doggy_Log_Helper::warn("微信小程序:订单更新失败~fiu!");        
+            }
+		}else{
+ 			Doggy_Log_Helper::warn("微信小程序~fiu:订单交易返回错误: ".json_encode($notifyInfo));       
+			return false; 
+		}
+	}
+
+
+	/**
+	 * 更新订单状态
+	 */
+	protected function update_order_process($out_trade_no, $trade_no){
+		   
+        $model = new Sher_Core_Model_Orders();
+        $order_info = $model->find_by_rid($out_trade_no);
+        if (empty($order_info)){
+            Doggy_Log_Helper::warn("微信小程序:系统不存在订单!");
+            return false;
+        }
+        $status = $order_info['status'];
+        $is_presaled = $order_info['is_presaled'];
+        $order_id = (string)$order_info['_id'];
+        $jd_order_id = isset($order_info['jd_order_id']) ? $order_info['jd_order_id'] : null;
+       
+        Doggy_Log_Helper::warn("Weixin order[$out_trade_no] status[$status] updated!");
+       
+        // 验证订单是否已经付款
+        if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+            // 更新支付状态,付款成功并配货中
+            return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
+        }else{
+            return true;
+        }
+	}
 
 
 

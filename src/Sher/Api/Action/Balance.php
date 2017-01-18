@@ -112,7 +112,7 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         }
 		
 		$balance_model = new Sher_Core_Model_Balance();
-		$balance = $balance_model->load($id);
+		$balance = $balance_model->extend_load($id);
 		
 		if(empty($balance)){
 			return $this->api_json('内容不存在！', 3002);
