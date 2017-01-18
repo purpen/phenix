@@ -291,8 +291,8 @@ class Sher_Core_Util_WechatAuth extends Doggy_Object {
     public static function fetch_wx_info($code, $encryptedData, $iv){
         include "wx_encrypt_data/wxBizDataCrypt.php";
 
-        $appid = 'wx0691a2c7fc3ed597';
-        $secret =  '3eed8c2a25c6c85f7dd0821de15514b9';
+        $appid = Doggy_Config::$vars['app.wechat.xcx']['app_id'];
+        $secret = Doggy_Config::$vars['app.wechat.xcx']['secret'];
         $grant_type =  'authorization_code';
         $arr = array(
             'appid' => $appid,
@@ -336,4 +336,3 @@ class Sher_Core_Util_WechatAuth extends Doggy_Object {
 
 }
 
-?>

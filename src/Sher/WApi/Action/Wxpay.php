@@ -64,6 +64,8 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
 
 		// 统一下单
         $input = new WxPayUnifiedOrder();
+        $input->SetAppid(Doggy_Config::$vars['app.wechat.xcx']['app_id']);
+        $input->SetMch_id(Doggy_Config::$vars['app.wechat.xcx']['mch_id']);
         $input->SetBody('太火鸟商城'.$order_info['rid'].'的订单');
         $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
         $input->SetOut_trade_no($order_info['rid']);
@@ -87,8 +89,8 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
                         $order['time_stamp'] = time();
                         //签名步骤一：按字典序排序参数
                         $val = array(
-                            'appid' => Doggy_Config::$vars['app.wechat_fiu.app_id'],
-                            'partnerid' => Doggy_Config::$vars['app.wechat_fiu.partner_id'],
+                            'appid' => Doggy_Config::$vars['app.wechat.xcx']['app_id'],
+                            'partnerid' => Doggy_Config::$vars['app.wechat.xcx']['mch_id'],
                             'prepayid' => $order['prepay_id'],
                             'noncestr' => $order['nonce_str'],
                             'timestamp' => $order['time_stamp'],
@@ -105,13 +107,13 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
                         }
                         $string = trim($buff, "&");
                         //签名步骤二：在string后加入KEY
-                        $string = $string . "&key=".Doggy_Config::$vars['app.wechat_fiu.key'];   
+                        $string = $string . "&key=".Doggy_Config::$vars['app.wechat.xcx']['key'];   
 
                         //签名步骤三：MD5加密
                         $string = md5($string);
                         //签名步骤四：所有字符转为大写
                         $new_sign = strtoupper($string);
-                        $order['new_sign'] = $new_sign;
+                        $order['sign'] = $new_sign;
               
                     }
             

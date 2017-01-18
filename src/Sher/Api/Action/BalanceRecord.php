@@ -89,7 +89,7 @@ class Sher_Api_Action_BalanceRecord extends Sher_Api_Action_Base {
 	 */
 	public function item_list(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:50;
         $sort = isset($this->stash['sort'])?(int)$this->stash['sort']:0;
         $balance_record_id = isset($this->stash['balance_record_id']) ? $this->stash['balance_record_id'] : null;
 
