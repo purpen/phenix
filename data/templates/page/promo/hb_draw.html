@@ -508,10 +508,10 @@ p span.red {
 
   var page = 1;
   var size = 9;
-  var day = "{{ day|default 0 }}";
+  var day = 0;
   // ajax 加载中奖用户列表
   function fetch_draw_user(page, size, type, day, sid){
-    var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_draw_record";
+    var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_active_draw_record";
     $.get(url, {page:page, size:size, type:type, day:day, next_id:sid, delayed:10}, function(result){
         var html = '';
         if(result.success){

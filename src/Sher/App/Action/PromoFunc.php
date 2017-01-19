@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address', 'ajax_fetch_active_draw_record');
 	
 	/**
 	 * 网站入口
@@ -43,9 +43,14 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $draw_arr = array(
-            '1' => array('id' => 1, 'type'=>3, 'title' => '云马C1智行车1', 'count' => 10, 'limit'=>0, 'chance'=>100, 'degree_min'=>24, 'degree_max'=>55),
-            '2' => array('id' => 2, 'type'=>2, 'title' => '红包', 'count' => 10, 'limit'=>0, 'chance'=>100, 'degree'=>88),
-
+            '1' => array('id' => 1, 'type'=>3, 'title' => 'Kalar筷子', 'count' => 200, 'limit'=>100, 'chance'=>1000, 'degree_min'=>2, 'degree_max'=>43),
+            '2' => array('id' => 2, 'type'=>2, 'title' => '10元红包', 'count' => 10, 'limit'=>-1, 'chance'=>1000, 'degree_min'=>47, 'degree_max'=>88),
+            '3' => array('id' => 3, 'type'=>3, 'title' => '小黄鸭', 'count' => 100, 'limit'=>60, 'chance'=>1000, 'degree_min'=>92, 'degree_max'=>133),
+            '4' => array('id' => 4, 'type'=>2, 'title' => '30元红包', 'count' => 30, 'limit'=>-1, 'chance'=>1000, 'degree_min'=>137, 'degree_max'=>178),
+            '5' => array('id' => 5, 'type'=>3, 'title' => '太火鸟卡片移动电源', 'count' => 300, 'limit'=>100, 'chance'=>1000, 'degree_min'=>182, 'degree_max'=>223),
+            '6' => array('id' => 6, 'type'=>3, 'title' => '云马C1智能电单车', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>227, 'degree_max'=>268),
+            '7' => array('id' => 7, 'type'=>3, 'title' => '嗨蛋机器人', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>272, 'degree_max'=>313),
+            '8' => array('id' => 8, 'type'=>3, 'title' => '猫王小王子', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>317, 'degree_max'=>358),
         );
 
         // 查看库存，如果为空了，则机率设置为空
@@ -63,7 +68,9 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         foreach ($draw_arr as $key => $val) {
             $d_chance = (int)$val['chance'];
             $d_limit = (int)$val['limit'];
-            if($d_limit>0){
+            if($d_limit==0){
+                $d_chance = 0;
+            }elseif($d_limit>0){
                 if(!empty($dig_arr) && (isset($dig_arr[$val['id']]) && (int)$dig_arr[$val['id']]>=$d_limit )){
                     $d_chance = 0;
                 }
@@ -141,6 +148,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
                 'title' => $data['title'],
                 'desc' => '',
                 'state' => in_array($data['type'], $model->need_contact_user_event()) ? 0 : 1,
+                'count' => $data['count'],
             );
             $ok = $model->update_set($sid, $row);
         }else{
@@ -158,15 +166,16 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
                 'state' => in_array($data['type'], $model->need_contact_user_event()) ? 0 : 1,
                 'from_to' => $from_to,
                 'kind' => $kind,
+                'count' => $data['count'],
             );
             $ok = true;
-            $ok = $model->apply_and_save($row);
+            //$ok = $model->apply_and_save($row);
             if($ok){
-                //$sid = 1;
+                $data['sid'] = 1;
                 // 获取抽奖记录ID
-                $active_draw_record = $model->get_data();
-                $sid = (string)$active_draw_record['_id'];
-                $data['sid'] = $sid;
+                //$active_draw_record = $model->get_data();
+                //$sid = (string)$active_draw_record['_id'];
+                //$data['sid'] = $sid;
 
             }else{
                 return $this->ajax_json('系统出错！', true);           
@@ -174,6 +183,106 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         }
 
         return $this->ajax_json('success', false, null, $data);
+    }
+
+
+    /**
+     * 自动加载获取
+     */
+    public function ajax_fetch_active_draw_record(){
+        $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+        // 已中奖用户
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
+        $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 0;
+        $day = isset($this->stash['day']) ? (int)$this->stash['day'] : 0;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
+        $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+        $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+        $delayed = isset($this->stash['delayed']) ? (int)$this->stash['delayed'] : 0;
+        $sort = (int)$this->stash['sort'];
+        $page = (int)$this->stash['page'];
+        $size = (int)$this->stash['size'];
+            
+        $service = Sher_Core_Service_ActiveDrawRecord::instance();
+            
+        $query = array();
+
+        if($day){
+          $query['day'] = $day;
+        }
+            
+        if($event){
+            if($event==-1){ // 未中奖
+                $query['event'] = 0;
+            }else{
+                $query['event'] = (int)$event;
+            }
+        }
+
+        if(isset($this->stash['next_id']) && !empty($this->stash['next_id'])){
+            $query['_id'] = array('$gt'=>DoggyX_Mongo_Db::id($this->stash['next_id']));
+        }
+
+        if($type){
+            if($type==1){
+                $query['event'] = array('$in'=>array(1,2,3,4));
+            }
+        }
+
+        if($user_id){
+            $query['user_id'] = $user_id;   
+        }
+
+        if($target_id){
+            $query['target_id'] = $target_id;   
+        }
+
+        if($delayed){
+            $query['created_on'] = array('$lt'=>time()-$delayed);
+        }
+            
+        $options['page'] = $page;
+        $options['size'] = $size;
+            
+        // 排序
+        switch ((int)$sort) {
+            case 0:
+                $options['sort_field'] = 'latest';
+                break;
+        }
+
+        // 限制输出字段
+        $some_fields = array();
+        $options['some_fields'] = $some_fields;
+
+        $user_model = new Sher_Core_Model_User();
+        
+        $resultlist = $service->get_active_draw_record_list($query,$options);
+        $next_page = 'no';
+        if(isset($resultlist['next_page'])){
+            if((int)$resultlist['next_page'] > $page){
+                $next_page = (int)$resultlist['next_page'];
+            }
+        }
+        
+        $max = count($resultlist['rows']);
+        for($i=0;$i<$max;$i++){
+            $user = $user_model->load($resultlist['rows'][$i]['user_id']);
+            $row = array(
+                '_id' => $user['_id'],
+                'nickname' => $user['nickname'],
+            );
+            $resultlist['rows'][$i]['user'] = $row;
+
+            $resultlist['rows'][$i]['_id'] = (string)$resultlist['rows'][$i]['_id'];
+
+        } //end for
+
+        $data = array();
+        $data['nex_page'] = $next_page;
+        $data['results'] = $resultlist;
+        
+        return $this->ajax_json('', false, '', $data);
     }
 
 
