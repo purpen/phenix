@@ -74,6 +74,8 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
                 $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 		    }
             $data[$i]['_id'] = (string)$data[$i]['_id'];
+            // 创建时间格式化 
+            $data[$i]['created_at'] = date('Y-m-d H:i', $data[$i]['created_on']);
 
 		}
 		$result['rows'] = $data;
@@ -125,6 +127,8 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
         }
 
         $data['_id'] = (string)$data['_id'];
+        // 创建时间格式化 
+        $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
 
 		return $this->api_json('请求成功', 0, $data);
 	}
