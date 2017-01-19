@@ -1,4 +1,4 @@
-0 <?php
+<?php
 /**
  *	微信公众平台PHP-SDK
  *  Wechatauth为非官方微信登陆API

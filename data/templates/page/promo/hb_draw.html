@@ -1,0 +1,938 @@
+{%extends 'layout/column.html'%}
+{% block title %}花瓣xFiu店会员注册抽奖活动-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#sign{
+	margin-top: 0;
+	padding:0;
+	padding-bottom: 2.5rem;
+	background:url({{ app_url_packaged }}/images/promo/sign_draw2.jpg) no-repeat center center;
+	background-size:cover;
+	
+}
+.mainwrap{
+	margin-top:0;
+}
+.mainwrap .mainleft{
+	min-height:0;
+}
+
+.six.wide.column p{
+	color:#000;
+}
+#sign .mainwrap .mainleft .ui.grid{
+	padding-right: 20px;
+	padding-top: 15px;
+}
+#slidework{
+	height: 300px;
+}
+#slidework p{
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+    line-height: 24px;
+}
+.backg.column {
+    background: #4dd2dc;
+    color: #fff;
+    padding: 22px 10px 20px 20px !important;
+    margin-left: 0;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+.question,.question:hover{
+    color: #fff;
+    text-decoration: underline;
+}
+.help.circle.icon{
+	color:#fff;
+	font-size: 1.4rem;
+	vertical-align: middle;
+}
+.draw,#disk{
+	width: 506px;
+	height: 506px;
+	position:relative;
+}
+#disk {
+    background: url({{ app_url_packaged }}/images/promo/draw_season7.png) no-repeat;
+    background-size: cover;
+}
+#start {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+	top:50%;
+	left:50%;
+    margin-left: -65px;
+    margin-top: -75px;
+	cursor: pointer;
+}
+.mainright .sellwrap.usersign{
+	background: rgba(0,0,0,0);
+	border:none; 
+	margin-top: 20px;
+	margin-bottom:0;
+	margin-left:-20px;
+}
+.mainright .sellwrap.usersign .adreg{
+	padding: 0 5px;
+}
+.mainright .sellwrap.usersign .adreg +p{
+	margin-top: 10px;
+}
+.ui.articles.list .item.topicbox h2{
+	margin-bottom: 10px !important;
+}
+.articles h2 a{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.drawmes.modal,.address.modal{
+	background: rgba(0,0,0,0);
+}
+.drawmes.modal .header{
+	background:rgba(0,0,0,0.5);
+	border:none;
+	color:#fff;
+	padding:60px 0 40px;
+	font-size:1.5rem;
+}
+.drawmes.modal .header .content p{
+	font-size: 1.6rem;
+}
+p.nobtn{
+	font-size: 14px !important;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    margin-top: 30px;
+    border: 1px solid rgba(255,255,255,0.6) !important;
+    display: inline-block;
+    padding: 5px 8px;
+}
+.gettwo.modal{
+	border: none;
+	box-shadow: none !important;
+	background: rgba(0,0,0,0);
+}
+.gettwo.modal .header{
+	background:url({{ app_url_packaged }}/images/promo/zzhuan2.png);
+	background-size:100%;
+	width:600px !important;
+	height:400px !important;
+}
+.gettwo.modal .header .content p{
+	font-size: 1.6rem;
+	margin-top:240px;
+	color:#fff;
+}
+.address.modal .header{
+	background:rgba(0,0,0,0.5);
+	border:none;
+	color:#fff;
+	padding:40px 20px;
+	font-size:1.5rem;
+}
+.address.modal .header > .container > .content p{
+	font-size: 1.6rem;
+}
+.address.modal .header > .container > .content .content .field{
+	text-align:left;
+}
+.address.modal .ui.form .field>label{
+	color:#fff;
+}
+.address.modal .two.fields{
+	margin-bottom:0;
+}
+.address.modal .content > .field+.field+.field{
+	margin-bottom:2em;
+}
+
+p span.red {
+  color: #f36;
+}
+.mainwrap .mainright .user.share{
+	color: #fff;
+	border-top:none;
+	text-align: left;
+	margin-top: 0;
+	padding-top: 0;
+}
+.ui.modal .content a i.large.icon{
+	font-size:1.2em;
+}
+.usersign .pai .ui.inverted.red.active.button{
+	width: 100%;
+    background: #f9bd00;
+}
+.guide.column{
+	background: url({{ app_url_packaged }}/images/promo/sign_pgz.png);
+	background-size: cover;
+	height: 310px;
+    padding: 50px 10px 0 30px !important;
+}
+.guide.column p{
+
+}
+.guide.column p img{
+	margin-right: 10px;
+    height: 18px;
+    margin-top: -2px;
+}
+.six.wide.column .mainwrap .mainright .sellwrap{
+	margin-top: 5px;
+}
+.six.wide.column .mainwrap .mainright .ui.articles.list {
+    padding-bottom: 0;
+}
+.six.wide.column .mainwrap .mainright .ui.articles.list .item{
+	padding: 10px 0 12px 0;
+}
+.mainwrap .mainright .adstickwrap{
+	margin-top: 78px;
+}
+.mainwrap .mainright .adstickwrap .ui.adverts.cards>.card {
+    margin: 15px 0 0;
+}
+.ui.adverts.cards>.card .advblock .desc h2{
+	margin-bottom: 0;
+}
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript" src="https://s3.taihuoniao.com/wechat/jsjQueryRotate.2.2.js"></script>
+  
+  <script language="javascript">
+
+/**
+  window.onload=function(){
+    new Marquee(
+      "slidework",  //容器ID
+      1,  //向上滚动（0为向上、1为向下、2为向左、3为向右)
+      2,  //滚动的步长
+      268,  //容器可视宽度
+      200,  //容器可视高度
+      50,  //定时器 数值越小，滚动的速度越快（1000=1秒，建议不小于20）
+      2000,  //间歇停顿时间（0为不停顿，1000=1秒）
+      1000,  //开始时的等待时间（0为不等待，1000=1秒）
+      25  //间歇滚动间距（可选）
+      );
+    };
+	function Marquee()
+	{
+	    this.ID = document.getElementById(arguments[0]);
+	    if(!this.ID)
+	    {
+	        this.ID = -1;
+	        return;
+	    }
+	    this.Direction = this.Width = this.Height = this.DelayTime = this.WaitTime = this.Correct = this.CTL = this.StartID = this.Stop = this.MouseOver = 0;
+	    this.Step = 1;
+	    this.Timer = 30;
+	    this.DirectionArray = {"top":0 , "bottom":1 , "left":2 , "right":3};
+	    if(typeof arguments[1] == "number")    this.Direction = arguments[1];
+	    if(typeof arguments[2] == "number")    this.Step = arguments[2];
+	    if(typeof arguments[3] == "number")    this.Width = arguments[3];
+	    if(typeof arguments[4] == "number")    this.Height = arguments[4];
+	    if(typeof arguments[5] == "number")    this.Timer = arguments[5];
+	    if(typeof arguments[6] == "number")    this.DelayTime = arguments[6];
+	    if(typeof arguments[7] == "number")    this.WaitTime = arguments[7];
+	    if(typeof arguments[8] == "number")    this.ScrollStep = arguments[8]    
+	    this.ID.style.overflow = this.ID.style.overflowX = this.ID.style.overflowY = "hidden";    
+	    this.ID.noWrap = true;
+	    this.IsNotOpera = (navigator.userAgent.toLowerCase().indexOf("opera") == -1);
+	    if(arguments.length >= 7) this.Start();
+	}
+
+	Marquee.prototype.Start = function()
+	{
+	    if(this.ID == -1)return;
+	    if(this.WaitTime < 800)this.WaitTime = 800;
+	    if(this.Timer < 20)this.Timer = 20;
+	    if(this.Width == 0)this.Width = parseInt(this.ID.style.width);
+	    if(this.Height == 0)this.Height = parseInt(this.ID.style.height);
+	    if(typeof this.Direction == "string")this.Direction = this.DirectionArray[this.Direction.toString().toLowerCase()];
+	    this.HalfWidth = Math.round(this.Width / 2);
+	    this.BakStep = this.Step;
+	    this.ID.style.width = this.Width+'px';//必须添加‘px’,否则IE外的浏览器不支持
+	    this.ID.style.height = this.Height+'px';//
+	    if(typeof this.ScrollStep != "number")this.ScrollStep = this.Direction > 1 ? this.Width : this.Height;
+	    var msobj = this;
+	    var timer = this.Timer;
+	    var delaytime = this.DelayTime;
+	    var waittime = this.WaitTime;
+	    msobj.StartID = function(){msobj.Scroll()}
+	    msobj.Continue = function()
+	                {
+	                    if(msobj.MouseOver == 1)
+	                    {
+	                        setTimeout(msobj.Continue,delaytime);
+	                    }
+	                    else
+	                    {    clearInterval(msobj.TimerID);
+	                        msobj.CTL = msobj.Stop = 0;
+	                        msobj.TimerID = setInterval(msobj.StartID,timer);
+	                    }
+	                }
+
+	    msobj.Pause = function()
+	            {
+	                msobj.Stop = 1;
+	                clearInterval(msobj.TimerID);
+	                setTimeout(msobj.Continue,delaytime);
+	            }
+
+	    msobj.Begin = function()
+	        {
+	            msobj.ClientScroll = msobj.Direction > 1 ? msobj.ID.scrollWidth : msobj.ID.scrollHeight;
+	            if((msobj.Direction <= 1 && msobj.ClientScroll <msobj.Height) || (msobj.Direction > 1 && msobj.ClientScroll <msobj.Width))return;
+	            msobj.ID.innerHTML += msobj.ID.innerHTML;//copy 
+	            msobj.TimerID = setInterval(msobj.StartID,timer);
+	            if(msobj.ScrollStep < 0)return;
+	            msobj.ID.onmousemove = function(event)
+	                        {
+	                            if(msobj.ScrollStep == 0 && msobj.Direction > 1)
+	                            {
+	                                var event = event || window.event;
+	                                if(window.event)
+	                                {
+	                                    if(msobj.IsNotOpera)
+	                                    {
+	                                        msobj.EventLeft = event.srcElement.id == msobj.ID.id ? event.offsetX - msobj.ID.scrollLeft : event.srcElement.offsetLeft - msobj.ID.scrollLeft + event.offsetX;
+	                                    }
+	                                    else
+	                                    {
+	                                        msobj.ScrollStep = null;
+	                                        return;
+	                                    }
+	                                }
+	                                else
+	                                {
+	                                    msobj.EventLeft = event.layerX - msobj.ID.scrollLeft;
+	                                }
+	                                msobj.Direction = msobj.EventLeft > msobj.HalfWidth ? 3 : 2;
+	                                msobj.AbsCenter = Math.abs(msobj.HalfWidth - msobj.EventLeft);
+	                                msobj.Step = Math.round(msobj.AbsCenter * (msobj.BakStep*2) / msobj.HalfWidth);
+	                            }
+	                        }
+	            msobj.ID.onmouseover = function()
+	                        {
+	                            if(msobj.ScrollStep == 0)return;
+	                            msobj.MouseOver = 1;
+	                            clearInterval(msobj.TimerID);
+	                        }
+	            msobj.ID.onmouseout = function()
+	                        {
+	                            if(msobj.ScrollStep == 0)
+	                            {
+	                                if(msobj.Step == 0)msobj.Step = 1;
+	                                return;
+	                            }
+	                            msobj.MouseOver = 0;
+	                            if(msobj.Stop == 0)
+	                            {
+	                                clearInterval(msobj.TimerID);
+	                                msobj.TimerID = setInterval(msobj.StartID,timer);
+	                            }
+	                        }
+	        }
+	        setTimeout(msobj.Begin,waittime);
+	}
+
+	Marquee.prototype.Scroll = function()
+	{
+	    switch(this.Direction)
+	    {
+	        case 0:
+	            this.CTL += this.Step;
+	            if(this.CTL >= this.ScrollStep && this.DelayTime > 0)
+	            {
+	                this.ID.scrollTop += this.ScrollStep + this.Step - this.CTL;
+	                this.Pause();
+	                return;
+	            }
+	            else
+	            {
+	                if(this.ID.scrollTop >= this.ClientScroll)
+	                {
+	                    this.ID.scrollTop -= this.ClientScroll;
+	                }
+	                this.ID.scrollTop += this.Step;
+	            }
+	        break;
+
+	        case 1:
+	            this.CTL += this.Step;
+	            if(this.CTL >= this.ScrollStep && this.DelayTime > 0)
+	            {
+	                this.ID.scrollTop -= this.ScrollStep + this.Step - this.CTL;
+	                this.Pause();
+	                return;
+	            }
+	            else
+	            {
+	                if(this.ID.scrollTop <= 0)
+	                {
+	                    this.ID.scrollTop += this.ClientScroll;
+	                }
+	                this.ID.scrollTop -= this.Step;
+	            }
+	        break;
+
+	        case 2:
+	            this.CTL += this.Step;
+	            if(this.CTL >= this.ScrollStep && this.DelayTime > 0)
+	            {
+	                this.ID.scrollLeft += this.ScrollStep + this.Step - this.CTL;
+	                this.Pause();
+	                return;
+	            }
+	            else
+	            {
+	                if(this.ID.scrollLeft >= this.ClientScroll)
+	                {
+	                    this.ID.scrollLeft -= this.ClientScroll;
+	                }
+	                this.ID.scrollLeft += this.Step;
+	            }
+	        break;
+
+	        case 3:
+	            this.CTL += this.Step;
+	            if(this.CTL >= this.ScrollStep && this.DelayTime > 0)
+	            {
+	                this.ID.scrollLeft -= this.ScrollStep + this.Step - this.CTL;
+	                this.Pause();
+	                return;
+	            }
+	            else
+	            {
+	                if(this.ID.scrollLeft <= 0)
+	                {
+	                    this.ID.scrollLeft += this.ClientScroll;
+	                }
+	                this.ID.scrollLeft -= this.Step;
+	            }
+	        break;
+	    }
+	}
+
+*/
+
+  	var rotateTimeOut = function (){
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:2160, //这里是设置请求超时后返回的角度，所以应该还是回到最原始的位置，2160是因为我要让它转6圈，就是360*6得来的
+  			duration:8000,
+  			callback:function (){
+  				alert('网络超时，请检查您的网络设置！');
+  			}
+  		});
+  	};
+  	var bRotate = false;
+
+  	var rotateFn = function (angles, data){
+  		bRotate = !bRotate;
+      // 转盘未停止，禁止点击
+      $('#start').unbind('click');
+  		$('#disk').stopRotate();
+  		$('#disk').rotate({
+  			angle:0,
+  			animateTo:angles+1800,
+  			duration:8000,
+  			callback:function (){ // 转盘停止后事件
+
+          $('.coupled.modal')
+          .modal({
+            allowMultiple: false
+          })
+          switch(data.type){
+            case 0:
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+              $('.ui.type_00.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 1:
+              $('.ui.type_01.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+            break;
+            case 2:
+              $('.ui.type_02.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		         // $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+            break;
+            case 3:
+              $('#sign_draw_id').val(data.sid);
+              $('span.draw_name').text(data.title);
+              $('.ui.type_03.drawmes.modal').modal('setting', 'closable', false).modal('show');
+            break;
+            case 4:
+              $('span.draw_name').text(data.title);
+              $('.ui.type_04.drawmes.modal').modal('setting', 'closable', false).modal('show');
+		       //   $('.ui.share.modal').modal('setting', 'closable', false).modal('attach events', '.share.button');
+            break;
+          }
+
+          // 转盘停止，启动点击
+          $('#start').bind('click', function(){
+            start_draw();
+          });
+
+  				bRotate = !bRotate;
+  			}
+  		})
+  	};
+
+  function start_draw(){
+  	// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+      phenix.show_login_box();
+      return;
+    }
+    var url = "{{ app_url_domain }}/app/site/promo_func/fetch_active_draw";
+    $.post(url, {from_to: 1}, function(result){
+
+      if(result.success){
+        rotateFn(result.data.code, result.data);
+      }else{
+        phenix.show_error_note(result.message);
+      }
+    
+    }, 'json');
+  }
+
+  var page = 1;
+  var size = 9;
+  var day = "{{ day|default 0 }}";
+  // ajax 加载中奖用户列表
+  function fetch_draw_user(page, size, type, day, sid){
+    var url = "{{ app_url_domain }}/app/site/promo_func/ajax_fetch_draw_record";
+    $.get(url, {page:page, size:size, type:type, day:day, next_id:sid, delayed:10}, function(result){
+        var html = '';
+        if(result.success){
+          var list = result.data.results.rows;
+          for(var i=0;i<list.length;i++){
+            var z_id = list[i]["id"];
+            var z_event = list[i]["event"];
+            var z_title = list[i]["title"];
+            var z_count = list[i]["count"];
+            var z_desc = '';
+            switch(z_event){
+              case 1:
+              z_desc = "鸟币"+ z_count +"枚";
+              break;
+              case 2:
+              z_desc = "红包"+ z_count +"元";
+              break;
+              case 3:
+              z_desc = z_title + "1个";
+              break;
+              case 4:
+              z_desc = z_title;
+              break;
+            }
+            html += '<p sid="'+ z_id +'">恭喜 '+ list[i]["user"]["nickname"] +' 获得 '+ z_desc +'!</p>';
+          }
+          if(html==''){
+            return;
+          }
+          if(sid==''){
+            $('#slidework').html(html);         
+          }else{
+            $('#slidework').prepend(html);          
+          }
+        }
+    }, 'json');
+  }
+  </script>
+{% endblock %}
+{% block jquery %}
+
+  // 抽奖点击事件
+  $('#start').click(function(){
+    start_draw();
+
+  });
+
+  fetch_draw_user(1, size, 1, day, '');
+
+  // 定时提示,每次3秒钟,最多500次
+  var limit_notice_times = 0;
+  setInterval(function(){
+      if(limit_notice_times >= 500){
+          return
+      }else{
+        // 首次加载等待3+1秒
+        if(limit_notice_times==0){
+          setTimeout(function(){}, 1000);
+        }
+        var sid = '';
+        if($('#slidework p:first').length>0){
+          sid = $('#slidework p:first').attr('sid');
+        }
+        fetch_draw_user(1, size, 1, day, sid);
+      }
+      limit_notice_times++;
+  }, 1000*3);
+
+  // 初始化省份
+  var province_id = $('[name=province]').val();
+  var district_id = $('[name=district]').val();
+  if(province_id > 0){
+    $.get('{{ app_url_address }}/ajax_fetch_districts', {id: province_id, district_id: district_id});
+  }
+
+	// 申请表地址信息
+	$('.ui.district.dropdown').livequery(function(){
+		$(this).dropdown();
+	});
+
+	$('.ui.province.dropdown').livequery(function(){
+		$(this).dropdown({
+			onChange : function(value, text){
+				if (value) {
+					$.get('{{ app_url_address }}/ajax_fetch_districts', {id: value});
+				}
+			}
+		});
+	});
+
+	$('#apply-form').livequery(function(){
+		$(this).form({
+			name: {
+				identifier  : 'name',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '姓名不能为空'
+					}
+				]
+			},
+			phone: {
+				identifier  : 'password',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '电话不能为空'
+					},
+					{
+						type   : 'length[11]',
+						prompt : '电话必须11位字符'
+					}
+				]
+			},
+			address: {
+				identifier  : 'address',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '地址区域不能为空'
+					}
+				]
+			},
+			zip: {
+				identifier  : 'zip',
+				rules: [
+					{
+						type   : 'empty',
+						prompt : '邮编不能为空'
+					}
+				]
+			}
+		}, {
+			inline : true,
+			onSuccess: function(event){
+        event.preventDefault();
+        $(this).ajaxSubmit({
+          dataType: 'json',
+          beforeSubmit: function(){
+          },
+          success: function(data){
+            if(data.is_error){
+              $(event.target).addClass('error');
+              phenix.show_error_note(data.message, event.target);
+            }else{
+              $('.ui.type_03.drawmes.modal').modal('hide');
+              phenix.show_ok_note("已收到您的地址，工作人员会尽快给您发货。", 3000);
+            }
+          }
+        });
+			}
+		});
+	});
+
+    $('.close.icon').click(function(){
+	    $('.ui.drawmes.modal').modal('hide');
+	});
+
+{% endblock %}
+{% block content %}
+<div id="sign">
+	<div class="mainwrap">
+		<div class="mainleftwrap">
+			<div class="mainleft">
+			
+			<div class="ui grid">	
+				<div class="ui center aligned row">
+
+					<div class="ui ten wide column">
+						<div class="draw">
+						  <div id="disk"></div>
+						  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan4.png" width="100%" id="startbtn"></div>
+						</div>
+						
+					</div>
+				
+				</div>
+
+				<div class="row">
+					<div class="ui ten wide column guide">
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_1.jpg" align="absmiddle">用户注册登录之后即可参加抽奖活动；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_2.jpg" align="absmiddle">每个用户注册成功后仅有一次抽奖机会，中奖率100%；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_3.jpg" align="absmiddle">活动中奖结果均以弹出页面中奖信息为准；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_4.jpg" align="absmiddle">此活动仅限花瓣用户参加；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_5.jpg" align="absmiddle">奖品于抽中后一个月内发货，春节期间（2017/1/15-2017/2/6）因物流公司放假暂停发货；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_6.jpg" align="absmiddle">严禁任何不正当/舞弊行为参与活动，一经发现立即取消获奖资格；</p>
+						<p><img src="{{ app_url_packaged }}/images/promo/sign_7.jpg" align="absmiddle">本次活动最终解释权归太火鸟所有！</p>
+					</div>
+					<div class="ui six wide column">
+
+					</div>
+				</div>
+				
+			</div>	
+
+			</div>
+		</div>
+		<div class="mainright">
+
+			<div class="backg column">
+				<div id="slidework" style="overflow: hidden;">
+
+						</div>
+			</div>
+
+		</div>
+		
+	</div>
+
+
+</div>
+			
+
+<!-- 弹出层   -->
+<div class="ui dimmer modals page transition">
+	<div class="ui type_00 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>别灰心，更多奖品点击<a href="http://www.taihuoniao.com/topic/view-109581-1.html" target="_blank">这里!</a></p>
+					
+			        <p class="desc"></p>
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>
+
+	<div class="ui type_01 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">1枚鸟币</span>!</p>
+					
+			        <p class="desc"></p>
+			        
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
+					<br>
+          <a href="{{ app_url_shop }}/pmall" target="_blank"><p class="nobtn">看看我的鸟币能兑换啥 Go></p></a>
+					
+			    </div>
+      
+		    </div>
+			
+			
+	  	</div>
+	</div>
+
+	<div class="ui type_02 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red">太火鸟红包</span>一个!</p>
+					
+			        <p class="desc"></p>
+			        
+	            	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+	            		<i class="weibo icon large circular red inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+	            		<i class="weixin icon large circular green inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+	            		<i class="tencent weibo icon large circular blue inverted"></i>
+	            	</a>
+	            	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+	            		<i class="icon renren large circular blue inverted"></i>
+	            	</a>
+					
+					<br>
+          <a href="{{ app_url_shop }}" target="_blank"><p class="nobtn">看看红包能买啥 Go></p></a>
+					
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>	
+
+	<div class="ui type_03 drawmes address coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br />恭喜您获得<span class="red draw_name"></span>一个!</p>
+					
+					<form action="{{ app_url_domain }}/app/site/promo_func/save_draw_address" class="ui form" id="apply-form" method="post">
+					  	<div class="content">
+							<div class="ajax result"></div>
+							<input type="hidden" name="id" id="sign_draw_id" value="" />
+							
+		  					<div class="two fields">
+		  						<div class="field">
+		  							<label>姓名</label>
+		                <input type="text" name="name" value="{{ visitor.profile.realname }}" />
+		  						</div>
+		  						<div class="field">
+		  							<label>手机号</label>
+		                <input type="text" name="phone" value="{{ visitor.profile.phone }}" placeholder="填写手机号，方便信息核实" />
+		  						</div>
+		  					</div>
+							
+							<div class="field">
+								<label>所在地区</label>
+								<div class="ui selection province dropdown" style="width:49% !important;">
+									<input type="hidden" name="province" value="{{ visitor.profile.province_id }}" />
+			
+								    <div class="default text">省份/自治区</div>
+								    <i class="flat arrowbottom icon"></i>
+								    <div class="menu">
+										{% for province in provinces %}
+								        <div data-value="{{ province._id }}" class="item">{{ province.city }}</div>
+										{% endfor %}
+								    </div>
+								</div>
+		
+								<div class="ui selection district dropdown" id="district-menu" style="width:49% !important;float:right;">
+									<input type="hidden" name="district" value="{{ visitor.profile.district_id }}" />
+								    <div class="default text">地区区域</div>
+								    <i class="flat arrowbottom icon"></i>
+								    <div class="menu">
+										{% for district in districts %}
+								        <div data-value="{{ district._id }}" class="item">{{ district.city }}</div>
+										{% endfor %}
+								    </div>
+								</div>
+								
+							</div>
+							
+							<div class="field">
+								<label>详细地址</label>
+                <input type="text" name="address" value="{{ visitor.profile.address }}">
+							</div>
+								<div class="field">
+                  <label>邮编</label>
+                  <input type="text" name="zip" value="{{ visitor.profile.zip }}" />
+                </div>
+						</div>
+              <div class="ui magenta inverted active submit button">
+              确认收货地址
+              </div>
+					</form>
+					
+			    </div>
+		    </div>
+			
+	  	</div>
+	</div>	
+
+	<div class="ui type_04 drawmes coupled small modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;color:#fff;"></i>
+			
+		    <div class="container">
+				<div class="content" style="text-align:center;">
+          <p>亲爱的用户 <br>恭喜您获得<span class="red draw_name"></span></p>
+        	<a href="javascript:void(0);" id="sina-share" title="新浪微博" class="ui red icon btn">
+        		<i class="weibo icon large circular red inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="wechat-share" class="ui green icon btn" title="微信">
+        		<i class="weixin icon large circular green inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="tencent-share" title="腾讯微博" class="ui blue icon btn">
+        		<i class="tencent weibo icon large circular blue inverted"></i>
+        	</a>
+        	<a href="javascript:void(0);" id="renren-share" title="人人网" class="ui blue icon btn">
+        		<i class="icon renren large circular blue inverted"></i>
+        	</a>
+					
+					<br>
+					<p class="nobtn">我们会通过私信告知您兑换码，请登录太火鸟社区查收。</p>
+					
+			    </div>
+      
+		    </div>
+	  	</div>
+	</div>	
+
+	<div class="ui small second gettwo coupled modal transition">
+	    <div class="header" style="position:relative;">
+	  	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;opacity:0;z-index:3;color:rgba(0,0,0,0);"></i>
+			    <div class="container">
+					<div class="content" style="text-align:center;">
+						
+						<p>您已成功领取奖品,请在您账户内查看</p>
+					</div>
+				</div>
+			
+		</div>
+	</div>
+	
+</div>	
+
+{% endblock %}
+

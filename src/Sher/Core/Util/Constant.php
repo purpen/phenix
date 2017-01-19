@@ -200,6 +200,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
     const DIG_SIGN_DRAW_RECORD = 'sign_draw_record';
     # 签到抽奖统计 APP
     const DIG_SIGN_DRAW_APP_RECORD = 'sign_draw_app_record';
+    # 活动抽奖统计
+    const DIG_ACTIVE_DRAW_RECORD = 'active_draw_record';
     # 兑吧统计浏览数
     const DIG_THIRD_DB_STAT = 'db_stat_view';
     # Fiu 最Fiu伙伴、发现好友用户ID列表

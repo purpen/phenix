@@ -20,6 +20,163 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 	}
 
 
+    /**
+     * 签到抽奖获取值页面
+     */
+    public function fetch_active_draw(){
+
+        if(!$this->visitor->id){
+            return $this->ajax_json('请先登录！', true);
+        }
+        $user_id = $this->visitor->id;
+        $from_to = 1;
+        $kind = 1;
+        // 第二期
+        $target_id = 2;
+
+        // 验证是否还能抽奖
+        $model = new Sher_Core_Model_ActiveDrawRecord();
+        $result = $model->check_can_draw($user_id, $target_id, 1);
+        if(!$result['success']){
+            return $this->ajax_json($result['message'], true); 
+        }
+
+        //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
+        $draw_arr = array(
+            '1' => array('id' => 1, 'type'=>3, 'title' => '云马C1智行车1', 'count' => 10, 'limit'=>0, 'chance'=>100, 'degree_min'=>24, 'degree_max'=>55),
+            '2' => array('id' => 2, 'type'=>2, 'title' => '红包', 'count' => 10, 'limit'=>0, 'chance'=>100, 'degree'=>88),
+
+        );
+
+        // 查看库存，如果为空了，则机率设置为空
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key = Sher_Core_Util_Constant::DIG_ACTIVE_DRAW_RECORD;
+
+        $dig = $dig_model->load($dig_key);
+        $draw_dig_key = "season_".$target_id;
+        $dig_arr = array();
+        if(!empty($dig) && isset($dig['items'][$draw_dig_key])){
+            $dig_arr = $dig['items'][$draw_dig_key];
+        }
+
+        $arr = array();
+        foreach ($draw_arr as $key => $val) {
+            $d_chance = (int)$val['chance'];
+            $d_limit = (int)$val['limit'];
+            if($d_limit>0){
+                if(!empty($dig_arr) && (isset($dig_arr[$val['id']]) && (int)$dig_arr[$val['id']]>=$d_limit )){
+                    $d_chance = 0;
+                }
+            }
+            $arr[$val['id']] = $d_chance;   
+        }   
+
+        $rid = Sher_Core_Util_View::get_rand_draw($arr); //根据概率获取奖项id  
+        $is_prize_arr = $draw_arr[$rid];
+        $is_prize_arr['degree'] = mt_rand($is_prize_arr['degree_min'], $is_prize_arr['degree_max']);
+
+        if(!in_array($is_prize_arr['type'], array(0,1,2,3,4))){
+            return $this->ajax_json("抽奖事件不存在!", true);   
+        }
+
+        // 记录抽奖数
+        $prize_arr_id = $is_prize_arr['id'];
+        if($dig){
+            if(isset($dig['items'][$draw_dig_key][$is_prize_arr['id']])){
+                $dig_model->inc($dig_key, "items.$draw_dig_key.$prize_arr_id", 1);
+            }else{
+                $dig_model->update_set($dig_key, array("items.$draw_dig_key.$prize_arr_id"=>1));
+            }
+        }else{
+            $dig_model->create(array('_id'=>$dig_key, 'name'=>'活动抽奖统计', 'items'=>array($draw_dig_key=>array($prize_arr_id=>1))));
+        }
+
+        // 得到的数量
+        $prize_count = (int)$is_prize_arr['count'];
+
+        switch($is_prize_arr['type']){
+        case 0: // 未中奖
+            break;
+        case 1: // 鸟币
+            //$service = Sher_Core_Service_Point::instance();
+            //$service->make_money_in($user_id, $prize_count, sprintf("抽奖中%d鸟币", $prize_count));     
+            break;
+        case 2: // 
+            if($prize_count==10){
+                $prize_bonus = 'G';
+                $prize_min_amounts = 'A';
+            }elseif($prize_count==30){
+                $prize_bonus = 'C';
+                $prize_min_amounts = 'B';
+            }else{
+                $prize_bonus = 'B';
+                $prize_min_amounts = 'E';
+            }
+            $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>$prize_bonus, 'min_amounts'=>$prize_min_amounts));
+            break;
+        case 3: // 实物
+
+            break;
+        case 4: // 虚拟币
+
+            break;
+
+        }
+
+        // 返回参数
+        $data = array(
+          'id' => $is_prize_arr['id'],
+          'code' => $is_prize_arr['degree'],
+          'title' => $is_prize_arr['title'],
+          'type' => $is_prize_arr['type'],
+          'count' => $is_prize_arr['count'],
+        );
+
+        if($result['obj']){
+            $sid = (string)$result['obj']['_id'];
+            $row = array(
+                'draw_times' => 2,
+                'event' => $data['type'],
+                'number_id' => $data['id'],
+                'title' => $data['title'],
+                'desc' => '',
+                'state' => in_array($data['type'], $model->need_contact_user_event()) ? 0 : 1,
+            );
+            $ok = $model->update_set($sid, $row);
+        }else{
+            //当前日期
+            $today = (int)date('Ymd');
+            $row = array(
+                'user_id' => $user_id,
+                'target_id' => $target_id,
+                'day' => $today,
+                'event' => $data['type'],
+                'ip' => Sher_Core_Helper_Auth::get_ip(),
+                'number_id' => $data['id'],
+                'title' => $data['title'],
+                'desc' => '',
+                'state' => in_array($data['type'], $model->need_contact_user_event()) ? 0 : 1,
+                'from_to' => $from_to,
+                'kind' => $kind,
+            );
+            $ok = true;
+            $ok = $model->apply_and_save($row);
+            if($ok){
+                //$sid = 1;
+                // 获取抽奖记录ID
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];
+                $data['sid'] = $sid;
+
+            }else{
+                return $this->ajax_json('系统出错！', true);           
+            }
+        }
+
+        return $this->ajax_json('success', false, null, $data);
+    }
+
+
   /**
    * 申请支持
    */

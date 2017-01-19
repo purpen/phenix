@@ -7,10 +7,6 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
 
     protected $collection = "active_draw_record";
 
-    # 类型
-    const KIND_PAGE = 1;
-    const KIND_APP = 2;
-
     # 允许每天抽奖次数
     const ALLOW_MAX_TIMES = 1;
 
@@ -33,7 +29,7 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
         'desc' => null,
         # 奖品数量
         'count' => 1,
-        'kind' => self::KIND_PAGE,
+        'kind' => 1,
         # 状态：是否奖品已发放(鸟币红包及未中奖自动发放)
         'state' => 0,
         # 记录IP
@@ -119,12 +115,12 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
 
 	}
 
-  /**
-   * 需要联系卖中奖用户或发放奖品的事件
-   */
-  public function need_contact_user_event(){
-    return array(3, 4);
-  } 
+    /**
+     * 需要联系卖中奖用户或发放奖品的事件
+     */
+    public function need_contact_user_event(){
+        return array(3, 4);
+    } 
 
     /**
      * 验证用户是否有权限抽奖
@@ -136,7 +132,7 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
 
         // 验证是否还能抽奖
         $query = array(
-            'day' => $today,
+            //'day' => $today,
             'user_id' => $user_id,
             'target_id' => $target_id,
             'kind' => (int)$kind,
@@ -146,7 +142,7 @@ class Sher_Core_Model_ActiveDrawRecord extends Sher_Core_Model_Base  {
         $obj = null;
         if($has_one){
             if($has_one['draw_times'] >= self::ALLOW_MAX_TIMES){
-                return array('success'=>false, 'message'=>'您今天的抽奖机会已用完~');      
+                return array('success'=>false, 'message'=>'不能重复参与抽奖!');      
             }
             $obj = $has_one;
         }

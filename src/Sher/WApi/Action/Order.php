@@ -1057,12 +1057,6 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
 		
 		// 优惠活动费用
 		$coin_money = 0.0;
-
-        // app下单随机减
-        if(!empty(Doggy_Config::$vars['app.fiu_order_reduce_switch'])){
-            $kind = 5;
-            $coin_money = Sher_Core_Helper_Order::app_rand_reduce($total_money);
-        }
 		
 		// 红包金额
 		$card_money = 0.0;
