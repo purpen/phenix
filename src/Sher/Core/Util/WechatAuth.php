@@ -284,6 +284,55 @@ class Sher_Core_Util_WechatAuth extends Doggy_Object {
 		$this->deleteCookie($this->_cookiename);
 		return true;
 	}
+
+    /**
+     * 获取微信授权信息(小程序)
+     */
+    public static function fetch_wx_info($code, $encryptedData, $iv){
+        include "wx_encrypt_data/wxBizDataCrypt.php";
+
+        $appid = Doggy_Config::$vars['app.wechat.xcx']['app_id'];
+        $secret = Doggy_Config::$vars['app.wechat.xcx']['secret'];
+        $grant_type =  'authorization_code';
+        $arr = array(
+            'appid' => $appid,
+            'secret' => $secret,
+            'js_code' => $code,
+            'grant_type' => $grant_type,
+        );
+
+        //从微信获取session_key
+        $user_info_url = 'https://api.weixin.qq.com/sns/jscode2session';
+        $user_info_url = sprintf("%s?appid=%s&secret=%s&js_code=%s&grant_type=%s",$user_info_url,$appid,$secret,$code,$grant_type);
+
+        $user_data = Sher_Core_Helper_Util::request($user_info_url, $arr);
+        $user_data = Sher_Core_Helper_Util::object_to_array(json_decode($user_data));
+
+        $result = array();
+        $result['code'] = 0;
+        $result['message'] = '';
+
+        if(isset($user_data['errcode'])){
+            $result['code'] = 3002;
+            $result['message'] = $user_data['errmsg'];
+            return $result;
+        }
+
+        $session_key = $user_data['session_key'];
+
+        //解密数据
+        $data = '';
+        $wxBizDataCrypt = new WXBizDataCrypt($appid, $session_key);
+        $errCode=$wxBizDataCrypt->decryptData($encryptedData, $iv, $data );
+        if($errCode != 0){
+            $result['code'] = 3003;
+            $result['message'] = $errCode;
+		    return $result;
+        }
+        $data = Sher_Core_Helper_Util::object_to_array(json_decode($data));
+        $result['data'] = $data;
+        return $result;
+    }
+
 }
 
-?>

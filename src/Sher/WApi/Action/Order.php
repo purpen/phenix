@@ -990,6 +990,36 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
 		return $this->wapi_json($msg, 0, $result);
 	}
 
+    /**
+     * 支付
+     */
+    public function pay(){
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		$code = isset($this->stash['code'])?$this->stash['code']:null;
+		$encryptedData = isset($this->stash['encryptedData'])?$this->stash['encryptedData']:null;
+		$iv = isset($this->stash['iv']) ? $this->stash['iv'] : null;
+        $user_id = $this->uid;
+        $token = $this->token;
+		if (empty($rid)) {
+			return $this->wapi_json('缺少请求参数！', 3001);
+		}
+
+        $ip = Sher_Core_Helper_Auth::get_ip();
+		if (empty($ip)){
+			return $this->wapi_json('IP地址不存在！', 3002);
+		}
+
+        $result = Sher_Core_Util_WechatAuth::fetch_wx_info($code, $encryptedData, $iv);
+        if($result['code']){
+            return $this->wapi_json($result['message'], $result['code']);
+        }
+        $data = $result['data'];
+        $open_id = $data['openId'];
+
+        $pay_url = sprintf("%s/wxpay/payment?rid=%s&ip=%s&open_id=%s&token=%s", Doggy_Config::$vars['app.url.wapi'], $rid, $ip, $open_id, $token);
+        return $this->to_redirect($pay_url);    
+    }
+
 
     /**
      * 获取邮费

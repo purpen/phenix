@@ -40,7 +40,7 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         $options['some_fields'] = array(
             '_id'=> 1, 'alliance_id'=>1, 'order_rid'=>1, 'sub_order_id'=>1, 'product_id'=>1, 'sku_id'=>1, 'user_id'=>1,
             'quantity'=>1, 'commision_percent'=>1, 'unit_price'=>1, 'total_price'=>1, 'code'=>1,
-            'summary'=>1, 'type'=>1, 'kind'=>1, 'stage'=>1, 'status'=>1,
+            'summary'=>1, 'type'=>1, 'kind'=>1, 'stage'=>1, 'status'=>1, 'status_label'=>1,
             'balance_on'=>1, 'from_site'=>1, 'created_on'=>1, 'updated_on'=>1,
         );
 		
@@ -87,6 +87,8 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
                 $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 		    }
             $data[$i]['_id'] = (string)$data[$i]['_id'];
+            // 创建时间格式化 
+            $data[$i]['created_at'] = date('Y-m-d H:i', $data[$i]['created_on']);
 
 		}
 		$result['rows'] = $data;
@@ -110,7 +112,7 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         }
 		
 		$balance_model = new Sher_Core_Model_Balance();
-		$balance = $balance_model->load($id);
+		$balance = $balance_model->extend_load($id);
 		
 		if(empty($balance)){
 			return $this->api_json('内容不存在！', 3002);
@@ -120,11 +122,13 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
  			return $this->api_json('没有权限！', 3003);       
         }
 
+		$product_model = new Sher_Core_Model_Product();
+
         //显示的字段
         $some_fields = array(
-            '_id'=> 1, 'alliance_id'=>1, 'order_rid'=>1, 'sub_order_id'=>1, 'product_id'=>1, 'sku_id'=>1, 'user_id'=>1,
+            '_id'=> 1, 'alliance_id'=>1, 'order_rid'=>1, 'sub_order_id'=>1, 'product_id'=>1, 'sku_id'=>1, 'sku_price'=>1, 'user_id'=>1,
             'quantity'=>1, 'commision_percent'=>1, 'unit_price'=>1, 'total_price'=>1, 'code'=>1,
-            'summary'=>1, 'type'=>1, 'kind'=>1, 'stage'=>1, 'status'=>1,
+            'summary'=>1, 'type'=>1, 'kind'=>1, 'stage'=>1, 'status'=>1, 'status_label'=>1,
             'balance_on'=>1, 'from_site'=>1, 'created_on'=>1, 'updated_on'=>1,
         );
 
@@ -133,6 +137,15 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         foreach($some_fields as $key=>$value){
             $data[$key] = isset($balance[$key]) ? $balance[$key] : null;
         }
+
+        $product = $product_model->load($data['product_id']);
+        if($product){
+            $data['product']['title'] = $product['title'];
+            $data['product']['short_title'] = !empty($product['short_title']) ? $product['short_title'] : $product['title'];
+        }
+
+        // 创建时间格式化 
+        $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
 
         $data['_id'] = (string)$data['_id'];
 
