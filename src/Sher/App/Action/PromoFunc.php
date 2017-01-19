@@ -803,11 +803,26 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
                 return $this->ajax_json('抽奖记录不存在！', true);
             }
 
+            $province = null;
+            $district = null;
+            $areas_model = new Sher_Core_Model_Areas();
+            if($this->stash['province']){
+                $p_obj = $areas_model->load((int)$this->stash['province']);
+                if($p_obj) $province = $p_obj['city'];
+            }
+            if($this->stash['district']){
+                $d_obj = $areas_model->load((int)$this->stash['district']);
+                if($d_obj) $district = $d_obj['city'];
+            }
+
             $data = array();
             $data['receipt'] = array(
                 'name' => $this->stash['name'],
                 'phone' => $this->stash['phone'],
+                'province' => $province,
+                'district' => $district,
                 'address' => $this->stash['address'],
+                'zip' => isset($this->stash['zip']) ? $this->stash['zip'] : '',
             );
             $ok = $active_draw_record_model->update_set($id, $data);
             if(!$ok){
