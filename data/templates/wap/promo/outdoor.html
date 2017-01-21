@@ -1,0 +1,143 @@
+{%extends 'layout/shop.html'%}
+{% block title%}年会礼品-出行篇{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sfooter.nav-menu{
+	display: none;
+}
+.out,body{
+	font-size: 0;
+}
+.out img{
+	width: 100%;
+	vertical-align: middle;
+}
+.bg{
+	padding-top: 50.667%;
+	display: inline-block;
+	width: 50%;
+}
+.ou1{
+	background-image: url({{app_url_packaged}}/images/promo/out3.jpg);
+    background-size: 100%;
+}
+.ou2{
+	background-image: url({{app_url_packaged}}/images/promo/out4.jpg);
+    background-size: 100%;
+}
+.ou3{
+	background-image: url({{app_url_packaged}}/images/promo/out5.jpg);
+    background-size: 100%;
+}
+.ou4{
+	background-image: url({{app_url_packaged}}/images/promo/out6.jpg);
+    background-size: 100%;
+}
+.ou5{
+	background-image: url({{app_url_packaged}}/images/promo/out7.jpg);
+    background-size: 100%;
+}
+.ou6{
+	background-image: url({{app_url_packaged}}/images/promo/out8.jpg);
+    background-size: 100%;
+}
+.ou7{
+	background-image: url({{app_url_packaged}}/images/promo/out9.jpg);
+    background-size: 100%;
+}
+.ou8{
+	background-image: url({{app_url_packaged}}/images/promo/out10.jpg);
+    background-size: 100%;
+}
+.ou9{
+	background-image: url({{app_url_packaged}}/images/promo/out11.jpg);
+    background-size: 100%;
+}
+.ou10{
+	background-image: url({{app_url_packaged}}/images/promo/out12.jpg);
+    background-size: 100%;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" >
+    var m_name = 'fiu店';
+    var img_url = '{{ app_url_packaged }}/images/promo/out.jpg';
+    var link = '{{ app_url_wap }}/promo/outdoor';
+    var desc_str = '新年新气象出行有它伴';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+    wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+{% block content %}
+<div class="out">
+	<img src="{{ app_url_packaged }}/images/promo/out1.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/out2.jpg">
+	<a href="{{ app_url_wap }}/shop/view?id=1156412102" class="bg ou1"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1049278575" class="bg ou2"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1049277857" class="bg ou3"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048989219" class="bg ou4"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1023327936" class="bg ou5"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050178311" class="bg ou6"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050177723" class="bg ou7"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1047627317" class="bg ou8"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1115844610" class="bg ou9"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1113798163" class="bg ou10"></a>
+	<img src="{{ app_url_packaged }}/images/promo/out13.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/out14.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/out15.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/out16.jpg">
+</div>
+{% endblock %}
