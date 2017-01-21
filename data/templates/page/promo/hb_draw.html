@@ -591,7 +591,7 @@ p span.red {
         if(result.success){
           var list = result.data.results.rows;
           for(var i=0;i<list.length;i++){
-            var z_id = list[i]["id"];
+            var z_id = list[i]["_id"];
             var z_event = list[i]["event"];
             var z_title = list[i]["title"];
             var z_count = list[i]["count"];

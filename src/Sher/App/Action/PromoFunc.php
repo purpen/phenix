@@ -169,13 +169,13 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
                 'count' => $data['count'],
             );
             $ok = true;
-            //$ok = $model->apply_and_save($row);
+            $ok = $model->apply_and_save($row);
             if($ok){
-                $data['sid'] = 1;
+                //$data['sid'] = 1;
                 // 获取抽奖记录ID
-                //$active_draw_record = $model->get_data();
-                //$sid = (string)$active_draw_record['_id'];
-                //$data['sid'] = $sid;
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];
+                $data['sid'] = $sid;
 
             }else{
                 return $this->ajax_json('系统出错！', true);           
