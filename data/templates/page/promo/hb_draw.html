@@ -2,21 +2,6 @@
 {% block title %}花瓣xFiu店会员注册抽奖活动-{% endblock %}
 {% block page_css %}
 <style type="text/css">
-#sign{
-	margin-top: 0;
-	padding:0;
-	padding-bottom: 2.5rem;
-	background:url({{ app_url_packaged }}/images/promo/sign_draw2.jpg) no-repeat center center;
-	background-size:cover;
-	
-}
-.mainwrap{
-	margin-top:0;
-}
-.mainwrap .mainleft{
-	min-height:0;
-}
-
 .six.wide.column p{
 	color:#000;
 }
@@ -24,13 +9,15 @@
 	padding-right: 20px;
 	padding-top: 15px;
 }
-#slidework{
-	height: 300px;
+#slidework {
+    height: 212px;
+    margin-top: 130px;
+    padding: 0 80px 10px 50px;
 }
 #slidework p{
-    font-size: 14px;
-    margin-bottom: 10px;
-    color: #fff;
+    font-size: 12px;
+    margin-bottom: 2px;
+    color: #eac6a8;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -55,22 +42,22 @@
 	vertical-align: middle;
 }
 .draw,#disk{
-	width: 506px;
-	height: 506px;
+	width: 466px;
+	height: 466px;
 	position:relative;
 }
 #disk {
-    background: url({{ app_url_packaged }}/images/promo/draw_season7.png) no-repeat;
+    background: url({{ app_url_packaged }}/images/promo/hd_draw/zp4.png) no-repeat;
     background-size: cover;
 }
 #start {
-    width: 130px;
-    height: 130px;
+    width: 100px;
+    height: 100px;
     position: absolute;
 	top:50%;
 	left:50%;
-    margin-left: -65px;
-    margin-top: -75px;
+    margin-left: -50px;
+    margin-top: -55px;
 	cursor: pointer;
 }
 .mainright .sellwrap.usersign{
@@ -203,6 +190,93 @@ p span.red {
 }
 .ui.adverts.cards>.card .advblock .desc h2{
 	margin-bottom: 0;
+}
+.hd_draw{
+	background: #fff;
+	position: relative;
+	width: 100%;
+	padding:20px 0;
+}
+.hualist{
+	width: 850px;
+	margin:0 auto;
+	text-align: center;
+	font-size: 0;
+}
+.hualist img{
+	width: 100%;
+	vertical-align: middle;
+}
+.hualist a{
+	display: block;
+}
+.allist{
+	margin:10px -8px 30px;
+}
+.allist a.huaitem{
+	margin: 8px;
+    font-size: 0;
+    display: inline-block;
+}
+#signm{
+	background:#022d40;
+	text-align: center;
+	font-size: 0;
+}
+.uidraw{
+	width:1000px;
+	height: 805px;
+	margin: 0 auto;
+	background-image: url({{ app_url_packaged }}/images/promo/hd_draw/bg.jpg);
+	background-size: cover;
+	position: relative;
+}
+.uidraw .draw{
+	position: absolute;
+	top: 326px;
+	left:236px;
+	width:466px;
+	height: 466px;
+}
+.signn{
+	background: #b42929;
+	font-size: 0;
+}
+.uibg{
+	width:1000px;
+	height: 322px;
+	margin: 0 auto;
+	background-image: url({{ app_url_packaged }}/images/promo/hd_draw/bg2.jpg);
+	background-size: cover;
+	position: relative;
+}
+.uibg p,.uibg h3{
+	color: #fff !important;
+}
+.ewm{
+	width: 127px;
+	position: absolute;
+	right: 83px;
+	top:133px;
+}
+.jiang{
+	width: 400px;
+    height: 344px;
+    position: absolute;
+    bottom: 0;
+    right: -99px;
+	background-image: url({{ app_url_packaged }}/images/promo/hd_draw/jiang.jpg);
+	background-size: 100%;
+}
+.ment{
+	position: absolute;
+	top: 40px;
+    left: 200px;
+	color: #fff !important;
+}
+.ment li{
+	font-size: 14px;
+	margin-bottom: 10px;
 }
 </style>
 {% endblock %}
@@ -672,57 +746,241 @@ p span.red {
 
 {% endblock %}
 {% block content %}
-<div id="sign">
-	<div class="mainwrap">
-		<div class="mainleftwrap">
-			<div class="mainleft">
-			
-			<div class="ui grid">	
-				<div class="ui center aligned row">
 
-					<div class="ui ten wide column">
-						<div class="draw">
-						  <div id="disk"></div>
-						  <div id="start"><img src="{{ app_url_packaged }}/images/promo/zzhuan4.png" width="100%" id="startbtn"></div>
-						</div>
-						
-					</div>
-				
-				</div>
-
-				<div class="row">
-					<div class="ui ten wide column guide">
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_1.jpg" align="absmiddle">用户注册登录之后即可参加抽奖活动；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_2.jpg" align="absmiddle">每个用户注册成功后仅有一次抽奖机会，中奖率100%；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_3.jpg" align="absmiddle">活动中奖结果均以弹出页面中奖信息为准；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_4.jpg" align="absmiddle">此活动仅限花瓣用户参加；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_5.jpg" align="absmiddle">奖品于抽中后一个月内发货，春节期间（2017/1/15-2017/2/6）因物流公司放假暂停发货；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_6.jpg" align="absmiddle">严禁任何不正当/舞弊行为参与活动，一经发现立即取消获奖资格；</p>
-						<p><img src="{{ app_url_packaged }}/images/promo/sign_7.jpg" align="absmiddle">本次活动最终解释权归太火鸟所有！</p>
-					</div>
-					<div class="ui six wide column">
-
-					</div>
-				</div>
-				
-			</div>	
+<div id="signm">
+	<div class="uidraw">
+	  	<div class="draw">
+		  	<div id="disk"></div>
+		  	<div id="start"><img src="{{ app_url_packaged }}/images/promo/hd_draw/zp3.png" width="100%" id="startbtn"></div>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/ewm.png" class="ewm">
+		<div class="jiang">
+			<div id="slidework" style="overflow: hidden;">
 
 			</div>
 		</div>
-		<div class="mainright">
-
-			<div class="backg column">
-				<div id="slidework" style="overflow: hidden;">
-
-						</div>
-			</div>
-
-		</div>
-		
 	</div>
-
-
 </div>
+<div class="signn">
+	<div class="uibg">
+		<ul class="ment">
+			<h3>活动规则</h3>
+			<li>用户必须登录成功后才可参加抽奖活动；</li>
+			<li>每个用户注册成功后仅有一次抽奖机会中奖率100%；</li>
+			<li>活动中奖结果均以弹出页面中奖信息为准；</li>
+			<li>此活动仅限花瓣用户参加；</li>
+			<li>奖品于抽中后一个月内发货，春节期间(2017/1/15-2/6)因物流公司放假暂停发货；</li>
+			<li>严禁任何不正当/舞弊行为参与活动，一经发现立即取消获奖资格；</li>
+			<li>本次活动最终解释权归太火鸟所有！</li>
+		</ul>
+	</div>
+</div>
+
+<div class="hd_draw">
+	<div class="hualist">
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/hot_tit.jpg">
+		<a href="" target="_blank" style="margin:20px 0 38px;"><img src="{{ app_url_packaged }}/images/promo/hd_draw/hd.jpg"></a>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/m.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1050370726" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p1.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154024056" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p2.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153846290" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p3.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153844469" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p4.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153844926" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p5.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1021648835" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p6.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048986358" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p7.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154014321" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p8.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/ss.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1048520396" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p9.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048517328" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p10.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155247475" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p11.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048986358" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p12.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/ts.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1153914915" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p13.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153938062" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p14.jpg" align="absmiddle">
+			</a>
+			<a href="javascript:void(0);" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p15.jpg" align="absmiddle">
+			</a>
+			<a href="javascript:void(0);" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p16.jpg" align="absmiddle">
+			</a>
+			<a href="javascript:void(0);" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p17.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153076754" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p18.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153097260" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p19.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153053079" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p20.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153079475" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p21.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048575701" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p22.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048588936" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p23.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153857964" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p24.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153891514" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p25.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154013772" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p26.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154430953" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p27.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154429602" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p28.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/sh.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1153861151" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p29.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153900616" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p30.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155927292" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p31.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155568880" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p32.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153861955" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p33.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153861807" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p34.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153846607" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p35.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153954310" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p36.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/wz.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1116529042" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p37.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1116528935" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p38.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156453121" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p39.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1050446079" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p40.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1050173485" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p41.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156451648" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p42.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156452538" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p43.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1050167241" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p44.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1050145329" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p45.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153912031" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p46.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049317544" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p47.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049276092" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p48.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img src="{{ app_url_packaged }}/images/promo/hd_draw/jj.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1120661038" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p49.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048520396" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p50.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1099814598" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p51.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1114333074" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p52.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1152844904" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p53.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049274086" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p54.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154019732" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p55.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154019952" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p56.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048532447" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p57.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049279225" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p58.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048607086" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p59.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154024151" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/hd_draw/p60.jpg" align="absmiddle">
+			</a>
+		</div>
+	</div>
+</div>
+
 			
 
 <!-- 弹出层   -->
