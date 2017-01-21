@@ -43,11 +43,11 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
         $draw_arr = array(
-            '1' => array('id' => 1, 'type'=>3, 'title' => 'Kalar筷子', 'count' => 200, 'limit'=>100, 'chance'=>500, 'degree_min'=>2, 'degree_max'=>43),
-            '2' => array('id' => 2, 'type'=>2, 'title' => '10元红包', 'count' => 10, 'limit'=>-1, 'chance'=>1000, 'degree_min'=>47, 'degree_max'=>88),
-            '3' => array('id' => 3, 'type'=>3, 'title' => '小黄鸭', 'count' => 100, 'limit'=>60, 'chance'=>300, 'degree_min'=>92, 'degree_max'=>133),
-            '4' => array('id' => 4, 'type'=>2, 'title' => '30元红包', 'count' => 30, 'limit'=>-1, 'chance'=>1000, 'degree_min'=>137, 'degree_max'=>178),
-            '5' => array('id' => 5, 'type'=>3, 'title' => '太火鸟卡片移动电源', 'count' => 300, 'limit'=>100, 'chance'=>300, 'degree_min'=>182, 'degree_max'=>223),
+            '1' => array('id' => 1, 'type'=>3, 'title' => 'Kalar筷子', 'count' => 200, 'limit'=>100, 'chance'=>300, 'degree_min'=>2, 'degree_max'=>43),
+            '2' => array('id' => 2, 'type'=>2, 'title' => '10元红包', 'count' => 10, 'limit'=>-1, 'chance'=>1200, 'degree_min'=>47, 'degree_max'=>88),
+            '3' => array('id' => 3, 'type'=>3, 'title' => '小黄鸭', 'count' => 100, 'limit'=>60, 'chance'=>100, 'degree_min'=>92, 'degree_max'=>133),
+            '4' => array('id' => 4, 'type'=>2, 'title' => '30元红包', 'count' => 30, 'limit'=>-1, 'chance'=>1200, 'degree_min'=>137, 'degree_max'=>178),
+            '5' => array('id' => 5, 'type'=>3, 'title' => '太火鸟卡片移动电源', 'count' => 300, 'limit'=>100, 'chance'=>100, 'degree_min'=>182, 'degree_max'=>223),
             '6' => array('id' => 6, 'type'=>3, 'title' => '云马C1智能电单车', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>227, 'degree_max'=>268),
             '7' => array('id' => 7, 'type'=>3, 'title' => '嗨蛋机器人', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>272, 'degree_max'=>313),
             '8' => array('id' => 8, 'type'=>3, 'title' => '猫王小王子', 'count' => 0, 'limit'=>0, 'chance'=>0, 'degree_min'=>317, 'degree_max'=>358),
