@@ -1,0 +1,175 @@
+{%extends 'layout/shop.html'%}
+{% block title%}年会礼品-家居篇{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.sfooter.nav-menu{
+	display: none;
+}
+.cloth,body{
+	font-size: 0;
+}
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+.bg{
+	padding-top: 50.93333%;
+	display: inline-block;
+	width: 50%;
+}
+.clo1{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth4.jpg);
+	background-size: 100%;
+}
+.clo2{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth5.jpg);
+	background-size: 100%;
+}
+.clo3{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth6.jpg);
+	background-size: 100%;
+}
+.clo4{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth7.jpg);
+	background-size: 100%;
+}
+.clo5{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth8.jpg);
+	background-size: 100%;
+}
+.clo6{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth9.jpg);
+	background-size: 100%;
+}
+.clo7{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth10.jpg);
+	background-size: 100%;
+}
+.clo8{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth11.jpg);
+	background-size: 100%;
+}
+.clo9{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth13.jpg);
+	background-size: 100%;
+}
+.clo10{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth14.jpg);
+	background-size: 100%;
+}
+.clo11{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth15.jpg);
+	background-size: 100%;
+}
+.clo12{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth16.jpg);
+	background-size: 100%;
+}
+.clo13{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth17.jpg);
+	background-size: 100%;
+}
+.clo14{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth18.jpg);
+	background-size: 100%;
+}
+.clo15{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth19.jpg);
+	background-size: 100%;
+}
+.clo16{
+	background-image: url({{ app_url_packaged }}/images/promo/cloth20.jpg);
+	background-size: 100%;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" >
+    var m_name = 'fiu店';
+    var img_url = '{{ app_url_packaged }}/images/promo/cloth.jpg';
+    var link = '{{ app_url_wap }}/promo/clothes';
+    var desc_str = '新年新气象生活梗舒心';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+    wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+{% block content %}
+<div class="cloth">
+	<img src="{{ app_url_packaged }}/images/promo/cloth1.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/cloth2.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/cloth3.jpg">
+	<a href="{{ app_url_wap }}/shop/view?id=1048607086" class="bg clo1"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048610105" class="bg clo2"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048608654" class="bg clo3"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048608650" class="bg clo4"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048610674" class="bg clo5"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048610862" class="bg clo6"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048611414" class="bg clo7"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1048612549" class="bg clo8"></a>
+	<img src="{{ app_url_packaged }}/images/promo/cloth12.jpg">
+	<a href="{{ app_url_wap }}/shop/view?id=1050478236" class="bg clo9"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050477831" class="bg clo10"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050469858" class="bg clo11"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050450373" class="bg clo12"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050449740" class="bg clo13"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050449578" class="bg clo14"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050449360" class="bg clo15"></a>
+	<a href="{{ app_url_wap }}/shop/view?id=1050448756" class="bg clo16"></a>
+	<img src="{{ app_url_packaged }}/images/promo/cloth21.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/cloth22.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/cloth23.jpg">
+	<img src="{{ app_url_packaged }}/images/promo/cloth24.jpg">
+</div>
+{% endblock %}
