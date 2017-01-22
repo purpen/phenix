@@ -1096,20 +1096,23 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
   }
 
-  /**
-   * 统计来源网站注册量
-   */
-  protected function from_origin_stat($user_id){
-    $from_origin = $_COOKIE['from_origin'];
-    $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
-    $data = array(
-      'user_id' => $user_id,
-      'kind' => (int)$from_origin,
-      'ip' => Sher_Core_Helper_Auth::get_ip(),
-    );
-    $ok = $third_site_stat_model->create($data);
+    /**
+     * 统计来源网站注册量
+     */
+    protected function from_origin_stat($user_id){
+        $from_origin = $_COOKIE['from_origin'];
+        $from_target_id = isset($_COOKIE['from_target_id']) ? (int)$_COOKIE['from_target_id'] : 1;
+        $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+        $data = array(
+            'user_id' => $user_id,
+            'kind' => (int)$from_origin,
+            'target_id' => $from_target_id,
+            'ip' => Sher_Core_Helper_Auth::get_ip(),
+        );
+        $ok = $third_site_stat_model->create($data);
 		// 清除cookie值
 		setcookie('from_origin', '', time() - 99999999, '/');
+		setcookie('from_target_id', '', time() - 99999999, '/');
   }
 	
 }
