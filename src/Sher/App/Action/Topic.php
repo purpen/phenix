@@ -120,6 +120,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
         $query['published'] = 1;
+        $query['deleted'] = 0;
         
 		// 类别
 		if($type == 1){
