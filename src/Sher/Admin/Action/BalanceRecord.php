@@ -126,6 +126,7 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
      * 结算每日统计列表
      */
     public function stat_list(){
+		$this->set_target_css_state('page_balance_stat');
 		$page = (int)$this->stash['page'];
         $size = (int)$this->stash['size'];
         $day = isset($this->stash['day']) ? (int)$this->stash['day'] : 0;
@@ -146,7 +147,7 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
           $query['user_id'] = $user_id;
         }
 
-        $options = array('page'=>$page, 'size'=>$size);
+        $options = array('page'=>$page, 'size'=>$size, 'sort'=>array('created_on'=>-1));
 
         $model = new Sher_Core_Model_BalanceStat();
         $obj = $model->find($query, $options);
