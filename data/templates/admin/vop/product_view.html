@@ -80,6 +80,13 @@
       </p>
 
       <p>
+        <span><b>商品价格:</b></span>
+
+        <p>协议价： {{ product.price.price | '--' }}</p>
+        <p>京东价：{{ product.price.jdPrice | '--' }}<p>
+      </p>
+
+      <p>
         <span><b>图片信息:</b></span>
         <p>
             {% for d in product.images %}
