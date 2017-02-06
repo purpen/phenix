@@ -86,12 +86,11 @@ class Sher_WApi_Action_Wxpay extends Sher_WApi_Action_Base implements DoggyX_Act
                         $order['time_stamp'] = time();
                         //签名步骤一：按字典序排序参数
                         $val = array(
-                            'appid' => Doggy_Config::$vars['app.wechat.xcx']['app_id'],
-                            'partnerid' => Doggy_Config::$vars['app.wechat.xcx']['mch_id'],
-                            'prepayid' => $order['prepay_id'],
-                            'noncestr' => $order['nonce_str'],
-                            'timestamp' => $order['time_stamp'],
-                            'package' => 'Sign=WXPay',
+                            'appId' => Doggy_Config::$vars['app.wechat.xcx']['app_id'],
+                            'nonceStr' => $order['nonce_str'],
+                            'timeStamp' => $order['time_stamp'],
+                            'package' => sprintf("prepay_id=%s", $order['prepay_id']),
+                            'signType' => 'MD5',
                         );
                         ksort($val);
 

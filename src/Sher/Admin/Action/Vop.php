@@ -173,6 +173,19 @@ class Sher_Admin_Action_Vop extends Sher_Admin_Action_Base implements DoggyX_Act
         $obj = $result['data']['result'];
         $obj['introduction'] = htmlspecialchars($obj['introduction']);
 
+        // 获取价格
+        $price_method = 'biz.price.sellPrice.get';
+        $price_response_key = 'biz_price_sellPrice_get_response';
+
+        $price_params = json_encode(array('sku'=>sprintf("J_%s", $id)));
+        $price_result = Sher_Core_Util_Vop::fetchInfo($price_method, array('param'=>$price_params, 'response_key'=>$price_response_key));
+
+        if(!empty($price_result['code'])){
+            return $this->show_message_page(sprintf("[%d]%s", $price_result['code'], $price_result['msg']));      
+        }
+
+        $obj['price'] = array('price'=>$price_result['data']['result'][0]['price'], 'jdPrice'=>$price_result['data']['result'][0]['jdPrice']);
+
         $method = 'biz.product.skuImage.query';
         $response_key = 'biz_product_skuImage_query_response';
         $params = array('sku'=>$id);
