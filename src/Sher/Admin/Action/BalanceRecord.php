@@ -17,7 +17,6 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
 	
 	public function _init() {
 		$this->stash['show_type'] = "alliance";
-		$this->set_target_css_state('page_balance_record');
     }
 	
 	/**
@@ -32,6 +31,7 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
 	 * 列表
 	 */
 	public function get_list() {
+		$this->set_target_css_state('page_balance_record');
         $this->set_target_css_state('all');
 		$page = $this->stash['page'];
         $status = $this->stash['status'];
@@ -58,6 +58,7 @@ class Sher_Admin_Action_BalanceRecord extends Sher_Admin_Action_Base implements 
      * 结算明细查询
      */
     public function item_list(){
+		$this->set_target_css_state('page_balance_record');
 		$page = (int)$this->stash['page'];
         $size = (int)$this->stash['size'];
         $balance_record_id = isset($this->stash['balance_record_id']) ? $this->stash['balance_record_id'] : null;
