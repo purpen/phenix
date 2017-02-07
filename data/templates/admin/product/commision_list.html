@@ -138,9 +138,9 @@
 		          	<p class="attribute">编号：{{ product._id }}</p>
                     <p class="attribute">推广链接：
                         {% if referral_code %}
-                            {{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}
+                            {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}
                         {%else%}
-                            {{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}
+                            {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}
                         {%endif%}
                     </p>
                     {% if referral_code %}
