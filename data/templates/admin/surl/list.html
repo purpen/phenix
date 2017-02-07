@@ -88,6 +88,7 @@
                 <th>类型</th>
                 <th>点击量(A|W|P|M)</th>
                 <th>创建|最后访问时间</th>
+                <th>最后更新时间</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
@@ -136,6 +137,7 @@
                         <p>{{ d.last_time_on|date 'y-m-d' }}</p>
                     {%endif%}
                 </td>
+                <td>{{ d.last_update_on|date 'y-m-d' }}</td>
                 <td>
 					<a href="{{ app_url_admin_base }}/s_url/submit?id={{ d._id }}" class="ui link item">编辑</a>
                     | 
