@@ -1932,5 +1932,24 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
     }
 
+    /**
+     * 联盟账户
+     */
+    public function alliance(){
+ 		$this->set_target_css_state('alliance');   
+
+        return $this->to_html_page("page/my/alliance.html");
+    }
+
+    /**
+     * 选品
+     */
+    public function check_product(){
+        $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+        $this->set_target_css_state('check_product');
+		$this->stash['pager_url'] = sprintf('%s/check_product?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.my'], $category_id);
+        return $this->to_html_page("page/my/check_product.html");   
+    }
+
 
 }

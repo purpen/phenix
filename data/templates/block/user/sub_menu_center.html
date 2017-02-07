@@ -56,6 +56,7 @@
 	</a>
 
   {% if user.identify.d3in_tag %}
+  <!--
 	<div class="header item">
 	    <i class="lab icon"></i>我的实验室
 	</div>
@@ -64,6 +65,21 @@
 	</a>
 	<a href="{{ app_url_my }}/d_appoint" class="{{ css_user_d_appoint }} item">
 		我的预约
+	</a>
+    -->
+  {%endif%}
+
+  {% if user.identify.alliance_id %}
+	<div class="header item">
+	    <i class="lab icon"></i>我的联盟
+	</div>
+    <!--
+	<a href="{{ app_url_my }}/alliance" class="{{ css_alliance }} item">
+		联盟账户
+	</a>
+    -->
+	<a href="{{ app_url_my }}/check_product" class="{{ css_check_product }} item">
+		我要选品
 	</a>
   {%endif%}
 
