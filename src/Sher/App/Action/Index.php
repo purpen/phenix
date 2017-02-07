@@ -295,7 +295,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 
         switch($type){
             case 1:
-                $redirect_url = sprintf(Doggy_Config::$vars['app.url.shop.view'], $id);
+                $redirect_url = Sher_Core_Helper_Url::shop_view_url($id);
                 break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.domin']."/shop";
