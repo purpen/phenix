@@ -840,7 +840,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
      * 生成短地址
      */
     public function gen_short_url(){
-        $url = isset($this->stash['url']) ? $this->stash['url'] : null;
+        $url = isset($this->stash['url']) ? htmlspecialchars_decode($this->stash['url']) : null;
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
         $user_id = isset($this->visitor->id) ? $this->visitor->id : 0;
         if(empty($url)){
