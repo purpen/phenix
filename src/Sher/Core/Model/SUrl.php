@@ -25,10 +25,12 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
         'status' => 1,
         # 上一次访问时间
         'last_time_on' => 0,
+        # 最后一次更新时间
+        'last_update_on' => 0,
   	);
 
     protected $required_fields = array('url');
-    protected $int_fields = array('type', 'user_id', 'status', 'last_time_on');
+    protected $int_fields = array('type', 'user_id', 'status', 'last_time_on', 'last_update_on');
 	protected $counter_fields = array('view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 
 
@@ -57,7 +59,7 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
 
         //如果是新的记录
         if($this->insert_mode) {
-
+            $data['last_update_on'] = time();
         }
 
         // 自动生成推广码

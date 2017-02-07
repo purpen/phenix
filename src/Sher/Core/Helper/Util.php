@@ -1436,7 +1436,7 @@ class Sher_Core_Helper_Util {
         $model = new Sher_Core_Model_SUrl();
         $s_url = $model->find_by_code($code);
         if($s_url){
-            $model->update_set((string)$s_url['_id'], array('updated_on'=> time()));
+            $model->update_set((string)$s_url['_id'], array('last_update_on'=> time()));
         }else{
             $row = array(
                 'url' => $url,
