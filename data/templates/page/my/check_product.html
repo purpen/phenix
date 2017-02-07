@@ -20,7 +20,7 @@
                 var code = result.data.code;
                 var s_url = "{{ app_url_domain }}/s/" + code;
                 $('#short_url').val(s_url);
-                $.get("{{ app_url_domain }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+                $.get("{{ app_url_domain }}/app/site/product/fetch_qr", {str:str}, function(result){
                     //alert(result);
 
                     $('#qr_box').html(result);
