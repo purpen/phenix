@@ -171,7 +171,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         if($user_id){
             // 更新关联用户表
             $user_model = new Sher_Core_Model_User();
-            $user_model->update_set($user_id, array('alliance_id'=>''));
+            $user_model->update_set($user_id, array('identify.alliance_id'=>''));
         }
 		
 		return true;

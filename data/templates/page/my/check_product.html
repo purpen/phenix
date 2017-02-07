@@ -1,0 +1,135 @@
+{%extends 'layout/column.html'%}
+{% block title %}我要推广-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .problock a > img{
+      width:100%;
+    }
+</style>
+{% endblock %}
+{% block js %}
+{% endblock %}
+{% block jquery %}
+
+	
+{% endblock %}
+{% block content %}
+<div class="section breadcrumb">
+	<div class="ui responsive grid">
+		<div class="row">
+			<div class="column">
+				<div class="ui medium breadcrumb">
+				  	<a class="ui section link" href="{{ app_url_domin }}">
+						<i class="home icon"></i> 首页
+					</a>
+                    <i class="angle right icon divider"></i>
+				  	<a class="ui section link" href="{{ app_url_my }}">
+						个人中心
+					</a>
+					<i class="angle right icon divider"></i>
+					<div class="active section">我要推广</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="account myorders profile">
+	<div class="ui responsive grid">
+		<div class="four wide column">
+			{% include "block/user/sub_menu_center.html" %}
+		</div>
+		<div class="twelve wide column">
+			
+			<div class="ui middle aligned grid">
+				<div class="row">
+					<div class="three wide column">
+						<h2 class="ui header">我要推广</h2>
+					</div>
+					<div class="right aligned thirteen wide column">
+						<div class="ui horizontal bulleted list">
+
+                            {% category_list var:'category' only_open:1 domain:1 show_all:1 current:category_id %}
+
+                            {% for cat in category.rows %}
+                                <div class="item">
+                                    <a href="{{ app_url_my }}/check_product?category_id={{ cat._id }}" class="ui {{ cat.active }} link">{{ cat.title }}</a>
+                                </div>
+                            {% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			{% product_list var:'list' category_id:category_id is_commision:1 stage:9 page:page size:30 %}
+			
+            <div class="ui center-list">
+                <div class="ui three products cards">
+
+			{% for d in list.rows %}
+
+                <div class="card" id="product-{{ d._id }}">
+                    <div class="problock">
+                        <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.view_url }}" class="thumb" target="_blank">
+                            <img  src="{{ d.cover.thumbnails.apc.view_url }}">
+                        </a>
+                        <h2>
+                            <a href="{{ d.view_url }}" title="{{ d.title }}" class="ui line" target="_blank">
+                                {{ d.title }}
+                            </a>
+                        </h2>
+                        <div class="cats"><i class="yen icon"></i>{{ d.sale_price }}</div>
+
+                        <div class="cats" style="color:gray;padding:0px 40px 10px 15px; margin:10px;">
+                            比例: {{ d.commision_percent_p }} %
+                            <span class="counter" style="right:0;color:gray;float:right;margin-right:-30px;">佣金: <i class="yen icon"></i>{{ d.balance_price }}</span>
+                        </div>
+                        
+                        <div class="cats" style="color:gray"><a href="" class="ui magenta small button">立即推广</a></div>
+                    </div>
+                </div>
+
+			{% else %}
+			<div class="ui segment">
+				<p>没有相关产品</p>
+			</div>
+			{% endfor %}
+
+                </div>
+            </div>
+			
+			{% if list.rows %}
+			<div class="ui pagination">
+				{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+				{% include 'block/pager.html' %}
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<!-- 退款理由弹出层 -->
+<div class="ui small refund-box modal">
+    <i class="close icon"></i>
+  <div class="header">
+    请添写退款理由:
+  </div>
+    <div class="content">
+    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
+      <div class="field">
+        <label>订单号: <span name="rid-show"></span></label>
+        <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
+        <input type="hidden" name="rid" value="" />
+      </div>
+      <div class="field">
+        <label>退款理由：</label>
+        <textarea name="content" rows="3"></textarea>
+      </div>
+      <div class="right aligned field ">
+        <div class="ui gray cancel button">取消</div>
+        <div class="ui active magenta submit button" >确认退款</div>
+      </div>
+    </form>
+    </div>
+</div>
+
+{% endblock %}

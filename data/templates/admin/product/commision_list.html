@@ -12,8 +12,8 @@
     $(':input[name=set_commision]').click(function(){
         var product_id = $(this).data('product_id');
         var commision = $(this).parent('div.set_commision').find('[name=commision_percent]').val();
-        if(commision>10){
-            phenix.show_error_note('设置佣金不能超过10%');
+        if(commision>30){
+            phenix.show_error_note('设置佣金不能超过30%');
             return false;
         }
         $.post("{{ app_url_admin }}/product/ajax_set_commision", {id:product_id, commision:commision}, function(rs){

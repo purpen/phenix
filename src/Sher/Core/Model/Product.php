@@ -525,6 +525,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
         // 分成百分比转化
         $row['commision_percent_p'] = isset($row['commision_percent']) ? $row['commision_percent']*100 : 0;
+        $row['balance_price'] = 0;
+        if(isset($row['commision_percent']) && isset($row['sale_price'])){
+            $row['balance_price'] = sprintf("%.2f", ($row['commision_percent'] * $row['sale_price']));
+        }
 	}
 	
 	/**
