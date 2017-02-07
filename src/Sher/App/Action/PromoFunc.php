@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address', 'ajax_fetch_active_draw_record');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address', 'ajax_fetch_active_draw_record', 'gen_short_url');
 	
 	/**
 	 * 网站入口
@@ -835,6 +835,20 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 		}
 		return $this->ajax_json('提交成功！', false);
 	}
+
+    /**
+     * 生成短地址
+     */
+    public function gen_short_url(){
+        $url = isset($this->stash['url']) ? $this->stash['url'] : null;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+        $user_id = isset($this->visitor->id) ? $this->visitor->id : 0;
+        if(empty($url)){
+            return $this->ajax_json('缺少请求参数!', false);
+        }
+        $code = Sher_Core_Helper_Util::gen_short_url($url, $user_id, $type);
+        return $this->ajax_json('success', 0, null, array('code'=>$code));
+    }
 
 
   //红包赠于

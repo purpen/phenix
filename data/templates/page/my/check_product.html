@@ -11,6 +11,31 @@
 {% endblock %}
 {% block jquery %}
 
+    // 获取产品二维码
+    $('.fetch_qr').click(function(){
+        var str = $(this).data('str');
+        // 生成短链接 有效期 300天
+        $.get("{{ app_url_domain }}/app/site/promo_func/gen_short_url", {url:str, type:2}, function(result){
+            if(result.success){
+                var code = result.data.code;
+                var s_url = "{{ app_url_domain }}/s/" + code;
+                $('#short_url').val(s_url);
+                $.get("{{ app_url_domain }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+                    //alert(result);
+
+                    $('#qr_box').html(result);
+                    $('.ui.qr-box.modal')
+                    .modal('show');
+
+                });
+            }
+        }, 'json');
+
+    });
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
 	
 {% endblock %}
 {% block content %}
@@ -80,12 +105,12 @@
                         </h2>
                         <div class="cats"><i class="yen icon"></i>{{ d.sale_price }}</div>
 
-                        <div class="cats" style="color:gray;padding:0px 40px 10px 15px; margin:10px;">
+                        <div class="cats" style="color:gray;padding:0px 40px 30px 20px;">
                             比例: {{ d.commision_percent_p }} %
                             <span class="counter" style="right:0;color:gray;float:right;margin-right:-30px;">佣金: <i class="yen icon"></i>{{ d.balance_price }}</span>
                         </div>
                         
-                        <div class="cats" style="color:gray"><a href="" class="ui magenta small button">立即推广</a></div>
+                        <div class="cats" style="color:gray"><a href="javascript:void(0);" class="ui magenta button small fetch_qr" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{d._id}}&referral_code={{ code }}">立即推广</a></div>
                     </div>
                 </div>
 
@@ -107,29 +132,19 @@
 		</div>
 	</div>
 </div>
-<!-- 退款理由弹出层 -->
-<div class="ui small refund-box modal">
-    <i class="close icon"></i>
-  <div class="header">
-    请添写退款理由:
-  </div>
-    <div class="content">
-    <form action="{{ app_url_my }}/ajax_refund" class="ui form" method="post" id="refund-form">
-      <div class="field">
-        <label>订单号: <span name="rid-show"></span></label>
-        <!--<input type="text" name="nickname" value="" disabled="disabled" />-->
-        <input type="hidden" name="rid" value="" />
-      </div>
-      <div class="field">
-        <label>退款理由：</label>
-        <textarea name="content" rows="3"></textarea>
-      </div>
-      <div class="right aligned field ">
-        <div class="ui gray cancel button">取消</div>
-        <div class="ui active magenta submit button" >确认退款</div>
-      </div>
-    </form>
-    </div>
+
+<!-- 推广链接弹出层 -->
+<div class="ui qr-box small modal transition">
+	<div class="header" style="position: relative;">
+	    产品链接/二维码
+	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
+	</div>
+	<div class="container">
+
+        <div style="margin:10px;">链接：<input type="text" disabled="disabled" value="" style="width:500px;" id="short_url" /></div>
+        <div id="qr_box"></div>
+	</div>
+    <div style="margin:10px;">保存图片方法: 鼠标右键将图像另存为... <span style="color:red;">* 链接及二维码有效期300天!</span></div>
 </div>
 
 {% endblock %}

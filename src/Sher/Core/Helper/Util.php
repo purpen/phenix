@@ -1426,4 +1426,28 @@ class Sher_Core_Helper_Util {
     }
 
 
+    /**
+     * 生成短网址
+     */
+    public static function gen_short_url($url, $user_id=0, $type=1){
+        if(empty($url)) return false;
+        $code = Sher_Core_Util_View::url_short($url);
+
+        $model = new Sher_Core_Model_SUrl();
+        $s_url = $model->find_by_code($code);
+        if($s_url){
+            $model->update_set((string)$s_url['_id'], array('updated_on'=> time()));
+        }else{
+            $row = array(
+                'url' => $url,
+                'code' => $code,
+                'type' => (int)$type,
+                'user_id' => (int)$user_id,
+            );
+            $model->create($row);
+        }
+        return $code;
+    }
+
+
 }
