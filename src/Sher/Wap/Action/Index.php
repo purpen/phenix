@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','scan_qr','fiu_download','surl');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','qr','fiu_download','surl');
 	
 	/**
 	 * 商城入口
