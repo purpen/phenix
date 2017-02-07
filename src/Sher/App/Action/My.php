@@ -1947,6 +1947,18 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
     public function check_product(){
         $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
         $this->set_target_css_state('check_product');
+
+        $alliance_id = $this->stash['visitor']['identify']['alliance_id'];
+        if(empty($alliance_id)){
+ 	        return $this->display_note_page('非联盟账户用户！');           
+        }
+		$model = new Sher_Core_Model_Alliance();
+        $alliance = $model->load($alliance_id);
+        if(empty($alliance)){
+ 	        return $this->display_note_page('联盟账户不存在！');           
+        }
+        $this->stash['code'] = $alliance['code'];
+
 		$this->stash['pager_url'] = sprintf('%s/check_product?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.my'], $category_id);
         return $this->to_html_page("page/my/check_product.html");   
     }
