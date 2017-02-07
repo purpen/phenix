@@ -146,7 +146,7 @@
                     {% if referral_code %}
                         <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}">查看二维码>></p>
                     {%else%}
-                        <p class="attribute fetch_qr" data-str="{{ app_url_wap }}/qr?infoType=1&infoId={{product._id}}">查看二维码>></p>
+                        <p class="attribute fetch_qr" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}">查看二维码>></p>
                     {%endif%}
 
 				</td>
