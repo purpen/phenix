@@ -45,6 +45,7 @@ class Sher_WApi_Action_Cart extends Sher_WApi_Action_Base {
             $data = array();
             $data['target_id'] = $target_id;
             $data['type'] = $type;
+            $data['selected'] = true;
             $data['n'] = $n;
             $data['sku_mode'] = null;
             $data['sku_name'] = null;
