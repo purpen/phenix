@@ -38,7 +38,7 @@ class Sher_WApi_Action_Cart extends Sher_WApi_Action_Base {
             $target_id = (int)$v['target_id'];
             $type = (int)$v['type'];
             $n = (int)$v['n'];
-            $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null; 
+            $vop_id = isset($v['vop_id']) ? $v['vop_id'] : ''; 
             $referral_code = isset($v['referral_code']) ? $v['referral_code'] : '';
             $storage_id = isset($v['storage_id']) ? $v['storage_id'] : '';
 
