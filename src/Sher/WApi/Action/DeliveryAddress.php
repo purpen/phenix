@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_DeliveryAddress extends Sher_WApi_Action_Base{
 	
-	protected $filter_user_method_list = array('execute');
+	protected $filter_auth_methods = array('execute');
 
 	/**
 	 * 入口

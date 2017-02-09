@@ -19,9 +19,10 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 	 */
 	public function getlist(){
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		// 请求参数
+        $category_ids = isset($this->stash['category_ids']) ? (int)$this->stash['category_ids'] : 0;
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -31,9 +32,14 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$options = array();
 
         // 查询条件
+		if($category_ids){
+            $category_ids_arr = explode(',', $category_ids);
+            $query['category_ids'] = array('$in'=>$category_ids_arr);
+		}
+        
         if($category_tags){
-          $category_tag_arr = explode(',', $category_tags);
-          $query['category_tags'] = array('$in'=>$category_tag_arr);
+            $category_tag_arr = explode(',', $category_tags);
+            $query['category_tags'] = array('$in'=>$category_tag_arr);
         }
 
         // 阶段

@@ -281,6 +281,7 @@ server {
 		  rewrite ^/tracker(.*)$ /app/site/tracker$1 last;
           rewrite ^/league(.*)$ /app/league$1 last;
           rewrite ^/s/(\w+)$ /app/site/index/surl?code=$1 last;
+          rewrite ^(.*)$ /app/site/index$1 last;
         }
 		
         location /promo {

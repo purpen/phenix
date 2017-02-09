@@ -548,7 +548,7 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
             $price = (float)$inventory['price'];
             $total_price = $price*$n;
             $sku_id = $target_id;
-            $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
+            $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : '';
             $number = $inventory['number'];
         
 
@@ -1152,6 +1152,49 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
 		
 		return $result;
 	}
+
+    /**
+     * 删除订单
+    */
+    public function delete_order(){
+        $user_id = $this->uid;
+
+        $rid = isset($this->stash['rid'])?$this->stash['rid']:null;
+        if(empty($rid)){
+            return $this->wapi_json('缺少请求参数!', 3001);   
+        }
+
+        $order_model = new Sher_Core_Model_Orders();
+        $order = $order_model->find_by_rid((string)$rid);
+        if(empty($order)){
+            return $this->wapi_json('订单不存在!', 3002);   
+        }
+
+        if($order['user_id'] != $user_id){
+            return $this->wapi_json('没有权限!', 3003);   
+        }
+
+        // 允许删除订单状态数组
+        $allow_stat_arr = array(
+          Sher_Core_Util_Constant::ORDER_EXPIRED,
+          Sher_Core_Util_Constant::ORDER_CANCELED,
+          Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT,
+          //Sher_Core_Util_Constant::ORDER_EVALUATE,
+          Sher_Core_Util_Constant::ORDER_PUBLISHED,
+          Sher_Core_Util_Constant::ORDER_REFUND_DONE,
+        );
+        if(!in_array($order['status'], $allow_stat_arr)){
+            return $this->wapi_json('该订单状态不允许删除!', 3004);     
+        }
+
+        $ok = $order_model->update_set((string)$order['_id'], array('deleted'=>1));
+        if($ok){
+            return $this->wapi_json('操作成功!', 0, array('rid'=>$order['rid']));       
+        }else{
+            return $this->wapi_json('订单删除失败!', 3005);
+        }
+
+    }
 
 
 
