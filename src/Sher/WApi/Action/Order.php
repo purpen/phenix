@@ -548,7 +548,7 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
             $price = (float)$inventory['price'];
             $total_price = $price*$n;
             $sku_id = $target_id;
-            $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : null;
+            $vop_id = isset($inventory['vop_id']) ? $inventory['vop_id'] : '';
             $number = $inventory['number'];
         
 
