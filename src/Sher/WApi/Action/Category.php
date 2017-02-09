@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_Category extends Sher_WApi_Action_Base {
 	
-	protected $filter_user_method_list = array('execute', 'getlist');
+	protected $filter_auth_methods = array('execute', 'getlist');
 	
 	/**
 	 * 入口
