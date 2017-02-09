@@ -77,6 +77,12 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 			case 5:
 				$options['sort_field'] = 'featured';
 				break;
+			case 6:
+				$options['sort_field'] = 'price';
+				break;
+			case 7:
+				$options['sort_field'] = 'price_asc';
+				break;
 		}
 
 		$some_fields = array(
