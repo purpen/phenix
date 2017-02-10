@@ -22,7 +22,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		// 请求参数
-        $category_ids = isset($this->stash['category_ids']) ? (int)$this->stash['category_ids'] : 0;
+        $category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : 0;
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -34,7 +34,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         // 查询条件
 		if($category_ids){
             $category_ids_arr = explode(',', $category_ids);
-            $query['category_ids'] = (int);
+            $query['category_ids'] = (int)$category_ids;
 		}
         
         if($category_tags){
