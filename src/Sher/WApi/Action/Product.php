@@ -34,12 +34,12 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         // 查询条件
 		if($category_ids){
             $category_ids_arr = explode(',', $category_ids);
-            $query['category_ids'] = array('$in'=>$category_ids_arr);
+            $query['category_ids'] = (int);
 		}
         
         if($category_tags){
             $category_tag_arr = explode(',', $category_tags);
-            $query['category_tags'] = array('$in'=>$category_tag_arr);
+			$query['category_ids'] = (int)$category_ids;
         }
 
         // 阶段

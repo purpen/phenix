@@ -113,6 +113,8 @@ db.applitable.ensureIndex({'user_id':1, 'target_id':1, 'type':1});
 
 #sign_draw_record // 签到抽奖记录
 db.sign_draw_record.ensureIndex({ 'day':1, 'user_id':1, 'target_id':1}, {background: true});
+db.sign_draw_record.ensureIndex({ 'event':1}, {background: true});
+db.sign_draw_record.ensureIndex({ 'created_on':-1}, {background: true});
 
 #timeline	// 用户动态
 db.timeline.ensureIndex({ 'user_id':1, 'created_on':-1}, {background: true});

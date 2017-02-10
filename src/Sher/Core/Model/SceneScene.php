@@ -15,15 +15,15 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		'user_id' => 0,
 		# 描述
 		'des' => '',
-        # 分类
-        'type' => '',
+        # 类型:1.实体店
+        'type' => 1,
 		
 		# 场景
 		'sight' => array(),
 		# 标签
 		'tags' => array(),
 		# 地理位置
-		 'location'  => array(
+		'location'  => array(
             'type' => 'Point',
             # 经度,纬度
             'coordinates' => array(),
@@ -38,8 +38,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         # 分类标签
         'category_tags' => array(),
 		
+        # 头像
+        'avatar_id' => '',
         # 封面
 		'cover_id' => '',
+        # Banner图
+        'banner_id' => '',
 		
 		# 使用次数
         'used_count' => 0,
@@ -53,6 +57,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     	'comment_count' => 0,
 		# 场景数 
     	'sight_count' => 0,
+        # 产品数量
+        'product_count' => 0,
 
 		# 真实浏览数
 		'true_view_count' => 0,
@@ -66,23 +72,25 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		# 审核
 		'is_check' => 1,
 		# 推荐
-    'stick' => 0,
-    # 精选
-    'fine' => 0,
+        'stick' => 0,
+        # 推时间
+        'stick_on' => 0,
+        # 精选
+        'fine' => 0,
+        'fine_on' => 0,
 		# 是否启用
 		'status' => 0,
-    # 是否删除
-    'deleted' => 0,
+        # 是否删除
+        'deleted' => 0,
     );
 	
 	protected $required_fields = array('title', 'user_id');
-	protected $int_fields = array('status', 'used_count', 'deleted', 'category_id');
+	protected $int_fields = array('status', 'deleted', 'category_id', 'stick', 'fine');
 	protected $float_fields = array();
-	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count', 'category_id');
+	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count', 'product_count');
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
 		'category' =>   array('category_id' => 'Sher_Core_Model_Category'),
 	);
@@ -92,6 +100,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 */
 	protected function extra_extend_model_row(&$row) {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+        // 封面图
+        $row['avatar'] = $this->avatar($row);
+        $row['banner'] = $this->banner($row);
 	}
 	
 	/**
@@ -192,6 +203,72 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 				$model->update_set($id, array('parent_id' => (int)$parent_id));
 			}
 		}
+	}
+
+	/**
+	 * 获取头像
+	 */
+	public function avatar(&$row){
+		// 已设置封面图
+		if(isset($row['avatar_id']) && !empty($row['avatar_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['avatar_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_AVATAR,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return '';
+	}
+
+	/**
+	 * 获取封面图
+	 */
+	public function cover(&$row){
+		// 已设置封面图
+		if(isset($row['cover_id']) && !empty($row['cover_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['cover_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_SCENE,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return '';
+	}
+
+	/**
+	 * 获取Banner图
+	 */
+	public function banner(&$row){
+		// 已设置封面图
+		if(isset($row['banner_id']) && !empty($row['banner_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['banner_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_SCENE_BANNER,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return '';
 	}
 
   /**
