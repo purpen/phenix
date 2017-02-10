@@ -273,6 +273,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			case Sher_Core_Util_Constant::FROM_APP_ANDROID:
 				$label = '手机应用Android';
 				break;
+			case Sher_Core_Util_Constant::FROM_WX_XCX:
+				$label = '小程序';
+				break;
 			default:
 				$label = '其他';
 				break;
