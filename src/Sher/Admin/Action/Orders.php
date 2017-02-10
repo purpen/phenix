@@ -693,9 +693,12 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
           if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
-                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
+                $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
+          // 微信小程序
+          }elseif($order_info['from_site']==Sher_Core_Util_Constant::FROM_WX_XCX){
+                $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
           }else{
-                  $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?id='.$id;
+                $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?id='.$id;
           }
 			return $this->to_redirect($refund_url);
 		}
