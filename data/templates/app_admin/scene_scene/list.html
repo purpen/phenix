@@ -73,8 +73,8 @@
 		</a>
 
 	  	<div class="right menu">
-			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>添加情景
+			<a href="{{ app_url_app_admin_base }}/scene_scene/submit" class="item">
+				<i class="add icon"></i>添加地盘
 			</a>
 			<!--
 			<a href="javascript:void(0);" class="item ajax-delete">
@@ -114,8 +114,8 @@
                 <th>浏览量</th>
                 <th>订阅量</th>
                 <th>场景量</th>
-                <th>是否推荐</th>
-                <th>是否精选</th>
+                <th>推荐</th>
+                <th>精选</th>
                 <th>发布时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -197,7 +197,7 @@
                         {% else %}
                         <a href="{{ app_url_app_admin_base }}/scene_scene/ajax_check?id={{ d._id }}&evt=1" class="ui link ajax item" id="check-{{ d._id }}-button">审核</a>
                         {% endif %}
-                        <a href="{{ app_url_app_admin_base }}/scene_scene/edit?id={{ d._id }}" class="ui link item">编辑</a>
+                        <a href="{{ app_url_app_admin_base }}/scene_scene/submit?id={{ d._id }}" class="ui link item">编辑</a>
 						<a href="{{ app_url_app_admin_base }}/scene_scene/delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
                     {% else %}
                         --
