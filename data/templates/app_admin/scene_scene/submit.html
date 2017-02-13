@@ -372,6 +372,96 @@
 		});
 	});
 
+    // 头像上传
+	$('#phenix-avatar-uploader').fineUploader({
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ avatar_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ avatar_asset_type }},'x:parent_id': '{{ scene._id }}','file_id': '{{ avatar_pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_avatar'
+      	},
+		text: {
+            uploadButton: '<a class="ui active orange labeled icon inverted button" href="javascript:void(0);"><i class="upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets?type=6', {'assets': result.data.ids, 'asset_type': {{ avatar_asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+		}
+	});
+    
+    // 设置头像
+	$('#asset-avatar-list .ajax-avatar').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-avatar-list .ajax-avatar.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#avatar_id').val(id);
+			return false;
+		});
+	});
+
+  // 上传Banner图
+	$('#phenix-banner-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ banner_pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ banner_asset_type }},'x:parent_id': '{{ scene._id }}','file_id': '{{ banner_pid }}' },
+        	endpoint: '{{ app_url_upload }}/scene_banner'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta labeled icon upload button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5245728 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=2', {'id': '{{ scene._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+		}
+	});
+
+	// 设置Banner封底面图
+	$('#asset-banner-list .ajax-banner').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-banner-list .ajax-banner.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#product_banner_id').val(id);
+			return false;
+		});
+	});
+
 
     // 标签
     $('#tags').tagsInput({
@@ -409,7 +499,7 @@
 				.addClass('active');
 			$('#scene-category').val(id);
           // 加载该类别下的标签库
-          load_category_tag(id, '');
+          //load_category_tag(id, '');
 		}
 		
         return false;
@@ -441,7 +531,7 @@
   if(current_category_id){
     // 加载该类别下的标签库
     if(current_category_id){
-      load_category_tag(current_category_id, current_category_tags); 
+      //load_category_tag(current_category_id, current_category_tags); 
     }
   }
 
@@ -457,7 +547,7 @@
 			全部
 		</a>
 	  	<div class="right menu">	
-			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
+			<a href="{{ app_url_app_admin_base }}/scene_scene/submit" class="item">
 				<i class="add icon"></i>添加地盘
 			</a>
 			<!--
@@ -495,23 +585,27 @@
 
       </div>
 
+        <div class="three fields">
             <div class="field">
-                <label>标题</label>
+                <label>名称</label>
 				<input type="text" name="title" placeholder="名称" value="{{ scene.title }}" />
 			</div>
             <div class="field">
-                <label>副标题</label>
-				<input type="text" name="sub_title" placeholder="副标题" value="{{ scene.sub_title }}" />
+                <label>子名称</label>
+				<input type="text" name="sub_title" placeholder="子名称" value="{{ scene.sub_title }}" />
 			</div>
+        </div>
             <div class="field">
-                <label>详情</label>
-                <textarea name="des" placeholder="详情">{{ scene.des }}</textarea>
+                <label>简介</label>
+                <textarea name="des" placeholder="简介">{{ scene.des }}</textarea>
             </div>
             <div class="field">
                 <label>标签</label>
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ scene.tags_s }}" />
 			</div>
+
 			<!--封面图-->
+            <!--
             <div class="ui segment">
                 <div class="field">
                     <label>上传封面图</label>
@@ -544,21 +638,79 @@
                     </div>
                 </div>
             </div>
-			<div class="field" style="display:none;">
-                <label>所属标签</label>
-				{% for tags in scene_tags %}
-                <div class="ui tags">
-					<div class="tags_title">
-						<a class="ui teal tag label" data-val="{{ tags._id }}">{{ tags.title_cn }}</a>
-						<!--<a class="ui orange label scene" data-val="{{ tags._id }}">加载标签</a>-->
-					</div>
-					<div class="tags_content" id="{{ tags._id }}"></div>
-				</div>
-				{% endfor %}
+            -->
+
+			<!--头像图-->
+            <div class="ui segment">
+                <div class="field">
+                    <label>上传头像</label>
+                    <input type="hidden" name="avatar_id" id="avatar_id" value="{{ scene.avatar_id }}" />
+                    <div id="phenix-avatar-uploader"></div>
+                
+                    <div id="asset-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:scene._id asset_type:avatar_asset_type size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ scene._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if scene.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+                    </div>
+                </div>
             </div>
+
+			<!--Banner图-->
+            <div class="ui segment">
+                <div class="field">
+                    <label>上传Banner像</label>
+                    <input type="hidden" name="banner_id" id="banner_id" value="{{ scene.banner_id }}" />
+                    <div id="phenix-banner-uploader"></div>
+                
+                    <div id="asset-banner-list" class="ui four blocks">
+					{% if mode == 'edit' %}
+						{% asset_list var:'assets' parent_id:scene._id asset_type:banner_asset_type size:20 %}
+						{% for asset in assets.rows %}
+						<div class="thumb block" id="{{ asset._id }}">
+							<div class="image">
+								<img src="{{ asset.thumbnails.small.view_url }}" />
+								<input type="hidden" class="asset_id_list" name="banner_asset[]" value="{{ asset._id }}" />
+							</div>
+							<div class="buttons">
+								<div class="ui large links">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ scene._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+										<i class="remove icon"></i>
+									</a>
+									
+									<a href="javascript:void(0);" class="ui link {%if scene.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+										<i class="checkered flag icon"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% endif %}
+                    </div>
+                </div>
+            </div>
+
 			<div class="field">
-                <label>情境地址</label>
-				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ scene.address }}" />
+                <label>地址</label>
+				<input type="text" id="address" name="address" placeholder="地盘地址" value="{{ scene.address }}" />
 				<input type="hidden" name="lng" value="{{ scene.location.coordinates.0 }}" />
 				<input type="hidden" name="lat" value="{{ scene.location.coordinates.1 }}" />
 				<div type="button" value="按钮" class="map-box-btn" /></div>

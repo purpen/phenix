@@ -42,73 +42,41 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['pager_url'] = $pager_url;
 		return $this->to_html_page('app_admin/scene_scene/list.html');
 	}
-	
-	/**
-	 * 创建
-	 */
-	public function add(){
-        
-		$mode = 'create';
-		$this->stash['mode'] = $mode;
-		
-		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
-
-		$fid = Doggy_Config::$vars['app.scene.category_id'];
-        $this->stash['fid'] = $fid;
-		
-		// 查询标签信息
-		$scene_tags_model = new Sher_Core_Model_SceneTags();
-		$root = $scene_tags_model->find_root_key(1);
-		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $scene_tags;
-		
-		// 封面图上传
-		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-
-		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
-		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
-		
-		return $this->to_html_page('app_admin/scene_scene/submit.html');
-	}
     
     /**
 	 * 更新
 	 */
-	public function edit(){
+	public function submit(){
 		
-		$id = isset($this->stash['id']) ? $this->stash['id'] : '';
-		
-		if(!$id){
-			return $this->ajax_json('内容不能为空！', true);
-		}
-		$mode = 'edit';
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 
 		$fid = Doggy_Config::$vars['app.scene.category_id'];
         $this->stash['fid'] = $fid;
-		
-		$model = new Sher_Core_Model_SceneScene();
-		$result = $model->first((int)$id);
-		$result = $model->extended_model_row($result);
 
-		//var_dump($result);
-		$this->stash['scene'] = $result;
+        if(empty($id)){
+            $mode = 'create';       
+        }else{
+		    $mode = 'edit';
+            $model = new Sher_Core_Model_SceneScene();
+            $result = $model->first((int)$id);
+            $result = $model->extended_model_row($result);       
+		    $this->stash['scene'] = $result;
+        }
+
 		$this->stash['mode'] = $mode;
-
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
 		
-		// 查询标签信息
-		$scene_tags_model = new Sher_Core_Model_SceneTags();
-		$root = $scene_tags_model->find_root_key(1);
-		$scene_tags = $scene_tags_model->find(array('parent_id'=>(int)$root['_id']));
-		$this->stash['scene_tags'] = $scene_tags;
-		
-		// 封面图上传
+		// 封面/头像/Banner图上传
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
-		$this->stash['pid'] = new MongoId();
-
 		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+
+		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['avatar_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_BANNER;
+		$this->stash['avatar_asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_AVATAR;
 		
 		return $this->to_html_page('app_admin/scene_scene/submit.html');
 	}
@@ -121,7 +89,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$user_id = $this->visitor->id;
 		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
-		$cover_id = $this->stash['cover_id'];
+		$cover_id = isset($this->stash['cover_id']) ? $this->stash['cover_id'] : null;
+		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
+		$avatar_id = isset($this->stash['avatar_id']) ? $this->stash['avatar_id'] : null;
         $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		
 		$data = array();
@@ -136,7 +106,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
             'type' => 'Point',
             'coordinates' => array(doubleval($this->stash['lng']), doubleval($this->stash['lat'])),
         );
-		$data['cover_id'] = $this->stash['cover_id'];
+		$data['cover_id'] = $cover_id;
+		$data['banner_id'] = $banner_id;
+		$data['avatar_id'] = $avatar_id;
 		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
 		
 		if(empty($data['title']) || empty($data['des'])){
@@ -182,10 +154,15 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
             Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
 			
 			// 上传成功后，更新所属的附件
-			
 			if(isset($data['asset']) && !empty($data['asset'])){
 				$model->update_batch_assets($data['asset'], $id);
-			}		
+            }
+			if(isset($data['avatar_asset']) && !empty($data['avatar_asset'])){
+				$model->update_batch_assets($data['avatar_asset'], $id);
+            }
+			if(isset($data['banner_asset']) && !empty($data['banner_asset'])){
+				$model->update_batch_assets($data['banner_asset'], $id);
+			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("地盘保存失败：".$e->getMessage());
 			return $this->ajax_json('地盘保存失败:'.$e->getMessage(), true);

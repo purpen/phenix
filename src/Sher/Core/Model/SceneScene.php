@@ -56,7 +56,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         'love_count' => 0,
 		# 评论数 
     	'comment_count' => 0,
-		# 场景数 
+		# 情境数 
     	'sight_count' => 0,
         # 产品数量
         'product_count' => 0,
@@ -131,8 +131,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
       // 如果是新的记录
       if($this->insert_mode) {
 
-		$model = new Sher_Core_Model_Tags();
-		$model->record_count($tags, 2, $this->data['_id']);
+		//$model = new Sher_Core_Model_Tags();
+		//$model->record_count($tags, 2, $this->data['_id']);
         
         $model = new Sher_Core_Model_User();
         $model->inc_counter('scene_count',(int)$this->data['user_id']);
@@ -149,8 +149,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         }
 
         // 增长积分
-        $service = Sher_Core_Service_Point::instance();
-        $service->send_event('evt_new_scene', $this->data['user_id']);
+        //$service = Sher_Core_Service_Point::instance();
+        //$service->send_event('evt_new_scene', $this->data['user_id']);
 
       }
 		
@@ -285,16 +285,20 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 */
 	public function mock_after_remove($id, $options=array()) {
         
-    // 减少标签数量
-    $scene_tags_model = new Sher_Core_Model_SceneTags();
-    $scene_tags_model->scene_count($options['tags'],array('total_count','scene_count'),2);
+        // 减少标签数量
+        if(isset($options['tags'])){
+            $scene_tags_model = new Sher_Core_Model_SceneTags();
+            $scene_tags_model->scene_count($options['tags'],array('total_count','scene_count'),2);   
+        }
 
-    // 减少用户创建数量
-    $user_model = new Sher_Core_Model_User();
-    $user_model->dec_counter('scene_count',$options['user_id']);
+        // 减少用户创建数量
+        if(isset($options['user_id'])){
+            $user_model = new Sher_Core_Model_User();
+            $user_model->dec_counter('scene_count', (int)$options['user_id']);       
+        }
 
-    // 删除索引
-    Sher_Core_Util_XunSearch::del_ids('scene_'.(string)$id);
+        // 删除索引
+        Sher_Core_Util_XunSearch::del_ids('scene_'.(string)$id);
 		
 		return true;
 	}
@@ -304,12 +308,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
      * 标记为推荐
      */
     public function mark_as_stick($id, $options=array()) {
-        $ok = $this->update_set($id, array('stick' => 1));
+        $ok = $this->update_set($id, array('stick' => 1, 'stick_on'=>time()));
         if($ok){
             $data = $this->load($id);
             // 增长积分
-            $service = Sher_Core_Service_Point::instance();
-            $service->send_event('evt_scene_stick', $data['user_id']); 
+            //$service = Sher_Core_Service_Point::instance();
+            //$service->send_event('evt_scene_stick', $data['user_id']); 
         }
         return $ok;
     }
@@ -326,12 +330,12 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
      * 标记主题 精华
      */
 	public function mark_as_fine($id, $options=array()){
-		$ok = $this->update_set($id, array('fine' => 1));
+		$ok = $this->update_set($id, array('fine' => 1, 'fine_on'=>time()));
         if($ok){
             $data = $this->load($id);
             // 增长积分
-            $service = Sher_Core_Service_Point::instance();
-            $service->send_event('evt_scene_fine', $data['user_id']); 
+            //$service = Sher_Core_Service_Point::instance();
+            //$service->send_event('evt_scene_fine', $data['user_id']); 
         }
         return $ok;
 	}

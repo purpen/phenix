@@ -108,10 +108,10 @@ class Sher_Wap_Action_SceneSubject extends Sher_Wap_Action_Base {
     }
 
 
-  /**
-   * 自动加载获取
-   */
-  public function ajax_fetch_more(){
+    /**
+     * 自动加载获取
+     */
+    public function ajax_fetch_more(){
         
 		$page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
 		$size = isset($this->stash['size']) ? (int)$this->stash['size'] : 8;

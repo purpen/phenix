@@ -308,11 +308,31 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
     
     /**
-	 * 上传情景封面
+	 * 上传地盘封面
 	 */
 	public function scene_scene() {
 		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
 		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+    /**
+	 * 上传地盘头像
+	 */
+	public function scene_avatar() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_AVATAR;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+    /**
+	 * 上传地盘Banner
+	 */
+	public function scene_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+		$asset_type = Sher_Core_Model_Asset::TYPE_SCENE_BANNER;
 		
 		return $this->handle_upload($asset_type, $asset_domain);
 	}
@@ -871,6 +891,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		    $tpl = 'ajax/check_upload_product_cover_assets.html';
       }elseif($type==5){
 		    $tpl = 'ajax/check_upload_product_sku_assets.html';
+      }elseif($type==6){
+		    $tpl = 'ajax/check_upload_product_avatar_assets.html';
       }else{
 		    $tpl = 'ajax/check_upload_product_assets.html';
       }
@@ -893,6 +915,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			  $tpl = 'ajax/check_product_cover_onestep.html';
       }elseif($type==5){
 			  $tpl = 'ajax/check_product_sku_onestep.html';
+      }elseif($type==6){
+			  $tpl = 'ajax/check_product_avatar_onestep.html';
       }else{
 			  $tpl = 'ajax/check_product_onestep.html';
       }
