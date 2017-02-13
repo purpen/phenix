@@ -20,13 +20,14 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	public function getlist(){
 		
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
-		$size = isset($this->stash['size'])?(int)$this->stash['size']:10;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
-			'_id'=>1, 'title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
+			'_id'=>1, 'title'=>1, 'sub_title'=>1, 'user_id'=>1, 'des'=>1, 'sight'=>1, 'tags'=>1,
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1, 'category_id'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1, 'city'=>1,
-			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'fine'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'stick_on'=>1, 'fine'=>1, 'fine_on'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+            'abc'=>1,
 		);
 		
 		$query   = array();
@@ -105,10 +106,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 				$options['sort_field'] = 'latest';
 				break;
 			case 1: // 最新推荐
-				$options['sort_field'] = 'stick:update';
+				$options['sort_field'] = 'stick';
 				break;
 			case 2: // 最新精选
-				$options['sort_field'] = 'fine:update';
+				$options['sort_field'] = 'fine';
 				break;
 		}
 		

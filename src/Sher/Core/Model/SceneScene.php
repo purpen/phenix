@@ -11,6 +11,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
     protected $schema = array(
 		# 标题
 		'title' => '',
+        'sub_title' => '',
 		# 创建者
 		'user_id' => 0,
 		# 描述

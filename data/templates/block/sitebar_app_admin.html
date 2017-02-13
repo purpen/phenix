@@ -41,11 +41,9 @@
 	</div>
 	<div date="menu-admin" {% if show_type == 'sight' %} style="display:block" {% else %} style="display:none" {% endif %}>
 		{% if visitor.is_chief %}
-        <!--
 		<a class="{{ css_page_app_scene_scene }} item" href="{{ app_url_app_admin_base }}/scene_scene">
 			地盘管理
 		</a>
-        -->
 		<a class="{{ css_page_app_scene_sight }} item" href="{{ app_url_app_admin_base }}/scene_sight">
 			情境管理
 		</a>

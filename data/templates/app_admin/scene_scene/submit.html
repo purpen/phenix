@@ -1,5 +1,5 @@
 {%extends 'layout/app_admin.html'%}
-{% block title %}新增/编辑情境-{% endblock %}
+{% block title %}新增/编辑地盘-{% endblock %}
 
 {% block page_css %}
 	<style type="text/css">
@@ -173,7 +173,7 @@
 		
 		setTimeout(function(){
 			// 创建标注
-			var choose_point = new BMap.Point({{ date.location.coordinates.0 }}, {{ date.location.coordinates.1 }});
+			var choose_point = new BMap.Point({{ scene.location.coordinates.0 }}, {{ scene.location.coordinates.1 }});
 			map.centerAndZoom(choose_point, 16);
 			
 			var marker = new BMap.Marker(choose_point);
@@ -187,7 +187,7 @@
 				$('input[name=lng]').val(point.lng);
 			})
 			
-			var label = new BMap.Label('{{ date.address }}', {offset: offset});
+			var label = new BMap.Label('{{ scene.address }}', {offset: offset});
 			label.setStyle({
 				color: "#ff3366",
 				fontSize: "12px",
@@ -258,16 +258,16 @@
 	
 	$('.tags_content').each(function(){
 		var id = $(this).attr('id');
-		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(date){
-			var data = eval('('+date+')');
+		$.post('{{ app_url_app_admin_base }}/scene_tags/find_tags',{id:id},function(data){
+			var data = eval('('+data+')');
 			var html = '';
 			if(data.data){
 				for(var item in data.data){
-					html += '<h3 class="ui dashed header" date-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</h3>';
+					html += '<h3 class="ui dashed header" data-val="'+data.data[item]['_id']+'">【'+data.data[item]['title_cn']+'】</h3>';
 					if(data.data[item]['children']){
 						for(var items in data.data[item]['children']){
 							//console.log(data.data[item]['children'][items]);
-							html += '<a class="ui green label scene_tags" date-val="'+data.data[item]['children'][items]['_id']+'">'+data.data[item]['children'][items]['title_cn']+'</a>';
+							html += '<a class="ui green label scene_tags" data-val="'+data.data[item]['children'][items]['_id']+'">'+data.data[item]['children'][items]['title_cn']+'</a>';
 						}
 					}
 				}
@@ -295,10 +295,10 @@
 	}
 	$('.scene_tags').livequery(function(){
 		$(this).each(function(){
-			var tag = $(this).attr('date-val');
+			var tag = $(this).attr('data-val');
 			tag = parseInt(tag);
 			if(in_array(tags,tag)){
-				$('a[date-val='+tag+']').addClass('purple');
+				$('a[data-val='+tag+']').addClass('purple');
 			}
 		});
 	});
@@ -306,7 +306,7 @@
 	// 选择标签
 	$('.scene_tags').livequery(function(){
 		$(this).click(function(){
-			var id = $(this).attr('date-val');
+			var id = $(this).attr('data-val');
 			if ($(this).hasClass('purple')){
 				$(this).removeClass('purple');
 			}else{
@@ -315,7 +315,7 @@
 			
 			var tags = '';
 			$(".purple").each(function(i){
-				var value = $(this).attr('date-val');
+				var value = $(this).attr('data-val');
 				tags += value + ',';
 			});
 			tags = tags.substring(0,tags.length-1);
@@ -332,7 +332,7 @@
 	$('#phenix-uploader').fineUploader({
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ date._id }}','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor.id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ scene._id }}','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload }}/scene_scene'
       	},
 		text: {
@@ -451,14 +451,14 @@
 {% block content %}
 <div class="admin">
 	
-	<h3 class="ui header">情境管理</h3>
+	<h3 class="ui header">地盘管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_app_admin_base }}/scene_scene" class="item">
 			全部
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/scene_scene/add" class="item">
-				<i class="add icon"></i>添加情境
+				<i class="add icon"></i>添加地盘
 			</a>
 			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
@@ -470,7 +470,7 @@
 	
 	<form action="{{ app_url_app_admin_base }}/scene_scene/save" class="ui form" method="post" id="active-form">
 		<!-- 隐藏表单 -->
-		<input type="hidden" name="id" value="{{ date._id }}" />
+		<input type="hidden" name="id" value="{{ scene._id }}" />
 		
 		<div class="ui segment from">
 			<h3 class="ui dividing header">地盘</h3>
@@ -478,43 +478,49 @@
 			<div class="grouped inline fields">
         <div class="field">
           <label>分类:</label>
-          <input type="hidden" name="category_id" value="{{ date.category_id }}" id="scene-category" />
-          {% category_list var:'category' only_open:1 pid:fid domain:12 current:date.category_id %}
+          <input type="hidden" name="category_id" value="{{ scene.category_id }}" id="scene-category" />
+          {% category_list var:'category' only_open:1 pid:fid domain:12 current:scene.category_id %}
           {% for cat in category.rows %}
           <a class="ui {{ cat.active }} magenta category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
           {% endfor %}
         </div>
 
+        <!--
         <div class="field" id="category_tags_box">
-          <input type="hidden" name="category_tags" value="{{ date.category_tags_s }}" id="scene-category-tags" />
+          <input type="hidden" name="category_tags" value="{{ scene.category_tags_s }}" id="scene-category-tags" />
 				  	<label for="category_tags">分类标签：</label>
             <span></span>
         </div>
+        -->
 
       </div>
 
             <div class="field">
                 <label>标题</label>
-				<input type="text" name="title" placeholder="名称" value="{{ date.title }}" />
+				<input type="text" name="title" placeholder="名称" value="{{ scene.title }}" />
+			</div>
+            <div class="field">
+                <label>副标题</label>
+				<input type="text" name="sub_title" placeholder="副标题" value="{{ scene.sub_title }}" />
 			</div>
             <div class="field">
                 <label>详情</label>
-                <textarea name="des" placeholder="详情">{{ date.des }}</textarea>
+                <textarea name="des" placeholder="详情">{{ scene.des }}</textarea>
             </div>
             <div class="field">
                 <label>标签</label>
-				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ date.tags_s }}" />
+				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ scene.tags_s }}" />
 			</div>
 			<!--封面图-->
             <div class="ui segment">
                 <div class="field">
                     <label>上传封面图</label>
-                    <input type="hidden" name="cover_id" id="cover_id" value="{{ date.cover_id }}" />
+                    <input type="hidden" name="cover_id" id="cover_id" value="{{ scene.cover_id }}" />
                     <div id="phenix-uploader"></div>
                 
                     <div id="asset-list" class="ui four blocks">
 					{% if mode == 'edit' %}
-						{% asset_list var:'assets' parent_id:date._id asset_type:asset_type size:20 %}
+						{% asset_list var:'assets' parent_id:scene._id asset_type:asset_type size:20 %}
 						{% for asset in assets.rows %}
 						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
@@ -523,11 +529,11 @@
 							</div>
 							<div class="buttons">
 								<div class="ui large links">
-									<a href="{{ app_url_fever }}/delete_asset?id={{ date._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+									<a href="{{ app_url_fever }}/delete_asset?id={{ scene._id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
 										<i class="remove icon"></i>
 									</a>
 									
-									<a href="javascript:void(0);" class="ui link {%if date.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link {%if scene.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class="checkered flag icon"></i>
 									</a>
 								</div>
@@ -543,8 +549,8 @@
 				{% for tags in scene_tags %}
                 <div class="ui tags">
 					<div class="tags_title">
-						<a class="ui teal tag label" date-val="{{ tags._id }}">{{ tags.title_cn }}</a>
-						<!--<a class="ui orange label scene" date-val="{{ tags._id }}">加载标签</a>-->
+						<a class="ui teal tag label" data-val="{{ tags._id }}">{{ tags.title_cn }}</a>
+						<!--<a class="ui orange label scene" data-val="{{ tags._id }}">加载标签</a>-->
 					</div>
 					<div class="tags_content" id="{{ tags._id }}"></div>
 				</div>
@@ -552,9 +558,9 @@
             </div>
 			<div class="field">
                 <label>情境地址</label>
-				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ date.address }}" />
-				<input type="hidden" name="lng" value="{{ date.location.coordinates.0 }}" />
-				<input type="hidden" name="lat" value="{{ date.location.coordinates.1 }}" />
+				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ scene.address }}" />
+				<input type="hidden" name="lng" value="{{ scene.location.coordinates.0 }}" />
+				<input type="hidden" name="lat" value="{{ scene.location.coordinates.1 }}" />
 				<div type="button" value="按钮" class="map-box-btn" /></div>
             </div>
 			<div id="allmap" style="height:400px;width:100%; margin-bottom: 20px"></div>

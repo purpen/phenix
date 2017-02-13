@@ -8,8 +8,8 @@ class Sher_Core_Service_SceneScene extends Sher_Core_Service_Base {
     protected $sort_fields = array(
         'latest' => array('created_on' => -1),
         'update' => array('updated_on' => -1),
-        'stick' => array('stick' => -1),
-        'fine' => array('fine' => -1),
+        'stick' => array('stick_on' => -1),
+        'fine' => array('fine_on' => -1),
     );
 
     protected static $instance;

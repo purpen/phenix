@@ -92,7 +92,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$result = $model->extended_model_row($result);
 
 		//var_dump($result);
-		$this->stash['date'] = $result;
+		$this->stash['scene'] = $result;
 		$this->stash['mode'] = $mode;
 
 		$this->stash['app_baidu_map_ak'] = Doggy_Config::$vars['app.baidu.map_ak'];
@@ -126,6 +126,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
+		$data['sub_title'] = $this->stash['sub_title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
         $data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
@@ -177,8 +178,8 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 				return $this->ajax_json('保存失败,请重新提交', true);
 			}
 
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
 			
 			// 上传成功后，更新所属的附件
 			
@@ -186,8 +187,8 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 				$model->update_batch_assets($data['asset'], $id);
 			}		
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
-			return $this->ajax_json('情景保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("地盘保存失败：".$e->getMessage());
+			return $this->ajax_json('地盘保存失败:'.$e->getMessage(), true);
 		}
 		
 		return $this->ajax_json('提交成功', false, null);
