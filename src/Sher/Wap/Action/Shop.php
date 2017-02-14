@@ -524,8 +524,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $vop_id = null;
         $number = '';
         // 推广码
-        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : '';
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : '';
+        $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -860,7 +860,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
             // 推广码
             $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
-            $storage_id = isset($val['storage_id']) ? $val['storage_id'] : '';
+            $storage_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
 
           $sku_mode = null;
           $price = 0.0;

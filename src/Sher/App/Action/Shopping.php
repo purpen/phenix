@@ -116,8 +116,8 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $number = '';
 
         // 推广码
-        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : '';
+        $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : '';
+        $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
 
 		// 验证数据
 		if (empty($sku) || empty($quantity)){

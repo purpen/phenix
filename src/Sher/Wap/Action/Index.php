@@ -145,6 +145,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
         $type = isset($this->stash['infoType']) ? (int)$this->stash['infoType'] : 0;
         $id = isset($this->stash['infoId']) ? $this->stash['infoId'] : 0;
         $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
 
         // 推广码记录cookie
         if(!empty($referral_code)){
@@ -155,6 +156,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
         switch($type){
             case 1:
                 $redirect_url = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $id);
+                if(!empty($storage_id)) $redirect_url = sprintf("%s?storage_id=%s", $redirect_url, $storage_id);
                 break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.wap']."/shop";

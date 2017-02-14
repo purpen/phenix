@@ -172,8 +172,8 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 			$item = $inventory->load((int)$com_sku);
 
             // 推广码
-            $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
-            $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+            $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : '';
+            $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
             $vop_id = null;
             $number = '';
 

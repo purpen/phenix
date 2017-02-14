@@ -617,6 +617,13 @@
 				<input type="text" name="sub_title" placeholder="子名称" value="{{ scene.sub_title }}" />
 			</div>
         </div>
+        <div class="six fields">
+            <div class="field">
+                <label>所属用户ID</label>
+				<input type="text" name="user_id" placeholder="用户ID" value="{{ scene.user_id }}" />
+                <div class="description">不添默认为当前用户ID</div>
+			</div>
+        </div>
             <div class="field">
                 <label>简介</label>
                 <textarea name="des" placeholder="简介">{{ scene.des }}</textarea>
