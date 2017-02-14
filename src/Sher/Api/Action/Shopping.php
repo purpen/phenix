@@ -118,8 +118,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $n = 1;
       }
 
-        $referral_code = isset($val['referral_code']) ? $val['referral_code'] : null;
-        $storage_id = isset($val['storage_id']) ? $val['storage_id'] : null;
+        $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
+        $storage_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
 
       $sku_mode = null;
       $price = 0.0;
@@ -313,8 +313,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		$type = isset($this->stash['type'])?(int)$this->stash['type']:0;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : '';
+        $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
         // app来源
         $app_type = isset($this->stash['app_type']) ? (int)$this->stash['app_type'] : 1;
         $result = array();
@@ -2018,7 +2018,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $n = (int)$v['n'];
       $vop_id = isset($v['vop_id']) ? $v['vop_id'] : null; 
         $referral_code = isset($v['referral_code']) ? $v['referral_code'] : '';
-        $storage_id = isset($v['storage_id']) ? $v['storage_id'] : '';
+        $storage_id = isset($v['storage_id']) ? (string)$v['storage_id'] : '';
 
       $data = array();
       $data['target_id'] = $target_id;
@@ -2180,8 +2180,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
     // 推广码
-    $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
-    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+    $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : '';
+    $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
     $vop_id = null;
 
     if(empty($target_id) && empty($type)){

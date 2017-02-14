@@ -112,6 +112,10 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 
         $data['score_average'] = 5;
 
+        if(isset($this->stash['user_id']) && !empty($this->stash['user_id'])){
+            $data['user_id'] = (int)$this->stash['user_id'];
+        }
+
         $extra = array(
             'shop_hours' => $this->stash['extra_shop_hours'],
             'tel' => $this->stash['extra_tel'],
@@ -142,7 +146,9 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			$model = new Sher_Core_Model_SceneScene();
 			// 新建记录
 			if(empty($id)){
-				$data['user_id'] = $user_id;
+                if(empty($data['user_id'])){
+				    $data['user_id'] = $user_id;
+                }
 				
 				$ok = $model->apply_and_save($data);
 				$scene = $model->get_data();

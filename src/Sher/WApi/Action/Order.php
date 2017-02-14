@@ -325,8 +325,8 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
 		$type = 2;
 		$quantity = isset($this->stash['n'])?(int)$this->stash['n']:1;
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : '';
+        $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
 
 		// 验证数据
 		if (empty($target_id)){
@@ -527,8 +527,8 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
                 $n = 1;
             }
 
-            $referral_code = isset($val['referral_code']) ? $val['referral_code'] : null;
-            $storage_id = isset($val['storage_id']) ? $val['storage_id'] : null;
+            $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
+            $storage_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
 
             $sku_mode = null;
             $price = 0.0;

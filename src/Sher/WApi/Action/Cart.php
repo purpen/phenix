@@ -40,7 +40,7 @@ class Sher_WApi_Action_Cart extends Sher_WApi_Action_Base {
             $n = (int)$v['n'];
             $vop_id = isset($v['vop_id']) ? $v['vop_id'] : ''; 
             $referral_code = isset($v['referral_code']) ? $v['referral_code'] : '';
-            $storage_id = isset($v['storage_id']) ? $v['storage_id'] : '';
+            $storage_id = isset($v['storage_id']) ? (string)$v['storage_id'] : '';
 
             $data = array();
             $data['target_id'] = $target_id;
@@ -131,8 +131,8 @@ class Sher_WApi_Action_Cart extends Sher_WApi_Action_Base {
         $type = 2;
         $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
         // 推广码
-        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : '';
+        $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
         $vop_id = null;
 
         if(empty($target_id)){

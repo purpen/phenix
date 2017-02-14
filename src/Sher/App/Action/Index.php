@@ -286,7 +286,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $type = isset($this->stash['infoType']) ? (int)$this->stash['infoType'] : 0;
         $id = isset($this->stash['infoId']) ? $this->stash['infoId'] : 0;
         $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
-        $storage_id = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : 0;
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
 
         // 推广码记录cookie
         if(!empty($referral_code)){
@@ -297,6 +297,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         switch($type){
             case 1:
                 $redirect_url = Sher_Core_Helper_Url::shop_view_url($id);
+                if(!empty($storage_id)) $redirect_url = sprintf("%s?storage_id=%s", $redirect_url, $storage_id);
                 break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.domin']."/shop";

@@ -32,8 +32,8 @@ class Sher_App_Action_Cart extends Sher_App_Action_Base {
     $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
     $n = isset($this->stash['n']) ? (int)$this->stash['n'] : 1;
     // 推广码
-    $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : null;
-    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+    $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : '';
+    $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
     $vop_id = null;
 
     if(empty($target_id) && empty($type)){
