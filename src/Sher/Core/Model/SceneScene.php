@@ -126,43 +126,49 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	    parent::before_save($data);
 	}
 	
-  /**
+    /**
 	 * 保存之后事件
 	 */
-  protected function after_save(){
+    protected function after_save(){
 
-    $user_id = $this->data['user_id'];
+        $user_id = $this->data['user_id'];
 
-    $category_id = !empty($this->data['category_id']) ? $this->data['category_id'] : 0;
-    $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
+        $category_id = !empty($this->data['category_id']) ? $this->data['category_id'] : 0;
+        $tags = !empty($this->data['tags']) ? $this->data['tags'] : array();
 
-      // 如果是新的记录
-      if($this->insert_mode) {
+        // 如果是新的记录
+        if($this->insert_mode) {
 
-		//$model = new Sher_Core_Model_Tags();
-		//$model->record_count($tags, 2, $this->data['_id']);
-        
-        $model = new Sher_Core_Model_User();
-        $model->inc_counter('scene_count',(int)$this->data['user_id']);
+            //$model = new Sher_Core_Model_Tags();
+            //$model->record_count($tags, 2, $this->data['_id']);
+            
+            $model = new Sher_Core_Model_User();
+            $model->inc_counter('scene_count',(int)$this->data['user_id']);
 
-        // 添加到用户最近使用过的标签
-        $user_tag_model = new Sher_Core_Model_UserTags();
-        for($i=0;$i<count($this->data['tags']);$i++){
-          $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+            $user_id = $this->data['user_id'];
+
+            // 更新关联用户表
+            $user_model = new Sher_Core_Model_User();
+            $user_model->update_set($user_id, array('identify.storage_id'=>$this->data['_id']));
+
+            // 添加到用户最近使用过的标签
+            $user_tag_model = new Sher_Core_Model_UserTags();
+            for($i=0;$i<count($this->data['tags']);$i++){
+              $user_tag_model->add_item_custom($user_id, 'scene_tags', $this->data['tags'][$i]);
+            }
+
+            $model = new Sher_Core_Model_Category();
+            if (!empty($category_id)) {
+                $model->inc_counter('total_count', 1, $category_id);
+            }
+
+            // 增长积分
+            //$service = Sher_Core_Service_Point::instance();
+            //$service->send_event('evt_new_scene', $this->data['user_id']);
+
         }
-
-        $model = new Sher_Core_Model_Category();
-        if (!empty($category_id)) {
-            $model->inc_counter('total_count', 1, $category_id);
-        }
-
-        // 增长积分
-        //$service = Sher_Core_Service_Point::instance();
-        //$service->send_event('evt_new_scene', $this->data['user_id']);
-
-      }
 		
-      parent::after_save();
+        parent::after_save();
     }
 	
 	/**
@@ -302,7 +308,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         // 减少用户创建数量
         if(isset($options['user_id'])){
             $user_model = new Sher_Core_Model_User();
-            $user_model->dec_counter('scene_count', (int)$options['user_id']);       
+            $user_model->dec_counter('scene_count', (int)$options['user_id']);
+            // 更新关联用户表
+            $user_model->update_set((int)$options['user_id'], array('identify.storage_id'=>''));
         }
 
         // 删除索引

@@ -233,7 +233,7 @@
                     |
 					<a href="{{ app_url_admin_base }}/alliance/submit?id={{ d._id }}" class="ui link item">编辑</a>
                     | 
-                    <a href="{{ app_url_admin }}/product/commision_list?referral_code={{ d.code }}" class="ui link item">
+                    <a href="{{ app_url_admin }}/product/commision_list?referral_code={{ d.code }}&storage_id={{ d.user.identify.storage_id }}" class="ui link item">
                         选品>>
                     </a>
                     <a href="{{ app_url_admin }}/alliance/deleted?id={{ d._id }}" class="ui confirm-request link item">
