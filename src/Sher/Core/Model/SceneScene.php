@@ -144,12 +144,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
             
             $model = new Sher_Core_Model_User();
             $model->inc_counter('scene_count',(int)$this->data['user_id']);
-
-            $user_id = $this->data['user_id'];
-
             // 更新关联用户表
-            $user_model = new Sher_Core_Model_User();
-            $user_model->update_set($user_id, array('identify.storage_id'=>$this->data['_id']));
+            $model->update_set($user_id, array('identify.storage_id'=>$this->data['_id']));
 
             // 添加到用户最近使用过的标签
             $user_tag_model = new Sher_Core_Model_UserTags();
