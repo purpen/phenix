@@ -762,6 +762,18 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, array('word'=>$tags));
 
   }
+
+    /**
+     * 发现
+     */
+    public function find(){
+        $user_id = $this->current_user_id;
+        $data = array();
+
+        // 推荐
+        
+    
+    }
 	
 }
 
