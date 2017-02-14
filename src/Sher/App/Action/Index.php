@@ -286,6 +286,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         $type = isset($this->stash['infoType']) ? (int)$this->stash['infoType'] : 0;
         $id = isset($this->stash['infoId']) ? $this->stash['infoId'] : 0;
         $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+        $storage_id = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : 0;
 
         // 推广码记录cookie
         if(!empty($referral_code)){
