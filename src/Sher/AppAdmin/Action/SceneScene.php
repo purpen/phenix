@@ -109,7 +109,14 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['cover_id'] = $cover_id;
 		$data['banner_id'] = $banner_id;
 		$data['avatar_id'] = $avatar_id;
-		$data['asset'] = isset($this->stash['asset'])?$this->stash['asset']:array();
+
+        $data['score_average'] = 5;
+
+        $extra = array(
+            'shop_hours' => $this->stash['extra_shop_hours'],
+            'tel' => $this->stash['extra_tel'],
+        );
+        $data['extra'] = $extra;
 		
 		if(empty($data['title']) || empty($data['des'])){
 			return $this->ajax_json('请求参数不能为空', true);
@@ -154,14 +161,14 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
             Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
 			
 			// 上传成功后，更新所属的附件
-			if(isset($data['asset']) && !empty($data['asset'])){
+			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
 				$model->update_batch_assets($data['asset'], $id);
             }
-			if(isset($data['avatar_asset']) && !empty($data['avatar_asset'])){
-				$model->update_batch_assets($data['avatar_asset'], $id);
+			if(isset($this->stash['avatar_asset']) && !empty($this->stash['avatar_asset'])){
+				$model->update_batch_assets($this->stash['avatar_asset'], $id);
             }
-			if(isset($data['banner_asset']) && !empty($data['banner_asset'])){
-				$model->update_batch_assets($data['banner_asset'], $id);
+			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
+				$model->update_batch_assets($this->stash['banner_asset'], $id);
 			}
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("地盘保存失败：".$e->getMessage());

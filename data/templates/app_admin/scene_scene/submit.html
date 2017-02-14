@@ -58,6 +58,28 @@
 		    border: 1px solid #f36 !important;
 		    color: #f36 !important;
 		}
+
+  #asset-banner-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-banner-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-banner-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+
+  #asset-avatar-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-avatar-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-avatar-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
 	</style>
 {% endblock %}
 
@@ -398,7 +420,7 @@
 			phenix.show_error_note(result.message);
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
-			$.get('{{ app_url_action_base }}/uploader/check_upload_assets?type=6', {'assets': result.data.ids, 'asset_type': {{ avatar_asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=6', {'assets': result.data.ids, 'asset_type': {{ avatar_asset_type||default 0 }}, 'asset_domain':'{{ domain }}' });
 		}
 	});
     
@@ -457,7 +479,7 @@
 			$('#asset-banner-list .ajax-banner.active').removeClass('active');
 			$(this).addClass('active');
 			
-			$('#product_banner_id').val(id);
+			$('#banner_id').val(id);
 			return false;
 		});
 	});
@@ -604,6 +626,17 @@
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ scene.tags_s }}" />
 			</div>
 
+        <div class="three fields">
+            <div class="field">
+                <label>营业时间</label>
+				<input type="text" name="extra_shop_hours" placeholder="营业时间" value="{{ scene.extra.shop_hours }}" />
+			</div>
+            <div class="field">
+                <label>电话</label>
+				<input type="text" name="extra_tel" placeholder="电话" value="{{ scene.extra.tel }}" />
+			</div>
+        </div>
+
 			<!--封面图-->
             <!--
             <div class="ui segment">
@@ -647,14 +680,14 @@
                     <input type="hidden" name="avatar_id" id="avatar_id" value="{{ scene.avatar_id }}" />
                     <div id="phenix-avatar-uploader"></div>
                 
-                    <div id="asset-list" class="ui four blocks">
+                    <div id="asset-avatar-list" class="ui four blocks">
 					{% if mode == 'edit' %}
 						{% asset_list var:'assets' parent_id:scene._id asset_type:avatar_asset_type size:20 %}
 						{% for asset in assets.rows %}
 						<div class="thumb block" id="{{ asset._id }}">
 							<div class="image">
 								<img src="{{ asset.thumbnails.small.view_url }}" />
-								<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+								<input type="hidden" class="asset_id_list" name="avatar_asset[]" value="{{ asset._id }}" />
 							</div>
 							<div class="buttons">
 								<div class="ui large links">
@@ -662,7 +695,7 @@
 										<i class="remove icon"></i>
 									</a>
 									
-									<a href="javascript:void(0);" class="ui link {%if scene.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link {%if scene.avatar_id == asset._id %}active {%endif%}ajax-avatar pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class="checkered flag icon"></i>
 									</a>
 								</div>
@@ -696,7 +729,7 @@
 										<i class="remove icon"></i>
 									</a>
 									
-									<a href="javascript:void(0);" class="ui link {%if scene.cover_id == asset._id %}active {%endif%}ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+									<a href="javascript:void(0);" class="ui link {%if scene.banner_id == asset._id %}active {%endif%}ajax-banner pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 										<i class="checkered flag icon"></i>
 									</a>
 								</div>
