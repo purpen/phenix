@@ -195,7 +195,7 @@ class Sher_Core_Helper_FilterFields {
 	}
 
   /**
-   * 过滤多余字段
+   * 过滤多余字段(list)
    * type=1, 允许出现的字段； type=2，不允许出现的字段
    */
   public static function filter_fields($result, $options=array(), $type=1){
@@ -219,6 +219,32 @@ class Sher_Core_Helper_FilterFields {
       return $result;
     }
   }
+
+    /**
+     * 过滤多余字段(single)
+     * type=1, 允许出现的字段； type=2，不允许出现的字段
+    */
+    public static function filter_field($result, $options=array(), $type=1){
+        if(empty($result)) return array();
+        if(empty($options)) return $result;
+        $data = array();
+        $count = count($result);
+
+        for($i=0;$i<count($options);$i++){
+            $key = $options[$i];
+            if($type==1){
+                $data[$key] = isset($result[$key]) ? $result[$key] : '';
+            }else{
+                unset($result[$key]);
+            }
+        }
+    
+        if($type==1){
+            return $data;
+        }elseif($type==2){
+            return $result;
+        }
+    }
 
   /**
    * @from Think php extend.php

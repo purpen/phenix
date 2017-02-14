@@ -27,7 +27,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1, 'category_id'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1, 'city'=>1,
 			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'stick_on'=>1, 'fine'=>1, 'fine_on'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
-            'abc'=>1,
+            'avatar'=>1, 'banner'=>1,
 		);
 		
 		$query   = array();
@@ -121,13 +121,21 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
-			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			$result['rows'][$k]['avatar_url'] = $result['rows'][$k]['avatar']['thumbnails']['apc']['view_url'];
+			$result['rows'][$k]['banner_url'] = $result['rows'][$k]['banner']['thumbnails']['aub']['view_url'];
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
+
+            $category = array();
+            if(isset($result['rows'][$k]['category'])){
+                $category['_id'] = $result['rows'][$k]['category']['_id'];
+                $category['title'] = $result['rows'][$k]['category']['title'];
+            }
+            $result['rows'][$k]['category'] = $category;
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('cover','cover_id','view_url', 'user', 'summary', '__extend__');
-        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
+        $filter_fields  = array('_id', 'title', 'sub_title', 'avatar_url','banner_url', 'category', 'user_id', 'location', 'city', 'address');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 1);
 		
 		//var_dump($result['rows']);die;
 		return $this->api_json('请求成功', 0, $result);
@@ -250,75 +258,96 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-     * 获取情景详情
+     * 详情
      */
     public function view() {
         
-        $id = isset($this->stash['id']) ? $this->stash['id'] : 0;
+        $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
         }
         
 		$model = new Sher_Core_Model_SceneScene();
-        $result  = $model->extend_load((int)$id);
+        $scene = $model->extend_load((int)$id);
 		
-		if (empty($result) || $result['deleted']==1) {
-            return $this->api_json('情景不存在或已删除!', true);
+		if (empty($scene) || $scene['deleted']==1) {
+            return $this->api_json('地盘不存在或已删除!', 3002);
+        }
+
+		if ($scene['is_check']==0) {
+            return $this->api_json('地盘未通过审核!', 3003);
         }
 		
 		// 增加浏览量
         $rand = rand(1, 5);
-		$model->inc_counter('view_count', $rand, (int)$id);
-		$model->inc_counter('true_view_count', 1, (int)$id);
-		$model->inc_counter('app_view_count', 1, (int)$id);
-		
-		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
-		$result['created_at'] = Sher_Core_Helper_Util::relative_datetime($result['created_on']);
+		$model->inc_counter('view_count', $rand, $id);
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('app_view_count', 1, $id);
+
+        $data = array();
+
+		$data['_id'] = $scene['_id'];
+		$data['title'] = $scene['title'];
+		$data['sub_title'] = $scene['sub_title'];
+		$data['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
+		//$data['banner_url'] = $scene['banner']['thumbnails']['aub']['view_url'];
+		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($scene['created_on']);
 		
 		$user = array();
-		$user['user_id'] = $result['user']['_id'];
-		$user['nickname'] = $result['user']['nickname'];
-		$user['avatar_url'] = $result['user']['big_avatar_url'];
-		$user['summary'] = $result['user']['summary'];
-		$user['counter'] = $result['user']['counter'];
-		$user['follow_count'] = $result['user']['follow_count'];
-		$user['fans_count'] = $result['user']['fans_count'];
-		$user['love_count'] = $result['user']['love_count'];
-		$user['is_expert'] = isset($result['user']['identify']['is_expert']) ? (int)$result['user']['identify']['is_expert'] : 0;
-    $user['label'] = isset($result['user']['profile']['label']) ? $result['user']['profile']['label'] : '';
-    $user['expert_label'] = isset($result['user']['profile']['expert_label']) ? $result['user']['profile']['expert_label'] : '';
-    $user['expert_info'] = isset($result['user']['profile']['expert_info']) ? $result['user']['profile']['expert_info'] : '';
+        if($scene['user']){
+            $user['_id'] = $scene['user']['_id'];
+            $user['nickname'] = $scene['user']['nickname'];
+            $user['avatar_url'] = $scene['user']['big_avatar_url'];
+            $user['is_expert'] = isset($scene['user']['identify']['is_expert']) ? (int)$scene['user']['identify']['is_expert'] : 0;
+            $user['label'] = isset($scene['user']['profile']['label']) ? $scene['user']['profile']['label'] : '';
+            $user['expert_label'] = isset($scene['user']['profile']['expert_label']) ? $scene['user']['profile']['expert_label'] : '';
+            $user['expert_info'] = isset($scene['user']['profile']['expert_info']) ? $scene['user']['profile']['expert_info'] : '';
+        }else{
+            return $this->api_json('该用户不存在!', 3004);       
+        }
+		$data['user'] = $user;
+        $data['love_count'] = $scene['love_count'];
+        $data['view_count'] = $scene['app_view_count'];
 
-		$result['user_info'] = $user;
-		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
+        $data['city'] = $scene['city'];
+        $data['address'] = $scene['address'];
+        $data['location'] = $scene['location'];
+
+        //验证是否收藏或喜欢
+        $favorite_model = new Sher_Core_Model_Favorite();
+        $data['is_love'] = $favorite_model->check_loved($this->current_user_id, $data['_id'], 1) ? 1 : 0;
+
+        $asset_service = Sher_Core_Service_Asset::instance();
+
+        //返回图片数据
+        $assets = array();
+        $asset_query = array('parent_id'=>$data['_id'], 'asset_type'=>Sher_Core_Model_Asset::TYPE_SCENE_BANNER);
+        $asset_options['page'] = 1;
+        $asset_options['size'] = 5;
+        $asset_options['sort_field'] = 'latest';
+
+        $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+        if(!empty($asset_result['rows'])){
+          foreach($asset_result['rows'] as $key=>$value){
+            array_push($assets, $value['thumbnails']['aub']['view_url']);
+          }
+        }
+        $data['banners'] = $assets;
+
+        $data['tags'] = $scene['tags'];
+        $data['extra'] = $scene['extra'];
+        $data['score_average'] = $scene['score_average'];
+
+        $data['sights'] = array();
+        $data['products'] = array();
         
 		// 过滤多余属性
-    $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'sight', '__extend__');
-    
-    for($i=0;$i<count($filter_fields);$i++){
-        $key = $filter_fields[$i];
-        unset($result[$key]);
-    }
-		
-		
-		// 用户是否订阅该情景
-		$user_id = $this->current_user_id;
-		$model = new Sher_Core_Model_Favorite();
-		$query = array(
-			'target_id' => (int)$id,
-			'type' => Sher_Core_Model_Favorite::TYPE_APP_SCENE_SCENE,
-			'event' => Sher_Core_Model_Favorite::EVENT_SUBSCRIPTION,
-			'user_id' => $user_id
-		);
-		$res = $model->find($query);
-		if($res){
-			$result['is_subscript'] = 1;
-		}else{
-			$result['is_subscript'] = 0;
-		}
+        //$filter_fields = array('cover_id', 'cover', 'avatar', 'banner', '__extend__');
+        //$scene = Sher_Core_Helper_FilterFields::filter_field($scene, $filter_fields, 1);
         
-        return $this->api_json('请求成功', false, $result);
+        return $this->api_json('请求成功', false, $data);
     }
 	
 	/**
