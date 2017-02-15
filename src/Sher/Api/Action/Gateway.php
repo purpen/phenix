@@ -942,7 +942,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         // 栏目位
         $row = $space_model->first(array('name' => 'fiu_find_sight'));
         if(empty($row)){
-            return $this->api_json('栏目位不存在!', 3003);
+            return $this->api_json('栏目位不存在!', 3004);
         }
         $space_id = (int)$row['_id'];
 

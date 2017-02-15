@@ -48,6 +48,9 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
           case 5:
             $this->set_target_css_state('goods');
             break;
+          case 6:
+            $this->set_target_css_state('sight');
+            break;
           default:
             $this->set_target_css_state('all');
         }
@@ -142,7 +145,6 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'evt' => $evt,
             'type' => $type,
             'summary' => $this->stash['summary'],
-            'sight_ids' => $sight_ids,
             'product_ids' => $product_ids,
             'begin_time' => $begin_time,
             'end_time' => $end_time,
@@ -150,6 +152,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'view_count' => $view_count,
             'share_count' => $share_count,
             'prize_sight_ids' => $prize_sight_ids,
+            'sight_ids' => $sight_ids,
             'mode' => $mode,
             'extra_tag' => $extra_tag,
 		);

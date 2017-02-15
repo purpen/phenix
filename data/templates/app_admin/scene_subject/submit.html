@@ -652,6 +652,10 @@
                   <input type="radio" name="type" value="5" {% if scene_subject.type == 5 %}checked="checked"{% endif %} /> 
                   <label>好货</label>
                 </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="type" value="6" {% if scene_subject.type == 6 %}checked="checked"{% endif %} /> 
+                  <label>情境</label>
+                </div>
 
               </div>
             </div>
@@ -679,6 +683,12 @@
 				  <label>获奖情境IDs：</label>
                   <textarea name="prize_sight_ids" >{{ scene_subject.prize_sight_ids }}</textarea>
                   <div class="description">获奖名单(格式): 1:111,222,333;2:444,555:3:666,7777,8888</div>
+			  </div>
+
+			  <div class="field">
+				  <label>情境IDs：</label>
+                  <textarea name="sight_ids" >{{ scene_subject.sight_ids }}</textarea>
+                  <div class="description">情境列表: 多个ID用“,”分隔</div>
 			  </div>
 
 			  <div class="field">

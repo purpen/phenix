@@ -18,6 +18,7 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
 	const TYPE_HOT = 3;
 	const TYPE_NEW = 4;
     const TYPE_BRAND = 5;   # 好货
+    const TYPE_SIGHT = 6;   # 情境
 
     ## 模版类型
     const MODE_A = 1;   // 通栏图
@@ -141,6 +142,9 @@ class Sher_Core_Model_SceneSubject extends Sher_Core_Model_Base  {
                     break;
                 case 5:
                     $row['type_label'] = '好货';
+                    break;
+                case 6:
+                    $row['type_label'] = '情境';
                     break;
             }
         }
