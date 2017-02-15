@@ -66,8 +66,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 		'used_at' => 0,
 		# 是否使用
 		'used' => self::USED_DEFAULT,
-    # 限制使用产品
-    'product_id' =>  0,
+        # 限制使用产品
+        'product_id' =>  0,
 		
 		# 使用在某订单
 		'order_rid' => '',
@@ -80,6 +80,9 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 
         # 限制最低使用金额
         'min_amount' => 0,
+
+        # 所属活动ID(指定红包使用范围)
+        'bonus_active_id' => '',
 		
 		# 状态
 		'status' => self::STATUS_OK,
@@ -103,6 +106,35 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 				$row['expired_label'] = sprintf('将于 %s 过期', date('Y-m-d H:i:s', $row['expired_at']));
 			}
 		}
+	}
+
+    /**
+	 * 保存之后事件
+	 */
+    protected function after_save(){
+        // 如果是新的记录
+        if($this->insert_mode){
+            // 更新红包活动数量
+            if(!empty($this->data['bonus_active_id'])){
+                $bonus_active_model = new Sher_Core_Model_BonusActive();
+                $bonus_active_model->inc_counter('item_count', 1, $this->data['bonus_active_id']);
+                unset($bonus_active_model);
+            }
+
+        }
+    }
+
+	/**
+	 * 删除后事件
+	 */
+	public function mock_after_remove($id, $options=array()) {
+        if(isset($options['bonus_active_id']) && !empty($options['bonus_active_id'])){
+            $bonus_active_model = new Sher_Core_Model_BonusActive();
+            $bonus_active_model->dec_counter('item_count', $options['bonus_active_id']);
+            unset($bonus_active_model);       
+        }
+		
+		return true;
 	}
 	
 	/**
@@ -278,7 +310,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成指定限额红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0){
+	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0, $bonus_active_id=''){
 		# 红包金额
 	  $bonus = array(
           'A' => 50,
@@ -321,6 +353,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
           'xname'  => $xname,
           'min_amount'  => $min_amount,
           'product_id' => (int)$product_id,
+          'bonus_active_id' => $bonus_active_id,
 				));
 			}catch(Sher_Core_Model_Exception $e){
 				Doggy_Log_Helper::error('Failed to create bonus:'.$e->getMessage());
