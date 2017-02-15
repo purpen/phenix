@@ -23,7 +23,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		$some_fields = array(
-			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'tags'=>1,
+			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'scene'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1, 'city'=>1,
 			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1, 'category_ids'=>1,
 			'fine' => 1, 'fine_on'=>1, 'stick_on'=>1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'subject_ids'=>1,
@@ -77,6 +77,11 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $query['is_check'] = 1;
         }
 
+        if($scene_id){
+            $query['scene_id'] = $scene_id;
+        }
+
+
         if($category_ids){
             $cate_arr = explode(',', $category_ids);
             for($j=0;$j<count($cate_arr);$j++){
@@ -103,10 +108,6 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		
 		// 状态
 		$query['status'] = 1;
-		
-		if($scene_id){
-			$query['scene_id']  = $scene_id;
-		}
 		
 		if($user_id){
 			$query['user_id']  = $user_id;
@@ -172,6 +173,15 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 if($v['product']){
                     $result['rows'][$k]['product'] =$v['product'];
                 }
+
+
+                // 获取地盘信息
+                $scene = array();
+                if(isset($result['rows'][$k]['scene']) && !empty($result['rows'][$k]['scene'])){
+                    $scene['_id'] = $result['rows'][$k]['scene']['_id'];
+                    $scene['title'] = $result['rows'][$k]['scene']['title'];
+                }
+                $result['rows'][$k]['scene'] = $scene;
                 
                 $user = array();
                 
@@ -191,7 +201,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 
                     // 当前用户是否关注创建者
                     $user['is_follow'] = 0;
-              }
+                }
                 
                 $result['rows'][$k]['user_info'] = $user;
 
@@ -277,7 +287,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
         }   // endfor
 		
 		// 过滤多余属性
-        $filter_fields  = array('scene','cover','user','cover_id','__extend__');
+        $filter_fields  = array('cover','user','cover_id','__extend__');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 2);
 		
 		return $this->api_json('请求成功', 0, $result);
@@ -303,7 +313,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$data = array();
 		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
 		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
-		//$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		$data['scene_id'] = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		//$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		$data['tags'] = isset($this->stash['tags']) ? trim($this->stash['tags']) : '';
 		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
@@ -459,7 +469,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$model->inc((int)$id, 'app_view_count', 1);
         
         // 过滤多余属性
-        $filter_fields  = array('type', 'cover_id', 'user', 'cover', 'scene', '__extend__');
+        $filter_fields  = array('type', 'cover_id', 'user', 'cover', '__extend__');
 		
 		$user = array();
 		$user['user_id'] = $result['user']['_id'];
@@ -486,6 +496,12 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		//$result['scene_title'] = $result['scene']['title'];
+        $scene = array();
+        if(isset($result['scene']) && !empty($result['scene'])){
+            $scene['_id'] = $result['scene']['_id'];
+            $scene['title'] = $result['scene']['title'];
+        }
+        $result['scene'] = $scene;
         
         for($i=0;$i<count($filter_fields);$i++){
             $key = $filter_fields[$i];
