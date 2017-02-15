@@ -1019,6 +1019,60 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
         $data['sight'] = $sight;
 
+        // 发现好友
+        $item = array();
+        $user_arr = array();
+        $follow_arr = array();
+        $users = array();
+
+        // 系统推荐活跃用户
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
+        $dig = $dig_model->load($dig_key_id);
+        if(!empty($dig) || !empty($dig['items'])){
+            $users = $dig['items'];
+
+            $user_model = new Sher_Core_Model_User();
+            $follow_model = new Sher_Core_Model_Follow();
+            $scene_sight_model = new Sher_Core_Model_SceneSight();   
+
+            // 整理数据
+            for($i=0;$i<count($users);$i++){
+                if($user_id==$users[$i]) continue;
+                // 判断当前用户是否已关注此用户
+                $has_follow = $follow_model->first(array('user_id'=>$user_id, 'follow_id'=>$users[$i]));
+                if($has_follow) continue;
+                array_push($user_arr, $users[$i]);
+            }
+
+            // 取前Ｎ个数量
+            $user_arr = array_slice($user_arr, 0, 12);
+
+            // 打乱数组
+            shuffle($user_arr);
+
+            // 加载数据
+            for($i=0;$i<count($user_arr);$i++){
+                $user = array();
+                $row = $user_model->extend_load((int)$user_arr[$i]);
+                if(empty($row)){
+                    continue;
+                }
+                if($user_id==$user_arr[$i]) continue;
+                // 过滤用户字段
+                $user['_id'] = $row['_id'];
+                $user['nickname'] = $row['nickname'];
+                $user['avatar_url'] = $row['medium_avatar_url'];
+                // 判断是否被关注
+                $user['is_follow'] = 0;
+                if(!empty($user_id) && $follow_model->has_exist_ship($user_id, $row['_id'])){
+                    $user['is_follow'] = 1;
+                }
+                array_push($item, $user);
+            } // endfor       
+        }
+        $data['users'] = $item;
+
         return $this->api_json('success', 0, $data);
     
     }
