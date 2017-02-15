@@ -1,0 +1,283 @@
+{%extends 'layout/column.html'%}
+{% block title %}礼物-{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+	.gift{
+		background: url({{ app_url_packaged }}/images/promo/gift/banner.jpg) no-repeat center center;
+		background-size: 100% 100%;
+		padding-top: 31%;
+	    min-width: 1200px;
+	    min-height: 372px;
+	}
+	.hd_draw {
+	    background: #fff;
+	    position: relative;
+	    width: 100%;
+	    padding: 20px 0;
+	}
+	.hualist {
+	    width: 850px;
+	    margin: 0 auto;
+	    text-align: center;
+	    font-size: 0;
+	}
+	.hualist a {
+	    display: block;
+	}
+	.hualist img {
+	    width: 100%;
+	    vertical-align: middle;
+	}
+	.packet{
+		width: 850px;
+	    height: 275px;
+	    background: url({{ app_url_packaged }}/images/promo/gift/hb.jpg);
+	    position: relative;
+	    text-align: center;
+	    margin: 0 auto;
+	    margin-bottom: 30px;
+	    cursor: pointer;
+	}
+	img.title{
+		width: 399px;
+		height: 122px;
+	}
+	.allist {
+	    margin: 10px -8px 30px;
+	}
+	.allist a.huaitem {
+	    margin: 8px;
+	    font-size: 0;
+	    display: inline-block;
+	}
+</style>
+{% endblock %}
+
+{% block jquery %}
+    $('#fetch_bonus').click(function(){
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+        $.post("{{ app_url_domain }}/app/wap/promo_func/ajax_new_bonus", {}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('领取成功！');
+            }else{
+                phenix.show_error_note(rs.message,3000);
+            }
+        }, 'json');
+    });
+{% endblock %}
+
+{% block content %}
+<div class="gift"></div>
+<div class="hd_draw">
+
+	<div class="hualist">
+		<!-- 红包 -->
+		<div class="packet"></div>
+		<!-- -->
+		<img src="{{ app_url_packaged }}/images/promo/gift/hd_tit.jpg">
+		<a href="{{ app_url_domain }}/promo/hb_draw" target="_blank" style="margin:20px 0 38px;">
+			<img src="{{ app_url_packaged }}/images/promo/gift/hd.jpg">
+		</a>
+		<img class="title" src="{{ app_url_packaged }}/images/promo/gift/tit_01.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1156956228" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p1.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153097260" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p2.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049265354" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p3.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156016722" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p4.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1047627409" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p5.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048520396" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p6.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154020484" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p7.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154430953" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p8.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048517328" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p9.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048575701" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p10.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1120661038" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p11.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049276918" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p12.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img class="title" src="{{ app_url_packaged }}/images/promo/gift/tit_02.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1048517328" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p13.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049265354" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p14.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048513590" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p15.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048608080" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p16.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img class="title" src="{{ app_url_packaged }}/images/promo/gift/tit_03.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1154023900" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p17.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1154014321" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p18.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153097260" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p19.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1152841330" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p20.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153954310" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p21.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048986358" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p22.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049278575" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p23.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153846607" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p24.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img class="title" src="{{ app_url_packaged }}/images/promo/gift/tit_04.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1155513522" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p25.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155498559" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p26.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155497187" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p27.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155495398" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p28.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153939137" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p29.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153914915" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p30.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153914317" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p31.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153911824" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p32.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048615589" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p33.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048520965" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p34.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155244441" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p35.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155244649" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p36.jpg" align="absmiddle">
+			</a>
+		</div>
+		<img class="title" src="{{ app_url_packaged }}/images/promo/gift/tit_05.jpg">
+		<div class="allist">
+			<a href="{{ app_url_domain }}/shop/view?id=1156957914" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p37.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156957728" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p38.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156957438" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p39.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156955369" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p40.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1156949823" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p41.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155925925" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p42.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155249948" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p43.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1155247475" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p44.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048588936" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p45.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048883813" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p46.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048882694" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p47.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048618373" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p48.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048986076" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p49.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048989957" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p50.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049264160" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p51.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1049278133" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p52.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1152842940" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p53.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153096150" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p54.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153094944" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p55.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1153088519" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p56.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048608047" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p57.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048607689" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p58.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1048601425" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p59.jpg" align="absmiddle">
+			</a>
+			<a href="{{ app_url_domain }}/shop/view?id=1023337816" target="_blank" class="huaitem">
+				<img src="{{ app_url_packaged }}/images/promo/gift/p60.jpg" align="absmiddle">
+			</a>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
