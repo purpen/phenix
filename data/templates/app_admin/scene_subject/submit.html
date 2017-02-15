@@ -703,6 +703,24 @@
                   <div class="description">产品列表: 多个ID用“,”分隔</div>
 			  </div>
 
+			<div class="three fields">
+				<div class="field">
+					<label for="space_id">所属分类：</label>
+                    {% category_list var:'category' only_open:1 domain:1 current:scene_subject.category_id %}
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="category_id" value="{{ scene_subject.category_id }}" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for d in category.rows %}
+                                <div data-value="{{ d._id }}" class="item {{ d.active }}">{{ d.title }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">用于好货页显示相应的分类专题</div>
+				</div>
+            </div>
+
             <div class="two fields">
 			  <div class="field">
 				  <label>开始时间：</label>

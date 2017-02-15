@@ -65,6 +65,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         }else{
             $query['type'] = array('$ne'=>5);
         }
+
+        if($category_id){
+            $query['category_id'] = $category_id;
+        }
 		
 		if($stick){
 			if($stick==-1){

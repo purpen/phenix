@@ -102,6 +102,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		$scene_subject_short_title = $this->stash['short_title'];
 		$scene_subject_tag = $this->stash['tags'];
 		$cover_id = $this->stash['cover_id'];
+		$category_id = (int)$this->stash['category_id'];
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
@@ -141,6 +142,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 			'content' => $scene_subject_html,
 			'cover_id' => $cover_id,
 			'banner_id' => $banner_id,
+            'category_id' => $category_id,
 			'kind' => $kind,
             'evt' => $evt,
             'type' => $type,
