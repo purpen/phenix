@@ -101,7 +101,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 	}
 	
 	/**
-	 * 获取红包金额
+	 * 获取红包金额 (已不用此方法)
 	 */
 	public static function get_card_money($code, $total_money=0, $product_id=0){
 		$model = new Sher_Core_Model_Bonus();
@@ -182,10 +182,10 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
         $msg = null;
 
         // 是否指定活动产品
-        if(isset($bonus['bonus_active_id']) && !empty($bonus['bonus_active_id'])){
+        if(isset($bonus['active_mark']) && !empty($bonus['active_mark'])){
             $is_current_active = false;
             $bonus_active_model = new Sher_Core_Model_BonusActive();
-            $bonus_active = $bonus_active_model->load($bonus['bonus_active_id']);
+            $bonus_active = $bonus_active_model->first(array('mark'=>$bonus['active_mark']));
             if($bonus_active){
                 $active_product_ids = $bonus_active['product_ids'];
                 $active_title = $bonus_active['title'];
@@ -419,11 +419,12 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
     $result_code = $bonus->pop($options['xname']);
 
     $product_id = isset($options['product_id']) ? (int)$options['product_id'] : 0;
+    $active_mark = isset($options['active_mark']) ? $options['active_mark'] : '';   // 指定某个活动(限制条件上)
     
     // 获取为空，重新生产红包
     while(empty($result_code)){
       //指定生成红包
-      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id);
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id, $active_mark);
       $result_code = $bonus->pop($options['xname']);
       // 跳出循环
       if(!empty($result_code)){

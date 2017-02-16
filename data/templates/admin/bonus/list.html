@@ -87,8 +87,8 @@
 				<td>
 					{{ b.code }}<br />
                     <p><small>过期时间：<span style="{%if b.is_expired%}color: red;{%endif%}">{{ b.expired_label }}</span></small></p>
-                    {% if b.bonus_active_id %}
-                        <p><small>所属活动：<span>{{ b.bonus_active_id }}</span></small>
+                    {% if b.active_mark %}
+                        <p><small>所属活动：<span>{{ b.active_mark }}</span></small>
                     {%endif%}
 				</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
