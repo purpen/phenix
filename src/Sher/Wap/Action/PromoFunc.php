@@ -43,7 +43,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }
 
         if($target_id==10){     // 花辨礼物专题，红包指定产品
-            $ok = $this->give_bonus($user_id, 'HB_ONE', array('count'=>5, 'xname'=>'HB_ONE', 'bonus'=>'C', 'min_amounts'=>'C', 'day'=>7, 'active_mark'=>'58a439bf5c42ec42570041a7'));      
+            $ok = $this->give_bonus($user_id, 'HB_ONE', array('count'=>5, 'xname'=>'HB_ONE', 'bonus'=>'C', 'min_amounts'=>'C', 'day'=>7, 'active_mark'=>'hb_gift_subject'));      
         }else{
             $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'day'=>3));
         }
