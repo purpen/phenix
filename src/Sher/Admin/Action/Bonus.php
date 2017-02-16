@@ -121,7 +121,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
         $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
         $min_amount_char = isset($this->stash['min_amount']) ? $this->stash['min_amount'] : null;
         $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
-        $bonus_active_id = isset($this->stash['bonus_active_id']) ? $this->stash['bonus_active_id'] : '';
+        $active_mark = isset($this->stash['active_mark']) ? $this->stash['active_mark'] : '';
 
         if(empty($xname) || empty($amount_char) || empty($min_amount_char)){
             return $this->ajax_json('缺少请求参数!', true);
@@ -133,7 +133,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 
 		try{
 			$model = new Sher_Core_Model_Bonus();
-            $model->create_specify_bonus($count, $xname, $amount_char, $min_amount_char, $product_id, $bonus_active_id);
+            $model->create_specify_bonus($count, $xname, $amount_char, $min_amount_char, $product_id, $active_mark);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save bonus failed: ".$e->getMessage());
@@ -308,8 +308,9 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 
 		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
 		$title = $this->stash['title'];
-        $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
-        $summary = isset($this->stash['summary']) ? $this->stash['summary'] : null;
+        $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : '';
+        $summary = isset($this->stash['summary']) ? $this->stash['summary'] : '';
+        $mark = isset($this->stash['mark']) ? $this->stash['mark'] : '';
 		
 		// 验证内容
 		if(!$title){
@@ -318,6 +319,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		
 		$data = array(
 			'title' => $title,
+            'mark' => $mark,
             'product_ids' => $product_ids,
             'summary' => $summary,
 		);

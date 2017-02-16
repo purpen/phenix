@@ -60,7 +60,7 @@
 			phenix.show_login_box();
 			return false;
 		}
-        $.post("{{ app_url_domain }}/app/wap/promo_func/ajax_new_bonus", {}, function(rs){
+        $.post("{{ app_url_domain }}/app/wap/promo_func/ajax_new_bonus", { target_id:10, event:5 }, function(rs){
             if(rs.success){
                 phenix.show_ok_note('领取成功！');
             }else{
@@ -76,7 +76,7 @@
 
 	<div class="hualist">
 		<!-- 红包 -->
-		<div class="packet"></div>
+		<div class="packet" id="fetch_bonus"></div>
 		<!-- -->
 		<img src="{{ app_url_packaged }}/images/promo/gift/hd_tit.jpg">
 		<a href="{{ app_url_domain }}/promo/hb_draw" target="_blank" style="margin:20px 0 38px;">

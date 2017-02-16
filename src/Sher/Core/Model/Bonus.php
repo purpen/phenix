@@ -47,6 +47,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'LSD99', # 螺丝刀99
         'FIU_NEW30', # Fiu店新用户送30
         'FIU_DROW', # Fiu店抽奖
+        'HB_ONE', # 花辨专题
 	);
 	
     protected $schema = array(
@@ -81,8 +82,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         # 限制最低使用金额
         'min_amount' => 0,
 
-        # 所属活动ID(指定红包使用范围)
-        'bonus_active_id' => '',
+        # 所属活动标识(指定红包使用范围)
+        'active_mark' => '',
 		
 		# 状态
 		'status' => self::STATUS_OK,
@@ -115,9 +116,12 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         // 如果是新的记录
         if($this->insert_mode){
             // 更新红包活动数量
-            if(!empty($this->data['bonus_active_id'])){
+            if(!empty($this->data['active_mark'])){
                 $bonus_active_model = new Sher_Core_Model_BonusActive();
-                $bonus_active_model->inc_counter('item_count', 1, $this->data['bonus_active_id']);
+                $row = $bonus_active_model->first(array('mark'=>$this->data['active_mark']));
+                if($row){
+                    $bonus_active_model->inc_counter('item_count', 1, (string)$row['_id']);
+                }
                 unset($bonus_active_model);
             }
 
@@ -128,9 +132,12 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 删除后事件
 	 */
 	public function mock_after_remove($id, $options=array()) {
-        if(isset($options['bonus_active_id']) && !empty($options['bonus_active_id'])){
+        if(isset($options['active_mark']) && !empty($options['active_mark'])){
             $bonus_active_model = new Sher_Core_Model_BonusActive();
-            $bonus_active_model->dec_counter('item_count', $options['bonus_active_id']);
+            $row = $bonus_active_model->first(array('mark'=>$options['active_mark']));
+            if($row){
+                $bonus_active_model->dec_counter('item_count', (string)$row['_id']);
+            }
             unset($bonus_active_model);       
         }
 		
@@ -310,7 +317,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 * 批量生成指定限额红包
 	 * @var $count 默认生成红包数量
 	 */
-	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0, $bonus_active_id=''){
+	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0, $active_mark=''){
 		# 红包金额
 	  $bonus = array(
           'A' => 50,
@@ -353,7 +360,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
           'xname'  => $xname,
           'min_amount'  => $min_amount,
           'product_id' => (int)$product_id,
-          'bonus_active_id' => $bonus_active_id,
+          'active_mark' => $active_mark,
 				));
 			}catch(Sher_Core_Model_Exception $e){
 				Doggy_Log_Helper::error('Failed to create bonus:'.$e->getMessage());

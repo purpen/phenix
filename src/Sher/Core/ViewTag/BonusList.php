@@ -94,9 +94,8 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
             $row = $result['rows'][$i];
             if($load_active){
                 $result['rows'][$i]['bonus_active'] = array();
-                if(isset($row['bonus_active_id']) && !empty($row['bonus_active_id'])){
-                    # 更新已读标识
-                    $bonus_active = $bonus_active_model->load($row['bonus_active_id']);
+                if(isset($row['active_mark']) && !empty($row['active_mark'])){
+                    $bonus_active = $bonus_active_model->first(array('mark'=>$row['active_mark']));
                     $result['rows'][$i]['bonus_active'] = $bonus_active;
                 }
             }

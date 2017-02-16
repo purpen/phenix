@@ -25,13 +25,15 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
      */
     public function ajax_new_bonus(){
         $user_id = $this->visitor->id;
+        $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 9;
+        $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 5;
 
         $model = new Sher_Core_Model_Attend();
 
         $row = array(
             'user_id' => $user_id,
-            'target_id' => 9,
-            'event' => 5,
+            'target_id' => $target_id,
+            'event' => $event,
         );
         $has_one = $model->first($row);
 
@@ -40,7 +42,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
             return $this->ajax_json('您已成功领取!', true);
         }
 
-        $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>3));
+        if($target_id==10){     // 花辨礼物专题，红包指定产品
+            $ok = $this->give_bonus($user_id, 'HB_ONE', array('count'=>5, 'xname'=>'HB_ONE', 'bonus'=>'C', 'min_amounts'=>'C', 'day'=>7, 'active_mark'=>'58a439bf5c42ec42570041a7'));      
+        }else{
+            $ok = $this->give_bonus($user_id, 'FIU_NEW30', array('count'=>5, 'xname'=>'FIU_NEW30', 'bonus'=>'C', 'min_amounts'=>'I', 'day'=>3));
+        }
         if($ok){
             $row['info']['new_user'] = 0;
             $ok = $model->apply_and_save($row);
@@ -625,10 +631,13 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $bonus = new Sher_Core_Model_Bonus();
     $result_code = $bonus->pop($xname);
     
+    $product_id = isset($options['product_id']) ? (int)$options['product_id'] : 0;
+    $active_mark = isset($options['active_mark']) ? $options['active_mark'] : '';   // 指定某个活动(限制条件上)
+
     // 获取为空，重新生产红包
     while(empty($result_code)){
       //指定生成红包
-      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts']);
+      $bonus->create_specify_bonus($options['count'], $options['xname'], $options['bonus'], $options['min_amounts'], $product_id, $active_mark);
       $result_code = $bonus->pop($xname);
       // 跳出循环
       if(!empty($result_code)){
@@ -636,10 +645,10 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       }
     }
     
-    // 赠与红包 使用默认时间1月 $end_time = strtotime('2015-06-30 23:59')
+    // 赠与红包 使用默认时间1月 $end_time = 30(天)
     $end_time = 0;
-    if(isset($options['expired_time'])){
-      $end_time = (int)$options['expired_time'];
+    if(isset($options['day'])){
+      $end_time = (int)$options['day'];
     }
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $code_ok;
