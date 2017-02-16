@@ -103,7 +103,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 				$row['is_expired'] = true;
 				$row['expired_label'] = '已过期';
 			} else {
-				$row['expired_label'] = sprintf('将于 %s 过期', date('Y-m-d H:i:s', $row['expired_at']));
+				$row['expired_label'] = sprintf('将于 %s 过期', date('y-m-d H:i', $row['expired_at']));
 			}
 		}
 	}

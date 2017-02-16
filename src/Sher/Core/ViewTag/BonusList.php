@@ -23,10 +23,11 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		$status = 0;
 		$not_expired = 0;
 		$amount = 0;
-    $xname = 0;
-    $sort = 0;
+        $xname = 0;
+        $sort = 0;
 		
 		$search_code = '';
+        $load_active = 0;
 		
         $var = 'list';
         $include_pager = 0;
@@ -84,6 +85,22 @@ class Sher_Core_ViewTag_BonusList extends Doggy_Dt_Tag {
 		}
 
         $result = $service->get_all_list($query,$options);
+
+        if($load_active){
+            $bonus_active_model = new Sher_Core_Model_BonusActive();
+        }
+
+        for($i=0;$i<count($result['rows']);$i++){
+            $row = $result['rows'][$i];
+            if($load_active){
+                $result['rows'][$i]['bonus_active'] = array();
+                if(isset($row['bonus_active_id']) && !empty($row['bonus_active_id'])){
+                    # 更新已读标识
+                    $bonus_active = $bonus_active_model->load($row['bonus_active_id']);
+                    $result['rows'][$i]['bonus_active'] = $bonus_active;
+                }
+            }
+        }   // endfor
 		
         $context->set($var, $result);
 		

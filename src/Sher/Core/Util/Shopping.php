@@ -158,85 +158,118 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 	 */
 	public static function check_bonus($rid, $code, $user_id, $order_temp=null){
 
-    $bonus_model = new Sher_Core_Model_Bonus();
-    $bonus = $bonus_model->find_by_code($code);
-    if(empty($bonus)){
-      return array('code'=>4000, 'msg'=>"找不到此红包!");
-    }
-
-    if($bonus['user_id'] != $user_id){
-      return array('code'=>4001, 'msg'=>"没有权限使用!");   
-    }
-
-    if($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
-      return array('code'=>4002, 'msg'=>"红包已被使用!");
-    }
-
-    if($bonus['expired_at'] < time()){
-      return array('code'=>4003, 'msg'=>"红包已过期!");
-    }
-
-		// 验证商品是否可以红包购买
-    $pass = true;
-
-    if(empty($order_temp)){
-     	$order_temp_model = new Sher_Core_Model_OrderTemp();
-      $order_temp = $order_temp_model->first(array('rid'=>$rid));
-      if(empty($order_temp) || empty($order_temp['dict']['items'])){
-        return array('code'=>4005, 'msg'=>"找不到临时订单表");
-      }  
-    }
-
-    if($order_temp['user_id'] != $user_id){
-      return array('code'=>4009, 'msg'=>"没有权限使用!");   
-    }
-
-    // 红包属性
-    $items = $order_temp['dict']['items'];
-    $total_money = (float)$order_temp['dict']['total_money'];
-    $min_amount = isset($bonus['min_amount']) ? (float)$bonus['min_amount'] : 0;
-
-    if(!empty($min_amount) && $total_money<$min_amount){
-      return array('code'=>4008, 'msg'=>"没达到最低使用限额");   
-    }
-
-		$inventory_mode = new Sher_Core_Model_Inventory();
-		$product_mode = new Sher_Core_Model_Product();
-
-    $is_current_product = true;
-    foreach($items as $key=>$val){
-      // 参数初始化
-      $sku_id = (int)$val['sku'];
-      $product_id = (int)$val['product_id'];
-      //sku
-      if(!empty($sku_id)){
-        $sku = $inventory_mode->load($sku_id);
-        if($sku){
-          $product_id = (int)$sku['product_id'];
+        $bonus_model = new Sher_Core_Model_Bonus();
+        $bonus = $bonus_model->find_by_code($code);
+        if(empty($bonus)){
+          return array('code'=>4000, 'msg'=>"找不到此红包!");
         }
-      }
-      $product = $product_mode->load($product_id);
-      if(empty($product)){
-        return array('code'=>4006, 'msg'=>"订单商品不存在!");
-      }
 
-      // 指定商品ID
-      if(!empty($bonus['product_id'])){
-        $is_current_product = false;
-        if($bonus['product_id'] == $product['_id']){
-            $is_current_product = true;
-            break;
+        if($bonus['user_id'] != $user_id){
+          return array('code'=>4001, 'msg'=>"没有权限使用!");   
         }
-      }
 
-    }// endfor
+        if($bonus['used'] == Sher_Core_Model_Bonus::USED_OK){
+          return array('code'=>4002, 'msg'=>"红包已被使用!");
+        }
 
-    if(!$is_current_product) $pass = false;
-    if($pass){
-      return array('code'=>0, 'msg'=>"success!", 'coin_code'=>$bonus['code'], 'coin_money'=>$bonus['amount']);   
-    }else{
-      return array('code'=>4008, 'msg'=>"商品不符合此红包要求!");   
-    }
+        if($bonus['expired_at'] < time()){
+          return array('code'=>4003, 'msg'=>"红包已过期!");
+        }
+
+        $is_current_product = $is_current_active = true;
+        $active_product_ids = array();
+        $active_title = '';
+        $msg = null;
+
+        // 是否指定活动产品
+        if(isset($bonus['bonus_active_id']) && !empty($bonus['bonus_active_id'])){
+            $is_current_active = false;
+            $bonus_active_model = new Sher_Core_Model_BonusActive();
+            $bonus_active = $bonus_active_model->load($bonus['bonus_active_id']);
+            if($bonus_active){
+                $active_product_ids = $bonus_active['product_ids'];
+                $active_title = $bonus_active['title'];
+            }
+        }
+
+        // 是否指定商品
+        if(!empty($bonus['product_id'])){
+            $is_current_product = false;
+        }
+
+        // 验证商品是否可以红包购买
+        $pass = true;
+
+        if(empty($order_temp)){
+            $order_temp_model = new Sher_Core_Model_OrderTemp();
+          $order_temp = $order_temp_model->first(array('rid'=>$rid));
+          if(empty($order_temp) || empty($order_temp['dict']['items'])){
+            return array('code'=>4005, 'msg'=>"找不到临时订单表");
+          }  
+        }
+
+        if($order_temp['user_id'] != $user_id){
+          return array('code'=>4009, 'msg'=>"没有权限使用!");   
+        }
+
+        // 红包属性
+        $items = $order_temp['dict']['items'];
+        $total_money = (float)$order_temp['dict']['total_money'];
+        $min_amount = isset($bonus['min_amount']) ? (float)$bonus['min_amount'] : 0;
+
+        if(!empty($min_amount) && $total_money<$min_amount){
+          return array('code'=>4008, 'msg'=>"没达到最低使用限额");   
+        }
+
+            $inventory_mode = new Sher_Core_Model_Inventory();
+            $product_mode = new Sher_Core_Model_Product();
+
+        
+        foreach($items as $key=>$val){
+          // 参数初始化
+          $sku_id = (int)$val['sku'];
+          $product_id = (int)$val['product_id'];
+          //sku
+          if(!empty($sku_id)){
+            $sku = $inventory_mode->load($sku_id);
+            if($sku){
+              $product_id = (int)$sku['product_id'];
+            }
+          }
+          $product = $product_mode->load($product_id);
+          if(empty($product)){
+            return array('code'=>4006, 'msg'=>"订单商品不存在!");
+          }
+
+          // 指定商品ID
+          if(!$is_current_product){
+            if($bonus['product_id'] == $product['_id']){
+                $is_current_product = true;
+            }
+          }
+
+          // 指定活动商品
+          if(!$is_current_active){
+              if(in_array($product_id, $active_product_ids)){
+                  $is_current_active = true;
+              }
+          }
+
+        }// endfor
+
+        if(!$is_current_product){
+            $pass = false;           
+            $msg = sprintf("该红包只限于编号[%s]的产品使用!", $bonus['product_id']);
+        } 
+        if(!$is_current_active){
+            $pass = false;
+            $msg = sprintf("该红包只用于[%s]活动下的产品使用!", $active_title);
+        }
+        if($pass){
+          return array('code'=>0, 'msg'=>"success!", 'coin_code'=>$bonus['code'], 'coin_money'=>$bonus['amount']);   
+        }else{
+          return array('code'=>4008, 'msg'=>$msg);   
+        }
 
 	}
 

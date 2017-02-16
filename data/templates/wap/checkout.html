@@ -457,14 +457,17 @@
   							使用红包
   						</div>
   						<div class="content">
-  							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
+  							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 load_active:1 %}
   							{% for b in bonus.rows %}
   							<div class="bonus item" style="margin-bottom:1em;">
   								<div class="field">
   									<div class="ui radio checkbox">
                       <input name="bonus" type="radio" value="{{ b.code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
                       <label style="display:inline-block;">
-                        <span class="ui color-be link text">{{ b.amount }}元</span> <small>{{ b.expired_label }} </small>
+                        <span class="ui color-be link text">{{ b.amount }}元</span>
+                        <span><small>{% if b.min_amount %}(满 {{ b.min_amount }}元可用){%endif%}</small></span> 
+                        <span><small>{% if b.bonus_active %}(只限于 {{ b.bonus_active.title }} 活动下的产品可用){%endif%}</small></span> 
+                        <small>{{ b.expired_label }} </small>
                         <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ b.code }}"> 插入</a>
                       </label>
   									</div>
