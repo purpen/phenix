@@ -557,6 +557,24 @@
     }
   }
 
+  //添加process项目
+  $('.add-process').click(function(){
+    var html = '';
+    html+='<div class="process-box three fields">';
+    html+='<div class="field"><input type="text" name="bright_spot[]" value="" /></div>';
+    html+='<div class="field"><input type="button" name="del_process_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#process-box-edit').append(html);
+  });
+
+  //删除process
+	$("input[name='del_process_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.process-box').remove();
+		});
+	});
+
 
 {% endblock %}
 
@@ -643,6 +661,37 @@
 				<input type="text" name="extra_tel" placeholder="电话" value="{{ scene.extra.tel }}" />
 			</div>
         </div>
+
+          <div id="process-box">
+            <div style="margin-bottom:0.5em">
+                <label>亮点</label>
+            </div>
+
+            {% if mode == 'edit' %}
+                {% for d in scene.bright_spot %}
+                  <div class="process-box three fields">
+                    <div class="field">
+                        <input type="text" name="bright_spot[]" value="{{ d }}" />
+                    </div>
+                    <div class="field">
+                      <input type="button" name="del_process_box" value="删除" />
+                    </div>
+                  </div>
+                {%endfor%}
+            {%endif%}
+          </div>
+
+          <!--ajax追加-->
+          <div id="process-box-edit"></div>
+
+          <div class="ui aligned grid">
+            <div class="column">
+              <div class="ui magenta add-process button">
+                追加
+              </div>
+            </div>
+          </div>
+
 
 			<!--封面图-->
             <!--

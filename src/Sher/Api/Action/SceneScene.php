@@ -340,6 +340,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         $data['tags'] = $scene['tags'];
         $data['extra'] = $scene['extra'];
         $data['score_average'] = $scene['score_average'];
+        $data['bright_spot'] = $scene['bright_spot'];
 
         $data['sights'] = array();
         $data['products'] = array();

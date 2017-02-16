@@ -18,8 +18,10 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		'des' => '',
         # 类型:1.实体店
         'type' => 1,
-		
-		# 场景
+        # 亮点
+        # 
+		'bright_spot' => array(),
+		# 情境
 		'sight' => array(),
 		# 标签
 		'tags' => array(),
