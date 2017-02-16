@@ -45,11 +45,11 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
             $dig_key = Sher_Core_Util_Constant::DIG_THIRD_DB_STAT;
 
             $dig = $dig_model->load($dig_key);
-            if(empty($dig) || !isset($dig['items']["view_07"])){
-                $dig_model->update_set($dig_key, array("items.view_07"=>1), true);     
+            if(empty($dig) || !isset($dig['items']["view_08"])){
+                $dig_model->update_set($dig_key, array("items.view_08"=>1), true);     
             }else{
                 // 增加浏览量
-                $dig_model->inc($dig_key, "items.view_07", 1);
+                $dig_model->inc($dig_key, "items.view_08", 1);
             }
         }
 
