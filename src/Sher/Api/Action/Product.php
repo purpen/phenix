@@ -118,6 +118,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
+		$fine = isset($this->stash['fine']) ? (int)$this->stash['fine'] : 0;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? $this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
@@ -171,6 +172,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		
 		if($stick){
 			$query['stick'] = $stick;
+		}
+		if($fine){
+			$query['featured'] = $fine;
 		}
 
         // 模糊查标签
