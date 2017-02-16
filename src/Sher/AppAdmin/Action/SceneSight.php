@@ -199,6 +199,7 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
 		$data['title'] = $this->stash['title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
+		$data['scene_id'] = (int)$this->stash['scene_id'];
         $data['category_ids'] = $category_ids;
 		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
 		$data['address'] = $this->stash['address'];
@@ -239,8 +240,8 @@ class Sher_AppAdmin_Action_SceneSight extends Sher_AppAdmin_Action_Base implemen
           Sher_Core_Helper_Search::record_update_to_dig((int)$id, 5);
 	
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("api场景保存失败：".$e->getMessage());
-			return $this->ajax_json('场景保存失败:'.$e->getMessage(), true);
+			Doggy_Log_Helper::warn("api情境保存失败：".$e->getMessage());
+			return $this->ajax_json('情境保存失败:'.$e->getMessage(), true);
 		}
 		
 		return $this->ajax_json('提交成功', false, null);

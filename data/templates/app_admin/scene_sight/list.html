@@ -125,6 +125,7 @@
                 <th>封面</th>
                 <th>标题</th>
                 <th>创建人</th>
+                <th>所属地盘</th>
                 <th>分类</th>
 				<th>地址</th>
                 <th>浏览量</th>
@@ -170,6 +171,7 @@
                         summary: {{ d.user.summary }}
                     </p>
                 </td>
+                <td>{{ d.scene.title }}</td>
 
                 <td>
                     {% for c in d.categories %}

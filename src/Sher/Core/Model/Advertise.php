@@ -115,6 +115,9 @@ class Sher_Core_Model_Advertise extends Sher_Core_Model_Base  {
             case 11:
                 $row['type_label'] = '专题(Fiu)';
                 break;
+            case 12:
+                $row['type_label'] = '地盘(Fiu)';
+                break;
             default:
                 $row['type_label'] = '';
         }

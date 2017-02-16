@@ -258,14 +258,14 @@
 {% block content %}
 <div class="admin">
 	
-	<h3 class="ui header">情景管理</h3>
+	<h3 class="ui header">情境管理</h3>
 	<div class="ui secondary pointing magenta menu">
 		<a href="{{ app_url_app_admin_base }}/scene_sight" class="item">
 			全部
 		</a>
 	  	<div class="right menu">	
 			<a href="{{ app_url_app_admin_base }}/scene_sight/add" class="item">
-				<i class="add icon"></i>添加情景
+				<i class="add icon"></i>添加情境
 			</a>
 			<!--
             <a href="javascript:void(0);" class="item ajax-delete">
@@ -280,7 +280,7 @@
 		<input type="hidden" name="id" value="{{ sight._id }}" />
 		
 		<div class="ui segment from">
-			<h3 class="ui dividing header">填写情景信息</h3>
+			<h3 class="ui dividing header">填写情境信息</h3>
 
 			<div class="grouped inline fields">
 
@@ -315,6 +315,11 @@
 			</div>
 
             <div class="field">
+                <label>所属地盘ID</label>
+				<input type="text" name="scene_id" placeholder="地盘ID" value="{{ sight.scene_id }}" />
+			</div>
+
+            <div class="field">
                 <label>参与的活动</label>
 				<input type="text" name="subject_ids" placeholder="参与的活动IDs" value="{{ sight.subject_ids_s }}" />
 			</div>
@@ -332,7 +337,7 @@
 				{% endfor %}
             </div>
 			<div class="field">
-                <label>情景地址</label>
+                <label>情境地址</label>
 				<input type="text" id="address" name="address" placeholder="情景地址" value="{{ sight.address }}" />
 				<input type="hidden" name="lng" value="{{ sight.location.coordinates.0 }}" />
 				<input type="hidden" name="lat" value="{{ sight.location.coordinates.1 }}" />

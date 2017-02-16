@@ -652,6 +652,10 @@
                   <input type="radio" name="type" value="5" {% if scene_subject.type == 5 %}checked="checked"{% endif %} /> 
                   <label>好货</label>
                 </div>
+                <div class="ui radio checkbox">
+                  <input type="radio" name="type" value="6" {% if scene_subject.type == 6 %}checked="checked"{% endif %} /> 
+                  <label>情境</label>
+                </div>
 
               </div>
             </div>
@@ -682,6 +686,12 @@
 			  </div>
 
 			  <div class="field">
+				  <label>情境IDs：</label>
+                  <textarea name="sight_ids" >{{ scene_subject.sight_ids_s }}</textarea>
+                  <div class="description">情境列表: 多个ID用“,”分隔</div>
+			  </div>
+
+			  <div class="field">
 				  <label>产品ID：</label>
 				  <input type="text" name="product_id" value="{{ scene_subject.product_id }}" />
                   <div class="description">用于新品,请调用可购买商品ID</div>
@@ -692,6 +702,24 @@
 		            <textarea name="product_ids">{{ scene_subject.product_ids_s }}</textarea>
                   <div class="description">产品列表: 多个ID用“,”分隔</div>
 			  </div>
+
+			<div class="three fields">
+				<div class="field">
+					<label for="space_id">所属分类：</label>
+                    {% category_list var:'category' only_open:1 domain:1 current:scene_subject.category_id %}
+					<div class="ui fluid selection dropdown">
+						<input type="hidden" name="category_id" value="{{ scene_subject.category_id }}" />
+					    <div class="default text">请选择</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for d in category.rows %}
+                                <div data-value="{{ d._id }}" class="item {{ d.active }}">{{ d.title }}</div>
+							{% endfor %}
+					    </div>
+					</div>
+					<div class="ui pointing top label">用于好货页显示相应的分类专题</div>
+				</div>
+            </div>
 
             <div class="two fields">
 			  <div class="field">

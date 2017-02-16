@@ -761,7 +761,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
         return $this->api_json('success', 0, array('word'=>$tags));
 
-  }
+    }
 
     /**
      * 发现
@@ -770,8 +770,310 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $user_id = $this->current_user_id;
         $data = array();
 
+        $space_model = new Sher_Core_Model_Space();
+
         // 推荐
-        
+        $row = $space_model->first(array('name' => 'fiu_find_stick'));
+        if(empty($row)){
+            return $this->api_json('栏目位不存在!', 3002);
+        }
+        $space_id = (int)$row['_id'];
+
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		$query['space_id'] = (int)$space_id;
+		$query['state'] = Sher_Core_Model_Advertise::STATE_PUBLISHED;
+		
+		// 分页参数
+        $options['page'] = 1;
+        $options['size'] = 1;
+		$options['sort_field'] = 'ordby';
+		
+        $service = Sher_Core_Service_Advertise::instance();
+        $result = $service->get_ad_list($query,$options);
+	
+        //显示的字段
+        $options['some_fields'] = array(
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          'created_on'=>1, 'state'=>1
+        );
+
+		// 重建数据结果
+        $item = array();
+        if(!empty($result['rows'])){
+            $result = $result['rows'][0];
+            $item['_id'] = (string)$result['_id'];
+            $item['title'] = $result['title'];
+            $item['sub_title'] = $result['sub_title'];
+            $item['web_url'] = $result['web_url'];
+            $item['type'] = $result['type'];
+			// 封面图url
+			$item['cover_url'] = $result['cover']['fileurl'];
+        }
+		$data['stick'] = $item;
+
+        // 商品分类
+        $query = array();
+        $options = array();
+		$query['domain'] = Sher_Core_Util_Constant::TYPE_PRODUCT;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+        $query['sub_count'] = array('$ne'=>0);
+		
+        $options['page'] = 1;
+        $options['size'] = 20;
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+          'tags'=>1, 'back_url'=>1, 'stick'=>1,
+        );
+		
+        $options['some_fields'] = $some_fields;
+
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+
+        $item = array();
+        for($i=0;$i<count($result['rows']);$i++){
+            $row = $result['rows'][$i];
+            $item[$i]['_id'] = $row['_id'];
+            $item[$i]['title'] = $row['title'];
+            // banner图url
+            $item[$i]['app_cover_url'] = isset($row['app_cover_url']) ? $row['app_cover_url'] : '';
+            $item[$i]['back_url'] = isset($row['back_url']) ? $row['back_url'] : '';
+        }
+
+		$data['pro_category'] = $item;
+
+
+        /*
+         ** 地盘
+         */
+        $scene = array();
+        // 栏目位
+        $row = $space_model->first(array('name' => 'fiu_find_scene'));
+        if(empty($row)){
+            return $this->api_json('栏目位不存在!', 3003);
+        }
+        $space_id = (int)$row['_id'];
+
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		$query['space_id'] = (int)$space_id;
+		$query['state'] = Sher_Core_Model_Advertise::STATE_PUBLISHED;
+		
+		// 分页参数
+        $options['page'] = 1;
+        $options['size'] = 2;
+		$options['sort_field'] = 'ordby';
+		
+        $service = Sher_Core_Service_Advertise::instance();
+        $result = $service->get_ad_list($query,$options);
+	
+        //显示的字段
+        $options['some_fields'] = array(
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          'created_on'=>1, 'state'=>1
+        );
+
+		// 重建数据结果
+        $item = array();
+        if(!empty($result['rows'])){
+            for($i=0;$i<count($result['rows']);$i++){
+                $row = $result['rows'][$i];
+                $item[$i]['_id'] = (string)$row['_id'];
+                $item[$i]['title'] = $row['title'];
+                $item[$i]['sub_title'] = $row['sub_title'];
+                $item[$i]['web_url'] = $row['web_url'];
+                $item[$i]['type'] = $row['type'];
+                // 封面图url
+                $item[$i]['cover_url'] = $row['cover']['fileurl'];
+            }
+
+        }
+		$scene['stick'] = $item;
+
+        // 地盘分类
+        $query = array();
+        $options = array();
+		$query['domain'] = Sher_Core_Util_Constant::TYPE_SCENE_SCENE;
+        $query['pid'] = Doggy_Config::$vars['app.scene.category_id'];
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+		
+        $options['page'] = 1;
+        $options['size'] = 20;
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+          'tags'=>1, 'back_url'=>1, 'stick'=>1,
+        );
+		
+        $options['some_fields'] = $some_fields;
+
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+
+        $item = array();
+        for($i=0;$i<count($result['rows']);$i++){
+            $row = $result['rows'][$i];
+            $item[$i]['_id'] = $row['_id'];
+            $item[$i]['title'] = $row['title'];
+            // banner图url
+            $item[$i]['app_cover_url'] = isset($row['app_cover_url']) ? $row['app_cover_url'] : '';
+            $item[$i]['back_url'] = isset($row['back_url']) ? $row['back_url'] : '';
+        }
+
+		$scene['category'] = $item;
+
+        $data['scene'] = $scene;
+
+
+        /*
+         ** 情境
+         */
+        $sight = array();
+        // 栏目位
+        $row = $space_model->first(array('name' => 'fiu_find_sight'));
+        if(empty($row)){
+            return $this->api_json('栏目位不存在!', 3004);
+        }
+        $space_id = (int)$row['_id'];
+
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		$query['space_id'] = (int)$space_id;
+		$query['state'] = Sher_Core_Model_Advertise::STATE_PUBLISHED;
+		
+		// 分页参数
+        $options['page'] = 1;
+        $options['size'] = 2;
+		$options['sort_field'] = 'ordby';
+		
+        $service = Sher_Core_Service_Advertise::instance();
+        $result = $service->get_ad_list($query,$options);
+	
+        //显示的字段
+        $options['some_fields'] = array(
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          'created_on'=>1, 'state'=>1
+        );
+
+		// 重建数据结果
+        $item = array();
+        if(!empty($result['rows'])){
+            for($i=0;$i<count($result['rows']);$i++){
+                $row = $result['rows'][$i];
+                $item[$i]['_id'] = (string)$row['_id'];
+                $item[$i]['title'] = $row['title'];
+                $item[$i]['sub_title'] = $row['sub_title'];
+                $item[$i]['web_url'] = $row['web_url'];
+                $item[$i]['type'] = $row['type'];
+                // 封面图url
+                $item[$i]['cover_url'] = $row['cover']['fileurl'];
+            }
+
+        }
+		$sight['stick'] = $item;
+
+        // 情境分类
+        $query = array();
+        $options = array();
+		$query['domain'] = Sher_Core_Util_Constant::TYPE_SCENE_SIGHT;
+        $query['pid'] = Doggy_Config::$vars['app.scene_sight.category_id'];
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+		
+        $options['page'] = 1;
+        $options['size'] = 20;
+        $options['sort_field'] = 'orby';
+
+        $some_fields = array(
+          '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1, 'tag_id'=>1,
+          'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+          'tags'=>1, 'back_url'=>1, 'stick'=>1,
+        );
+		
+        $options['some_fields'] = $some_fields;
+
+        $service = Sher_Core_Service_Category::instance();
+        $result = $service->get_category_list($query, $options);
+
+        $item = array();
+        for($i=0;$i<count($result['rows']);$i++){
+            $row = $result['rows'][$i];
+            $item[$i]['_id'] = $row['_id'];
+            $item[$i]['title'] = $row['title'];
+            // banner图url
+            $item[$i]['app_cover_url'] = isset($row['app_cover_url']) ? $row['app_cover_url'] : '';
+            $item[$i]['back_url'] = isset($row['back_url']) ? $row['back_url'] : '';
+        }
+        $sight['category'] = $item;
+
+        $data['sight'] = $sight;
+
+        // 发现好友
+        $item = array();
+        $user_arr = array();
+        $follow_arr = array();
+        $users = array();
+
+        // 系统推荐活跃用户
+        $dig_model = new Sher_Core_Model_DigList();
+        $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
+        $dig = $dig_model->load($dig_key_id);
+        if(!empty($dig) || !empty($dig['items'])){
+            $users = $dig['items'];
+
+            $user_model = new Sher_Core_Model_User();
+            $follow_model = new Sher_Core_Model_Follow();
+            $scene_sight_model = new Sher_Core_Model_SceneSight();   
+
+            // 整理数据
+            for($i=0;$i<count($users);$i++){
+                if($user_id==$users[$i]) continue;
+                // 判断当前用户是否已关注此用户
+                $has_follow = $follow_model->first(array('user_id'=>$user_id, 'follow_id'=>$users[$i]));
+                if($has_follow) continue;
+                array_push($user_arr, $users[$i]);
+            }
+
+            // 取前Ｎ个数量
+            $user_arr = array_slice($user_arr, 0, 12);
+
+            // 打乱数组
+            shuffle($user_arr);
+
+            // 加载数据
+            for($i=0;$i<count($user_arr);$i++){
+                $user = array();
+                $row = $user_model->extend_load((int)$user_arr[$i]);
+                if(empty($row)){
+                    continue;
+                }
+                if($user_id==$user_arr[$i]) continue;
+                // 过滤用户字段
+                $user['_id'] = $row['_id'];
+                $user['nickname'] = $row['nickname'];
+                $user['avatar_url'] = $row['medium_avatar_url'];
+                // 判断是否被关注
+                $user['is_follow'] = 0;
+                if(!empty($user_id) && $follow_model->has_exist_ship($user_id, $row['_id'])){
+                    $user['is_follow'] = 1;
+                }
+                array_push($item, $user);
+            } // endfor       
+        }
+        $data['users'] = $item;
+
+        return $this->api_json('success', 0, $data);
     
     }
 	

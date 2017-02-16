@@ -1,0 +1,91 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
+			统计
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/active_list" class="{{ css_active }} item">
+			活动列表
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/bonus/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+			<a href="{{ app_url_admin_base }}/bonus/active_submit" class="item">
+				<i class="add icon"></i>创建活动
+			</a>
+	    </div>
+	</div>
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+                <th>ID</th>
+				<th>标题</th>
+                <th>红包数量</th>
+				<th>备注</th>
+				<th>创建时间</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			{% for d in actives %}
+			<tr id="{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+				<td>{{ d._id }}</td>
+				<td>{{ d.title }}</td>
+                <td>{{ d.item_count }}</td>
+                <td>{{ d.summary }}</td>
+                <td>{{ d.created_on|date 'Y-m-d' }}</td>
+                <td>{{ d.status }}</td>
+                <td>
+                    <div class="ui divided horizontal list">
+ 			            <a href="{{ app_url_admin }}/bonus/active_submit?id={{ d._id }}" class="ui link item">编辑</a>
+					    <a href="{{ app_url_admin }}/bonus/active_deleted?id={{ d._id }}" class="ui confirm-request link item">删除</a>
+                    </div>
+                </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if actives %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:total_rows,total_page:total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ total_count }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

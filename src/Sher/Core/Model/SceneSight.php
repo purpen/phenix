@@ -18,7 +18,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         # 类型
         'type' => 1,
 		
-		# 所属情景
+		# 所属地盘
 		'scene_id' => 0,
         # 分类
         'category_id' => 0,
@@ -89,6 +89,7 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 	protected $joins = array(
 		'cover' =>  array('cover_id' => 'Sher_Core_Model_Asset'),
 		'user' =>   array('user_id' => 'Sher_Core_Model_User'),
+        'scene' => array('scene_id' => 'Sher_Core_Model_SceneScene'),
 	);
 	
 	/**
@@ -165,8 +166,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         $model = new Sher_Core_Model_User();
         $model->inc_counter('sight_count',(int)$this->data['user_id']);
         
-        //$model = new Sher_Core_Model_SceneScene();
-        //$model->inc_counter('sight_count',1, $this->data['scene_id']);
+        $model = new Sher_Core_Model_SceneScene();
+        $model->inc_counter('sight_count',1, $this->data['scene_id']);
 
         // 更新分类数量
         if(isset($this->data['category_ids']) && !empty($this->data['category_ids'])){

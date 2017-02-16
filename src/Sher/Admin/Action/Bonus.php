@@ -10,10 +10,10 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 		'size' => 100,
 		'status' => 0,
 		'used' => 0,
-    'amount' => 0,
+        'amount' => 0,
 		'q' => '',
-    'user_id' => null,
-    'xname' => null,
+        'user_id' => null,
+        'xname' => null,
 	);
 	
 	public function _init() {
@@ -121,6 +121,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
         $count = isset($this->stash['count']) ? (int)$this->stash['count'] : 1;
         $min_amount_char = isset($this->stash['min_amount']) ? $this->stash['min_amount'] : null;
         $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+        $bonus_active_id = isset($this->stash['bonus_active_id']) ? $this->stash['bonus_active_id'] : '';
 
         if(empty($xname) || empty($amount_char) || empty($min_amount_char)){
             return $this->ajax_json('缺少请求参数!', true);
@@ -132,7 +133,7 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 
 		try{
 			$model = new Sher_Core_Model_Bonus();
-            $model->create_specify_bonus($count, $xname, $amount_char, $min_amount_char, $product_id);
+            $model->create_specify_bonus($count, $xname, $amount_char, $min_amount_char, $product_id, $bonus_active_id);
 			
 		}catch(Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn("Save bonus failed: ".$e->getMessage());
@@ -226,8 +227,11 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 			foreach($ids as $id){
 				$bonus = $model->load($id);
 				// 未使用红包允许删除
-				if ($bonus['used'] == 1){
-					$model->remove($id);
+				if ($bonus && $bonus['used'] == 1){
+                    $ok = $model->remove($id);
+                    if($ok){
+                        $model->mock_after_remove($id, $bonus);
+                    }
 				}
 			}
 			
@@ -246,15 +250,134 @@ class Sher_Admin_Action_Bonus extends Sher_Admin_Action_Base implements DoggyX_A
 	public function statistics() {
 		$this->set_target_css_state('state');
 		$model = new Sher_Core_Model_Bonus();
-    $bonus = null;
-    $this->stash['number_5'] = count($model->find(array('amount'=>5, 'status'=>4))) .'/'. count($model->find(array('amount'=>5)));
-    $this->stash['number_10'] = count($model->find(array('amount'=>10, 'status'=>4))) .'/'. count($model->find(array('amount'=>10)));
-    $this->stash['number_20'] = count($model->find(array('amount'=>20, 'status'=>4))) .'/'. count($model->find(array('amount'=>20)));
-    $this->stash['number_50']  = count($model->find(array('amount'=>50, 'status'=>4))) .'/'. count($model->find(array('amount'=>50)));
-    $this->stash['number_100']  = count($model->find(array('amount'=>100, 'status'=>4))) .'/'. count($model->find(array('amount'=>100)));
+        $bonus = null;
+        $this->stash['number_5'] = count($model->find(array('amount'=>5, 'status'=>4))) .'/'. count($model->find(array('amount'=>5)));
+        $this->stash['number_10'] = count($model->find(array('amount'=>10, 'status'=>4))) .'/'. count($model->find(array('amount'=>10)));
+        $this->stash['number_20'] = count($model->find(array('amount'=>20, 'status'=>4))) .'/'. count($model->find(array('amount'=>20)));
+        $this->stash['number_50']  = count($model->find(array('amount'=>50, 'status'=>4))) .'/'. count($model->find(array('amount'=>50)));
+        $this->stash['number_100']  = count($model->find(array('amount'=>100, 'status'=>4))) .'/'. count($model->find(array('amount'=>100)));
 		
 		return $this->to_html_page('admin/bonus/statistics.html');
 	}
 
+    /**
+     * 活动列表
+     */
+    public function active_list(){
+        $this->set_target_css_state('active');
+		$page = (int)$this->stash['page'];
+        $size = (int)$this->stash['size'];
+		$model = new Sher_Core_Model_BonusActive();
+        $query = array();
+        $options = array('page'=>$page,'size'=>$size, 'sort'=>array('created_on'=>-1));
+        $actives = $model->find($query, $options);
+        $this->stash['actives'] = $actives;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/bonus/active_list?page=#p#');
+		$this->stash['pager_url'] = $pager_url;
+
+        $total_count = $this->stash['total_count'] = $model->count();
+        $this->stash['total_page'] = ceil($total_count/$size);
+
+ 		return $this->to_html_page('admin/bonus/active_list.html');
+    }
+
+    /**
+     * 提交活动
+     */
+    public function active_submit(){
+		$id = isset($this->stash['id'])?(string)$this->stash['id']:'';
+		$mode = 'create';
+		
+		if(!empty($id)){
+			$mode = 'edit';
+		    $model = new Sher_Core_Model_BonusActive();
+			$bonus_active = $model->extend_load($id);
+			$this->stash['bonus_active'] = $bonus_active;
+
+		}
+		$this->stash['mode'] = $mode;
+
+ 		return $this->to_html_page('admin/bonus/active_submit.html');
+    }
+
+    /**
+     * 保存活动
+     */
+    public function active_save(){
+
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		$title = $this->stash['title'];
+        $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : null;
+        $summary = isset($this->stash['summary']) ? $this->stash['summary'] : null;
+		
+		// 验证内容
+		if(!$title){
+			return $this->ajax_json('标题不能为空！', true);
+		}
+		
+		$data = array(
+			'title' => $title,
+            'product_ids' => $product_ids,
+            'summary' => $summary,
+		);
+		
+		try{
+			$model = new Sher_Core_Model_BonusActive();
+			if(empty($id)){
+				// add
+                $data['user_id'] = $this->visitor->id;
+				$ok = $model->apply_and_save($data);
+				$row = $model->get_data();
+				$id = (string)$row['_id'];
+			} else {
+				// edit
+				$data['_id'] = $id;
+				$ok = $model->apply_and_update($data);
+			}
+
+			if(!$ok){
+				return $this->ajax_json('保存失败,请重新提交', true);
+			}
+
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json('保存失败:'.$e->getMessage(), true);
+		}
+		
+		$redirect_url = Doggy_Config::$vars['app.url.admin'].'/bonus/active_list';
+		return $this->ajax_json('保存成功', false, $redirect_url);
+    
+    }
+
+	/**
+	 * 删除红包活动
+	 */
+	public function active_deleted(){
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_notification('活动不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_BonusActive();
+			foreach($ids as $id){
+				$row = $model->load($id);
+                if($row){
+                    $ok = $model->remove($id);
+                    $model->mock_after_remove($id, $row);
+                }
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
 }
-?>
+

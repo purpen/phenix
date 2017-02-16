@@ -260,6 +260,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		if(empty($id)){
 			return $this->ajax_note('请求参数为空', true);
 		}
+
+        if(!Sher_Core_Helper_Util::is_high_admin($this->visitor->id)){
+            return $this->ajax_notification('没有执行权限!', true);     
+        }
+
 		$model = new Sher_Core_Model_SceneScene();
 		$result = $model->load($id);
 		

@@ -48,6 +48,9 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
           case 5:
             $this->set_target_css_state('goods');
             break;
+          case 6:
+            $this->set_target_css_state('sight');
+            break;
           default:
             $this->set_target_css_state('all');
         }
@@ -99,6 +102,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 		$scene_subject_short_title = $this->stash['short_title'];
 		$scene_subject_tag = $this->stash['tags'];
 		$cover_id = $this->stash['cover_id'];
+		$category_id = (int)$this->stash['category_id'];
 		$banner_id = isset($this->stash['banner_id']) ? $this->stash['banner_id'] : null;
 		$kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
@@ -138,11 +142,11 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
 			'content' => $scene_subject_html,
 			'cover_id' => $cover_id,
 			'banner_id' => $banner_id,
+            'category_id' => $category_id,
 			'kind' => $kind,
             'evt' => $evt,
             'type' => $type,
             'summary' => $this->stash['summary'],
-            'sight_ids' => $sight_ids,
             'product_ids' => $product_ids,
             'begin_time' => $begin_time,
             'end_time' => $end_time,
@@ -150,6 +154,7 @@ class Sher_AppAdmin_Action_SceneSubject extends Sher_AppAdmin_Action_Base implem
             'view_count' => $view_count,
             'share_count' => $share_count,
             'prize_sight_ids' => $prize_sight_ids,
+            'sight_ids' => $sight_ids,
             'mode' => $mode,
             'extra_tag' => $extra_tag,
 		);

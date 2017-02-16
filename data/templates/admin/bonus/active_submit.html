@@ -1,0 +1,113 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block jquery %}
+	$('#bonus-form').form({
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">红包管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/bonus" class="{{ css_all }} item">
+			全部
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=2" class="{% if used == 2 %}active{%endif%} item">
+			已使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?used=1" class="{% if used == 1 %}active{%endif%} item">
+			未使用
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=4" class="{{ css_waited }} item">
+			已领取
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=3" class="{{ css_locked }} item">
+			已锁定
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus?status=1" class="{{ css_pending }} item">
+			冻结中
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
+			统计
+		</a>
+		<a href="{{ app_url_admin_base }}/bonus/active_list" class="{{ css_active }} item">
+			活动列表
+		</a>
+	</div>
+	
+	<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/bonus" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="红包码..." type="text" name="q">
+							<i class="search link icon"></i>
+						</div>
+					</form>
+	</div>
+	
+	<div class="ui large segment">
+		<form class="ui form" action="{{ app_url_admin_base }}/bonus/active_save" method="post" id="bonus-form">
+			<input name="id" type="hidden" value="{{ bonus_active._id }}" />
+			<h3 class="ui header">新增活动</h3>
+
+            <div class="three fields">
+              <div class="field">
+                <label>标题:</label>
+                <input type="text" name="title" value="{{ bonus_active.title }}" />
+              </div>
+            </div>
+            <div class="field">
+              <label>产品ID:</label>
+              <textarea name="product_ids" placeholder="产品ID">{{ bonus_active.product_ids_s }}</textarea>
+              <div class="description">*多个产品ID用','分隔</div>
+            </div>
+            <div class="field">
+                <label>备注:</label>
+              <textarea name="summary" placeholder="备注">{{ bonus_active.summary }}</textarea>
+              <div class="description"></div>
+            </div>
+		
+			<div class="inline field">
+				<div class="ui magenta submit inverted button">
+					确认提交
+				</div>
+				<div class="ui gray cancel inverted button">
+					取消
+				</div>
+			</div>
+		</form>
+	</div>
+	
+{% endblock %}

@@ -27,9 +27,15 @@
 		<a href="{{ app_url_admin_base }}/bonus/statistics" class="{{ css_state }} item">
 			统计
 		</a>
+		<a href="{{ app_url_admin_base }}/bonus/active_list" class="{{ css_active }} item">
+			活动列表
+		</a>
 	  	<div class="right menu">
 			<a href="{{ app_url_admin_base }}/bonus/submit" class="item">
 				<i class="add icon"></i>添加
+			</a>
+			<a href="{{ app_url_admin_base }}/bonus/active_submit" class="item">
+				<i class="add icon"></i>创建活动
 			</a>
 	    </div>
 	</div>
@@ -80,7 +86,10 @@
 				</td>
 				<td>
 					{{ b.code }}<br />
-					<small>过期时间：<span style="{%if b.is_expired%}color: red;{%endif%}">{{ b.expired_label }}</span></small>
+                    <p><small>过期时间：<span style="{%if b.is_expired%}color: red;{%endif%}">{{ b.expired_label }}</span></small></p>
+                    {% if b.bonus_active_id %}
+                        <p><small>所属活动：<span>{{ b.bonus_active_id }}</span></small>
+                    {%endif%}
 				</td>
 				<td><span class="ui magenta text"><small>￥</small>{{ b.amount }}</span></td>
         <td>{{ b.min_amount }}元</td>

@@ -892,13 +892,16 @@
     									<div class="ui bonus hide segment">
                                             <h4>使用红包抵消部分金额</h4>
 
-                                                {% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 %}
+                                                {% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 load_active:1 %}
                                                 {% for b in bonus.rows %}
                                                 <div class="bonus item" style="margin-bottom:1em;">
                                                     <div class="field">
                                                         <div class="ui">
                                           <label style="display:inline-block;">
-                                              <span class="ui color-be link text">{{ b.amount }}元</span> <span>{% if b.min_amount %}(满 {{ b.min_amount }}元可用){%endif%}</span> <small>{{ b.expired_label }} </small>
+                                              <span class="ui color-be link text">{{ b.amount }}元</span> 
+                                              <span>{% if b.min_amount %}(满 {{ b.min_amount }}元可用){%endif%}</span> 
+                                              <span>{% if b.bonus_active %}(只限于 {{ b.bonus_active.title }} 活动下的产品可用){%endif%}</span> 
+                                              <small>{{ b.expired_label }} </small>
                                             <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ b.code }}"> 插入</a>
                                           </label>
                                                         </div>

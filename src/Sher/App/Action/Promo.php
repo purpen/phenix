@@ -10,7 +10,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces','huaban','hb_draw');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces','huaban','hb_draw','gift');
 	
 	/**
 	 * 网站入口
@@ -19,6 +19,13 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 		return $this->coupon();
 	}
 
+	/**
+	 * 花瓣礼物主题活动
+	 */ 
+	public function gift(){
+		$this->set_target_css_state('page_shop');
+		return $this->to_html_page('page/promo/gift.html');  
+	}
     /**
      * 花瓣xFiu店年终注册会员抽奖活动
      * 2017-01-19

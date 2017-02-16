@@ -83,6 +83,7 @@
 		<thead>
 			<tr>
 				<th></th>
+                <th>ID</th>
 				<th>分类名称/标识</th>
 				<th>推荐</th>
 				<th>状态</th>
@@ -102,6 +103,7 @@
 					  	<label></label>
 					</div>
 				</td>
+                <td>{{ cat._id }}</td>
         <td><b>{{ cat.title }}</b> / {{ cat.name }}</td>
 				<td>
 					<p>
@@ -148,6 +150,7 @@
 						  	<label></label>
 						</div>
 					</td>
+                    <td>{{ child._id }}</td>
 					<td>|----{{ child.title }} / {{ child.name }}</td>
                     <td>
                         <p>
