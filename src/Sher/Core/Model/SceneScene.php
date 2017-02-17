@@ -55,6 +55,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		'cover_id' => '',
         # Banner图
         'banner_id' => '',
+
+        # 联盟账户code
+        'alliance_code' => '',
 		
 		# 使用次数
         'used_count' => 0,

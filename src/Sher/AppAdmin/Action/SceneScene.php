@@ -94,6 +94,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$avatar_id = isset($this->stash['avatar_id']) ? $this->stash['avatar_id'] : null;
         $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
         $bright_spot = isset($this->stash['bright_spot']) ? (array)$this->stash['bright_spot'] : array();
+		$alliance_code = isset($this->stash['alliance_code']) ? $this->stash['alliance_code'] : '';
 		
 		$data = array();
 		$data['title'] = $this->stash['title'];
@@ -113,6 +114,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 
         $data['score_average'] = 5;
         $data['bright_spot'] = $bright_spot;
+        $data['alliance_code'] = $alliance_code;
 
         if(isset($this->stash['user_id']) && !empty($this->stash['user_id'])){
             $data['user_id'] = (int)$this->stash['user_id'];

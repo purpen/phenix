@@ -113,7 +113,8 @@ class Sher_Core_Util_Cart extends Doggy_Object {
         }
 		
         foreach($this->com_list as $item){
-        	$result[] = "{$item['sku']},{$item['quantity']}";
+            $storage_id = isset($item['storage_id']) ? $item['storage_id'] : '';
+        	$result[] = "{$item['sku']},{$item['quantity']},{$storage_id}";
         }
 		
         //购物车商品数不能超过100个
@@ -136,9 +137,13 @@ class Sher_Core_Util_Cart extends Doggy_Object {
             
             for($i=0; $i<count($result); $i++){
                 $item = $result[$i];
-                list($com_sku, $com_num) = explode(",", $item);
+                $arr = explode(',', $item);
+                $com_sku = $arr[0];
+                $com_num = $arr[1];
+                $storage_id = isset($arr[2]) ? $arr[2] : '';
+                //list($com_sku, $com_num, $storage_id) = explode(",", $item);
                 if(!empty($com_sku) && !empty($com_num)){
-                	$this->addItem($com_sku);
+                	$this->addItem($com_sku, array('storage_id'=>$storage_id));
                 	$this->setItemQuantity($com_sku, $com_num);
                 }
             }
@@ -153,7 +158,7 @@ class Sher_Core_Util_Cart extends Doggy_Object {
      * @param $com_size
      * @return void
      */
-    public function addItem($com_sku){
+    public function addItem($com_sku, $options=array()){
         $com_has_exist = 0;
         if($this->com_item > 0){
             for($i=0; $i<$this->com_item; $i++){
@@ -173,7 +178,8 @@ class Sher_Core_Util_Cart extends Doggy_Object {
 
             // 推广码
             $referral_code = isset($_COOKIE['referral_code']) ? $_COOKIE['referral_code'] : '';
-            $storage_id = isset($this->stash['storage_id']) ? (string)$this->stash['storage_id'] : '';
+
+            $storage_id = isset($options['storage_id']) ? (string)$options['storage_id'] : '';
             $vop_id = null;
             $number = '';
 

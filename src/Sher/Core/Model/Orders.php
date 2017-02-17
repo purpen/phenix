@@ -652,6 +652,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $is_vop = isset($options['is_vop']) ? $options['is_vop'] : 0;
             $jd_order_id = isset($options['jd_order_id']) ? $options['jd_order_id'] : null;
             $is_referral = isset($options['is_referral']) ? $options['is_referral'] : false;
+            $is_storage = isset($options['is_storage']) ? $options['is_storage'] : false;
             $rid = isset($options['rid']) ? $options['rid'] : null;
           if(!empty($user_id)){
             $user_model = new Sher_Core_Model_User();
@@ -694,9 +695,15 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
               case Sher_Core_Util_Constant::ORDER_PUBLISHED:  // 已完成
                 $user_model->update_counter_byinc($user_id, 'order_evaluate', -1);
                 // 更新佣金结算
-                if($is_referral && $rid){
+                if($rid){
                     $balance_model = new Sher_Core_Model_Balance();
-                    $balance_model->update_success_stage($rid);
+                    if($is_referral){
+                        $balance_model->update_success_stage($rid, 1);
+                    }
+
+                    if($is_storage){
+                        $balance_model->update_success_stage($rid, 2);                   
+                    }
                 }
 
                 break;
@@ -1194,23 +1201,28 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             }
 
             // 检测是否含有推广记录
-            $is_referral = false;
+            $is_referral = $is_storage = false;
+            if(!empty($data['referral_code'])) $is_referral = true;
+
             for($i=0;$i<count($data['items']);$i++){
                 $item = $data['items'][$i];
-                $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
-                $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
-                if(!empty($scene_id) || !empty($referral_code)){
-                    $is_referral = true;
+                $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
+                if(!empty($storage_id)){
+                    $is_storage = true;
                     break;
                 }
             }
 
-            // 如果有推广，统计到Balance
-            if($is_referral){
+            // 如果有佣金或分成，统计到Balance
+            if(!empty($is_referral) || !empty($is_storage)){
                 $balance_model = new Sher_Core_Model_Balance();
-                $balance_model->record_balance($data['rid'], $data);
             }
-
+            if($is_referral){   // 推广佣金
+                $balance_model->record_balance_by_commision($data['rid'], 1, array('order'=>$data));
+            }
+            if($is_storage){    // 地盘分成
+                $balance_model->record_balance_by_divide($data['rid'], 1, array('order'=>$data));
+            }
 
             $this->sync_order_index($id, $status);
             
@@ -1407,6 +1419,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         $sku_number = '';
         $product_id = $quantity = 0;
         $is_referral = false;
+        $is_storage = false;
+        if(!empty($order['referral_code'])) $is_referral = true;
         for($i=0;$i<count($order['items']);$i++){
             if($order['items'][$i]['sku']==$sku_id){
                 $order['items'][$i]['refund_type'] = $refund_type;
@@ -1415,12 +1429,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 $quantity = $order['items'][$i]['quantity'];
                 $sku_number = $order['items'][$i]['number'];
 
-                // 是否存在推广信息
-                if(!empty($order['items'][$i]['referral_code']) || !empty($order['items'][$i]['scene_id'])){
-                    $is_referral = true;
+                // 是否存在地盘分成
+                if(!empty($order['items'][$i]['storage_id']) || !empty($order['items'][$i]['storage_id'])){
+                    $is_storage = true;
                 }
             }
-        }
+        } // endfor
 
         if(empty($product_id)){
             $result['message'] = '产品未找到';
@@ -1488,7 +1502,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         }
 
         // 如果有推广，统计到Balance
-        if($is_referral){
+        if($is_storage){
             $balance_model = new Sher_Core_Model_Balance();
             $balance_model->update_refund_stage($rid, $sku_id);
         }

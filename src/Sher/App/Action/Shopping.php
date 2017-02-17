@@ -320,6 +320,11 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 	public function buy(){
 		$sku = $this->stash['sku'];
 		$quantity = $this->stash['n'];
+        $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $options = array();
+        if(!empty($storage_id)){
+            $options['storage_id'] = $storage_id;
+        }
 		
 		// 验证数据
 		if (empty($sku) || empty($quantity)){
@@ -341,17 +346,17 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$product_data = $product->extend_load((int)$product_id);
 		if(empty($product_data)){
 			return $this->ajax_note('挑选的产品不存在或被删除，请核对！', true);
-    }
+        }
 
-    //如果是抢购Start
-    if($product_data['snatched']){
-			return $this->ajax_note('此产品为活动商品！', true);
-    }
+        //如果是抢购Start
+        if($product_data['snatched']){
+            return $this->ajax_note('此产品为活动商品！', true);
+        }
 		
 		Doggy_Log_Helper::warn("Add to cart [$sku][$quantity]");
 		
 		$cart = new Sher_Core_Util_Cart();
-		$cart->addItem($sku);
+		$cart->addItem($sku, $options);
 		$cart->setItemQuantity($sku, $quantity);
 		
         //重置到cookie
@@ -520,7 +525,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		$new_data = array();
 		$new_data['dict'] = array_merge($default_data, $data);
         $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
-        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
+        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : '';
 		
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;

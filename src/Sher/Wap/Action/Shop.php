@@ -1537,7 +1537,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
       $new_data['kind'] = $options['kind'];
     }
 		$new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
-        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
+        $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : '';
 		$new_data['user_id'] = $this->visitor->id;
 		$new_data['expired'] = time() + Sher_Core_Util_Constant::EXPIRE_TIME;
 		

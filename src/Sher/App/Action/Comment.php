@@ -307,18 +307,19 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         if(!empty($order) && $order['user_id']==$this->visitor->id && $order['status']==Sher_Core_Util_Constant::ORDER_EVALUATE){
             
             // 检测是否含有推广记录,更新佣金结算状态
-            $is_referral = false;
+            $is_referral = $is_storage = false;
+            if(!empty($order['referral_code'])) $is_referral = true;
             for($i=0;$i<count($order['items']);$i++){
                 $item = $order['items'][$i];
                 $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
-                $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
-                if(!empty($scene_id) || !empty($referral_code)){
-                    $is_referral = true;
+                $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
+                if(!empty($storage_id)){
+                    $is_storage = true;
                     break;
                 }
             }// endfor
 
-          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
+          $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral, 'is_storage'=>$is_storage));
         }
       }
 		} // if ok
@@ -408,19 +409,20 @@ class Sher_App_Action_Comment extends Sher_App_Action_Base {
         }
 
         // 检测是否含有推广记录,更新佣金结算状态
-        $is_referral = false;
+        $is_referral = $is_storage = false;
+        if(!empty($order['referral_code'])) $is_referral = true;
         for($i=0;$i<count($order['items']);$i++){
             $item = $order['items'][$i];
             $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
-            $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
-            if(!empty($scene_id) || !empty($referral_code)){
-                $is_referral = true;
+            $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
+            if(!empty($storage_id)){
+                $is_storage = true;
                 break;
             }
         }// endfor
 
         // 更新订单状态为完成
-        $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
+        $order_ok = $orders_model->finish_order($order_id, array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral, 'is_storage'=>$is_storage));
 		
         return $this->ajax_json('操作成功!', false);
     }
