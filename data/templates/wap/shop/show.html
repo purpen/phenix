@@ -916,6 +916,12 @@ span.ui.timeout.btn{
     var product_id = "{{ product._id }}";
     var topic_sort = 6; // 最新推荐
 
+    {% if storage_id %}
+        var storage_id = "{{ storage_id }}";
+    {%else%}
+        var storage_id = '';
+    {%endif%}
+
     // 加载产品评测
     function ajax_load_topic(target_id, sort, page, size){
         var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
@@ -1184,9 +1190,9 @@ span.ui.timeout.btn{
 
           if (choosed_sku){
             if(buy_evt==1){ // 立即购买
-                phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value, 0);
+                phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value+'&storage_id='+storage_id, 0);
             }else if(buy_evt==2){   //  加入购物车
-                $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+                $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value, storage_id:storage_id}, function(result){
                   if(result.success){
                     phenix.show_ok_note('加入购物车成功', 2000);
                     $('#cover,.close-details').click();
