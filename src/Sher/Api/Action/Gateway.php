@@ -1019,6 +1019,86 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
         $data['sight'] = $sight;
 
+        // 品牌
+		
+		$some_fields = array(
+			'_id'=>1, 'title'=>1, 'des'=>1, 'kind'=>1, 'cover_id'=>1, 'banner_id'=>1, 'brand'=>1, 'used_count'=>1,'stick'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'mark'=>1, 'self_run'=>1, 'from_to'=>1,
+		);
+		
+		$query   = array();
+		$options = array();
+
+        //$query['kind'] = 1;
+        $query['stick'] = 1;
+		// 状态
+		$query['status'] = 1;
+		
+		// 分页参数
+        $options['page'] = 1;
+        $options['size'] = 6;
+        $options['sort_field'] = 'stick:update';
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_SceneBrands::instance();
+        $result = $service->get_scene_brands_list($query, $options);
+		
+		// 重建数据结果
+        $item = array();
+		foreach($result['rows'] as $k => $v){
+            $item[$k]['_id'] = (string)$result['rows'][$k]['_id'];
+            $item[$k]['title'] = $result['rows'][$k]['title'];
+			$item[$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
+			//$item[$k]['banner_url'] = $result['rows'][$k]['banner']['thumbnails']['aub']['view_url'];
+		}
+        $data['brand'] = $item;
+
+        // 产品专辑
+        $row = $space_model->first(array('name' => 'fiu_find_product_subject'));
+        if(empty($row)){
+            return $this->api_json('栏目位不存在!', 3006);
+        }
+        $space_id = (int)$row['_id'];
+
+		$query   = array();
+		$options = array();
+		
+		// 查询条件
+		$query['space_id'] = (int)$space_id;
+		$query['state'] = Sher_Core_Model_Advertise::STATE_PUBLISHED;
+		
+		// 分页参数
+        $options['page'] = 1;
+        $options['size'] = 4;
+		$options['sort_field'] = 'ordby';
+		
+        $service = Sher_Core_Service_Advertise::instance();
+        $result = $service->get_ad_list($query,$options);
+	
+        //显示的字段
+        $options['some_fields'] = array(
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          'created_on'=>1, 'state'=>1
+        );
+
+		// 重建数据结果
+        $item = array();
+        if(!empty($result['rows'])){
+            for($i=0;$i<count($result['rows']);$i++){
+                $row = $result['rows'][$i];
+                $item[$i]['_id'] = (string)$row['_id'];
+                $item[$i]['title'] = $row['title'];
+                $item[$i]['sub_title'] = $row['sub_title'];
+                $item[$i]['web_url'] = $row['web_url'];
+                $item[$i]['type'] = $row['type'];
+                // 封面图url
+                $item[$i]['cover_url'] = $row['cover']['fileurl'];
+            }
+
+        }
+        $data['product_subject'] = $item;
+
         // 发现好友
         $item = array();
         $user_arr = array();

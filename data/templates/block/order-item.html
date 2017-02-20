@@ -116,6 +116,9 @@
             {% if order.bird_coin_count %}
               <p>鸟币: {{ order.bird_coin_count }}</p>
             {%endif%}
+            {% if order.referral_code %}
+              <p>推广码: {{ order.referral_code }}</p>
+            {%endif%}
                 
           {% endif %}
 			</div>

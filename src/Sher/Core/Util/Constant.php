@@ -385,6 +385,9 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 
     ## redis 缓存默认时间(5分钟)
     const REDIS_CACHE_EXPIRED = 300;
+
+    ## 佣金比例 commision_percent
+    const COMMISION_PERCENT = 0.05;
     
     /**
      * 版块置顶key

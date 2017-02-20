@@ -171,6 +171,7 @@
                             {{ d.product.title|truncate, 32 }}({{ d.product.sku.mode }}){% if d.product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
 						</a>
 					</div>
+		          	<p class="attribute">ID：{{ d._id }}</p>
 		          	<p class="attribute">商品ID：{{ d.product_id }}</p>
 		          	<p class="attribute">商品数量：{{ d.quantity }}</p>
 		          	<p class="attribute">skuID：{{ d.sku_id }}</p>

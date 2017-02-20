@@ -49,19 +49,19 @@ while(!$is_end){
 	    // 自动收货
         try{
             // 检测是否含有推广记录,更新佣金结算状态
-            $is_referral = false;
+            $is_referral = $is_storage = false;
             $rid = $order['rid'];
             for($j=0;$j<count($order['items']);$j++){
                 $item = $order['items'][$j];
                 $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
-                $scene_id = isset($item['scene_id']) ? $item['scene_id'] : null;
-                if(!empty($scene_id) || !empty($referral_code)){
-                    $is_referral = true;
+                $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
+                if(!empty($storage_id)){
+                    $is_storage = true;
                     break;
                 }
             }// endfor
 
-            $ok = $order_model->finish_order((string)$order['_id'], array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral));
+            $ok = $order_model->finish_order((string)$order['_id'], array('user_id'=>$order['user_id'], 'rid'=>$rid, 'is_referral'=>$is_referral, 'is_storage'=>$is_storage));
             if($ok){
                 echo "success update order status:".$order['_id']."\n";
                 $total++;     

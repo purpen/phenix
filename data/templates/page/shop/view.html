@@ -67,6 +67,12 @@
       is_star: is_star
     }
 
+    {% if storage_id %}
+        var storage_id = "{{ storage_id }}";
+    {%else%}
+        var storage_id = '';
+    {%endif%}
+
 </script>
 {% endblock %}
 
@@ -131,7 +137,7 @@
 	// 加入购物车
 	$('.ui.buy.button').click(function(){
 		if (choosed_sku){
-			$.post('{{ app_url_cart_buy }}', {sku: choosed_sku});
+			$.post('{{ app_url_cart_buy }}', {sku: choosed_sku, storage_id: storage_id});
 		} else {
 			phenix.show_error_note('请选择一个型号或颜色', 3000);
 		}
@@ -146,7 +152,12 @@
         return false;
       }
       if (choosed_sku){
-        phenix.redirect('{{ app_url_cart_nowbuy }}?sku='+choosed_sku, 0);
+        if(storage_id){
+            var url = '{{ app_url_cart_nowbuy }}?sku='+choosed_sku+'&storage_id='+storage_id;
+        }else{
+            var url = '{{ app_url_cart_nowbuy }}?sku='+choosed_sku;       
+        }
+        phenix.redirect(url, 0);
       } else {
         phenix.show_error_note('请选择一个型号或颜色', 3000);
       }
