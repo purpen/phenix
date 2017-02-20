@@ -16,9 +16,9 @@
 		<meta name="title" content="{%if page_title_suffix%}{{page_title_suffix}}{%else%}太火鸟-中国火爆的智能硬件孵化平台{%endif%}" />
 		<meta name="keywords" content="{%if page_keywords_suffix%}{{page_keywords_suffix}}{%else%}太火鸟,智能硬件,智能硬件孵化,孵化社区,创意众筹,硬件营销,硬件推广{%endif%}"/>
 		<meta name="description" content="{%if page_description_suffix%}{{page_description_suffix}}{%else%}太火鸟是中国火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。{%endif%}" />
-		<meta content="太火鸟" name="author" />
+		<meta content="Fiu" name="author" />
 		{%endblock%}
-        <title>Fiu店</title>
+        <title>{% block title %}{% endblock %}{%if page_title_suffix%}{{page_title_suffix}}{%else%}Fiu{%endif%}</title>
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="stylesheet" href="{{ app_url_qiniu_frstatic }}/css/semantic.2.0.0906.min.css" type="text/css" />
 		{% if css_use_bundle %}

@@ -239,7 +239,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     //fiu分享邀请好友
     public function fiuinvite(){
 
-        $this->stash['page_title_suffix'] = 'Fiu店';
+        $this->stash['page_title_suffix'] = 'Fiu';
 
       //微信分享
       $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];

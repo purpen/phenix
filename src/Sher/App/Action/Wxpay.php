@@ -66,7 +66,7 @@
 			// 统一下单
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 			
-			$input->SetBody('太火鸟商城'.$order_info['rid'].'的订单'); // 商品描述
+			$input->SetBody('Fiu'.$order_info['rid'].'的订单'); // 商品描述
 			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
 			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetNotify_url($notify_url); // 通知地址
