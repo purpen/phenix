@@ -218,9 +218,29 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		if(empty($product) || $product['deleted']){
 			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
 		}
+
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
 		
         if (!empty($product)) {
             $product = $model->extended_model_row($product);
+        }
+
+        // 是否含有地盘信息
+        $storage_id = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : null;
+        $this->stash['scene'] = null;
+        $this->stash['is_storage'] = false;
+        if($storage_id){
+            $scene_model = new Sher_Core_Model_SceneScene();
+            $scene = $scene_model->load($storage_id);
+            if(!empty($scene)){
+                //添加网站meta标签
+                $this->stash['page_title_suffix'] = $scene['title'];
+                $this->stash['is_storage'] = true;
+                $this->stash['scene'] = $scene;
+            }
         }
 		
 		// 增加pv++
@@ -229,13 +249,8 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$model->inc_counter('true_view_count', 1, $id);
 		$model->inc_counter('wap_view_count', 1, $id);
 		
-		// 未发布上线的产品，仅允许本人及管理员查看
-		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
-			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
-		}
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-太火鸟智品库", $product['title']);
     if(!empty($product['tags_s'])){
       $this->stash['page_keywords_suffix'] = $product['tags_s'];   
     }
@@ -346,7 +361,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 
     //添加网站meta标签
-    $this->stash['page_title_suffix'] = sprintf("%s-Fiu店", $product['title']);
+    $this->stash['page_title_suffix'] = sprintf("%s-Fiu", $product['title']);
     if(!empty($product['tags_s'])){
       $this->stash['page_keywords_suffix'] = $product['tags_s'];   
     }
