@@ -9,6 +9,8 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 		'page' => 1,
 	);
 
+	protected $exclude_method_list = array('execute', 'view');
+
 	
 	/**
 	 * 商城入口
