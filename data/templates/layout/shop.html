@@ -106,7 +106,29 @@
 	
 	<body>
 		{% block layout_promo %}{% endblock %}
-	    {% block layout_header %}{% endblock %}
+	    {% block layout_header %}
+	    <div class="appiosload">
+			<img class="logo" src="{{ app_url_packaged }}/images/fiu/wfiulogo.png">
+			<div class="content">
+				<h4 class="ui header">
+					Fiu APP 购物
+					<div class="sub header">
+					新人领188元红包
+					</div>
+				</h4>
+			</div>
+			<div class="ui magenta active inverted tiny button" style="background: #000;box-shadow: 0 0 0 1px #000 inset!important;"> 下载App </div>
+			<div class="apploadclose">
+				<img src="{{ app_url_packaged }}/images/icon/close.png" width="12px" height="12px">
+			</div>
+			<div id="appload">
+				<img src="{{ app_url_packaged }}/images/icon/appshare.png" width="80%" >
+			</div>
+			<div id="apploadand">
+				<img src="{{ app_url_packaged }}/images/icon/appshareand.png" width="80%" >
+			</div>
+		</div>
+	    {% endblock %}
 	    {% block layout_content %}
 	        {% block content %}{% endblock %}
 	    {% endblock %}
