@@ -316,7 +316,8 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 
         //验证是否收藏或喜欢
         $favorite_model = new Sher_Core_Model_Favorite();
-        $data['is_love'] = $favorite_model->check_loved($this->current_user_id, $data['_id'], 1) ? 1 : 0;
+        $data['is_love'] = $favorite_model->check_loved($this->current_user_id, $data['_id'], 11) ? 1 : 0;
+        $data['is_favorite'] = $favorite_model->check_favorite($this->current_user_id, $data['_id'], 11) ? 1 : 0;
 
         $asset_service = Sher_Core_Service_Asset::instance();
 
