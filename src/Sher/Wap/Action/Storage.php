@@ -56,7 +56,7 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
 
-
+        $this->stash['scene'] = $scene;
 		return $this->to_html_page('wap/storage/view.html');
 	}
 
