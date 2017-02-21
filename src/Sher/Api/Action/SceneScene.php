@@ -358,6 +358,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         $data['extra'] = $scene['extra'];
         $data['score_average'] = $scene['score_average'];
         $data['bright_spot'] = $scene['bright_spot'];
+        $data['view_url'] = sprintf("%s/storage/view?id=%d", Doggy_Config::$vars['app.domain.mobile'], $data['_id']);
         
 		// 过滤多余属性
         //$filter_fields = array('cover_id', 'cover', 'avatar', 'banner', '__extend__');
