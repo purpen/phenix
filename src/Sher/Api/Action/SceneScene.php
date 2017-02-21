@@ -27,7 +27,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			'location'=>1, 'address'=>1, 'cover_id'=>1,'used_count'=>1, 'category_id'=>1,
 			'view_count'=>1, 'subscription_count'=>1, 'love_count'=>1, 'deleted'=>1, 'city'=>1,
 			'comment_count'=>1, 'is_check'=>1, 'stick'=>1, 'stick_on'=>1, 'fine'=>1, 'fine_on'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
-            'avatar'=>1, 'banner'=>1,
+            'avatar'=>1, 'cover'=>1,
 		);
 		
 		$query   = array();
@@ -122,7 +122,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 重建数据结果
 		foreach($result['rows'] as $k => $v){
 			$result['rows'][$k]['avatar_url'] = $result['rows'][$k]['avatar']['thumbnails']['apc']['view_url'];
-			$result['rows'][$k]['banner_url'] = $result['rows'][$k]['banner']['thumbnails']['aub']['view_url'];
+			$result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['apc']['view_url'];
 			$result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
 
             $category = array();
@@ -134,7 +134,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		
 		// 过滤多余属性
-        $filter_fields  = array('_id', 'title', 'sub_title', 'avatar_url','banner_url', 'category', 'user_id', 'location', 'city', 'address');
+        $filter_fields  = array('_id', 'title', 'sub_title', 'avatar_url', 'cover_url', 'category', 'user_id', 'location', 'city', 'address');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 1);
 		
 		//var_dump($result['rows']);die;
@@ -321,7 +321,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 
         $asset_service = Sher_Core_Service_Asset::instance();
 
-        //返回图片数据
+        //返回图片数据--banner
         $assets = array();
         $asset_query = array('parent_id'=>$data['_id'], 'asset_type'=>Sher_Core_Model_Asset::TYPE_SCENE_BANNER);
         $asset_options['page'] = 1;
@@ -337,14 +337,27 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         }
         $data['banners'] = $assets;
 
+        //返回图片数据--cover
+        $assets = array();
+        $asset_query = array('parent_id'=>$data['_id'], 'asset_type'=>Sher_Core_Model_Asset::TYPE_SCENE_SCENE);
+        $asset_options['page'] = 1;
+        $asset_options['size'] = 20;
+        $asset_options['sort_field'] = 'latest';
+
+        $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+        if(!empty($asset_result['rows'])){
+          foreach($asset_result['rows'] as $key=>$value){
+            array_push($assets, $value['thumbnails']['apc']['view_url']);
+          }
+        }
+        $data['covers'] = $assets;
+
         $data['des'] = $scene['des'];
         $data['tags'] = $scene['tags'];
         $data['extra'] = $scene['extra'];
         $data['score_average'] = $scene['score_average'];
         $data['bright_spot'] = $scene['bright_spot'];
-
-        $data['sights'] = array();
-        $data['products'] = array();
         
 		// 过滤多余属性
         //$filter_fields = array('cover_id', 'cover', 'avatar', 'banner', '__extend__');

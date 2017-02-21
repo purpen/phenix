@@ -172,7 +172,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($data['asset'], $id);
+				$model->update_batch_assets($this->stash['asset'], $id);
             }
 			if(isset($this->stash['avatar_asset']) && !empty($this->stash['avatar_asset'])){
 				$model->update_batch_assets($this->stash['avatar_asset'], $id);
@@ -353,7 +353,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
         $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 		if(empty($product_id) || empty($scene_id)){
-			return $this->ajax_note('请求参数为空!', true);
+			return $this->ajax_json('请求参数为空!', true);
 		}
 
         $row = array(
