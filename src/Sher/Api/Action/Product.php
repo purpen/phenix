@@ -114,7 +114,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		);
 		
 		// 请求参数
-		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$category_id = isset($this->stash['category_id']) ? $this->stash['category_id'] : 0;
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -132,9 +132,13 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$options = array();
 		
 		// 查询条件
-		if($category_id){
-			$query['category_ids'] = (int)$category_id;
-		}
+        if($category_id){
+            $cate_arr = explode(',', $category_id);
+            for($j=0;$j<count($cate_arr);$j++){
+                $cate_arr[$j] = (int)$cate_arr[$j];
+            }
+            $query['category_ids'] = array('$in'=>$cate_arr);
+        }
 
         // 查询条件
         if($category_tags){

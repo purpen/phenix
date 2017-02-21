@@ -1,0 +1,1740 @@
+{%extends 'layout/shop.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+#mfrbird{
+	margin-top:0;
+	margin-bottom:0;
+}
+@media only screen and (max-width: 320px){
+	#slider{
+		height:180px;
+	}
+}
+@media only screen and (min-width:321px )and (max-width: 375px){
+	#slider{
+		height:210px;
+	}
+}
+@media only screen and (min-width: 376px) and (max-width: 414px){
+	#slider{
+		height:232px;
+	}
+}
+#shopview .presale{
+	padding:10px;
+	background:#fff;
+}
+#shopview .presale h4.ui.header{
+  color: #222 !important;
+}
+#shopview .presale h4.ui.header .sub.header{
+	  margin-top:8px;
+    font-size: 14px;
+    color: #BE8914;
+    line-height: 20px;
+}
+#shopview .presale h4.ui.header .sub.header +  p{
+  border-top: 1px solid rgba(0,0,0,0.1);
+    font-weight: 400;
+    font-size: 13px;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+#shopview .presale h4.ui.header .sub.header +  p span{
+  color: #BE8914;
+}
+#shopview .presale h4.ui.header .sub.header .rmb.icon{
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    vertical-align: top;
+    margin-top: 1px;
+}
+#shopview .colour{
+	margin-top:10px;
+	padding:15px 10px;
+	position:relative;
+	background:#fff;
+	font-weight: 400;
+    font-size: 14px;
+}
+#shopview i.float.icon{
+	float:right;
+}
+#shopview i.float.icon.cate{
+  font-size: 1.5em;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+}
+#shopview .ui.top.details{
+    max-width:767px;
+    margin:0 auto;
+	background:#fff;
+	position:fixed;
+	width:100%;
+	height:70%;
+	bottom:0;
+	z-index:100;
+    visibility: hidden;
+    -webkit-transform: translate3d(0,100%,0);
+    transform: translate3d(0,100%,0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+	padding:10px;
+}
+#shopview.show-details .ui.top.details{
+	visibility: visible;
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+#shopview .ui.top.details .ui.middle.aligned.image{
+	width:65px;
+	height:65px;
+  border: 1px solid #eee;
+}
+#shopview .ui.top.details h4.ui.header.inline{
+    display: inline-block;
+    margin-top: 0;
+    vertical-align: middle;
+	font-weight:400;
+	margin-left: 5px;
+	font-size: 16px;
+	color:#BE8914 !important;
+}
+#shopview .ui.top.details h4.ui.header.inline .rmb.icon{
+	font-weight: 400;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    vertical-align: top;
+    margin-top: 1px;
+}
+#shopview .ui.top.details h4.ui.header.inline .sub.header{
+	margin-top: 5px;
+    font-size: 13px;
+}
+#shopview .ui.top.details .ui.divider{
+	margin:5px 10px 2px;
+}
+#shopview .ui.top.details .product.attrs{
+	font-size:0;
+}
+#shopview .ui.top.details .product.attrs .ui.magenta.att.button{
+	padding: 8px 17px;
+	margin: 5px;
+    background: rgba(0,0,0,0);
+    color: rgba(0,0,0,0.6);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.15) inset!important;
+}
+#shopview .ui.top.details .product.attrs .ui.magenta.att.button.active{
+	background: #222;
+	color: #fff;
+	box-shadow:none !important;
+}
+.mb-5{
+	margin-bottom:5px !important;
+}
+.quantity{
+	font-size:0;
+	margin-top: 5px;
+	border:1px solid rgba(0,0,0,0.1);
+	display:inline-block;
+}
+.ui.mini.gray.icon.button{
+    background-color: rgba(200,200,200,0.1);
+    color: rgba(0,0,0,0.5);
+    padding: 0.65rem 1rem;
+    margin-top: 9pt;
+    border-radius: 0;
+    margin: 0;
+	height:32px;
+}
+.ui.mini.gray.icon.button:first-child{
+	border-right: 1px solid rgba(0,0,0,0.1) !important;
+}
+.ui.mini.gray.icon.button:last-child{
+	border-left: 1px solid rgba(0,0,0,0.1) !important;
+}
+.quantity input{
+	width: 70px;
+    text-align: center;
+    margin: 0;
+	height: 32px;
+    vertical-align: top;
+    line-height: 32px;
+    font-size: 16px;
+    background-color: #FFF;
+    border-radius: 0 !important;
+    border: none !important;
+    outline: 0;
+    color: rgba(0,0,0,1);
+}
+.gobuybtn{
+	position:absolute;
+	bottom:0;
+	left:0;
+	width:100%;
+	height:50px;
+}
+.gobuybtn .two.btn{
+	padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.gobuybtn .childbtn{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+}
+.gobuybtn .childbtn a{
+	text-align: center;
+    line-height: 50px;
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: 0;
+    left: 0;
+	color:#fff;
+}
+.gobuybtn .childbtn .joincart{
+	background:#BE8914;
+}
+.gobuybtn .childbtn .buynow{
+	background:#222;
+}
+.close-details{
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    right: 10px;
+    top: 10px;
+    background: rgb(200,200,200);
+    border-radius: 15px;
+	z-index:2;
+}
+.close-details img{
+    width: 12px;
+    height: 12px;
+    margin: 7px;
+}
+
+#shop_guess_wap_list{
+	margin-top: 10px;
+    position: relative;
+    background: #fff;
+}
+#shop_guess_wap_list .guess.title{
+	padding:15px 10px 5px;
+    font-weight: 400;
+    font-size: 14px;
+}
+#shop_guess_wap_list .recom-item.three{
+	padding:0 3px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three {
+    width: 33.333%;
+    height: 100%;
+    display: block;
+    float: left;
+    padding: 0 3px;
+    margin: 4px 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin-right: 0px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a{
+	padding-top:100%;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three a img{
+	border: 1px solid rgba(0,0,0,0.1);
+	top: 0;
+	bottom: auto;
+	height:auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc{
+	position:relative;
+	background:#fff;
+    padding: 8px 0 0;
+    text-align: left;
+	height: auto;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc h2{
+	height:32px;
+	color: #222;
+	font-size: 13px;
+	overflow:hidden;
+	font-weight:400;
+	white-space: normal;
+	margin-bottom: 5px;
+}
+#shop_guess_wap_list .recom-item.three .recom-cell.three .desc .cats{
+	font-size: 12px;
+    height: 30px;
+    padding: 0;
+    text-transform: uppercase;
+    color: #BE8914;
+	line-height:20px;
+}
+#shopview{
+  padding-bottom:60px;
+}
+#shopview .tabshow{
+	margin-top:10px;
+	padding-bottom:0;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell{
+	padding: 10px 0px !important;
+	text-align:center;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell::after{
+	content:'';
+	height:1px;
+	width:66px;
+	background:#BE8914;
+	position:absolute;
+	left:50%;
+	margin-left:-33px;
+	bottom:0;
+    transform: scaleX(0);
+    -webkit-transform: scaleX(0);
+    -webkit-transition: all 0.3s ease 0.05s;
+    transition: all 0.3s ease 0.05s;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active{
+	color:#BE8914;
+}
+#shopview .tabshow .nav-menu .navfelx .childcell.active::after{
+    transform: scaleX(1);
+    -webkit-transform: scaleX(1);
+}
+#shopview .tabshow .ui.segment{
+	display:none;
+}
+#shopview .tabshow .ui.segment.active{
+	display:block;
+}
+#shopview .tabshow .ui.products.segment{
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+	border: none !important;
+}
+#shopview .tabshow .ui.reply.segment,#shopview .tabshow .service.segment {
+    margin-top: 0;
+    -webkit-box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    box-shadow: 0 0 0 0px rgba(0,0,0,.1) !important;
+    border-radius: 0;
+    border: none;
+    padding-top: 18px;
+	margin-bottom: 0;
+}
+.product.froala-element p{
+	margin:0;
+}
+.product.froala-element p img {
+    width: 100%;
+	margin: 0;
+	vertical-align: middle;
+}
+.flexbuy{
+	position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    height: 50px;
+	z-index: 3;
+	max-width:767px;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.three-mesg{
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.three-mesg li{
+	-webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    width: 0;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    max-width: 100%;
+    display: block;
+    padding: 0;
+    position: relative;
+}
+.three-mesg .price{
+	background:#fff;
+	color:#be8914;
+	text-align: center;
+    font-size: 12px;
+    -webkit-box-flex: 1.3;
+    -webkit-flex: 1.3;
+    -ms-flex: 1.3;
+    flex: 1.3;
+}
+.three-mesg .shopcart{
+    text-align: center;
+    line-height: 50px;
+	background: #222;
+	color:#fff;
+}
+.three-mesg .shopbuy{
+	background: #BE8914;
+    text-align: center;
+    line-height: 50px;
+	color:#fff;
+}
+.ui.service.segment p{
+	font-size: 0.92885rem;
+	line-height: 22px;
+}
+#mmfoot{
+	display:none;
+	visibility: hidden;
+}
+
+.commentitem{
+	padding:1.07175rem 0 0.7145rem 0;
+	border-top:1px solid rgba(0,0,0,0.1);
+}
+.commentitem:first-child{
+	border:none;
+	padding-top: 0;
+}
+.commentitem .comment{
+	display: flex;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -webkit-box;
+    align-items: center;
+    -webkit-box-align: center;
+}
+.commentitem .comment img{
+	width: 30px;
+	height: 30px;
+	border-radius:50%;
+	vertical-align: bottom;
+}
+.commentitem .comment .content{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-flex-basis: 0;
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    flex-grow: 1;
+    position: relative;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.commentitem .comment .content .ui.rating{
+	font-size:0.8574rem;
+	margin-left:0.7145rem;
+}
+.commentitem .comment .content h5.ui.header{
+	font-weight:400;
+}
+.commentitem .text{
+	margin:8px 0 5px 0;
+	font-size:0.92885rem;
+}
+.commentitem .date{
+	font-size:0.8574rem;
+}
+.commentitem .image{
+	margin-top: 0.35725rem;
+}
+.commentitem .image .ui.three.cards {
+    margin: 0 -1.5%;
+}
+.commentitem .image .ui.three.cards>.card {
+    width: 30.33333%;
+    margin:0 1.5% 0.7145rem;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.commentitem .image .ui.three.cards>.card a.image{
+    background: rgba(0,0,0,0);
+    width: 100%;
+	margin: 0;
+    border-radius: 0 !important;
+}
+.lightboxOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: black;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
+  opacity: 0.92;
+  display: none;
+}
+
+.lightbox {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  text-align: center;
+  line-height: 0;
+  font-weight: normal;
+}
+
+.lightbox .lb-image {
+  display: block;
+  height: auto;
+  max-width: inherit;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.lightbox a img {
+  border: none;
+}
+
+.lb-outerContainer {
+  position: relative;
+  zoom: 1;
+  margin: 0 auto;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0);
+}
+
+.lb-outerContainer:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.lb-container {
+  padding: 4px;
+  position: relative;
+  background-color: rgba(0,0,0,0);
+}
+
+.lb-loader {
+  position: absolute;
+  top: 43%;
+  left: 0;
+  height: auto;
+  width: 100%;
+  text-align: center;
+  line-height: 0;
+}
+.lb-cancel {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  background: url({{ app_url_packaged }}/images/mall/loading1.gif) no-repeat;
+}
+
+.lb-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+}
+
+.lb-container > .nav {
+  left: 0;
+}
+
+.lb-nav a {
+  outline: none;
+  background-image: url('data:image/gif;base64,R0lGODlhAQABAPAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==');
+}
+
+.lb-prev, .lb-next {
+  height: 100%;
+  cursor: pointer;
+  display: block;
+}
+
+.lb-nav a.lb-prev {
+  width: 34%;
+  left: 0;
+  float: left;
+  background: url("{{ app_url_packaged }}/images/lightbox/prev.png") left 48% no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 1;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+  background-size: 26%;
+}
+
+.lb-nav a.lb-prev:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+.lb-nav a.lb-next {
+  width: 64%;
+  right: 0;
+  float: right;
+  background: url("{{ app_url_packaged }}/images/lightbox/next.png") right 48% no-repeat;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 1;
+  -webkit-transition: opacity 0.6s;
+  -moz-transition: opacity 0.6s;
+  -o-transition: opacity 0.6s;
+  transition: opacity 0.6s;
+  background-size: 13%;
+}
+
+.lb-nav a.lb-next:hover {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+.lb-dataContainer {
+  margin: 0 auto;
+  padding-top: 5px;
+  *zoom: 1;
+  width: 100%;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  background-color: rgba(0,0,0,0);
+}
+.lb-data .lb-details{
+	display:none;
+}
+.lb-data .lb-close {
+  display: block;
+  float: right;
+  width: 30px;
+  height: 30px;
+  background: url("{{ app_url_packaged }}/images/lightbox/close.png") top right no-repeat;
+  text-align: right;
+  outline: none;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=70);
+  opacity: 0.7;
+  -webkit-transition: opacity 0.2s;
+  -moz-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+  position: absolute;
+  top: -30px;
+  right: 15px;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+}
+#shopview .tabshow > .nav-menu .navfelx{
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#shopview .tabshow .ui.reply.segment{
+	padding-top: 0;
+	background: rgba(0,0,0,0);
+}
+#shopview .tabshow .ui.reply.segment .nav-menu{
+	padding: 0;
+	margin: -10px -1rem 0;
+	font-size:0.92885rem;
+}
+#shopview .tabshow .ui.reply.segment .ui.comments{
+    padding: 1rem;
+    background: #fff;
+    margin: 0 -1rem;
+	padding-top: 18px;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell::after{
+	content:none;
+}
+#shopview .tabshow .ui.reply.segment .nav-menu .navfelx .childcell:first-child::before{
+	content:'';
+	height:19px;
+	width:1px;
+	position:absolute;
+	top:50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	right:0;
+	background:rgba(0,0,0,0.1);
+}
+
+#product_eval{
+	margin-top:0.7145rem;
+	background:#fff;
+}
+#product_eval .eval.title{
+	padding: 1.07175rem 0.7145rem 1.07175rem;
+    font-weight: 400;
+    font-size: 1rem;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+#product_eval #topicpage .ui.topiclist.segment{
+	padding:0 0.7145rem 1rem;
+}
+.service.segment .row:first-child{
+	padding-top:0.35725rem !important;
+}
+span.oldprice{
+    color: #999;
+    font-size: 12px;
+    text-decoration: line-through;
+    margin-left: 3px;
+}
+span.ui.timeout.btn{
+    font-size: 12px;
+    color: #fff;
+    background: #be8914;
+    padding: 4px 6px;
+    border-radius: 4px;
+    vertical-align: top;
+    margin-left: 5px;
+}
+.shopbrand{
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding: 10px;
+    background:#fff;
+}
+.shopbrand img{
+    display: inline-block;
+    margin-top: .14285em;
+    width: 40px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(0,0,0,0.1);
+    vertical-align: middle;
+}
+.shopbrand .content{
+    font-size: 14px;
+    font-weight: 400;
+    width: 100%;
+    padding-left: 60px;
+    padding-right: 10px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translate3d(0,-50%,0);
+    -webkit-transform: translate3d(0,-50%,0);
+    max-height: 72px;
+    overflow: hidden;
+    color: #222;
+    left: 0;
+    text-decoration: none;
+}
+.shopbrand .sub.header {
+    margin-top: 5px;
+    font-size: 12px ;
+    line-height: 13px;
+    color: #666;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    float: right;
+    position: relative;
+    padding-right: 30px;
+}
+.shopbrand i.float.icon {
+    margin-left: 5px;
+    font-size: 1rem;
+}
+.shopbrand .sub.header i.float.icon{
+    position: absolute;
+    font-size: 1.5rem;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    top: 9px;
+}
+.sfooter.nav-menu{
+  display: none;
+  visibility: hidden;
+}
+.mask{
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: rgba(0,0,0,0.2);
+    z-index: 9;
+    display: none;
+}
+.mask.show{
+  display: block;
+}
+.ui.favorite{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.three-mesg .price.is_storage{
+    -webkit-box-flex: 1.8;
+    -webkit-flex: 1.8;
+    -ms-flex: 1.8;
+    flex: 1.8;
+}
+.is_storage .ui.favorite{
+    width: 33.33333%;
+    left: 33.33333%;
+}
+.is_storage .ui.server{
+    width: 33.33333%;
+}
+.ui.shop-icon{
+    width: 33.33333%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.shop-icon .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/dipan.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.ui.favorite.active{
+    color: #be8914;
+}
+.ui.favorite .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/shouc.png);
+    background-repeat: no-repeat;
+    background-size: 36px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.ui.favorite.active .bgimg{
+    background-position: -18px 0;
+}
+.ui.fshare{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    width: 32px;
+    height: 50px;
+}
+.ui.fshare .bgimg{
+    display: block;
+    margin: 16px auto;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+.acacartlogin{
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 34px;
+    height: 50px;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    position: absolute;
+}
+.acacartlogin .caputcart {
+    background: url({{ app_url_packaged }}/images/icon/fshare.png);
+    width: 21px;
+    height: 20px;
+    background-size: 21px 20px;
+    margin: 15px 0 15px 10px;
+}
+.acacartlogin .cartnumber {
+    position: absolute;
+    top: 7px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    background: #222;
+    border-radius: 50%;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    line-height: 18px;
+}
+.ui.server{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.server .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/serve.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="{{ app_url_packaged }}/javascript/lightbox.min.js" type="text/javascript"></script>
+  <script type="text/javascript" >
+    var product_id = "{{ product._id }}";
+    var topic_sort = 6; // 最新推荐
+
+    {% if storage_id %}
+        var storage_id = "{{ storage_id }}";
+    {%else%}
+        var storage_id = '';
+    {%endif%}
+
+    // 加载产品评测
+    function ajax_load_topic(target_id, sort, page, size){
+        var url = '{{ app_url_wap }}/topic/ajax_fetch_more';
+        $.get(url, { target_id:target_id, sort:sort, page:page, size:size }, function(rs){
+            if(rs.data.results.total_rows==0){
+              return;
+            }
+            $('#product_eval').show();
+            var rendered = phenix.ajax_render_result('#fetch_more_topic_tpl', rs.data);
+            if(rs.data.page==1){
+              $('#topic-box').html(rendered);
+            }else{
+              $('#topic-box').append(rendered);
+            }
+            new Swiper('.tslide',{
+              freeMode : true,
+              slidesPerView : 'auto',
+            });
+        }, 'json');
+    }
+
+      // 加载产品相关推荐
+      function ajax_load_product(sword, id){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/shop/ajax_guess_product';
+          $.get(url, {sword: sword, size: 3, id: id }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+      $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {type:1}, function(result){
+            if(result.success){
+              $('#wap_cart_num').show().text(result.data.count);
+            }else{
+               $('#wap_cart_num').hide().text('');             
+            }
+        }, 'json');
+
+  </script>
+{% endblock %}
+{% block jquery %}
+  	$('#slider').flexslider({
+        animation: "slide",
+        directionNav: false, 
+        controlNav: true,
+        animationLoop: true,
+        slideshow: true,
+        slideshowSpeed: 5000,
+        animationDuration: 300,
+        animationSpeed: 300,
+    });
+	var flexheight = $('body').width()*9/16+'px';
+	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+    // 加载相关商品
+    ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
+	
+	//点击颜色分类
+	$('.flexbuy .shopcart,.flexbuy .shopbuy').click(function(){
+		if( !phenix.visitor.is_login ){
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
+		}
+		else{
+			$('#cover').css('display','block');
+			$('body').css('overflow','hidden');
+            $('.mask').addClass('show');
+			$('#shopview').addClass('show-details');
+
+            var buy_evt = $(this).data('evt');
+            $("input[name='buy_evt']").val(buy_evt);
+		}
+	});
+	$('#cover,.close-details').click(function(){
+		$('#shopview').removeClass('show-details');
+		$('#cover,body').removeAttr('style');
+        $('.mask').removeClass('show');
+
+	});
+	
+	// 如果仅一个sku,则设置默认值
+	{% if skus_count %}
+		var choosed_sku = 0;
+    var evt_type = 2;
+	{% else %}
+		var choosed_sku = {{ product._id }};
+    var evt_type = 1;
+    $('.inc-qty.button').data('count', "{{ product.inventory|default 0 }}");
+    $('.dec-qty.button').data('count', "{{ product.inventory|default 0 }}");
+      
+	{% endif %}
+	// 选择sku
+	$('.attrs .ui.att.button').click(function(){
+		choosed_sku = $(this).data('id');
+		$('.attrs .ui.att.active.button').removeClass('active');
+		$(this).addClass('active');
+		{% if !product.snatched %}
+      var current_count = $(this).data('inventory');
+      var sku_type = $(this).data('type');
+      var cover_url = $(this).data('cover');
+		  $('h4.ui.header.inline span').html($(this).data('price'));
+		  $('h4.ui.header.inline .sub.header span').html(current_count);
+          if(cover_url){
+            $('.sku_cover').attr('src', cover_url);
+          }
+      $('.inc-qty.button').data('count', current_count);
+      $('#product-qty').val(1);
+      
+		{%endif%}		
+		return false;
+	});
+	
+	//点击input弹出框距顶部为0
+	 /*$('input').focus(function(){
+		$('.ui.top.details').css({'top':'0','bottom':'auto'});
+	});
+	$('input').blur(function(){
+		$('.ui.top.details').removeAttr('style');
+	}); */ 
+	
+	// 更新购物车数据
+	 /* var update_cart = function(pid, data){
+		// 购物车清空后，刷新页面
+		if (data.items_count == 0){
+			//phenix.redirect('{{ app_url_cart }}', 0);
+		}
+		// 导航购物标识角标
+		$('.basketnumber.label').text(data.items_count);
+		
+		$('.cart-items-count').text(data.items_count);
+		$('.cart-total-money').text(data.total_money);
+	}; */ 
+	$('.inc-qty.button').bind('click', function(){
+        if ( !choosed_sku){
+          phenix.show_error_note('请选择颜色分类', 2000);
+        }
+		else{
+			var sku_count = parseInt($(this).data('count')),
+			qty_value = parseInt($('#product-qty').val());
+			
+			// 添加1个数量
+			qty_value += 1;
+      if(qty_value>sku_count){
+        qty_value=sku_count;
+      }
+			$('#product-qty').val(qty_value);
+			
+		}
+		
+	});
+	
+	$('.dec-qty.button').bind('click', function(){
+        if ( ! choosed_sku){
+          phenix.show_error_note('请选择颜色分类', 2000);
+        }
+		else{
+			var sku_count = parseInt($(this).data('count')),
+				qty_value = parseInt($('#product-qty').val());
+			// 减少1个数量,验证是否为0
+			qty_value  -= 1;
+      if(qty_value<=0){
+        qty_value=1;
+      }
+			$('#product-qty').val(qty_value);
+			
+		}
+	});
+	
+	// 从购物车删除
+	$('.cart.page .ui.close.button').bind('click', function(){
+		var sku = $(this).data('sku');
+		$.get('{{ app_url_shopping }}/remove', {sku: sku});
+	});
+	
+	// 去结算
+	$('.checkout.button').bind('click', function(){
+		var checkout = '{{ app_url_shopping }}/checkout';
+		phenix.redirect(checkout, 0);
+	});
+	
+	 
+	//产品详情、评论、售后服务
+	$('.product.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.products.ui.segment').addClass('active');
+		$('.reply.ui.segment,.service.ui.segment').removeClass('active');
+	});
+	$('.reply.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.reply.ui.segment').addClass('active');
+		$('.products.ui.segment,.service.ui.segment').removeClass('active');
+	});
+	$('.service.childcell').bind('click',function(){
+		$(this).addClass('active');
+		$(this).siblings().removeClass('active');
+		$('.service.ui.segment').addClass('active');
+		$('.products.ui.segment,.reply.ui.segment').removeClass('active');
+	});
+
+    /**
+	// 立即购买
+  $('#nowbuy-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        var qty_value = parseInt($('#product-qty').val());
+        phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value, 0);
+      } else {
+        phenix.show_error_note('请选择颜色分类', 2000);
+      }
+    });
+  });
+
+	// 加入购物车
+  $('#addcart-btn').livequery(function(){
+    $(this).click(function(){
+      // 所有ajax请求，验证是否登录
+      if (!phenix.visitor.is_login){
+        phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+        return false;
+      }
+      if (choosed_sku){
+        var qty_value = parseInt($('#product-qty').val());
+        $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value}, function(result){
+          if(result.success){
+            phenix.show_ok_note('加入购物车成功', 2000);
+            $('#cover,.close-details').click();
+            // ajax加载购物车数量
+            $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                if(result.success){
+                  $('#wap_cart_num').show().text(result.data.count);
+                }
+            }, 'json');
+          }else{
+            phenix.show_error_note(result.message, 3000);           
+          }
+        }, 'json');
+
+      } else {
+        phenix.show_error_note('请选择颜色分类', 2000);
+      }
+    });
+  });
+  **/
+
+    $('#sure-btn').livequery(function(){
+        $(this).click(function(){
+          // 所有ajax请求，验证是否登录
+          if (!phenix.visitor.is_login){
+            phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+            return false;
+          }
+
+          var buy_evt = $("input[name='buy_evt']").val();
+          var qty_value = parseInt($('#product-qty').val());
+
+          if (choosed_sku){
+            if(buy_evt==1){ // 立即购买
+                phenix.redirect('{{ app_url_wap }}/shop/nowbuy?sku='+choosed_sku+'&n='+qty_value+'&storage_id='+storage_id, 0);
+            }else if(buy_evt==2){   //  加入购物车
+                $.post("{{ app_url_wap }}/app/site/cart/ajax_add_cart", {target_id:choosed_sku, type:evt_type, n:qty_value, storage_id:storage_id}, function(result){
+                  if(result.success){
+                    phenix.show_ok_note('加入购物车成功', 2000);
+                    $('#cover,.close-details').click();
+                    // ajax加载购物车数量
+                    $.get('{{ app_url_wap }}/app/site/cart/ajax_fetch_count', {}, function(result){
+                        if(result.success){
+                          $('#wap_cart_num').show().text(result.data.count);
+                        }
+                    }, 'json');
+                  }else{
+                    phenix.show_error_note(result.message, 3000);           
+                  }
+                }, 'json');
+            }
+          } else {
+            phenix.show_error_note('请选择颜色分类', 2000);
+          }
+
+  
+        });
+    });
+
+  // ajax加载产品评测
+  ajax_load_topic(product_id, topic_sort, 1, 8);
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{product._id}},type:1,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:1}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+  $('.ui.fshare,.acacartlogin').on('click',function(){
+    $('#mask').css('display','block');
+  });
+  $('#mask').on('click',function(){
+    $('#mask').css('display','none');
+  });
+  $('.ui.server').click(function(){
+    $('.ui.server-show').modal('show');
+  })
+
+
+{% endblock %}
+
+{% block content %}
+<div class="mask"></div>
+<div class="ui category" style="padding-bottom: 0;">
+  <div class="ui sheader">
+    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+    <p class="mb-0">产品详情</p>
+    
+    <div class="acacartlogin">
+      <div class="caputcart"></div>
+    </div>
+    <!--<div class="ui fshare"><div class="bgimg"></div></div>-->
+  </div>
+</div>
+{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
+<div id="slider" class="flexslider flex-single">
+	<ul class="slides">
+	{% for asset in assets.rows %}
+	    <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+	      <a href="javascript:void(0);" title="{{ product.title }}" alt="{{ product.title }}">
+	          <img src="{{ asset.thumbnails.aub.view_url }}" alt="{{ product.title }}" style="display: none;" />
+	      </a>
+	    </li>
+	{% endfor %}
+	  
+	</ul>  
+</div>
+
+<div id="shopview">
+	<div class="presale">
+		<h4 class="ui header">
+			{{ product.title }}
+			<div class="sub header">
+				<span><i class="rmb icon"></i>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}
+        </span>
+        {% if product.sale_price != product.market_price %}
+            <span class="oldprice">¥{{ product.market_price }}</span>
+        {%endif%}
+        {% if product.extra.tag %}<span class="ui timeout btn">{{ product.extra.tag }}</span>{%endif%}
+      </div>
+		</h4>
+	</div>
+  <!--
+	<div class="colour">
+		颜色分类
+		<i class="angle float right icon cate"></i>
+	</div>-->
+	<div class="ui top details">
+		<div class="close-details">
+			<img src="{{ app_url_packaged }}/images/icon/close.png">
+		</div>
+		<div class="ui respontion grid">
+			<div class="row pb-0">
+				<div class="column">
+					<img class="ui middle aligned image sku_cover" src="{{ product.cover.thumbnails.apc.view_url }}" />
+					<h4 class="ui header inline">
+						价格：<i class="rmb icon"></i><span>{% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}</span>
+						<div class="sub header">
+							剩余库存：<span>{{ product.inventory }}</span>
+						</div>
+					</h4>
+				</div>
+				<div class="ui divider"></div>
+			</div>
+			
+			<div class="row pb-0" style="max-height: 185px;overflow: scroll;">
+				<div class="column">
+					<h4 class="ui header mb-5">
+						颜色分类
+					</h4>
+					
+		           {% if product.stage == 9 %}
+					<div class="product attrs">
+						 {% if skus %}
+							{% for m in skus %}
+                            <span class="ui small magenta inverted att button" data-id="{{ m._id }}" data-price="{{ m.price }}" data-inventory="{{ m.quantity }}" data-cover="{{ m.cover_url }}" >{{ m.mode }}</span>		
+							{% endfor %}
+						{%else%}
+							<span class="ui small magenta active inverted att button" data-id="{{ product._id }}" data-price="{{ product.sale_price }}" data-inventory="{{ product.inventory }}">默认</span>
+
+		                {% endif %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+			
+			<div class="row pb-0">
+				<div class="ui divider"></div>
+			</div>
+			
+			<div class="row">
+				<div class="column">
+					<h4 class="ui header mb-5">
+						数量
+					</h4>
+					
+					<div class="quantity">
+						<button class="ui mini gray dec-qty icon button" data-count="1">
+							<i class="minus icon"></i>
+						</button>
+						<input type="number" name="product-qty" id="product-qty" value=1 autocomplete="off">
+						<button class="ui mini gray inc-qty icon button" data-count="">
+							<i class="add icon"></i>
+						</button>
+					</div>
+				</div>
+				
+			</div>
+			
+		</div>
+		<div class="gobuybtn">
+            <input type="hidden" name="buy_evt" value="1" />
+			<ul class="two btn">
+				<li class="childbtn">
+					<a href="javascript:void(0);" class="buynow" id="sure-btn">确定</a>
+				</li>
+			</ul>
+		</div>
+	
+	</div>
+  <!-- 品牌 -->
+  {% if product.brand %}
+  <div class="shopbrand">
+      <img src="{{ product.brand.cover.thumbnails.apc.view_url }}">
+      <a href="{{ app_url_wap }}/scene_brand/view?id={{ product.brand_id }}" class="content">
+          {{ product.brand.title }}
+          <div class="sub header">
+              查看所有商品
+              <i class="angle float right icon"></i>
+          </div>
+      </a>
+  </div>
+  {%endif%}
+
+  {% if product.extra.server %}
+  <div class="shopbrand">
+      <p style="font-size: 13px;">服务说明：{{ product.extra.server }}</p>
+  </div>
+  {%endif%}
+
+
+	<!-- 产品评测 -->
+	<!--<div id="product_eval" style="display:none;">
+		<div class="eval title">
+			产品评测
+		</div>
+		<div id="topicpage">
+			<div class="ui topiclist segment">
+				<div class="ui topic relaxed divided list topic-box-list" id="topic-box">
+				 
+				
+				</div>
+			</div>
+		</div>
+	</div>-->
+	<!-- 详情 评价 -->
+	<div class="tabshow">
+		<div class="nav-menu mb-2r">
+			<ul class="navfelx">
+				<li class="product childcell active">
+					产品详情
+				</li>
+				<li class="reply childcell">
+					用户评价
+				</li>
+				<li class="service childcell">
+					售后服务
+				</li>
+			</ul>
+		</div>
+		
+		<div class="ui products segment active">
+			<div class="product content froala-element">
+				{{ product.content }}
+			</div>
+		</div>
+
+		{% if product.stage == 9 %}
+	    {% if product.comment_count %}
+
+	    <!--商品评价-->
+		
+	    <div class="ui reply segment">
+			<!--  晒单
+			<div class="nav-menu mb-2r">
+				<ul class="navfelx">
+					<li class="allreply childcell active">
+						全部评价
+					</li>
+					<li class="shaidan childcell">
+						晒单
+					</li>
+				</ul>
+			</div>-->
+	    	<div class="ui threaded minimal is-comment comments">
+	            {% comment_list var:'comments' page:page target_id:product._id %}
+	            {% for comment in comments.rows %}
+				<div class="commentitem"  id="{{ comment._id }}">
+					<div class="comment">
+						<img src="{{ comment.user.small_avatar_url }}" alt="{{ comment.user.nickname }}" />
+						<div class="content">
+							<h5 class="ui header ml-2r mtb-0">
+								{{ comment.user.nickname }}
+								{% include "block/star.html" %}
+							</h5>
+						</div>
+					</div>
+					
+            		<div class="text">
+              		  {{ comment.content }}
+            	  	</div>
+					
+					<!-- 图片 -->
+					<!--
+					<div class="image">
+						<div class="ui three cards">
+							
+							<div class="card">
+								<a href="http://frbird.qiniudn.com/comment/160420/57173bf63ffca269098c35f5-1-hu.jpg" data-lightbox="images" class="ui image">
+						          <img src="http://frbird.qiniudn.com/comment/160420/57173bf63ffca269098c35f5-1-hu.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							<div class="card">
+								<a href="{{ app_url_packaged }}/images/mall/mikt013.jpg" data-lightbox="images" class="ui image">
+						          <img src="{{ app_url_packaged }}/images/mall/mikt13.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							<div class="card">
+								<a href="{{ app_url_packaged }}/images/mall/mikt015.jpg" data-lightbox="images" class="ui image">
+						          <img src="{{ app_url_packaged }}/images/mall/mikt15.jpg" alt="婴萌配奶机" />
+						      	</a>
+							</div>
+							
+						</div>
+					</div>
+					-->
+					
+					<div class="date">{{ comment.created_at }}</div>
+						
+				</div>
+				{%endfor%}
+				
+			</div>
+		</div>
+		
+		
+		
+			
+			
+    		{% endif %}<!--if product.comment_count-->
+ 		   {% endif %}
+  		   
+  	   	 	<!--if product.comment_count-->
+  	  	  	<!--if stage==9-->
+	    		
+		  
+		<div class="ui service segment">
+			<div class="ui responsive grid">
+				{% if product.guide_url %}
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							使用手册
+						</h5>
+						<a href="{{ product.guide_url }}" class="ui magenta link">
+							<p>{{ product.guide_url }}</p>
+						</a>
+					</div>
+				</div>
+				{% endif %}
+				
+				
+                <!--
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							退换货
+						</h5>
+						<p>太火鸟（taihuoniao.com）7天无忧退换货 <br>
+						为了让每位鸟迷更加满意，购物时无后顾之忧，太火鸟(taihuoniao.com)即日起提供“七天无忧退换货”服务。<br>
+						自您签收商品7日内（以快递签收日为准），在不影响商品二次销售情况下，可向太火鸟申请办理退换货。
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							非质量问题
+						</h5>
+						<p>
+						请您拨打客服电话（010-84599327）或客服邮箱（service#taihuoniao.com，#换成@）申请退换货。客服确认申请后会告知您退货地址，请您按地址退回商品，并提供快递单号给客服，客服会为您确认收货及安排退换货。
+						</p>
+					
+					</div>
+				</div>
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							质量问题
+						</h5>
+						<p>
+							请将问题商品拍照并发送至客服邮箱（service#taihuoniao.com，#换成@），客服收到或确认后会为您安排退换货。
+						</p>
+					</div>
+				</div>
+			</div>
+            -->
+
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							质保说明
+						</h5>
+						<p>
+                        售后政策严格遵守国家标准执行三包服务政策：7天退货/15天换货/1年质保<br />
+                        非因产品质量原因产生的退换货，因退换货而产生的物流成本由客户承担。<br />
+                        我们将了解需要退货的商品及相关退货信息，在确认商品的情况后，我们将在3个工作日内为您办理退款操作，实际到账日以银行及支付规则为准。由于商品本身质量所产生的退换货要求，发生的运输费用由Fiu承担。<br />
+                        由于每件商品的库存有限，可能会出现换货时该商品已缺货的情况，如遇上述情况，将只能作退款处理。
+						</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							关于发货
+						</h5>
+						<p>
+                        每日15:00之前付款的订单当日发货，15:00之前付款的订单次日发货，周六、日以及法定节假日不发货（特殊定制产品除外）<br />
+                        由于一部分商品为Fiu合作的商家直接发货。如遇同时购买多件产品，出现由不同发货地发出的情况，请注意查收。
+						</p>
+					
+					</div>
+				</div>
+				<div class="row">
+					<div class="column p-0">
+						<h5 class="ui header mb-2r">
+							有什么问题欢迎咨询Fiu客服
+						</h5>
+						<p>
+                        客服时间：09：00-18:00<br />
+                        客服电话：4008-798-751<br />
+                        客服邮箱：service@taihuoniao.com
+						</p>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+	</div>
+
+	<!-- 相关推荐 -->
+    <div id="shop_guess_wap_list">
+        <div class="guess title">
+            相关推荐
+        </div>
+        <div class="recom-item three"><!--ajax list--></div>
+    </div>
+	
+	<div class="flexbuy">
+		<ul div class="three-mesg">
+            {% if is_storage %}
+                <li class="price is_storage">
+                <a class="ui shop-icon" href="{{ scene.wap_view_url }}">
+                    <div class="bgimg"></div>店铺
+                </a>
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+                {% else %}
+                <li class="price">
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+            {% endif %}
+
+			
+			<li class="shopcart" data-evt="2">
+				加入购物车
+			</li>
+			<li class="shopbuy" data-evt="1">
+				立即购买
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+  <div class="frideshare">
+  <img src="https://s3.taihuoniao.com/images/fenxiang.png" width="100%" >
+  </div>
+</div>
+
+<div class="ui small server-show modal">
+  <i class="close icon"></i>
+  <div class="content">
+    <div class="ui center aligned grid">
+      <div class="row">
+        <div class="column">
+          <p style="line-height: 24px;font-size: 17px;">客服电话<br>4008-798-751</p>
+          <p class="mb-0">长按识别二维码 直接呼叫客服</p>
+          <img src="{{ app_url_packaged }}/images/icon/servess.jpg" width="80%" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0); display: none;">
+  <div class="frideshare">
+  <img src="https://s3.taihuoniao.com/images/fenxiang.png" width="100%">
+  </div>
+</div>
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_topic_tpl' tpl:'mustache_m/fetch_more_topic.mustache' %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/stick_products.mustache' %}
+{% endblock %}

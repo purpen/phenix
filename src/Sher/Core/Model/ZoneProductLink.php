@@ -24,8 +24,8 @@ class Sher_Core_Model_ZoneProductLink extends Sher_Core_Model_Base {
 	protected $retrieve_fields = array();
     
 	protected $joins = array(
-		'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
-		'product' =>  array('product_id' => 'Sher_Core_Model_Product'),
+		//'scene' =>  array('scene_id' => 'Sher_Core_Model_SceneScene'),
+		//'product' =>  array('product_id' => 'Sher_Core_Model_Product'),
 	);
 	
 	/**
