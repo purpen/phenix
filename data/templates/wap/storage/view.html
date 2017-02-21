@@ -199,8 +199,27 @@
 {% endblock %}
 
 {% block layout_js %}
+  <script src="{{ app_url_packaged }}/javascript/lightbox.min.js" type="text/javascript"></script>
+  <script type="text/javascript" >
 
+      // 加载产品相关推荐
+      function ajax_load_product(id){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_domain }}/app/site/storage/ajax_fetch_storage_product';
+          $.get(url, {page:1, size: 30, scene_id:id }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
 {% endblock %}
+
 {% block jquery %}
 	$('#slider').flexslider({
         animation: "fade",
@@ -230,22 +249,26 @@
 	$('.acacartlogin').click(function(){
 
 	})
+
+    // 加载相关商品
+    ajax_load_product('{{ scene._id }}');
+
 {% endblock %}
 {% block content %}
 <div id="slider" class="flexslider flex-single">
 	<div class="ui fiushop pb-0">
 	    <div class="ui sheader">
-	        <a class="return" href="http://t.taihuoniao.com/topic"><i class="angle float left icon"></i></a>
-	        <p>大乐之野</p>
+	        <a class="return" href=""><i class="angle float left icon"></i></a>
+	        <p></p>
 	        <div class="acacartlogin active">
 	        	<div class="caputcart"></div>
 	        </div>
 	    </div>
 	</div>
 	<ul class="slides">
-	{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
+	{% asset_list var:'assets' parent_id:scene._id size:30 asset_type:101 %}
 	{% for asset in assets.rows %}
-	    <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
+	    <li style="background-image: url('{{ asset.thumbnails.apc.view_url }}');">
 	    	
 	    </li>
 	{% endfor %}
@@ -259,31 +282,33 @@
 	<div class="ui responsive grid">
 		<div class="row pt-4r">
 			<div class="ui center aligned column">
-				<img class="storimg" src="{{  }}">
-				<h3 class="mtb-0 title">大乐之野</h3>
+                <img class="storimg" src="{{ scene.avatar.htumbnails.apc.view_url }}">
+                <h3 class="mtb-0 title">{{ scene.title }}</h3>
 				<div class="pb-r">
 					<span class="ui star rating">
 						<i class="icon active"></i>
 						<i class="icon active"></i>
 						<i class="icon active"></i>
 						<i class="icon active"></i>
-						<i class="icon active"></i>
+						<i class="icon "></i>
 					</span>
 				</div>
+                <!--
 				<p class="maypay">人均消费￥2500</p>
 				<p class="bound"><img src="{{ app_url_packaged }}/images/icon/youh.png">领取10元优惠券</p>
+                -->
 			</div>
 		</div>
 
 		<div class="row des">
 			<div class="column">
-				<p>莫干山深处的碧坞村，有一栋栋漂亮的小别墅掩映在山林竹海之间，一条小溪蜿蜒穿过，这里的一切都还是一个山乡生活最原始的模样，山中万籁寂静，唯有山泉叮咚。</p>
+                <p>{{ scene.des }}</p>
+                <!--
 				<div class="more" style="display: none">
-					<p>莫干山深处的碧坞村，有一栋栋漂亮的小别墅掩映在山林竹海之间，一条小溪蜿蜒穿过，这里的一切都还是一个山乡生活最原始的模样，山中万籁寂静，唯有山泉叮咚。</p>
-					<p>莫干山深处的碧坞村，有一栋栋漂亮的小别墅掩映在山林竹海之间，一条小溪蜿蜒穿过，这里的一切都还是一个山乡生活最原始的模样，山中万籁寂静，唯有山泉叮咚。</p>
-					<p>莫干山深处的碧坞村，有一栋栋漂亮的小别墅掩映在山林竹海之间，一条小溪蜿蜒穿过，这里的一切都还是一个山乡生活最原始的模样，山中万籁寂静，唯有山泉叮咚。</p>
+					<p>{{ scene.des }}</p>
 				</div>
 				<p class="show-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></p>
+                -->
 				<div class="line"></div>
 			</div>
 		</div>
@@ -306,9 +331,9 @@
 	<div class="ui responsive grid">
 		<div class="row ptb-0">
 			<div class="column">
-				<p>营业时间：9:00-18:00</p>
-				<p>电话：010-83942198</p>
-				<p>标签：民宿</p>
+                {% if scene.extra.shop_hours %}<p>营业时间：{{ scene.extra.shop_hours }}</p>{%endif%}
+                {% if scene.extra.tel %}<p>电话：{{ scene.extra.tel }}</p>{%endif%}
+                {% if scene.tags_s %}<p>标签：{{ scene.tags_s }}</p>{%endif%}
 			</div>
 		</div>
 	</div>
@@ -322,68 +347,14 @@
     </div>
     <div class="row" id="mpresale">
         <div class="column">
-            <div class="recom-item">
-            	<div class="recom-cell" id="product-1102511135">
-					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
-						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
-						<div class="shopbiao">
-							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
-						</div>
-						<div class="desc">
-							<h2>军工铲军锹户外</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>98
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1102511135">
-					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
-						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
-						<div class="shopbiao">
-							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
-						</div>
-						<div class="desc">
-							<h2>军工铲军锹户外</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>98
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1102511135">
-					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
-						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
-						<div class="shopbiao">
-							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
-						</div>
-						<div class="desc">
-							<h2>军工铲军锹户外</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>98
-					        </div>
-						</div>
-					</a>
-				</div>
-				<div class="recom-cell" id="product-1102511135">
-					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
-						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
-						<div class="shopbiao">
-							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
-						</div>
-						<div class="desc">
-							<h2>军工铲军锹户外</h2>
-							<div class="cats">
-					            <span class="unit">￥</span>98
-					        </div>
-						</div>
-					</a>
-				</div>
-            </div>
+            <div class="recom-item three"><!--ajax list--></div>
         </div>
     </div>
 </div>
-<div class="fixbto"><img src="{{app_url_packaged}}/images/icon/phone.png"/>咨询电话：010-83942198</div>
+<div class="fixbto"><img src="{{app_url_packaged}}/images/icon/phone.png"/>咨询电话：{{ scene.extra.tel }}</div>
 
 {% endblock %}
 
+{% block templates %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/stick_products.mustache' %}
+{% endblock %}
