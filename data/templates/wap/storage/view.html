@@ -135,6 +135,66 @@
 		vertical-align: middle;
 		margin-right: 10px;
 	}
+	.pagecount{
+		background:rgba(0,0,0,0.6);
+		color: #fff;
+		font-size: 14px;
+		position: absolute;
+		right: 40px;
+		bottom: 30px;
+		border-radius: 4px;
+		z-index: 2;
+		padding: 5px 0;
+	    width: 50px;
+	    text-align: center;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc{
+		background: #222;
+		border-top: 1px solid #222;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc h2 {
+	    color: #fff;
+	    text-align: center;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc .cats{
+		text-align: center;
+	}
+	.ui.fiushop .ui.sheader{
+		position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    z-index: 4;
+	    background: rgba(255,255,255,0.5);
+	    -webkit-box-shadow: none;
+	    box-shadow: none;
+	}
+	.ui.fiushop .ui.sheader p{
+		margin: 0;
+	}
+	.acacartlogin {
+	    right: 14px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    width: 34px;
+	    height: 50px;
+	    -webkit-transform: translateY(-50%);
+	    -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	    position: absolute;
+	}
+	.acacartlogin .caputcart {
+	    background: url({{app_url_packaged}}/images/icon/shouc.png);
+	    width: 20px;
+	    height: 20px;
+	    background-repeat: no-repeat;
+    	background-size: 40px 20px;
+	    margin: 15px 4px;
+	    background-position: 0 0;
+	}
+	.acacartlogin.active .caputcart{
+		background-position: -20px 0;
+	}
 </style>
 {% endblock %}
 
@@ -151,6 +211,15 @@
         slideshowSpeed: 5000,
         animationDuration: 300,
         animationSpeed: 300,
+        startAt:1,
+        start: function (slider){
+        	$('.current').html(slider.currentSlide);
+        	$('.allpage').html(slider.count)
+        },
+        before: function (slider) {
+        	$('.current').html(slider.currentSlide + 1);
+        	$('.allpage').html(slider.count)
+        }, 
     });
     var flexheight = $('body').width()+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
@@ -158,9 +227,21 @@
 		$('.more').fadeIn();
 		$(this).hide();
 	})
+	$('.acacartlogin').click(function(){
+
+	})
 {% endblock %}
 {% block content %}
 <div id="slider" class="flexslider flex-single">
+	<div class="ui fiushop pb-0">
+	    <div class="ui sheader">
+	        <a class="return" href="http://t.taihuoniao.com/topic"><i class="angle float left icon"></i></a>
+	        <p>大乐之野</p>
+	        <div class="acacartlogin active">
+	        	<div class="caputcart"></div>
+	        </div>
+	    </div>
+	</div>
 	<ul class="slides">
 	{% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 	{% for asset in assets.rows %}
@@ -168,6 +249,10 @@
 	    	
 	    </li>
 	{% endfor %}
+	<div class="pagecount"> 
+		<span class="current"></span> /
+		<span class="allpage"></span>
+	</div>
 	</ul>  
 </div>
 <div class="storage">
@@ -238,15 +323,67 @@
     <div class="row" id="mpresale">
         <div class="column">
             <div class="recom-item">
-
+            	<div class="recom-cell" id="product-1102511135">
+					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
+						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
+						<div class="shopbiao">
+							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
+						</div>
+						<div class="desc">
+							<h2>军工铲军锹户外</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>98
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1102511135">
+					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
+						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
+						<div class="shopbiao">
+							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
+						</div>
+						<div class="desc">
+							<h2>军工铲军锹户外</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>98
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1102511135">
+					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
+						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
+						<div class="shopbiao">
+							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
+						</div>
+						<div class="desc">
+							<h2>军工铲军锹户外</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>98
+					        </div>
+						</div>
+					</a>
+				</div>
+				<div class="recom-cell" id="product-1102511135">
+					<a title="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" alt="户外多功能工兵铲 军工铲军锹户外工具 野营垂钓防身 带锯齿开瓶器 Q205A" href="http://t.taihuoniao.com/shop/1102511135.html">
+						<img class="lazy" data-original="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" src="https://p4.taihuoniao.com/product/161031/5816c88b3ffca264328b46c0-1-p500x500.jpg" style="display: block;">
+						<div class="shopbiao">
+							<img src="https://s3.taihuoniao.com/images/icon/tejia.png" width="100%">
+						</div>
+						<div class="desc">
+							<h2>军工铲军锹户外</h2>
+							<div class="cats">
+					            <span class="unit">￥</span>98
+					        </div>
+						</div>
+					</a>
+				</div>
             </div>
         </div>
     </div>
 </div>
 <div class="fixbto"><img src="{{app_url_packaged}}/images/icon/phone.png"/>咨询电话：010-83942198</div>
 
-{% endblock %}
-{% block templates %}
-    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/fetch_more_products.mustache' %}
 {% endblock %}
 
