@@ -314,16 +314,23 @@
 		</div>
 
 		<div class="row spot">
+            {% if scene.brights %}
 			<div class="column">
 				<h4 class="title">亮点</h4>
-				<p>咖啡馆 在满山绿色包围下，除了提供莫干山最好喝的咖啡及特色下午茶，还有包括咖啡知识、徒步、山地车骑行、麻将及桌游、水果采摘、鸡尾酒会等娱乐活动。</p>
-				<p> <img src="http://frbird.qiniudn.com/topic/150611/55796720fc8b12c63b8cf305-3-hd.jpg"></p>
-				<p>大乐之野餐厅里的食材全部是就地取材，非常接地气，正是应了那句话，靠山吃山靠水吃水。平日里，吉晓祥和杨默涵会进山挖新鲜的竹笋，下溪捕捞野生的鱼虾，这些原生态的食材只需简单烹饪就会有极鲜美的味道。
-交通指南</p>
-				<p> <img src="http://frbird.qiniudn.com/topic/150611/55796720fc8b12c63b8cf305-3-hd.jpg"></p>
+
+                {% for d in scene.brights %}
+                    {% if d.type==1 %}
+                        <p>{{ d.content }}</p>
+                    {%endif%}
+                    {% if d.type==1 %}
+                        <p> <img src="{{ d.content }}"></p>
+                    {%endif%}
+
+                {%endfor%}
 
 				<a href="" class="link-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
 			</div>
+            {% endif %}
 		</div>
 	</div>
 </div>

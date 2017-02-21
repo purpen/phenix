@@ -19,7 +19,6 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         # 类型:1.实体店
         'type' => 1,
         # 亮点
-        # 
 		'bright_spot' => array(),
 		# 情境
 		'sight' => array(),
