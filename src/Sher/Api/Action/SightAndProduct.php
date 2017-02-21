@@ -213,14 +213,14 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
         $service = Sher_Core_Service_ZoneProductLink::instance();
         $result = $service->get_zone_product_list($query, $options);
 
+        $product_model = new Sher_Core_Model_Product();
 
         $asset_service = Sher_Core_Service_Asset::instance();
 		$data = array();
 		// 重建数据结果
 		for($i=0;$i<count($result['rows']);$i++){
             $row = $result['rows'][$i];
-            $product = $result['rows'][$i]['product'];
-            $scene = $result['rows'][$i]['scene'];
+            $scene = null;
 
 			foreach($some_fields as $key=>$value){
 				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:null;
@@ -229,7 +229,7 @@ class Sher_Api_Action_SightAndProduct extends Sher_Api_Action_Base {
 
             $data[$i]['product'] = null;
             $data[$i]['scene'] = null;
-
+                $product = $product_model->extend_load($row['product_id']);
               if(!empty($product)){
                 // 重建商品数据结果
                 $data[$i]['product'] = array();
