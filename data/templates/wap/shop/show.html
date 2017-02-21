@@ -400,10 +400,10 @@
 	color:#be8914;
 	text-align: center;
     font-size: 12px;
-    -webkit-box-flex: 1.8;
-    -webkit-flex: 1.8;
-    -ms-flex: 1.8;
-    flex: 1.8;
+    -webkit-box-flex: 1.3;
+    -webkit-flex: 1.3;
+    -ms-flex: 1.3;
+    flex: 1.3;
 }
 .three-mesg .shopcart{
     text-align: center;
@@ -807,17 +807,30 @@ span.ui.timeout.btn{
   display: block;
 }
 .ui.favorite{
-    width: 33.3333%;
+    width: 50%;
     position: absolute;
     top: 0;
-    left: 33.3333%;
+    left: 0;
     height: 100%;
     padding: 2px 6px 5px;
     margin: 4px;
     color: #999;
 }
+.three-mesg .price.is_storage{
+    -webkit-box-flex: 1.8;
+    -webkit-flex: 1.8;
+    -ms-flex: 1.8;
+    flex: 1.8;
+}
+.is_storage .ui.favorite{
+    width: 33.33333%;
+    left: 33.33333%;
+}
+.is_storage .ui.server{
+    width: 33.33333%;
+}
 .ui.shop-icon{
-    width: 33.3333%;
+    width: 33.33333%;
     position: absolute;
     top: 0;
     left: 0;
@@ -830,7 +843,7 @@ span.ui.timeout.btn{
     display: block;
     margin: 1px auto 3px;
     vertical-align: middle;
-    background-image: url({{ app_url_packaged }}/images/icon/shop-icon.png);
+    background-image: url({{ app_url_packaged }}/images/icon/dipan.png);
     background-repeat: no-repeat;
     background-size: 18px 18px;
     height: 18px;
@@ -908,7 +921,7 @@ span.ui.timeout.btn{
     line-height: 18px;
 }
 .ui.server{
-    width: 33.3333%;
+    width: 50%;
     position: absolute;
     top: 0;
     right: 0;
@@ -1672,14 +1685,24 @@ span.ui.timeout.btn{
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
-			<li class="price">
-            <a class="ui shop-icon" href="">
-                <div class="bgimg"></div>商铺
-            </a>
-            <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
-            <div class="ui server"><div class="bgimg"></div>客服</div>
-			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
-			</li>
+            {% if is_storage %}
+                <li class="price is_storage">
+                <a class="ui shop-icon" href="{{ scene.wap_view_url }}">
+                    <div class="bgimg"></div>店铺
+                </a>
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+                {% else %}
+                <li class="price">
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+            {% endif %}
+
+			
 			<li class="shopcart" data-evt="2">
 				加入购物车
 			</li>
