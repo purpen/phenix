@@ -26,7 +26,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','index','shop','presale','view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo','hatched_list', 'get_list', 'list', 'category', 'brand', 'stick');
+	protected $exclude_method_list = array('execute','index','shop','presale','view','s_view','check_snatch_expire','ajax_guess_product','n_view', 'ajax_load_list','serve','promo','hatched_list', 'get_list', 'list', 'category', 'brand', 'stick');
 	
 	/**
 	 * 商城入口
@@ -301,10 +301,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 		$this->stash['skus_count'] = count($skus);
 
-    // 使用手册链接
-    if(isset($product['guide_id']) && !empty($product['guide_id'])){
-      $product['guide_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $product['guide_id'], 0);
-    }
+        // 使用手册链接
+        if(isset($product['guide_id']) && !empty($product['guide_id'])){
+          $product['guide_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $product['guide_id'], 0);
+        }
 		
 		// 评论的链接URL
 		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
@@ -312,23 +312,155 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
 
-    //微信分享
-    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-    $timestamp = $this->stash['timestamp'] = time();
-    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
-    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-    $this->stash['wxSha1'] = sha1($wxOri);
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
 
-    if($product['stage']==9){
-      $tpl = 'wap/shop/show.html';
-    }else{
-      $tpl = 'wap/view.html';
-    }
+        if($product['stage']==9){
+          $tpl = 'wap/shop/show.html';
+        }else{
+          $tpl = 'wap/view.html';
+        }
 		
 		return $this->to_html_page($tpl);
 	}
+
+    /**
+     * 分享详情
+     */
+    public function s_view(){
+        $id = (int)$this->stash['id'];
+		
+		$redirect_url = Doggy_Config::$vars['app.url.wap']. "/shop";
+		if(empty($id)){
+			return $this->show_message_page('访问的产品不存在！', $redirect_url);
+		}
+		
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+
+        $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+
+        // 推广码记录cookie
+        if(!empty($referral_code)){
+            @setcookie('referral_code', $referral_code, time()+(3600*24*30), '/');
+            $_COOKIE['referral_code'] = $referral_code;       
+        }
+
+        // 记录上一步来源地址
+        $this->stash['back_url'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : $redirect_url;
+		
+		$model = new Sher_Core_Model_Product();
+		$product = $model->load((int)$id);
+		if(empty($product) || $product['deleted']){
+			return $this->show_message_page('访问的产品不存在或已被删除！', $redirect_url);
+		}
+
+		// 未发布上线的产品，仅允许本人及管理员查看
+		if(!$product['published'] && !($this->visitor->can_admin() || $product['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('访问的产品等待发布中！', $redirect_url);
+		}
+		
+        if (!empty($product)) {
+            $product = $model->extended_model_row($product);
+        }
+
+        // 是否含有地盘信息
+        $storage_id = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : null;
+        $this->stash['scene'] = null;
+        $this->stash['is_storage'] = false;
+        if($storage_id){
+            $scene_model = new Sher_Core_Model_SceneScene();
+            $scene = $scene_model->load($storage_id);
+            if(!empty($scene)){
+                //添加网站meta标签
+                $this->stash['page_title_suffix'] = $scene['title'];
+                $this->stash['is_storage'] = true;
+                $this->stash['scene'] = $scene;
+            }
+        }
+		
+		// 增加pv++
+		$model->inc_counter('view_count', 1, $id);
+
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('wap_view_count', 1, $id);
+
+        //判断是否为秒杀产品 
+        $snatch_time = 0;
+        if($product['snatched']){
+          $is_snatch = true;
+          if(!$product['snatched_start']){
+            $snatch_time = $product['snatched_time'] - time();
+          }
+        }else{
+          $is_snatch = false;
+        }
+        $this->stash['is_snatch'] = $is_snatch;
+        $this->stash['snatch_time'] = $snatch_time;
+		
+		// 验证是否还有库存
+		$product['can_saled'] = $model->can_saled($product);
+		
+		// 获取skus及inventory
+		$inventory = new Sher_Core_Model_Inventory();
+        //积分兑换商品与销售商品共有sku
+        if($product['stage']==Sher_Core_Model_Product::STAGE_EXCHANGE){
+          $sku_stage = Sher_Core_Model_Product::STAGE_SHOP;
+        }else{
+          $sku_stage = $product['stage'];
+        }
+		$skus = $inventory->find(array(
+			'product_id' => $id,
+			'stage' => $sku_stage,
+		));
+
+        if(!empty($skus)){
+            for($k=0;$k<count($skus);$k++){
+                $skus[$k]['cover_url'] = '';
+                if(isset($skus[$k]['cover_id']) && !empty($skus[$k]['cover_id'])){
+                    $sku_cover = $inventory->cover($skus[$k]);
+                    if($sku_cover){
+                        $skus[$k]['cover_url'] = $sku_cover['thumbnails']['apc']['view_url'];
+                    }
+                }
+            }
+        }
+
+		$this->stash['skus'] = $skus;
+
+		$this->stash['skus_count'] = count($skus);
+
+        // 使用手册链接
+        if(isset($product['guide_id']) && !empty($product['guide_id'])){
+          $product['guide_url'] = sprintf(Doggy_Config::$vars['app.url.wap.social.show'], $product['guide_id'], 0);
+        }
+		
+		// 评论的链接URL
+		$this->stash['pager_url'] = Sher_Core_Helper_Url::sale_view_url($id,'#p#');
+		
+		$this->stash['product'] = $product;
+		$this->stash['id'] = $id;
+
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+
+        $tpl = 'wap/shop/s_view.html';
+		
+		return $this->to_html_page($tpl);   
+    }
 	
 	/**
 	 * 商品详情

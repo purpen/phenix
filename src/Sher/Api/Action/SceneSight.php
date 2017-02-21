@@ -507,6 +507,28 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $key = $filter_fields[$i];
             unset($result[$key]);
         }
+
+        // 产品
+        $products = array();
+        if(!empty($result['product'])){
+            $product_model = new Sher_Core_Model_Product();
+            for($i=0;$i<count($result['product']);$i++){
+                $p = array();
+                $product_id = (int)$result['product'][$i]['id'];
+                $product = $product_model->extend_load($product_id);
+                if($product){
+                    $p['_id'] = $product['_id'];
+                    $p['title'] = $product['title'];
+                    $p['short_title'] = $product['short_title'];
+                    $p['sale_price'] = $product['sale_price'];
+                    $p['market_price'] = $product['market_price'];
+                    $p['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+                }
+                array_push($products, $p);
+            } // endfor
+            
+        }
+        $result['products'] = $products;
 		
 		
 		// 用户是否点赞、收藏

@@ -172,7 +172,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			
 			// 上传成功后，更新所属的附件
 			if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-				$model->update_batch_assets($data['asset'], $id);
+				$model->update_batch_assets($this->stash['asset'], $id);
             }
 			if(isset($this->stash['avatar_asset']) && !empty($this->stash['avatar_asset'])){
 				$model->update_batch_assets($this->stash['avatar_asset'], $id);
@@ -279,5 +279,100 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$this->stash['id'] = $id;
 		return $this->to_taconite_page('app_admin/del_ok.html');
 	}
+
+    /**
+     * 产品列表
+     */
+    public function product_list(){
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+        $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+        $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+
+        $query = array();
+        $options = array();
+		if($scene_id){
+			$query['scene_id'] = $scene_id;
+		}
+		
+		if($product_id){
+			$query['product_id'] = $product_id;
+		}
+		
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+		
+		// 开启查询
+        $service = Sher_Core_Service_ZoneProductLink::instance();
+        $result = $service->get_zone_product_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+        $scene_model = new Sher_Core_Model_SceneScene();
+
+        // 重新数据
+        for($i=0;$i<count($result['rows']);$i++){
+            $item = $result['rows'][$i];
+            $result['rows'][$i]['_id'] = (string)$item['_id'];
+
+            $result['rows'][$i]['product'] = $product_model->extend_load($item['product_id']);
+            $result['rows'][$i]['scene'] = $scene_model->extend_load($item['scene_id']);
+        }
+
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/product_list?scene_id=%d&product_id=%d&page=#p#', $scene_id, $product_id);
+		$this->stash['pager_url'] = $pager_url;
+        $this->stash['result'] = $result;
+
+		return $this->to_html_page('app_admin/scene_scene/product_list.html');
+    }
+
+	/**
+	 * 删除地盘下相关产品
+	 */
+	public function scene_product_delete() {
+		$id = $this->stash['id'];
+		if(empty($id)){
+			return $this->ajax_note('请求参数为空', true);
+		}
+
+		$model = new Sher_Core_Model_ZoneProductLink();
+		$result = $model->load($id);
+		
+		if($result && $model->remove($id)){
+            $model->mock_after_remove($id, $result);
+		}
+		
+		$this->stash['id'] = $id;
+		return $this->to_taconite_page('app_admin/del_ok.html');
+	}
+
+    /**
+     * ajax添加地盘产品
+     */
+    public function add_scene_product(){
+        $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+        $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		if(empty($product_id) || empty($scene_id)){
+			return $this->ajax_json('请求参数为空!', true);
+		}
+
+        $row = array(
+            'scene_id' => $scene_id,
+            'product_id' => $product_id,
+        );
+		$model = new Sher_Core_Model_ZoneProductLink();
+        $item = $model->first(array('scene_id'=>$scene_id, 'product_id'=>$product_id));
+        if(!empty($item)){
+ 		    return $this->ajax_json('不能重复添加!', true);           
+        }
+
+        $ok = $model->apply_and_save($row);
+        if(!$ok){
+  		    return $this->ajax_json('添加失败!', true);            
+        }
+        $item = $model->get_data();
+        $id = $item['_id'];
+  		return $this->ajax_json('success!', false, null, array('id'=>$id));
+    }
 
 }

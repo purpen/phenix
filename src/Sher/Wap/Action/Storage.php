@@ -45,6 +45,22 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
             return $this->show_message_page('地盘未通过审核!', $redirect_url);
         }
 
+        // 相关产品
+		
+		// 开启查询
+        $service = Sher_Core_Service_ZoneProductLink::instance();
+        $product_result = $service->get_zone_product_list(array('scene_id'=>$scene_id), array('page'=>1, 'size'=>50));
+
+        $product_model = new Sher_Core_Model_Product();
+        $products = array();
+        // 重新数据
+        for($i=0;$i<count($product_result['rows']);$i++){
+            $item = $products['rows'][$i];
+            $product = $product_model->extend_load($item['product_id']);
+            $products[$i] = $product;
+        }
+        $scene['products'] = $products;
+
 		$this->stash['page_title_suffix'] = $scene['title'];
 
 			//微信分享

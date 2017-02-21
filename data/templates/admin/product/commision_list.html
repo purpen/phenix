@@ -136,7 +136,9 @@
 						</a>
 					</div>
 		          	<p class="attribute">编号：{{ product._id }}</p>
+		          	<p class="attribute">亮点：{{ product.advantage }}</p>
                     <p class="attribute">推广链接：
+                    <!--
                         {% if referral_code %}
                             {% if storage_id %}
                             {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}&storage_id={{ storage_id }}
@@ -146,7 +148,11 @@
                         {%else%}
                             {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}
                         {%endif%}
+                        -->
+                        {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id=133
                     </p>
+
+                    <!--
                     {% if referral_code %}
                         {% if storage_id %}
                             <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}&storage_id={{ storage_id }}">查看二维码>></p>
@@ -157,6 +163,9 @@
                     {%else%}
                         <p class="attribute fetch_qr" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}">查看二维码>></p>
                     {%endif%}
+
+                        -->
+                        <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id=133">查看二维码>></p>
 
 				</td>
                 <td>{{ product.sale_price }}</td>

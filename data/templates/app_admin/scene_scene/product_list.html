@@ -1,0 +1,187 @@
+{%extends 'layout/app_admin.html'%}
+{% block page_css %}
+  <style type="text/css">
+    .content-text img{
+      max-width: 150px;
+      max-height: 800px;
+      overflow: hidden;
+      padding: 10px 10px 0 0;
+    }
+    .content-text p{
+      margin:0;
+    }
+
+    .content-text a{
+      text-decoration:none;
+      color:#f36;
+    }
+
+    .content-text a:hover{
+      text-decoration:underline;
+      color:#f36;
+    }
+
+    .ui.reply.form .left {
+    display:inline-block;
+    }
+    .ui.reply.form .left a{
+    text-decoration: none;
+    color: #5d6266;
+    }
+    .ui.reply.form .right.aligned.column{
+    display:inline-block;
+    float:right;
+    }
+
+    .img-tab{
+      margin:5px;
+    }
+    .img-tab a{
+      margin:5px;
+      text-decoration:none;
+    }
+  </style>
+{% endblock %}
+
+{% block jquery %}
+
+	$('.ui.submit.button.search').click(function(){
+		$('#search-form').submit();
+	});
+    
+    $('.delete').click(function(){
+        var id = $(this).attr('data-val');
+        $.post('{{ app_url_api }}/scene_scene/delete',{id:id},function(data){
+            var data = eval('('+data+')');
+            var back_id = data.data.id;
+            $('#'+back_id).remove();
+        });
+    });
+
+    $('#add-btn').click(function(){
+        var scene_id = $('#add-form input[name=scene_id]').val();
+        var product_id = $('#add-form input[name=product_id]').val();
+
+        if(!scene_id || !product_id){
+            phenix.show_error_note('缺少请求参数');
+            return false;
+        }
+
+        $.post("{{ app_url_app_admin_base }}/scene_scene/add_scene_product", {scene_id:scene_id, product_id:product_id}, function(rs){
+            if(rs.success){
+                phenix.show_ok_note('添加成功!');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json');
+    });
+	
+{% endblock %}
+	
+{% block content %}
+	<h3 class="ui header">地盘管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+        <a href="{{ app_url_app_admin_base }}/scene_scene" class="item {{ css_all }}">
+			全部
+		</a>
+
+        <a href="{{ app_url_app_admin_base }}/scene_scene?deleted=1" class="item {{ css_deleted }}">
+			已删除
+		</a>
+
+	  	<div class="right menu">
+			<a href="{{ app_url_app_admin_base }}/scene_scene/submit" class="item">
+				<i class="add icon"></i>添加地盘
+			</a>
+			<!--
+			<a href="javascript:void(0);" class="item ajax-delete">
+				<i class="remove icon"></i>批量删除
+			</a>
+			-->
+	    </div>
+	</div>
+	
+    <!--
+	<div class="ui sub ">
+		<form action="{{ app_url_app_admin_base }}/scene_scene/get_list" id="search-form" method="get">
+			<label>搜索：</label>
+			<div class="ui input">
+                <input placeholder="标题名" type="text" name="title" value="{{ title }}" />
+			</div>
+            <div class="ui input">
+                <div class="ui active small green submit button search">搜索</div>
+            </div>
+		</form>
+	</div>
+    -->
+	<div class="ui sub ">
+		<form action="" id="add-form" method="post">
+			<label>添加产品：</label>
+			<div class="ui input">
+                <input placeholder="地盘ID" type="text" name="scene_id" value="{{ scene_id }}" />
+			</div>
+			<div class="ui input">
+                <input placeholder="产品ID" type="text" name="product_id" value="{{ product_id }}" />
+			</div>
+            <div class="ui input">
+                <div class="ui active small green button" id="add-btn">添加</div>
+            </div>
+		</form>
+	</div>
+	
+	<table class="ui small table segment">
+		<thead>
+			<tr>
+				<th>
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
+					  	<label></label>
+					</div>
+				</th>
+                <th>ID</th>
+                <th>地盘</th>
+                <th>产品</th>
+                <th>创建时间</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+
+			{% for d in result.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+					  	<label></label>
+					</div>
+				</td>
+                <td>{{ d._id }}</td>
+                <td>
+                    <p>ID: {{ d.scene_id }}</p>
+                    <p>名称: {{ d.scene.title }}</p>
+                </td>
+                <td>
+					<div class="ui image">
+						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
+					</div>
+                    <p><a href="{{ d.product.view_url }}" target="_blank">{{ d.product.title }}</a></p>
+                </td>
+
+                <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
+				<td>
+                    <a href="{{ app_url_app_admin_base }}/scene_scene/scene_product_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+    <label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+{% endblock %}
