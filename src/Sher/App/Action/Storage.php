@@ -53,6 +53,11 @@ class Sher_App_Action_Storage extends Sher_App_Action_Base {
             $p['short_title'] = $product['short_title'];
             $p['sale_price'] = $product['sale_price'];
             $p['market_price'] = $product['market_price'];
+            if($scene_id){
+                $p['wap_view_url'] = sprintf("%s?storage_id=%d", $product['wap_view_url'], $scene_id);
+            }else{
+                $p['wap_view_url'] = $product['wap_view_url'];
+            }
             $p['cover'] = isset($product['cover']) ? $product['cover'] : '';
             $p['cover_url'] = isset($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : '';
             $p['is_product'] = $product['stage']==9 ? true : false;
