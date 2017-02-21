@@ -205,7 +205,7 @@
       // 加载产品相关推荐
       function ajax_load_product(id){
           //防止频繁请求(在没加载完成时只允许请求一次)
-          var url = '{{ app_url_domain }}/app/site/storage/ajax_fetch_storage_product';
+          var url = '{{ app_url_wap }}/app/site/storage/ajax_fetch_storage_product';
           $.get(url, {page:1, size: 30, scene_id:id }, function(rs){
 
               var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
@@ -282,7 +282,7 @@
 	<div class="ui responsive grid">
 		<div class="row pt-4r">
 			<div class="ui center aligned column">
-                <img class="storimg" src="{{ scene.avatar.htumbnails.apc.view_url }}">
+                <img class="storimg" src="{{ scene.avatar.thumbnails.apc.view_url }}">
                 <h3 class="mtb-0 title">{{ scene.title }}</h3>
 				<div class="pb-r">
 					<span class="ui star rating">

@@ -54,7 +54,7 @@ class Sher_App_Action_Storage extends Sher_App_Action_Base {
             $p['sale_price'] = $product['sale_price'];
             $p['market_price'] = $product['market_price'];
             $p['cover_url'] = isset($product['cover']) ? $product['cover']['thumbnails']['apc']['view_url'] : '';
-            $p['is_product'] = $product['stage']==9 true : false;
+            $p['is_product'] = $product['stage']==9 ? true : false;
             $result['rows'][$i]['product'] = $p;
         }
         
