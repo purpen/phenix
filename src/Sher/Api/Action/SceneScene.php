@@ -304,7 +304,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $user['expert_label'] = isset($scene['user']['profile']['expert_label']) ? $scene['user']['profile']['expert_label'] : '';
             $user['expert_info'] = isset($scene['user']['profile']['expert_info']) ? $scene['user']['profile']['expert_info'] : '';
         }else{
-            return $this->api_json('该用户不存在!', 3004);       
+            return $this->api_json('该用户不存在!', 3004);
         }
 		$data['user'] = $user;
         $data['love_count'] = $scene['love_count'];
