@@ -144,7 +144,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
 	 * Icon List
 	 */
 	public function app() {		
-		return $this->to_html_page('page/test/index1.html');
+		return $this->to_html_page('wap/storage/view.html');
 	}
 	public function show() {		
 		return $this->to_html_page('wap/special_subject/list.html');
