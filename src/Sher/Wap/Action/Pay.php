@@ -113,7 +113,7 @@ class Sher_Wap_Action_Pay extends Sher_Wap_Action_Base implements DoggyX_Action_
         $out_trade_no = $rid;
 
         // 订单名称，必填
-        $subject = '太火鸟商城'.$rid.'订单';
+        $subject = 'Fiu'.$rid.'订单';
 
         // 付款金额，必填
         $total_fee = $order_info['pay_money'];

@@ -155,8 +155,8 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 
         switch($type){
             case 1:
-                $redirect_url = sprintf(Doggy_Config::$vars['app.url.wap.shop.view'], $id);
-                if(!empty($storage_id)) $redirect_url = sprintf("%s?storage_id=%s", $redirect_url, $storage_id);
+                $redirect_url = sprintf("%s/shop/s_view?id=%s", Doggy_Config::$vars['app.url.wap'], $id);
+                if(!empty($storage_id)) $redirect_url = sprintf("%s&storage_id=%s", $redirect_url, $storage_id);
                 break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.wap']."/shop";

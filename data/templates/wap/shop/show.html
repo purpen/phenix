@@ -816,6 +816,40 @@ span.ui.timeout.btn{
     margin: 4px;
     color: #999;
 }
+.three-mesg .price.is_storage{
+    -webkit-box-flex: 1.8;
+    -webkit-flex: 1.8;
+    -ms-flex: 1.8;
+    flex: 1.8;
+}
+.is_storage .ui.favorite{
+    width: 33.33333%;
+    left: 33.33333%;
+}
+.is_storage .ui.server{
+    width: 33.33333%;
+}
+.ui.shop-icon{
+    width: 33.33333%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 2px 6px 5px;
+    margin: 4px;
+    color: #999;
+}
+.ui.shop-icon .bgimg{
+    display: block;
+    margin: 1px auto 3px;
+    vertical-align: middle;
+    background-image: url({{ app_url_packaged }}/images/icon/dipan.png);
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 18px;
+    width: 18px;
+    background-position: 0 0;
+}
 .ui.favorite.active{
     color: #be8914;
 }
@@ -1605,7 +1639,7 @@ span.ui.timeout.btn{
 						<p>
                         售后政策严格遵守国家标准执行三包服务政策：7天退货/15天换货/1年质保<br />
                         非因产品质量原因产生的退换货，因退换货而产生的物流成本由客户承担。<br />
-                        我们将了解需要退货的商品及相关退货信息，在确认商品的情况后，我们将在3个工作日内为您办理退款操作，实际到账日以银行及支付规则为准。由于商品本身质量所产生的退换货要求，发生的运输费用由Fiu店承担。<br />
+                        我们将了解需要退货的商品及相关退货信息，在确认商品的情况后，我们将在3个工作日内为您办理退款操作，实际到账日以银行及支付规则为准。由于商品本身质量所产生的退换货要求，发生的运输费用由Fiu承担。<br />
                         由于每件商品的库存有限，可能会出现换货时该商品已缺货的情况，如遇上述情况，将只能作退款处理。
 						</p>
 					</div>
@@ -1617,7 +1651,7 @@ span.ui.timeout.btn{
 						</h5>
 						<p>
                         每日15:00之前付款的订单当日发货，15:00之前付款的订单次日发货，周六、日以及法定节假日不发货（特殊定制产品除外）<br />
-                        由于一部分商品为Fiu店合作的商家直接发货。如遇同时购买多件产品，出现由不同发货地发出的情况，请注意查收。
+                        由于一部分商品为Fiu合作的商家直接发货。如遇同时购买多件产品，出现由不同发货地发出的情况，请注意查收。
 						</p>
 					
 					</div>
@@ -1625,7 +1659,7 @@ span.ui.timeout.btn{
 				<div class="row">
 					<div class="column p-0">
 						<h5 class="ui header mb-2r">
-							有什么问题欢迎咨询Fiu店客服
+							有什么问题欢迎咨询Fiu客服
 						</h5>
 						<p>
                         客服时间：09：00-18:00<br />
@@ -1651,11 +1685,24 @@ span.ui.timeout.btn{
 	
 	<div class="flexbuy">
 		<ul div class="three-mesg">
-			<li class="price">
-            <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
-        <div class="ui server"><div class="bgimg"></div>客服</div>
-			<!--	¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
-			</li>
+            {% if is_storage %}
+                <li class="price is_storage">
+                <a class="ui shop-icon" href="{{ scene.wap_view_url }}">
+                    <div class="bgimg"></div>店铺
+                </a>
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+                {% else %}
+                <li class="price">
+                <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
+                <div class="ui server"><div class="bgimg"></div>客服</div>
+                <!--    ¥ {% if product.snatched %}{{ product.snatched_price }}{%else%}{{ product.sale_price }}{%endif%}-->
+                </li>
+            {% endif %}
+
+			
 			<li class="shopcart" data-evt="2">
 				加入购物车
 			</li>

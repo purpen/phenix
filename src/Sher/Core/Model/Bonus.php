@@ -44,9 +44,10 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'DA50', #内测 满499减50
         'DA30', # 内测 满299减30
         'DA20', #内测 满199减20
+        'DA08', # 满0元可用
         'LSD99', # 螺丝刀99
-        'FIU_NEW30', # Fiu店新用户送30
-        'FIU_DROW', # Fiu店抽奖
+        'FIU_NEW30', # Fiu新用户送30
+        'FIU_DROW', # Fiu抽奖
         'HB_ONE', # 花辨专题
 	);
 	
@@ -319,7 +320,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	 */
 	public function create_specify_bonus($count=1, $xname='RE', $char='A', $min_char='A', $product_id=0, $active_mark=''){
 		# 红包金额
-	  $bonus = array(
+	    $bonus = array(
           'A' => 50,
           'B' => 100,
           'C' => 30, 
@@ -329,22 +330,23 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
           'G' => 10,
           'H' => 200,
           'I' => 20,
-    );
+          'J' => 8,
+        );
 
-    #最低限额
-    $min_amounts = array(
-      'A' =>  99,
-      'B' =>  199,
-      'C' =>  0,
-      'D' => 299,
-      'E' => 399,
-      'F' => 50,
-      'G' => 999,
-      'H' => 499,
-      'I' => 30,
-      'J' => 100,
-      'K' => 10,
-    );
+        #最低限额
+        $min_amounts = array(
+          'A' =>  99,
+          'B' =>  199,
+          'C' =>  0,
+          'D' => 299,
+          'E' => 399,
+          'F' => 50,
+          'G' => 999,
+          'H' => 499,
+          'I' => 30,
+          'J' => 100,
+          'K' => 10,
+        );
 		
     for($i=0; $i<$count; $i++){
       //生成指定金额

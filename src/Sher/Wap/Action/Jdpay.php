@@ -50,7 +50,7 @@ class Sher_Wap_Action_Jdpay extends Sher_Wap_Action_Base implements DoggyX_Actio
         $desKey = Doggy_Config::$vars['app.jd_pay']['des_key'];   // 商户DES密钥
         $device = '2';       // 设备号  1.web;2.wap;3.app_store;4.fiu
         $tradeNum = $rid;    // 商户交易号(字母和数字)
-        $tradeName = '太火鸟商城'.$rid.'订单';
+        $tradeName = 'Fiu'.$rid.'订单';
         $tradeDesc = '';
         $tradeTime = date('YmdHis');
         $amount = (string)($order_info['pay_money']*100);     // 付款金额：单位(分)

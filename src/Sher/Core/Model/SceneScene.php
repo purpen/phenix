@@ -116,7 +116,11 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
         // 封面图
         $row['avatar'] = $this->avatar($row);
+        $row['cover'] = $this->cover($row);
         $row['banner'] = $this->banner($row);
+
+        // wap_view_url
+        $row['wap_view_url'] = sprintf("%s/storage/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
 	}
 	
 	/**

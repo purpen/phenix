@@ -89,14 +89,14 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
         $out_trade_no = $rid;
 
         // 订单名称，必填
-        $subject = '太火鸟商城'.$rid.'订单';
+        $subject = 'Fiu'.$rid.'订单';
 
         // 付款金额，必填
         $total_fee = $order_info['pay_money'];
 
         // 订单描述
 		
-        $body = '太火鸟商城'.$rid.'订单';
+        $body = 'Fiu'.$rid.'订单';
 		
         // 商品展示地址,需以http://开头的完整路径
         $show_url = Doggy_Config::$vars['app.url.shop'];
@@ -230,14 +230,14 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
         $out_trade_no = $rid;
 
         // 订单名称，必填
-        $subject = '太火鸟商城'.$rid.'订单';
+        $subject = 'Fiu'.$rid.'订单';
 
         // 付款金额，必填
         $total_fee = $order_info['pay_money'];
 
         // 订单描述
 		
-        $body = '太火鸟商城'.$rid.'订单';
+        $body = 'Fiu'.$rid.'订单';
 		
         // 商品展示地址,需以http://开头的完整路径
         $show_url = Doggy_Config::$vars['app.url.shop'];
