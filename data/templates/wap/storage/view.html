@@ -459,19 +459,20 @@
                         {%endif%}
                     {%endif%}
                 {%endfor%}
-                <p class="more" style="display: none">
-                 {% for d in scene.brights %}
-                    {% if loop.counter > 2 %}
-                        {% if d.type==1 %}
-                            <p>{{ d.content }}</p>
+                <div class="more" style="display:none;">
+                    <p>
+                     {% for d in scene.brights %}
+                        {% if loop.counter > 2 %}
+                            {% if d.type==1 %}
+                                <p>{{ d.content }}</p>
+                            {%endif%}
+                            {% if d.type==2 %}
+                                <p> <img src="{{ d.content }}"></p>
+                            {%endif%}
                         {%endif%}
-                        {% if d.type==2 %}
-                            <p> <img src="{{ d.content }}"></p>
-                        {%endif%}
-                    {%endif%}
-                {%endfor%}               
-                </p>
-
+                    {%endfor%}               
+                    </p>
+                </div>
                 {% if scene.bright_count > 2 %}
 				    <a href="javascript:void(0);" class="link-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
                 {% endif %}
