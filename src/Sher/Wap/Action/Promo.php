@@ -28,7 +28,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
         return $this->to_html_page('wap/promo/clothes.html'); 
@@ -56,7 +56,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
         return $this->to_html_page('wap/promo/esthetics.html'); 
@@ -71,7 +71,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
         return $this->to_html_page('wap/promo/intelligence.html'); 
@@ -86,7 +86,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
         return $this->to_html_page('wap/promo/double.html');
@@ -101,7 +101,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
         return $this->to_html_page('wap/promo/lottery.html');
@@ -230,7 +230,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $timestamp = $this->stash['timestamp'] = time();
       $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
       $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
       return $this->to_html_page('wap/promo/teeth.html');
@@ -246,7 +246,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $timestamp = $this->stash['timestamp'] = time();
       $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
       $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
 
@@ -293,7 +293,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $timestamp = $this->stash['timestamp'] = time();
       $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
       $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
 
@@ -313,7 +313,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $timestamp = $this->stash['timestamp'] = time();
       $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
       $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+      $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
       $this->stash['wxSha1'] = sha1($wxOri);
       return $this->to_html_page('wap/promo/theme.html');
@@ -339,7 +339,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $timestamp = $this->stash['timestamp'] = time();
         $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
         $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
       return $this->to_html_page('wap/promo/ym.html');
@@ -371,12 +371,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $num_mode = new Sher_Core_Model_SumRecord();
 	    $num_mode->add_record('22', 'view_count', 4, 4); 
 
-			//微信分享
+		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/cappa.html');
@@ -388,12 +388,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      */
     public function holiday(){
 
-			//微信分享
+		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
 		return $this->to_html_page('wap/promo/holiday.html');
@@ -408,12 +408,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	    $num_mode = new Sher_Core_Model_SumRecord();
 	    $num_mode->add_record('20', 'view_count', 4, 4); 
 
-			//微信分享
+		//微信分享
 	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
 	    $timestamp = $this->stash['timestamp'] = time();
 	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
 	    $this->stash['wxSha1'] = sha1($wxOri);
 		$from = isset($this->stash['from']) ? $this->stash['from'] : 0;
