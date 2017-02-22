@@ -1158,6 +1158,43 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         return $this->api_json('success', 0, $data);
     
     }
+
+    /**
+     * 分享链接生成
+     * @param id
+     * @param type 1.产品；2.情境；3.地盘；
+     */
+    public function share_link(){
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $user_id = $this->current_user_id;
+        $code = Sher_Core_Helper_Util::gen_alliance_account($user_id);
+
+        $infoId = $id;
+        $infoType = 1;
+        
+        switch($type){
+            case 1:
+                $infoType = 1;
+                break;
+            case 2:
+                $infoType = 11;
+                break;
+            case 3:
+                $infoType = 10;
+                break;
+            default:
+                $infoType = 1;
+        }
+        $redirect_url = sprintf("%s/qr?infoType=%s&infoId=%s&referral_code=%s", Doggy_Config::$vars['app.url.wap'], $infoType, $infoId, $code);
+
+        if($storage_id){
+            $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
+        }
+
+        return $this->api_json('success', 0, array('url'=>$redirect_url));
+    }
 	
 }
 
