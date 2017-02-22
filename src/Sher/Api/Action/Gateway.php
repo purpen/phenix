@@ -1105,6 +1105,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $follow_arr = array();
         $users = array();
 
+        /**
         // 系统推荐活跃用户
         $dig_model = new Sher_Core_Model_DigList();
         $dig_key_id = Sher_Core_Util_Constant::DIG_FIU_USER_IDS;
@@ -1151,6 +1152,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
                 array_push($item, $user);
             } // endfor       
         }
+        **/
         $data['users'] = $item;
 
         return $this->api_json('success', 0, $data);
