@@ -108,7 +108,7 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         }
 
         if(empty($id)){
- 		    return $this->api_json('缺少请求参数！', 3001);       
+ 		    return $this->api_json('缺少请求参数！', 3001);
         }
 		
 		$balance_model = new Sher_Core_Model_Balance();
@@ -126,7 +126,7 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
 
         //显示的字段
         $some_fields = array(
-            '_id'=> 1, 'alliance_id'=>1, 'order_rid'=>1, 'sub_order_id'=>1, 'product_id'=>1, 'sku_id'=>1, 'sku_price'=>1, 'user_id'=>1,
+            '_id'=> 1, 'alliance_id'=>1, 'target_id'=>1, 'order_rid'=>1, 'sub_order_id'=>1, 'product_id'=>1, 'sku_id'=>1, 'sku_price'=>1, 'user_id'=>1,
             'quantity'=>1, 'commision_percent'=>1, 'unit_price'=>1, 'total_price'=>1, 'code'=>1,
             'summary'=>1, 'type'=>1, 'kind'=>1, 'stage'=>1, 'status'=>1, 'status_label'=>1,
             'balance_on'=>1, 'from_site'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -138,11 +138,19 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
             $data[$key] = isset($balance[$key]) ? $balance[$key] : null;
         }
 
-        $product = $product_model->load($data['product_id']);
-        if($product){
-            $data['product']['title'] = $product['title'];
-            $data['product']['short_title'] = !empty($product['short_title']) ? $product['short_title'] : $product['title'];
+        $title = '';
+        if($data['kind']==1){
+            $target_id = isset($data['target_id']) ? $data['target_id'] : $data['order_rid'];
+            $title = sprintf("订单[%s]", $target_id);
+        }elseif($data['kind']==2){
+            $product = $product_model->load($data['product_id']);
+            if($product){
+                $title = $product['title'];
+                $data['product']['title'] = $product['title'];
+                $data['product']['short_title'] = !empty($product['short_title']) ? $product['short_title'] : $product['title'];
+            }
         }
+        $data['title'] = $title;
 
         // 创建时间格式化 
         $data['created_at'] = date('Y-m-d H:i', $data['created_on']);
