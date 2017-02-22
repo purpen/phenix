@@ -299,9 +299,11 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
                 $redirect_url = Sher_Core_Helper_Url::shop_view_url($id);
                 if(!empty($storage_id)) $redirect_url = sprintf("%s?storage_id=%s", $redirect_url, $storage_id);
                 break;
+            case 10:
+                $redirect_url = sprintf("%s/storage/view?id=%s", Doggy_Config::$vars['app.url.domain'], $id);
+                break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.domin']."/shop";
-
         }
 
         return $this->to_redirect($redirect_url);

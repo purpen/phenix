@@ -1,6 +1,6 @@
 <?php
 /**
- * 场景 Model
+ * 情境 Model
  * @ author caowei@taihuoniao.com
  */
 class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
@@ -26,6 +26,8 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         'category_ids' => array(),
 		# 标签
 		'tags' => array(),
+        # 是否含有作品
+        'is_product' => 0,
 		# 产品
 		'product' => array(),
 		
@@ -143,6 +145,11 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
             }
             $data['subject_ids'] = $subject_arr;
 	    }
+
+        // 是否含有作品
+        if(isset($data['product']) && !empty($data['product'])){
+            $data['is_product'] = 1;
+        }
 
 	    parent::before_save($data);
 	}
