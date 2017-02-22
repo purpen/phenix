@@ -65,7 +65,8 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 		$this->stash['page_title_suffix'] = $scene['title'];
 
 		//微信分享
-        Sher_Core_Helper_Url::wechat_share_param();
+        $wx_share = Sher_Core_Helper_Url::wechat_share_param();
+        $this->stash['wx_share'] = $wx_share;
 
         $this->stash['scene'] = $scene;
 		return $this->to_html_page('wap/storage/view.html');

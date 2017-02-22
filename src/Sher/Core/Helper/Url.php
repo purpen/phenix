@@ -536,13 +536,22 @@ class Sher_Core_Helper_Url {
      * 微信分享
      */
     public static function wechat_share_param(){
-	    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-	    $timestamp = $this->stash['timestamp'] = time();
-	    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $arr = array();
+	    $app_id = Doggy_Config::$vars['app.wechat.app_id'];
+	    $timestamp = time();
+	    $wxnonceStr = new MongoId();
 	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-	    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
 	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-	    $this->stash['wxSha1'] = sha1($wxOri);
+	    $wxSha1 = sha1($wxOri);
+        $arr = array(
+            'app_id' => $app_id,
+            'timestamp' => $timestamp,
+            'wxnonceStr' => $wxnonceStr,
+            'current_url' => $current_url,
+            'wxSha1' => $wxSha1,
+        );
+        return $arr;
     }
 }
 
