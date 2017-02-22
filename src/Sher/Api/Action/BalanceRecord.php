@@ -158,7 +158,7 @@ class Sher_Api_Action_BalanceRecord extends Sher_Api_Action_Base {
                     }else{
                         $product = null;
                     }
-                    $balance['product'] = $product;               
+                    $balance['product'] = $product;
                 }
                 $balance['title'] = $title;
             }

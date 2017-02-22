@@ -157,7 +157,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
 
             // 更新关联用户表
             $user_model = new Sher_Core_Model_User();
-            $user_model->update_set($user_id, array('identify.alliance_id'=>(string)$this->data['_id']));
+            $user_model->update_set($user_id, array('identify.referral_code'=>(string)$this->data['code']));
         }
     }
 
@@ -171,7 +171,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         if($user_id){
             // 更新关联用户表
             $user_model = new Sher_Core_Model_User();
-            $user_model->update_set($user_id, array('identify.alliance_id'=>''));
+            $user_model->update_set($user_id, array('identify.referral_code'=>''));
         }
 		
 		return true;

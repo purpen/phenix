@@ -224,6 +224,13 @@ db.view_stat.ensureIndex({ 'target_id':1 }, {background: true});
 db.view_stat.ensureIndex({ 'ip':1 }, {background: true});
 db.view_stat.ensureIndex({ 'count':-1 }, {background: true});
 
+# alliance       // 联盟账户
+db.alliance.ensureIndex({ 'user_id':1 }, {background: true});
+db.bonus.ensureIndex({'code':1}, {unique: true}, {background: true});
+db.alliance.ensureIndex({ 'type':1 }, {background: true});
+db.alliance.ensureIndex({ 'kind':1 }, {background: true});
+db.alliance.ensureIndex({ 'created_on':-1 }, {background: true});
+
 
 db.applitable.count()     23665
 db.attend.count()         34188
