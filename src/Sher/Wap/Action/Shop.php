@@ -35,22 +35,17 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		return $this->index();
 	}
 
-  /**
-   * 商店首页
-   */
-  public function index(){
-    $this->set_target_css_state('page_choice');
+    /**
+     * 商店首页
+     */
+    public function index(){
+        $this->set_target_css_state('page_choice');
 
-      //微信分享
-      $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-      $timestamp = $this->stash['timestamp'] = time();
-      $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-      $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-      $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
-      $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-      $this->stash['wxSha1'] = sha1($wxOri);
-    return $this->to_html_page('wap/shop/home.html');
-  }
+		//微信分享
+        $wx_share = Sher_Core_Helper_Util::wechat_share_param();
+        $this->stash['wx_share'] = $wx_share;
+        return $this->to_html_page('wap/shop/home.html');
+    }
 
     /**
      * 列表页
@@ -313,14 +308,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
 
-        //微信分享
-        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-        $timestamp = $this->stash['timestamp'] = time();
-        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'http://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
-        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-        $this->stash['wxSha1'] = sha1($wxOri);
+		//微信分享
+        $wx_share = Sher_Core_Helper_Util::wechat_share_param();
+        $this->stash['wx_share'] = $wx_share;
 
         if($product['stage']==9){
           $tpl = 'wap/shop/show.html';
@@ -450,14 +440,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['product'] = $product;
 		$this->stash['id'] = $id;
 
-        //微信分享
-        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-        $timestamp = $this->stash['timestamp'] = time();
-        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];  
-        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-        $this->stash['wxSha1'] = sha1($wxOri);
+		//微信分享
+        $wx_share = Sher_Core_Helper_Util::wechat_share_param();
+        $this->stash['wx_share'] = $wx_share;
 
         $tpl = 'wap/shop/s_view.html';
 		

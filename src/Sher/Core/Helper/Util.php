@@ -1450,4 +1450,27 @@ class Sher_Core_Helper_Util {
     }
 
 
+    /**
+     * 微信分享
+     */
+    public static function wechat_share_param(){
+        $arr = array();
+	    $app_id = Doggy_Config::$vars['app.wechat.app_id'];
+	    $timestamp = time();
+	    $wxnonceStr = new MongoId();
+	    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+	    $url = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+	    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+	    $wxSha1 = sha1($wxOri);
+        $arr = array(
+            'app_id' => $app_id,
+            'timestamp' => $timestamp,
+            'wxnonceStr' => $wxnonceStr,
+            'current_url' => $current_url,
+            'wxSha1' => $wxSha1,
+        );
+        return $arr;
+    }
+
+
 }
