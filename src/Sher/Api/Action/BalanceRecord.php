@@ -141,18 +141,26 @@ class Sher_Api_Action_BalanceRecord extends Sher_Api_Action_Base {
             $balance = array();
             $row = $balance_model->extend_load($data[$i]['balance_id']);
             if(!empty($row)){
-                $product_id = $row['product_id'];
-                $p = $product_model->load($product_id);
-                if($p){
-                    $product = array();
-                    $product['title'] = $p['title'];
-                    $product['short_title'] = !empty($p['short_title']) ? $p['short_title'] : $p['title'];
-                }else{
-                    $product = null;
+                $title = '';
+                if($row['kind']==1){
+                    $target_id = isset($row['target_id']) ? $row['target_id'] : $row['order_rid'];
+                    $title = sprintf("订单[%s]", $target_id);
+                }elseif($row['kind']==2){
+                    $product_id = $row['product_id'];
+                    $p = $product_model->load($product_id);
+                    if($p){
+                        $product = array();
+                        $product['title'] = $p['title'];
+                        $product['short_title'] = !empty($p['short_title']) ? $p['short_title'] : $p['title'];
+                        $title = $product['title'];
+                    }else{
+                        $product = null;
+                    }
+                    $balance = $row;
+                    $balance['_id'] = (string)$row['_id'];
+                    $balance['product'] = $product;               
                 }
-                $balance = $row;
-                $balance['_id'] = (string)$row['_id'];
-                $balance['product'] = $product;
+                $balance['title'] = $title;
             }
 
             $data[$i]['balance'] = $balance;
