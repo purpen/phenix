@@ -356,6 +356,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'is_expert' => 0,
       // 所属联盟ID
       'alliance_id' => '',
+      // 所属联盟code
+      'referral_code' => '',
       // 地盘 ID
       'storage_id' => '',
     ),

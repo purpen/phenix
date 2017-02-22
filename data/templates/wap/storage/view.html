@@ -204,6 +204,61 @@
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
   <script type="text/javascript" >
 
+      wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+      });
+
+      //记录分享数
+      function record_share_num(){
+
+      };
+
       // 加载产品相关推荐
       function ajax_load_product(id){
           //防止频繁请求(在没加载完成时只允许请求一次)
@@ -271,60 +326,59 @@
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
-  wx.ready(function(){
-    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
-     wx.onMenuShareAppMessage({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-		$('#mask').css('display','none');
-      }
-    });      
 
-    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareTimeline({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-		$('#mask').css('display','none');
-      }
-    });
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{scene._id}},type:11,event:1}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
 
-    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareQQ({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-		$('#mask').css('display','none');
-      }
-    });
+		/* 登录用户行为 */
+	{% endif %}
 
-    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
-    wx.onMenuShareWeibo({
-      title: m_name,
-      desc: desc_str,
-      link: link,
-      imgUrl: img_url,
-      success: function (res) {
-        record_share_num();
-		$('#mask').css('display','none');
-      }
-    });
-  });
+	// 收藏
+	$('.ui.favorite').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_favorite', {id: id, type:11}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消收藏')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_favorite', {id: id, type:11}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '收藏')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
 
-  //记录分享数
-  function record_share_num(){
 
-  };
 
 {% endblock %}
 {% block content %}
@@ -333,7 +387,7 @@
 	    <div class="ui sheader">
 	        <a class="return" href=""><i class="angle float left icon"></i></a>
 	        <p></p>
-	        <div class="acacartlogin active">
+            <div class="acacartlogin ui favorite" data-id="{{ scene._id }}" data-mark="n" data-content="收藏">
 	        	<div class="caputcart"></div>
 	        </div>
 	    </div>

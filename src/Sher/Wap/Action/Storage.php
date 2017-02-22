@@ -54,7 +54,7 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
                 if($arr[0] == '[text]'){
                     array_push($brights, array('type'=>1, 'content'=>$arr[1]));
                 }elseif($arr[0] == '[img]'){
-                    array_push($brights, array('type'=>2, 'content'=>$arr[1]));               
+                    array_push($brights, array('type'=>2, 'content'=>$arr[1]));
                 }else{
                     continue;
                 }
