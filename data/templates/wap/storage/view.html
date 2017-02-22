@@ -303,6 +303,10 @@
 		$('.more').fadeIn();
 		$(this).hide();
 	})
+	$('.link-more').click(function(){
+		$('.more').fadeIn();
+		$(this).hide();
+	})
 	$('.acacartlogin').click(function(){
 
 	})
@@ -469,7 +473,7 @@
                 </p>
 
                 {% if scene.bright_count > 2 %}
-				    <a href="" class="show-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
+				    <a href="javascript:void(0);" class="link-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
                 {% endif %}
 			</div>
             {% endif %}
