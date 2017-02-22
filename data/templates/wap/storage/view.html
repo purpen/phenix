@@ -446,16 +446,31 @@
 				<h4 class="title">亮点</h4>
 
                 {% for d in scene.brights %}
-                    {% if d.type==1 %}
-                        <p>{{ d.content }}</p>
+                    {% if loop.counter <= 2 %}
+                        {% if d.type==1 %}
+                            <p>{{ d.content }}</p>
+                        {%endif%}
+                        {% if d.type==2 %}
+                            <p> <img src="{{ d.content }}"></p>
+                        {%endif%}
                     {%endif%}
-                    {% if d.type==2 %}
-                        <p> <img src="{{ d.content }}"></p>
-                    {%endif%}
-
                 {%endfor%}
+                <p class="more" style="display: none">
+                 {% for d in scene.brights %}
+                    {% if loop.counter > 2 %}
+                        {% if d.type==1 %}
+                            <p>{{ d.content }}</p>
+                        {%endif%}
+                        {% if d.type==2 %}
+                            <p> <img src="{{ d.content }}"></p>
+                        {%endif%}
+                    {%endif%}
+                {%endfor%}               
+                </p>
 
-				<a href="" class="link-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
+                {% if scene.bright_count > 2 %}
+				    <a href="" class="show-more">查看更多 <img src="{{ app_url_packaged }}/images/icon/icon_back.png"></a>
+                {% endif %}
 			</div>
             {% endif %}
 		</div>

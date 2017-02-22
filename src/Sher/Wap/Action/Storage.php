@@ -61,6 +61,7 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
             }
         }
         $scene['brights'] = $brights;
+        $scene['bright_count'] = count($brights);
 
 		$this->stash['page_title_suffix'] = $scene['title'];
 

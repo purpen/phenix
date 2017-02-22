@@ -27,10 +27,22 @@ class Sher_Api_Action_Alliance extends Sher_Api_Action_Base {
 		$alliance_model = new Sher_Core_Model_Alliance();
 		$alliance = $alliance_model->first(array('user_id'=>$user_id));
 		
+        // 创建联盟账户
 		if(empty($alliance)){
-			return $this->api_json('您还未申请联盟账户！', 3001);
+            $row = array(
+                'user_id' => $user_id,
+                'name' => $user['nickname'],
+                'status' => 5,
+                // 自动生成
+                'kind' => 2,
+            );
+            $ok = $alliance_model->apply_and_save($row);
+            $alliance = $alliance_model->get_data();
 		}
 
+        if(empty($alliance)){
+		    return $this->api_json('您还未申请联盟账户！', 3001);
+        }
         if($alliance['status']==0){
  			return $this->api_json('联盟账户已被禁用！', 3002);       
         }

@@ -1494,6 +1494,8 @@ class Sher_Core_Helper_Util {
                 'user_id' => $user_id,
                 'name' => $user['nickname'],
                 'status' => 5,
+                // 自动生成
+                'kind' => 2,
             );
             $ok = $alliance_model->apply_and_save($row);
             if(!$ok) return false;
