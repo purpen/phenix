@@ -226,10 +226,15 @@ db.view_stat.ensureIndex({ 'count':-1 }, {background: true});
 
 # alliance       // 联盟账户
 db.alliance.ensureIndex({ 'user_id':1 }, {background: true});
-db.bonus.ensureIndex({'code':1}, {unique: true}, {background: true});
+db.alliance.ensureIndex({'code':1}, {unique: true}, {background: true});
 db.alliance.ensureIndex({ 'type':1 }, {background: true});
 db.alliance.ensureIndex({ 'kind':1 }, {background: true});
 db.alliance.ensureIndex({ 'created_on':-1 }, {background: true});
+
+# s_url       // 短地址
+db.s_url.ensureIndex({'code':1}, {unique: true}, {background: true});
+db.s_url.ensureIndex({ 'type':1 }, {background: true});
+db.s_url.ensureIndex({ 'created_on':-1 }, {background: true});
 
 
 db.applitable.count()     23665

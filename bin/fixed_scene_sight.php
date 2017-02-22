@@ -42,7 +42,14 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
         $id = $list[$i]['_id'];
         $user_id = empty($list[$i]['user_id']) ? 0: $list[$i]['user_id'];
-        if($user_id) array_push($users, $user_id);
+        $is_product = !empty($list[$i]['product']) ? true : false;
+        if($is_product){
+            $total ++;
+            $scene_sight_model->update_set($id, array('is_product'=>1));
+        }else{
+            $scene_sight_model->update_set($id, array('is_product'=>0));           
+        }
+        //if($user_id) array_push($users, $user_id);
 	}
 	if($max < $size){
 		break;

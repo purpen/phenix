@@ -130,6 +130,7 @@
 				<th>地址</th>
                 <th>浏览量</th>
                 <th>点赞量</th>
+                <th>含商品</th>
                 <th>是否推荐</th>
                 <th>是否精选</th>
                 <th>发布时间</th>
@@ -181,8 +182,16 @@
                 <td>
                   {{ d.address }}
                 </td>
+
                 <td>{{ d.view_count }}|{{ d.true_view_count }}</td>
                 <td>{{ d.love_count }}</td>
+                <td>
+					{% if d.is_product == 1 %}
+					<label class="ui green label">是</label>
+                    {%else%}
+					<label class="ui orange label">否</label>
+					{% endif %}
+				</td>
 
         <td>
 					{% if d.stick == 1 %}

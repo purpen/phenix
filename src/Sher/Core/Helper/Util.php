@@ -1472,5 +1472,41 @@ class Sher_Core_Helper_Util {
         return $arr;
     }
 
+    /**
+     * 自动生成联盟账户并返回code
+     */
+    public static function gen_alliance_account($user_id, $options=array()){
+        if(empty($user_id)) return false;
+        $user_id = (int)$user_id;
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($user_id);
+        if(empty($user_id)) return false;
+        if(!isset($user['identify']['referral_code']) || empty($user['identify']['referral_code'])){
+            $alliance_model = new Sher_Core_Model_Alliance();
+            $alliance = $alliance_model->first(array('user_id'=>$user_id));
+            if(!empty($alliance)){
+                $code = $alliance['code'];
+                $user_model->update_set($user_id, array('identify.referral_code'=>$code));
+                return $code;
+            }
+            // 创建联盟账户
+            $row = array(
+                'user_id' => $user_id,
+                'name' => $user['nickname'],
+                'status' => 5,
+            );
+            $ok = $alliance_model->apply_and_save($row);
+            if(!$ok) return false;
+
+            $alliance = $alliance_model->get_data();
+            $code = $alliance['code'];
+            $user_model->update_set($user_id, array('identify.referral_code'=>$code));
+            return $code;
+        
+        }
+
+        return $user['identify']['referral_code'];
+    }
+
 
 }

@@ -25,7 +25,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$some_fields = array(
 			'_id'=>1, 'user_id'=>1, 'title'=>1, 'des'=>1, 'scene_id'=>1, 'scene'=>1, 'tags'=>1,
 			'product' => 1, 'location'=>1, 'address'=>1, 'cover_id'=>1, 'deleted'=>1, 'city'=>1,
-			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1, 'category_ids'=>1,
+			'used_count'=>1, 'view_count'=>1, 'love_count'=>1, 'comment_count'=>1, 'category_id'=>1, 'category_ids'=>1, 'is_product'=>1,
 			'fine' => 1, 'fine_on'=>1, 'stick_on'=>1, 'stick'=>1, 'is_check'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1, 'subject_ids'=>1,
 		);
 
@@ -44,6 +44,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : '';
 		$subject_id = isset($this->stash['subject_id']) ? (int)$this->stash['subject_id'] : 0;
         $show_all = isset($this->stash['show_all']) ? (int)$this->stash['show_all'] : 0;
+        $is_product = isset($this->stash['is_product']) ? (int)$this->stash['is_product'] : 0;
 
         // 是否使用缓存
 		$use_cache = isset($this->stash['use_cache']) ? (int)$this->stash['use_cache'] : 0;
@@ -81,6 +82,13 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             $query['scene_id'] = $scene_id;
         }
 
+		if($is_product){
+			if($is_product == -1){
+				$query['is_product'] = 0;
+            }else{
+				$query['is_product'] = 1;
+            }
+		}
 
         if($category_ids){
             $cate_arr = explode(',', $category_ids);
@@ -93,17 +101,17 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		if($stick){
 			if($stick == -1){
 				$query['stick'] = 0;
-      }else{
+            }else{
 				$query['stick'] = 1;
-      }
+            }
 		}
 
 		if($fine){
 			if($fine == -1){
 				$query['fine'] = 0;
-      }else{
+            }else{
 				$query['fine'] = 1;
-      }
+            }
 		}
 		
 		// 状态
