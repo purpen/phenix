@@ -885,7 +885,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
             $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
         }
 
-        return $this->ajax_json('success', false, 0, array('url'=>$redirect_url));
+        return $this->ajax_json('success', false, 0, array('url'=>urlencode($redirect_url)));
     }
 
 

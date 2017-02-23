@@ -1193,7 +1193,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
             $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
         }
 
-        return $this->api_json('success', 0, array('url'=>$redirect_url));
+        return $this->api_json('success', 0, array('url'=>urlencode($redirect_url)));
     }
 	
 }
