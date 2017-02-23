@@ -676,9 +676,11 @@
 					</span>
 				</div>
                 -->
+                {% if scene.sub_title %}
                 <div class="pb-2r">
-					<p class="maypay">人均消费￥2500</p>
+                    <p class="maypay">{{ scene.sub_title }}</p>
 				</div>
+                {%endif%}
 				<div class="sub header">
                     {% for d in scene.tags %}
                     <label class="ui label">{{ d }}</label>
