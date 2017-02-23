@@ -25,7 +25,7 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         ),
         # 类型
         'type' => self::TYPE_PERSON,
-        # 来源: 1.链接推广；2.地盘；3.--
+        # 来源: 1.后台创建；2.自动生成；3.--
         'kind' => 1,
         # 状态: 0.禁用；1.审核中； 2.拒绝；5.通过；
 		'status' => 1,

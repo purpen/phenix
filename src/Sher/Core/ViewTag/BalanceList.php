@@ -113,6 +113,19 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
         }
 
         for($i=0;$i<count($result['rows']);$i++){
+            $title = '';
+            $kind = $result['rows'][$i]['kind'];
+            switch($kind){
+                case 1:
+                    $target_id = isset($result['rows'][$i]['target_id']) ? $result['rows'][$i]['target_id'] : $result['rows'][$i]['order_rid'];
+                    $title = sprintf("订单[%s]", $target_id);
+                    break;
+                case 2:
+                    $target_id = isset($result['rows'][$i]['target_id']) ? $result['rows'][$i]['target_id'] : $result['rows'][$i]['product_id'];
+                    $title = sprintf("商品[%s]", $target_id);
+                    break;
+            }
+            
             // 加载用户信息
             if($load_user){
                 $user_id = $result['rows'][$i]['user_id'];
@@ -120,7 +133,7 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
                 $result['rows'][$i]['user'] = $user;
             }
             // 加载商品信息
-            if($load_product){
+            if($load_product && $kind==2){
                 $product_id = $result['rows'][$i]['product_id'];
                 $sku_id = $result['rows'][$i]['sku_id'];
                 $product = $product_model->extend_load($product_id);
@@ -131,7 +144,9 @@ class Sher_Core_ViewTag_BalanceList extends Doggy_Dt_Tag {
                     }
                     $result['rows'][$i]['product'] = $product;
                 }
+                $title = sprintf("%s(%s)", $title, $product['title']);
             }
+            $result['rows'][$i]['title'] = $title;
 
         }   // endfor
 		

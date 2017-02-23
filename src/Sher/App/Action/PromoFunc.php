@@ -10,7 +10,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
     'sort'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address', 'ajax_fetch_active_draw_record', 'gen_short_url');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_draw_record', 'fetch_sign_draw', 'save_draw_address', 'ajax_fetch_active_draw_record', 'gen_short_url', 'share_link');
 	
 	/**
 	 * 网站入口
@@ -838,6 +838,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
     /**
      * 生成短地址
+     * @param type: 1.自定义; 2.链接推广; 3.--;
      */
     public function gen_short_url(){
         $url = isset($this->stash['url']) ? htmlspecialchars_decode($this->stash['url']) : null;
@@ -848,6 +849,43 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         }
         $code = Sher_Core_Helper_Util::gen_short_url($url, $user_id, $type);
         return $this->ajax_json('success', 0, null, array('code'=>$code));
+    }
+
+    /**
+     * 分享链接生成
+     * @param id
+     * @param type 1.产品；2.情境；3.地盘；
+     */
+    public function share_link(){
+		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
+		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
+        $user_id = $this->visitor->id;
+        $code = Sher_Core_Helper_Util::gen_alliance_account($user_id);
+
+        $infoId = $id;
+        $infoType = 1;
+        
+        switch($type){
+            case 1:
+                $infoType = 1;
+                break;
+            case 2:
+                $infoType = 11;
+                break;
+            case 3:
+                $infoType = 10;
+                break;
+            default:
+                $infoType = 1;
+        }
+        $redirect_url = sprintf("%s/qr?infoType=%s&infoId=%s&referral_code=%s", Doggy_Config::$vars['app.url.domain'], $infoType, $infoId, $code);
+
+        if($storage_id){
+            $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
+        }
+
+        return $this->ajax_json('success', false, 0, array('url'=>urlencode($redirect_url)));
     }
 
 

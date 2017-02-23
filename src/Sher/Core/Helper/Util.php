@@ -1428,6 +1428,7 @@ class Sher_Core_Helper_Util {
 
     /**
      * 生成短网址
+     * @param type: 1.自定义; 2.链接推广; 3.--;
      */
     public static function gen_short_url($url, $user_id=0, $type=1){
         if(empty($url)) return false;
@@ -1448,7 +1449,6 @@ class Sher_Core_Helper_Util {
         }
         return $code;
     }
-
 
     /**
      * 微信分享
@@ -1494,6 +1494,8 @@ class Sher_Core_Helper_Util {
                 'user_id' => $user_id,
                 'name' => $user['nickname'],
                 'status' => 5,
+                // 自动生成
+                'kind' => 2,
             );
             $ok = $alliance_model->apply_and_save($row);
             if(!$ok) return false;

@@ -280,7 +280,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
       $imageString = base64_encode(ob_get_contents());
       ob_end_clean();
 
-      echo '<img width="150" src="data:image/png;base64,'.$imageString.'" />';
+      echo '<img width="180" src="data:image/png;base64,'.$imageString.'" />';
   }
 	
 }
