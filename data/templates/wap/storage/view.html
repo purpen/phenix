@@ -510,7 +510,7 @@
     }
 
     // 微博
-	$('#share-weibo').click(function() {
+	$('#share-weibo_w').click(function() {
         var site = "{{ app_url_wap }}";
         var link = $(':input[name=s_url]').val();
         var title = "{{ scene.title }}";
@@ -525,7 +525,7 @@
 		return false;
 	});
 
-    $('#tencent-share').click(function() {
+    $('#tencent-share_w').click(function() {
         var site = "{{ app_url_wap }}";
         var link = $(':input[name=s_url]').val();
         var title = "{{ scene.title }}";
@@ -775,13 +775,13 @@
 								</div>
 							</li>
 							<li class="childcell">
-								<div class="menuicon webo" id="o-share-weibo">
+								<div class="menuicon webo" id="o-share-weibo_w">
 									<div class="weboicon"></div>
 									微博
 								</div>
 							</li>
 							<li class="childcell">
-								<div class="menuicon qq" id="tencent-share">
+								<div class="menuicon qq" id="tencent-share_w">
 									<div class="qqicon"></div>
 									QQ
 								</div>
