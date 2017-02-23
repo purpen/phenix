@@ -461,7 +461,20 @@
 			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
 		}
 		else{
-			//$('#cover').css('display','block');
+            var s_url = $(':input[name=s_url]').val();
+            if(!s_url){
+                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ scene._id }}", type:3}, function(rs){
+                    if(rs.success){
+                        var s_url = rs.data.url;
+                        $(':input[name=s_url]').val(s_url);
+                    }else{
+                        phenix.show_error_note('获取数据失败!');
+                    }
+                }, 'json');
+            }
+            
+            //$('#cover').css('display','block');
+
 			$('body').css('overflow','hidden');
             $('.mask').addClass('show');
 			$('#shareshow').addClass('show-details');
@@ -477,9 +490,10 @@
         $('.row.title p').css('font-size','14px');
 	});
 	phenix.bind_share_list();
-	//$('#qrcode').qrcode({width: 180, height: 180, text: '{{ contest.wap_view_url }}'});
+
 	//微信
 	$('.menuicon.wechat').on("click",function(){
+	    $('#qrcode').qrcode({width: 180, height: 180, text: s_url});
 		$('.row.content,.row.icon').fadeOut();
 		// 生成二维码
 		$('.row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');
@@ -605,6 +619,7 @@
 			<div class="ui center aligned column">
                 <img class="storimg" src="{{ scene.avatar.thumbnails.apc.view_url }}">
                 <h3 class="mtb-0 title">{{ scene.title }}</h3>
+                <!--
 				<div class="pb-r">
 					<span class="ui star rating">
 						<i class="icon active"></i>
@@ -614,12 +629,12 @@
 						<i class="icon "></i>
 					</span>
 				</div>
+                -->
 
 				<div class="sub header">
-					<label class="ui label">D3in</label>
-					<label class="ui label">标签</label>
-					<label class="ui label">biaoqian</label>
-					{% if scene.tags_s %}<label class="ui label">{{ scene.tags_s }}</label>{%endif%}
+                    {% for d in scene.tags %}
+                    <label class="ui label">{{ d }}</label>
+                    {%endfor%}
 				</div>
                 <!--
 				<p class="maypay">人均消费￥2500</p>
@@ -705,6 +720,7 @@
 			</div>
 
 			<div class="row content">
+                <input type="hidden" name="s_url" value="" />
 				<div class="ui center aligned column">
 					<img src="{{app_url_packaged}}/images/icon/money.png" width="40px">
 					<p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
