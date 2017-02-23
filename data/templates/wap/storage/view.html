@@ -493,6 +493,7 @@
 
 	//微信
 	$('.menuicon.wechat').on("click",function(){
+        s_url = $(':input[name=s_url]').val();
 	    $('#qrcode').qrcode({width: 180, height: 180, text: s_url});
 		$('.row.content,.row.icon').fadeOut();
 		// 生成二维码
@@ -720,11 +721,11 @@
 			</div>
 
 			<div class="row content">
-                <input type="hidden" name="s_url" value="" />
 				<div class="ui center aligned column">
 					<img src="{{app_url_packaged}}/images/icon/money.png" width="40px">
 					<p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
 					<p class="fortbe"><span>查看</span> Fiu合伙人招募计划</p>
+                    <input type="hidden" name="s_url" value="" />
 				</div>
 			</div>
 
