@@ -136,8 +136,7 @@
 		<thead>
 			<tr>
 				<th></th>
-                <th>产品图</th>
-                <th>产品信息</th>
+                <th>信息</th>
 				<th>用户</th>
                 <th>佣金</th>
                 <th>类型</th>
@@ -161,22 +160,10 @@
 				</td>
 
 				<td>
-					<div class="ui image">
-						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
-					</div>
-				</td>
-				<td>
-		          	<div class="header">
-						<a href="{{ d.product.view_url }}" class="ui link" target="_blank" title="{{ d.product.title }}">
-                            {{ d.product.title|truncate, 32 }}({{ d.product.sku.mode }}){% if d.product.is_vop %} | <span class="" style="color:red;">开普勒</span>{%endif%}
-						</a>
-					</div>
 		          	<p class="attribute">ID：{{ d._id }}</p>
-		          	<p class="attribute">商品ID：{{ d.product_id }}</p>
-		          	<p class="attribute">商品数量：{{ d.quantity }}</p>
-		          	<p class="attribute">skuID：{{ d.sku_id }}</p>
-					<p class="attribute">订单号：{{ d.order_rid }}</p>
-					<p class="attribute">订单来源：{{ d.from_site }}</p>
+                    <p class="attribute">标题： {{ d.title }}</p>
+		          	<p class="attribute">数量：{{ d.quantity }}</p>
+					<p class="attribute">来源：{{ d.from_site }}</p>
                     <p class="attribute">联盟ID: {{ d.alliance_id }}</p>
 				</td>
 				<td>
@@ -198,12 +185,12 @@
 					</p>
 				</td>
                 <td>
-                    <p>商品佣金: {{ d.commision_percent_p }} %</p>
+                    <p>价格: {{ d.commision_percent_p }} %</p>
                     <p>账户加成: {{ d.addition }}</p>
-                    <p>商品单价: {{ d.sku_price }}</p>
-                    <p>商品数量: {{ d.quantity }}</p>
-                    <p>佣金单价: {{ d.unit_price }} ¥</p>
-                    <p>佣金总额: {{ d.total_price }} ¥</p>
+                    <p>单价: {{ d.sku_price }}</p>
+                    <p>数量: {{ d.quantity }}</p>
+                    <p>收益单价: {{ d.unit_price }} ¥</p>
+                    <p>收益总额: {{ d.total_price }} ¥</p>
                 </td>
 				<td>
                     {{ d.type_label }}
