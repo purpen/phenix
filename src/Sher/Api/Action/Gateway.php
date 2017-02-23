@@ -90,7 +90,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
 
         //显示的字段
         $options['some_fields'] = array(
-          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
+          '_id'=> 1, 'title'=>1, 'space_id'=>1, 'sub_title'=>1, 'cate_title'=>1, 'web_url'=>1, 'summary'=>1, 'cover_id'=>1, 'type'=>1, 'ordby'=>1, 'kind'=>1,
           'created_on'=>1, 'state'=>1
         );
 
