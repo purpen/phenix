@@ -513,8 +513,8 @@
 	$('#share-weibo_w').click(function() {
         var site = "{{ app_url_wap }}";
         var link = $(':input[name=s_url]').val();
-        var title = "{{ scene.title }}";
-        var pic_url = "{{ scene.avatar.thumbnails.apc.view_url }}";
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
 		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
         
         var getParamsOfShareWindow = function(width, height) {
@@ -528,14 +528,25 @@
     $('#tencent-share_w').click(function() {
         var site = "{{ app_url_wap }}";
         var link = $(':input[name=s_url]').val();
-        var title = "{{ scene.title }}";
-        var pic_url = "{{ scene.avatar.thumbnails.apc.view_url }}";
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
 
         var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
         var params = getParamsOfShareWindow(634, 668);
         window.open(url, 'tShare', params);
         return false;
     });
+
+	$('#qzone-share_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
+		var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + title + '&pic=' + pic_url;
+		var params = getParamsOfShareWindow(600, 560);
+		window.open(url, 'tShare', params);
+		return false;
+	});
 
 	$('.link-more').click(function(){
 		$('.more').fadeIn();
@@ -781,7 +792,7 @@
 								</div>
 							</li>
 							<li class="childcell">
-								<div class="menuicon qq" id="tencent-share_w">
+								<div class="menuicon qq" id="qzone-share_w">
 									<div class="qqicon"></div>
 									QQ
 								</div>
