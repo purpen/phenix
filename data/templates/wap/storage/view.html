@@ -110,7 +110,7 @@
 	    position: relative;
 	    padding: 0 16px;
 	    margin-bottom: 10px;
-	    padding-bottom: 50px;
+	    padding-bottom: 0;
 	}
 	.guess.title{
 		color: #666;
@@ -140,13 +140,21 @@
 		color: #fff;
 		font-size: 14px;
 		position: absolute;
-		right: 40px;
-		bottom: 30px;
+		right: 25px;
+		bottom: 25px;
 		border-radius: 4px;
 		z-index: 2;
 		padding: 5px 0;
-	    width: 50px;
+	    width: 80px;
 	    text-align: center;
+	    padding-left: 20px;
+	}
+	.pagecount img{
+		position: absolute;
+	    left: 6px;
+	    width: 15px;
+	    height: 15px;
+	    top: 7px;
 	}
 	.ui.brand.list #mpresale .recom-item .recom-cell .desc{
 		background: #222;
@@ -165,7 +173,7 @@
 	    left: 0;
 	    width: 100%;
 	    z-index: 4;
-	    background: rgba(255,255,255,0.5);
+	    background: rgba(255,255,255,0);
 	    -webkit-box-shadow: none;
 	    box-shadow: none;
 	    height: 50px;
@@ -174,7 +182,7 @@
 		margin: 0;
 	}
 	.acacartlogin {
-	    right: 14px;
+	    right: 48px;
 	    top: 50%;
 	    transform: translateY(-50%);
 	    width: 34px;
@@ -185,7 +193,7 @@
 	    position: absolute;
 	}
 	.acacartlogin .caputcart {
-	    background: url({{app_url_packaged}}/images/icon/shouc.png);
+	    background: url({{app_url_packaged}}/images/icon/shouc3.png);
 	    width: 20px;
 	    height: 20px;
 	    background-repeat: no-repeat;
@@ -195,6 +203,149 @@
 	}
 	.acacartlogin.active .caputcart{
 		background-position: -20px 0;
+	}
+	i.angle.float.left.icon{
+		color: #fff;
+	}
+	.fsshare{
+		right: 14px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    width: 34px;
+	    height: 50px;
+	    -webkit-transform: translateY(-50%);
+	    -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	    position: absolute;
+	}
+	.fsshare .sshare{
+		background: url({{ app_url_packaged }}/images/icon/fsshare.png);
+	    width: 21px;
+	    height: 20px;
+	    background-size: 21px 20px;
+	    margin: 15px 0 15px 10px;
+	}
+	.sub.header{
+		font-size: 0;
+	}
+	.sub.header .ui.label{
+		background: rgba(0,0,0,0);
+	    border: 1px solid #666;
+	    color: #666;
+	    padding: 6px 12px;
+	    margin: 0 6px;
+	}
+	.mask{
+	    height: 100%;
+	    width: 100%;
+	    position: fixed;
+	    background: rgba(0,0,0,0.2);
+	    z-index: 9;
+	    display: none;
+	}
+	.mask.show{
+	  display: block;
+	}
+	#shareshow .ui.top.details{
+	    max-width:767px;
+	    margin:0 auto;
+		background:#fff;
+		position:fixed;
+		width:100%;
+		height:300px;
+		bottom:0;
+		z-index:100;
+	    visibility: hidden;
+	    -webkit-transform: translate3d(0,100%,0);
+	    transform: translate3d(0,100%,0);
+	    -webkit-transition: all 0.3s ease 0.05s;
+	    transition: all 0.3s ease 0.05s;
+		padding:10px 0;
+	}
+	#shareshow.show-details .ui.top.details{
+		visibility: visible;
+	    -webkit-transform: translate3d(0,0,0);
+	    transform: translate3d(0,0,0);
+	}
+	.close-details {
+	    position: absolute;
+	    width: 28px;
+	    height: 28px;
+	    right: 10px;
+	    top: 10px;
+	    z-index: 2;
+	}
+	.close-details img {
+	    width: 14px;
+	    height: 14px;
+	    margin: 7px;
+	}
+	.row.title p{
+		font-size: 16px;
+		color: #222;
+		margin-bottom: 10px;
+    	margin-top: 5px;
+	}
+	#shareshow .ui.top.details .ui.divider {
+	    margin: 5px 10px 2px;
+	}
+	.fort{
+		font-size: 14px;
+		color: #666;
+		margin:10px 0 0;
+	}
+	.fortbe{
+		font-size: 14px;
+		color: #be8914;
+		margin:5px 0;
+	}
+	.fortbe span{
+		color: #666;
+	}
+	#shareshow .ui.top.details .menuicon {
+	    padding: 2px 6px 5px !important;
+	    margin-bottom: 0;
+	    color: #4A4A4A !important;
+	}
+	.menuicon .wechaticon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/wechaticon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.menuicon .weboicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/weboicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	   	background-repeat: no-repeat;
+	}
+	.menuicon .qqicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/qqicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.menuicon .fuicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/fuicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
 	}
 </style>
 {% endblock %}
@@ -278,6 +429,7 @@
 {% endblock %}
 
 {% block jquery %}
+//<script type="text/javascript" >
 	$('#slider').flexslider({
         animation: "fade",
         directionNav: false, 
@@ -303,6 +455,38 @@
 		$('.more').fadeIn();
 		$(this).hide();
 	})
+
+	$('.fsshare').click(function(){
+		if( !phenix.visitor.is_login ){
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
+		}
+		else{
+			//$('#cover').css('display','block');
+			$('body').css('overflow','hidden');
+            $('.mask').addClass('show');
+			$('#shareshow').addClass('show-details');
+		}
+	});
+	$('.close-details').click(function(){
+		$('#shareshow').removeClass('show-details');
+		$('body').removeAttr('style');
+        $('.mask').removeClass('show');
+        $('.row.content,.row.icon').fadeIn();
+        $('.row.ewm').fadeOut();
+        $('.row.title p').html('分享得佣金');
+        $('.row.title p').css('font-size','14px');
+	});
+	phenix.bind_share_list();
+	//$('#qrcode').qrcode({width: 180, height: 180, text: '{{ contest.wap_view_url }}'});
+	//微信
+	$('.menuicon.wechat').on("click",function(){
+		$('.row.content,.row.icon').fadeOut();
+		// 生成二维码
+		$('.row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');
+		$('.row.title p').css('font-size','13px');
+		$('.row.ewm').fadeIn();
+	})
+
 	$('.link-more').click(function(){
 		$('.more').fadeIn();
 		$(this).hide();
@@ -383,9 +567,10 @@
 	});
 
 
-
+  //</script>
 {% endblock %}
 {% block content %}
+<div class="mask"></div>
 <div id="slider" class="flexslider flex-single">
 	<div class="ui fiushop pb-0">
 	    <div class="ui sheader">
@@ -393,6 +578,10 @@
 	        <p></p>
             <div class="acacartlogin ui favorite" data-id="{{ scene._id }}" data-mark="n" data-content="收藏">
 	        	<div class="caputcart"></div>
+	        </div>
+
+	        <div class="fsshare">
+	        	<div class="sshare"></div>
 	        </div>
 	    </div>
 	</div>
@@ -404,6 +593,7 @@
 	    </li>
 	{% endfor %}
 	<div class="pagecount"> 
+		<img src="{{ app_url_packaged }}/images/icon/imagg.png" />
 		<span class="current"></span> /
 		<span class="allpage"></span>
 	</div>
@@ -423,6 +613,13 @@
 						<i class="icon active"></i>
 						<i class="icon "></i>
 					</span>
+				</div>
+
+				<div class="sub header">
+					<label class="ui label">D3in</label>
+					<label class="ui label">标签</label>
+					<label class="ui label">biaoqian</label>
+					{% if scene.tags_s %}<label class="ui label">{{ scene.tags_s }}</label>{%endif%}
 				</div>
                 <!--
 				<p class="maypay">人均消费￥2500</p>
@@ -485,14 +682,80 @@
 	<div class="ui responsive grid">
 		<div class="row ptb-0">
 			<div class="column">
+				<p>地址：北京市朝阳区798艺术区</p>
                 {% if scene.extra.shop_hours %}<p>营业时间：{{ scene.extra.shop_hours }}</p>{%endif%}
                 {% if scene.extra.tel %}<p>电话：{{ scene.extra.tel }}</p>{%endif%}
-                {% if scene.tags_s %}<p>标签：{{ scene.tags_s }}</p>{%endif%}
+                
 			</div>
 		</div>
 	</div>
 </div>
 
+<div id="shareshow">
+	<div class="ui top details">
+		<div class="close-details">
+			<img src="{{ app_url_packaged }}/images/icon/shareclose.png">
+		</div>
+		<div class="ui respontion grid">
+			<div class="row title">
+				<div class="ui center aligned column p-0">
+					<p>分享得佣金</p>
+					<div class="ui divider"></div>
+				</div>
+			</div>
+
+			<div class="row content">
+				<div class="ui center aligned column">
+					<img src="{{app_url_packaged}}/images/icon/money.png" width="40px">
+					<p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
+					<p class="fortbe"><span>查看</span> Fiu合伙人招募计划</p>
+				</div>
+			</div>
+
+			<div class="row icon">
+				<div class="column">
+					<div class="nav-menu">
+						<ul class="navfelx">
+							<li class="childcell">
+								<div class="menuicon wechat">
+									<div class="wechaticon"></div>
+									微信
+								</div>
+							</li>
+							<li class="childcell">
+								<div class="menuicon webo" id="o-share-weibo">
+									<div class="weboicon"></div>
+									微博
+								</div>
+							</li>
+							<li class="childcell">
+								<div class="menuicon qq" id="tencent-share">
+									<div class="qqicon"></div>
+									QQ
+								</div>
+							</li>
+							<li class="childcell">
+								<div class="menuicon fu">
+									<div class="fuicon"></div>
+									复制链接
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row ewm" style="display:none;">
+				<div class="ui center aligned column">
+					<div id="qrcode"></div>
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+ 
 <!-- 相关推荐 -->
 <div id="shop_guess_wap_list" class="ui brand list">
         <!-- 加载相关推荐 -->
