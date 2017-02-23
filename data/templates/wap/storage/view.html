@@ -505,27 +505,35 @@
 		$('.row.ewm').fadeIn();
 	})
 
+    var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+
     // 微博
 	$('#share-weibo').click(function() {
         var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
         var title = "{{ scene.title }}";
         var pic_url = "{{ scene.avatar.thumbnails.apc.view_url }}";
 		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
         
+        var getParamsOfShareWindow = function(width, height) {
+            return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+        }
 		var params = getParamsOfShareWindow(607, 523);
-		window.open(url, windowName, params);
+		window.open(url, 'tShare', params);
 		return false;
 	});
 
     $('#tencent-share').click(function() {
-        var site = $(':input[name=s_url]').val();
+        var site = "{{ app_url_wap }}";
         var link = $(':input[name=s_url]').val();
         var title = "{{ scene.title }}";
         var pic_url = "{{ scene.avatar.thumbnails.apc.view_url }}";
 
         var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
         var params = getParamsOfShareWindow(634, 668);
-        window.open(url, windowName, params);
+        window.open(url, 'tShare', params);
         return false;
     });
 
@@ -767,7 +775,7 @@
 								</div>
 							</li>
 							<li class="childcell">
-								<div class="menuicon webo" id="share-weibo">
+								<div class="menuicon webo" id="o-share-weibo">
 									<div class="weboicon"></div>
 									微博
 								</div>
