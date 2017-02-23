@@ -494,7 +494,10 @@
 	//微信
 	$('.menuicon.wechat').on("click",function(){
         s_url = $(':input[name=s_url]').val();
-	    $('#qrcode').qrcode({width: 180, height: 180, text: s_url});
+	    //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
+        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+            $('#qrcode').html(result);
+        });
 		$('.row.content,.row.icon').fadeOut();
 		// 生成二维码
 		$('.row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');

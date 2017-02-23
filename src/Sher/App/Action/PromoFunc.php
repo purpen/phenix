@@ -838,6 +838,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
 
     /**
      * 生成短地址
+     * @param type: 1.自定义; 2.链接推广; 3.--;
      */
     public function gen_short_url(){
         $url = isset($this->stash['url']) ? htmlspecialchars_decode($this->stash['url']) : null;
@@ -884,7 +885,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
             $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
         }
 
-        return $this->ajax_json('success', 0, array('url'=>$redirect_url));
+        return $this->ajax_json('success', false, 0, array('url'=>$redirect_url));
     }
 
 
