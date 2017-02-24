@@ -27,10 +27,12 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
         'last_time_on' => 0,
         # 最后一次更新时间
         'last_update_on' => 0,
+        # 来源: 1.PC; 2.Wap; 3.APP; 4.--
+        'from_to' => 1,
   	);
 
     protected $required_fields = array('url');
-    protected $int_fields = array('type', 'user_id', 'status', 'last_time_on', 'last_update_on');
+    protected $int_fields = array('type', 'user_id', 'status', 'last_time_on', 'last_update_on', 'from_to');
 	protected $counter_fields = array('view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 
 
@@ -48,6 +50,22 @@ class Sher_Core_Model_SUrl extends Sher_Core_Model_Base  {
                 break;
             default:
                 $row['type_label'] = '--';
+        }
+
+        // 来源
+        $from_to = isset($row['from_to']) ? $row['from_to'] : 1;
+        switch($from_to){
+            case 1:
+                $row['from_label'] = 'PC';
+                break;
+            case 2:
+                $row['from_label'] = 'WAP';
+                break;
+            case 3:
+                $row['from_label'] = 'APP';
+                break;
+            default:
+                $row['from_label'] = '--';
         }
 
 	}

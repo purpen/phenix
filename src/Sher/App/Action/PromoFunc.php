@@ -855,10 +855,12 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
      * 分享链接生成
      * @param id
      * @param type 1.产品；2.情境；3.地盘；
+     * @param from_to 1.PC; 2.Wap; 3.APP; 4.--
      */
     public function share_link(){
 		$id = isset($this->stash['id']) ? $this->stash['id'] : null;
 		$type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+		$from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 1;
 		$storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
         $user_id = $this->visitor->id;
         $code = Sher_Core_Helper_Util::gen_alliance_account($user_id);
@@ -885,7 +887,12 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
             $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
         }
 
-        return $this->ajax_json('success', false, 0, array('url'=>urlencode($redirect_url)));
+        // 短链接
+        $user_id = isset($this->visitor->id) ? $this->visitor->id : 0;
+        $code = Sher_Core_Helper_Util::gen_short_url($redirect_url, $user_id, 2, $from_to);
+        $s_url = sprintf("%s/s/%s", Doggy_Config::$vars['app.url.domain'], $code);
+
+        return $this->ajax_json('success', false, 0, array('url'=>urlencode($s_url), 'o_url'=>urlencode($redirect_url)));
     }
 
 
