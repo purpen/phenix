@@ -169,6 +169,8 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
             // 开启查询
             $service = Sher_Core_Service_SceneSight::instance();
             $result = $service->get_scene_sight_list($query, $options);
+
+            $product_model = new Sher_Core_Model_Product();
             
             // 重建数据结果
             foreach($result['rows'] as $k => $v){
@@ -177,11 +179,18 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
                 $result['rows'][$k]['title'] = !empty($v['title']) ? $v['title'] : '';
                 
-                $result['rows'][$k]['product'] = array();
-                if($v['product']){
-                    $result['rows'][$k]['product'] =$v['product'];
+                if(!empty($v['product'])){
+                    for($m=0;$m<count($result['rows'][$k]['product']);$m++){
+                        $product_id = $result['rows'][$k]['product'][$m]['id'];
+                        $result['rows'][$k]['product'][$m]['price'] = 0;
+                        if(empty($product_id)){
+                            $product = $product_model->extend_load($product_id);
+                            if($product){
+                                $result['rows'][$k]['product'][$m]['price'] = $product['sale_price'];
+                            }
+                        }
+                    }
                 }
-
 
                 // 获取地盘信息
                 $scene = array();
