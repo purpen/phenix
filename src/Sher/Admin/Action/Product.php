@@ -1216,7 +1216,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
       $str = isset($this->stash['str']) ? htmlspecialchars_decode($this->stash['str']) : null;
       $options = array(
         'outfile' => false,
-        'level' => 'L',
+        'level' => 'H',
         'size' => 10,
         'logo' => 'd3in',
       );

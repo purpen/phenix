@@ -272,7 +272,7 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
       $logo = isset($this->stash['logo']) ? $this->stash['logo'] : null;
       $options = array(
         'outfile' => false,
-        'level' => 'L',
+        'level' => 'H',
         'size' => 10,
         'logo' => $logo,
       );
