@@ -955,6 +955,121 @@ span.ui.timeout.btn{
 .ui.category i.angle.float.left.icon {
     color: #fff;
 }
+
+
+#shareshows .ui.top.detailss{
+      max-width:767px;
+      margin:0 auto;
+    background:#fff;
+    position:fixed;
+    width:100%;
+    height:360px;
+    bottom:0;
+    z-index:100;
+      visibility: hidden;
+      -webkit-transform: translate3d(0,100%,0);
+      transform: translate3d(0,100%,0);
+      -webkit-transition: all 0.3s ease 0.05s;
+      transition: all 0.3s ease 0.05s;
+    padding:10px 0;
+  }
+  #shareshows.show-details .ui.top.detailss{
+    visibility: visible;
+      -webkit-transform: translate3d(0,0,0);
+      transform: translate3d(0,0,0);
+  }
+  #shareshows .close-detailss {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      right: 10px;
+      top: 10px;
+      z-index: 2;
+  }
+  #shareshows .close-detailss img {
+      width: 14px;
+      height: 14px;
+      margin: 7px;
+  }
+  #shareshows .row.title p{
+    font-size: 16px;
+    color: #222;
+    margin-bottom: 10px;
+      margin-top: 5px;
+  }
+  #shareshows .ui.top.detailss .ui.divider {
+      margin: 5px 10px 2px;
+  }
+  #shareshows .fort{
+    font-size: 14px;
+    color: #666;
+    margin:10px 0 0;
+  }
+  #shareshows .fortbe{
+    font-size: 14px;
+    color: #be8914;
+    margin:5px 0;
+  }
+  #shareshows .fortbe a{
+    color: #be8914;
+  }
+  #shareshows .fortbe span{
+    color: #666;
+  }
+  #shareshows .ui.top.detailss .menuicon {
+      padding: 2px 6px 5px !important;
+      margin-bottom: 0;
+      color: #4A4A4A !important;
+  }
+  #shareshows .menuicon .wechaticon{
+    width: 40px;
+    height: 40px;
+    background: url({{ app_url_packaged }}/images/icon/wechaticon.png);
+    display: block;
+      margin: 0 auto 8px;
+      vertical-align: middle;
+      background-size: 100%;
+      background-repeat: no-repeat;
+  }
+  #shareshows .menuicon .weboicon{
+    width: 40px;
+    height: 40px;
+    background: url({{ app_url_packaged }}/images/icon/weboicon.png);
+    display: block;
+      margin: 0 auto 8px;
+      vertical-align: middle;
+      background-size: 100%;
+      background-repeat: no-repeat;
+  }
+  #shareshows .menuicon .qqicon{
+    width: 40px;
+    height: 40px;
+    background: url({{ app_url_packaged }}/images/icon/qqicon.png);
+    display: block;
+      margin: 0 auto 8px;
+      vertical-align: middle;
+      background-size: 100%;
+      background-repeat: no-repeat;
+  }
+  #shareshows .menuicon .fuicon{
+    width: 40px;
+    height: 40px;
+    background: url({{ app_url_packaged }}/images/icon/fuicon.png);
+    display: block;
+      margin: 0 auto 8px;
+      vertical-align: middle;
+      background-size: 100%;
+      background-repeat: no-repeat;
+  }
+  #shareshows .fuzhi .slink{
+    word-wrap: break-word;
+    margin: 0 30px;
+  }
+  #shareshows #qrcode img{
+    width: 240px;
+    height: 240px;
+    margin: 10px 0;
+  }
 </style>
 {% endblock %}
 
@@ -1076,6 +1191,103 @@ span.ui.timeout.btn{
     });
 	var flexheight = $('body').width()*9/16+'px';
 	$('#slider,#slider.flexslider .slides,#slider.flexslider .slides li,#slider.flexslider .slides li a').css('height',flexheight);
+
+
+  $('.acacartlogin').click(function(){
+    if( !phenix.visitor.is_login ){
+      phenix.redirect('{{ app_url_wap }}/auth/login_signup')
+    }
+    else{
+            var s_url = $(':input[name=s_url]').val();
+            if(!s_url){
+                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ scene._id }}", type:3, from_to:2}, function(rs){
+                    if(rs.success){
+                        var s_url = rs.data.url;
+                        var o_url = rs.data.o_url;
+                        $(':input[name=s_url]').val(s_url);
+                        $(':input[name=o_url]').val(o_url);
+                        $('#short_link').text(s_url);
+                    }else{
+                        phenix.show_error_note('获取数据失败!');
+                    }
+                }, 'json');
+            }
+            
+            //$('#cover').css('display','block');
+
+      $('body').css('overflow','hidden');
+            $('.mask').addClass('show');
+      $('#shareshows').addClass('show-details');
+    }
+  });
+  $('#shareshows .close-detailss').click(function(){
+    $('#shareshows').removeClass('show-details');
+    $('body').removeAttr('style');
+        $('.mask').removeClass('show');
+        $('#shareshows .row.content,#shareshows .row.icon,#shareshows .row.fuzhi').fadeIn();
+        $('#shareshows .row.ewm').fadeOut();
+        $('#shareshows .row.title p').html('分享得佣金');
+        $('#shareshows .row.title p').css('font-size','14px');
+  });
+  phenix.bind_share_list();
+
+  //微信
+  $('#shareshows .menuicon.wechat').on("click",function(){
+        s_url = $(':input[name=o_url]').val();
+      //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
+        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+            $('#shareshows #qrcode').html(result);
+        });
+    $('#shareshows .row.content,#shareshows .row.icon,#shareshows .row.fuzhi').fadeOut();
+    // 生成二维码
+    $('#shareshows .row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');
+    $('#shareshows .row.title p').css('font-size','13px');
+    $('#shareshows .row.ewm').fadeIn();
+  })
+
+    var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+
+    // 微博
+  $('#share-weibo_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
+    var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        
+        var getParamsOfShareWindow = function(width, height) {
+            return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+        }
+    var params = getParamsOfShareWindow(607, 523);
+    window.open(url, 'tShare', params);
+    return false;
+  });
+
+    $('#tencent-share_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
+
+        var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(634, 668);
+        window.open(url, 'tShare', params);
+        return false;
+    });
+
+  $('#qzone-share_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ scene.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ scene.cover.thumbnails.apc.view_url }}";
+    var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + title + '&pic=' + pic_url;
+    var params = getParamsOfShareWindow(600, 560);
+    window.open(url, 'tShare', params);
+    return false;
+  });
+
 
     // 加载相关商品
     ajax_load_product('{{ product.tags_s }}', '{{ product._id }}');
@@ -1366,12 +1578,12 @@ span.ui.timeout.btn{
 		}
 	});
 
-  $('.ui.fshare,.acacartlogin').on('click',function(){
-    $('#mask').css('display','block');
-  });
-  $('#mask').on('click',function(){
-    $('#mask').css('display','none');
-  });
+  // $('.ui.fshare,.acacartlogin').on('click',function(){
+  //   $('#mask').css('display','block');
+  // });
+  // $('#mask').on('click',function(){
+  //   $('#mask').css('display','none');
+  // });
   $('.ui.server').click(function(){
     $('.ui.server-show').modal('show');
   })
@@ -1792,6 +2004,82 @@ span.ui.timeout.btn{
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; background: rgb(0, 0, 0); display: none;">
   <div class="frideshare">
   <img src="https://s3.taihuoniao.com/images/fenxiang.png" width="100%">
+  </div>
+</div>
+
+
+<div id="shareshows">
+  <div class="ui top detailss">
+    <div class="close-detailss">
+      <img src="{{ app_url_packaged }}/images/icon/shareclose.png">
+    </div>
+    <div class="ui respontion grid">
+      <div class="row title">
+        <div class="ui center aligned column p-0">
+          <p>分享得佣金</p>
+          <div class="ui divider"></div>
+        </div>
+      </div>
+
+      <div class="row content">
+        <div class="ui center aligned column">
+          <img src="{{app_url_packaged}}/images/icon/money.png" width="40px">
+          <p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
+          <p class="fortbe"><span>查看</span><a target="_blank" href="{{ app_url_wap }}/storage/plan"> Fiu合伙人招募计划</a></p>
+                    <input type="hidden" name="s_url" value="" />
+                    <input type="hidden" name="o_url" value="" />
+        </div>
+      </div>
+
+      <div class="row icon plr-4r">
+        <div class="column plr-4r">
+          <div class="nav-menu">
+            <ul class="navfelx">
+              <li class="childcell">
+                <div class="menuicon wechat">
+                  <div class="wechaticon"></div>
+                  微信
+                </div>
+              </li>
+              <li class="childcell">
+                <div class="menuicon webo" id="share-weibo_w">
+                  <div class="weboicon"></div>
+                  微博
+                </div>
+              </li>
+              <li class="childcell">
+                <div class="menuicon qq" id="qzone-share_w">
+                  <div class="qqicon"></div>
+                  QQ
+                </div>
+              </li>
+              <!-- <li class="childcell">
+                <div class="menuicon fu">
+                  <div class="fuicon"></div>
+                  复制链接
+                </div>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row fuzhi plr-4r pt-r">
+        <div class="ui center aligned column plr-4r">
+          <p class="mb-r">复制链接</p>
+          <p class="slink" id="short_link"></p>
+        </div>
+      </div>
+
+
+      <div class="row ewm" style="display:none;">
+        <div class="ui center aligned column">
+          <div id="qrcode"></div>
+        </div>
+      </div>
+      
+
+    </div>
   </div>
 </div>
 {% endblock %}
