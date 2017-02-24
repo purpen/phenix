@@ -491,6 +491,7 @@
                         var o_url = rs.data.o_url;
                         $(':input[name=s_url]').val(s_url);
                         $(':input[name=o_url]').val(o_url);
+                        $('#short_link').text(s_url);
                     }else{
                         phenix.show_error_note('获取数据失败!');
                     }
@@ -824,7 +825,7 @@
 			<div class="row fuzhi plr-4r pt-r">
 				<div class="ui center aligned column plr-4r">
 					<p class="mb-r">复制链接</p>
-					<p class="slink">https://www.taihuoniao.comhttps://www.taihuoniao.com</p>
+					<p class="slink" id="short_link"></p>
 				</div>
 			</div>
 
