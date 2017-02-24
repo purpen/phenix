@@ -9,7 +9,7 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 		'page' => 1,
 	);
 
-	protected $exclude_method_list = array('execute', 'view');
+	protected $exclude_method_list = array('execute', 'plan');
 
 	
 	/**
@@ -18,6 +18,13 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->home();
 	}
+
+    /**
+     * 招募计划
+     */
+    public function plan(){
+        return $this->to_html_page('wap/storage/plan.html');
+    }
 	
 	/**
 	 * 首页

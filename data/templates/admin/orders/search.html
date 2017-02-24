@@ -65,7 +65,7 @@
 	</div>
 	
 	<div class="ui sub search">
-		<form action="{{ app_url_admin_base }}/orders/search" method="post" class="ui form" id="search-form">
+		<form action="{{ app_url_admin_base }}/orders/search" method="get" class="ui form" id="search-form">
 			<div class="five fields">
 				<div class="field">
 					<input type="text" name="q" placeholder="订单编号" value="{{ q }}" />
@@ -126,7 +126,7 @@
 				</div>
 				<div class="field">
 					<div class="ui active small green submit button">搜索</div>
-					<div class="ui active small black export button">导出数据</div>
+                    <div class="ui active small black button"><a href="{{ app_url_admin }}/orders/export?q={{q}}&name={{name}}&mobile={{mobile}}&s={{s}}&product={{product}}&sku={{sku}}&start_date={{start_date}}&end_date={{end_date}}">导出数据</div>
 				</div>
 			</div>
 		</form>
