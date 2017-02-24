@@ -13,6 +13,7 @@ app.url.mobile: '{$app.domain.mobile}'
 app.url.wap: '{$app.domain.mobile}'
 app.url.api: '{$app.domain.mobile}/app/api'
 app.url.wapi: '{$app.domain.mobile}/app/w_api'
+app.url.surl: 'https://s.taihuoniao.com'
 
 #wap
 app.url.wap.social: '{$app.url.wap}/topic'

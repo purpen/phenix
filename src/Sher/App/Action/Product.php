@@ -269,10 +269,12 @@ class Sher_App_Action_Product extends Sher_App_Action_Base implements DoggyX_Act
    */
   function fetch_qr(){
       $str = isset($this->stash['str']) ? htmlspecialchars_decode($this->stash['str']) : null;
+      $logo = isset($this->stash['logo']) ? $this->stash['logo'] : null;
       $options = array(
         'outfile' => false,
         'level' => 'L',
         'size' => 10,
+        'logo' => $logo,
       );
 
       ob_start();

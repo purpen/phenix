@@ -251,7 +251,7 @@
 		background:#fff;
 		position:fixed;
 		width:100%;
-		height:300px;
+		height:380px;
 		bottom:0;
 		z-index:100;
 	    visibility: hidden;
@@ -345,6 +345,15 @@
 	    vertical-align: middle;
 	    background-size: 100%;
 	    background-repeat: no-repeat;
+	}
+	.fuzhi .slink{
+		word-wrap: break-word;
+		margin: 0 30px;
+	}
+	#qrcode img{
+		width: 240px;
+		height: 240px;
+		margin: 10px 0;
 	}
 </style>
 {% endblock %}
@@ -482,6 +491,7 @@
                         var o_url = rs.data.o_url;
                         $(':input[name=s_url]').val(s_url);
                         $(':input[name=o_url]').val(o_url);
+                        $('#short_link').text(s_url);
                     }else{
                         phenix.show_error_note('获取数据失败!');
                     }
@@ -499,7 +509,7 @@
 		$('#shareshow').removeClass('show-details');
 		$('body').removeAttr('style');
         $('.mask').removeClass('show');
-        $('.row.content,.row.icon').fadeIn();
+        $('.row.content,.row.icon,.row.fuzhi').fadeIn();
         $('.row.ewm').fadeOut();
         $('.row.title p').html('分享得佣金');
         $('.row.title p').css('font-size','14px');
@@ -510,10 +520,10 @@
 	$('.menuicon.wechat').on("click",function(){
         s_url = $(':input[name=o_url]').val();
 	    //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
-        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url, logo:'d3in'}, function(result){
             $('#qrcode').html(result);
         });
-		$('.row.content,.row.icon').fadeOut();
+		$('.row.content,.row.icon,.row.fuzhi').fadeOut();
 		// 生成二维码
 		$('.row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');
 		$('.row.title p').css('font-size','13px');
@@ -779,8 +789,8 @@
 				</div>
 			</div>
 
-			<div class="row icon">
-				<div class="column">
+			<div class="row icon plr-4r">
+				<div class="column plr-4r">
 					<div class="nav-menu">
 						<ul class="navfelx">
 							<li class="childcell">
@@ -801,16 +811,24 @@
 									QQ
 								</div>
 							</li>
-							<li class="childcell">
+							<!-- <li class="childcell">
 								<div class="menuicon fu">
 									<div class="fuicon"></div>
 									复制链接
 								</div>
-							</li>
+							</li> -->
 						</ul>
 					</div>
 				</div>
 			</div>
+
+			<div class="row fuzhi plr-4r pt-r">
+				<div class="ui center aligned column plr-4r">
+					<p class="mb-r">复制链接</p>
+					<p class="slink" id="short_link"></p>
+				</div>
+			</div>
+
 
 			<div class="row ewm" style="display:none;">
 				<div class="ui center aligned column">

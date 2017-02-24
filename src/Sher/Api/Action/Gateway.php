@@ -1196,7 +1196,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         // 短链接
         $user_id = isset($this->visitor->id) ? $this->visitor->id : 0;
         $code = Sher_Core_Helper_Util::gen_short_url($redirect_url, $user_id, 2, 3);
-        $s_url = sprintf("%s/s/%s", Doggy_Config::$vars['app.url.domain'], $code);
+        $s_url = sprintf("%s/s/%s", Doggy_Config::$vars['app.url.surl'], $code);
 
         return $this->api_json('success', 0, array('url'=>$s_url, 'o_url'=>$redirect_url));
     }
