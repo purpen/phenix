@@ -24,7 +24,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
             }elseif($app_type==2){
               $pusher_model = new Sher_Core_Model_FiuPusher();          
             }else{
- 		          return $action->api_json("应用来源不正确", 4007);           
+ 		          return $action->api_json("应用来源不正确", 4007);
             }
             $pusher = $pusher_model->first(array('uuid'=> $uuid, 'is_login'=>1));
             if($pusher){

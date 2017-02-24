@@ -17,17 +17,17 @@ class Sher_Core_Util_QrCode {
     public static function gen_qr_code($str, $options=array()){
         include "phpqrcode/phpqrcode.php";
         $outfile = isset($options['outfile']) ? $options['outfile'] : false;
-        $level = isset($options['level']) ? $options['level'] : 'L';
+        $level = isset($options['level']) ? $options['level'] : 'H';
         $logo = isset($options['logo']) ? $options['logo'] : null;
         $size = isset($options['size']) ? $options['size'] : 4;
 
         if($logo){
             switch($logo){
                 case 'd3in':
-                    $logo_url = 'https://p4.taihuoniao.com/asset/170224/58afa7cb20de8d81438b5efe-4';
+                    $logo_url = 'https://p4.taihuoniao.com/asset/170224/58afd9dd20de8d36438b60c2-1';
                     break;
                 default:
-                    $logo_url = 'https://p4.taihuoniao.com/asset/170224/58afa7cb20de8d81438b5efe-4';
+                    $logo_url = 'https://p4.taihuoniao.com/asset/170224/58afd9dd20de8d36438b60c2-1';
             }
             // 生成图片流
             ob_start();
@@ -42,7 +42,7 @@ class Sher_Core_Util_QrCode {
             $QR_height = imagesy ( $QR );
             $logo_width = imagesx ( $logo_url );
             $logo_height = imagesy ( $logo_url );
-            $logo_qr_width = $QR_width / 5;
+            $logo_qr_width = $QR_width / 4;
             $scale = $logo_width / $logo_qr_width;
             $logo_qr_height = $logo_height / $scale;
             $from_width = ($QR_width - $logo_qr_width) / 2;
