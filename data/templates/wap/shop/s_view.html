@@ -901,7 +901,7 @@ span.ui.timeout.btn{
     position: absolute;
 }
 .acacartlogin .caputcart {
-    background: url({{ app_url_packaged }}/images/icon/fshare.png);
+    background: url({{ app_url_packaged }}/images/icon/fsshare.png);
     width: 21px;
     height: 20px;
     background-size: 21px 20px;
@@ -940,6 +940,20 @@ span.ui.timeout.btn{
     height: 18px;
     width: 18px;
     background-position: 0 0;
+}
+.ui.category .ui.sheader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 4;
+    background: rgba(255,255,255,0);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    height: 50px;
+}
+.ui.category i.angle.float.left.icon {
+    color: #fff;
 }
 </style>
 {% endblock %}
@@ -1367,19 +1381,19 @@ span.ui.timeout.btn{
 
 {% block content %}
 <div class="mask"></div>
-<div class="ui category" style="padding-bottom: 0;">
-  <div class="ui sheader">
-    <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
-    <p class="mb-0">产品详情</p>
-    
-    <div class="acacartlogin">
-      <div class="caputcart"></div>
-    </div>
-    <!--<div class="ui fshare"><div class="bgimg"></div></div>-->
-  </div>
-</div>
 {% asset_list var:'assets' parent_id:product._id size:10 asset_type:11 %}
 <div id="slider" class="flexslider flex-single">
+  <div class="ui category" style="padding-bottom: 0;">
+    <div class="ui sheader">
+      <a class="return" href="{{ back_url }}"><i class="angle float left icon"></i></a>
+      <!-- <p class="mb-0">产品详情</p> -->
+      
+      <div class="acacartlogin">
+        <div class="caputcart"></div>
+      </div>
+      <!--<div class="ui fshare"><div class="bgimg"></div></div>-->
+    </div>
+  </div>
 	<ul class="slides">
 	{% for asset in assets.rows %}
 	    <li style="background-image: url('{{ asset.thumbnails.aub.view_url }}');">
@@ -1729,7 +1743,7 @@ span.ui.timeout.btn{
             {% if is_storage %}
                 <li class="price is_storage">
                 <a class="ui shop-icon" href="{{ scene.wap_view_url }}">
-                    <div class="bgimg"></div>店铺
+                    <div class="bgimg"></div>地盘
                 </a>
                 <div class="ui favorite" data-mark="n" data-id="{{ product._id }}"><div class="bgimg"></div>收藏</div>
                 <div class="ui server"><div class="bgimg"></div>客服</div>
