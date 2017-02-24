@@ -232,7 +232,7 @@
 	    border: 1px solid #666;
 	    color: #666;
 	    padding: 6px 12px;
-	    margin: 0 6px;
+	    margin: 4px 6px;
 	}
 	.mask{
 	    height: 100%;
@@ -460,11 +460,11 @@
         directionNav: false, 
         controlNav: true,
         animationLoop: true,
-        slideshow: true,
+        slideshow: false,
         slideshowSpeed: 5000,
         animationDuration: 300,
         animationSpeed: 300,
-        startAt:1,
+        startAt:0,
         start: function (slider){
         	$('.current').html(slider.currentSlide);
         	$('.allpage').html(slider.count)
@@ -768,7 +768,7 @@
 	<div class="ui responsive grid">
 		<div class="row ptb-0">
 			<div class="column">
-				<p>地址：北京市朝阳区798艺术区</p>
+                <p>地址：{{ scene.address }}</p>
                 {% if scene.extra.shop_hours %}<p>营业时间：{{ scene.extra.shop_hours }}</p>{%endif%}
                 {% if scene.extra.tel %}<p>电话：{{ scene.extra.tel }}</p>{%endif%}
                 
