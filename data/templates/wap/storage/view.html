@@ -660,10 +660,18 @@
 	</div>
 	<ul class="slides">
 	{% asset_list var:'assets' parent_id:scene._id size:30 asset_type:101 %}
+
+    {% if scene.cover %}
+        <li style="background-image: url('{{ scene.cover.thumbnails.apc.view_url }}');">
+            
+        </li>
+    {%endif%}
 	{% for asset in assets.rows %}
+        {% if asset._id != scene.cover_id %}
 	    <li style="background-image: url('{{ asset.thumbnails.apc.view_url }}');">
 	    	
 	    </li>
+        {%endif%}
 	{% endfor %}
 	<div class="pagecount"> 
 		<img src="{{ app_url_packaged }}/images/icon/imagg.png" />
