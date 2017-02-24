@@ -90,7 +90,8 @@
 {% endblock %}
 {% block jquery %}
 
-
+	// 初始加载商品列表
+    ajax_load_more(category_id, category_tag, type, sort, page, size);
 
 {% endblock %}
 {% block content %}
