@@ -157,26 +157,15 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 			return $this->ajax_json('请选择导出数据条件！', true);
 		}
 		
-		$filepath = Doggy_Config::$vars['app.storage.tmpdir'];
-		$filename = 'frbird_report_'.date('YmdH').'.csv';
-		
-		$export_file = $filepath.'/'.$filename;
-		// 检测是否已经存在该文件
-		if(is_file($export_file)){
-			//return $this->ajax_json('一个小时内已导出过此数据！', true);
-		}
-		
 		// 设置不超时
 		set_time_limit(0);
 			
-		// header('Content-Type: application/vnd.ms-excel');
-		// header('Content-Disposition: attachment;filename="'.$export_file.'"');
-		// header('Cache-Control: max-age=0');
-		
-    //Windows下使用BOM来标记文本文件的编码方式 -解决windows下乱码
-    fwrite($export_file, chr(0xEF).chr(0xBB).chr(0xBF)); 
+		 header('Content-Type: application/vnd.ms-excel');
+		 header('Content-Disposition: attachment;filename="order.csv"');
+		 header('Cache-Control: max-age=0');
+
 		// 打开PHP文件句柄，php://output表示直接输出到浏览器
-		$fp = fopen($export_file, 'w');
+        $fp = fopen('php://output', 'a');
 
     	// Windows下使用BOM来标记文本文件的编码方式 
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
@@ -274,10 +263,6 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		}
 		
 		fclose($fp);
-		
-		$export_url = Doggy_Config::$vars['app.url.domain'].'/export/'.$filename;
-		
-		return $this->ajax_json('数据导出成功！', false, '/', array('export_url' => $export_url));
 	}
 	
 	
