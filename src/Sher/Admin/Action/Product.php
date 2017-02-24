@@ -1218,6 +1218,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
         'outfile' => false,
         'level' => 'L',
         'size' => 10,
+        'logo' => 'd3in',
       );
 
       ob_start();

@@ -520,7 +520,7 @@
 	$('.menuicon.wechat').on("click",function(){
         s_url = $(':input[name=o_url]').val();
 	    //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
-        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url}, function(result){
+        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url, logo:'d3in'}, function(result){
             $('#qrcode').html(result);
         });
 		$('.row.content,.row.icon,.row.fuzhi').fadeOut();
