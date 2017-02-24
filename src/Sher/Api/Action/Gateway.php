@@ -1198,7 +1198,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         $code = Sher_Core_Helper_Util::gen_short_url($redirect_url, $user_id, 2, 3);
         $s_url = sprintf("%s/s/%s", Doggy_Config::$vars['app.url.domain'], $code);
 
-        return $this->api_json('success', 0, array('url'=>$s_url, 'o_url'=>urlencode($redirect_url)));
+        return $this->api_json('success', 0, array('url'=>$s_url, 'o_url'=>$redirect_url));
     }
 	
 }

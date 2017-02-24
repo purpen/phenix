@@ -892,7 +892,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         $code = Sher_Core_Helper_Util::gen_short_url($redirect_url, $user_id, 2, $from_to);
         $s_url = sprintf("%s/s/%s", Doggy_Config::$vars['app.url.domain'], $code);
 
-        return $this->ajax_json('success', false, 0, array('url'=>$s_url, 'o_url'=>urlencode($redirect_url)));
+        return $this->ajax_json('success', false, 0, array('url'=>$s_url, 'o_url'=>$redirect_url));
     }
 
 
