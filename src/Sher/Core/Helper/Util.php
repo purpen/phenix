@@ -1429,8 +1429,9 @@ class Sher_Core_Helper_Util {
     /**
      * 生成短网址
      * @param type: 1.自定义; 2.链接推广; 3.--;
+     * @param from_to: 1.PC; 2.Wap; 3.APP; 4.--;
      */
-    public static function gen_short_url($url, $user_id=0, $type=1){
+    public static function gen_short_url($url, $user_id=0, $type=1, $from_to=1){
         if(empty($url)) return false;
         $code = Sher_Core_Util_View::url_short($url);
 
@@ -1444,6 +1445,7 @@ class Sher_Core_Helper_Util {
                 'code' => $code,
                 'type' => (int)$type,
                 'user_id' => (int)$user_id,
+                'from_to' => (int)$from_to,
             );
             $model->create($row);
         }

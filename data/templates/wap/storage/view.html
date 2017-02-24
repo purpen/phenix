@@ -476,10 +476,12 @@
 		else{
             var s_url = $(':input[name=s_url]').val();
             if(!s_url){
-                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ scene._id }}", type:3}, function(rs){
+                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ scene._id }}", type:3, from_to:2}, function(rs){
                     if(rs.success){
                         var s_url = rs.data.url;
+                        var o_url = rs.data.o_url;
                         $(':input[name=s_url]').val(s_url);
+                        $(':input[name=o_url]').val(o_url);
                     }else{
                         phenix.show_error_note('获取数据失败!');
                     }
@@ -506,7 +508,7 @@
 
 	//微信
 	$('.menuicon.wechat').on("click",function(){
-        s_url = $(':input[name=s_url]').val();
+        s_url = $(':input[name=o_url]').val();
 	    //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
         $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url}, function(result){
             $('#qrcode').html(result);
@@ -773,6 +775,7 @@
 					<p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
 					<p class="fortbe"><span>查看</span> Fiu合伙人招募计划</p>
                     <input type="hidden" name="s_url" value="" />
+                    <input type="hidden" name="o_url" value="" />
 				</div>
 			</div>
 
