@@ -181,10 +181,10 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 
                 if(!empty($v['product'])){
                     for($m=0;$m<count($result['rows'][$k]['product']);$m++){
-                        $product_id = $result['rows'][$k]['product'][$m]['id'];
+                        $product_id = (int)$result['rows'][$k]['product'][$m]['id'];
                         $result['rows'][$k]['product'][$m]['price'] = 0;
-                        if(empty($product_id)){
-                            $product = $product_model->load((int)$product_id);
+                        if(!empty($product_id)){
+                            $product = $product_model->load($product_id);
                             if($product){
                                 $result['rows'][$k]['product'][$m]['price'] = $product['sale_price'];
                             }
