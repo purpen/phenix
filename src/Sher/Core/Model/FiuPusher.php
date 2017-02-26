@@ -91,10 +91,10 @@ class Sher_Core_Model_FiuPusher extends Sher_Core_Model_Base  {
           $ok = $this->create($data);
           // 首次绑定送红包
           if($ok){
-            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA100', 'bonus'=>'B', 'min_amounts'=>'G', 'day'=>30));
-            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA50', 'bonus'=>'A', 'min_amounts'=>'H', 'day'=>30));
-            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA30', 'bonus'=>'C', 'min_amounts'=>'D', 'day'=>30));
-            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA08', 'bonus'=>'J', 'min_amounts'=>'C', 'day'=>30));
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA100', 'bonus'=>'B', 'min_amounts'=>'G', 'day'=>30));   // 999
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA50', 'bonus'=>'A', 'min_amounts'=>'H', 'day'=>30));    // 499
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA30', 'bonus'=>'C', 'min_amounts'=>'D', 'day'=>30));    // 299
+            Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA08', 'bonus'=>'J', 'min_amounts'=>'C', 'day'=>30));    // 0
 
             /**
             // 随机赠送9.9红包做活动

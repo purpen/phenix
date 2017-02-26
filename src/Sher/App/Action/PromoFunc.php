@@ -884,7 +884,7 @@ class Sher_App_Action_PromoFunc extends Sher_App_Action_Base {
         $redirect_url = sprintf("%s/qr?infoType=%s&infoId=%s&referral_code=%s", Doggy_Config::$vars['app.url.domain'], $infoType, $infoId, $code);
 
         if($storage_id){
-            $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
+            $redirect_url = sprintf("%s&storage_id=%s", $redirect_url, $storage_id);
         }
 
         // 短链接
