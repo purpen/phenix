@@ -1200,7 +1200,7 @@ span.ui.timeout.btn{
     else{
             var s_url = $(':input[name=s_url]').val();
             if(!s_url){
-                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ product._id }}", type:1, from_to:2}, function(rs){
+                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ product._id }}", storage_id:storage_id, type:1, from_to:2}, function(rs){
                     if(rs.success){
                         var s_url = rs.data.url;
                         var o_url = rs.data.o_url;
