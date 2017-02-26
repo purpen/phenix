@@ -1,0 +1,22 @@
+{%extends 'layout/shop.html'%}
+{% block title%}企业轻定制{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.appiosload{
+	display: none !important;
+}
+.storage img{
+	width: 100%;
+	vertical-align: middle;
+}
+.sfooter.nav-menu{
+	display: none;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="storage">
+	<img src="{{ app_url_packaged }}/images/storage/ss001.jpg" align="absmibble" />
+	<img src="{{ app_url_packaged }}/images/storage/ss2.jpg" align="absmibble" />
+	<img src="{{ app_url_packaged }}/images/storage/ss3.jpg" align="absmibble" />
+{% endblock %}
