@@ -348,8 +348,12 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 
         if(!empty($asset_result['rows'])){
           foreach($asset_result['rows'] as $key=>$value){
-            array_push($assets, $value['thumbnails']['apc']['view_url']);
+                if((string)$value['_id'] == $scene['cover_id']) continue;
+                array_push($assets, $value['thumbnails']['apc']['view_url']);
           }
+        }
+        if(isset($scene['cover']) && !empty($scene['cover'])){
+            array_unshift($assets, $scene['cover']['thumbnails']['apc']['view_url']);
         }
         $data['covers'] = $assets;
 
