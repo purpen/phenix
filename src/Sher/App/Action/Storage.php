@@ -54,7 +54,7 @@ class Sher_App_Action_Storage extends Sher_App_Action_Base {
             $p['sale_price'] = $product['sale_price'];
             $p['market_price'] = $product['market_price'];
             if($scene_id){
-                $p['wap_view_url'] = sprintf("%s?storage_id=%d", $product['wap_view_url'], $scene_id);
+                $p['wap_view_url'] = sprintf("%s/shop/s_view?id=%s&storage_id=%d", Doggy_Config::$vars['app.url.wap'], $product['_id'], $scene_id);
             }else{
                 $p['wap_view_url'] = $product['wap_view_url'];
             }
