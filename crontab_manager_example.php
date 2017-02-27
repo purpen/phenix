@@ -31,6 +31,12 @@ $crontab_config = [
         'output' => '/www/phenix/logs/crontab/balance_stat.log',
         'time' => '*/5 * * * *',
     ],
+    'clean_bonus' => [  // 每月1号执行
+        'name' => '定期清理过期未使用红包',
+        'cmd' => sprintf("%s cron_workers/clean_bonus_worker.php", $php_path),
+        'output' => '/www/phenix/logs/crontab/clean_bonus.log',
+        'time' => '* * * 1 *',
+    ],
 
 ];
 

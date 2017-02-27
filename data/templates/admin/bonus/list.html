@@ -69,6 +69,7 @@
         <th>使用条件</th>
 				<th>所属用户</th>
         <th>代号</th>
+        <th>创建/使用时间</th>
 				<th>状 态</th>
 				<th>管理操作</th>
 			</tr>
@@ -95,6 +96,10 @@
         <td>{{ b.min_amount }}元</td>
 				<td>{{ b.user_id }} / {{ b.used_by }}</td>
         <td>{{ b.xname }}</td>
+        <td>
+            <p>{{ b.created_on|date 'y-m-d' }}</p>
+            <p>{{ b.used_at|date 'y-m-d' }}</p>
+        </td>
 				<td>
 					{% if b.used == 2 %}
 						<span class="ui magenta label">已使用</span>
