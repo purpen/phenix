@@ -262,15 +262,17 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			return $this->api_json('访问的产品不存在！', 3000);
 		}
 
-    $user_id = $this->current_user_id;
+        $storage_id = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : 0;
+
+        $user_id = $this->current_user_id;
 		
 		$model = new Sher_Core_Model_Product();
 		$product = $model->load((int)$id);
 
-    if(empty($product)) {
-			return $this->api_json('访问的产品不存在！', 3000);
-    }
-    $product = $model->extended_model_row($product);
+        if(empty($product)) {
+                return $this->api_json('访问的产品不存在！', 3000);
+        }
+        $product = $model->extended_model_row($product);
 
 		if($product['deleted']){
 			return $this->api_json('访问的产品不存在或已被删除！', 3001);
@@ -401,6 +403,19 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       if($has_one){
         $data['is_app_snatched_alert'] = 1; 
       }
+    }
+
+    // 地盘
+    $data['scene'] = array();
+    if(!empty($storage_id)){
+        $scene_model = new Sher_Core_Model_SceneScene();
+        $scene = $scene_model->extend_load($storage_id);
+        if(!empty($scene)){
+            $data['scene']['_id'] = $scene['_id'];
+            $data['scene']['title'] = $scene['title'];
+            $data['scene']['category_id'] = $scene['category_id'];
+            $data['scene']['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
+        }     
     }
 
     // 品牌

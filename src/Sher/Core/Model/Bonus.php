@@ -9,10 +9,10 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
 	
 	# 红包状态
 	const STATUS_DISABLED = 0;
-	const STATUS_PENDING = 1;
-	const STATUS_OK = 2;
-	const STATUS_LOCK = 3;
-	const STATUS_GOT = 4;
+	const STATUS_LOCK = 3;  // 
+	const STATUS_OK = 2;    // 创建成功
+	const STATUS_PENDING = 1;   // 锁定红包,待分配
+	const STATUS_GOT = 4;   // 已发放
 	
 	# 使用状态
 	const USED_DEFAULT = 1;
