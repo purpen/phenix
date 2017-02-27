@@ -314,7 +314,10 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
     $data['is_love'] = $fav->check_loved($this->current_user_id, $product['_id'], 1) ? 1 : 0;
     $data['is_try'] = empty($product['is_try'])?0:1;
     // 分享内容
-    $data['share_view_url'] = $data['wap_view_url'];
+    $data['share_view_url'] = sprintf("%s/shop/s_view?id=%s", Doggy_Config::$vars['app.url.wap'], $product['_id']);
+    if($storage_id){
+        $data['share_view_url'] = sprintf("%s&storage_id=%s", $data['share_view_url'], $storage_id);  
+    }
     $data['share_desc'] = $data['advantage'];
 
     $asset_service = Sher_Core_Service_Asset::instance();
