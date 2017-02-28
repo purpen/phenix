@@ -142,6 +142,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 			case 2: // 最新精选
 				$options['sort_field'] = 'fine:fine_on';
 				break;
+			case 3: // 产品优先
+				$options['is_product'] = 'is_product';
+				break;
 		}
 		
 		$options['some_fields'] = $some_fields;
@@ -533,6 +536,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 $p = array();
                 $product_id = (int)$result['product'][$i]['id'];
                 $product = $product_model->extend_load($product_id);
+                $result['product'][$i]['price'] = 0;
                 if($product){
                     $p['_id'] = $product['_id'];
                     $p['title'] = $product['title'];
@@ -541,6 +545,7 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                     $p['market_price'] = $product['market_price'];
                     $p['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
                     $p['category_ids'] = $product['category_ids'];
+                    $result['product'][$i]['price'] = $product['sale_price'];
                 }
                 array_push($products, $p);
             } // endfor
