@@ -7,7 +7,7 @@ class Sher_Wap_Action_D3in extends Sher_Wap_Action_Base {
 
 	public $stash = array(
 		'page'=>1,
-	  'size'=>6,
+	    'size'=>6,
 	);
 	
 	protected $exclude_method_list = array('execute','about');
