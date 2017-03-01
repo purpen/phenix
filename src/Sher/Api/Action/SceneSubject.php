@@ -226,6 +226,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 
 
         $product_model = new Sher_Core_Model_Product();
+		$favorite_model = new Sher_Core_Model_Favorite();
         $product = null;
         if(!empty($data['product_id'])){
             $row = $product_model->load((int)$data['product_id']);
@@ -284,6 +285,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'tags' => $sight['tags'],
                     'des' => $sight['des'],
                     'love_count' => $sight['love_count'],
+                    'is_love' => $favorite_model->check_loved($this->current_user_id, $sight['_id'], 12) ? 1 : 0;
                 );
 
                 if(!empty($sight['product'])){
@@ -298,6 +300,8 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                         }
                     }
                 }
+
+
 
                 $user = array(
                     '_id' => $sight['user']['_id'],
