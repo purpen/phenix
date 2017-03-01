@@ -280,7 +280,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'location' => $sight['location'],
                     'product' => $sight['product'],
                     'prize' => $prize,
-                    'product' => array(),
+                    'product' => $sight['product'],
                     'tags' => $sight['tags'],
                     'des' => $sight['des'],
                     'love_count' => $sight['love_count'],
@@ -316,7 +316,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
 						$user['is_follow'] = 1;
 					}
                 }
-                $row['user'] = $user;
+                $row['user_info'] = $user;
                 
                 array_push($sight_arr, $row);
             }
