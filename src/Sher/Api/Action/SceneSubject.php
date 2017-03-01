@@ -279,7 +279,24 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'location' => $sight['location'],
                     'product' => $sight['product'],
                     'prize' => $prize,
+                    'product' => array(),
+                    'tags' => $sight['tags'],
+                    'des' => $sight['des'],
+                    'love_count' => $sight['love_count'],
                 );
+
+                if(!empty($sight['product'])){
+                    for($m=0;$m<count($sight['product']);$m++){
+                        $product_id = (int)$sight['product'][$m]['id'];
+                        $row['product'][$m]['price'] = 0;
+                        if(!empty($product_id)){
+                            $product = $product_model->load($product_id);
+                            if($product){
+                                $row['product'][$m]['price'] = $product['sale_price'];
+                            }
+                        }
+                    }
+                }
 
                 $user = array(
                     '_id' => $sight['user']['_id'],
