@@ -23,6 +23,7 @@ class Sher_Wap_Action_D3in extends Sher_Wap_Action_Base {
 	 * about
 	 */
 	public function about(){
+        return to_redirect('https://m.taihuoniao.com/fiu');
 		$vip_money = Doggy_Config::$vars['app.d3in.vip_money'];
 	  $this->stash['vip_money'] = $vip_money;
 		return $this->to_html_page('wap/d3in/about.html');
