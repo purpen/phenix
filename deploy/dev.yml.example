@@ -10,6 +10,7 @@ deploy.root: '/Users/tian/opt/project/php/phenix/dev_root'
 app.domain.base: 'http://taihuoniao.me'
 app.url.api:  '{$app.domain.base}/app/api'
 app.url.wapi:  '{$app.domain.base}/app/w_api'
+app.url.surl:  '{$app.domain.base}'
 #if in production mode,uncomment and change it to 'prod'
 app.url.upload_url: '{$app.domain.app}/uploader'
 #app.doggyx.class_path: '/Users/xiaoyi/Project/doggy-x'
@@ -21,6 +22,9 @@ app.url.packaged: '{$app.domain.static}'
 
 app.js.use_bundle: 0
 app.css.use_bundle: 0
+
+app.ios_version: '1.9.1'
+app.android_version: '1.9.1'
 
 app.mongodb_host: '127.0.0.1'
 app.mongodb_rs: false
