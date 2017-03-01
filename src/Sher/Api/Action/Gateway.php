@@ -1187,10 +1187,10 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
             default:
                 $infoType = 1;
         }
-        $redirect_url = sprintf("%s/qr?infoType=%s&infoId=%s&referral_code=%s", Doggy_Config::$vars['app.url.wap'], $infoType, $infoId, $code);
+        $redirect_url = sprintf("%s/qr?infoType=%s&infoId=%s&referral_code=%s", Doggy_Config::$vars['app.url.surl'], $infoType, $infoId, $code);
 
         if($storage_id){
-            $redirect_url = sprintf("%s&storeage_id=%s", $redirect_url, $storage_id);
+            $redirect_url = sprintf("%s&storage_id=%s", $redirect_url, $storage_id);
         }
 
         // 短链接
