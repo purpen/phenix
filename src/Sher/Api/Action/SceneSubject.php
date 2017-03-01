@@ -285,7 +285,7 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
                     'tags' => $sight['tags'],
                     'des' => $sight['des'],
                     'love_count' => $sight['love_count'],
-                    'is_love' => $favorite_model->check_loved($this->current_user_id, $sight['_id'], 12) ? 1 : 0;
+                    'is_love' => $favorite_model->check_loved($this->current_user_id, $sight['_id'], 12) ? 1 : 0,
                 );
 
                 if(!empty($sight['product'])){
