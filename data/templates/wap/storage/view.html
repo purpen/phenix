@@ -466,10 +466,10 @@
         animationSpeed: 300,
         startAt:0,
         start: function (slider){
-        	$('.current').html(slider.currentSlide);
+        	$('.current').html(slider.currentSlide + 1);
         	$('.allpage').html(slider.count)
         },
-        before: function (slider) {
+        after: function (slider) {
         	$('.current').html(slider.currentSlide + 1);
         	$('.allpage').html(slider.count)
         }, 
