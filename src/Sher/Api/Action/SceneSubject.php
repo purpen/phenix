@@ -224,9 +224,10 @@ class Sher_Api_Action_SceneSubject extends Sher_Api_Action_Base {
         // Banner url
         $data['banner_url'] = $scene_subject['banner']['thumbnails']['aub']['view_url'];
 
+
+        $product_model = new Sher_Core_Model_Product();
         $product = null;
         if(!empty($data['product_id'])){
-            $product_model = new Sher_Core_Model_Product();
             $row = $product_model->load((int)$data['product_id']);
             if(!empty($row)){
                 $product['_id'] = $row['_id'];
