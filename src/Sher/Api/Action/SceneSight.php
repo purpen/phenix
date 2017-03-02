@@ -546,8 +546,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                     $p['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
                     $p['category_ids'] = $product['category_ids'];
                     $result['product'][$i]['price'] = $product['sale_price'];
+
+                    array_push($products, $p);
                 }
-                array_push($products, $p);
             } // endfor
             
         }
