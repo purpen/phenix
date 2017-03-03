@@ -181,6 +181,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 $result['rows'][$k]['cover_url'] = $result['rows'][$k]['cover']['thumbnails']['huge']['view_url'];
                 $result['rows'][$k]['created_at'] = Sher_Core_Helper_Util::relative_datetime($v['created_on']);
                 $result['rows'][$k]['title'] = !empty($v['title']) ? $v['title'] : '';
+                if(!empty($result['rows'][$k]['tags']) && count($result['rows'][$k]['tags'])>8){
+                    $result['rows'][$k]['tags'] = array_slice($result['rows'][$k]['tags'], 0, 7);
+                }
                 
                 if(!empty($v['product'])){
                     for($m=0;$m<count($result['rows'][$k]['product']);$m++){
@@ -196,8 +199,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
                 }
 
                 // 获取地盘信息
-                $scene = array();
+                $scene = null;
                 if(isset($result['rows'][$k]['scene']) && !empty($result['rows'][$k]['scene'])){
+                    $scene = array();
                     $scene['_id'] = $result['rows'][$k]['scene']['_id'];
                     $scene['title'] = $result['rows'][$k]['scene']['title'];
                 }
