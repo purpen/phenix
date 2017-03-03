@@ -516,8 +516,9 @@ class Sher_Api_Action_SceneSight extends Sher_Api_Action_Base {
 		$result['user_info'] = $user;
 		$result['cover_url'] = $result['cover']['thumbnails']['huge']['view_url'];
 		//$result['scene_title'] = $result['scene']['title'];
-        $scene = array();
+        $scene = null;
         if(isset($result['scene']) && !empty($result['scene'])){
+            $scene = array();
             $scene['_id'] = $result['scene']['_id'];
             $scene['title'] = $result['scene']['title'];
         }
