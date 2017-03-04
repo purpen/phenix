@@ -33,17 +33,17 @@ $size = 100;
 $is_end = false;
 $total = 0;
 
-// 过去三个月的时间
+// 过去三个月的时间 清除未使用红包
 $time = time() - 3600*24*90;
 
 
-//$total_count = $bonus_model->count(array('status' => Sher_Core_Model_Bonus::STATUS_OK, 'created_on'=>array('$lt'=>$time)));
+//$total_count = $bonus_model->count(array('status' => Sher_Core_Model_Bonus::STATUS_GOT, 'used'=>1, 'created_on'=>array('$lt'=>$time)));
 //echo "Total Count: $total_count.\n";
 //exit;
 
 while(!$is_end){
-    $query = array('status' => Sher_Core_Model_Bonus::STATUS_OK, 'created_on'=>array('$lt'=>$time));
-	$options = array('field'=>array('_id','status','expired_at','created_on'), 'page'=>$page, 'size'=>$size);
+    $query = array('status' => Sher_Core_Model_Bonus::STATUS_GOT, 'used'=>1, 'created_on'=>array('$lt'=>$time));
+	$options = array('field'=>array('_id','status','expired_at','created_on','used'), 'page'=>$page, 'size'=>$size);
 	$list = $bonus_model->find($query, $options);
 	if(empty($list)){
 		echo "Bonus list is null,exit......\n";
