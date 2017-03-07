@@ -221,6 +221,11 @@ server {
             rewrite ^/storage[/]?$ /app/wap/storage last;
             rewrite ^/storage/(.*)$ /app/wap/storage/$1 last;
         }
+
+        location /sight {
+            rewrite ^/sight[/]?$ /app/wap/sight last;
+            rewrite ^/sight/(.*)$ /app/wap/sight/$1 last;
+        }
 		
 		location /search {
 		     rewrite ^/search[/]?$ /app/wap/search last;
@@ -322,6 +327,11 @@ server {
         location /storage {
             rewrite ^/storage[/]?$ /app/site/storage last;
             rewrite ^/storage/(.*)$ /app/site/storage/$1 last;
+        }
+
+        location /sight {
+            rewrite ^/sight[/]?$ /app/site/sight last;
+            rewrite ^/sight/(.*)$ /app/site/sight/$1 last;
         }
 		
         location /dream {

@@ -166,6 +166,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}else{
 				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
+                if($ok){
+                    // 更新关联用户表
+                    $user_model = new Sher_Core_Model_User();
+                    $user_model->update_set($data['user_id'], array('identify.storage_id'=>$id));
+                }
 			}
 			
 			if(!$ok){
