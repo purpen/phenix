@@ -153,6 +153,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
                 if(empty($data['user_id'])){
 				    $data['user_id'] = $user_id;
                 }
+
+                $exist = $model->first(array('user_id'=>$data['user_id']));
+                if($exist){
+ 				    return $this->ajax_json('每个用户只能绑定一个地盘!', true);               
+                }
 				
 				$ok = $model->apply_and_save($data);
 				$scene = $model->get_data();

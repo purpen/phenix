@@ -190,7 +190,7 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
 
         $ok = $alliance_model->update_set($id, $row);
         if(!$ok){
-   		    return $this->api_json('申请提现失败！', 3008);           
+   		    return $this->api_json('申请提现失败！', 3008);
         }
 
         $row = array(
