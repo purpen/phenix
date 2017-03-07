@@ -82,7 +82,7 @@ class Sher_Core_Interceptor_ValidSign extends Doggy_Dispatcher_Interceptor_Abstr
 		ksort($arrdata);
     // 不参与验签的字段名
     $ignore_data = array(
-      'sign', 'tmp', 'id_card_a_tmp', 'business_card_tmp', 'link', 'cover_url', 'banners_url',
+      'sign', 'tmp', 'avatar_tmp', 'id_card_a_tmp', 'business_card_tmp', 'link', 'cover_url', 'banners_url',
     );
 		
 		$paramstring = '';
