@@ -180,6 +180,7 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
 
     /**
      * 更新进度
+     * @param $state 1.进行中；2.退款；5.完成；
      */
     public function set_stage($id, $stage, $options=array()){
         $row = $this->load($id);
@@ -203,7 +204,17 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
             $alliance_model = new Sher_Core_Model_Alliance();
             $alliance_model->inc_counter('success_count', $alliance_id);
             if(isset($options['price']) && !empty($options['price'])){
-                $alliance_model->inc_counter('total_product_money', $alliance_id, (float)$options['price']);           
+                $type = isset($options['type']) ? (int)$options['type'] : 1;
+                $field = '';
+                if($type==1){
+                    $field = 'total_order_money';
+                }elseif($type==2){
+                    $field = 'total_product_money';
+                }
+
+                if($field){
+                    $alliance_model->inc_counter($field, $alliance_id, (float)$options['price']);           
+                }
             }
         }
         return $ok;
@@ -446,17 +457,18 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
             return false;
         }
 
-        if($type==1){
+        if($type==1){   // 推广佣金
             // 更新佣金状态
             if(!empty($order['referral_code'])){
                 $balance = $this->first(array('target_id'=>(string)$rid, 'order_rid'=>$rid, 'kind'=>1, 'status'=>0));
                 if(empty($balance)) continue;
                 $balance_id = (string)$balance['_id'];
-                $ok = $this->set_stage($balance_id, 5);
-            }       
+                $pay_money = $order['pay_money'] - $order['freight'];
+                $ok = $this->set_stage($balance_id, 5, array('price'=>$pay_money, 'type'=>$type));
+            }
         }
 
-        if($type==2){
+        if($type==2){   // 店铺分成
             for($i=0;$i<count($order['items']);$i++){
                 $item = $order['items'][$i];
                 $referral_code = isset($item['referral_code']) ? $item['referral_code'] : null;
@@ -472,9 +484,9 @@ class Sher_Core_Model_Balance extends Sher_Core_Model_Base  {
                     if(empty($balance)) continue;
                     $price = sprintf("%.2f", ($item['price'] * $item['quantity']));
                     $balance_id = (string)$balance['_id'];
-                    $ok = $this->set_stage($balance_id, 5, array('price'=>$price));
+                    $ok = $this->set_stage($balance_id, 5, array('price'=>$price, 'type'=>$type));
                 }
-            }   // endfor       
+            }   // endfor
         }
     }
 

@@ -142,14 +142,14 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 提交情景
+	 * 提交地盘
 	 */
 	public function save(){
 		
         $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		$user_id = $this->current_user_id;
 		if(empty($user_id)){
-			  return $this->api_json('请先登录', 3000);   
+			return $this->api_json('请先登录', 3000);   
 		}
 
         if(empty($id)){
@@ -158,41 +158,70 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $mode = 'edit';
         }
 		
-		$data = array();
-		$data['title'] = isset($this->stash['title']) ? $this->stash['title'] : '';
-		$data['des'] = isset($this->stash['des']) ? $this->stash['des'] : '';
-		$data['tags'] = isset($this->stash['tags']) ? $this->stash['tags'] : '';
-		$data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
-		$data['address'] = isset($this->stash['address']) ? $this->stash['address'] : '';
-		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+
+		$title = isset($this->stash['title']) ? $this->stash['title'] : '';
+		$sub_title = isset($this->stash['sub_title']) ? $this->stash['sub_title'] : '';
+		$des = isset($this->stash['des']) ? $this->stash['des'] : '';
+		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+		$city = isset($this->stash['city']) ? $this->stash['city'] : '';
+		$address = isset($this->stash['address']) ? $this->stash['address'] : '';
+		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$extra_shop_hours = isset($this->stash['extra_shop_hours']) ? $this->stash['extra_shop_hours'] : '';
+		$extra_tel = isset($this->stash['extra_tel']) ? $this->stash['extra_tel'] : '';
 		$lng = isset($this->stash['lng']) ? $this->stash['lng'] : 0;
 		$lat = isset($this->stash['lat']) ? $this->stash['lat'] : 0;
-		$data['location'] = array(
-            'type' => 'Point',
-            'coordinates' => array(doubleval($lng), doubleval($lat)),
-        );
+
+		$data = array();
 		
-		if(!$data['title']){
-			return $this->api_json('请求标题不能为空', 3001);
+		if($title){
+            $data['title'] = $title;
 		}
 		
-		if(!$data['des']){
-			return $this->api_json('请求描述不能为空', 3002);
+		if($des){
+		    $data['des'] = $des;
+		}
+
+		if($tags){
+		    $data['tags'] = $tags;
+		}
+
+		if($city){
+		    $data['city'] = $city;
 		}
 		
-		if(!$data['address']){
-			return $this->api_json('请求地址不能为空', 3003);
+		if($address){
+		    $data['address'] = $address;
+		}
+
+		if($category_id){
+		    $data['category_id'] = $category_id;
 		}
 		
-		if(!$data['tags']){
-			return $this->api_json('请求标签不能为空', 3004);
+		if($sub_title){
+		    $data['sub_title'] = $sub_title;
 		}
+
+        if($extra_shop_hours){
+            $data['extra']['shop_hours'] = $extra_shop_hours;
+        }
+        if($extra_tel){
+            $data['extra']['tel'] = $extra_tel;
+        }
+
+        if($lng || $lat){
+            $data['location'] = array(
+                'type' => 'Point',
+                'coordinates' => array(doubleval($lng), doubleval($lat)),
+            );       
+        }
+
+        if(empty($data)){
+            return $this->api_json('缺少请求参数！', 3001);
+        }
 		
-        if($mode=='create'){
-            // 上传图片
-            if(empty($this->stash['tmp'])){
-                return $this->api_json('请选择图片！', 3005);  
-            }
+
+        // 上传封面
+        if(!empty($this->stash['tmp'])){
             $file = base64_decode(str_replace(' ', '+', $this->stash['tmp']));
             $image_info = Sher_Core_Util_Image::image_info_binary($file);
             if($image_info['stat']==0){
@@ -214,44 +243,85 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             if($result['stat']){
                 $data['cover_id'] = $result['asset']['id'];
             }else{
-                return $this->api_json('上传失败!', 3008); 
-            }     
+
+            } 
         }
+
+        // 上传头像
+        if(!empty($this->stash['avatar_tmp'])){
+            $file = base64_decode(str_replace(' ', '+', $this->stash['avatar_tmp']));
+            $image_info = Sher_Core_Util_Image::image_info_binary($file);
+            if($image_info['stat']==0){
+                return $this->api_json($image_info['msg'], 3006);
+            }
+            if (!in_array(strtolower($image_info['format']),array('jpg','png','jpeg'))) {
+                return $this->api_json('图片格式不正确！', 3007);
+            }
+            $params = array();
+            $new_file_id = new MongoId();
+            $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+            $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_AVATAR;
+            $params['filename'] = $new_file_id.'.jpg';
+            $params['parent_id'] = $id;
+            $params['user_id'] = $user_id;
+            $params['image_info'] = $image_info;
+            $result = Sher_Core_Util_Image::api_image($file, $params);
+            
+            if($result['stat']){
+                $data['avatar_id'] = $result['asset']['id'];
+            }else{
+
+            } 
+        }
+    
 		
 		try{
 			$model = new Sher_Core_Model_SceneScene();
+
 			// 新建记录
 			if(empty($id)){
-				$data['user_id'] = $user_id;
+                $exist = $model->first(array('user_id'=>$user_id));
+                if(empty($exist)){
+				    $data['user_id'] = $user_id;
+                    $ok = $model->apply_and_save($data);
+                    if(!$ok){
+                        return $this->api_json('创建失败!', 3002);
+                    }
+                    $scene = $model->get_data();
+                    $id = $scene['_id'];
+                }else{  // 此用户含有店铺，直接更新
+                    $ok = $model->update_set($exist['_id'], $data);
+                    if(!$ok){
+                        return $this->api_json('更新失败!', 3002);   
+                    }
+                    $id = $exist['_id'];
+                }
 				
-				$ok = $model->apply_and_save($data);
-				$scene = $model->get_data();
-				
-				$id = $scene['_id'];
 			}else{
                 $scene = $model->load($id);
                 if(empty($scene) || $scene['user_id']!=$user_id){
- 				    return $this->api_json('没有权限', 4001);                   
+ 				    return $this->api_json('没有权限', 3003);
                 }
-				$data['_id'] = $id;
-				$ok = $model->apply_and_update($data);
+				$ok = $model->update_set($id, $data);
 			}
 			
 			if(!$ok){
-				return $this->api_json('保存失败,请重新提交', 4002);
+				return $this->api_json('保存失败,请重新提交', 3004);
 			}
 			
 			// 上传成功后，更新所属的附件
-			
 			if(isset($data['cover_id']) && !empty($data['cover_id'])){
 				$model->update_batch_assets(array($data['cover_id']), array($id));
-      }
-      // 更新全文索引
-      Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
+            }
+			if(isset($data['avatar_id']) && !empty($data['avatar_id'])){
+				$model->update_batch_assets(array($data['avatar_id']), array($id));
+            }
+            // 更新全文索引
+            Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
 
 		}catch(Sher_Core_Model_Exception $e){
-			Doggy_Log_Helper::warn("api情景保存失败：".$e->getMessage());
-			return $this->api_json('情景保存失败:'.$e->getMessage(), 4001);
+			Doggy_Log_Helper::warn("api地盘保存失败：".$e->getMessage());
+			return $this->api_json('地盘保存失败:'.$e->getMessage(), 3005);
 		}
 		
 		return $this->api_json('提交成功', 0, array('id'=>$id));

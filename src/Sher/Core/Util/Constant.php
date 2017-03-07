@@ -442,4 +442,133 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       return $array[(int)$id];
     }
   }
+
+    /**
+     * 银行信息
+     */
+    public static function bank_options($id=0){
+        $array = array(
+            array(
+                'id' => 1,
+                'name' => '中国建设银行',
+                'mark' => 'js',
+                'logo' => '',
+            ),
+            array(
+                'id' => 2,
+                'name' => '中国银行',
+                'mark' => 'zh',
+                'logo' => '',
+            ),
+            array(
+                'id' => 3,
+                'name' => '中国农业银行',
+                'mark' => 'ny',
+                'logo' => '',
+            ),
+            array(
+                'id' => 4,
+                'name' => '中国工商银行',
+                'mark' => 'gs',
+                'logo' => '',
+            ),
+            array(
+                'id' => 5,
+                'name' => '中国建设银行',
+                'mark' => 'js',
+                'logo' => '',
+            ),
+            array(
+                'id' => 6,
+                'name' => '民生银行',
+                'mark' => 'ms',
+                'logo' => '',
+            ),
+            array(
+                'id' => 7,
+                'name' => '招商银行',
+                'mark' => 'zs',
+                'logo' => '',
+            ),
+            array(
+                'id' => 8,
+                'name' => '兴业银行',
+                'mark' => 'xy',
+                'logo' => '',
+            ),
+            array(
+                'id' => 9,
+                'name' => '国家开发银行',
+                'mark' => 'gjkf',
+                'logo' => '',
+            ),
+            array(
+                'id' => 10,
+                'name' => '汇丰银行',
+                'mark' => 'hf',
+                'logo' => '',
+            ),
+            array(
+                'id' => 11,
+                'name' => '中国人民银行',
+                'mark' => 'rm',
+                'logo' => '',
+            ),
+            array(
+                'id' => 12,
+                'name' => '中国光大银行',
+                'mark' => 'gd',
+                'logo' => '',
+            ),
+            array(
+                'id' => 13,
+                'name' => '中信银行',
+                'mark' => 'zx',
+                'logo' => '',
+            ),
+            array(
+                'id' => 14,
+                'name' => '交通银行',
+                'mark' => 'jt',
+                'logo' => '',
+            ),
+            array(
+                'id' => 15,
+                'name' => '华夏银行',
+                'mark' => 'hx',
+                'logo' => '',
+            ),
+            array(
+                'id' => 16,
+                'name' => '深圳发展银行',
+                'mark' => 'szfz',
+                'logo' => '',
+            ),
+            array(
+                'id' => 17,
+                'name' => '浦发银行',
+                'mark' => 'pf',
+                'logo' => '',
+            ),
+            array(
+                'id' => 18,
+                'name' => '中国邮政储蓄银行',
+                'mark' => 'yzcx',
+                'logo' => '',
+            ),
+        );
+
+        $empty = array('name'=>'', 'mark'=>'', 'logo'=>'');
+        if(empty($id)){
+            return $array;
+        }else{
+            for($i=0;$i<count($array);$i++){
+                if($array[$i]['id'] == (int)$id){
+                    return $array[$i];
+                }
+            }
+            return $empty;
+        }
+    }
+
 }

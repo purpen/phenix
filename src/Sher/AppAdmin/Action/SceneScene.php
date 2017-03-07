@@ -153,6 +153,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
                 if(empty($data['user_id'])){
 				    $data['user_id'] = $user_id;
                 }
+
+                $exist = $model->first(array('user_id'=>$data['user_id']));
+                if($exist){
+ 				    return $this->ajax_json('每个用户只能绑定一个地盘!', true);               
+                }
 				
 				$ok = $model->apply_and_save($data);
 				$scene = $model->get_data();
@@ -161,6 +166,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 			}else{
 				$data['_id'] = $id;
 				$ok = $model->apply_and_update($data);
+                if($ok){
+                    // 更新关联用户表
+                    $user_model = new Sher_Core_Model_User();
+                    $user_model->update_set($data['user_id'], array('identify.storage_id'=>$id));
+                }
 			}
 			
 			if(!$ok){

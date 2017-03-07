@@ -97,7 +97,7 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         'deleted' => 0,
     );
 	
-	protected $required_fields = array('title', 'user_id');
+	protected $required_fields = array('user_id');
 	protected $int_fields = array('status', 'deleted', 'category_id', 'stick', 'fine', 'score_average');
 	protected $float_fields = array();
 	protected $counter_fields = array('used_count','view_count','subscription_count','love_count','comment_count','true_view_count','app_view_count','web_view_count','wap_view_count', 'sight_count', 'product_count');

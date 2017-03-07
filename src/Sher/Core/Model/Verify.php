@@ -9,7 +9,7 @@ class Sher_Core_Model_Verify extends Sher_Core_Model_Base {
     protected $schema = array(
 		'phone' => null,
         'code' => null,
-        # 类型：1.注册；2.短信登录注册；
+        # 类型：1.注册；2.短信登录注册；5.绑定提现账户；6.--
         'type' => 1,
         # 超时时间
         'expired_on' => 0,

@@ -18,10 +18,19 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'code' => null,
         # 备注
         'summary'  => null,
+        # 收款类型: 0.未绑定；1.银行卡；2.支付宝；3.--
+        'pay_type' => 0,
         # 银行卡信息
         'bank_info' => array(
+            'type' => '',
             'id' => '',
             'name' => '',
+            'bank_address' => '',
+        ),
+        # 支付宝信息
+        'alipay' => array(
+            'account' => '',
+            'username' => '',
         ),
         # 类型
         'type' => self::TYPE_PERSON,
@@ -72,12 +81,14 @@ class Sher_Core_Model_Alliance extends Sher_Core_Model_Base  {
         'success_count' => 0,
         # 推广产品总金额
         'total_product_money' => 0,
+        # 推广订单总金额
+        'total_order_money' => 0,
   	);
 
     protected $required_fields = array('user_id');
 
-    protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat');
-	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount', 'addition', 'total_product_money');
+    protected $int_fields = array('status', 'user_id', 'kind', 'type', 'last_balance_on', 'last_cash_on', 'whether_apply_cash', 'whether_balance_stat', 'pay_type');
+	protected $float_fields = array('total_balance_amount', 'total_cash_amount', 'wait_cash_amount', 'wait_balance_amount', 'last_balance_amount', 'last_cash_amount', 'verify_cash_amount', 'addition', 'total_product_money', 'total_order_money');
 	protected $counter_fields = array('total_count', 'success_count', 'total_product_money');
 
 	protected $joins = array(
