@@ -12,6 +12,9 @@ class Sher_Core_Model_WithdrawCash extends Sher_Core_Model_Base  {
         'user_id' => 0,
         # 提现金额
         'amount' => 0,
+        # 提现账户ID
+        'payment_card_id' => '',
+        'payment_card' => array(),
         # 状态: 0.失败；1.申请中；2.审核中；5.成功；
 		'status' => 1,
         # 打款时间

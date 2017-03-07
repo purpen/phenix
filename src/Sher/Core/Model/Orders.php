@@ -230,7 +230,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
           $row['from_app_label'] = '商城';
           break;
         case 2:
-          $row['from_app_label'] = 'Fiu';
+          $row['from_app_label'] = 'D3IN';
           break;
         default:
           $row['from_app_label'] = '--';

@@ -139,9 +139,10 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
     public function apply_cash(){
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $amount = isset($this->stash['amount']) ? (float)$this->stash['amount'] : 0;
+        $payment_card_id = isset($this->stash['payment_card_id']) ? $this->stash['payment_card_id'] : null;
         $user_id = $this->current_user_id;
 
-        if(empty($id) || empty($amount)){
+        if(empty($id) || empty($amount) || empty($payment_card_id)){
 		    return $this->api_json('缺少请求参数！', 3001);           
         }
 
@@ -164,6 +165,21 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
   			return $this->api_json('超出可用提现金额！', 3006);
         }
 
+        $payment_card_model = new Sher_Core_Model_PaymentCard();
+        $payment_card = $payment_card_model->load($payment_card_id);
+        if(empty($payment_card)){
+    	    return $this->api_json('提现账户不存在！', 3008);       
+        }
+
+        $payment = array(
+            'kind' => $payment_card['kind'],
+            'pay_type' => $payment_card['pay_type'],
+            'account' => $payment_card['account'],
+            'username' => $payment_card['username'],
+            'phone' => $payment_card['phone'],
+            'bank_address' => $payment_card['bank_address'],
+        );
+
         // 开始提现
         $row = array(
             'verify_cash_amount' => $alliance['verify_cash_amount'] + $amount,
@@ -181,6 +197,8 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
             'alliance_id' => (string)$alliance['_id'],
             'amount' => $amount,
             'user_id' => $alliance['user_id'],
+            'payment_card_id' => $payment_card_id,
+            'payment_card' = $payment,
         );
         
 		$withdraw_cash_model = new Sher_Core_Model_WithdrawCash();

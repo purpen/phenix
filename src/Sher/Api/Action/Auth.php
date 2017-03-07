@@ -235,7 +235,8 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 	 */
 	public function verify_code(){
 		
-		$phone = $this->stash['mobile'];
+		$phone = isset($this->stash['mobile']) ? $this->stash['mobile'] : null;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
 		if(empty($phone)){
 			return $this->api_json('发送失败：手机号码不能为空！', 3001);
 		}
@@ -246,7 +247,7 @@ class Sher_Api_Action_Auth extends Sher_Api_Action_Base{
 		// 生成验证码
 		$verify = new Sher_Core_Model_Verify();
 		$code = Sher_Core_Helper_Auth::generate_code();
-		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code, 'expired_on'=>time()+600));
+		$ok = $verify->create(array('phone'=>$phone, 'code'=>$code, 'type'=>$type, 'expired_on'=>time()+600));
 		if($ok){
 			// 开始发送
 			Sher_Core_Helper_Util::send_register_mms($phone, $code);
