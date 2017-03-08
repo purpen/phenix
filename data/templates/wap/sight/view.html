@@ -395,6 +395,10 @@
         overflow: hidden;
     }
 
+    .shop-title{
+        text-overflow:ellipsis;
+    }
+
     .shop .shop-price{
         color: #BE8914;
 
@@ -697,15 +701,15 @@
     <div class="shop">
         <a href="{{ d.wap_view_url }}">
             <img src="{{ d.cover_url }}" />
+            <div class="shop-content">
+                <div class="shop-title">
+                    <a href="{{ d.wap_view_url }}">{{ d.title }}</a>
+                </div>
+                <div class="shop-price">
+                    <span><i class="rmb icon"></i> {{ d.sale_price }}</span>
+                </div>
+            </div>
         </a>
-        <div class="shop-content">
-            <div class="shop-title">
-                <a href="{{ d.wap_view_url }}">{{ d.title }}</a>
-            </div>
-            <div class="shop-price">
-                <span><i class="rmb icon"></i> {{ d.sale_price }}</span>
-            </div>
-        </div>
     </div>
 {%endfor%}
 
