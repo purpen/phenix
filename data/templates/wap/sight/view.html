@@ -362,9 +362,8 @@
 {% endblock %}
 
 {% block layout_js %}
-  <script src="{{ app_url_packaged }}/javascript/lightbox.min.js" type="text/javascript"></script>
     <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-  <script type="text/javascript" >
+    <script type="text/javascript" >
 
     var m_name = '{{ sight.title }}';
     var link = '{{ sight.wap_view_url }}';
@@ -454,8 +453,6 @@
 {% endblock %}
 
 {% block jquery %}
-    <script type="text/javascript" >
-
 
 	$('.fsshare').click(function(){
 		if( !phenix.visitor.is_login ){
@@ -616,7 +613,6 @@
 	});
 
 
-  //</script>
 {% endblock %}
 {% block content %}
 <div class="mask"></div>

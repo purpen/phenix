@@ -55,6 +55,10 @@ class Sher_Wap_Action_Sight extends Sher_Wap_Action_Base {
             return $this->show_message_page('访问的情境未发布！', $redirect_url);
 		}
 
+		//微信分享
+        $wx_share = Sher_Core_Helper_Util::wechat_share_param();
+        $this->stash['wx_share'] = $wx_share;
+
         $this->stash['sight'] = $sight;
 
 
