@@ -75,7 +75,7 @@ class Sher_Wap_Action_Sight extends Sher_Wap_Action_Base {
                     $p['sale_price'] = $product['sale_price'];
                     $p['market_price'] = $product['market_price'];
                     $p['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
-                    $p['wap_view_url'] = $product['wap_view_url'];
+                    $p['wap_view_url'] = sprintf("%s/shop/s_view?id=%s", Doggy_Config::$vars['app.url.wap'], $product['_id']);
                     $p['category_ids'] = $product['category_ids'];
                     $sight['product'][$i]['price'] = $product['sale_price'];
 
