@@ -1,0 +1,768 @@
+{%extends 'layout/shop.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	.sfooter.nav-menu{
+		display: none;
+		visibility: hidden;
+	}
+	#slider.flexslider .slides li,#slider.flexslider .slides,#slider {
+    	max-height: none;
+    }
+    .storimg{
+    	width: 75px;
+    	height: 75px;
+    	margin: 0 auto;
+    	border-radius: 50%;
+    	border: 1px solid #ccc;
+    }
+    h3.title{
+    	font-size: 17px;
+    	color: #222;
+    	padding:10px 0 5px;
+    }
+    .ui.star.rating .active.icon{
+    	color: #be8914 !important;
+    	text-shadow: none !important;
+    }
+    .maypay{
+    	font-size: 14px;
+    	color: #666;
+    }
+    .bound{
+    	color: #be8914;
+    	font-size: 14px;
+    }
+    .bound img{
+    	width: 20px;
+    	vertical-align: top;
+    	margin: 2px 6px 0 0;
+    }
+    .row.des p{
+    	font-size: 14px;
+    	line-height: 24px;
+    	margin-bottom: 20px;
+    	color: #222;
+    }
+    .storage{
+    	background: #fff;
+    }
+    .row.des p.show-more{
+    	text-align: center;
+    }
+    .row.des p.show-more img{
+    	width: 16px;
+    	display: inline-block;
+    	vertical-align: baseline;
+    }
+    .row.des p img{
+    	vertical-align: top;
+    	display: block;
+    	width: 100%;
+    }
+	.row.des .line{
+		background: #E5E5E5;
+		height: 1px;
+		text-align: center;
+		width: 100%;
+	}
+	h4.title{
+		color: #666;
+		font-size: 14px;
+		text-align: center;
+	}
+	.row.spot p{
+    	font-size: 12px;
+    	line-height: 20px;
+    	margin-bottom: 16px;
+    	color: #666;
+    }
+    .row.spot p img{
+    	vertical-align: top;
+    	display: block;
+    	width: 100%;
+    }
+    .row.spot a.link-more{
+    	text-align: center;
+    	display: block;
+    	color: #222;
+    }
+    .row.spot a.link-more img{
+    	width: 16px;
+    	display: inline-block;
+    	vertical-align: baseline;
+    }
+    .moredes{
+    	background: #fff;
+    	margin:10px 0;
+    }
+    .moredes p{
+    	padding: 10px 0;
+    	margin:0;
+    	font-size: 12px;
+    }
+    .moredes p+p{
+    	border-top: 1px solid #E5E5E5;
+    }
+    #shop_guess_wap_list {
+	    margin-top: 20px;
+	    position: relative;
+	    padding: 0 16px;
+	    margin-bottom: 10px;
+	    padding-bottom: 0;
+	}
+	.guess.title{
+		color: #666;
+		font-size: 14px;
+	}
+	.fixbto{
+		background: #222;
+	    color: #fff;
+	    text-align: center;
+	    height: 44px;
+	    position: fixed;
+	    width: 100%;
+	    left: 50%;
+	    bottom: 0;
+	    max-width: 767px;
+	    -webkit-transform: translateX(-50%);
+	    transform: translateX(-50%);
+	    line-height: 44px;
+	}
+	.fixbto img{
+		width: 22px;
+		vertical-align: middle;
+		margin-right: 10px;
+	}
+	.pagecount{
+		background:rgba(0,0,0,0.6);
+		color: #fff;
+		font-size: 14px;
+		position: absolute;
+		right: 25px;
+		bottom: 25px;
+		border-radius: 4px;
+		z-index: 2;
+		padding: 5px 0;
+	    width: 80px;
+	    text-align: center;
+	    padding-left: 20px;
+	}
+	.pagecount img{
+		position: absolute;
+	    left: 6px;
+	    width: 15px;
+	    height: 15px;
+	    top: 7px;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc{
+		background: #222;
+		border-top: 1px solid #222;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc h2 {
+	    color: #fff;
+	    text-align: center;
+	}
+	.ui.brand.list #mpresale .recom-item .recom-cell .desc .cats{
+		text-align: center;
+	}
+	.ui.fiushop .ui.sheader{
+		position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    z-index: 4;
+	    background: rgba(255,255,255,0);
+	    -webkit-box-shadow: none;
+	    box-shadow: none;
+	    height: 50px;
+	}
+	.ui.fiushop .ui.sheader p{
+		margin: 0;
+	}
+	.acacartlogin {
+	    right: 48px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    width: 34px;
+	    height: 50px;
+	    -webkit-transform: translateY(-50%);
+	    -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	    position: absolute;
+	}
+	.acacartlogin .caputcart {
+	    background: url({{app_url_packaged}}/images/icon/shouc3.png);
+	    width: 20px;
+	    height: 20px;
+	    background-repeat: no-repeat;
+    	background-size: 40px 20px;
+	    margin: 15px 4px;
+	    background-position: 0 0;
+	}
+	.acacartlogin.active .caputcart{
+		background-position: -20px 0;
+	}
+	i.angle.float.left.icon{
+		color: #fff;
+	}
+	.fsshare{
+		right: 14px;
+	    top: 50%;
+	    transform: translateY(-50%);
+	    width: 34px;
+	    height: 50px;
+	    -webkit-transform: translateY(-50%);
+	    -moz-transform: translateY(-50%);
+	    -ms-transform: translateY(-50%);
+	    position: absolute;
+	}
+	.fsshare .sshare{
+		background: url({{ app_url_packaged }}/images/icon/fsshare.png);
+	    width: 21px;
+	    height: 20px;
+	    background-size: 21px 20px;
+	    margin: 15px 0 15px 10px;
+	}
+	.sub.header{
+		font-size: 0;
+	}
+	.sub.header .ui.label{
+		background: rgba(0,0,0,0);
+	    border: 1px solid #666;
+	    color: #666;
+	    padding: 6px 12px;
+	    margin: 4px 6px;
+	}
+	.mask{
+	    height: 100%;
+	    width: 100%;
+	    position: fixed;
+	    background: rgba(0,0,0,0.2);
+	    z-index: 9;
+	    display: none;
+	}
+	.mask.show{
+	  display: block;
+	}
+	#shareshow .ui.top.details{
+	    max-width:767px;
+	    margin:0 auto;
+		background:#fff;
+		position:fixed;
+		width:100%;
+		height:360px;
+		bottom:0;
+		z-index:100;
+	    visibility: hidden;
+	    -webkit-transform: translate3d(0,100%,0);
+	    transform: translate3d(0,100%,0);
+	    -webkit-transition: all 0.3s ease 0.05s;
+	    transition: all 0.3s ease 0.05s;
+		padding:10px 0;
+	}
+	#shareshow.show-details .ui.top.details{
+		visibility: visible;
+	    -webkit-transform: translate3d(0,0,0);
+	    transform: translate3d(0,0,0);
+	}
+	.close-details {
+	    position: absolute;
+	    width: 28px;
+	    height: 28px;
+	    right: 10px;
+	    top: 10px;
+	    z-index: 2;
+	}
+	.close-details img {
+	    width: 14px;
+	    height: 14px;
+	    margin: 7px;
+	}
+	.row.title p{
+		font-size: 16px;
+		color: #222;
+		margin-bottom: 10px;
+    	margin-top: 5px;
+	}
+	#shareshow .ui.top.details .ui.divider {
+	    margin: 5px 10px 2px;
+	}
+	.fort{
+		font-size: 14px;
+		color: #666;
+		margin:10px 0 0;
+	}
+	.fortbe{
+		font-size: 14px;
+		color: #be8914;
+		margin:5px 0;
+	}
+	.fortbe a{
+		color: #be8914;
+	}
+	.fortbe span{
+		color: #666;
+	}
+	#shareshow .ui.top.details .menuicon {
+	    padding: 2px 6px 5px !important;
+	    margin-bottom: 0;
+	    color: #4A4A4A !important;
+	}
+	.menuicon .wechaticon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/wechaticon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.menuicon .weboicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/weboicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	   	background-repeat: no-repeat;
+	}
+	.menuicon .qqicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/qqicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.menuicon .fuicon{
+		width: 40px;
+		height: 40px;
+		background: url({{ app_url_packaged }}/images/icon/fuicon.png);
+		display: block;
+	    margin: 0 auto 8px;
+	    vertical-align: middle;
+	    background-size: 100%;
+	    background-repeat: no-repeat;
+	}
+	.fuzhi .slink{
+		word-wrap: break-word;
+		margin: 0 30px;
+	}
+	#qrcode img{
+		width: 240px;
+		height: 240px;
+		margin: 10px 0;
+	}
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script src="{{ app_url_packaged }}/javascript/lightbox.min.js" type="text/javascript"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script type="text/javascript" >
+
+    var m_name = '{{ sight.title }}';
+    var link = '{{ sight.wap_view_url }}';
+    var img_url = '{{ sight.avatar.thumbnails.apc.view_url }}';
+    var desc_str = '{{ sight.des }}';
+	
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ wx_share.app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ wx_share.timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wx_share.wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wx_share.wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+      wx.ready(function(){
+        // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+         wx.onMenuShareAppMessage({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });      
+
+        // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+
+        // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareQQ({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+
+        // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareWeibo({
+          title: m_name,
+          desc: desc_str,
+          link: link,
+          imgUrl: img_url,
+          success: function (res) {
+            record_share_num();
+            $('#mask').css('display','none');
+          }
+        });
+      });
+
+      //记录分享数
+      function record_share_num(){
+
+      };
+
+      // 加载产品相关推荐
+      function ajax_load_product(id){
+          //防止频繁请求(在没加载完成时只允许请求一次)
+          var url = '{{ app_url_wap }}/app/site/storage/ajax_fetch_storage_product';
+          $.get(url, {page:1, size: 30, scene_id:id }, function(rs){
+
+              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
+                $('#shop_guess_wap_list .recom-item').html(rendered);
+
+ 			  $("img.lazy").lazyload({
+ 			     effect : "show"
+ 			  });
+          }, 'json');
+      }
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+    <script type="text/javascript" >
+
+
+	$('.fsshare').click(function(){
+		if( !phenix.visitor.is_login ){
+			phenix.redirect('{{ app_url_wap }}/auth/login_signup')
+		}
+		else{
+            var s_url = $(':input[name=s_url]').val();
+            if(!s_url){
+                $.get("{{ app_url_wap }}/app/site/promo_func/share_link", {id:"{{ sight._id }}", type:2, from_to:2}, function(rs){
+                    if(rs.success){
+                        var s_url = rs.data.url;
+                        var o_url = rs.data.o_url;
+                        $(':input[name=s_url]').val(s_url);
+                        $(':input[name=o_url]').val(o_url);
+                        $('#short_link').text(s_url);
+                    }else{
+                        phenix.show_error_note('获取数据失败!');
+                    }
+                }, 'json');
+            }
+            
+            //$('#cover').css('display','block');
+
+			$('body').css('overflow','hidden');
+            $('.mask').addClass('show');
+			$('#shareshow').addClass('show-details');
+		}
+	});
+	$('.close-details').click(function(){
+		$('#shareshow').removeClass('show-details');
+		$('body').removeAttr('style');
+        $('.mask').removeClass('show');
+        $('.row.content,.row.icon,.row.fuzhi').fadeIn();
+        $('.row.ewm').fadeOut();
+        $('.row.title p').html('分享得佣金');
+        $('.row.title p').css('font-size','14px');
+	});
+	phenix.bind_share_list();
+
+	//微信
+	$('.menuicon.wechat').on("click",function(){
+        s_url = $(':input[name=o_url]').val();
+	    //$('#qrcode').qrcode({width: 180, height: 180, text: s_url});
+        $.get("{{ app_url_wap }}/app/site/product/fetch_qr", {str:s_url, logo:'d3in'}, function(result){
+            $('#qrcode').html(result);
+        });
+		$('.row.content,.row.icon,.row.fuzhi').fadeOut();
+		// 生成二维码
+		$('.row.title p').html('长按保存二维码，分享给微信好友或朋友圈即可');
+		$('.row.title p').css('font-size','13px');
+		$('.row.ewm').fadeIn();
+	})
+
+    var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+
+    // 微博
+	$('#share-weibo_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ sight.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ sight.cover.thumbnails.apc.view_url }}";
+		var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        
+        var getParamsOfShareWindow = function(width, height) {
+            return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+        }
+		var params = getParamsOfShareWindow(607, 523);
+		window.open(url, 'tShare', params);
+		return false;
+	});
+
+    $('#tencent-share_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ sight.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ sight.cover.thumbnails.apc.view_url }}";
+
+        var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(634, 668);
+        window.open(url, 'tShare', params);
+        return false;
+    });
+
+	$('#qzone-share_w').click(function() {
+        var site = "{{ app_url_wap }}";
+        var link = $(':input[name=s_url]').val();
+        var title = "{{ sight.title }}-D3IN铟立方未来商店，科技美学产品的情境式电商平台";
+        var pic_url = "{{ sight.cover.thumbnails.apc.view_url }}";
+		var url = 'http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + link + '&title=' + title + '&pic=' + pic_url;
+		var params = getParamsOfShareWindow(600, 560);
+		window.open(url, 'tShare', params);
+		return false;
+	});
+
+	$('.link-more').click(function(){
+		$('.more').fadeIn();
+		$(this).hide();
+	})
+	$('.acacartlogin').click(function(){
+
+	})
+
+    // 加载相关商品
+    ajax_load_product('{{ sight._id }}');
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{sight._id}},type:12,event:2}, function(result){
+			if (result.success) {
+				// 验证收藏
+				if (result.data.favorited) {
+					$('.ui.favorite')
+						.data('content', '取消')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+
+		/* 登录用户行为 */
+	{% endif %}
+
+	// 喜欢
+	$('.ui.love').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+            phenix.redirect("{{ app_url_wap }}/auth/login_signup");
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:12}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '取消点赞')
+						.data('mark', 'y')
+						.addClass('active')									
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:12}, function(result){
+				if (result.success) {
+					$btn
+						.data('content', '点赞')
+						.data('mark', 'n')
+						.removeClass('active')
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+
+  //</script>
+{% endblock %}
+{% block content %}
+<div class="mask"></div>
+<div id="slider" class="flexslider flex-single">
+	<div class="ui fiushop pb-0">
+	    <div class="ui sheader">
+	        <a class="return" href=""><i class="angle float left icon"></i></a>
+	        <p></p>
+            <div class="acacartlogin ui love" data-id="{{ sight._id }}" data-mark="n" data-content="点赞">
+	        	<div class="caputcart"></div>
+	        </div>
+
+	        <div class="fsshare">
+	        	<div class="sshare"></div>
+	        </div>
+	    </div>
+	</div>
+	<ul class="slides">
+
+        <li style="background-image: url('{{ sight.cover.thumbnails.apc.view_url }}');">
+            
+        </li>
+
+	<div class="pagecount"> 
+		<img src="{{ app_url_packaged }}/images/icon/imagg.png" />
+		<span class="current"></span> /
+		<span class="allpage"></span>
+	</div>
+	</ul>  
+</div>
+<div class="storage">
+	<div class="ui responsive grid">
+		<div class="row pt-4r">
+			<div class="ui center aligned column">
+                <h3 class="mtb-0 title">{{ sight.title }}</h3>
+
+				<div class="sub header">
+                    {% for d in sight.tags %}
+                    <label class="ui label">{{ d }}</label>
+                    {%endfor%}
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row des">
+			<div class="column">
+                <p>{{ sight.des }}</p>
+
+				<div class="line"></div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div id="shareshow">
+	<div class="ui top details">
+		<div class="close-details">
+			<img src="{{ app_url_packaged }}/images/icon/shareclose.png">
+		</div>
+		<div class="ui respontion grid">
+			<div class="row title">
+				<div class="ui center aligned column p-0">
+					<p>分享得佣金</p>
+					<div class="ui divider"></div>
+				</div>
+			</div>
+
+			<div class="row content">
+				<div class="ui center aligned column">
+					<img src="{{app_url_packaged}}/images/icon/money.png" width="40px">
+					<p class="fort">现在分享Fiu，可获得成交订单的5%佣金</p>
+					<p class="fortbe"><span>查看</span><a target="_blank" href="{{ app_url_wap }}/storage/plan"> Fiu合伙人招募计划</a></p>
+                    <input type="hidden" name="s_url" value="" />
+                    <input type="hidden" name="o_url" value="" />
+				</div>
+			</div>
+
+			<div class="row icon plr-4r">
+				<div class="column plr-4r">
+					<div class="nav-menu">
+						<ul class="navfelx">
+							<li class="childcell">
+								<div class="menuicon wechat">
+									<div class="wechaticon"></div>
+									微信
+								</div>
+							</li>
+							<li class="childcell">
+								<div class="menuicon webo" id="share-weibo_w">
+									<div class="weboicon"></div>
+									微博
+								</div>
+							</li>
+							<li class="childcell">
+								<div class="menuicon qq" id="qzone-share_w">
+									<div class="qqicon"></div>
+									QQ
+								</div>
+							</li>
+							<!-- <li class="childcell">
+								<div class="menuicon fu">
+									<div class="fuicon"></div>
+									复制链接
+								</div>
+							</li> -->
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row fuzhi plr-4r pt-r">
+				<div class="ui center aligned column plr-4r">
+					<p class="mb-r">复制链接</p>
+					<p class="slink" id="short_link"></p>
+				</div>
+			</div>
+
+
+			<div class="row ewm" style="display:none;">
+				<div class="ui center aligned column">
+					<div id="qrcode"></div>
+				</div>
+			</div>
+			
+
+		</div>
+	</div>
+</div>
+ 
+<!-- 相关推荐 -->
+<div id="shop_guess_wap_list" class="ui brand list">
+        <!-- 加载相关推荐 -->
+    <div class="guess title">
+        相关产品
+    </div>
+    <div class="row" id="mpresale">
+        <div class="column">
+            <div class="recom-item three"><!--ajax list--></div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block templates %}
+    {% mustache id:'fetch_more_products_tpl' tpl:'mustache_m/stick_products.mustache' %}
+{% endblock %}

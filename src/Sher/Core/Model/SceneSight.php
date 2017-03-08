@@ -104,6 +104,10 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
         }
 
         $row['subject_ids_s'] = !empty($row['subject_ids']) ? implode(',',$row['subject_ids']) : '';
+
+        // view_url
+        $row['view_url'] = sprintf("%s/sight/view?id=%d", Doggy_Config::$vars['app.url.domain'], $row['_id']);
+        $row['wap_view_url'] = sprintf("%s/sight/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
 	}
 	
 	/**
