@@ -360,7 +360,7 @@
 	}
 
     .bga{
-       background:url('https://p4.taihuoniao.com/scene_sight/170304/58b9a017c00076a07f8cde97-p500x500.jpg');
+       background:url('{{ sight.cover.thumbnails.apc.view_url }}');
        filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
        -moz-background-size:100% 100%;
        background-size:100% 100%;
@@ -591,7 +591,7 @@
 		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{sight._id}}",type:12,event:2}, function(result){
 			if (result.success) {
 				// 验证收藏
-				if (result.data.favorited) {
+				if (result.data.loved) {
 					$('.ui.love')
 						.data('content', '取消')
 						.data('mark', 'y')
@@ -665,6 +665,7 @@
 
 <div class="storage">
 	<div class="ui responsive grid">
+        {% if sight.title %}
 		<div class="row pt-4r">
 			<div class="ui center aligned column">
                 <h3 class="mtb-0 title">{{ sight.title }}</h3>
@@ -677,7 +678,9 @@
 
 			</div>
 		</div>
+        {%endif%}
 
+        {% if sight.des %}
 		<div class="row des">
 			<div class="column">
 				<div class="line"></div>
@@ -685,6 +688,7 @@
                 <p style="padding-top:5px;">{{ sight.des }}</p>
 			</div>
 		</div>
+        {%endif%}
 
 	</div>
 </div>
