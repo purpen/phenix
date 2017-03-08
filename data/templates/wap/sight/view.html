@@ -360,7 +360,7 @@
 	}
 
     .bga{
-       background:url('{{ sight.cover.thumbnails.apc.view_url }}');
+       background:url('https://p4.taihuoniao.com/scene_sight/170304/58b9a017c00076a07f8cde97-p500x500.jpg');
        filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
        -moz-background-size:100% 100%;
        background-size:100% 100%;
@@ -588,11 +588,11 @@
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
 		// 初始化互动，是否收藏、点赞
-		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{sight._id}},type:12,event:2}, function(result){
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: "{{sight._id}}",type:12,event:2}, function(result){
 			if (result.success) {
 				// 验证收藏
 				if (result.data.favorited) {
-					$('.ui.favorite')
+					$('.ui.love')
 						.data('content', '取消')
 						.data('mark', 'y')
 						.addClass('active');
@@ -636,6 +636,8 @@
 		}
 	});
 
+    var flexheight = $('body').width()+'px';
+	$('.bga').css('height',flexheight);
 
 {% endblock %}
 {% block content %}
@@ -655,7 +657,7 @@
 	    </div>
 	</div>
 
-    <div class="bga" style="height:500px;">
+    <div class="bga">
 
     </div>
 
@@ -694,7 +696,7 @@
         </a>
         <div class="shop-content">
             <div class="shop-title">
-                <span>{{ d.title }}</span>
+                <a href="{{ d.wap_view_url }}">{{ d.title }}</a>
             </div>
             <div class="shop-price">
                 <span><i class="rmb icon"></i> {{ d.sale_price }}</span>
