@@ -360,11 +360,46 @@
 	}
 
     .bga{
-       background:url('https://p4.taihuoniao.com/scene_sight/170224/58afd1cf3ffca29b548b4590-p500x500.jpg');
+       background:url('{{ sight.cover.thumbnails.apc.view_url }}');
        filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
        -moz-background-size:100% 100%;
        background-size:100% 100%;
     }
+
+    .shop{
+        position: relative;
+        background:#fff;
+        padding: 10px;
+        margin: 5px 0 5px 0;
+    }
+    
+    .shop a{
+        
+    }
+
+    .shop img{
+        display: inline-block;
+        width:50px;
+        height: 50px;
+        display: inline-block;
+        margin-top: .14285em;
+        //border-radius: 30px;
+        border: 1px solid rgba(0,0,0,0.1);
+        vertical-align: middle;
+    }
+
+    .shop .shop-content{
+        position: absolute;
+        top: 20%;
+        left: 18%;
+        overflow: hidden;
+    }
+
+    .shop .shop-price{
+        color: #BE8914;
+
+    }
+
 </style>
 {% endblock %}
 
@@ -440,21 +475,6 @@
       function record_share_num(){
 
       };
-
-      // 加载产品相关推荐
-      function ajax_load_product(id){
-          //防止频繁请求(在没加载完成时只允许请求一次)
-          var url = '{{ app_url_wap }}/app/site/storage/ajax_fetch_storage_product';
-          $.get(url, {page:1, size: 30, scene_id:id }, function(rs){
-
-              var rendered = phenix.ajax_render_result('#fetch_more_products_tpl', rs.data);
-                $('#shop_guess_wap_list .recom-item').html(rendered);
-
- 			  $("img.lazy").lazyload({
- 			     effect : "show"
- 			  });
-          }, 'json');
-      }
 
   </script>
 {% endblock %}
@@ -564,9 +584,6 @@
 
 	})
 
-    // 加载相关商品
-    ajax_load_product('{{ sight._id }}');
-
 
 	/* 登录用户行为 */
 	{% if visitor.is_login %}
@@ -637,16 +654,10 @@
 	        </div>
 	    </div>
 	</div>
-  
-<!--
-        <li style="background-image: url('{{ sight.cover.thumbnails.apc.view_url }}');">
-            
-        </li>
-        -->
-		<div class="bga" style="width:500px;height:500px;">
 
-        </div>
+    <div class="bga" style="height:500px;">
 
+    </div>
 
 </div>
 
@@ -667,20 +678,31 @@
 
 		<div class="row des">
 			<div class="column">
-                <p>{{ sight.des }}</p>
-
 				<div class="line"></div>
+
+                <p style="padding-top:5px;">{{ sight.des }}</p>
 			</div>
 		</div>
 
-		<div class="row spot">
-			<div class="column">
-                <img src="https://p4.taihuoniao.com/scene_sight/170224/58afd1cf3ffca29b548b4590-p500x500.jpg" />
-            </div>
-        </div>
-
 	</div>
 </div>
+
+{% for d in sight.products %}
+    <div class="shop">
+        <a href="{{ d.wap_view_url }}">
+            <img src="{{ d.cover_url }}" />
+        </a>
+        <div class="shop-content">
+            <div class="shop-title">
+                <span>{{ d.title }}</span>
+            </div>
+            <div class="shop-price">
+                <span><i class="rmb icon"></i> {{ d.sale_price }}</span>
+            </div>
+        </div>
+    </div>
+{%endfor%}
+
 
 <div id="shareshow">
 	<div class="ui top details">
@@ -755,19 +777,6 @@
 
 		</div>
 	</div>
-</div>
- 
-<!-- 相关推荐 -->
-<div id="shop_guess_wap_list" class="ui brand list">
-        <!-- 加载相关推荐 -->
-    <div class="guess title">
-        相关产品
-    </div>
-    <div class="row" id="mpresale">
-        <div class="column">
-            <div class="recom-item three"><!--ajax list--></div>
-        </div>
-    </div>
 </div>
 
 {% endblock %}
