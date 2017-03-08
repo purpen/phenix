@@ -55,6 +55,37 @@ class Sher_Wap_Action_Sight extends Sher_Wap_Action_Base {
             return $this->show_message_page('访问的情境未发布！', $redirect_url);
 		}
 
+        if(!empty($sight['tags']) && count($sight['tags'])>4){
+            $sight['tags'] = array_slice($sight['tags'], 0, 4);
+        }
+
+        // 产品
+        $products = array();
+        if(!empty($sight['product'])){
+            $product_model = new Sher_Core_Model_Product();
+            for($i=0;$i<count($sight['product']);$i++){
+                $p = array();
+                $product_id = (int)$sight['product'][$i]['id'];
+                $product = $product_model->extend_load($product_id);
+                $sight['product'][$i]['price'] = 0;
+                if($product){
+                    $p['_id'] = $product['_id'];
+                    $p['title'] = $product['title'];
+                    $p['short_title'] = $product['short_title'];
+                    $p['sale_price'] = $product['sale_price'];
+                    $p['market_price'] = $product['market_price'];
+                    $p['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+                    $p['wap_view_url'] = $product['wap_view_url'];
+                    $p['category_ids'] = $product['category_ids'];
+                    $sight['product'][$i]['price'] = $product['sale_price'];
+
+                    array_push($products, $p);
+                }
+            } // endfor
+            
+        }
+        $sight['products'] = $products;
+
 		//微信分享
         $wx_share = Sher_Core_Helper_Util::wechat_share_param();
         $this->stash['wx_share'] = $wx_share;
