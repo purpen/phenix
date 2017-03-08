@@ -372,10 +372,6 @@
         padding: 10px;
         margin: 5px 0 5px 0;
     }
-    
-    .shop a{
-        
-    }
 
     .shop img{
         display: inline-block;
@@ -396,12 +392,51 @@
     }
 
     .shop-title{
-        text-overflow:ellipsis;
+        color: #222;
+        font-size: 13px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow:hidden;
+        width:250px;
+        margin-bottom:6px;
     }
 
     .shop .shop-price{
         color: #BE8914;
 
+    }
+
+    .user_info{
+        position: relative;
+        background:#fff;
+        padding: 10px;
+        margin: 5px 0 5px 0;
+        background: #535353;
+    }
+
+    .user_info img{
+        display: inline-block;
+        width:50px;
+        height: 50px;
+        display: inline-block;
+        margin-top: .14285em;
+        border-radius: 30px;
+        border: 1px solid rgba(0,0,0,0.1);
+        vertical-align: middle;
+    }
+
+    .user_info .u_title{
+        color: #fff;
+        font-size: 13px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow:hidden;
+        width:250px;
+
+        position: absolute;
+        top: 40%;
+        left: 18%;
+        overflow: hidden;
     }
 
 </style>
@@ -413,7 +448,7 @@
 
     var m_name = '{{ sight.title }}';
     var link = '{{ sight.wap_view_url }}';
-    var img_url = '{{ sight.avatar.thumbnails.apc.view_url }}';
+    var img_url = '{{ sight.cover.thumbnails.apc.view_url }}';
     var desc_str = '{{ sight.des }}';
 	
     wx.config({
@@ -649,7 +684,9 @@
 <div id="slider" class="flexslider flex-single">
 	<div class="ui fiushop pb-0">
 	    <div class="ui sheader">
+            <!--
 	        <a class="return" href=""><i class="angle float left icon"></i></a>
+            -->
 	        <p></p>
             <div class="acacartlogin ui love" data-id="{{ sight._id }}" data-mark="n" data-content="点赞">
 	        	<div class="caputcart"></div>
@@ -661,10 +698,13 @@
 	    </div>
 	</div>
 
-    <div class="bga">
-
+    <div class="bga"></div>
+    <div class="user_info">
+        <img src="{{ sight.user.small_avatar_url }}" />
+        <div class="u_title">
+            <span>{{ sight.user.nickname }}</span>
+        </div>
     </div>
-
 </div>
 
 <div class="storage">
@@ -703,7 +743,7 @@
             <img src="{{ d.cover_url }}" />
             <div class="shop-content">
                 <div class="shop-title">
-                    <a href="{{ d.wap_view_url }}">{{ d.title }}</a>
+                    {{ d.title }}
                 </div>
                 <div class="shop-price">
                     <span><i class="rmb icon"></i> {{ d.sale_price }}</span>
@@ -713,6 +753,7 @@
     </div>
 {%endfor%}
 
+<div style="height:100px;"></div>
 
 <div id="shareshow">
 	<div class="ui top details">
