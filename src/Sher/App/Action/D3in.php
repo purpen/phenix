@@ -9,7 +9,7 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base implements DoggyX_Action
     'size'=>50,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3','partner4','partner5');
+	protected $exclude_method_list = array('execute', 'coupon', 'active','tool','member','volunteer','buy','hardware','partner1','partner2','partner3','partner4','partner5','about');
 	
 	public function _init() {
 		$this->set_target_css_state('page_d3in');
@@ -20,6 +20,14 @@ class Sher_App_Action_D3in extends Sher_App_Action_Base implements DoggyX_Action
 	public function execute(){
 		return $this->d3in();
 	}
+
+    /**
+     * about
+     */
+    public function about(){
+        $redirect_url = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
+        return $this->to_redirect($redirect_url);
+    }
 	
 	/**
 	 * d3in

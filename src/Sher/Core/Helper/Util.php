@@ -1468,7 +1468,7 @@ class Sher_Core_Helper_Util {
             'app_id' => $app_id,
             'timestamp' => $timestamp,
             'wxnonceStr' => $wxnonceStr,
-            'current_url' => $current_url,
+            'current_url' => $url,
             'wxSha1' => $wxSha1,
         );
         return $arr;

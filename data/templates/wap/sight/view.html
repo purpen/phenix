@@ -358,6 +358,13 @@
 		height: 240px;
 		margin: 10px 0;
 	}
+
+    .bga{
+       background:url('https://p4.taihuoniao.com/scene_sight/170224/58afd1cf3ffca29b548b4590-p500x500.jpg');
+       filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+       -moz-background-size:100% 100%;
+       background-size:100% 100%;
+    }
 </style>
 {% endblock %}
 
@@ -630,19 +637,19 @@
 	        </div>
 	    </div>
 	</div>
-	<ul class="slides">
-
+  
+<!--
         <li style="background-image: url('{{ sight.cover.thumbnails.apc.view_url }}');">
             
         </li>
+        -->
+		<div class="bga" style="width:500px;height:500px;">
 
-	<div class="pagecount"> 
-		<img src="{{ app_url_packaged }}/images/icon/imagg.png" />
-		<span class="current"></span> /
-		<span class="allpage"></span>
-	</div>
-	</ul>  
+        </div>
+
+
 </div>
+
 <div class="storage">
 	<div class="ui responsive grid">
 		<div class="row pt-4r">
@@ -665,6 +672,12 @@
 				<div class="line"></div>
 			</div>
 		</div>
+
+		<div class="row spot">
+			<div class="column">
+                <img src="https://p4.taihuoniao.com/scene_sight/170224/58afd1cf3ffca29b548b4590-p500x500.jpg" />
+            </div>
+        </div>
 
 	</div>
 </div>
