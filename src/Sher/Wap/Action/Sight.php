@@ -22,6 +22,14 @@ class Sher_Wap_Action_Sight extends Sher_Wap_Action_Base {
 	}
 
     /**
+     * 列表
+     */
+    public function getlist(){
+        $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.wap']);
+        return $this->to_redirect($redirect_url);
+    }
+
+    /**
       *详情
     */
     public function view(){
