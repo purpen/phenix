@@ -187,7 +187,7 @@ class Sher_Api_Action_PaymentCard extends Sher_Api_Action_Base {
         $alliance_model = new Sher_Core_Model_Alliance();
         $alliance = $alliance_model->find_by_id($data['alliance_id']);
         if(empty($alliance)){
- 		    return $this->api_json('联盟账户不存在！', 3008);           
+ 		    return $this->api_json('联盟账户不存在！', 3008);
         }
         if($alliance['user_id'] !== $user_id){
  		    return $this->api_json('没有权限！', 3009);
