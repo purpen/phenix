@@ -9,7 +9,7 @@ class Sher_Wap_Action_Storage extends Sher_Wap_Action_Base {
 		'page' => 1,
 	);
 
-	protected $exclude_method_list = array('execute', 'plan','custom');
+	protected $exclude_method_list = array('execute', 'plan','custom','view');
 
 	
 	/**

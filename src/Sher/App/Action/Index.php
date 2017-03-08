@@ -295,13 +295,16 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         }
 
         switch($type){
-            case 1:
+            case 1:     // 产品
                 $redirect_url = Sher_Core_Helper_Url::shop_view_url($id);
                 if(!empty($storage_id)) $redirect_url = sprintf("%s?storage_id=%s", $redirect_url, $storage_id);
                 break;
-            case 10:
+            case 10:    // 地盘
                 //$redirect_url = sprintf("%s/storage/view?id=%s", Doggy_Config::$vars['app.url.domain'], $id);
                 $redirect_url = sprintf("%s/fiu", Doggy_Config::$vars['app.url.domain']);
+                break;
+            case 11:    // 情境
+                $redirect_url = sprintf("%s/sight/view?id=%s", Doggy_Config::$vars['app.url.domain'], $id);
                 break;
             default:
                 $redirect_url = Doggy_Config::$vars['app.url.domin']."/shop";
