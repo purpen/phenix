@@ -202,6 +202,21 @@ class Sher_Api_Action_PaymentCard extends Sher_Api_Action_Base {
 
 		try{
 			$model = new Sher_Core_Model_PaymentCard();
+
+            if($is_default){
+                //如果有默认地址，批量取消
+                $rows = $model->find(array(
+                    'user_id' => (int)$user_id,
+                    'is_default' => 1,
+                ));
+                if(!empty($rows)){
+                    for($i=0;$i<count($rows);$i++){
+                        $model->update_set((string)$rows[$i]['_id'], array('is_default'=>0));
+                    }
+                }
+            }
+
+
 			// 新建记录
 			if($mode=='create'){
 				$data['user_id'] = $user_id;
@@ -270,6 +285,54 @@ class Sher_Api_Action_PaymentCard extends Sher_Api_Action_Base {
 		
 		return $this->api_json('请求成功', 0, $data);
 	}
+
+    /**
+     * 设为默认地址
+     */
+    public function set_default(){
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        $user_id = $this->current_user_id;
+        if(empty($id)){
+            return $this->api_json('缺少请求参数', 3001);  
+        }
+        $model = new Sher_Core_Model_PaymentCard();
+        $payment_card = $model->find_by_id($id);
+        if(empty($payment_card)){
+            return $this->api_json('账户不存在或已删除!', 3002);  
+        }
+        if($payment_card['user_id'] != (int)$user_id){
+            return $this->api_json('没有权限！', 3003);    
+        }
+        // 检测是否有默认地址
+        $ids = array();
+        $rows = $model->find(array(
+          'user_id' => (int)$user_id,
+          'is_default' => 1,
+        ));
+        if(!empty($rows)){
+            for($i=0; $i<count($rows); $i++){
+                $ids[] = (string)$rows[$i]['_id'];
+            }
+        }
+
+        // 更新默认地址
+        if (!empty($ids)){
+          for($i=0; $i<count($ids); $i++){
+            if ($ids[$i] != $id){
+              $model->update_set($ids[$i], array('is_default' => 0));
+            }
+          }
+        }
+
+        //设置默认地址
+        $ok = $model->update_set((string)$id, array('is_default' => 1));
+        if($ok){
+            return $this->api_json('设置成功!', 0, array('id'=>$id));   
+        }else{
+            return $this->api_json('设置失败!', 3005);   
+        }
+  
+    }
 
 	/**
 	 * 删除
