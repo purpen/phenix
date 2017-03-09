@@ -242,12 +242,14 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             
             if($result['stat']){
                 $data['cover_id'] = $result['asset']['id'];
+                $cover_asset_id = $result['asset']['id'];
             }else{
 
             } 
         }
 
         // 上传头像
+        $avatar_asset_id = null;
         if(!empty($this->stash['avatar_tmp'])){
             $file = base64_decode(str_replace(' ', '+', $this->stash['avatar_tmp']));
             $image_info = Sher_Core_Util_Image::image_info_binary($file);
@@ -268,13 +270,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $result = Sher_Core_Util_Image::api_image($file, $params);
             
             if($result['stat']){
+                $avatar_asset_id = $result['asset']['id'];
                 $data['avatar_id'] = $result['asset']['id'];
             }else{
 
             } 
         }
     
-		
 		try{
 			$model = new Sher_Core_Model_SceneScene();
 
@@ -310,11 +312,11 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			}
 			
 			// 上传成功后，更新所属的附件
-			if(isset($data['cover_id']) && !empty($data['cover_id'])){
-				$model->update_batch_assets(array($data['cover_id']), array($id));
+			if(isset($cover_asset_id) && !empty($cover_asset_id)){
+				$model->update_batch_assets(array($cover_asset_id), array($id));
             }
-			if(isset($data['avatar_id']) && !empty($data['avatar_id'])){
-				$model->update_batch_assets(array($data['avatar_id']), array($id));
+			if(isset($avatar_asset_id) && !empty($avatar_asset_id)){
+				$model->update_batch_assets(array($avatar_asset_id), array($id));
             }
             // 更新全文索引
             Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
@@ -333,6 +335,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
     public function view() {
         
         $id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+        $is_edit = isset($this->stash['is_edit']) ? (int)$this->stash['is_edit'] : 0;
 		
         if (empty($id)) {
             return $this->api_json('请求失败，缺少必要参数!', 3001);
@@ -408,7 +411,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         $data['banners'] = $assets;
 
         //返回图片数据--cover
-        $assets = array();
+        $assets = $n_assets = array();
         $asset_query = array('parent_id'=>$data['_id'], 'asset_type'=>Sher_Core_Model_Asset::TYPE_SCENE_SCENE);
         $asset_options['page'] = 1;
         $asset_options['size'] = 20;
@@ -417,15 +420,20 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
 
         if(!empty($asset_result['rows'])){
-          foreach($asset_result['rows'] as $key=>$value){
-                if((string)$value['_id'] == $scene['cover_id']) continue;
-                array_push($assets, $value['thumbnails']['apc']['view_url']);
-          }
+            foreach($asset_result['rows'] as $key=>$value){
+                array_push($n_assets, array('id'=>(string)$value['_id'], 'url'=>$value['thumbnails']['apc']['view_url']));
+                if((string)$value['_id'] != $scene['cover_id']){
+                    array_push($assets, $value['thumbnails']['apc']['view_url']);
+                }
+            }
         }
         if(isset($scene['cover']) && !empty($scene['cover'])){
             array_unshift($assets, $scene['cover']['thumbnails']['apc']['view_url']);
         }
         $data['covers'] = $assets;
+        if($is_edit){
+            $data['n_covers'] = $n_assets;
+        }
 
         $data['des'] = $scene['des'];
         $data['tags'] = $scene['tags'];
