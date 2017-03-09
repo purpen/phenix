@@ -948,9 +948,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			'title' => '快捷快递',
 		),
 		array(
+			'id' => 'qy',
+			'title' => '全一快递',
+		),
+		array(
 			'id' => 'jd',
 			'title' => '京东快递',
 		),
+
     );
 	
     /**
