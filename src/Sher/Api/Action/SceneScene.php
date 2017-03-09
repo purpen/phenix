@@ -366,6 +366,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
 		//$data['banner_url'] = $scene['banner']['thumbnails']['aub']['view_url'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($scene['created_on']);
+
+        $category = array();
+        if(isset($scene['category'])){
+            $category['_id'] = $scene['category']['_id'];
+            $category['title'] = $scene['category']['title'];
+        }
+        $data['category'] = $category;
 		
 		$user = array();
         if($scene['user']){
