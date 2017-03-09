@@ -363,6 +363,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['_id'] = $scene['_id'];
 		$data['title'] = $scene['title'];
 		$data['sub_title'] = $scene['sub_title'];
+		$data['category_id'] = $scene['category_id'];
 		$data['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
 		//$data['banner_url'] = $scene['banner']['thumbnails']['aub']['view_url'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($scene['created_on']);
