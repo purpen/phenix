@@ -202,10 +202,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 
         if($extra_shop_hours){
-            $data['extra']['shop_hours'] = $extra_shop_hours;
+            $data['extra.shop_hours'] = $extra_shop_hours;
         }
         if($extra_tel){
-            $data['extra']['tel'] = $extra_tel;
+            $data['extra.tel'] = $extra_tel;
         }
 
         if($lng || $lat){
