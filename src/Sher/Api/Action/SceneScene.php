@@ -182,7 +182,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 
 		if($tags){
-		    $data['tags'] = $tags;
+		    $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
 		}
 
 		if($city){
