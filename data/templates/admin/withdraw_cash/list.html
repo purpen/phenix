@@ -113,10 +113,10 @@
                     <p>{{ d.alliance_id }}</p>
                 </td>
                 <td>
-                    <p>支付类型: {% if d.payment_card.type==1 %}银行卡{%else%}支付宝{%endif%}{% if d.payment_card.pay_type %}[{{ d.payment_card.pay_type }}]{{ d.payment_card.bank_address }}{%endif%}</p>
-                    <p>账户: {{ payment_card.account }}</p>
-                    <p>姓名: {{ payment_card.username }}</p>
-                    <p>电话: {{ payment_card.phone }}</p>
+                    <p>支付类型: {% if d.payment_card.kind==1 %}银行卡{%else%}支付宝{%endif%}{% if d.payment_card.pay_type %}[{{ d.payment_card.pay_type }}]{{ d.payment_card.bank_address }}{%endif%}</p>
+                    <p>账户: {{ d.payment_card.account }}</p>
+                    <p>姓名: {{ d.payment_card.username }}</p>
+                    <p>电话: {{ d.payment_card.phone }}</p>
                 </td>
                 <td>{{ d.amount }}</td>
                 <td>

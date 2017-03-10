@@ -116,6 +116,7 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
             case 1:
                 $domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
                 $asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
+                $id = (int)$id;
                 break;
             default: 
                 $domain = null;
