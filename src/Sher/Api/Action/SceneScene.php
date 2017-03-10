@@ -214,10 +214,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
                 'coordinates' => array(doubleval($lng), doubleval($lat)),
             );       
         }
-
-        if(empty($data)){
-            return $this->api_json('缺少请求参数！', 3001);
-        }
 		
 
         // 上传封面
@@ -275,6 +271,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             }else{
 
             } 
+        }
+
+        if(empty($data)){
+            return $this->api_json('缺少请求参数！', 3001);
         }
     
 		try{
