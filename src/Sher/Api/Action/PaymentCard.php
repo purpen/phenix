@@ -203,7 +203,7 @@ class Sher_Api_Action_PaymentCard extends Sher_Api_Action_Base {
 		try{
 			$model = new Sher_Core_Model_PaymentCard();
 
-            if($is_default){
+            if($data['is_default']){
                 //如果有默认地址，批量取消
                 $rows = $model->find(array(
                     'user_id' => (int)$user_id,

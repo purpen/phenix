@@ -182,7 +182,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 
 		if($tags){
-		    $data['tags'] = $tags;
+		    $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$tags)));
 		}
 
 		if($city){
@@ -202,10 +202,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 
         if($extra_shop_hours){
-            $data['extra']['shop_hours'] = $extra_shop_hours;
+            $data['extra.shop_hours'] = $extra_shop_hours;
         }
         if($extra_tel){
-            $data['extra']['tel'] = $extra_tel;
+            $data['extra.tel'] = $extra_tel;
         }
 
         if($lng || $lat){
@@ -213,10 +213,6 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
                 'type' => 'Point',
                 'coordinates' => array(doubleval($lng), doubleval($lat)),
             );       
-        }
-
-        if(empty($data)){
-            return $this->api_json('缺少请求参数！', 3001);
         }
 		
 
@@ -275,6 +271,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             }else{
 
             } 
+        }
+
+        if(empty($data)){
+            return $this->api_json('缺少请求参数！', 3001);
         }
     
 		try{
@@ -363,9 +363,17 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['_id'] = $scene['_id'];
 		$data['title'] = $scene['title'];
 		$data['sub_title'] = $scene['sub_title'];
+		$data['category_id'] = $scene['category_id'];
 		$data['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
 		//$data['banner_url'] = $scene['banner']['thumbnails']['aub']['view_url'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($scene['created_on']);
+
+        $category = array();
+        if(isset($scene['category'])){
+            $category['_id'] = $scene['category']['_id'];
+            $category['title'] = $scene['category']['title'];
+        }
+        $data['category'] = $category;
 		
 		$user = array();
         if($scene['user']){

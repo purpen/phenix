@@ -1205,7 +1205,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
      */
     public function bank_options(){
         $banks = Sher_Core_Util_Constant::bank_options();
-        return $this->api_json('success', 0, $banks);
+        return $this->api_json('success', 0, array('banks'=>$banks));
     }
 	
 }
