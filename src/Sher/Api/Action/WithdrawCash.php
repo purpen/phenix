@@ -198,7 +198,7 @@ class Sher_Api_Action_WithdrawCash extends Sher_Api_Action_Base {
             'amount' => $amount,
             'user_id' => $alliance['user_id'],
             'payment_card_id' => $payment_card_id,
-            'payment_card' = $payment,
+            'payment_card' => $payment,
         );
         
 		$withdraw_cash_model = new Sher_Core_Model_WithdrawCash();
