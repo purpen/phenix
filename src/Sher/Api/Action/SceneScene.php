@@ -231,7 +231,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
             $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
             $params['filename'] = $new_file_id.'.jpg';
-            $params['parent_id'] = (int)$id;
+            $params['parent_id'] = $id;
             $params['user_id'] = $user_id;
             $params['image_info'] = $image_info;
             $result = Sher_Core_Util_Image::api_image($file, $params);
@@ -260,7 +260,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
             $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_AVATAR;
             $params['filename'] = $new_file_id.'.jpg';
-            $params['parent_id'] = (int)$id;
+            $params['parent_id'] = $id;
             $params['user_id'] = $user_id;
             $params['image_info'] = $image_info;
             $result = Sher_Core_Util_Image::api_image($file, $params);
@@ -313,10 +313,10 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 			
 			// 上传成功后，更新所属的附件
 			if(isset($cover_asset_id) && !empty($cover_asset_id)){
-				$model->update_batch_assets(array($cover_asset_id), array($id));
+				$model->update_batch_assets(array($cover_asset_id), $id);
             }
 			if(isset($avatar_asset_id) && !empty($avatar_asset_id)){
-				$model->update_batch_assets(array($avatar_asset_id), array($id));
+				$model->update_batch_assets(array($avatar_asset_id), $id);
             }
             // 更新全文索引
             Sher_Core_Helper_Search::record_update_to_dig((int)$id, 4);
