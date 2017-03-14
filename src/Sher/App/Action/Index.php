@@ -317,7 +317,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
      * fiu 下载
      */
     public function fiu_download(){
-        $url = "http://frstatic.qiniudn.com/download/app-release_d3in_1.0.apk";
+        $url = "http://frstatic.qiniudn.com/download/app-release_1.2.2.apk";
         return $this->to_redirect($url);
     }
 
