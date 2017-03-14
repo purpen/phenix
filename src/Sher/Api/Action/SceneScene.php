@@ -231,7 +231,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
             $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
             $params['filename'] = $new_file_id.'.jpg';
-            $params['parent_id'] = $id;
+            $params['parent_id'] = (int)$id;
             $params['user_id'] = $user_id;
             $params['image_info'] = $image_info;
             $result = Sher_Core_Util_Image::api_image($file, $params);
@@ -260,7 +260,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
             $params['domain'] = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
             $params['asset_type'] = Sher_Core_Model_Asset::TYPE_SCENE_AVATAR;
             $params['filename'] = $new_file_id.'.jpg';
-            $params['parent_id'] = $id;
+            $params['parent_id'] = (int)$id;
             $params['user_id'] = $user_id;
             $params['image_info'] = $image_info;
             $result = Sher_Core_Util_Image::api_image($file, $params);
