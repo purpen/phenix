@@ -1037,6 +1037,22 @@
                 <h3 class="ui dividing header">发货选项</h3>
                 <div class="grouped inline fields">
                     <div class="inline field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="kind" value="1" {% if product.kind == 1 %}checked="checked"{% endif %} /> 
+                            <label>实物 <small>发货，含邮费</small></label>
+                        </div>
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="kind" value="2" {% if product.kind == 2 %}checked="checked"{% endif %} /> 
+                            <label>虚拟物 <small>不需发货，不含邮费</small></label>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="grouped inline fields">
+
+                    <div class="inline field">
 
                         <div class="ui radio checkbox">
                             <input type="radio" name="send_type" value="1" {% if product.send_type == 1 %}checked="checked"{% endif %} /> 
@@ -1050,6 +1066,7 @@
 
                     </div>
                 </div>
+
 
               <div class="three fields">
                 <div class="field">

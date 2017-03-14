@@ -102,6 +102,8 @@ class Sher_Core_Helper_Order {
         $items = isset($options['items']) ? $options['items'] : array();
         $is_vop = isset($options['is_vop']) ? (int)$options['is_vop'] : 0;
         $total_money = isset($options['total_money']) ? (float)$options['total_money'] : 0;
+        // 虚拟产品不发货无邮费
+        $is_fictitious = 1;
         if(empty($items)){
             // 调用临时订单
             $model = new Sher_Core_Model_OrderTemp();
@@ -113,6 +115,25 @@ class Sher_Core_Helper_Order {
 
         if(empty($items)){
             return $freight;
+        }
+
+        $product_model = new Sher_Core_Model_Product();
+
+        for($i=0;$i<count($items);$i++){
+            $item = $items[$i];
+            $product_id = isset($item['product_id']) ? (int)$item['product_id'] : 0;
+            if(empty($product_id)) continue;
+            $pro = $product_model->load($product_id);
+            if(empty($pro)) continue;
+            if(!isset($pro['kind']) || $pro['kind']==1){
+                $is_fictitious = 0;
+            }
+                
+        }   // endfor
+
+        // 如果是虚拟产品，不产品邮费
+        if($is_fictitious === 1){
+            return 0;
         }
 
         // 获取京东邮费

@@ -342,6 +342,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'is_commision' => 0,
         # 佣金比例
         'commision_percent' => 0,
+        # 虚拟或实物: 1.实物；2.虚拟；3.--
+        'kind' => 1,
 
     );
 	

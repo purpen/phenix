@@ -123,6 +123,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : null;
         $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $data['app_category_id']  = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
+        // 商品属性：1.实物；2.虚拟属性(不发货)；
+        $data['kind']  = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
 		$data['tags'] = $this->stash['tags'];
 		$data['view_url'] = $this->stash['view_url'];
         // 品牌
