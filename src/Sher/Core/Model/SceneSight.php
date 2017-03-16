@@ -152,7 +152,17 @@ class Sher_Core_Model_SceneSight extends Sher_Core_Model_Base {
 
         // 是否含有作品
         if(isset($data['product']) && !empty($data['product'])){
-            $data['is_product'] = 1;
+            $product_model = new Sher_Core_Model_Product();
+            for($i=0;$i<count($data['product']);$i++){
+                $product_id = isset($data['product'][$i]['id']) ? $data['product'][$i]['id'] : 0;
+                if(empty($product_id)) continue;
+                $product = $product_model->load($product_id);
+                if(empty($product)) continue;
+                if($product['stage']==9){
+                    $data['is_product'] = 1;
+                    break;
+                }
+            }
         }
 
 	    parent::before_save($data);
