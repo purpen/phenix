@@ -285,6 +285,7 @@ class Sher_Api_Action_Follow extends Sher_Api_Action_Base {
             for($i=0;$i<count($user_arr);$i++){
                 $data = array();
                 $follow_id = (int)$user_arr[$i];
+                if(empty($follow_id)) continue;
                 if($follow_id == $user_id) continue;
 
                 // 添加关注
