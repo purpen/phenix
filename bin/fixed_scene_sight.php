@@ -25,6 +25,7 @@ echo "fixed scene sight ...\n";
 
 $scene_sight_model = new Sher_Core_Model_SceneSight();
 $user_model = new Sher_Core_Model_User();
+$product_model = new Sher_Core_Model_Product();
 $page = 1;
 $size = 200;
 $is_end = false;
@@ -41,13 +42,23 @@ while(!$is_end){
 	$max = count($list);
 	for ($i=0; $i < $max; $i++) {
         $id = $list[$i]['_id'];
+        $product_query = array();
+        $product_query['is_product'] = 0;
         $user_id = empty($list[$i]['user_id']) ? 0: $list[$i]['user_id'];
         $is_product = !empty($list[$i]['product']) ? true : false;
         if($is_product){
-            //$scene_sight_model->update_set($id, array('is_product'=>1));
-        }else{
-            //$scene_sight_model->update_set($id, array('is_product'=>0));           
+            for($j=0;$j<count($list[$i]['product']);$j++){
+                $product_id = isset($list[$i]['product'][$j]['id']) ? (int)$list[$i]['product'][$j]['id'] : 0;
+                if(empty($product_id)) continue;
+                $product = $product_model->load($product_id);
+                if(empty($product)) continue;
+                if($product['stage']==9){
+                    $product_query['is_product'] = 1;
+                    break;                
+                }
+            }
         }
+        //$scene_sight_model->update_set($id, $product_query);
         //if($user_id) array_push($users, $user_id);
 	}
 	if($max < $size){
