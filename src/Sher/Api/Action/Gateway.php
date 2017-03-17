@@ -701,7 +701,7 @@ class Sher_Api_Action_Gateway extends Sher_Api_Action_Base {
         }
 
         //$download = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.taihuoniao.fineix';
-        $download = "http://m.taihuoniao.com/app/wap/index/fiu_download";
+        $download = "https://m.taihuoniao.com/app/wap/index/fiu_download";
 
         return $this->api_json('success', 0, array('version'=>$version, 'download'=>$download));
     }
