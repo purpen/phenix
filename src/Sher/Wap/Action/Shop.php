@@ -647,6 +647,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$quantity = (int)$this->stash['n'];
         $options = array();
         $options['is_vop'] = 0;
+        $user_id = $this->visitor->id;
 
         //初始变量
         //是否是抢购商品
