@@ -192,7 +192,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
                     $coffee_price = sprintf("%.2f", $price*0.5);
                 }
             }
-            if(!empty($coffee_price)) $price = $coffee_price;
+            if(!empty($coffee_price)){
+                $price = $coffee_price;
+                $total_price = $price*$n;
+            }
         }
 
       $item = array(
