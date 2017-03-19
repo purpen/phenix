@@ -647,6 +647,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$quantity = (int)$this->stash['n'];
         $options = array();
         $options['is_vop'] = 0;
+        $user_id = $this->visitor->id;
 
         //初始变量
         //是否是抢购商品
@@ -667,6 +668,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		}
 		
 		$user_id = $this->visitor->id;
+
 		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
@@ -777,6 +779,29 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
     }else{
       $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
     }
+
+        $disabled_app_reduce = isset($product_data['extra']['disabled_app_reduce']) ? (int)$product_data['extra']['disabled_app_reduce'] : 0;
+
+        // 咖啡指定人群打折
+        if($disabled_app_reduce){
+            $coffee_price = 0;
+            $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
+            $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
+
+            if(!empty($credit_manager_users)){
+                $credit_manager_user_arr = explode(',', $credit_manager_users);
+                if(in_array($user_id, $credit_manager_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.75);
+                }
+            }
+            if(!empty($credit_founder_users)){
+                $credit_founder_user_arr = explode(',', $credit_founder_users);
+                if(in_array($user_id, $credit_founder_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.5);
+                }
+            }
+            if(!empty($coffee_price)) $price = $coffee_price;
+        }
 		
 		$items = array(
 			array(
@@ -1039,8 +1064,34 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
           if(empty($price)){
             $price = (float)$product['sale_price'];
-            $total_price = $price*$n;
+            $total_price = $price * $n;
           }
+
+            $extra_disabled_app_reduce = isset($product['extra']['disabled_app_reduce']) ? (int)$product['extra']['disabled_app_reduce'] : 0;
+
+            // 咖啡指定人群打折
+            if($extra_disabled_app_reduce){
+                $coffee_price = 0;
+                $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
+                $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
+
+                if(!empty($credit_manager_users)){
+                    $credit_manager_user_arr = explode(',', $credit_manager_users);
+                    if(in_array($user_id, $credit_manager_user_arr)){
+                        $coffee_price = sprintf("%.2f", $price*0.75);
+                    }
+                }
+                if(!empty($credit_founder_users)){
+                    $credit_founder_user_arr = explode(',', $credit_founder_users);
+                    if(in_array($user_id, $credit_founder_user_arr)){
+                        $coffee_price = sprintf("%.2f", $price*0.5);
+                    }
+                }
+                if(!empty($coffee_price)){
+                     $price = $coffee_price;
+                     $total_price = $price * $n;
+                }
+            }
 
           $item = array(
             'target_id' => $target_id,

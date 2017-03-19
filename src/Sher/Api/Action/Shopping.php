@@ -62,6 +62,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     return $this->api_json('请求成功!', 0, $result);
 	}
 
+
 	/**
 	 * 填写订单信息--购物车
 	 */
@@ -90,6 +91,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     // 初始化类型
     $kind = 0;
+    $disabled_app_reduce = 1;
 
 		//验证购物车，无购物不可以去结算
     $result = array();
@@ -162,11 +164,36 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json(sprintf("商品:%s 库存不足！", $product['title']), 3008);
       }
 
+        $extra_disabled_app_reduce = isset($product['extra']['disabled_app_reduce']) ? (int)$product['extra']['disabled_app_reduce'] : 0;
+      
+        if(empty($extra_disabled_app_reduce)) $disabled_app_reduce = 0;
+
       if(empty($price)){
         $price = (float)$product['sale_price'];
         $total_price = $price*$n;
       }else{
       }
+
+        // 咖啡指定人群打折
+        if($extra_disabled_app_reduce){
+            $coffee_price = 0;
+            $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
+            $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
+
+            if(!empty($credit_manager_users)){
+                $credit_manager_user_arr = explode(',', $credit_manager_users);
+                if(in_array($user_id, $credit_manager_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.75);
+                }
+            }
+            if(!empty($credit_founder_users)){
+                $credit_founder_user_arr = explode(',', $credit_founder_users);
+                if(in_array($user_id, $credit_founder_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.5);
+                }
+            }
+            if(!empty($coffee_price)) $price = $coffee_price;
+        }
 
       $item = array(
         'target_id' => $target_id,
@@ -233,8 +260,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
             // app下单随机减
             if(!empty(Doggy_Config::$vars['app.fiu_order_reduce_switch'])){
-                $kind = 5;
-                $coin_money = Sher_Core_Helper_Order::app_rand_reduce($total_money);
+                if(empty($disabled_app_reduce)){
+                    $kind = 5;
+                    $coin_money = Sher_Core_Helper_Order::app_rand_reduce($total_money);
+                }
             }     
 			
 			// 红包金额
@@ -336,6 +365,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		if (empty($user_id)){
       return $this->api_json('请先登录！', 3001);
 		}
+
 		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
@@ -375,10 +405,33 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json('试用产品，不可购买！', 3010);
         }
 
+        $disabled_app_reduce = isset($product_data['extra']['disabled_app_reduce']) ? (int)$product_data['extra']['disabled_app_reduce'] : 0;
+
         // 销售价格
         $price = !empty($item) ? $item['price'] : $product_data['sale_price'];
         // sku属性
         $sku_name = !empty($item) ? $item['mode'] : null;
+
+        // 咖啡指定人群打折
+        if($disabled_app_reduce){
+            $coffee_price = 0;
+            $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
+            $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
+
+            if(!empty($credit_manager_users)){
+                $credit_manager_user_arr = explode(',', $credit_manager_users);
+                if(in_array($user_id, $credit_manager_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.75);
+                }
+            }
+            if(!empty($credit_founder_users)){
+                $credit_founder_user_arr = explode(',', $credit_founder_users);
+                if(in_array($user_id, $credit_founder_user_arr)){
+                    $coffee_price = sprintf("%.2f", $price*0.5);
+                }
+            }
+            if(!empty($coffee_price)) $price = $coffee_price;
+        }
 
         // 是否是抢购产品且正在抢购中
         $app_snatched_stat = $product->app_snatched_stat($product_data);
@@ -435,6 +488,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             $options['referral_code'] = $referral_code;
         }
 
+        $options['disabled_app_reduce'] = $disabled_app_reduce;
         $order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type, $options);
         if (empty($order_info)){
             return $this->api_json('系统出了小差，请稍后重试！', 3006);
@@ -1461,8 +1515,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
         // app下单随机减
         if(!empty(Doggy_Config::$vars['app.fiu_order_reduce_switch'])){
-            $kind = 5;
-            $coin_money = Sher_Core_Helper_Order::app_rand_reduce($total_money);
+            $disabled_app_reduce = isset($options['disabled_app_reduce']) ? $options['disabled_app_reduce'] : 0;
+            if(empty($disabled_app_reduce)){
+                $kind = 5;
+                $coin_money = Sher_Core_Helper_Order::app_rand_reduce($total_money);           
+            }
         }
 		
 		// 红包金额

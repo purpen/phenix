@@ -283,9 +283,9 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		}
 
 		$some_fields = array(
-			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price', 'kind',
 			'cover_id', 'category_id', 'category_ids', 'stage', 'summary', 'tags', 'tags_s', 'category_tags',
-			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info',
+			'snatched_time', 'inventory', 'snatched', 'wap_view_url', 'brand_id', 'brand', 'extra_info', 'extra',
       'stick', 'love_count', 'favorite_count', 'view_count', 'comment_count',
       'comment_star','snatched_end_time', 'snatched_price', 'snatched_count',
       // app抢购
@@ -307,6 +307,8 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     //转换描述格式
     $data['content_view_url'] = sprintf('%s/view/product_show?id=%d', Doggy_Config::$vars['app.url.api'], $product['_id']);
+    // 是否参与app下单立减
+    $data['extra']['disabled_app_reduce'] = isset($data['extra']['disabled_app_reduce']) ? (int)$data['extra']['disabled_app_reduce'] : 0;
 
     //验证是否收藏或喜欢
     $fav = new Sher_Core_Model_Favorite();
