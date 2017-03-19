@@ -55,6 +55,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'extra' => array(
             'server' => '',
             'tag' => '',
+            'disabled_app_reduce' => 0, // 禁用app下单立减
         ),
 		
 		# 封面图
@@ -342,7 +343,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'is_commision' => 0,
         # 佣金比例
         'commision_percent' => 0,
-        # 虚拟或实物: 1.实物；2.虚拟；3.--
+        # 虚拟或实物: 1.实物；2.虚拟(不需要邮费)；3.--
         'kind' => 1,
 
     );

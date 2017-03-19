@@ -202,5 +202,45 @@ class Sher_Core_Helper_Order {
         }
     }
 
+
+    /**
+     * 综合计算(查询产品表)
+    */
+    public static function comprehensive_stat($rid, $options=array()){
+        $result = array();
+        $result['disabled_app_reduce'] = 0;
+
+        $items = isset($options['items']) ? $options['items'] : array();
+
+        if(empty($items)){
+            // 调用临时订单
+            $model = new Sher_Core_Model_OrderTemp();
+            $order = $model->find_by_rid($rid);
+            $items = $order['dict']['items'];
+        }
+
+        if(empty($items)){
+            return $result;
+        }
+
+        $product_model = new Sher_Core_Model_Product();
+
+        $disabled_app_reduce = 1;
+        for($i=0;$i<count($items);$i++){
+            $item = $items[$i];
+            $product_id = isset($item['product_id']) ? (int)$item['product_id'] : 0;
+            if(empty($product_id)) continue;
+            $pro = $product_model->load($product_id);
+            if(empty($pro)) continue;
+            $disabled_app_reduce = isset($pro['extra']['disabled_app_reduce']) ? (int)$pro['extra']['disabled_app_reduce'] : 0;
+            if(empty($disabled_app_reduce)) $disabled_app_reduce = 0;
+                
+        }   // endfor
+
+        $result['disabled_app_reduce'] = $disabled_app_reduce;
+
+        return $result;
+    }
+
 }
 

@@ -139,6 +139,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
         $data['extra']['tag'] = isset($this->stash['extra_tag']) ? $this->stash['extra_tag'] : null;
         // 服务说明
         $data['extra']['server'] = isset($this->stash['extra_server']) ? $this->stash['extra_server'] : null;
+        // 不参与app下单立减
+        $data['extra']['disabled_app_reduce'] = isset($this->stash['extra_disabled_app_reduce']) ? (int)$this->stash['extra_disabled_app_reduce'] : 0;
         //print_r($data);exit;
 
 		//短标题
