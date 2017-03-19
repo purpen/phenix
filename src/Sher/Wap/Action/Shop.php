@@ -787,8 +787,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $coffee_price = 0;
             $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
             $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
-            $user = $user_model->load($user_id);
-            $user_account = $user['account'];
+
             if(!empty($credit_manager_users)){
                 $credit_manager_user_arr = explode(',', $credit_manager_users);
                 if(in_array($user_id, $credit_manager_user_arr)){
@@ -1075,8 +1074,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 $coffee_price = 0;
                 $credit_manager_users = Sher_Core_Util_View::load_block('credit_manager_user_ids', 1);
                 $credit_founder_users = Sher_Core_Util_View::load_block('credit_founder_user_ids', 1);
-                $user = $user_model->load($user_id);
-                $user_account = $user['account'];
+
                 if(!empty($credit_manager_users)){
                     $credit_manager_user_arr = explode(',', $credit_manager_users);
                     if(in_array($user_id, $credit_manager_user_arr)){
