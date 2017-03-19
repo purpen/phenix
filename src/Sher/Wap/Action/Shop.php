@@ -668,7 +668,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		
 		$user_id = $this->visitor->id;
 
-		$user_model = new Sher_Core_Model_User();
 		
 		// 验证库存数量
 		$inventory = new Sher_Core_Model_Inventory();
@@ -791,13 +790,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
             $user_account = $user['account'];
             if(!empty($credit_manager_users)){
                 $credit_manager_user_arr = explode(',', $credit_manager_users);
-                if(in_array($user_account, $credit_manager_user_arr)){
+                if(in_array($user_id, $credit_manager_user_arr)){
                     $coffee_price = sprintf("%.2f", $price*0.75);
                 }
             }
             if(!empty($credit_founder_users)){
                 $credit_founder_user_arr = explode(',', $credit_founder_users);
-                if(in_array($user_account, $credit_founder_user_arr)){
+                if(in_array($user_id, $credit_founder_user_arr)){
                     $coffee_price = sprintf("%.2f", $price*0.5);
                 }
             }
@@ -998,7 +997,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         $vop_count = 0;
         $self_count = 0;
 
-		$user_model = new Sher_Core_Model_User();
 		$inventory_model = new Sher_Core_Model_Inventory();
 		$product_model = new Sher_Core_Model_Product();
         foreach($cart['items'] as $key=>$val){
@@ -1080,13 +1078,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 $user_account = $user['account'];
                 if(!empty($credit_manager_users)){
                     $credit_manager_user_arr = explode(',', $credit_manager_users);
-                    if(in_array($user_account, $credit_manager_user_arr)){
+                    if(in_array($user_id, $credit_manager_user_arr)){
                         $coffee_price = sprintf("%.2f", $price*0.75);
                     }
                 }
                 if(!empty($credit_founder_users)){
                     $credit_founder_user_arr = explode(',', $credit_founder_users);
-                    if(in_array($user_account, $credit_founder_user_arr)){
+                    if(in_array($user_id, $credit_founder_user_arr)){
                         $coffee_price = sprintf("%.2f", $price*0.5);
                     }
                 }
