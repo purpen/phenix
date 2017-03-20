@@ -164,6 +164,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$des = isset($this->stash['des']) ? $this->stash['des'] : '';
 		$tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
 		$city = isset($this->stash['city']) ? $this->stash['city'] : '';
+        $bright_spot = isset($this->stash['bright_spot']) ? $this->stash['bright_spot'] : '';
 		$address = isset($this->stash['address']) ? $this->stash['address'] : '';
 		$category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$extra_shop_hours = isset($this->stash['extra_shop_hours']) ? $this->stash['extra_shop_hours'] : '';
@@ -206,6 +207,21 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         }
         if($extra_tel){
             $data['extra.tel'] = $extra_tel;
+        }
+
+        // 亮点
+        if($bright_spot){
+            $bright_spot_arr = json_decode($bright_spot);
+            if(is_array($bright_spot_arr) && !empty($bright_spot_arr)){
+                $new_bright_spot = array();
+                for($i=0;$i<count($bright_spot_arr);$i++){
+                    if(empty($bright_spot_arr[$i])) continue;
+                    array_push($new_bright_spot, $bright_spot_arr[$i]);
+                }
+                if(!empty($new_bright_spot)){
+                    $data['bright_spot'] = $new_bright_spot;
+                }
+            }
         }
 
         if($lng || $lat){
