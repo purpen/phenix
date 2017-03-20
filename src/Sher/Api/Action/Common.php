@@ -85,7 +85,7 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
 
 	/**
 	 * 上传图片
-     * @param id: 对象ID；tmp: 流文件；type: 1.地盘封面； 2.--
+     * @param id: 对象ID；tmp: 流文件；type: 1.地盘封面； 2.地盘亮点(草稿)
 	 */
 	public function upload_asset(){
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
@@ -118,13 +118,18 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
                 $asset_type = Sher_Core_Model_Asset::TYPE_SCENE_SCENE;
                 $id = (int)$id;
                 break;
+            case 2:
+                $domain = Sher_Core_Util_Constant::STROAGE_SCENE_SCENE;
+                $asset_type = Sher_Core_Model_Asset::TYPE_SCENE_DRAFT;
+                $id = (int)$id;
+                break;
             default: 
                 $domain = null;
                 $asset_type = 0;
         }
 
         if(empty($domain) || empty($asset_type)){
-            return $this->api_json('type类型不正确！', 3004);      
+            return $this->api_json('type类型不正确！', 3004);
         }
 
         $params = array();
@@ -140,11 +145,12 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
         
         if($result['stat']){
             $asset_id = $result['asset']['id'];
+            $filepath = Sher_Core_Helper_Url::asset_qiniu_view_url($result['asset']['filepath'], 'hu.jpg');
         }else{
             return $this->api_json('上传失败！', 3005);            
         } 
 
-		return $this->api_json('请求成功', 0, array('id'=>$id, 'asset_id'=>$asset_id));
+		return $this->api_json('请求成功', 0, array('id'=>$id, 'asset_id'=>$asset_id, 'filepath'=>array('huge'=>$filepath)));
 	}
 
 	
