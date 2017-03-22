@@ -108,7 +108,7 @@
 </head>
 <body>
 	<div class="course">
-		<div class="cont">
+		<div class="cont" style="display:none;">
 				{{ content }}
 		</div>					
 	</div>
@@ -117,6 +117,7 @@
 	$('ul[class=gridster_ul]').css('width','100%');
 	$('ul[class=gridster_ul]').css('height','');
 	$('.gs-w').css('position','');
+    $('.cont').show();
 	
 	function JavascriptHandler(obj) {
         var target_id = $(obj).attr('target_id');
