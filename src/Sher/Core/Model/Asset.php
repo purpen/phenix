@@ -108,6 +108,7 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 	const TYPE_SCENE_SCENE = 101;
 	const TYPE_SCENE_AVATAR = 106;
 	const TYPE_SCENE_BANNER = 107;
+    const TYPE_SCENE_DRAFT = 108;
 	const TYPE_GPRODUCT_BANNER = 120;
 	const TYPE_GPRODUCT_PNG = 121;
 	
@@ -203,8 +204,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 		'acs' => 'p325x200.jpg', // 325x200
 		# 除商品编辑器图片，带水印
 		'hdw' => 'hdw.jpg', // 1180x*
-    # Fiu场景缩略图
-    'asc' => 'p170x300.jpg', // 170x300
+        # Fiu场景缩略图
+        'asc' => 'p170x300.jpg', // 170x300
 	);
 
     protected $required_fields = array('filepath');

@@ -539,6 +539,7 @@ class Sher_Core_Util_Image {
             $result = array(
                 'id' => $asset_id,
                 'file_url' => Sher_Core_Helper_Url::asset_qiniu_view_url($asset->filepath),
+                'filepath' => $img_info['filepath'],
                 'width'  => $img_info['width'],
                 'height' => $img_info['height']
             );
