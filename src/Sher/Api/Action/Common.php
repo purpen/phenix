@@ -91,6 +91,7 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
         $id = isset($this->stash['id']) ? $this->stash['id'] : null;
         $tmp = isset($this->stash['tmp']) ? $this->stash['tmp'] : null;
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+        $mark = isset($this->stash['mark']) ? $this->stash['mark'] : '';
         $user_id = $this->current_user_id;
 		if(empty($user_id)){
 			return $this->api_json('请先登录！', 3000);
@@ -150,7 +151,7 @@ class Sher_Api_Action_Common extends Sher_Api_Action_Base {
             return $this->api_json('上传失败！', 3005);            
         } 
 
-		return $this->api_json('请求成功', 0, array('id'=>$id, 'asset_id'=>$asset_id, 'filepath'=>array('huge'=>$filepath)));
+		return $this->api_json('请求成功', 0, array('id'=>$id, 'asset_id'=>$asset_id, 'mark'=>$mark, 'filepath'=>array('huge'=>$filepath)));
 	}
 
 	
