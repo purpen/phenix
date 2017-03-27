@@ -570,6 +570,7 @@ if(!empty($user_ids) && !empty($user_ids['items'])){
         continue;
     }
     $user_tags = isset($item['tags']) ? $item['tags'] : array();
+    if(!is_array($user_tags)) $user_tags = array();
     if(isset($item['profile']['label']) && !empty($item['profile']['label'])){
         array_push($user_tags, $item['profile']['label']);
     }
