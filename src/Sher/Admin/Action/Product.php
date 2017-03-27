@@ -677,13 +677,27 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		}
 		
 		$model = new Sher_Core_Model_Product();
+        $inventory_model = new Sher_Core_Model_Inventory();
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
-		
+
+        $arr = array();
 		foreach($ids as $id){
-			$model->mark_as_published($id);
+            // 检测产品是否设置sku
+            $inventory = $inventory_model->first(array('product_id'=>(int)$id));
+            if(empty($inventory)){
+                array_push($arr, $id);
+            }else{
+                $model->mark_as_published($id);
+            }
 		}
-		
-		$this->stash['note'] = '发布上线成功！';
+
+        if(empty($arr)){
+ 		    $this->stash['is_error'] = false;
+		    $this->stash['note'] = '发布上线成功！';
+        }else{
+ 		    $this->stash['is_error'] = true; 
+ 		    $this->stash['note'] = '产品未设置sku,禁止发布！';
+        }
 		return $this->to_taconite_page('ajax/published_ok.html');
 	}
 	
