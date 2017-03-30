@@ -104,7 +104,7 @@ class Sher_Core_Helper_FilterFields {
           unset($data['identify']['is_app_first_shop']);
 
           if(!isset($data['identify']['is_scene_subscribe'])){  // 是否首次订阅
-              $data['identify']['is_scene_subscribe'] = 0;
+              $data['identify']['is_scene_subscribe'] = 1;  //  不走用户完善信息流程
           }
           if(!isset($data['identify']['is_expert'])){ // 达人
               $data['identify']['is_expert'] = 0;
@@ -116,7 +116,7 @@ class Sher_Core_Helper_FilterFields {
               $data['identify']['storage_id'] = '';    // 联盟账户ID
           }
         }else{
-          $data['identify']['is_scene_subscribe'] = 0;
+          $data['identify']['is_scene_subscribe'] = 1; //  不走用户完善信息流程
           $data['identify']['is_expert'] = 0;
           $data['identify']['alliance_id'] = '';
           $data['identify']['storage_id'] = '';
