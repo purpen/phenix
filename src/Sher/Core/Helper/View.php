@@ -343,7 +343,7 @@ class Sher_Core_Helper_View {
         $channel_name = '官网';
         break;
       case 10:
-        $channel_name = '官网';
+        $channel_name = '官网/腾讯应用宝';
         break;
       case 11:
         $channel_name = '百度手机助手';
@@ -397,10 +397,10 @@ class Sher_Core_Helper_View {
         $channel_name = '渠道5';
         break;
       case 28:
-        $channel_name = '线下活动1';
+        $channel_name = 'oppo';
         break;
       case 29:
-        $channel_name = '线下活动2';
+        $channel_name = 'vivo';
         break;
       case 30:
         $channel_name = '线下活动3';
