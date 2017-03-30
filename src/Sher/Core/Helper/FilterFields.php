@@ -121,7 +121,6 @@ class Sher_Core_Helper_FilterFields {
           $data['identify']['alliance_id'] = '';
           $data['identify']['storage_id'] = '';
         }
-        $data['identify']['is_scene_subscribe'] = 1;  // 不走用户完善信息流程
 
 
         if(isset($data['counter'])){
