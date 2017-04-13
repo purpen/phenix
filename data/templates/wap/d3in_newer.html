@@ -1,8 +1,106 @@
-{%extends 'layout/mobile_api.html'%}
+{%extends 'layout/h5app.html'%}
 {% block title %}新人专区 -{% endblock %}
 {% block page_css %}
 <style type="text/css">
-
+	body{
+	   -webkit-tap-highlight-color:rgba(0,0,0,0);
+	   -webkit-tap-highlight-color:transparent;
+	}
+	*{
+		margin:0;
+		padding:0;
+	}
+	.course {
+		margin: 0px;
+		padding: 0px;
+	}
+	.cont {
+		word-break: break-all;
+		word-wrap: break-word;
+		padding-bottom: 10px;
+    	color: #5d6266;
+    	font-size: 14px;
+	}
+	.cont p {
+	    line-height: 24px;
+	    margin-bottom: 20px;
+		margin-top: 0;
+	}
+	.cont p br {
+	    content: '';
+	    display: block;
+	    padding: 1px;
+	    margin-top: -20px;
+	}
+	.cont img{
+		padding: 0;
+		width:100%;
+	}
+	.cont a{
+		border-bottom: 1px solid rgba(0,0,0,.1);
+		color: #f36;
+		cursor: pointer;
+		text-decoration: none;
+	}
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
+	.gridster {
+		margin: 0 auto;
+		width: 100%;
+	}
+	
+	.gridster_ul {
+		list-style-type: none;
+		padding: 0;
+		margin: 0;
+	}
+	
+	.gridster_ul li {
+		font-size: 1em;
+		font-weight: bold;
+		text-align: center;
+		line-height: 100%;
+		border: 1px;
+		position: relative;
+		float: left;
+	}
+	
+    @media only screen and (max-width: 320px){
+  	  .f-video-editor>*{
+  		  height:210px;
+  		  width: 100%;
+  	  }
+    }
+	
+    @media only screen and (min-width: 321px) and (max-width: 375px){
+  	  .f-video-editor>*{
+  		  height:240px;
+  		  width: 100%;
+  	  }
+    }
+	
+    @media only screen and (min-width: 376px){
+  	  .f-video-editor>*{
+  		  height:280px;
+  		  width: 100%;
+  	  }
+    }
 </style>
 {% endblock %}
 
