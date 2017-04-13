@@ -1,0 +1,39 @@
+{%extends 'layout/mobile_api.html'%}
+{% block title %}新人专区 -{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+	$('ul[class=gridster_ul]').css('width','100%');
+	$('ul[class=gridster_ul]').css('height','');
+	$('.gs-w').css('position','');
+    $('.cont').show();
+	
+	function JavascriptHandler(obj) {
+        var target_id = $(obj).attr('target_id');
+        var target_type = $(obj).attr('target_type');
+		return window.location.href = 'https://m.taihuoniao.com/guide/fiu?infoType='+ target_type +'&infoId='+ target_id +'';
+	}
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="course">
+		<div class="cont" style="display:none;">
+      <ul class="gridster_ul" style="position: relative; height: 1260px; width: 700px;">
+        <li data-col="1" data-row="1" data-sizex="10" data-sizey="10" class="gs-w" style="display: list-item; min-width: 70px; min-height: 70px; width: 100%;"><div class="this_content" style="word-wrap:break-word;"><a class="img_url" href="javascript:void(0);" target_id="" target_type="undefined"><img src="https://p4.taihuoniao.com/scene_subject/170405/58e4612620de8d4d0c8b5a9a-4-hu.jpg" style="width:100%" alt="" title="" align="absmiddle"></a></div><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  	</li>
+        <li data-col="1" data-row="11" data-sizex="10" data-sizey="2" class="gs-w" style="display: list-item; min-width: 70px; min-height: 70px; width: 100%;"><div class="this_content" style="word-wrap:break-word;"><a class="img_url" href="http://m.taihuoniao.com/guide/fiu?infoType=16&amp;infoId=1" target_id="1" target_type="16"><img src="https://p4.taihuoniao.com/scene_subject/170405/58e4773e20de8d3b0c8b5c95-1-hu.jpg" style="width:100%" alt="" title="" align="absmiddle"></a></div><span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  		  	<span class="gs-resize-handle gs-resize-handle-both"></span>	  		  		  	</li>
+        <li data-col="1" data-row="13" data-sizex="10" data-sizey="6" class="gs-w" style="display: list-item; min-width: 70px; min-height: 70px; width: 100%;"><div class="this_content" style="word-wrap:break-word;"><a class="img_url" href="javascript:void(0);" target_id="" target_type="undefined"><img src="https://p4.taihuoniao.com/scene_subject/170405/58e468a520de8d460c8b5b12-1-hu.jpg" style="width:100%" alt="" title="" align="absmiddle"></a></div><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span><span class="gs-resize-handle gs-resize-handle-both"></span>
+        </li>
+      </ul>  
+		</div>					
+	</div>
+{% endblock %}

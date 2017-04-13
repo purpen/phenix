@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','qr','fiu_download','surl');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','qr','fiu_download','surl','d3in_newer');
 	
 	/**
 	 * 商城入口
@@ -205,6 +205,14 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
         $model->update_set((string)$surl['_id'], array('last_time_on'=>time()));
 
         return $this->to_redirect($surl['url']);
+    }
+
+    /**
+     * D3IN 新人指导
+     */
+    public function d3in_newer() {
+    
+		    return $this->to_html_page('wap/d3in_newer.html');
     }
 
 }
