@@ -24,7 +24,7 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 		
 		$some_fields = array(
 			'_id'=>1, 'pid'=>1, 'cid'=>1, 'status'=>1, 'account'=>1, 'username'=>1, 'scene_id'=>1, 'remark'=>1,
-      'created_on'=>1, 'updated_on'=>1,
+      'created_on'=>1, 'amount'=>1, 'updated_on'=>1,
 		);
 		
 		$query   = array();
@@ -65,6 +65,9 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
     $service = Sher_Core_Service_StorageManage::instance();
     $result = $service->get_storage_manage_list($query, $options);
 
+    $user_model = new Sher_Core_Model_User();
+    $alliance_model = new Sher_Core_Model_Alliance();
+
 		// 重建数据结果
 		$data = array();
 		for($i=0;$i<count($result['rows']);$i++){
@@ -72,7 +75,18 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
         $data[$i][$key] = isset($result['rows'][$i][$key]) ? $result['rows'][$i][$key] : 0;
 		  }
       $data[$i]['_id'] = (string)$data[$i]['_id'];
-      // 创建时间格式化 
+      $amount = 0;
+      $cUser = $user_model->load($data[$i]['cid']);
+      if($cUser){
+        if(isset($cUser['identify']['alliance_id']) && !empty($cUser['identify']['alliance_id'])){
+          $alliance = $alliance_model->load($cUser['identify']['alliance_id']);
+          if(!empty($alliance)) {
+            $amount = $alliance['total_balance_amount'];
+          }
+        }
+      }
+      $data[$i]['amount'] = $amount;
+      // 创建时间格式化
       $data[$i]['created_at'] = date('Y-m-d H:i', $data[$i]['created_on']);
 		}
 		$result['rows'] = $data;

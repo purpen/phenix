@@ -15,6 +15,8 @@ class Sher_Core_Model_StorageManage extends Sher_Core_Model_Base  {
     'scene_id' => 0,
     'username' => '',
     'account' => '',
+    // 收效金额
+    'amount' => 0,
     //备注
     'remark'  => null,
 		'status' => 1,
@@ -22,6 +24,7 @@ class Sher_Core_Model_StorageManage extends Sher_Core_Model_Base  {
 
   protected $required_fields = array('pid', 'cid');
   protected $int_fields = array('pid', 'cid', 'status');
+	protected $float_fields = array('amount');
 
 	protected $joins = array(
 	);
