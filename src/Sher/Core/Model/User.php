@@ -360,6 +360,8 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
       'referral_code' => '',
       // 地盘 ID
       'storage_id' => '',
+      // 是否是地盘管理员
+      'is_storage_manage' => 0,
     ),
 
     # 用户其它标识说明
@@ -378,7 +380,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
         # 是否为优质用户(可跳过作品审核)
         'quality' => 0,
 
-        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9为小号 20.第三方直接登录用户,没有绑定手机号, 21.短信注册(随机密码);
+        # 标记: 1.内部员工 V 6.短信营销 7.ajax快捷注册 8.快捷注册; 9.为小号, 10.地盘管理员创建子账户, 20.第三方直接登录用户,没有绑定手机号, 21.短信注册(随机密码);
         'kind' => 0,
         # symbol认证
         'symbol' => 0,
@@ -878,7 +880,7 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
     * 实验室
 	 */
 	public function update_user_identify($user_id, $field, $value=0) {
-		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop', 'is_expert'))){
+		if(!in_array($field,array('d3in_volunteer', 'd3in_vip', 'd3in_tag', 'is_scene_subscribe', 'is_app_first_shop', 'is_expert', 'is_storage_manage'))){
 			return;
 		}
 		return $this->update_set((int)$user_id, array('identify.'.$field => $value));

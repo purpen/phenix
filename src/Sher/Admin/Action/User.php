@@ -336,6 +336,26 @@ class Sher_Admin_Action_User extends Sher_Admin_Action_Base {
 	}
 
 	/**
+	 * 更新用户是否是地盘管理员
+	 */
+	public function identify_storage_manage(){
+
+		$user_id = (int)$this->stash['_id'];
+    $is_storage_manage = (int)$this->stash['storage_manage'];
+		
+		try{
+			// 更新identify
+			$user_model = new Sher_Core_Model_User();
+      $user_model->update_user_identify($user_id, 'is_storage_manage', $is_storage_manage);
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_json($e->getMessage(), true);
+		}
+		
+		return $this->ajax_json('更新成功！', false);
+	}
+
+	/**
 	 * 用户统计
 	 */
 	public function status(){
