@@ -91,6 +91,47 @@
 		}
 	});
 
+	$('#storage_manage').form({
+		bird_money: {
+			identifier  : 'bird_money',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入鸟币金额'
+				}
+			]
+		},
+		bird_money_explanation: {
+			identifier  : 'bird_money_explanation',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '请输入鸟币说明'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					$('.ui.submit.button.birdmoney').attr('disabled','disabled');
+				},
+				success: function(data){
+					$('.ui.submit.button.birdmoney').removeAttr('disabled');
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.show_ok_note(data.message);
+					}
+				}
+			});
+		}
+	});
+
 	$('.datepicker').pickadate();
 
   // 操作用户类型
@@ -243,6 +284,28 @@
 			  </div>
 			</div>
 			<input type="submit" class="ui magenta submit inverted button birdmoney" value="确认保存">
+			<input type="button" class="ui gray inverted button" value="取消">
+		</form>
+	</div>
+
+	<div class="ui form segment">
+		<h4>地盘管理员</h4>
+		<form action="{{ app_url_admin_base }}/user/identify_storage_manage" class="ajax-form" method="post" id="storage_manage">
+			<div class="grouped inline fields">
+				<div class="inline field">
+			    <input type="hidden" name="_id" value="{{ user._id }}" />
+					<div class="ui radio checkbox">
+						<input type="radio" name="storage_manage" value="0" {% if user.identify.is_storage_manage == 0 %}checked="checked"{% endif %} /> 
+						<label>否 <small></small></label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="storage_manage" value="1" {% if user.identify.is_storage_manage == 1 %}checked="checked"{% endif %} /> 
+						<label>是 <small></small></label>
+					</div>
+
+				</div>
+			</div>
+			<input type="submit" class="ui magenta submit inverted button" value="确认保存">
 			<input type="button" class="ui gray inverted button" value="取消">
 		</form>
 	</div>

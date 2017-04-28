@@ -27,11 +27,21 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
         $sku_id = isset($this->stash['sku_id']) ? (int)$this->stash['sku_id'] : 0;
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 0;
+        $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 
         $status = isset($this->stash['status']) ? (int)$this->stash['status'] : -1;
         $stage = isset($this->stash['stage']) ? (int)$this->stash['stage'] : 0;
 
-        $user_id = $this->current_user_id;
+        if(empty($user_id)){
+            $user_id = $this->current_user_id;
+        }else{
+          // 验证是否有权限查看
+		      $storage_manage_model = new Sher_Core_Model_StorageManage();
+          $has_role = $storage_manage_model->first(array('pid'=>$this->current_user_id, 'cid'=>$user_id));
+          if(empty($has_role)){
+ 			      return $this->api_json('没有权限！', 3001);           
+          }
+        }
 		
 		$query   = array();
 		$options = array();
@@ -118,9 +128,14 @@ class Sher_Api_Action_Balance extends Sher_Api_Action_Base {
 			return $this->api_json('内容不存在！', 3002);
 		}
 
-        if($balance['user_id'] != $user_id){
- 			return $this->api_json('没有权限！', 3003);       
-        }
+    if($balance['user_id'] != $user_id){
+
+      $storage_manage_model = new Sher_Core_Model_StorageManage();
+      $has_role = $storage_manage_model->first(array('pid'=>$user_id, 'cid'=>$balance['user_id']));
+      if(empty($has_role)){
+        return $this->api_json('没有权限！', 3001);           
+      }
+    }
 
 		$product_model = new Sher_Core_Model_Product();
 
