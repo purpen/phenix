@@ -207,6 +207,33 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 		return $this->api_json('请求成功', 0, array('id'=>$id));
   }
 
+	/**
+	 * 删除
+	 */
+	public function deleted(){
+		$id = $this->stash['id'];
+    $user_id = $this->current_user_id;
+		if(empty($user_id) || empty($id)){
+			return $this->api_json('请求参数错误', 3000);
+		}
+		
+		try{
+			$model = new Sher_Core_Model_StorageManage();
+			$manage = $model->load($id);
+			
+			// 仅管理员具有删除权限
+			if ($manage['pid'] == $user_id){
+				$ok = $model->remove($id);
+      }else{
+ 			  return $this->api_json('没有权限', 3001);     
+      }
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->api_json('操作失败,请重新再试', 3002);
+		}
+		
+		return $this->api_json('请求成功', 0, array('id'=>$id));
+	}
+
 	
 }
 
