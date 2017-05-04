@@ -163,7 +163,7 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
       }
 
       // 验证是否存在子账户
-      $cusers = $storage_manage_model->find(array('cid'=>$c_user['_id']));
+      $cusers = $storage_manage_model->find(array('pid'=>$user_id, 'cid'=>$c_user['_id']));
       if(empty($id)){
         if($cusers){
   			  return $this->api_json('不能重复添加!', 3007);         
