@@ -76,16 +76,25 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 		  }
       $data[$i]['_id'] = (string)$data[$i]['_id'];
       $amount = 0;
+      $addition = 1;
       $cUser = $user_model->load($data[$i]['cid']);
       if($cUser){
         if(isset($cUser['identify']['alliance_id']) && !empty($cUser['identify']['alliance_id'])){
           $alliance = $alliance_model->load($cUser['identify']['alliance_id']);
           if(!empty($alliance)) {
             $amount = $alliance['total_balance_amount'];
+            $addition = $alliance['addition'];
+          }
+        }else{
+          $alliance = $alliance_model->first(array('user_id'=>$cUser['_id']));       
+          if(!empty($alliance)) {
+            $amount = $alliance['total_balance_amount'];
+            $addition = $alliance['addition'];
           }
         }
       }
       $data[$i]['amount'] = $amount;
+      $data[$i]['addition'] = $addition;
       // 创建时间格式化
       $data[$i]['created_at'] = date('Y-m-d H:i', $data[$i]['created_on']);
 		}
@@ -107,74 +116,118 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 
     $verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
     $account = isset($this->stash['account']) ? $this->stash['account'] : null;
+    $addition = isset($this->stash['addition']) ? (float)$this->stash['addition'] : null;
     $username = isset($this->stash['username']) ? $this->stash['username'] : null;
     $password = isset($this->stash['password']) ? $this->stash['password'] : null;
-		if(empty($verify_code) || empty($account) || empty($username)){
-			return $this->api_json('缺少请求参数!', 3001);
-		}
+    if(empty($id)){
+      if(empty($verify_code) || empty($account) || empty($username) || empty($addition)){
+        return $this->api_json('缺少请求参数!', 3001);
+      }   
+    }else{
+      if(empty($username) || empty($addition)){
+        return $this->api_json('缺少请求参数!', 3001);
+      }   
+    }
 
-		$user_model = new Sher_Core_Model_User();
-		$storage_manage_model = new Sher_Core_Model_StorageManage();
-
-		// 验证手机号码格式
-		if(!Sher_Core_Helper_Util::is_mobile($account)){
-			return $this->api_json('手机号码格式不正确!', 3002);
-		}
-
-		// 验证验证码是否有效
-		$verify_model = new Sher_Core_Model_Verify();
-		$code = $verify_model->first(array('phone'=>$account,'code'=>$verify_code));
-		if(empty($code)){
-			return $this->api_json('验证码有误，请重新获取！', 3003);
-		}
-
-    // 验证账号是否存在
-    if($user_model->check_account($account)){
-      //验证密码格式
-      if(!Sher_Core_Helper_Auth::verify_pwd($password)){
-        return $this->api_json('密码格式不正确 6-20位字符!', 3004);     
-      }
-
-      $user_info = array(
-        'account'   => $account,
-        'nickname'  => $account,
-        'password'  => sha1($password),
-        'state'     => Sher_Core_Model_User::STATE_OK,
-        'kind'      => 10,
-      );
-      
-      $profile = $user_model->get_profile();
-      $profile['phone'] = $account;
-      $user_info['profile'] = $profile;
-
-			// 删除验证码
-			$verify_model->remove($code['_id']);
-      $ok = $user_model->create($user_info);
-      if(!$ok){
-        return $this->api_json('创建用户失败!', 3005);       
-      }
-    
+    $addition = sprintf("%.2f", $addition);
+    if($addition <= 0 || $addition > 1){
+ 		    return $this->api_json('佣金比例设置不正确!', 3011);   
     }
 		
-		try{
-      $c_user = $user_model->first(array('account'=> $account));
-      if(empty($c_user)) {
- 			  return $this->api_json('用户不存在!', 3006);
+    try{
+      $storage_manage_model = new Sher_Core_Model_StorageManage();
+      $user_model = new Sher_Core_Model_User();
+      if(empty($id)){
+
+        // 验证手机号码格式
+        if(!Sher_Core_Helper_Util::is_mobile($account)){
+          return $this->api_json('手机号码格式不正确!', 3002);
+        }
+
+        // 验证验证码是否有效
+        $verify_model = new Sher_Core_Model_Verify();
+        $code = $verify_model->first(array('phone'=>$account,'code'=>$verify_code));
+        if(empty($code)){
+          return $this->api_json('验证码有误，请重新获取！', 3003);
+        }
+
+        // 验证账号是否存在
+        if($user_model->check_account($account)){
+          //验证密码格式
+          if(!Sher_Core_Helper_Auth::verify_pwd($password)){
+            return $this->api_json('密码格式不正确 6-20位字符!', 3004);     
+          }
+
+          $user_info = array(
+            'account'   => $account,
+            'nickname'  => $account,
+            'password'  => sha1($password),
+            'state'     => Sher_Core_Model_User::STATE_OK,
+            'kind'      => 10,
+          );
+          
+          $profile = $user_model->get_profile();
+          $profile['phone'] = $account;
+          $user_info['profile'] = $profile;
+
+          // 删除验证码
+          $verify_model->remove($code['_id']);
+          $ok = $user_model->create($user_info);
+          if(!$ok){
+            return $this->api_json('创建用户失败!', 3005);       
+          }
+        
+        }
+
+        $c_user = $user_model->first(array('account'=> $account));
+        if(empty($c_user)) {
+          return $this->api_json('用户不存在!', 3006);
+        }
+        $c_user_id = $c_user['_id'];
+
+        // 验证是否存在子账户
+        $cusers = $storage_manage_model->find(array('pid'=>$user_id, 'cid'=>$c_user['_id']));
+        if(empty($id)){
+          if($cusers){
+            return $this->api_json('不能重复添加!', 3007);         
+          }
+        }else{
+          for($i=0;$i<count($cusers);$i++){
+            $c_id = (string)$cusers[$i]['_id'];
+            if($c_id != $id){
+              return $this->api_json('该账户已存在!', 3008);  
+            }
+          }
+        }     
+      }else{
+        $manage = $storage_manage_model->load($id);
+        if(empty($manage)){
+          return $this->api_json('内容不存在或已删除!', 3013);         
+        }
+        $c_user_id = $manage['cid'];
+        $c_user = $user_model->load($c_user_id);
+        if(empty($c_user)) {
+          return $this->api_json('用户不存在!', 3014);
+        }
       }
 
-      // 验证是否存在子账户
-      $cusers = $storage_manage_model->find(array('pid'=>$user_id, 'cid'=>$c_user['_id']));
-      if(empty($id)){
-        if($cusers){
-  			  return $this->api_json('不能重复添加!', 3007);         
-        }
-      }else{
-        for($i=0;$i<count($cusers);$i++){
-          $c_id = (string)$cusers[$i]['_id'];
-          if($c_id != $id){
-   			    return $this->api_json('该账户已存在!', 3008);          
-          }
-        }
+
+      // 生成联盟账户
+      $alliance_model = new Sher_Core_Model_Alliance();
+      $alliance = $alliance_model->first(array('user_id'=>$c_user_id));
+      if(empty($alliance)) {
+           $row = array(
+              'user_id' => $c_user['_id'],
+              'name' => $c_user['nickname'],
+              'status' => 5,
+              // 自动生成
+              'kind' => 2,
+          );
+           $ok = $alliance_model->apply_and_save($row);
+           if(!$ok){
+  		        return $this->api_json('创建联盟账户失败!', 3012);
+           }
+          $alliance = $alliance_model->get_data();     
       }
 
       $data = array();
@@ -191,13 +244,15 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 				$id = (string)$data['_id'];
 			}else{
 				$data['_id'] = $id;
+        unset($data['account']);
 
-				$ok = $model->apply_and_update($data);
+				$ok = $storage_manage_model->apply_and_update($data);
 			}
 			
 			if(!$ok){
 				return $this->api_json('保存失败,请重新提交', 3009);
 			}
+      $alliance_model->update_set((string)$alliance['_id'], array('addition'=>$addition));
 			
 		} catch (Sher_Core_Model_Exception $e){
 			Doggy_Log_Helper::warn('添加子账户失败:'.$e->getMessage());
