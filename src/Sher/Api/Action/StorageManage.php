@@ -85,6 +85,12 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
             $amount = $alliance['total_balance_amount'];
             $addition = $alliance['addition'];
           }
+        }else{
+          $alliance = $alliance_model->first(array('user_id'=>$cUser['_id']));       
+          if(!empty($alliance)) {
+            $amount = $alliance['total_balance_amount'];
+            $addition = $alliance['addition'];
+          }
         }
       }
       $data[$i]['amount'] = $amount;
