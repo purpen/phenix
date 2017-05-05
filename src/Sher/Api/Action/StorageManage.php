@@ -76,16 +76,19 @@ class Sher_Api_Action_StorageManage extends Sher_Api_Action_Base {
 		  }
       $data[$i]['_id'] = (string)$data[$i]['_id'];
       $amount = 0;
+      $addition = 1;
       $cUser = $user_model->load($data[$i]['cid']);
       if($cUser){
         if(isset($cUser['identify']['alliance_id']) && !empty($cUser['identify']['alliance_id'])){
           $alliance = $alliance_model->load($cUser['identify']['alliance_id']);
           if(!empty($alliance)) {
             $amount = $alliance['total_balance_amount'];
+            $addition = $alliance['addition'];
           }
         }
       }
       $data[$i]['amount'] = $amount;
+      $data[$i]['addition'] = $addition;
       // 创建时间格式化
       $data[$i]['created_at'] = date('Y-m-d H:i', $data[$i]['created_on']);
 		}
