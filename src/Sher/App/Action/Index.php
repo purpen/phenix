@@ -301,7 +301,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
                 break;
             case 10:    // 地盘
                 //$redirect_url = sprintf("%s/storage/view?id=%s", Doggy_Config::$vars['app.url.domain'], $id);
-                $redirect_url = sprintf("%s/fiu", Doggy_Config::$vars['app.url.domain']);
+                $redirect_url = sprintf("%s/shop", Doggy_Config::$vars['app.url.domain']);
                 break;
             case 11:    // 情境
                 $redirect_url = sprintf("%s/sight/view?id=%s", Doggy_Config::$vars['app.url.domain'], $id);
