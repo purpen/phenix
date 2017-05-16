@@ -27,22 +27,12 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $phone = isset($this->stash['phone']) ? $this->stash['phone'] : null;
       $username = isset($this->stash['username']) ? $this->stash['username'] : null;
       $address = isset($this->stash['address']) ? $this->stash['address'] : null;
-      $verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
+      $company = isset($this->stash['company']) ? $this->stash['company'] : null;
+      $job = isset($this->stash['job']) ? $this->stash['job'] : null;
 
-      if(empty($phone) || empty($username) || empty($address) || empty($verify_code)) {
+      if(empty($phone) || empty($username) || empty($address) || empty($company) || empty($job)) {
           return $this->ajax_json('信息添写不完整!', true);     
       }
-
-      //验证码验证
-      if($_SESSION['m_captcha'] != strtoupper($verify_code)){
-        return $this->ajax_json('验证码不正确!', true);
-      }
-
-      // 开始保存报名信息
-      $data = array();
-      $data['phone'] = $phone;
-      $data['username'] = $username;
-      $data['address'] = $address;
 
       if(!preg_match("/1[3458]{1}\d{9}$/",trim($phone))){  
         return $this->ajax_json('请输入正确的手机号码格式!', true);     
@@ -52,7 +42,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $has_sign = $model->first(array('target_id'=>$target_id, 'event'=>$event, 'info.phone'=>trim($phone)));
 
       if($has_sign){
-        return $this->ajax_json('不能重复添写!', true);
+        return $this->ajax_json('不能重复申请!', true);
       }
 
       $data = array();
@@ -61,8 +51,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $data['ip'] = Sher_Core_Helper_Auth::get_ip();
       $data['info']['realname'] = $username;
       $data['info']['phone'] = trim($phone);
-      //$data['info']['company'] = $this->stash['company'];
-      //$data['info']['job'] = $this->stash['job'];
+      $data['info']['company'] = $company;
+      $data['info']['job'] = $job;
       $data['info']['address'] = $address;
 
       try{
@@ -70,7 +60,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
         if($ok){
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
-          $this->stash['note'] = '操作成功!';
+          $this->stash['note'] = '提交成功!';
 
           $this->stash['is_error'] = false;
           $this->stash['show_note_time'] = 2000;
