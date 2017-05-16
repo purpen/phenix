@@ -20,6 +20,9 @@ section { display: block; height: 100%; }
 .appiosload,#mmfoot{
 	display: none !important;
 }
+.des {
+  margin: 20px 0 10px 0;
+}
 
 </style>
 {% endblock %}
@@ -93,7 +96,7 @@ section { display: block; height: 100%; }
 					if(data.is_error){
 						phenix.show_error_note(data.message, 5000);
 					}else{
-						phenix.show_success_note('提交成功!', 3000);
+						phenix.show_ok_note('申请成功!', 3000);
 					}
 					
 				}
@@ -141,14 +144,14 @@ section { display: block; height: 100%; }
 
 {% block content %}
 
-  <div class="auth page">
+  <div class="page">
     <div class="ui responsive grid">
       <div class="row">
         <div class="column">
+          <img src="https://p4.taihuoniao.com/asset/170516/591ac72f3ffca2e2578b6816-1-hu.jpg" />
+
           <form action="{{ app_url_wap }}/app/wap/promo_func/save_receive_zz" class="ui small form segment" method="post" id="submit-form">
-            <h4 class="center aligned ui dividing header">
-              添写联系方式
-            </h4>
+            <p class="des">*仅限于群里用户领取每人一份，审核信息后我们会快递出礼物。</p>
             
             <div class="field">
               <input type="text" name="username" placeholder="姓名" id="username" />

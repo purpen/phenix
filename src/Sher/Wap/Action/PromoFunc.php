@@ -44,7 +44,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $has_sign = $model->first(array('target_id'=>$target_id, 'event'=>$event, 'info.phone'=>trim($phone)));
 
       if($has_sign){
-        return $this->ajax_json('不能重复申请!', true);
+        return $this->ajax_json('该手机号已经申请过了，不能重复申请!', true);
       }
 
       $data = array();
