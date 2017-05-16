@@ -97,6 +97,7 @@ section { display: block; height: 100%; }
 						phenix.show_error_note(data.message, 5000);
 					}else{
 						phenix.show_ok_note('申请成功!', 3000);
+            phenix.redirect(data.redirect_url, 2000);
 					}
 					
 				}
