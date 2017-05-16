@@ -29,7 +29,7 @@ class Sher_Core_Model_SubjectRecord extends Sher_Core_Model_Base  {
     'user_id' => null,
     // 预约：1,apple_watch;2,京东众筹报名; 3.蛋年(深圳)报名; 4.招聘H5分享记录(没用); 5.金投赏报名
     // 报名：10.爱奇异账号领取
-    // 分享：11. 云马miniH5分享抽奖；
+    // 分享：11. 云马miniH5分享抽奖；12.设计师报名领粽子
     'target_id' => null,
     // 3.蛋年: 领域, 感兴趣的/
     'option01' => 0,

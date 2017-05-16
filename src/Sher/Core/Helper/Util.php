@@ -257,7 +257,7 @@ class Sher_Core_Helper_Util {
 		curl_setopt($ch, CURLOPT_SSLVERSION , 3);
 
 		curl_setopt($ch, CURLOPT_HTTPAUTH , CURLAUTH_BASIC);
-		curl_setopt($ch, CURLOPT_USERPWD, 'api:key-ec086f86baeaeb6442ccf6a66b3fdb0c');
+		curl_setopt($ch, CURLOPT_USERPWD, 'api:key-6e2dd0242b30efa1ef96220b93432626');
 
 
 		curl_setopt($ch, CURLOPT_POST, TRUE);
