@@ -22,6 +22,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * 领粽子表单提交
      */
     public function receive_zongzi() {
+        session_start();
+        if(!isset($_SESSION['captcha_code']) || empty($_SESSION['captcha_code'])){
+          $_SESSION['captcha_code'] = md5(microtime(true));
+        }
+        $this->stash['captcha_code'] = $_SESSION['captcha_code'];
+
         //微信分享
         $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
         $timestamp = $this->stash['timestamp'] = time();
