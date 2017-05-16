@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz');
 
 	
 	/**
@@ -19,6 +19,72 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+    /**
+     * 领粽子表单提交页
+     */
+    public function save_receive_zz() {
+      $phone = isset($this->stash['phone']) ? $this->stash['phone'] : null;
+      $username = isset($this->stash['username']) ? $this->stash['username'] : null;
+      $address = isset($this->stash['address']) ? $this->stash['address'] : null;
+      $verify_code = isset($this->stash['verify_code']) ? $this->stash['verify_code'] : null;
+
+      if(empty($phone) || empty($username) || empty($address) || empty($verify_code)) {
+          return $this->ajax_json('信息添写不完整!', true);     
+      }
+
+      //验证码验证
+      if($_SESSION['m_captcha'] != strtoupper($verify_code)){
+        return $this->ajax_json('验证码不正确!', true);
+      }
+
+      // 开始保存报名信息
+      $data = array();
+      $data['phone'] = $phone;
+      $data['username'] = $username;
+      $data['address'] = $address;
+
+      if(!preg_match("/1[3458]{1}\d{9}$/",trim($phone))){  
+        return $this->ajax_json('请输入正确的手机号码格式!', true);     
+      }
+
+      $model = new Sher_Core_Model_SubjectRecord();
+      $has_sign = $model->first(array('target_id'=>$target_id, 'event'=>$event, 'info.phone'=>trim($phone)));
+
+      if($has_sign){
+        return $this->ajax_json('不能重复添写!', true);
+      }
+
+      $data = array();
+      $data['target_id'] = 12;
+      $data['event'] = 4;
+      $data['ip'] = Sher_Core_Helper_Auth::get_ip();
+      $data['info']['realname'] = $username;
+      $data['info']['phone'] = trim($phone);
+      //$data['info']['company'] = $this->stash['company'];
+      //$data['info']['job'] = $this->stash['job'];
+      $data['info']['address'] = $address;
+
+      try{
+        $ok = $model->apply_and_save($data);
+
+        if($ok){
+          $redirect_url = Doggy_Config::$vars['app.url.wap'];
+          $this->stash['note'] = '操作成功!';
+
+          $this->stash['is_error'] = false;
+          $this->stash['show_note_time'] = 2000;
+
+          $this->stash['redirect_url'] = $redirect_url;
+          return $this->ajax_json($this->stash['note'], false, $redirect_url);
+        }else{
+          return $this->ajax_json('保存失败!', true);
+        }  
+      }catch(Sher_Core_Model_Exception $e){
+        return $this->ajax_json('保存失败!'.$e->getMessage(), true);
+      }
+  
+    }
 
     /**
      * 新人领红包
