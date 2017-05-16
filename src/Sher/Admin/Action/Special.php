@@ -227,7 +227,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
     	fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 		
 		// 输出Excel列名信息
-		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '状态');
+		$head = array('ID', '编号', '姓名', '电话', '公司', '职位', '地址', '状态');
 		foreach($head as $i => $v){
 			// CSV的Excel支持GBK编码，一定要转换，否则乱码
 			// $head[$i] = iconv('utf-8', 'gbk', $v);
@@ -264,6 +264,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
         $phone = isset($data['info']['phone'])?$data['info']['phone']:'--';
         $company = isset($data['info']['company'])?$data['info']['company']:'--';
         $job = isset($data['info']['job'])?$data['info']['job']:'--';
+        $address = isset($data['info']['address'])?$data['info']['address']:'--';
         $state = $data['state'];
         if($state==0){
           $stat_str = '未审核';
@@ -273,7 +274,7 @@ class Sher_Admin_Action_Special extends Sher_Admin_Action_Base implements DoggyX
           $stat_str = '拒绝';       
         }
 				
-				$row = array($user_id, $number, $realname, $phone, $company, $job, $stat_str);
+				$row = array($user_id, $number, $realname, $phone, $company, $job, $address, $stat_str);
 				
 				/*
 				foreach($row as $k => $v){
