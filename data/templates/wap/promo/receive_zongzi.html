@@ -93,7 +93,7 @@ section { display: block; height: 100%; }
 					if(data.is_error){
 						phenix.show_error_note(data.message, 5000);
 					}else{
-						phenix.redirect(data.redirect_url);
+						phenix.show_success_note('提交成功!', 3000);
 					}
 					
 				}
