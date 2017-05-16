@@ -61,7 +61,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $ok = $model->apply_and_save($data);
 
         if($ok){
-          $redirect_url = Doggy_Config::$vars['app.url.wap'];
+          $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/receive_zongzi_ok';
           $this->stash['note'] = '提交成功!';
 
           $this->stash['is_error'] = false;

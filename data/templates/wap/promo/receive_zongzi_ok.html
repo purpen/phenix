@@ -1,0 +1,61 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}  {% endblock %}
+{% block page_css %}
+<style type="text/css">
+html, body {
+    margin:0;
+    padding:0;
+}
+.ui.wap{
+	display:none;
+}
+#mfrbird{
+	margin:0;
+}
+* { -webkit-appearance: none; }
+
+html, body { width: 100%; margin: 0px; }
+section { display: block; height: 100%; }
+
+.appiosload,#mmfoot{
+	display: none !important;
+}
+.box {
+  margin-top: 30px;
+  text-align: center;
+}
+.box p {
+  font-size: 20px;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+
+  <div class="page">
+    <div class="ui responsive grid">
+      <div class="row">
+        <div class="column">
+          <div class="box">
+            <img src="https://p4.taihuoniao.com/asset/170516/591b075c3ffca20e598b6b95-1" />
+            <p>您的信息提交成功!</p>
+          </div>
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
