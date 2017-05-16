@@ -24,6 +24,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
      * 领粽子表单提交页
      */
     public function save_receive_zz() {
+      $target_id = 12;
+      $event = 4;
       $phone = isset($this->stash['phone']) ? $this->stash['phone'] : null;
       $username = isset($this->stash['username']) ? $this->stash['username'] : null;
       $address = isset($this->stash['address']) ? $this->stash['address'] : null;
@@ -46,8 +48,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       }
 
       $data = array();
-      $data['target_id'] = 12;
-      $data['event'] = 4;
+      $data['target_id'] = $target_id;
+      $data['event'] = $event;
       $data['ip'] = Sher_Core_Helper_Auth::get_ip();
       $data['info']['realname'] = $username;
       $data['info']['phone'] = trim($phone);
