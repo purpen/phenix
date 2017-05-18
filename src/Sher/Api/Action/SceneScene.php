@@ -551,6 +551,13 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		
 		$query   = array();
 		$options = array();
+
+    if($scene_id) {
+      $query['scene_id'] = $scene_id;
+    }
+    if($product_id) {
+      $query['product_id'] = $product_id;
+    }
 		
 
 		// 分页参数
