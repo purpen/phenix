@@ -106,7 +106,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 			'presale_percent'=>1, 'cover_id'=>1, 'category_id'=>1, 'category_ids'=>1, 'stage'=>1, 'vote_favor_count'=>1,
 			'vote_oppose_count'=>1, 'summary'=>1, 'succeed'=>1, 'voted_finish_time'=>1, 'presale_finish_time'=>1,
 			'snatched_time'=>1, 'inventory'=>1, 'topic_count'=>1,'presale_money'=>1, 'snatched'=>1,
-      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1,
+      'presale_goals'=>1, 'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1, 'is_commision'=>1, 'commision_percent'=>1,
       'comment_star'=>1,'snatched_end_time'=>1, 'snatched_price'=>1, 'snatched_count'=>1, 'tips_label'=>1,
       // app抢购
       'app_snatched'=>1, 'app_snatched_time'=>1, 'app_snatched_end_time'=>1, 'app_snatched_price'=>1,
@@ -123,6 +123,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		$brand_id = isset($this->stash['brand_id']) ? $this->stash['brand_id'] : null;
 		$stage = isset($this->stash['stage']) ? $this->stash['stage'] : Sher_Core_Model_Product::STAGE_SHOP;
 		$title = isset($this->stash['title']) ? $this->stash['title'] : null;
+    $is_commision = isset($this->stash['is_commision']) ? (int)$this->stash['is_commision'] : 0;
 
         // 3C类ID
 		$pid = isset($this->stash['pid']) ? (int)$this->stash['pid'] : 0;
@@ -179,6 +180,15 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 		}
 		if($fine){
 			$query['featured'] = $fine;
+		}
+
+    // 是否可推广产品
+		if($is_commision){
+      if($is_commision==-1){
+				$query['is_commision'] = 0;
+      }else{
+				$query['is_commision'] = 1;
+      }
 		}
 
         // 模糊查标签

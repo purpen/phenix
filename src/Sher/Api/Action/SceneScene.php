@@ -1,6 +1,6 @@
 <?php
 /**
- * 情景管理
+ * 地盘管理
  * @author caowei＠taihuoniao.com
  */
 class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
@@ -15,7 +15,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 	}
 	
 	/**
-	 * 情景列表
+	 * 列表
 	 */
 	public function getlist(){
 		
@@ -522,5 +522,158 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		}
 		return $this->api_json('删除成功！', 0, array('id'=>$id));
 	}
+
+	/**
+	 * 地盘产品列表
+	 */
+	public function product_list(){
+		
+		// 请求参数
+    $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+    $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
+		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
+
+    if(empty($scene_id)) {
+			return $this->api_json('地盘ID不能为空！', 3001); 
+    }
+		
+		$some_fields = array(
+			'_id'=>1, 'scene_id'=>1, 'product_id'=>1, 'user_id'=>1, 'type'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+		);
+
+		$product_some_fields = array(
+            '_id', 'title', 'short_title', 'sale_price', 'market_price',
+			'cover_id', 'commision_percent',
+			'view_count', 'favorite_count', 'love_count', 'comment_count', 'deleted','created_on',
+		);
+		
+		$query   = array();
+		$options = array();
+		
+
+		// 分页参数
+        $options['page'] = $page;
+        $options['size'] = $size;
+
+		// 排序
+		switch ($sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+		}
+		
+		$options['some_fields'] = $some_fields;
+		
+		// 开启查询
+        $service = Sher_Core_Service_ZoneProductLink::instance();
+        $result = $service->get_zone_product_list($query, $options);
+
+        $product_model = new Sher_Core_Model_Product();
+
+        // 重新数据
+        for($i=0;$i<count($result['rows']);$i++){
+            $item = $result['rows'][$i];
+            $result['rows'][$i]['_id'] = (string)$item['_id'];
+
+            // 重建商品数据结果
+            $product_item = array();
+            $product = $product_model->extend_load($item['product_id']);
+            if($product){
+              for($j=0;$j<count($product_some_fields);$j++){
+                $product_key = $product_some_fields[$j];
+                $product_item[$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
+              }
+              // 封面图url
+              $product_item['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];           
+            }
+            $result['rows'][$i]['product'] = $product_item;
+
+        }
+		
+		// 过滤多余属性
+        $filter_fields  = array('_id', 'scene_id', 'product_id', 'type', 'status', 'product', 'created_on');
+        $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 1);
+		
+		return $this->api_json('请求成功', 0, $result);
+	}
+
+  /**
+   * 添加地盘产品
+   */
+  public function add_product() {
+      $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
+      $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+      if(empty($product_id) || empty($scene_id)){
+        return $this->api_json('缺少请求参数!', 3001);
+      }
+      $user_id = $this->current_user_id;
+      $scene_model = new Sher_Core_Model_SceneScene();
+      $scene = $scene_model->load($scene_id);
+      if(empty($scene)){
+        return $this->api_json('地盘不存在!', 3002);
+      }
+      if($scene['user_id'] != $user_id){
+        return $this->api_json('没有权限!', 3003);
+      }
+
+      $product_model = new Sher_Core_Model_Product();
+      $product = $product_model->load($product_id);
+      if(empty($product)) {
+        return $this->api_json('产品不存在或已删除!', 3004);
+      }
+
+      $row = array(
+          'scene_id' => $scene_id,
+          'product_id' => $product_id,
+      );
+		$model = new Sher_Core_Model_ZoneProductLink();
+        $item = $model->first(array('scene_id'=>$scene_id, 'product_id'=>$product_id));
+        if(!empty($item)){
+ 		    return $this->api_json('不能重复添加!', 3005);
+        }
+
+        $ok = $model->apply_and_save($row);
+        if(!$ok){
+  		    return $this->api_json('添加失败!', 3006);            
+        }
+        $item = $model->get_data();
+        $id = (string)$item['_id'];
+  		return $this->api_json('添加成功!', 0, array('id'=>$id)); 
+  
+  }
+
+  /**
+   * 删除产品
+   */
+  public function del_product() {
+      $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+      if(empty($id)){
+        return $this->api_json('缺少请求参数!', 3001);
+      }
+      $user_id = $this->current_user_id;
+
+		  $model = new Sher_Core_Model_ZoneProductLink();
+      $item = $model->load($id);
+      if(empty($item)) {
+         return $this->api_json('删除的内容不存在!', 3002);     
+      }
+      $scene_model = new Sher_Core_Model_SceneScene();
+      $scene = $scene_model->load($item['scene_id']);
+      if(empty($scene)){
+        return $this->api_json('地盘不存在!', 3003);
+      }
+      if($scene['user_id'] != $user_id){
+        return $this->api_json('没有权限!', 3004);
+      }
+      $ok = $model->remove($id);
+      if(!$ok) {
+         return $this->api_json('删除失败!', 3005);     
+      }
+
+  		return $this->api_json('删除成功!', 0, array('id'=>$id));  
+  }
+
 }
 
