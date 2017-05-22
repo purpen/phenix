@@ -381,7 +381,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
   		    return $this->ajax_json('添加失败!', true);            
         }
         $item = $model->get_data();
-        $id = $item['_id'];
+        $id = (string)$item['_id'];
   		return $this->ajax_json('success!', false, null, array('id'=>$id));
     }
 
