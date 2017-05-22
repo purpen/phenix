@@ -473,12 +473,6 @@ class Sher_Core_Util_Constant extends Doggy_Object {
                 'logo' => '',
             ),
             array(
-                'id' => 5,
-                'name' => '中国建设银行',
-                'mark' => 'js',
-                'logo' => '',
-            ),
-            array(
                 'id' => 6,
                 'name' => '民生银行',
                 'mark' => 'ms',
