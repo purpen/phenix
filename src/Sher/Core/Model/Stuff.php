@@ -49,6 +49,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'team_introduce' => '',
         # 姓名
         'name' => '',
+        # 用于区分参加者和联系人
+        'c_name' => '',
         # 联系方式
         'tel' => '',
         'company' => '',
@@ -56,6 +58,10 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
         'position' => '',
         # 产品链接
         'link' => '',
+        # 邮箱
+        'email' => '',
+        # 地址
+        'address' => '',
 		
 		# 品牌ID
 		'cooperate_id' => '',
@@ -107,7 +113,7 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
 		'stick' => self::STICK_DEFAULT,
 		# 精选
 		'featured' => self::FEATURED_DEFAULT,
-        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;火爆智能硬件TOP100;6.奇思甬动2;7.--
+        # 属于1.十万火计;2.蛋年;3.奇思甬动-大赛;4.反向定制;5;火爆智能硬件TOP100;6.奇思甬动2;7.奇思甬动3;8.--
         'from_to' => 0,
 
         # 用于大赛
@@ -187,6 +193,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
             $row['wap_view_url'] = sprintf("%s/stuff/tshow?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
           }elseif($row['from_to'] == 6){
             $row['wap_view_url'] = sprintf("%s/contest/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+          }elseif($row['from_to'] == 7){
+            $row['wap_view_url'] = sprintf("%s/contest/qsyd_view3?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
           }else{
             $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
           }
