@@ -112,7 +112,6 @@
 
 .row.regsbg{
 	width: 1180px !important;
-	height: 800px;
     background-color: #fff;
     margin: 35px auto 0;
     padding: 35px 70px;
@@ -164,6 +163,21 @@
 	height: 500px;
   text-align: center;
 }
+
+.love-box {
+  width: 117px;
+  height: 76px;
+	background: url({{ app_url_packaged }}/images/match/qsyd3/dz1.jpg) no-repeat center;
+  text-align: center;
+  margin: 100px auto;
+  cursor: pointer;
+  padding-top: 45px;
+  color: #000;
+}
+.love-box.active {
+	background: url({{ app_url_packaged }}/images/match/qsyd3/dz2.jpg) no-repeat center;
+  color: #666;
+}
 </style>
 {% endblock %}
 
@@ -200,10 +214,9 @@ $('body').visibility({
 		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
-					$('.ui.love.button')
+					$('.love-button')
 						.data('mark', 'y')
-						.addClass('active')
-            .html('<i class="heart icon"></i> 赞了');
+						.addClass('active');
 				}
 			}
 		}, 'json');
@@ -212,7 +225,7 @@ $('body').visibility({
 	{% endif %}
 	
 	// 喜欢
-	$('.ui.love.button').bind('click', function(){
+	$('.love-button').bind('click', function(){
 		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
 		// 所有ajax请求，验证是否登录
 		if (!phenix.visitor.is_login){
@@ -224,14 +237,11 @@ $('body').visibility({
 				if (result.success) {
 					$btn
 						.data('mark', 'y')
-						.addClass('active')
-            .html('<i class="heart icon"></i> 赞了');
+						.addClass('active');
                     
-					$('#target-love-count').text(result.data.love_count);
+					$('.love-button').text(result.data.love_count);
                     
                     if(result.data.newadd){
-                        $('#target_'+ id +'_support')
-                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
                     }
                     
 				} else {
@@ -239,16 +249,15 @@ $('body').visibility({
 				}
 			}, 'json');
 		} else {
+      phenix.show_error_note('您已经点过了~');
+      return false;
 			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
 				if (result.success) {
 					$btn
 						.data('mark', 'n')
-						.removeClass('active')
-                        .html('<i class="heart empty icon"></i> 赞');
+						.removeClass('active');
                     
-					$('#target-love-count').text(result.data.love_count);
-                    
-                    $('#user-'+ result.data.user_id).remove();
+					$('.love-button').text(result.data.love_count);
                     
 				} else {
 					phenix.show_error_note(result.message);
@@ -329,6 +338,10 @@ $('body').visibility({
 
             <img src="{{ stuff.cover.thumbnails.big.view_url }}" />
             <p class="desc">{{ stuff.description }}</p>
+
+            <div class="love-box gray love-button" data-id="{{ stuff._id }}" data-mark="n">
+              {{ stuff.love_count }}
+            </div>
           
           </div>
 

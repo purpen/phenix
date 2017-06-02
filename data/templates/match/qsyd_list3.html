@@ -237,7 +237,7 @@ $('body').visibility({
   $('html,body').animate({scrollTop:$('.nav').offset().top },800);
 
   //提交作品按钮
-  $('.ui.attend.button').click(function(){
+  $('.upload-art-btn').click(function(){
     var url = "{{ app_url_contest }}/submit3";
     phenix.redirect(url);
   });
