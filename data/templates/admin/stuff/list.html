@@ -50,6 +50,9 @@
     <a href="{{ app_url_admin_base }}/stuff/qsyd2_list" class="{{ css_qsyd2_list }} item">
 			奇思甬动2
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/qsyd3_list" class="{{ css_qsyd3_list }} item">
+			奇思甬动3
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -157,11 +160,20 @@
               <p>{{ stuff.honor.sale_money|default '--' }}<p>
               <p>{{ stuff.honor.prize|default '--' }}</p>
             {%endif%}
-            {% if stuff.from_to == 6 %}
-              <p>{{ stuff.name|default '--' }}</p>
-              <p>{{ stuff.tel|default '--' }}</p>
-              <p>{{ stuff.position|default '--' }}</p>
-              <p>{% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
+            {% if stuff.from_to == 6%}
+              <p>参赛人: {{ stuff.name|default '--' }}</p>
+              <p>电话: {{ stuff.tel|default '--' }}</p>
+              <p>职位: {{ stuff.position|default '--' }}</p>
+              <p>类型: {% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
+            {%endif%}
+            {% if stuff.from_to == 7%}
+              <p>参赛人: {{ stuff.name|default '--' }}</p>
+              <p>公司: {{ stuff.company|default '--' }}</p>
+              <p>联系人: {{ stuff.c_name|default '--' }}</p>
+              <p>电话: {{ stuff.tel|default '--' }}</p>
+              <p>邮箱: {{ stuff.email|default '--' }}</p>
+              <p>职位: {{ stuff.position|default '--' }}</p>
+              <p>类型: {% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
             {%endif%}
 				</td>
         <td>

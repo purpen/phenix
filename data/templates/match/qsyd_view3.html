@@ -1,0 +1,347 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ stuff.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+@media only screen and (min-width: 1500px){
+	.ui.responsive.grid{
+		width: 1200px;
+	}
+}
+.iosewm{
+	display: none;
+}
+.bg-banner{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/banner.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 800px;
+  padding-top: 716px;
+  text-align: center;
+}
+.regs{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/bj8.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 1953px;
+  text-align: center;
+}
+.nav{
+	background-color: #DD2F8C;
+  width: 1180px;
+  height: 70px;
+  margin: 0 auto;
+}
+.nav ul {
+
+}
+.nav ul li {
+  list-style: none;
+  float: right;
+}
+.nav ul li a {
+  display: block;
+  color: #fff;
+  padding: 0 20px 0 20px;
+  line-height: 68px;
+}
+.nav ul li a:hover {
+  display: block;
+  color: #272923;
+  background: #FCD202;
+  border-bottom: 3px solid #585656;
+}
+.nav ul li a.active {
+  display: block;
+  color: #272923;
+  background: #FCD202;
+  border-bottom: 3px solid #585656;
+}
+
+.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+  z-index: 9999;
+}
+.nav.light.fixed ul{
+  margin: 0 23% 0 0;
+}
+.nav.light.fixed ul li{
+  float left;
+}
+
+.upload-art-btn {
+  margin: 15px 30px 20px 20px;
+  float: right;
+}
+.upload-art-btn p {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #272829;
+  cursor: pointer;
+}
+.upload-art-btn p:hover {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #000;
+  cursor: pointer;
+}
+
+.q-title {
+  color: #F9CD0B;
+  padding: 60px 0 20px 0;
+}
+.q-title .title-ch {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+.q-title .spl {
+  width: 30px;
+  border-top: 1px solid #F9CD0B;
+  margin: 8px auto;
+}
+.q-title .title-en {
+  font-size: 12px;
+}
+
+.attr {
+  margin: 0 auto;
+}
+
+.row.regsbg{
+	width: 1180px !important;
+	height: 800px;
+    background-color: #fff;
+    margin: 35px auto 0;
+    padding: 35px 70px;
+}
+
+.q-header {
+  padding: 20px;
+  height: 130px;
+  border-bottom: 1px solid #ccc;
+}
+.q-user {
+  float: left;
+}
+.user-content {
+  float: left;
+  margin: 10px 10px 10px 8px;
+}
+.q-name {
+  float: left;
+  height: 80px;
+  border-left: 1px solid #ccc;
+  margin: 5px 5px 5px 60px;
+  padding: 0 0 0 40px;
+
+}
+.q-name h2 {
+  font-size: 20px;
+  color: #333;
+}
+.q-name p {
+  line-height: 1;
+  margin: 10px 0;
+}
+.q-name .ts {
+  color: #0485E0;
+}
+.q-content {
+  padding: 100px 20px 20px 20px;
+  text-align: center;
+}
+.desc {
+  margin-top: 20px;
+}
+
+.bg-footer{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/bj9.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 500px;
+  text-align: center;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+$('body').visibility({
+    offset         : -$('.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.nav').addClass('light fixed');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.nav').removeClass('light fixed');
+      	});
+    }
+  });
+
+  //提交作品按钮
+  $('.ui.attend.button').click(function(){
+    var url = "{{ app_url_contest }}/submit3";
+    phenix.redirect(url);
+  });
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.ui.love.button')
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+				}
+			}
+		}, 'json');
+		
+		/* 登录用户行为 */
+	{% endif %}
+	
+	// 喜欢
+	$('.ui.love.button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active')
+            .html('<i class="heart icon"></i> 赞了');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+                    if(result.data.newadd){
+                        $('#target_'+ id +'_support')
+                            .prepend('<a href=\"/user/'+ result.data.user_id +'\" target=\"_blank\" id=\"user-'+ result.data.user_id +'\" class=\"image\" data-variation=\"wide\" data-html=\"<div class=\'header\'>'+  result.data.nickname +'</div><div class=\'content\'>'+ result.data.city +' '+ result.data.job +'</div>\"><img src=\"'+ result.data.avatar +'\" /></a>');
+                    }
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active')
+                        .html('<i class="heart empty icon"></i> 赞');
+                    
+					$('#target-love-count').text(result.data.love_count);
+                    
+                    $('#user-'+ result.data.user_id).remove();
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+
+
+{% endblock %}
+
+{% block content %}
+<div class="qsyd2">
+	<section class="section bg-banner home">
+    <div class="nav">
+      <div class="upload-art-btn">
+        <p>参赛报名</p>
+      </div>
+      <ul>
+        <li><a class="contact-menu" href="{{ app_url_contest }}/qsyd3#.contact">联系方式</a></li>
+        <li><a class="partner-menu" href="{{ app_url_contest }}/qsyd3#.partner">合作伙伴</a></li>
+        <li><a class="copyright-menu" href="{{ app_url_contest }}/qsyd3#.copyright">版权声明</a></li>
+        <li><a class="awards-menu" href="{{ app_url_contest }}/qsyd3#.awards">奖项回报</a></li>
+        <li><a class="arts-menu" href="{{ app_url_contest }}/qsyd_list3">项目展示</a></li>
+        <li><a class="time-menu" href="{{ app_url_contest }}/qsyd3#.time">大赛议程</a></li>
+        <li><a class="jury-menu" href="{{ app_url_contest }}/qsyd3#.jury">评委嘉宾</a></li>
+        <li><a class="introduction-menu" href="{{ app_url_contest }}/qsyd3#.introduction">大赛介绍</a></li>
+        <li><a class="home-menu" href="{{ app_url_contest }}/qsyd3">大赛首页</a></li>
+      </ul>
+
+    </div>
+  
+  </section>
+	<section class="regs">
+
+    <div class="attr">
+      <div class="q-title">
+        <p class="title-ch">项目详情</p>
+        <p class="spl"></p>
+        <p class="title-en">VIEW</p>
+      </div>  
+    
+    </div>
+
+		<div class="ui responsive grid">
+
+
+
+			<div class="row regsbg">
+				<div class="column">
+
+          <div class="q-header">
+            <div class="q-user">
+
+					<div class="ui tiny image" style="float: left;margin: 5px">
+            <a href="javascript:void(0);" style="">
+              <img src="{{ stuff.user.medium_avatar_url }}">
+						</a>
+					</div>
+					<div class="user-content">
+						<a href="javascript:void(0);">
+						  {{ stuff.user.nickname }}
+						</a>
+            <p style="font-size: 12px;color:#666;padding-top: 5px;">2小时前发布</p>
+
+					</div>
+
+              
+            </div>
+            <div class="q-name">
+              <h2>原创作品:  {{ stuff.title }}</h2>
+              <p>浏览次数：<span class="ts">{{ stuff.view_count }}次</span> &nbsp;&nbsp;&nbsp;&nbsp; 个人归类： <span class="ts">{{ stuff.category.title }}</span></p>
+              <p class="ts">禁止匿名转载；禁止商业使用；禁止个人使用。临摹作品，同人作品原型版权归原作者所有。</p>
+            </div>
+          </div>
+          <div class="q-content">
+
+            <img src="{{ stuff.cover.thumbnails.big.view_url }}" />
+            <p class="desc">{{ stuff.description }}</p>
+          
+          </div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</section>
+
+	<section class="bg-footer"></section>
+
+</div>
+
+
+{% endblock %}

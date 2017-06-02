@@ -437,38 +437,68 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		// 验证数据
 		if(empty($this->stash['title'])){
-			return $this->ajax_json('标题不能为空！', true);
+			return $this->ajax_json('名称不能为空！', true);
 		}
-        if(empty($this->stash['category_id'])){
-            return $this->ajax_json('请选择一个类别！', true); 
-        }
-        if(empty($this->stash['cover_id'])){
-            return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
-        }
+      if(empty($this->stash['category_id'])){
+          return $this->ajax_json('请选择一个类别！', true); 
+      }
+      if(empty($this->stash['cover_id'])){
+          return $this->ajax_json('请至少上传一张图片并设置为封面图！', true); 
+      }
 
-        $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
-        // 如果是大赛,必须选择一所大学
-        if($from_to == 1){
-            if(empty($this->stash['college_id']) || (int)$this->stash['college_id'] == 0){
-                return $this->ajax_json('请选择所在大学！', true);   
-            }
-        }elseif($from_to == 6){
-          if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
-            return $this->ajax_json('请选择参赛类型！', true); 
+      $from_to = isset($this->stash['from_to']) ? (int)$this->stash['from_to'] : 0;
+      // 如果是大赛,必须选择一所大学
+      if($from_to == 1){
+          if(empty($this->stash['college_id']) || (int)$this->stash['college_id'] == 0){
+              return $this->ajax_json('请选择所在大学！', true);   
           }
-          if(!isset($this->stash['name']) || empty($this->stash['name'])){
-            return $this->ajax_json('请补全用户信息！', true); 
-          }
-          if(!isset($this->stash['tel']) || empty($this->stash['tel'])){
-            return $this->ajax_json('请补全用户信息！', true); 
-          } 
-          if(!isset($this->stash['position']) || empty($this->stash['position'])){
-            return $this->ajax_json('请补全用户信息！', true); 
-          } 
-          if(!isset($this->stash['description']) || empty($this->stash['description'])){
-            return $this->ajax_json('作品描述不能为空！', true); 
-          } 
+      }elseif($from_to == 6){
+        if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
+          return $this->ajax_json('请选择参赛类型！', true); 
         }
+        if(!isset($this->stash['name']) || empty($this->stash['name'])){
+          return $this->ajax_json('请补全用户信息！', true); 
+        }
+        if(!isset($this->stash['tel']) || empty($this->stash['tel'])){
+          return $this->ajax_json('请补全用户信息！', true); 
+        } 
+        if(!isset($this->stash['position']) || empty($this->stash['position'])){
+          return $this->ajax_json('请补全用户信息！', true); 
+        } 
+        if(!isset($this->stash['description']) || empty($this->stash['description'])){
+          return $this->ajax_json('作品描述不能为空！', true); 
+        } 
+      }elseif($from_to == 7){
+        if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
+          return $this->ajax_json('请选择参赛类型！', true); 
+        }
+        if($this->stash['attr'] == 2) {
+          if(!isset($this->stash['company']) || empty($this->stash['company'])){
+            return $this->ajax_json('请添写公司／团队名称！', true);                       
+          }
+          if(!isset($this->stash['c_name']) || empty($this->stash['c_name'])){
+           return $this->ajax_json('请添写联系人姓名！', true);                       
+          }
+        }
+        if(!isset($this->stash['name']) || empty($this->stash['name'])){
+          return $this->ajax_json('请添写参赛者姓名！', true); 
+        }
+        if(!isset($this->stash['tel']) || empty($this->stash['tel'])){
+          return $this->ajax_json('请添写联系人电话！', true); 
+        } 
+        if(!isset($this->stash['position']) || empty($this->stash['position'])){
+          return $this->ajax_json('请添写联系人职位信息！', true); 
+        } 
+        if(!isset($this->stash['email']) || empty($this->stash['email'])){
+          return $this->ajax_json('请添写联系人邮箱！', true); 
+        } 
+        if(!isset($this->stash['address']) || empty($this->stash['address'])){
+          return $this->ajax_json('请添写联系地址！', true); 
+        } 
+        if(!isset($this->stash['description']) || empty($this->stash['description'])){
+          return $this->ajax_json('项目描述不能为空！', true); 
+        }      
+      }
         
 		$id = isset($this->stash['_id']) ? (int)$this->stash['_id'] : 0;
 		
@@ -547,14 +577,26 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         $data['fever_id'] = (int)$this->stash['fever_id'];
     }
 
-    // 联系姓名 
+    // 联系姓名(参赛者)
     if(isset($this->stash['name'])){
         $data['name'] = $this->stash['name'];
+    }
+    // 联系姓名
+    if(isset($this->stash['c_name'])){
+        $data['c_name'] = $this->stash['c_name'];
     }
 
     // 联系方式 
     if(isset($this->stash['tel'])){
         $data['tel'] = $this->stash['tel'];
+    }
+    // 联系地址
+    if(isset($this->stash['address'])){
+        $data['address'] = $this->stash['address'];
+    }
+    // 联系邮箱
+    if(isset($this->stash['email'])){
+        $data['email'] = $this->stash['email'];
     }
 
     // 职业
@@ -689,6 +731,8 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $id);
         }elseif($data['from_to'] == 6){ // 奇思甬动2
             $redirect_url = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
+        }elseif($data['from_to'] == 7){ // 奇思甬动2
+            $redirect_url = sprintf("%s/qsyd_view3?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }
