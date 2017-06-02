@@ -117,6 +117,7 @@
 	width: 100%;
 	top: 0;
 	left: 0;
+  z-index: 999;
 }
 .nav.light.fixed ul{
   margin: 0 23% 0 0;
@@ -183,7 +184,7 @@
 .view-arts-btn a{
   color: #F9CD0B;
   background-color: #DD2F8D;
-  padding: 5px 30px 5px 30px;
+  padding: 10px 40px 10px 40px;
   width: 100px;
   margin: 20px auto;
 }
@@ -205,6 +206,53 @@
   margin: 20px;
   text-align: left;
   line-height: 1.5;
+}
+
+.product{
+	width: 1180px !important;
+	height: 877px;
+	padding: 10px 25px;
+  text-align: center;
+  margin: 0 auto;
+}
+@media only screen and (min-width: 1500px){
+	.product{
+		width: 1200px;
+	}
+}
+
+.arts .ui.items .item .content{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+}
+.arts .ui.items .item a.magenta.link{
+	font-size: 18px;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #8B8C8D;
+    line-height: 30px;
+}
+.arts .ui.items .item .content .sub.header{
+	font-size: 14px;
+	color: #5C5C5D;
+	margin: 4px 0 2px;
+    overflow: hidden;
+    display: block;
+}
+.arts .ui.items .item .image{
+	height: 200px;
+  overflow: hidden;
+}
+.arts .ui.items .item .image img{
+	width: 100%;
+}
+
+.arts .ui.four.items .item{
+	width: calc(25% - 1em);
+	margin: 0 .5em 1.5em;
 }
 
 </style>
@@ -320,14 +368,14 @@ $('body').visibility({
 	<section class="section bg-banner home">
     <div class="nav">
       <div class="upload-art-btn">
-        <p>上传作品</p>
+        <p>上传项目</p>
       </div>
       <ul>
         <li><a class="contact-menu" href="javascript:void(0);">联系方式</a></li>
         <li><a class="partner-menu" href="javascript:void(0);">合作伙伴</a></li>
         <li><a class="copyright-menu" href="javascript:void(0);">版权声明</a></li>
         <li><a class="awards-menu" href="javascript:void(0);">奖项回报</a></li>
-        <li><a class="arts-menu" href="javascript:void(0);">作品展示</a></li>
+        <li><a class="arts-menu" href="javascript:void(0);">项目展示</a></li>
         <li><a class="time-menu" href="javascript:void(0);">大赛议程</a></li>
         <li><a class="jury-menu" href="javascript:void(0);">评委嘉宾</a></li>
         <li><a class="introduction-menu" href="javascript:void(0);">大赛介绍</a></li>
@@ -390,15 +438,55 @@ $('body').visibility({
 	<section class="section bg-banner5 arts">
     <div>
       <div class="q-title">
-        <p class="title-ch">作品展示</p>
+        <p class="title-ch">项目展示</p>
         <p class="spl"></p>
         <p class="title-en">WORKS</p>
       </div>
 
-      <div>
-      
-      </div>
-      <p class="view-arts-btn"><a href="#">查看全部作品</a></p>
+				<div class="column product">
+					<div class="ui four items">
+            {% stuff_list var:'list' from_to:7 sort:8 page:1 size:8 %}
+            {% for d in list.rows %}
+
+              <div class="item">
+                <div class="content">
+                  <div class="image">
+                    <img src="{{ d.cover.thumbnails.apc.view_url }}">
+                  </div>
+
+                  <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                    {{ d.title }}
+                  </a>
+                  <div class="sub header">
+                    {{ d.view_count }}次浏览 | {{ d.love_count }}人点赞
+                  </div>
+
+                  <div class="i-stats">
+                    <div class="schedule">
+                      <div class="status clearfix">
+                        <span class="count">
+                          Design By <a class="ui small link" href="{{ d.user.home_url }}" target="_blank">
+                                          {{ d.user.nickname }}
+                                      </a>
+                        </span>
+
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+            {%endfor%}
+
+
+					</div>
+				</div>
+
+        <div class="clear">
+          <p class="view-arts-btn"><a href="{{ app_url_contest }}/qsyd_list3">查看全部项目</a></p>       
+        </div>
+
 
     </div>
 
@@ -432,14 +520,14 @@ $('body').visibility({
       <div>
       
       </div>
-      <p class="copyright-tip">依据国家相关法律规定，提交作品的“参赛者”对其参赛作品作如下不可撤销声明与承诺</p>
+      <p class="copyright-tip">依据国家相关法律规定，提交项目的“参赛者”对其参赛项目作如下不可撤销声明与承诺</p>
 
       <ul class="warning-tip">
-        <li>参赛作品是参赛者原创作品，未侵犯他人的任何专利权、著作权、商标权及其他知识产权，否则，大赛主办方有权取消其参赛、入围及获奖资格，收回奖品奖金，并保留进一步追究其法律责任的权利;</li>
-        <li>参赛作品一经投稿给参赛主办方，即视为参赛者允许发表;</li>
-        <li>参赛者授权大赛主办方在此次大赛期间对所有参赛作品享有复制权、展览权、放映权、广播权、信息网络传播权、摄制权、宣传权等其他权利，大赛主办方可以通过展示、宣传参赛作品来宣传宁波慧谷，宣传宁波;</li>
-        <li>大赛主办方享有对参赛作品评判排名权，对评判规则有解释权;</li>
-        <li>参赛者提交作品之前，已仔细阅读上述条款，充分理解并表示同意;</li>
+        <li>参赛项目是参赛者原创作品，未侵犯他人的任何专利权、著作权、商标权及其他知识产权，否则，大赛主办方有权取消其参赛、入围及获奖资格，收回奖品奖金，并保留进一步追究其法律责任的权利;</li>
+        <li>参赛项目一经投稿给参赛主办方，即视为参赛者允许发表;</li>
+        <li>参赛者授权大赛主办方在此次大赛期间对所有参赛项目享有复制权、展览权、放映权、广播权、信息网络传播权、摄制权、宣传权等其他权利，大赛主办方可以通过展示、宣传参赛项目来宣传宁波慧谷，宣传宁波;</li>
+        <li>大赛主办方享有对参赛项目评判排名权，对评判规则有解释权;</li>
+        <li>参赛者提交项目之前，已仔细阅读上述条款，充分理解并表示同意;</li>
       </ul>
 
     </div>

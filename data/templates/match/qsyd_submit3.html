@@ -228,6 +228,14 @@ label span{
     font-size: 13px;
     line-height: 30px;
 }
+
+.bg-footer{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/bj9.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 500px;
+  text-align: center;
+}
 </style>
 {% endblock %}
 
@@ -375,18 +383,18 @@ $('#phenix-uploader').fineUploader({
 	<section class="section bg-banner home">
     <div class="nav">
       <div class="upload-art-btn">
-        <p>上传作品</p>
+        <p>上传项目</p>
       </div>
       <ul>
         <li><a class="contact-menu" href="{{ app_url_contest }}/qsyd3#.contact">联系方式</a></li>
         <li><a class="partner-menu" href="{{ app_url_contest }}/qsyd3#.partner">合作伙伴</a></li>
         <li><a class="copyright-menu" href="{{ app_url_contest }}/qsyd3#.copyright">版权声明</a></li>
         <li><a class="awards-menu" href="{{ app_url_contest }}/qsyd3#.awards">奖项回报</a></li>
-        <li><a class="arts-menu" href="{{ app_url_contest }}/qsyd3#.arts">作品展示</a></li>
+        <li><a class="arts-menu" href="{{ app_url_contest }}/qsyd_list3">项目展示</a></li>
         <li><a class="time-menu" href="{{ app_url_contest }}/qsyd3#.time">大赛议程</a></li>
         <li><a class="jury-menu" href="{{ app_url_contest }}/qsyd3#.jury">评委嘉宾</a></li>
         <li><a class="introduction-menu" href="{{ app_url_contest }}/qsyd3#.introduction">大赛介绍</a></li>
-        <li><a class="home-menu active" href="{{ app_url_contest }}/qsyd3">大赛首页</a></li>
+        <li><a class="home-menu" href="{{ app_url_contest }}/qsyd3">大赛首页</a></li>
       </ul>
 
     </div>
@@ -410,7 +418,7 @@ $('#phenix-uploader').fineUploader({
 			<div class="row regsbg">
 				<div class="column">
 					<p>
-						本次大赛主要面向产品厂家、创新团队、工业设计师、在校大学生、社会公众征集设计作品。征集的作品可围绕以下九大门类：智能家居、智慧办公、智能户外、智享出行、时尚穿戴、医疗健康、休闲娱乐、亲情呵护、生活美学。参赛作品可以以公司／团队、个人、院校名义报名，团队参赛人数不超过6人，参赛作品通过网络平台递交，要求提供作品简介、设计图或效果图，参赛人员等信息，截止时间：2017年7月31日。
+						本次大赛主要面向产品厂家、创新团队、工业设计师、在校大学生、社会公众征集设计作品。征集的项目可围绕以下九大门类：智能家居、智慧办公、智能户外、智享出行、时尚穿戴、医疗健康、休闲娱乐、亲情呵护、生活美学。参赛项目可以以公司／团队、个人、院校名义报名，团队参赛人数不超过6人，参赛项目通过网络平台递交，要求提供项目简介、设计图或效果图，参赛人员等信息，截止时间：2017年7月31日。
 					</p>
 				</div>
 			</div>
@@ -561,9 +569,7 @@ $('#phenix-uploader').fineUploader({
 
 	</section>
 
-	<section class="conten">
-		
-	</section>
+	<section class="bg-footer"></section>
 
 
 

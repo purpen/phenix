@@ -18,7 +18,7 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	protected $page_tab = 'page_sns';
 	protected $page_html = 'page/social/index.html';
 	
-	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom', 'show','qsyd2','qsyd_list2','qsyd_view2','qsyd3','qsyd_view3');
+	protected $exclude_method_list = array('execute','dream','allist','allist2','dream2','about2','cooperate','rank','ajax_fetch_top_province','ajax_fetch_top_college','ajax_load_colleges','qsyd','qsyd_view','qsyd_list','custom', 'show','qsyd2','qsyd_list2','qsyd_view2','qsyd3','qsyd_view3','qsyd_list3');
 	
     public function _init() {
         //$this->set_target_css_state('page_incubator');
@@ -699,6 +699,22 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->_editor_params();
 
 		return $this->to_html_page('match/qsyd_submit3.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛 3
+	 */
+	public function qsyd_list3(){
+    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$this->set_target_css_state('page_incubator');
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+    $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+
+		$this->stash['cid'] = $top_category_id;
+    $this->stash['category_id'] = $category_id;
+		$pager_url = sprintf('%s/qsyd_list3?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.contest'], $category_id);
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('match/qsyd_list3.html');
 	}
 
 	/**
