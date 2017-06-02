@@ -332,7 +332,7 @@ $('#phenix-uploader').fineUploader({
 					'</div>',
 		validation: {
 	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	        sizeLimit: 5242880 // 5M = 5 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
@@ -528,7 +528,7 @@ $('#phenix-uploader').fineUploader({
 						</div>
 						<div class="inlene fields">
 							<div class="field">
-								<label style="position: relative;">设计图/效果图 <span>（上传图片尺寸700x700px ;  图片大小不超过2M）</span></label>
+								<label style="position: relative;">设计图/效果图 <span>（上传图片尺寸700x700px ;  图片大小不超过5M）</span></label>
 								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
 								<div id="phenix-uploader"></div>
 						
