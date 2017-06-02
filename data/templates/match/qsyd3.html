@@ -248,6 +248,7 @@
 .arts .ui.items .item .image{
 	height: 200px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .arts .ui.items .item .image img{
 	width: 100%;
@@ -454,11 +455,11 @@ $('body').visibility({
 
               <div class="item">
                 <div class="content">
-                  <div class="image">
-                    <img src="{{ d.cover.thumbnails.apc.view_url }}">
-                  </div>
-
                   <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                    <div class="image">
+                      <img src="{{ d.cover.thumbnails.apc.view_url }}">
+                    </div>
+
                     {{ d.title }}
                   </a>
                   <div class="sub header">

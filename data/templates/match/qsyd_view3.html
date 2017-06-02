@@ -110,11 +110,11 @@
   margin: 0 auto;
 }
 
-.row.regsbg{
-	width: 1180px !important;
-    background-color: #fff;
-    margin: 35px auto 0;
-    padding: 35px 70px;
+.content-box{
+  width: 90% !important;
+  background-color: #fff;
+  padding: 35px 70px;
+  margin-left: 4%;
 }
 
 .q-header {
@@ -154,6 +154,8 @@
 }
 .desc {
   margin-top: 20px;
+  padding: 20px 100px;
+  text-align: left;
 }
 
 .bg-footer{
@@ -200,7 +202,7 @@ $('body').visibility({
   });
 
   //提交作品按钮
-  $('.ui.attend.button').click(function(){
+  $('.upload-art-btn').click(function(){
     var url = "{{ app_url_contest }}/submit3";
     phenix.redirect(url);
   });
@@ -298,35 +300,32 @@ $('body').visibility({
       <div class="q-title">
         <p class="title-ch">项目详情</p>
         <p class="spl"></p>
-        <p class="title-en">VIEW</p>
+        <p class="title-en">DETAILS</p>
       </div>  
     
     </div>
 
 		<div class="ui responsive grid">
 
-
-
 			<div class="row regsbg">
-				<div class="column">
+				<div class="column content-box">
 
           <div class="q-header">
             <div class="q-user">
 
-					<div class="ui tiny image" style="float: left;margin: 5px">
-            <a href="javascript:void(0);" style="">
-              <img src="{{ stuff.user.medium_avatar_url }}">
-						</a>
-					</div>
-					<div class="user-content">
-						<a href="javascript:void(0);">
-						  {{ stuff.user.nickname }}
-						</a>
-            <p style="font-size: 12px;color:#666;padding-top: 5px;">2小时前发布</p>
+              <div class="ui tiny image" style="float: left;margin: 5px">
+                <a href="javascript:void(0);" style="">
+                  <img src="{{ stuff.user.medium_avatar_url }}">
+                </a>
+              </div>
+              <div class="user-content">
+                <a href="{{ stuff.user.home_url }}">
+                  {{ stuff.user.nickname }}
+                </a>
+                <p style="font-size: 12px;color:#666;padding-top: 5px;">2小时前发布</p>
 
-					</div>
+              </div>
 
-              
             </div>
             <div class="q-name">
               <h2>原创作品:  {{ stuff.title }}</h2>
@@ -336,7 +335,7 @@ $('body').visibility({
           </div>
           <div class="q-content">
 
-            <img src="{{ stuff.cover.thumbnails.big.view_url }}" />
+            <img src="{{ stuff.cover.thumbnails.huge.view_url }}" />
             <p class="desc">{{ stuff.description }}</p>
 
             <div class="love-box gray love-button" data-id="{{ stuff._id }}" data-mark="n">

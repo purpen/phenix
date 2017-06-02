@@ -148,6 +148,7 @@
 .product .ui.items .item .image{
 	height: 200px;
   overflow: hidden;
+  margin-bottom: 10px;
 }
 .product .ui.items .item .image img{
 	width: 100%;
@@ -159,7 +160,7 @@
 }
 .ui.compact.menu{
 	width: 1180px;
-	margin: 20px auto 10px;
+	margin: 20px 10px 10px 50px;
   padding: 20px 0;
 	background: rgba(0,0,0,0);
 	border:0;
@@ -273,7 +274,7 @@ $('body').visibility({
       <div class="q-title">
         <p class="title-ch">项目展示</p>
         <p class="spl"></p>
-        <p class="title-en">VIEW</p>
+        <p class="title-en">SHOW</p>
       </div>  
 
       {% category_list var:'category' only_open:1 domain:4 pid:cid %}
@@ -297,11 +298,10 @@ $('body').visibility({
 
             <div class="item">
               <div class="content">
-                <div class="image">
-                  <img src="{{ d.cover.thumbnails.apc.view_url }}">
-                </div>
-
                 <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                  <div class="image">
+                    <img src="{{ d.cover.thumbnails.apc.view_url }}">
+                  </div>
                   {{ d.title }}
                 </a>
                 <div class="sub header">
