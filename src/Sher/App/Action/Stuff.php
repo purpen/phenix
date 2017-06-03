@@ -383,6 +383,12 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $this->stash['is_match'] = true;
         }
 
+    // 如果是大赛，跳到大赛编辑页
+    if($stuff['from_to']==7){
+ 			$redirect_url = Doggy_Config::$vars['app.url.contest'].'/edit3?id='.$stuff['_id'];    
+      return $this->to_redirect($redirect_url);
+    }
+
     if($stuff['from_to']==5){ // 如果是top100
 
       $top_category_id = Doggy_Config::$vars['app.stuff.top100_category_id'];
