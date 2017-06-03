@@ -22,7 +22,7 @@
 	background: url({{ app_url_packaged }}/images/match/qsyd3/bj8.jpg) no-repeat center top;
 	background-color: #000;
 	width: 100%;
-	height: 1953px;
+	height: auto;
   text-align: center;
 }
 .nav{
@@ -154,7 +154,7 @@
 }
 .desc {
   margin-top: 20px;
-  padding: 20px 100px;
+  padding: 20px 10px;
 }
 
 .bg-footer{
@@ -321,7 +321,7 @@ $('body').visibility({
                 <a href="{{ stuff.user.home_url }}">
                   {{ stuff.user.nickname }}
                 </a>
-                <p style="font-size: 12px;color:#666;padding-top: 5px;">2小时前发布</p>
+                <p style="font-size: 12px;color:#666;padding-top: 5px;">{{ stuff.created_on|relative_datetime }}发布</p>
 
               </div>
 
@@ -334,7 +334,23 @@ $('body').visibility({
           </div>
           <div class="q-content">
 
-            <img src="{{ stuff.cover.thumbnails.huge.view_url }}" />
+						{% if stuff.cover %}
+						<p>
+							<img src="{{ stuff.cover.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+						</p>
+						{% endif %}
+						<!--附件列表-->
+						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+						{% if assets.total_rows %}
+							{% for asset in assets.rows %}
+								{% if asset._id != stuff.cover_id %}
+									<p>
+										<img width="" src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+									</p>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+
             <p class="desc">{{ stuff.description }}</p>
 
             <div class="love-box gray love-button" data-id="{{ stuff._id }}" data-mark="n">

@@ -765,6 +765,52 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 
 		return $this->to_html_page('match/qsyd_view3.html');
 	}
+
+	/**
+	 * 编辑大赛3
+	 */
+	public function edit3(){
+		if(empty($this->stash['id'])){
+			return $this->show_message_page('缺少请求参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load((int)$this->stash['id']);
+		
+    if(empty($stuff)){
+        return $this->show_message_page('编辑的产品不存在或被删除！', true);
+    }
+		// 仅管理员或本人具有删除权限
+		if (!$this->visitor->can_edit() && !($stuff['user_id'] == $this->visitor->id)){
+			return $this->show_message_page('你没有权限编辑的该主题！', true);
+		}
+        
+		$stuff = $model->extended_model_row($stuff);
+
+    $reason = isset($this->stash['season'])?$this->stash['season']:'';
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+    $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
+
+		$this->stash['cid'] = $top_category_id;
+		$this->stash['mode'] = 'create';
+		
+		// 获取父级分类
+		$category = new Sher_Core_Model_Category();
+		$parent_category = $category->extend_load((int)$top_category_id);
+		$parent_category['view_url'] = $cate_url;
+		
+		$this->stash['parent_category'] = $parent_category;
+		
+		$this->stash['mode'] = 'edit';
+		$this->stash['stuff'] = $stuff;
+		
+		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+		$this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_STUFF;
+		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_STUFF;
+		$this->stash['new_file_id'] = Sher_Core_Helper_Util::generate_mongo_id();
+		
+		return $this->to_html_page('match/qsyd_submit3.html');
+	}
 	
 	
 }

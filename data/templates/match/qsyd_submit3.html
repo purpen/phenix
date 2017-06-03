@@ -239,6 +239,28 @@ label span{
 </style>
 {% endblock %}
 
+{% block layout_js %}
+  <script>
+
+    function change_attr(val){
+      if(val == 1){
+        $('.company-box').hide();
+        $('.contact-name-box').hide();
+        $('.contact-title').text('联系地址');
+        $('.tel-title').text('联系电话');
+        $('.position-title').text('职业');
+      }else if(val == 2) {
+        $('.company-box').show();
+        $('.contact-name-box').show();
+        $('.contact-title').text('公司地址');
+        $('.tel-title').text('公司／团队电话');
+        $('.position-title').text('联系人职位');
+      }
+    }
+
+  </script>
+{% endblock %}
+
 {% block jquery %}
 $('body').visibility({
     offset         : -$('.nav').offset().top,
@@ -358,22 +380,15 @@ $('#phenix-uploader').fineUploader({
 		});
 	});
 
+  var attr = $(':input[name="attr"]:checked').val();
+  if(attr){
+    change_attr(attr);
+  }
+
   // 选择类型判断表单内容
   $(':input[name="attr"]').change(function(){
     var val = $(this).val();
-    if(val == 1){
-      $('.company-box').hide();
-      $('.contact-name-box').hide();
-      $('.contact-title').text('联系地址');
-      $('.tel-title').text('联系电话');
-      $('.position-title').text('职业');
-    }else if(val == 2) {
-      $('.company-box').show();
-      $('.contact-name-box').show();
-      $('.contact-title').text('公司地址');
-      $('.tel-title').text('公司／团队电话');
-      $('.position-title').text('联系人职位');
-    }
+    change_attr(val);
   });
 
 {% endblock %}
@@ -439,11 +454,11 @@ $('#phenix-uploader').fineUploader({
 	            			<div class="field">
 								<label for="title">参赛类型</label>
 								<div class="ui checkbox">
-									<input type="radio" name="attr" tabindex="2" value="2" class="hidden"></input>
+                  <input type="radio" name="attr" tabindex="2" value="2" {%if stuff.attr==2%}checked{%endif%} class="hidden"></input>
 									<label>团队</label>
 								</div>
 								<div class="ui checkbox">
-									<input type="radio" name="attr" tabindex="1" value="1" class="hidden"></input>
+									<input type="radio" name="attr" tabindex="1" value="1" {%if stuff.attr==1%}checked{%endif%} class="hidden"></input>
 									<label>个人</label>
 								</div>
 							</div>
