@@ -1,0 +1,363 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}奇思甬动创客大赛-{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+  .ui.center.aligned{
+  	text-align:center;
+  }
+  #mfrbird{
+    margin-top:0;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon{
+  	font-size: 14px;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon.active{
+  	color: #007087 !important;
+  	position: relative;
+  }
+  .qsyd > .nav-menu .navfelx .childcell .menuicon.active::before{
+	content: '';
+	height: 2px;
+	width: 60px;
+    background: #007087;
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    margin-left: -30px;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+  }
+  .products{
+    width: 100%;
+    background: url({{ app_url_packaged }}/images/match/qsyd3/wap/10.jpg);
+    padding: 0;
+    background-size: cover;
+  }
+  .row.shopindex{
+    padding: 0 15px 0!important;
+    background: rgba(0,0,0,0.5);
+    margin-top: 0 !important;
+  }
+  #mpresale .recom-item .recom-cell a{
+    background: #fff;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  #mpresale .recom-item .recom-cell a h3.ui.header{
+    font-size: 14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #e5404a !important;
+    line-height: 30px;
+    font-weight: 400;
+    padding: 0 8px;
+    padding-top: 3px;
+    margin-bottom: 0;
+  }
+  #mpresale .recom-item .recom-cell a p{
+    font-size: 12px;
+    color: #5e5e5e;
+    padding: 0 8px;
+    height: 34px;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+  #mpresale .recom-item .recom-cell a img {
+    height: auto;
+    top: 72px;
+  }
+  #mpresale .recom-item .recom-cell a .desc{
+    z-index: 2;
+    background: #fff;
+    height: 60px;
+    text-align: left;
+    line-height: 44px;
+    position: relative;
+    margin-top: 60%;
+    color: #5d6266;
+    height: 26px;
+    line-height: 16px;
+  }
+  .i-state .like{
+  font-size: .875em;
+  }
+  .fl-r{
+    float: right;
+  }
+  .ui.compact.menu .item::before{
+    content: none;
+  }
+  .ui.compact.menu .item:first-child{
+    margin-left: 7px;
+  }
+  .ui.compact.menu .item:last-child{
+    margin-right: 4px;
+  }
+  .products .nav-menu{
+    background-color: rgba(0,0,0,0);
+  }
+  .products .nav-menu .navfelx .childcell .menuicon{
+    padding-top: 4px;
+    background: #f8bc05;
+    color: rgba(0,0,0,0.95);
+    border-radius: 0.28571429rem !important;
+  }
+  .products .nav-menu .navfelx .childcell .menuicon.active{
+    color: #fff;
+    background: #e63f4a;
+  }
+  .ui.pagination.menu{
+    margin-top: 10px;
+    background: rgba(0,0,0,0);
+    border: 0;
+    box-shadow: none;
+  }
+  .ui.pagination.menu .item{
+    background: #5b5b5b;
+    color: #fff;
+    margin: 0 5px;
+  }
+  .ui.pagination.menu .item:hover,.ui.pagination.menu .item.active{
+    background: #f8bc05;
+  }
+  .ui.menu .item.disabled, .ui.menu .item.disabled:hover{
+    background-color: rgba(91,91,91,0.9) !important;
+      color: rgba(255,255,255,0.5);
+  }
+  .ui.pagination.menu .item:first-child, .ui.pagination.menu .item:last-child{
+    border-radius: 0 !important;
+    border: 0;
+  }
+</style>
+{% endblock %}
+{% block layout_js %}
+  <script type="text/javascript">
+
+    var category_id = "{{ category_id|default 0 }}";
+    var type = 0;
+    var page = 1;
+    var size = 8;
+    var sort = 0;
+    var from_to = 7;
+    function ajax_load_more(page, type, category_id, from_to, sort, size){
+        var url = '{{ app_url_wap }}/app/site/stuff/ajax_fetch_more';
+        var is_prize = 0;
+        
+        if(page != 'no'){
+            $.get(url, { page:page, type:type, category_id:category_id, from_to:from_to, is_prize:is_prize, sort:sort, size:size }, function(rs){
+                rs.data['phenix'] = phenix.url;
+                var rendered = phenix.ajax_render_result('#fetch_more_stuff_qsyd3_tpl', rs.data);
+                if(page==1){
+                  $('#stuff_list_box').html(rendered);
+                }else{
+                  $('#stuff_list_box').append(rendered);
+                }
+                if (rs.data.nex_page != 'no'){
+                    $('#stuff-more').data('status', 0);
+                }
+                $('#stuff-more').data('page', page);
+                $('#stuff-more').hide();
+
+            }, 'json');
+        }else{
+            $('#stuff_list_box').html('没有更多项目!');
+        }
+    }
+
+
+</script>
+{% endblock %}
+{% block jquery %}
+$('html,body').animate({scrollTop:$('.products').offset().top },500);
+
+  // 初次加载
+  ajax_load_more(page, type, category_id, from_to, sort, size);
+
+  // ajax加载更多(滚动条接近底部加载)
+  $(window).scroll(function(){
+      var scrollTop = $(this).scrollTop();
+      var scrollHeight = $(document).height();
+      var windowHeight = $(this).height();
+      if(scrollTop + windowHeight > scrollHeight - 500){
+          var stat = $('#stuff-more').data('status');
+          page = parseInt($('#stuff-more').data('page')) + 1;
+          
+          // 防止频繁请求(在没加载完成时只允许请求一次)
+          if(stat == 0){
+              $('#stuff-more').data('status', 1);
+              $('#stuff-more').show();
+              ajax_load_more(page, type, category_id, from_to, sort, size);
+          }
+      }
+  });
+
+  $('.category-btn').click(function(){
+    category_id = $(this).attr('category_id');
+    $('.menuicon').removeClass('active');
+    $(this).addClass('active');
+    ajax_load_more(1, type, category_id, 7, sort, size);
+  });
+
+{% endblock %}
+{% block content %}
+<div class="qsyd">
+  <img src="{{ app_url_packaged }}/images/match/qsyd3/wap/1.jpg" width="100%" align="absmiddle">
+  <div class="nav-menu">
+    <ul class="navfelx" style="padding-bottom: 4px;">
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd3" class="menuicon">
+          大赛介绍
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd3" class="pweibtn menuicon">
+          评选嘉宾
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd3" class="timebtn menuicon">
+          大赛议程
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="{{ app_wap_contest }}/contest/qsyd3" class="timebtn menuicon">
+          联系方式
+        </a>
+      </li>
+      <li class="childcell">
+        <a href="javascript:void(0);" class="menuicon active">
+          作品展示
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="products">
+
+    <div class="ui responsive grid">
+      <div class="row" style="background: rgba(0,0,0,0.5);">
+        <div class="ui center aligned column">
+
+          {% category_list var:'category' only_open:1 domain:4 pid:cid %}
+          
+          <div class="nav-menu">
+
+            <ul class="navfelx" style="padding-bottom: 4px;margin-top: 200px;">
+              <li class="childcell">
+              <a href="javascript:void(0);" category_id="0" class="menuicon category-btn {%if category_id==0%}active{%endif%}">
+                  全部
+                </a> 
+              </li>
+            {% for d in category.rows %}
+              {% if loop.counter < 4 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+
+            <ul class="navfelx" style="padding-bottom: 4px;">
+            {% for d in category.rows %}
+              {% if loop.counter > 3 %}
+                {% if loop.counter < 8 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+                {%endif%}
+              {%endif%}
+            {% endfor %}
+            </ul>
+
+            <ul class="navfelx" style="padding-bottom: 4px;">
+            {% for d in category.rows %}
+              {% if loop.counter > 7 %}
+                <li class="childcell">
+                <a href="javascript:void(0);" category_id="{{ d._id }}" class="menuicon category-btn {%if category_id==d._id%}active{%endif%}">
+                    {{ d.title }}
+                  </a> 
+                </li>
+              {%endif%}
+            {% endfor %}
+              <li class="childcell">
+              </li>
+              <li class="childcell">
+              </li>
+            </ul>
+ 
+          </div>
+
+        </div>
+      </div>
+      <div class="row shopindex" id="mpresale">
+        <div class="recom-item" id="stuff_list_box">
+          <!--ajax load-->
+
+
+          <!--
+          <div class="recom-cell">
+            <a href="">
+              <h3 class="ui header">原创经典CD创意包装</h2>
+              <p>中国原创生活美学品牌创始人、创意总监北京大学文化产业研究院副研究员，中国第一中国原创生创始人</p>
+              <img src="http://frbird.qiniudn.com/product/160411/570b1e47fc8b12f85f8b4c91-2-p750x422.jpg">  
+              <div class="desc">
+                <div class="i-state">
+                  <span class="like">
+                    <i class="unhide icon"></i>
+                    <span class="count">2099</span> 
+                    
+                    <span class="count love-count fl-r">9</span>
+                    <i class="fl-r like icon"></i>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+          -->
+
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui center aligned column">
+                      <div id="stuff-more" data-page="1" data-status="0" style="text-align:center;margin:10px auto;display:none;">
+                          <img src="{{ app_url_packaged }}/images/loading.gif" alt="loading" />
+                          加载中...
+                      </div>
+        </div>
+      </div>
+      <!--
+      <div class="row">
+        <div class="ui center aligned column">
+          <div class="ui pagination menu">
+            <div class="icon disabled prev item"><i class="arrow left icon"></i></div>
+            <a class="active item" href="">1</a>
+            <a class="active item" href="">2</a>
+            <div class="icon disabled next item">
+              <i class="right arrow icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      -->
+
+    </div>
+    
+  </div>
+  <img src="{{ app_url_packaged }}/images/match/qsyd3/wap/9.jpg" width="100%" align="absmiddle">
+  
+
+</div>
+{% endblock %}
+
+{% block templates %}
+  {% mustache id:'fetch_more_stuff_qsyd3_tpl' tpl:'mustache_m/fetch_more_stuff_qsyd3.mustache' %}
+{% endblock %}

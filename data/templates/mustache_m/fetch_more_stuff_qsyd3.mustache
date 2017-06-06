@@ -1,0 +1,22 @@
+
+{{#results.rows}}
+
+    <div class="recom-cell">
+      <a href="{{ wap_view_url }}">
+          <h3 class="ui header">{{ title }}</h2>
+          <p>{{ &description }}</p>
+          <img src="{{ cover.thumbnails.aub.view_url }}">	
+          <div class="desc">
+            <div class="i-state">
+              <span class="like">
+                <i class="unhide icon"></i>
+                <span class="count">{{ view_count }}</span> 
+                
+                <span class="count love-count fl-r">{{ love_count }}</span>
+                <i class="fl-r like icon"></i>
+              </span>
+            </div>
+          </div>
+      </a>
+    </div>
+{{/results.rows}}
