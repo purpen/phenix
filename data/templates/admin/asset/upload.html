@@ -24,8 +24,8 @@
 					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
 					'</div>',
 		validation: {
-	        allowedExtensions: ['jpeg', 'jpg', 'png'],
-	        sizeLimit: 3145728 // 3M = 3 * 1024 * 1024 bytes
+	        allowedExtensions: ['jpeg', 'jpg', 'png', 'gif'],
+	        sizeLimit: 5645728 // 5M = 3 * 1024 * 1024 bytes
 	    }
     }).on('complete', function (event, id, name, result) {
 		if(result.is_error){
