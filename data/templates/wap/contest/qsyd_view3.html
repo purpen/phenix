@@ -371,7 +371,7 @@
 		// 初始化互动，是否收藏、点赞
 		
 		// 验证点赞
-		$.get('{{ app_url_wap }}/app/wap/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+		$.get('{{ app_url_wap }}/app/site/favorite/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
 			if (result.success) {
 				if (result.data.loved) {
 					$('.love-button')
@@ -393,7 +393,7 @@
 			return false;
 		}
 		if (mark == 'n') {
-			$.post('{{ app_url_wap }}/app/wap/favorite/ajax_laud', {id: id, type:4}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_laud', {id: id, type:4}, function(result){
 				if (result.success) {
 					$btn
 						.data('mark', 'y')
@@ -411,7 +411,7 @@
 		} else {
       phenix.show_error_note('您已经点过了~');
       return false;
-			$.post('{{ app_url_wap }}/app/wap/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
+			$.post('{{ app_url_wap }}/app/site/favorite/ajax_cancel_laud', {id: id, type:4}, function(result){
 				if (result.success) {
 					$btn
 						.data('mark', 'n')
@@ -433,11 +433,13 @@
   <img src="{{ app_url_packaged }}/images/match/qsyd3/wap/1.jpg" width="100%" align="absmiddle">
   <div class="nav-menu">
     <ul class="navfelx" style="padding-bottom: 4px;">
+      <!--
       <li class="childcell">
         <a href="{{ app_wap_contest }}/contest/qsyd3" class="menuicon">
           活动介绍
         </a>
       </li>
+      -->
       <li class="childcell">
         <a href="{{ app_wap_contest }}/contest/qsyd3" class="pweibtn menuicon">
           评选嘉宾
@@ -487,7 +489,7 @@
 
             <div class="content-title">
               <h2>原创作品:  {{ stuff.title }}</h2>
-              <p>浏览次数：<span class="ts">{{ stuff.view_count }}次</span> &nbsp;&nbsp;&nbsp;&nbsp; 个人归类： <span class="ts">{{ stuff.category.title }}</span></p>
+              <p>浏览次数: <span class="ts">{{ stuff.view_count }}次</span> &nbsp;&nbsp; 个人归类: <span class="ts">{{ stuff.category.title }}</span></p>
             </div>
 
             <div class="content">
