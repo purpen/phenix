@@ -474,6 +474,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
         if(!isset($this->stash['description']) || empty($this->stash['description'])){
           return $this->ajax_json('作品描述不能为空！', true); 
         } 
+      // 奇思勇动3
       }elseif($from_to == 7){
         if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
           return $this->ajax_json('请选择参赛类型！', true); 
@@ -496,10 +497,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
           return $this->ajax_json('请添写联系人职位信息！', true); 
         } 
         if(!isset($this->stash['email']) || empty($this->stash['email'])){
-          return $this->ajax_json('请添写联系人邮箱！', true); 
+          //return $this->ajax_json('请添写联系人邮箱！', true); 
         } 
         if(!isset($this->stash['address']) || empty($this->stash['address'])){
-          return $this->ajax_json('请添写联系地址！', true); 
+          //return $this->ajax_json('请添写联系地址！', true); 
         } 
         if(!isset($this->stash['description']) || empty($this->stash['description'])){
           return $this->ajax_json('项目描述不能为空！', true); 
