@@ -252,7 +252,7 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 
     // 要求只能某个账户操作
     if(!Sher_Core_Helper_Util::is_high_admin($this->visitor->id)){
-      return $this->ajax_notification('没有执行权限!', true);     
+      // return $this->ajax_notification('没有执行权限!', true);     
     }
 		
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
