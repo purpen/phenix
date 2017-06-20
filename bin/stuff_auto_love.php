@@ -36,7 +36,7 @@ if(empty($user_list_arr)){
 $stuff_model = new Sher_Core_Model_Stuff();
 $favorite_model = new Sher_Core_Model_Favorite();
 
-$pid = Doggy_Config::$vars['app.contest.qsyd_category_id'];
+$pid = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
 $page = 1;
 $size = 2000;
 $is_end = false;
@@ -58,6 +58,10 @@ while(!$is_end){
     $love_count = $list[$i]['love_count'];
     $view_count = $list[$i]['view_count'];
     $title = $list[$i]['title'];
+
+    // 增加浏览数
+    //$view_rand = rand(10, 100);
+    //$stuff_model->inc_counter('view_count', $view_rand, $id);
 
     // 随机点赞次数
     $rand_num = rand(1, 8);
