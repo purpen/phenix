@@ -36,7 +36,7 @@ if(empty($user_list_arr)){
 $stuff_model = new Sher_Core_Model_Stuff();
 $favorite_model = new Sher_Core_Model_Favorite();
 
-$pid = Doggy_Config::$vars['app.stuff.top100_category_id'];
+$pid = Doggy_Config::$vars['app.contest.qsyd_category_id'];
 $page = 1;
 $size = 2000;
 $is_end = false;
@@ -45,8 +45,8 @@ while(!$is_end){
   $time = 0;
 	$query = array();
   $query['fid'] = $pid;
-  $query['from_to'] = 5;
-	$options = array('field' => array('_id', 'title', 'category_id', 'from_to', 'love_count', 'created_on'), 'sort'=>array('love_count'=>1), 'page'=>$page,'size'=>$size);
+  $query['from_to'] = 7;
+	$options = array('field' => array('_id', 'title', 'category_id', 'from_to', 'view_count', 'love_count', 'created_on'), 'sort'=>array('love_count'=>1), 'page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
 		echo "get stuff list is null,exit......\n";
@@ -56,6 +56,7 @@ while(!$is_end){
 	for ($i=0; $i < $max; $i++) {
     $id = $list[$i]['_id'];
     $love_count = $list[$i]['love_count'];
+    $view_count = $list[$i]['view_count'];
     $title = $list[$i]['title'];
 
     // 随机点赞次数
