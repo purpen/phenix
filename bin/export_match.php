@@ -29,17 +29,18 @@ $page = 1;
 $size = 500;
 $is_end = false;
 $total = 0;
-$fp = fopen('/home/tianxiaoyi/qsyd_match.csv', 'a');
+$fp = fopen('/Users/tian/qsyd_match3.csv', 'a');
 // Windows下使用BOM来标记文本文件的编码方式 
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('昵称', '姓名', '电话', '作品链接', '作品类别', '原图链接');
+$head = array('ID', '项目名称', '项目类别', '类型', '公司/团队名称', '参赛者姓名', '联系人姓名', '职位', '电话', '邮箱', '地址', '作品链接', '原图链接');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
-$fid = Doggy_Config::$vars['app.contest.qsyd_category_id'];
+$fid = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+$from_to = 7;
 while(!$is_end){
-	$query = array('fid'=>$fid);
+	$query = array('fid'=>$fid, 'from_to'=>$from_to);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
@@ -68,7 +69,13 @@ while(!$is_end){
       $job = isset($user['profile']['job'])?$user['profile']['job']:'--';
       $address = isset($user['profile']['address'])?$user['profile']['address']:'--';
 
-      $row = array($user['nickname'], $realname, $phone, $view_url, $cate_name, $img_urls);
+      if($stuff['attr'] == 2) {
+        $attr = '团队';
+      }else{
+        $attr = '个人';
+      }
+
+      $row = array($stuff['_id'], $stuff['title'], $cate_name, $attr, $stuff['company'], $stuff['name'], $stuff['c_name'], $stuff['position'], $stuff['tel'], $stuff['email'], $stuff['address'], $view_url, $img_urls);
       fputcsv($fp, $row);
 
 		  $total++;
