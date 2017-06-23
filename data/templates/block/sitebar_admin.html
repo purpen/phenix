@@ -28,6 +28,29 @@
 			私信管理
 		</a>
 	</div>
+
+	{% else %}
+
+    {% if visitor.is_customer %}
+    <div class="header item menu-admin">
+        <i class="{% if show_type == 'common' %} plus {% else %} minus {% endif %} icon"></i><b>常用模块</b>
+    </div>
+    <div date="menu-admin" {% if show_type == 'common' %} style="display:block" {% else %} style="display:none" {% endif %}>
+      <a class="{{ css_page_advertise }} item" href="{{ app_url_admin_base }}/advertise">
+        广告管理
+      </a>
+      <a class="{{ css_page_sum_record }} item" href="{{ app_url_admin_base }}/sum_record">
+        统计管理
+      </a>
+      <a class="{{ css_page_view_stat }} item" href="{{ app_url_admin_base }}/view_stat">
+        来源统计
+      </a>
+      <a class="{{ css_page_private_letter }} item" href="{{ app_url_admin_base }}/private_letter">
+        私信管理
+      </a>
+    </div>
+	  {% endif %}
+
 	{% endif %}
 		
     {% if visitor.is_customer %}
