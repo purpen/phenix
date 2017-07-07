@@ -134,6 +134,7 @@ app.dt.extension_lib.sher_app:
     'message_list':'Sher_App_ViewTag_MessageList'
     'contact_list':'Sher_App_ViewTag_ContactList'
     'block_list':'Sher_Core_ViewTag_BlockList'
+    'column_list':'Sher_Core_ViewTag_ColumnList'
     'notice_list':'Sher_Core_ViewTag_NoticeList'
     'active_list':'Sher_App_ViewTag_ActiveList'
     'attend_list':'Sher_App_ViewTag_AttendList'

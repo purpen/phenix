@@ -1,0 +1,56 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+.cloth,body{
+	font-size: 0;
+}
+.ui.wap,#mmfoot{
+	display:none;
+}
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+</script>
+{% endblock %}
+{% block content %}
+
+	<div class="ui responsive grid" style="background: #fff;">
+		<div class="row ptb-0">
+			<div class="ui topics cards">
+				<div class="card group">
+          <div class="problock">
+
+          {% for d in item %}
+            <div class="topicbox">
+              <a href="{{ d.url }}" title="{{ d.title }}" class="ui cover line">
+                <img class="ui image" src="{{ d.cover_url }}" >
+                  </a>
+                  <div class="content">
+                      <h2 class="header ">
+                          <a href="{{ d.url }}" title="{{ d.title }}" class="ui line">
+                          {{ d.title }}
+                      </a>
+                      </h2>
+
+                  </div>
+            </div>
+          {%endfor%}
+
+    
+          </div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

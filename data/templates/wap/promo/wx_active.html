@@ -1,0 +1,73 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+.cloth,body{
+	font-size: 0;
+}
+.ui.wap,#mmfoot{
+	display:none;
+}
+
+.counter {
+  line-height: 2;
+}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+</script>
+{% endblock %}
+{% block content %}
+
+	<div class="ui responsive grid">
+
+		
+		<div class="row">
+			<div class="column">
+				<div class="ui one products activity cards item-box">
+
+          {% for d in item %}
+
+
+	          <div class="card">
+              <div class="problock">
+                  <a title="{{ title }}" href="{{ d.url }}" style="background-image: url('{{ d.cover_url }}');" class="thumb"></a>
+                  <!--
+                  <div class="ribbons">
+                      <span class="ribbon season">
+                          进行中
+                      </span>
+                  </div>
+                  -->
+                  <h2>
+                      <a href="{{ d.url }}" title="{{ d.title }}" class="ui line">
+          			    {{ d.title }}
+          		    </a>
+                  </h2>
+                  <div class="excerpt">
+                    <p></p>
+                  </div>
+
+                  <div class="cats">
+                      <i class="time icon"></i> {{ d.sub_title }}
+                  </div>
+
+                  <span class="counter">{{ d.status }}</span>
+              </div>
+              
+	          </div>
+
+
+
+          {%endfor%}
+
+				</div>
+			</div>
+		</div>
+  </div>
+
+{% endblock %}

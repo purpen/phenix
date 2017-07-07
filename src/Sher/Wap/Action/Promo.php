@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report');
 
 	/**
 	 * 网站入口
@@ -18,6 +18,135 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+    /**
+     * 公众号-文章
+     */
+    public function wx_article() {
+      $mark = 'wx_article';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        $item = $column['item'];
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '精品文章';
+      return $this->to_html_page('wap/promo/wx_article.html');    
+    }
+
+    /**
+     * 公众号-活动
+     */
+    public function wx_active() {
+      $mark = 'wx_active';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        for($i=0;$i<count($column['item']);$i++){
+          $d = $column['item'][$i];
+          $status = '进行中';
+          if($d['end_time']){
+            $now = time();
+            $end = strtotime($d['end_time']);
+            if($end - $now < 0) $status = '已结束';
+          }
+          $column['item'][$i]['status'] = $status;
+        }
+        $item = $column['item'];
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '最新活动';
+      return $this->to_html_page('wap/promo/wx_active.html');    
+    }
+
+    /**
+     * 公众号-试用
+     */
+    public function wx_try() {
+      $mark = 'wx_try';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $try_model = new Sher_Core_Model_Try();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        for($i=0;$i<count($column['item']);$i++){
+          $d = $column['item'][$i];
+          $try = array();
+          if($d['target_id']){
+            $try = $try_model->extend_load((int)$d['target_id']);
+            if($try){
+              $try['cover_url'] = $try['cover']['thumbnails']['resp']['view_url'];
+              switch($try['step_stat']) {
+              case 0:
+                $try['state_style'] = 'callback';
+                break;
+              case 1:
+                $try['state_style'] = 'apply';
+                break;
+              case 2:
+                $try['state_style'] = 'recoe';
+                break;
+              case 3:
+                $try['state_style'] = 'callback';
+                break;
+              case 5:
+                $try['state_style'] = 'end';
+                break;
+              default:
+                $try['state_style'] = 'callback';
+              }        
+            }
+          }
+          if(empty($try)) {
+            $try['title'] = $d['title'];
+            $try['cover_url'] = $d['cover_url'];
+            $try['wap_view_url'] = $d['url'];
+          }
+          $column['item'][$i]['try'] = $try;
+        }
+        $item = $column['item'];
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '免费试用';
+      return $this->to_html_page('wap/promo/wx_try.html');    
+    }
+
+    /**
+     * 公众号-评测报告
+     */
+    public function wx_report() {
+      $mark = 'wx_report';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $topic_model = new Sher_Core_Model_Topic();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        for($i=0;$i<count($column['item']);$i++){
+          $d = $column['item'][$i];
+          $topic = array();
+          if($d['target_id']){
+            $topic = $topic_model->extend_load((int)$d['target_id']);
+            if($topic){
+              $topic['cover_url'] = $topic['cover']['thumbnails']['resp']['view_url'];
+              $topic['nickname'] = $topic['user']['nickname'];
+            }
+          }
+          if(empty($topic)) {
+            $topic['title'] = $d['title'];
+            $topic['cover_url'] = $d['cover_url'];
+            $topic['wap_view_url'] = $d['url'];
+          }
+          $column['item'][$i]['topic'] = $topic;
+        }
+        $item = $column['item'];
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '评测报告';
+      return $this->to_html_page('wap/promo/wx_report.html');    
+    }
+
     /**
      * 领粽子表单提交
      */

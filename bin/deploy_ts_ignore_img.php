@@ -45,7 +45,7 @@ function copy_files($from_src, $to_src){
 function inc_version($css_version, $js_version, $to_src){
 	echo "Start to inc version ... \n";
 	//未加版本号 css/calendar-theme.css,
-  $css_files = array('css/frbird.min.css','css/mobile.min.css','css/ie8.min.css','css/ie7.min.css','css/froala_editor.min.css');
+  $css_files = array('css/frbird.min.css','css/shop.min.css','css/mobile.min.css','css/ie8.min.css','css/ie7.min.css','css/froala_editor.min.css');
   //未加版本号 javascript/calendar.js, javascript/jquery.flexslider.js
 	$js_files = array('javascript/base.min.js', 'javascript/jquery.plugins.min.js', 'javascript/frbird.min.js', 'javascript/froala_editor.min.js', 'javascript/jquery.taconite.min.js', 'javascript/mobile.min.js', 'javascript/frbird.wap.min.js');
 	
