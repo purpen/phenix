@@ -1,0 +1,84 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+.ui.wap,#mmfoot{
+	display:none;
+}
+
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+
+	#mfrbird{
+		margin-top: 0;
+	}
+
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+</script>
+{% endblock %}
+{% block content %}
+
+<div class="topic-nav" style="">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+
+          <div class="item">
+              <a href="{{ app_url_wap }}/promo/wx_try" class="ui link">产品试用</a>
+          </div>
+          <div class="item active">
+              <a href="{{ app_url_wap }}/promo/wx_report" class="ui link">评测/试用报告</a>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div class="ui responsive grid" style="background: #fff;">
+		<div class="row ptb-0">
+
+			<div class="ui topics cards">
+				<div class="card group">
+          <div class="problock">
+
+          {% for d in item %}
+            <div class="topicbox">
+              <a href="{{ d.topic.wap_view_url }}" title="{{ d.topic.title }}" class="ui cover line">
+                <img class="ui image" src="{{ d.topic.cover_url }}" >
+                  </a>
+                  <div class="content">
+                      <h2 class="header ">
+                          <a href="{{ d.topic.wap_view_url }}" title="{{ d.topic.title }}" class="ui line">
+                          {{ d.topic.title }}
+                      </a>
+                      </h2>
+
+                      <p class="author">
+                                <span class="mesg">
+                                    <a href="javascript:void(0);" class="ui link">@{{ d.topic.nickname }}</a>
+                                </span>
+                                <i class="unhide icon"></i> <span>{{ d.topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ d.topic.comment_count }}</span>
+                      </p>
+
+                  </div>
+            </div>
+          {%endfor%}
+
+    
+          </div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}

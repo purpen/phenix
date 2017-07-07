@@ -1,0 +1,340 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+<style type="text/css">
+  .item-box {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+</style>
+
+{% endblock %}
+
+{% block layout_js %}
+  <script type="text/javascript">
+
+    function generate_html(obj){
+      var p_sort = obj.parents('.item-box').find('[name="item_temp[sort]"]').val();
+      var p_title = obj.parents('.item-box').find('[name="item_temp[title]"]').val();
+      var p_sub_title = obj.parents('.item-box').find('[name="item_temp[sub_title]"]').val();
+      var p_url = obj.parents('.item-box').find('[name="item_temp[url]"]').val();
+      var p_cover_url = obj.parents('.item-box').find('[name="item_temp[cover_url]"]').val();
+      var p_target_id = obj.parents('.item-box').find('[name="item_temp[target_id]"]').val();
+
+      var p_begin_time = obj.parents('.item-box').find('[name="item_temp[begin_time]"]').val();
+      var p_end_time = obj.parents('.item-box').find('[name="item_temp[end_time]"]').val();
+      var p_sale_price = obj.parents('.item-box').find('[name="item_temp[sale_price]"]').val();
+      var p_market_price = obj.parents('.item-box').find('[name="item_temp[market_price]"]').val();
+      var p_total = obj.parents('.item-box').find('[name="item_temp[total]"]').val();
+
+      var total_join = p_sort + '@@' + p_title + '@@' + p_sub_title + '@@' + p_url + '@@' + p_cover_url + '@@' + p_target_id + '@@' + p_begin_time + '@@' + p_end_time + '@@' + p_sale_price + '@@' + p_market_price + '@@' + p_total;
+      var html = '<div class="item-box">';
+      html+='<div class="five fields">';
+      html+='<div class="field" style="display:none;"><label>'+ p_sort +'</label></div>';
+      html+='<div class="field"><label>'+ p_title +'</label></div>';
+      html+='<div class="field"><label>'+ p_sub_title +'</label></div>';
+      html+='<div class="field"><label>'+ p_url +'</label></div>';
+      html+='<div class="field"><label>'+ p_target_id +'</label></div>';
+      html+='<div class="field"><img src="'+ p_cover_url +'" width="100" height="50" /></div>';
+      html+='</div>';
+      html+='<div class="five fields">';
+      html+='<div class="field"><label>'+ p_begin_time +'</label></div>';
+      html+='<div class="field"><label>'+ p_end_time +'</label></div>';
+      html+='<div class="field"><label>'+ p_sale_price +'</label></div>';
+      html+='<div class="field"><label>'+ p_market_price +'</label></div>';
+      html+='<div class="field"><label>'+ p_total +'</label></div>';
+      html+='</div>';
+      html+='<input type="hidden" name="item[]" value="'+ total_join +'" />';
+      html+='<div class="field"><input type="button" name="del_item_box" value="删除" /><input type="button" name="edit_item" value="编辑" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_html_edit(obj){
+      var p_sort = obj.parents('.item-box').find('label').text();
+      var p_title = obj.parents('.item-box').find('[name="item_temp[title]"]').val();
+      var p_sub_title = obj.parents('.item-box').find('[name="item_temp[sub_title]"]').val();
+      var p_url = obj.parents('.item-box').find('[name="item_temp[url]"]').val();
+      var p_cover_url = obj.parents('.item-box').find('[name="item_temp[cover_url]"]').val();
+      var p_target_id = obj.parents('.item-box').find('[name="item_temp[target_id]"]').val();
+
+      var p_begin_time = obj.parents('.item-box').find('[name="item_temp[begin_time]"]').val();
+      var p_end_time = obj.parents('.item-box').find('[name="item_temp[end_time]"]').val();
+      var p_sale_price = obj.parents('.item-box').find('[name="item_temp[sale_price]"]').val();
+      var p_market_price = obj.parents('.item-box').find('[name="item_temp[market_price]"]').val();
+      var p_total = obj.parents('.item-box').find('[name="item_temp[total]"]').val();
+
+      var str = obj.parents('.item-box').find('[name="item[]"]').val();
+      var arr = str.split('@@');
+
+      var html = '<div class="item-box">';
+      html+='<div class="five fields">';
+      html+='<div class="field" style="display:none;"><input type="text" name="item_temp[sort]" value="'+ arr[0] +'" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[title]" value="'+ arr[1] +'" placeholder="标题" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[sub_title]" value="'+ arr[2] +'" placeholder="副标题" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[url]" value="'+ arr[3] +'" placeholder="链接" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[cover_url]" value="'+ arr[4] +'" placeholder="图片" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[target_id]" value="'+ arr[5] +'" placeholder="关联ID" /></div>';
+      html+='</div>';
+      html+='<div class="five fields">';
+      html+='<div class="field"><input type="text" name="item_temp[begin_time]" value="'+ arr[6] +'" placeholder="开始时间" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[end_time]" value="'+ arr[7] +'" placeholder="结束时间" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[sale_price]" value="'+ arr[8] +'" placeholder="销售价" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[market_price]" value="'+ arr[9] +'" placeholder="市场价" /></div>';
+      html+='<div class="field"><input type="text" name="item_temp[total]" value="'+ arr[10] +'" placeholder="总数" /></div>';
+      html+='</div>';
+      html+='<div class="field"><input type="button" name="save_item" value="保存" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+	$('#column-form').form({
+		mark: {
+			identifier  : 'mark',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标记名不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+  //添加item项目
+  $('.add-item').click(function(){
+    var html = '<div class="item-box">';
+    html+='<div class="five fields">';
+    html+='<div class="field" style="display:none;"><input type="text" name="item_temp[sort]" value="" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[title]" value="" placeholder="标题" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[sub_title]" value="" placeholder="副标题" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[url]" value="" placeholder="链接地址" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[cover_url]" value="" placeholder="图片地址" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[target_id]" value="" placeholder="关联ID" /></div>';
+    html+='</div>';
+    html+='<div class="five fields">';
+    html+='<div class="field"><input type="text" name="item_temp[begin_time]" value="" placeholder="开始时间" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[end_time]" value="" placeholder="结束时间" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[sale_price]" value="" placeholder="销售价" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[market_price]" value="" placeholder="市场价" /></div>';
+    html+='<div class="field"><input type="text" name="item_temp[total]" value="" placeholder="总数" /></div>';
+    html+='</div>'
+    html+='<div class="field"><input type="button" name="add_item_item" value="确定" /></div>';
+    //html+='<div class="field"><input type="button" name="del_item_box" value="删除" /></div>';
+    html+='</div>';
+
+    $('#item-box-edit').append(html);
+  });
+
+  //添加item
+	$("input[name='add_item_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $('#item-box').append(html);
+      $(this).parents('.item-box').remove();
+		});
+	});
+
+  //编辑item
+	$("input[name='edit_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html_edit($(this));
+      $(this).parents('.item-box').replace(html);
+		});
+	});
+
+  //保存编辑item
+	$("input[name='save_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $(this).parents('.item-box').replace(html);
+		});
+	});
+
+  //删除item
+	$("input[name='del_item_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.item-box').remove();
+		});
+	});
+
+
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">栏目管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/column" class="{{ css_all }} item">
+			全部
+		</a>
+	  	<div class="right menu">
+			<a href="{{ app_url_admin_base }}/column/submit" class="item">
+				<i class="add icon"></i>添加
+			</a>
+	    </div>
+	</div>
+	
+  <!--
+	<div class="ui sub nav">
+		<form action="{{ app_url_admin_base }}/column" method="post">
+			<label>搜索：</label>
+			<div class="ui icon input">
+				<input placeholder="红包码..." type="text" name="q">
+				<i class="flat search link icon"></i>
+			</div>
+		</form>
+	</div>
+  -->
+	
+	<form class="ui form segment" action="{{ app_url_admin_base }}/column/save" method="post" id="column-form">
+		<input name="_id" type="hidden" value="{{ column._id }}" />
+		<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+		
+    <div class="three fields">
+      <div class="field">
+        <label>标识:</label>
+        <input type="text" name="mark" value="{{ column.mark }}" />
+      </div>
+      <div class="field">
+        <label>名称:</label>
+        <input type="text" name="name" value="{{ column.name }}" />
+      </div>
+    </div>
+
+    <h4 class="ui stage header">类型:</h4>
+    <div class="grouped inline fields">
+      <div class="field">
+        <div class="ui radio checkbox">
+          <input type="radio" name="type" value="1" {% if column.type == 1 %}checked="checked"{% endif %} /> 
+          <label>通用</label>
+        </div>
+        <div class="ui radio checkbox">
+          <input type="radio" name="type" value="2" {% if column.type == 2 %}checked="checked"{% endif %} /> 
+          <label>Web/Wap</label>
+        </div>
+        <div class="ui radio checkbox">
+          <input type="radio" name="type" value="3" {% if column.type == 3 %}checked="checked"{% endif %} /> 
+          <label>App</label>
+        </div>
+      </div>
+    </div>
+
+
+      <div id="item-box">
+		<div style="margin-bottom:1em">
+			<label>项目列表: </label>
+		</div>
+
+        {% if mode == 'edit' %}
+          {% if column.item %}
+            {% for p in column.item %}
+              <div class="item-box">
+                <div class="five fields">
+                  <input type="hidden" name="item[]" value="{{ p.join_item }}" />
+                  <div class="field" style="display:none;">
+                    <label>{{ p.sort }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.title }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.sub_title }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.url }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.target_id }}</label>
+                  </div>
+                  <div class="field">
+                    {% if p.cover_url %}
+                      <img src="{{ p.cover_url }}" width="100" height="50" /></label>
+                    {%else%}
+                      无
+                    {%endif%}
+                  </div>
+                </div>
+                <div class="five fields">
+                  <div class="field">
+                    <label>{{ p.begin_time }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.end_time }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.sale_price }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.market_price }}</label>
+                  </div>
+                  <div class="field">
+                    <label>{{ p.total }}</label>
+                  </div>
+
+                </div>
+                <div class="field">
+                  <input type="button" name="del_item_box" value="删除" />
+                  <input type="button" name="edit_item" value="编辑" />
+                </div>
+              </div>
+            {%endfor%}
+          {%endif%}
+        {%endif%}
+      </div>
+
+      <!--ajax追加-->
+      <div id="item-box-edit"></div>
+
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-item button">
+            追加
+          </div>
+        </div>
+      </div>
+
+
+
+    <div class="field">
+      <label>备注:</label>
+      <textarea name="remark" placeholder="备注">{{ column.remark }}</textarea>
+    </div>
+		
+		<div class="inline field">
+			<div class="ui magenta submit inverted button">
+				确认提交
+			</div>
+			<div class="ui gray cancel inverted button">
+				取消
+			</div>
+		</div>
+	</form>
+	
+{% endblock %}

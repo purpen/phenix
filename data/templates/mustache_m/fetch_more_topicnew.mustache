@@ -1,6 +1,6 @@
 {{#results.rows}}
 	<div class="topicbox">
-		<a href="{{ wap_view_url }}" title="{{ title }}" class="ui cover line" target="_blank">
+		<a href="{{ wap_view_url }}" title="{{ title }}" class="ui cover line">
         {{^has_asset}}
             {{#cover}}
             <img class="ui image" src="{{ cover.thumbnails.acs.view_url }}">
@@ -12,7 +12,7 @@
         </a>
         <div class="content">
             <h2 class="header {{#red}} topic-title-color-red{{/red}}{{#blue}} topic-title-color-blue{{/blue}}{{#green}} topic-title-color-green{{/green}}{{#yellow}} topic-title-color-yellow{{/yellow}}">
-                <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line" target="_blank">
+                <a href="{{ wap_view_url }}" title="{{ title }}" class="ui line">
     			    {{ attr_str }}{{ &title }}
     		    </a>
             </h2>

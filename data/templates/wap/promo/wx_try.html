@@ -1,0 +1,205 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+.ui.wap,#mmfoot{
+	display:none;
+}
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+
+	.presell {
+	  border-radius: 0 .25em 0 0;
+	  padding: .5rem .8rem;
+	  font-size: 14px;
+	  background: rgba(0,0,0,.5);
+	  position: absolute;
+	  bottom: 0;
+	  color: #fff;
+	  z-index: 999;
+	}
+	.presell{
+		padding: .5rem 0.25rem;
+	  min-width: 80px;
+		text-align: center;
+		border-radius: 0;
+	}
+	.presell.apply{
+		left:88px;
+		background:rgba(255,51,102,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.callback{
+		left:88px;
+		background:rgba(0,111,188,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.recoe{
+		left:88px;
+		background:rgba(0,188,156,0.5);
+		padding:.5rem .8rem;
+	}
+	.presell.end{
+		left:88px;
+		background:rgba(102,102,102,0.5);
+		padding:.5rem .8rem;
+	}
+	.trycm{
+		text-align:center;
+	}
+	.trycm .ui.icon.header{
+		font-weight:400;
+		font-size: 1.23em;
+		margin:0;
+	}
+	.trycm .ui.icon.header .sub.header{
+		font-size:1rem;
+		color:#5d6266;
+	}
+	.trycm .ui.icon.header:first-child{
+		float:left;
+	}
+	.trycm .ui.icon.header:nth-child(2){
+	}
+	.trycm .ui.icon.header:last-child{
+		float:right;
+	}
+	.try .i-stats .trycm {
+	  border-top: 2px solid rgba(0,0,0,.1);
+	  padding-bottom: .5rem;
+	  padding-top: .7rem;
+	}
+	.ui.one.items .item .content{
+		background: 0 0;
+	  margin: 0;
+	  padding: 1rem 1rem 75px!important;
+	  -webkit-box-shadow: none;
+	  box-shadow: none;
+	  font-size: 1em;
+	  border: 0;
+	  border-radius: 0;
+	}
+	.content .i-stats{
+	background: -webkit-gradient(linear,left top,left bottom,from(rgba(255,255,255,0)),to(#fff 26%) repeat scroll 0 0 rgba(0,0,0,));
+	  background: -webkit-linear-gradient(top,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  background: linear-gradient(to bottom,rgba(255,255,255,0) 0,#fff 26%) repeat scroll 0 0 rgba(0,0,0,0);
+	  bottom: .5rem;
+	  left: 1rem;
+	  padding-top: 15px;
+	  position: absolute;
+	  right: 1rem;
+	}
+	#mfrbird{
+		margin-top: 0;
+	}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+</script>
+{% endblock %}
+{% block content %}
+
+<div class="topic-nav">
+	<div class="ui responsive grid">
+		<div class="row ptb-0">
+			<div class="ui center aligned column">
+				<div class="ui horizontal list">
+
+          <div class="item active">
+              <a href="{{ app_url_wap }}/promo/wx_try" class="ui link">产品试用</a>
+          </div>
+          <div class="item">
+              <a href="{{ app_url_wap }}/promo/wx_report" class="ui link">评测/试用报告</a>
+          </div>
+        </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='games page try mt-2r' id="triespage">
+	<div class="ui responsive grid">
+
+		<div class="row">
+			<div class="column">
+				<div class="ui one products tries cards item-box">
+
+
+                  {% for d in item %}
+    					<div class="card">
+                            <div class="problock">
+                                <a title="{{ d.try.title }}" alt="{{ d.try.title }}" href="{{ d.try.wap_view_url }}" style="background-image: url({{ d.try.cover_url }});" class="thumb"></a>
+                                <div class="ribbons">
+                                    {% if d.try.season %}
+                                    <span class="ribbon season">
+                                        {{ d.try.kind_label }}
+                                    </span>
+                                    {%endif%}
+                      <span class="ribbon {{ d.try.state_style }}">
+                        {{ d.try.step_label }}
+                                    </span>
+
+                                </div>
+                                <h2>
+                                    <a href="{{ d.try.wap_view_url }}" title="{{ d.try.title }}" class="ui line">
+                        			    {{ d.try.title }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                  {% if d.try.step_stat == 0 %}
+                                    <p>想要人数：<span class="count">{{ d.try.want_count }}</span>
+                                  {%endif%}
+                                  {% if d.try.step_stat != 0 %}
+                                    <p>产品数量：<span class="count">{{ d.try.try_count }}</span>  申请人数：<span class="count">{{ d.try.apply_count }}</span>
+                                  {%endif%}
+                                  {% if d.try.price %}
+                                    产品价格：<span class="count">{{ d.try.price }}元</span>
+                                  {%endif%}
+                                  </p>
+                                </div>
+                                <div class="cats">
+                                  {% if d.try.step_stat == 0 %}
+                                    预热中 敬请期待!
+                                  {%endif%}
+                                  {% if d.try.step_stat == 1 %}
+                                  <i class="calendar icon"></i> 试用名单公布：<span> {{ d.try.publish_time }}</span>
+                                  {%endif%}
+                                  {% if d.try.step_stat == 2 %}
+                                    试用报告正在回收中...
+                                  {%endif%}
+
+                                  {% if d.try.step_stat == 3 %}
+                                  {% if d.try.report_count > 0 %}
+                                      <i class="tasks icon"></i> 试用评测报告：已有<span> {{ d.try.report_count }}</span> 份
+                                      {%else%}
+                                      试用报告正在回收中...
+                                    {%endif%}
+                                  {%endif%}
+
+                                  {% if d.try.step_stat == 5 %}
+                                    <i class="tasks icon"></i> 试用评测报告：已有<span> {{ d.try.report_count }}</span> 份
+                                  {%endif%}
+
+                                </div>
+                            </div>
+
+    					</div>
+                  {%endfor%}
+
+
+
+				</div>
+			</div>
+		
+		</div>
+
+	</div>
+</div>
+
+
+{% endblock %}
