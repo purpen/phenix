@@ -1,0 +1,70 @@
+{%extends 'layout/mobile.html'%}
+{% block title%}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+.ui.wap,#mmfoot{
+	display:none;
+}
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+.appiosload{
+    display: none !important;
+}
+
+	#mfrbird{
+		margin-top: 0;
+	}
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+</script>
+{% endblock %}
+{% block content %}
+
+<div class='games page try mt-2r' id="triespage">
+	<div class="ui responsive grid">
+
+		<div class="row">
+			<div class="column">
+				<div class="ui one products tries cards item-box">
+
+
+                  {% for d in item %}
+    					<div class="card">
+                            <div class="problock">
+                                <a title="{{ d.item.title }}" alt="{{ d.item.title }}" href="{{ d.item.wap_view_url }}" style="background-image: url({{ d.item.cover_url }});" class="thumb"></a>
+
+                                <h2>
+                                    <a href="{{ d.item.wap_view_url }}" title="{{ d.item.title }}" class="ui line">
+                        			    {{ d.item.title }}
+                        		    </a>
+                                </h2>
+                                <div class="excerpt">
+                                  <p>{{ d.item.advantage }}</p>
+                                </div>
+                                <div class="cats">
+                                  <span class="unit">￥</span> {{ d.item.sale_price }}
+                                </div>
+                            </div>
+
+    					</div>
+                  {%endfor%}
+
+
+
+				</div>
+			</div>
+		
+		</div>
+
+	</div>
+</div>
+
+
+{% endblock %}
