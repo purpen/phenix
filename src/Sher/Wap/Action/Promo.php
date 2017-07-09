@@ -10,7 +10,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc');
 
 	/**
 	 * 网站入口
@@ -145,6 +145,79 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $this->stash['item'] = $item;
       $this->stash['page_title_suffix'] = '评测报告';
       return $this->to_html_page('wap/promo/wx_report.html');    
+    }
+
+    /**
+     * 公众号-精选产品
+     */
+    public function wx_product() {
+      $mark = 'wx_product';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $product_model = new Sher_Core_Model_Product();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        for($i=0;$i<count($column['item']);$i++){
+          $d = $column['item'][$i];
+          $product = array();
+          if($d['target_id']){
+            $product = $product_model->extend_load((int)$d['target_id']);
+            if($product){
+              $product['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+            }
+          }
+          if(empty($product)) {
+            $product['title'] = $d['title'];
+            $product['cover_url'] = $d['cover_url'];
+            $product['wap_view_url'] = $d['url'];
+          }
+          $column['item'][$i]['item'] = $product;
+        }
+        $item = $column['item'];
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '精选商品';
+      return $this->to_html_page('wap/promo/wx_product.html');    
+    }
+
+    /**
+     * 公众号-众筹
+     */
+    public function wx_zc() {
+      $mark = 'wx_zc';
+      $item = array();
+      $model = new Sher_Core_Model_Column();
+      $column = $model->first(array('mark'=>$mark));
+      if(!empty($column)) {
+        $item = $column['item'];
+        for($i=0;$i<count($item);$i++){
+          $d = $item[$i];
+          $is_over = false;
+          $last_time = 0;
+          $unit = '';
+          if($d['end_time']){
+            $now = time();
+            $end = strtotime($d['end_time']);
+            $last_temp = $end - $now;
+            if($last_temp < 0){
+              $is_over = true;
+            }else{
+              if($last_temp < 86400){
+                $unit = '小时';
+                $last_time = ceil($last_temp/3600);
+              }else{
+                $unit = '天';
+                $last_time = ceil($last_temp/86400);
+              }
+            }
+          }
+          $item[$i]['is_over'] = $is_over;
+          $item[$i]['last_time'] = $last_time . $unit;
+        }
+      }
+      $this->stash['item'] = $item;
+      $this->stash['page_title_suffix'] = '众筹新品';
+      return $this->to_html_page('wap/promo/wx_zc.html');    
     }
 
     /**
