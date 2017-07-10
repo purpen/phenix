@@ -21,6 +21,58 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	}
 
     /**
+     * 商务合作
+     */
+    public function save_cooperate() {
+
+      $cooper_model = new Sher_Core_Model_Cooper();
+      $data = array();
+      $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+      $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+      if($type == 1){
+        $data['name'] = '商务合作';
+      }
+
+      $item = array(
+        'username' => isset($this->stash['username']) ? $this->stash['username'] : null,
+        'title' => isset($this->stash['title']) ? $this->stash['title'] : null,
+        'position' => isset($this->stash['position']) ? $this->stash['position'] : null,
+        'phone' => isset($this->stash['phone']) ? $this->stash['phone'] : null,
+        'web_url' => isset($this->stash['web_url']) ? $this->stash['web_url'] : null,
+        'content' => isset($this->stash['content']) ? $this->stash['content'] : null,
+      );
+
+      $data['item'] = $item;
+
+      try{
+        $ok = $cooper_model->apply_and_save($data);
+
+        if($ok){
+          $redirect_url = Doggy_Config::$vars['app.url.wap'];
+          $this->stash['note'] = '提交成功!';
+
+          $this->stash['is_error'] = false;
+          $this->stash['show_note_time'] = 2000;
+
+          $this->stash['redirect_url'] = $redirect_url;
+
+          $asset_model = new Sher_Core_Model_Asset();
+          // 上传成功后，更新所属的附件
+          if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
+            $asset_model->update_batch_assets($data['asset'], $id);
+          }
+
+          return $this->ajax_json($this->stash['note'], false, $redirect_url);
+        }else{
+          return $this->ajax_json('保存失败!', true);
+        }  
+      }catch(Sher_Core_Model_Exception $e){
+        return $this->ajax_json('保存失败!'.$e->getMessage(), true);
+      }
+
+    }
+
+    /**
      * 领粽子表单提交页
      */
     public function save_receive_zz() {

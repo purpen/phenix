@@ -1,0 +1,218 @@
+{%extends 'layout/mobile.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+	
+</style>
+{% endblock %}
+
+{% block jquery %}
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+	
+	$('#cooperate-form').form({
+		name: {
+			identifier  : 'name',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '姓名不能为空'
+				},
+				{
+					type   : 'maxLength[30]',
+					prompt : '姓名最多30个字符'
+				}
+			]
+		},
+		position: {
+			identifier  : 'position',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '职位不能为空'
+				},
+				{
+					type   : 'maxLength[20]',
+					prompt : '职位最多20个字符'
+				}
+			]
+		},
+		phone: {
+			identifier  : 'phone',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '手机号不能为空'
+				},
+				{
+					type   : 'maxLength[20]',
+					prompt : '手机号最多20个字符'
+				}
+			]
+		},
+		title: {
+			identifier  : 'title',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '标题不能为空'
+				},
+				{
+					type   : 'maxLength[75]',
+					prompt : '标题最多75个字符'
+				}
+			]
+		},
+		content: {
+			identifier  : 'content',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '内容不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_message(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+	
+	$('#phenix-uploader').fineUploader({
+		debug: true,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload_wx_cooperate }}'
+      	},
+		text: {
+            uploadButton: '<a class="ui fluid green labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5242880 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			$('#product-upload-form').addClass('error');
+			phenix.show_error_message(result.message, $('#product-upload-form'));
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_wap }}/social/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+
+	
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#stuff_cover_id').val(id);
+			return false;
+		});
+	});
+	
+{% endblock %}
+
+{% block content %}
+<div class="ui social">
+	<div class="ui responsive grid">		
+		<div class="nopad row">
+			<div class="column">
+				<div class="new topic">
+					<h2 class="ui header">
+						商务合作
+					</h2>
+				</div>
+				
+				<form action="{{ app_url_wap }}/promo_func/save_cooperate" class="ui form" method="post" id="cooperate-form">
+					<input type="hidden" name="file_count" id="file_count" />
+          <input type="hidden" name="type" value="type" />
+						
+						<div class="field">
+							<label for="username">姓名</label>
+						  	<input type="text" name="username" value="" />
+						</div>
+				
+						<div class="field">
+							<label for="position">职位</label>
+						  	<input type="text" name="position" value="" />
+						</div>
+
+						<div class="field">
+							<label for="phone">手机号</label>
+						  	<input type="text" name="phone" value="" />
+						</div>
+
+						<div class="field">
+							<label for="content">合作意向</label>
+						  	<textarea name="content" placeholder="此处无需省略一万字..."></textarea>
+							<div class="description"></div>
+						</div>
+						
+						<div class="field">
+							<label for="title">项目名称</label>
+						  	<input type="text" name="title" value="" />
+						</div>
+
+						<div class="field">
+							<label for="web_url">官网链接</label>
+						  	<input type="text" name="web_url" value="" />
+						</div>
+						
+						<div class="field">
+							<label>上传附件 <small class="description">(小于5M,jpg、jpeg的格式,请指定一个封面图)</small></label>
+							<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ d.cover_id }}" />
+							<div id="phenix-uploader"></div>
+					
+							<div id="asset-list" class="ui four items">
+
+							</div>
+						</div>
+						
+					</div>
+					
+					<div class="ui center aligned grid">
+						<div class="column">
+							<div class="fluid ui active inverted magenta submit button">确认提交</div>
+						</div>
+					</div>
+				
+				</form>
+				
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

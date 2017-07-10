@@ -10,14 +10,29 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     'target_id'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc');
+	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc','wx_cooperate');
 
 	/**
 	 * 网站入口
 	 */
 	public function execute(){
 		//return $this->coupon();
-	}
+  }
+
+
+    /**
+     * 公众号-商务合作
+     */
+    public function wx_cooperate() {
+     
+      // 图片上传参数
+      $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
+      $this->stash['domain'] = Sher_Core_Util_Constant::STROAGE_COOPERATE;
+      $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_WX_COOPERATE;
+      $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+
+      return $this->to_html_page('wap/promo/wx_cooperate.html');    
+    }
 
     /**
      * 公众号-文章
