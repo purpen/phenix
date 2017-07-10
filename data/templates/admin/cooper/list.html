@@ -1,0 +1,113 @@
+{%extends 'layout/admin.html'%}
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+	<h3 class="ui header">商务合作管理</h3>
+	
+	<div class="ui secondary pointing magenta menu">
+		<a href="{{ app_url_admin_base }}/cooper" class="{{ css_all }} item">
+			全部
+		</a>
+
+	</div>
+	
+  <!--
+	<div class="ui grid">
+		<div class="middle aligned row">
+
+			<div class="ten wide column">
+				<div class="ui sub nav">
+					<form action="{{ app_url_admin_base }}/block" method="post">
+						<label>搜索：</label>
+						<div class="ui icon input">
+							<input placeholder="标题..." type="text" name="q">
+							<i class="flat search link icon"></i>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+  -->
+	
+	<table class="ui table segment">
+		<thead>
+			<tr>
+				<th></th>
+				<th>名称</th>
+        <th>类型</th>
+        <th>子分类</th>
+        <th>信息</th>
+        <th>附件</th>
+				<th>创建时间</th>
+				<th>状 态</th>
+				<th>管理操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% cooper_list var:'list' page: page size:30 %}
+			
+			{% for d in list.rows %}
+			<tr id="item-{{ d._id }}">
+				<td>
+					<div class="ui checkbox">
+					  	<input name="ids[]" type="checkbox" value="{{ d._id }}" />
+					  	<label></label>
+					</div>
+				</td>
+
+				<td>
+          {{ d.name }}
+				</td>
+        <td>
+          {{ d.type_label }}
+        </td>
+        <td>
+          {{ d.kind_label }}
+        </td>
+        <td>
+          <p>姓名: {{ d.item.username }}</p>
+          <p>职位: {{ d.item.position }}</p>
+          <p>电话: {{ d.item.phone }}</p>
+          <p>项目名称: {{ d.item.title }}</p>
+          <p>官网: {{ d.item.web_url }}</p>
+          <p>合作意向: {{ d.item.content }}</p>
+        </td>
+        <td>
+          {% asset_list var:'assets' parent_id:d._id asset_type:145 size:5 %}
+          {% for asset in assets.rows %}
+            <a href="{{ asset.filepath }}" target="_blank">{{ asset.filename }}</a>&nbsp;&nbsp;
+          {%endfor%}
+        </td>
+        <td>
+          {{ d.created_on|date 'Y-m-d'}}
+        </td>
+        <td>
+					<p>
+						{% if d.status %}
+							<span class="ui small green label">启用</span>
+						{% else %}
+							<span class="ui small orange label">禁用</span>
+						{% endif %}
+					</p>
+        </td>
+        <td>
+          <a href="{{ app_url_admin }}/cooper/deleted?id={{ d._id }}" class="ui confirm-request link item">
+              删除
+          </a>
+        </td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	
+	{% if list.total_rows %}
+	<div class="ui pagination">
+		{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page, var:'pager',pager_size:9 %}
+		{%include 'block/pager.html'%}
+		<label class="page_count">{{ list.total_rows }}个</label>
+	</div>
+	{% endif %}
+	
+{% endblock %}

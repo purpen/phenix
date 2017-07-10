@@ -24,6 +24,28 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * 公众号-商务合作
      */
     public function wx_cooperate() {
+
+      $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+      switch($kind){
+        case 1:
+          $this->stash['kind_label'] = '商品合作';
+          break;
+        case 2:
+          $this->stash['kind_label'] = '众筹合作';
+          break;
+        case 3:
+          $this->stash['kind_label'] = '销售合作';
+          break;
+        case 4:
+          $this->stash['kind_label'] = '市场合作';
+          break;
+        case 5:
+          $this->stash['kind_label'] = '投资合作';
+          break;
+        default:
+          $this->stash['kind_label'] = '商品合作';
+      }
+      $this->stash['kind'] = $kind;
      
       // 图片上传参数
       $this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
@@ -31,7 +53,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       $this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_WX_COOPERATE;
       $this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
-      return $this->to_html_page('wap/promo/wx_cooperate.html');    
+      return $this->to_html_page('wap/promo/wx_cooperate.html');
     }
 
     /**

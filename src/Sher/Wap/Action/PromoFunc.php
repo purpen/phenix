@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate');
 
 	
 	/**
@@ -32,6 +32,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       if($type == 1){
         $data['name'] = '商务合作';
       }
+      $data['type'] = $type;
+      $data['kind'] = $kind;
 
       $item = array(
         'username' => isset($this->stash['username']) ? $this->stash['username'] : null,
@@ -59,7 +61,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           $asset_model = new Sher_Core_Model_Asset();
           // 上传成功后，更新所属的附件
           if(isset($this->stash['asset']) && !empty($this->stash['asset'])){
-            $asset_model->update_batch_assets($data['asset'], $id);
+            $asset_model->update_batch_assets($this->stash['asset'], $id);
           }
 
           return $this->ajax_json($this->stash['note'], false, $redirect_url);

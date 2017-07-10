@@ -3,16 +3,16 @@
 {% block page_css %}
 <style type="text/css">
 
-.ui.wap,#mmfoot{
-	display:none;
-}
-.cloth img{
-	width: 100%;
-	vertical-align: middle;
-}
-.appiosload{
-    display: none !important;
-}
+  .ui.wap,#mmfoot{
+    display:none;
+  }
+  .cloth img{
+    width: 100%;
+    vertical-align: middle;
+  }
+  .appiosload{
+      display: none !important;
+  }
 
 	.presell {
 	  border-radius: 0 .25em 0 0;
@@ -166,7 +166,7 @@
                                 <a title="{{ d.title }}" alt="{{ d.title }}" href="{{ d.url }}" style="background-image: url({{ d.cover_url }});" class="thumb"></a>
                                 <div class="ribbons">
                                     <span class="ribbon season">
-                                      {% if d.is_over %}已结束{%else%}进行中{%endif%}
+                                      {% if d.is_over %}已结束{%else%}{%endif%}
                                     </span>
 
                                 </div>
