@@ -44,7 +44,7 @@ class Sher_App_ViewTag_AssetList extends Doggy_Dt_Tag {
 			$query['asset_type'] = (int)$asset_type;
 		}
 
-	    $string_parent_ids = array(60, 84, 85, 100, 128, 129);
+	    $string_parent_ids = array(60, 84, 85, 100, 128, 129, 145);
 	    if($parent_id && in_array((int)$asset_type, $string_parent_ids)){
 	      $query['parent_id'] = (string)$query['parent_id'];
 	    }

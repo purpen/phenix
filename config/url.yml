@@ -165,6 +165,7 @@ app.url.upload.pictures: '{$app.url.upload}/pictures'
 app.url.upload.active: '{$app.url.upload}/active'
 app.url.upload.stuff: '{$app.url.upload}/stuff'
 app.url.upload.cooperate: '{$app.url.upload}/cooperate'
+app.url.upload.wx_cooperate: '{$app.url.upload}/wx_cooperate'
 app.url.upload.contest: '{$app.url.upload}/contest'
 app.url.upload.report: '{$app.url.upload}/report'
 

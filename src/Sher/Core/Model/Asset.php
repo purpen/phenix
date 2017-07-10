@@ -131,6 +131,9 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
     # sku封面
     const TYPE_SKU_COVER = 140;
 
+    # 微信商务合作附件
+    const TYPE_WX_COOPERATE = 145;
+
     protected $schema = array(
 		'user_id' => '',
     	'parent_id' => '',
