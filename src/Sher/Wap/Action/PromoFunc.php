@@ -50,6 +50,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $ok = $cooper_model->apply_and_save($data);
 
         if($ok){
+          $id = (string)$cooper_model->id;
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
           $this->stash['note'] = '提交成功!';
 
