@@ -112,7 +112,7 @@
 		debug: true,
       	request: {
 			inputName:'file',
-			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '','file_id': '{{ pid }}' },
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': '{{ visitor._id }}','x:asset_type': {{ asset_type }},'x:parent_id': '','file_id': '{{ pid }}' },
         	endpoint: '{{ app_url_upload_wx_cooperate }}'
       	},
 		text: {
@@ -167,7 +167,7 @@
 					</h2>
 				</div>
 				
-				<form action="{{ app_url_wap }}/promo_func/save_cooperate" class="ui form" method="post" id="cooperate-form">
+				<form action="{{ app_url_wap }}/app/wap/promo_func/save_cooperate" class="ui form" method="post" id="cooperate-form">
 					<input type="hidden" name="file_count" id="file_count" />
           <input type="hidden" name="type" value="1" />
           <input type="hidden" name="kind" value="{{ kind }}" />
