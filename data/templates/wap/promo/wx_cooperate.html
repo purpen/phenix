@@ -2,6 +2,17 @@
 {% block title %}{% endblock %}
 {% block page_css %}
 <style type="text/css">
+
+.ui.wap,#mmfoot{
+	display:none;
+}
+.cloth img{
+	width: 100%;
+	vertical-align: middle;
+}
+.appiosload{
+    display: none !important;
+}
 	
 </style>
 {% endblock %}
@@ -13,8 +24,8 @@
 	};
 	
 	$('#cooperate-form').form({
-		name: {
-			identifier  : 'name',
+		username: {
+			identifier  : 'username',
 			rules: [
 				{
 					type   : 'empty',
@@ -152,14 +163,16 @@
 			<div class="column">
 				<div class="new topic">
 					<h2 class="ui header">
-						商务合作
+            {{ kind_label }}
 					</h2>
 				</div>
 				
 				<form action="{{ app_url_wap }}/promo_func/save_cooperate" class="ui form" method="post" id="cooperate-form">
 					<input type="hidden" name="file_count" id="file_count" />
-          <input type="hidden" name="type" value="type" />
+          <input type="hidden" name="type" value="1" />
+          <input type="hidden" name="kind" value="{{ kind }}" />
 						
+					<div class="ui segment">
 						<div class="field">
 							<label for="username">姓名</label>
 						  	<input type="text" name="username" value="" />
