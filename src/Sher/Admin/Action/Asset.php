@@ -18,16 +18,14 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	public function _init() {
 		$this->set_target_css_state('page_asset');
-    }
+		// 判断左栏类型
+		$this->stash['show_type'] = "assist";
+  }
 	
 	/**
 	 * 附件列表
 	 */
 	public function execute(){
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "system";
-		
 		$pager_url = Doggy_Config::$vars['app.url.admin'].'/asset?page=#p#';
 		
 		$this->stash['pager_url'] = $pager_url;
@@ -41,10 +39,6 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 上传附件
 	 */
 	public function upload() {
-		
-		// 判断左栏类型
-		$this->stash['show_type'] = "system";
-		
 		$this->stash['user_id'] = $this->visitor->id;
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = new MongoId();
@@ -114,4 +108,4 @@ class Sher_Admin_Action_Asset extends Sher_Admin_Action_Base implements DoggyX_A
 	
 	
 }
-?>
+
