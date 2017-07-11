@@ -333,6 +333,9 @@
 		  <a class="{{ css_page_surl }} item" href="{{ app_url_admin_base }}/s_url">
 			  短地址
 		  </a>
+      <a class="{{ css_page_asset }} item" href="{{ app_url_admin_base }}/asset">
+        附件管理
+      </a>
 		{%endif%}
 	</div>
 	
@@ -341,9 +344,7 @@
 		<i class="{% if show_type == 'system' %} plus {% else %} minus {% endif %} icon"></i><b>系统模块</b>
 	</div>
 	<div date="menu-admin" {% if show_type == 'system' %} style="display:block" {% else %} style="display:none" {% endif %}>
-		<a class="{{ css_page_asset }} item" href="{{ app_url_admin_base }}/asset">
-			附件管理
-		</a>
+
 		<a class="{{ css_page_category }} item" href="{{ app_url_admin_base }}/category">
 			分类管理
 		</a>
