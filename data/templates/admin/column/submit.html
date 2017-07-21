@@ -149,14 +149,22 @@
     //html+='<div class="field"><input type="button" name="del_item_box" value="删除" /></div>';
     html+='</div>';
 
-    $('#item-box-edit').append(html);
+    var evt = $(this).data('evt');
+
+    if(evt == 1) {
+      $('#item-box-edit').append(html);
+    } else if (evt == 2) {
+      $('#item-box-edit').prepend(html);
+    }
+
   });
 
-  //添加item
+  //确认item
 	$("input[name='add_item_item']").livequery(function(){
 		$(this).click(function(){
       var html = generate_html($(this));
-      $('#item-box').append(html);
+      //$('#item-box-edit').append(html);
+      $(this).parents('.item-box').replace(html);
       $(this).parents('.item-box').remove();
 		});
 	});
@@ -247,11 +255,21 @@
     </div>
 
 
-      <div id="item-box">
-		<div style="margin-bottom:1em">
-			<label>项目列表: </label>
-		</div>
+    <div id="item-box">
+      <div style="margin-bottom:1em">
+        <label>项目列表: </label>
+      </div>
 
+      <div class="ui right aligned grid">
+        <div class="column">
+          <div class="ui magenta add-item button" data-evt="2" style="margin-bottom: 10px;">
+            追加
+          </div>
+        </div>
+      </div>
+
+      <!--ajax追加-->
+      <div id="item-box-edit">
         {% if mode == 'edit' %}
           {% if column.item %}
             {% for p in column.item %}
@@ -307,14 +325,14 @@
             {%endfor%}
           {%endif%}
         {%endif%}
+
       </div>
 
-      <!--ajax追加-->
-      <div id="item-box-edit"></div>
+    </div>
 
       <div class="ui right aligned grid">
         <div class="column">
-          <div class="ui magenta add-item button">
+          <div class="ui magenta add-item button" data-evt="1">
             追加
           </div>
         </div>

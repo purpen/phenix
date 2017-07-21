@@ -17,6 +17,7 @@
   line-height: 2;
 }
 
+
 </style>
 {% endblock %}
 
@@ -39,13 +40,11 @@
 	          <div class="card">
               <div class="problock">
                   <a title="{{ title }}" href="{{ d.url }}" style="background-image: url('{{ d.cover_url }}');" class="thumb"></a>
-                  <!--
                   <div class="ribbons">
-                      <span class="ribbon season">
-                          进行中
+                      <span class="ribbon season" style="padding: .8rem .8rem;">
+                          {{ d.status }}
                       </span>
                   </div>
-                  -->
                   <h2>
                       <a href="{{ d.url }}" title="{{ d.title }}" class="ui line">
           			    {{ d.title }}
@@ -59,7 +58,7 @@
                       <i class="time icon"></i> {{ d.sub_title }}
                   </div>
 
-                  <span class="counter">{{ d.status }}</span>
+                  <span class="counter"></span>
               </div>
               
 	          </div>
