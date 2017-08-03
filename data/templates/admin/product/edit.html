@@ -159,9 +159,7 @@
 
       var total_join = p_a + '@!@' + p_q;
       var html = '<div class="faq-box">';
-      html+='<div class="two fields">';
       html+='<div class="field"><label>'+ p_a +'</label></div>';
-      html+='</div>';
       html+='<div class="field"><label>'+ p_q +'</label></div>';
       html+='<input type="hidden" name="faq[]" value="'+ total_join +'" />';
       html+='<div class="field"><input type="button" name="edit_faq" value="编辑" /><input type="button" name="del_faq_box" value="删除" /></div>';
@@ -1473,17 +1471,13 @@
               {% if product.faq %}
                 {% for p in product.faq %}
                   <div class="faq-box">
-                    <div class="five fields">
-                      <input type="hidden" name="faq[]" value="{{ p.join_faq }}" />
-                      <div class="field">
-                        <label>{{ p.a }}</label>
-                      </div>
-
+                    <input type="hidden" name="faq[]" value="{{ p.join_faq }}" />
+                    <div class="field">
+                      <label>{{ p.a }}</label>
                     </div>
-                    <div class="five fields">
-                      <div class="field">
-                        <label>{{ p.q }}</label>
-                      </div>
+
+                    <div class="field">
+                      <label>{{ p.q }}</label>
                     </div>
                     <div class="field">
                       <input type="button" name="del_faq_box" value="删除" />
