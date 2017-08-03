@@ -68,6 +68,12 @@
       text-decoration: none;
   }
 
+  .faq-box {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+
 </style>
 {% endblock %}
 
@@ -145,6 +151,41 @@
     }, 'json');
     
   }
+
+
+    function generate_html(obj){
+      var p_a = obj.parents('.faq-box').find('[name="faq_temp[a]"]').val();
+      var p_q = obj.parents('.faq-box').find('[name="faq_temp[q]"]').val();
+
+      var total_join = p_a + '@!@' + p_q;
+      var html = '<div class="faq-box">';
+      html+='<div class="two fields">';
+      html+='<div class="field"><label>'+ p_a +'</label></div>';
+      html+='</div>';
+      html+='<div class="field"><label>'+ p_q +'</label></div>';
+      html+='<input type="hidden" name="faq[]" value="'+ total_join +'" />';
+      html+='<div class="field"><input type="button" name="edit_faq" value="编辑" /><input type="button" name="del_faq_box" value="删除" /></div>';
+      html+='</div>';
+
+      return html;
+    }
+
+    function generate_html_edit(obj){
+      var p_a = obj.parents('.faq-box').find('[name="faq_temp[a]"]').val();
+      var p_q = obj.parents('.faq-box').find('[name="faq_temp[q]"]').val();
+
+      var str = obj.parents('.faq-box').find('[name="faq[]"]').val();
+      var arr = str.split('@!@');
+
+      var html = '<div class="faq-box">';
+      html+='<div class="two fields">';
+      html+='<div class="field"><input type="text" name="faq_temp[a]" value="'+ arr[0] +'" placeholder="问题" /></div>';
+      html+='</div>';
+      html+='<div class="field"><textarea name="faq_temp[q]" class="small" placeholder="回答">'+ arr[1] +'</textarea></div>';
+      html+='<div class="field"><input type="button" name="save_faq" value="确定" /></div>';
+      html+='</div>';
+      return html;
+    }
 
 
   </script>
@@ -248,6 +289,22 @@
             phenix.record_asset_id('product-category', id);
           // 加载该类别下的标签库
           load_category_tag(id, '');
+		}
+		
+        return false;
+	});
+
+	// 选择分类(支持多选) --小程序
+	$('body').on('click', '.wx-category.button', function(){
+		var id = $(this).attr('data-value');
+		if ($(this).hasClass('active')){
+			$(this)
+				.removeClass('active');
+            phenix.remove_asset_id('wx-product-category', id);
+		}else{
+			$(this)
+				.addClass('active');
+            phenix.record_asset_id('wx-product-category', id);
 		}
 		
         return false;
@@ -746,6 +803,60 @@
     // 下拉搜索
   $('.js-example-basic-single').select2();
 
+
+  //添加常见问题
+  $('.add-faq').click(function(){
+    var html = '<div class="faq-box">';
+    html+='<div class="two fields">';
+    html+='<div class="field"><input type="text" name="faq_temp[a]" value="" placeholder="问题" /></div>';
+    html+='</div>';
+    html+='<div class="field"><textarea name="faq_temp[q]" class="small" placeholder="回答"></textarea></div>';
+    html+='<div class="field"><input type="button" name="add_faq_item" value="确定" /></div>';
+    html+='</div>';
+
+    var evt = $(this).data('evt');
+
+    if(evt == 1) {
+      $('#faq-box-edit').append(html);
+    } else if (evt == 2) {
+      $('#faq-box-edit').prepend(html);
+    }
+
+  });
+
+  //确认item
+	$("input[name='add_faq_item']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      //$('#faq-box-edit').append(html);
+      $(this).parents('.faq-box').replace(html);
+      $(this).parents('.faq-box').remove();
+		});
+	});
+
+  //编辑item
+	$("input[name='edit_faq']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html_edit($(this));
+      $(this).parents('.faq-box').replace(html);
+		});
+	});
+
+  //保存编辑item
+	$("input[name='save_faq']").livequery(function(){
+		$(this).click(function(){
+      var html = generate_html($(this));
+      $(this).parents('.faq-box').replace(html);
+		});
+	});
+
+  //删除item
+	$("input[name='del_faq_box']").livequery(function(){
+		$(this).click(function(){
+      $(this).parents('.faq-box').remove();
+		});
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -775,6 +886,9 @@
 		</a>
 		<a href="{{ app_url_admin_base }}/product?stage=16" class="{% if stage == 16 %}active{%endif%} item">
 			情境产品
+		</a>
+		<a href="{{ app_url_admin_base }}/product?stage=20" class="{% if stage == 20 %}active{%endif%} item">
+			小程序产品
 		</a>
 	  	<div class="right menu">
 			{% if mode == 'edit' %}
@@ -834,6 +948,10 @@
 					<div class="ui radio checkbox">
 						<input type="radio" name="stage" value="16" {% if product.stage == 16 %}checked="checked"{% endif %} /> 
 						<label>情境产品 <small>非购买商品</small></label>
+					</div>
+					<div class="ui radio checkbox">
+						<input type="radio" name="stage" value="20" {% if product.stage == 20 %}checked="checked"{% endif %} /> 
+						<label>小程序产品 <small>小程序专用</small></label>
 					</div>
 				</div>
 			</div>
@@ -970,9 +1088,22 @@
 
       </div>
 
+			<h3 class="ui dividing header">小程序分类设置</h3>
+			<div class="grouped inline fields">
+        <div class="field">
+          <label>分类:</label>
+          <input type="hidden" name="wx_category_ids" value="{{ product.wx_category_ids_s }}" id="wx-product-category" />
+          {% category_list var:'category' istop:1 only_open:1 domain:14 current:product.wx_category_ids %}
+          {% for cat in category.rows %}
+          <a class="ui {{ cat.active }} magenta wx-category button" style="margin-bottom:2px;" data-tags="{{ cat.tags_s }}" data-value="{{ cat._id }}">{{ cat.title }}</a>
+          {% endfor %}
+        </div>
+
+      </div>
+
 
       <!--
-<h3 class="ui dividing header"></h3>
+      <h3 class="ui dividing header"></h3>
 			<div class="grouped inline fields">
         <div class="field">
           <label>3C品类:</label>
@@ -1319,6 +1450,64 @@
               <label>兑换数量：</label>
             <input type="text" name="exchange_count" value="{{ product.exchange_count|default 0 }}" />
           </div>
+        </div>
+      </div>
+		</div>
+
+		<div class="ui segment">
+			<h3 class="ui dividing header">常见问题设置 <span class="description set-box-button" box_id="faq-box">展开</span></h3>
+      <div id="faq-box" style="display:none;">
+
+        <div id="faq-box">
+          <div class="ui right aligned grid">
+            <div class="column">
+              <div class="ui magenta add-faq button" data-evt="2" style="margin-bottom: 10px;">
+                追加
+              </div>
+            </div>
+          </div>
+
+          <!--ajax追加-->
+          <div id="faq-box-edit">
+            {% if mode == 'edit' %}
+              {% if product.faq %}
+                {% for p in product.faq %}
+                  <div class="faq-box">
+                    <div class="five fields">
+                      <input type="hidden" name="faq[]" value="{{ p.join_faq }}" />
+                      <div class="field">
+                        <label>{{ p.a }}</label>
+                      </div>
+
+                    </div>
+                    <div class="five fields">
+                      <div class="field">
+                        <label>{{ p.q }}</label>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <input type="button" name="del_faq_box" value="删除" />
+                      <input type="button" name="edit_faq" value="编辑" />
+                    </div>
+                  </div>
+                {%endfor%}
+              {%endif%}
+            {%endif%}
+
+          </div>
+
+        </div>
+
+          <div class="ui right aligned grid">
+            <div class="column">
+              <div class="ui magenta add-faq button" data-evt="1">
+                追加
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
       </div>
 		</div>

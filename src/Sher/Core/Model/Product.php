@@ -15,6 +15,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
     const STAGE_EXCHANGE = 12;
     const STAGE_IDEA     = 15;
     const STAGE_SCENE    = 16;
+    const STAGE_WX_APP    = 20; // 微信小程序产品
 	
     protected $schema = array(
 		'_id'     => null,
@@ -78,6 +79,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         'pid' => 0,
         # 3C类别
         'app_category_id' => 0,
+        # 小程序分类
+        'wx_category_ids' => array(),
 
         # 场景
         'scene_ids' => array(),
@@ -346,6 +349,9 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         # 虚拟或实物: 1.实物；2.虚拟(不需要邮费)；3.--
         'kind' => 1,
 
+        #常见问题 ask question
+        'faq' => array(),
+
     );
 	
 	protected $required_fields = array('user_id','title');
@@ -386,6 +392,10 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 
         if(isset($row['category_tags']) && !empty($row['category_tags'])){
               $row['category_tags_s'] = implode(',',$row['category_tags']);   
+        }
+
+        if(isset($row['wx_category_ids']) && !empty($row['wx_category_ids'])){
+              $row['wx_category_ids_s'] = implode(',',$row['wx_category_ids']);   
         }
 
         // 场景转换字符串
@@ -664,6 +674,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
             }
         }
 
+        // 小程序分类多选
+        if (isset($data['wx_category_ids']) && !is_array($data['wx_category_ids'])) {
+            $data['wx_category_ids'] = explode(',', $data['wx_category_ids']);
+            for($i=0;$i<count($data['wx_category_ids']);$i++){
+                $data['wx_category_ids'][$i] = intval($data['wx_category_ids'][$i]);
+            }
+        }
+
         // 自动生成编号
         if($data['stage']==9 && (!isset($data['number']) || empty($data['number']))){
             $data['number'] = Sher_Core_Helper_Util::getNumber();
@@ -778,6 +796,14 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                     if($this->data['stage']==9){
                       $category_model->inc_counter('sub_count', 1, (int)$category_ids[$i]);
                     }               
+                }
+            }
+
+            // 多选小程序分类
+            $wx_category_ids = isset($this->data['wx_category_ids']) ? $this->data['wx_category_ids'] : array();
+            if(!empty($wx_category_ids)){
+                for($i=0;$i<count($wx_category_ids);$i++){
+                    $category_model->inc_counter('total_count', 1, (int)$wx_category_ids[$i]);
                 }
             }
 
