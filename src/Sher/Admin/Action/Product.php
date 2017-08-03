@@ -121,6 +121,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$data['content_wap'] = isset($this->stash['content_wap']) ? $this->stash['content_wap'] : '';
 		$data['category_id'] = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
 		$data['category_ids'] = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : null;
+		$data['wx_category_ids'] = isset($this->stash['wx_category_ids']) ? $this->stash['wx_category_ids'] : null;
         $data['category_tags']  = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
         $data['app_category_id']  = isset($this->stash['app_category_id']) ? (int)$this->stash['app_category_id'] : 0;
         // 商品属性：1.实物；2.虚拟属性(不发货)；
@@ -254,6 +255,20 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 
         $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
         $data['number'] = $number;
+
+    // 常见问题 FAQ
+    $data['faq'] = array();
+    if(isset($this->stash['faq'])){
+      $p_arr = array();
+      foreach($this->stash['faq'] as $d){
+        $s_arr = array();
+        $arr_item = explode('@!@', $d);
+        $s_arr['a'] = $arr_item[0];
+        $s_arr['q'] = $arr_item[1];
+        array_push($p_arr, $s_arr);
+      }
+      $data['faq'] = $p_arr;
+    }
 		
 		try{
 			// 后台上传产品，默认通过审核
@@ -282,7 +297,7 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 				
 			}
 			// 如是热售商品，当前状态必须为商店阶段
-			if($data['process_saled'] && !in_array($data['stage'], array(Sher_Core_Model_Inventory::STAGE_SHOP, Sher_Core_Model_Inventory::STAGE_EXCHANGE))){
+			if($data['process_saled'] && !in_array($data['stage'], array(Sher_Core_Model_Inventory::STAGE_SHOP, Sher_Core_Model_Inventory::STAGE_EXCHANGE, Sher_Core_Model_Inventory::STAGE_WX_APP))){
 				return $this->ajax_json('产品当前阶段设置有误！', true);
 			}
 
@@ -633,6 +648,14 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 	        if (!empty($product)) {
 	            $product = $model->extended_model_row($product);
 	        }
+
+      if(isset($product['faq']) && is_array($product['faq'])){
+        foreach($product['faq'] as $key=>$d){
+          $join_faq = $d['a'].'@!@'.$d['q'];
+          $product['faq'][$key]['join_faq'] = $join_faq;         
+        }
+      }
+
 			$this->stash['product'] = $product;
 		}
 		$this->stash['mode'] = $mode;

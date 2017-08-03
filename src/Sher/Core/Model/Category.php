@@ -132,8 +132,8 @@ class Sher_Core_Model_Category extends Sher_Core_Model_Base {
 			'name' => '情景',
 		),
 		array(
-			'id' => Sher_Core_Util_Constant::TYPE_3C,
-			'name' => '3C',
+			'id' => Sher_Core_Util_Constant::TYPE_WX,
+			'name' => '小程序',
 		),
 		array(
 			'id' => Sher_Core_Util_Constant::TYPE_CUSTOM,
