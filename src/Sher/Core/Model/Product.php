@@ -451,6 +451,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
                 $row['idea'] = 1;
             }else if ($row['stage'] == self::STAGE_SCENE){
                 $row['stage_label'] = '情境产品';
+            }else if ($row['stage'] == self::STAGE_WX_APP){
+                $row['stage_label'] = '小程序产品';
             }else{
                 $row['stage_label'] = '未设置1'; // 未知
             }
@@ -683,7 +685,7 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         }
 
         // 自动生成编号
-        if($data['stage']==9 && (!isset($data['number']) || empty($data['number']))){
+        if(($data['stage']==9 || $data['stage']==20) && (!isset($data['number']) || empty($data['number']))){
             $data['number'] = Sher_Core_Helper_Util::getNumber();
         }
 
