@@ -43,7 +43,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
       for ($i=0;$i<count($wx_category_ids_arr);$i++){
         array_push($wx_category_arr, (int)$wx_category_ids_arr[$i]);
       }
-      $query['wx_category_ids'] = (int)$wx_category_arr;
+      $query['wx_category_ids'] = array('$in' => $wx_category_arr);
 		}
         
         if($category_tags){
@@ -59,7 +59,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         $query['deleted'] = 0;
 		
 		if($stick){
-			$query['stick'] = $stick;
+			$query['stick'] = 1;
 		}
 		
 		// 分页参数
@@ -97,8 +97,8 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$some_fields = array(
             '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
             'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
-			'cover_id'=>1, 'category_ids'=>1, 'stage'=>1, 'inventory'=>1,
-            'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1,
+			'cover_id'=>1, 'wx_category_ids'=>1, 'stage'=>1, 'inventory'=>1,
+            'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1,
             'deleted'=>1,
 		);
 		
