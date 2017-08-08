@@ -249,6 +249,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		
 		$query['domain'] = 14;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+    $query['pid'] = 0;
 		
     $options['page'] = 1;
     $options['size'] = 4;
