@@ -22,7 +22,8 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		// 请求参数
-        $category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : 0;
+    $category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : 0;
+    $wx_category_ids = isset($this->stash['wx_category_ids']) ? $this->stash['wx_category_ids'] : 0;
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -36,6 +37,14 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
             $category_ids_arr = explode(',', $category_ids);
             $query['category_ids'] = (int)$category_ids;
 		}
+		if($wx_category_ids){
+      $wx_category_arr = array();
+      $wx_category_ids_arr = explode(',', $wx_category_ids);
+      for ($i=0;$i<count($wx_category_ids_arr);$i++){
+        array_push($wx_category_arr, (int)$wx_category_ids_arr[$i]);
+      }
+      $query['wx_category_ids'] = (int)$wx_category_arr;
+		}
         
         if($category_tags){
             $category_tag_arr = explode(',', $category_tags);
@@ -43,7 +52,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         }
 
         // 阶段
-        $query['stage'] = 9;
+        $query['stage'] = 20;
 
 		// 已发布上线
 		$query['published'] = 1;
