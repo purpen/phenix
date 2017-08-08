@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 	
-	protected $filter_auth_methods = array('execute', 'getlist', 'view');
+	protected $filter_auth_methods = array('execute', 'getlist', 'view', 'product_category_stick');
 
 	/**
 	 * 入口
@@ -236,6 +236,81 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 
 		return $this->wapi_json('请求成功', 0, $data);
 	}
+
+  /**
+   * 每个分类下推荐4款商品
+   */
+  public function product_category_stick(){
+
+		$domain = isset($this->stash['domain'])?(int)$this->stash['domain']:1;
+		
+		$query   = array();
+		$options = array();
+		
+		$query['domain'] = 14;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+    $query['sub_count'] = array('$ne'=>0);
+		
+    $options['page'] = 1;
+    $options['size'] = 4;
+    $options['sort_field'] = 'orby';
+
+    $some_fields = array(
+      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
+      'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+    );
+
+		$product_some_fields = array(
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'cover_id', 'wx_category_ids', 'stage', 'comment_star',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'tips_label',
+      'deleted'=>1,
+		);
+		
+    $options['some_fields'] = $some_fields;
+
+    $service = Sher_Core_Service_Category::instance();
+    $result = $service->get_category_list($query, $options);
+
+		$product_model = new Sher_Core_Model_Product();
+
+		// 重建数据结果
+		$data = array();
+    for($i=0;$i<count($result['rows']);$i++){
+      $cid = $result['rows'][$i]['_id'];
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
+			}
+      if ($i < 2) {
+        $product_size = 4;
+      } else {
+        $product_size = 6;
+      }
+      // 获取该分类下推荐的4款产品
+      $products = $product_model->find(array('wx_category_ids'=>$cid, 'stage'=>20, 'published'=>1), array('page'=>1, 'size'=>$product_size, 'sort'=>array('stick'=>-1,'update'=>-1)));
+
+      $product_arr = array();
+      for($j=0;$j<count($products);$j++){
+        // 重建商品数据结果
+        $product_data = array();
+        if($products[$j] && empty($products[$j]['deleted'])){
+          $product = $product_model->extended_model_row($products[$j]);
+          for($k=0;$k<count($product_some_fields);$k++){
+            $product_key = $product_some_fields[$k];
+            $product_data[$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
+          }
+          // 封面图url
+          $product_data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+        }
+        // 添加到数组 
+        array_push($product_arr, $product_data);       
+      } // endfor product
+      $data[$i]['products'] = $product_arr;
+    } // endfor result[rows]
+		$result['rows'] = $data;
+		return $this->wapi_json('请求成功', 0, $result);
+  
+  }
 
 }
 
