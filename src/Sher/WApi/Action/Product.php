@@ -249,7 +249,6 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		
 		$query['domain'] = 14;
 		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
-    $query['sub_count'] = array('$ne'=>0);
 		
     $options['page'] = 1;
     $options['size'] = 4;
@@ -257,7 +256,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 
     $some_fields = array(
       '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
-      'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'reply_count'=>1, 'state'=>1, 'app_cover_url'=>1,
+      'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'state'=>1, 'back_url'=>1,
     );
 
 		$product_some_fields = array(
