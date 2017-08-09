@@ -203,7 +203,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$inventory = new Sher_Core_Model_Inventory();
 		$skus = $inventory->find(array(
 			'product_id' => $id,
-			'stage' => $product['stage'],
+			'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
 		));
 
         if(!empty($skus)){
