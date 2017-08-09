@@ -190,7 +190,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 
         if(!empty($asset_result['rows'])){
           foreach($asset_result['rows'] as $key=>$value){
-            array_push($assets, $value['thumbnails']['aub']['view_url']);
+            array_push($assets, $value['thumbnails']['apc']['view_url']);
           }
         }
         $data['asset'] = $assets;
