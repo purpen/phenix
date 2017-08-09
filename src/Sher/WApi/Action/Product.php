@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 	
-	protected $filter_auth_methods = array('execute', 'getlist', 'view');
+	protected $filter_auth_methods = array('execute', 'getlist', 'view', 'product_category_stick');
 
 	/**
 	 * 入口
@@ -22,7 +22,8 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
 		
 		// 请求参数
-        $category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : 0;
+    $category_ids = isset($this->stash['category_ids']) ? $this->stash['category_ids'] : 0;
+    $wx_category_ids = isset($this->stash['wx_category_ids']) ? $this->stash['wx_category_ids'] : 0;
 		$category_tags = isset($this->stash['category_tags']) ? $this->stash['category_tags'] : null;
 		$user_id  = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$stick = isset($this->stash['stick']) ? (int)$this->stash['stick'] : 0;
@@ -36,6 +37,14 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
             $category_ids_arr = explode(',', $category_ids);
             $query['category_ids'] = (int)$category_ids;
 		}
+		if($wx_category_ids){
+      $wx_category_arr = array();
+      $wx_category_ids_arr = explode(',', $wx_category_ids);
+      for ($i=0;$i<count($wx_category_ids_arr);$i++){
+        array_push($wx_category_arr, (int)$wx_category_ids_arr[$i]);
+      }
+      $query['wx_category_ids'] = array('$in' => $wx_category_arr);
+		}
         
         if($category_tags){
             $category_tag_arr = explode(',', $category_tags);
@@ -43,14 +52,14 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
         }
 
         // 阶段
-        $query['stage'] = 9;
+        $query['stage'] = 20;
 
 		// 已发布上线
 		$query['published'] = 1;
         $query['deleted'] = 0;
 		
 		if($stick){
-			$query['stick'] = $stick;
+			$query['stick'] = 1;
 		}
 		
 		// 分页参数
@@ -88,8 +97,8 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$some_fields = array(
             '_id'=>1, 'title'=>1, 'short_title'=>1, 'advantage'=>1, 'sale_price'=>1, 'market_price'=>1,
             'tags'=>1, 'tags_s'=>1, 'created_on'=>1, 'updated_on'=>1,
-			'cover_id'=>1, 'category_ids'=>1, 'stage'=>1, 'inventory'=>1,
-            'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1, 'comment_count'=>1, 'category_tags'=>1,
+			'cover_id'=>1, 'wx_category_ids'=>1, 'stage'=>1, 'inventory'=>1,
+            'stick'=>1, 'featured'=>1, 'love_count'=>1, 'favorite_count'=>1, 'view_count'=>1,
             'deleted'=>1,
 		);
 		
@@ -194,7 +203,7 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 		$inventory = new Sher_Core_Model_Inventory();
 		$skus = $inventory->find(array(
 			'product_id' => $id,
-			'stage' => $product['stage'],
+			'stage' => Sher_Core_Model_Inventory::STAGE_SHOP,
 		));
 
         if(!empty($skus)){
@@ -236,6 +245,81 @@ class Sher_WApi_Action_Product extends Sher_WApi_Action_Base {
 
 		return $this->wapi_json('请求成功', 0, $data);
 	}
+
+  /**
+   * 每个分类下推荐4款商品
+   */
+  public function product_category_stick(){
+
+		$domain = isset($this->stash['domain'])?(int)$this->stash['domain']:1;
+		
+		$query   = array();
+		$options = array();
+		
+		$query['domain'] = 14;
+		$query['is_open'] = Sher_Core_Model_Category::IS_OPENED;
+    $query['pid'] = 0;
+		
+    $options['page'] = 1;
+    $options['size'] = 4;
+    $options['sort_field'] = 'orby';
+
+    $some_fields = array(
+      '_id'=>1, 'title'=>1, 'name'=>1, 'gid'=>1, 'pid'=>1, 'order_by'=>1, 'sub_count'=>1,
+      'domain'=>1, 'is_open'=>1, 'total_count'=>1, 'state'=>1, 'back_url'=>1,
+    );
+
+		$product_some_fields = array(
+			'_id', 'title', 'short_title', 'advantage', 'sale_price', 'market_price',
+			'cover_id', 'wx_category_ids', 'stage', 'comment_star',
+      'stick', 'love_count', 'favorite_count', 'view_count', 'tips_label',
+      'deleted'=>1,
+		);
+		
+    $options['some_fields'] = $some_fields;
+
+    $service = Sher_Core_Service_Category::instance();
+    $result = $service->get_category_list($query, $options);
+
+		$product_model = new Sher_Core_Model_Product();
+
+		// 重建数据结果
+		$data = array();
+    for($i=0;$i<count($result['rows']);$i++){
+      $cid = $result['rows'][$i]['_id'];
+			foreach($some_fields as $key=>$value){
+				$data[$i][$key] = isset($result['rows'][$i][$key])?$result['rows'][$i][$key]:0;
+			}
+      if ($i < 2) {
+        $product_size = 4;
+      } else {
+        $product_size = 6;
+      }
+      // 获取该分类下推荐的4款产品
+      $products = $product_model->find(array('wx_category_ids'=>$cid, 'stage'=>20, 'published'=>1), array('page'=>1, 'size'=>$product_size, 'sort'=>array('stick'=>-1,'update'=>-1)));
+
+      $product_arr = array();
+      for($j=0;$j<count($products);$j++){
+        // 重建商品数据结果
+        $product_data = array();
+        if($products[$j] && empty($products[$j]['deleted'])){
+          $product = $product_model->extended_model_row($products[$j]);
+          for($k=0;$k<count($product_some_fields);$k++){
+            $product_key = $product_some_fields[$k];
+            $product_data[$product_key] = isset($product[$product_key]) ? $product[$product_key] : null;
+          }
+          // 封面图url
+          $product_data['cover_url'] = $product['cover']['thumbnails']['apc']['view_url'];
+        }
+        // 添加到数组 
+        array_push($product_arr, $product_data);       
+      } // endfor product
+      $data[$i]['products'] = $product_arr;
+    } // endfor result[rows]
+		$result['rows'] = $data;
+		return $this->wapi_json('请求成功', 0, $result);
+  
+  }
 
 }
 
