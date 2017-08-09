@@ -557,7 +557,7 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
             if(empty($product)){
                 return $this->wapi_json(sprintf("编号为%d的商品不存在！", $target_id), 3006);
             }
-            if($product['stage'] != 9){
+            if(!in_array($product['stage'], array(9, 20))){
                 return $this->wapi_json(sprintf("商品:%s 不可销售！", $product['title']), 3007);
             }
             if($product['inventory'] < $n){
@@ -871,7 +871,7 @@ class Sher_WApi_Action_Order extends Sher_WApi_Action_Base {
                 if(empty($product)){
                   return $this->wapi_json(sprintf("编号为%d的商品不存在！", $target_id), 3010);
                 }
-                if($product['stage'] != 9){
+                if(!in_array($product['stage'], array(9, 20))){
                   return $this->wapi_json(sprintf("商品:%s 不可销售！", $product['title']), 3011);
                 }
                 if($product['inventory'] < $n){
