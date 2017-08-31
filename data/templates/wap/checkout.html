@@ -240,7 +240,17 @@
 {% endblock %}
 
 {% block jquery %}
-	$('#checkout-form').form({}, {
+	$('#checkout-form').form({
+    rrid: {
+      identifier  : 'rrid',
+      rules: [
+        {
+            type   : 'empty',
+            prompt : '订单号不能为空'
+        }
+      ]
+    }
+  }, {
 		inline : false,
 	    error: {
 	      method : function(message){
