@@ -593,7 +593,7 @@ span.kefu{
 					<div class="content">
 						<i class="map marker icon"></i>
 						
-						{% if order_info.express_info %}
+						{% if order_info.express_info && order_info.delivery_type != 2 %}
 						<div class="addr ml-2r">
 							<h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
 							<span>{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span>
@@ -647,7 +647,7 @@ span.kefu{
 
                 {% endfor %}
 
-                {% if order_info.status >= 15 %}
+                {% if order_info.status >= 15 && order_info.delivery_type != 2 %}
                     <div class="desitem mtb-0 detx dealesc">
                         {{ order_info.express_company.title }} ({{ order_info.express_no }})
                         <a href="javascript:void(0);" data-company="{{ order_info.express_company.title }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
@@ -702,7 +702,7 @@ span.kefu{
                             {%endif%}
                     {% endfor %}
 
-                    {% if d.is_sended %}
+                    {% if d.is_sended && order_info.delivery_type != 2 %}
                         <div class="desitem mtb-0 detx dealesc">
                             {{ d.express_company }} ({{ d.express_no }})
                             <a href="javascript:void(0);" data-company="{{ d.express_company }}" data-caty="{{ d.express_caty }}" data-no="{{ d.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
@@ -772,7 +772,7 @@ span.kefu{
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
         {%endif%}
         {% if order_info.status == 16 %}
-          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order.rid }}" rid="{{ order_info.rid }}" class="ui small magenta inverted button">评价</a>
+          <a href="{{ app_url_wap }}/my/evaluate?rid={{ order_info.rid }}" rid="{{ order_info.rid }}" class="ui small magenta inverted button">评价</a>
         {%endif%}
         {% if order_info.status == 20 %}
           <a href="javascript:void(0);" rid="{{ order_info.rid }}" class="ui color-bd small inverted button remove_order_btn">删除订单</a>
