@@ -589,27 +589,28 @@ span.kefu{
 	<div class="row pt-0">
 		<div class="column p-0">
 			<div class="addressitem mb-2r">
+
             {% if order_info.delivery_type != 2 %}
-              {% if order_info.express_info %}
-                  <div class="item">
-                    <div class="content">
-                        <i class="map marker icon"></i>
-                        <div class="addr ml-2r">
-                          <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
-                          <span>{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span>
-                          <span>  {{ order_info.express_info.address }}</span>
-                          <span>{{ order_info.express_info.phone }}</span>
-                        </div>
-                      {% else %}
-                        <div class="addr ml-2r">
-                          <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.addbook.name }}</h5>
-                          <span>{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }}</span>
-                          <span> {{ order_info.addbook.address }}</span>
-                          <span>{{ order_info.addbook.phone }}</span>
-                        </div>	
-                     </div>
-                  </div>
-            {% endif %}
+              <div class="item">
+                <div class="content">
+                  <i class="map marker icon"></i>
+                    {% if order_info.express_info %}
+                    <div class="addr ml-2r">
+                      <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
+                      <span>{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span>
+                      <span>  {{ order_info.express_info.address }}</span>
+                      <span>{{ order_info.express_info.phone }}</span>
+                    </div>
+                  {% else %}
+                    <div class="addr ml-2r">
+                      <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.addbook.name }}</h5>
+                      <span>{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }}</span>
+                      <span> {{ order_info.addbook.address }}</span>
+                      <span>{{ order_info.addbook.phone }}</span>
+                    </div>	
+                  {% endif %}
+                 </div>
+              </div>
           {% endif %}
 			</div>
 
