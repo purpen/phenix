@@ -87,6 +87,43 @@
     $('.caok').on('click',function(){
     	location.href="{{ app_url_wap }}/shop";
     });
+
+    // 提交支付
+	$('#pay-form').form({
+    rid: {
+      identifier  : 'rid',
+      rules: [
+        {
+            type   : 'empty',
+            prompt : '订单号不能为空'
+        }
+      ]
+    }
+  }, {
+		inline : false,
+	    error: {
+	      method : function(message){
+		      phenix.show_error_note(message, 5000);
+		  }
+	    },
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(result){
+					phenix.after_submit();
+					if(result.is_error){
+						phenix.show_error_note(result.message, 5000);
+					}else{						
+						phenix.redirect(result.redirect_url, 0);
+					}
+				}
+			});
+		}
+	});
 {% endblock %}
 
 {% block content %}
