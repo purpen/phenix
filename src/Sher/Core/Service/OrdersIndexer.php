@@ -51,50 +51,55 @@ class Sher_Core_Service_OrdersIndexer {
     public function build_orders_index($rid) {
         $row = $this->order->find_by_rid($rid);
 		
-		if(empty($row)){
-			Doggy_Log_Helper::warn("Build order index empty.");
-			return false;
-		}
-		
-		$attributes = array();
-		
-		// 收货人地址
-		if(!empty($row['express_info'])){
-			$name = $row['express_info']['name'];
-			$mobile = $row['express_info']['phone'];
-			$attributes['provice'] = $row['express_info']['province'];
-			$attributes['city'] = $row['express_info']['city'];
-		}else{
-			$name = $row['addbook']['name'];
-			$mobile = $row['addbook']['phone'];
-			$attributes['provice'] = $row['addbook']['area_province']['city'];
-			$attributes['city'] = $row['addbook']['area_district']['city'];
-		}
-		
-		// 获取订单属性
+        if(empty($row)){
+          Doggy_Log_Helper::warn("Build order index empty.");
+          return false;
+        }
+        
+        $attributes = array();
+        $delivery_type = isset($row['delivery_type']) ? $row['delivery_type'] : 1;
+        $name = $mobile = null;
+        // 收货人地址
+        if($delivery_type==1){
+            if(!empty($row['express_info'])){
+              $name = $row['express_info']['name'];
+              $mobile = $row['express_info']['phone'];
+              $attributes['provice'] = $row['express_info']['province'];
+              $attributes['city'] = $row['express_info']['city'];
+            }else{
+              $name = $row['addbook']['name'];
+              $mobile = $row['addbook']['phone'];
+              $attributes['provice'] = $row['addbook']['area_province']['city'];
+              $attributes['city'] = $row['addbook']['area_district']['city'];
+            }   
+        }
+
+		    // 获取订单属性
         foreach (array('user_id','status','is_presaled','updated_on','created_on','kind','channel_id','from_app','from_site','deleted') as $k) {
             if (isset($row[$k])) {
                 $attributes[$k] = (int)$row[$k];
             }
         }
 		
-		// 获取sku
-		$sku = array();
-		$full_content = array();
-		foreach($row['items'] as $item){
-			$sku[] = $item['sku'];
-			
-			$product = &DoggyX_Model_Mapper::load_model($item['product_id'], 'Sher_Core_Model_Product');
-			if(empty($product)){
-				continue;
-			}
-	        // 全文检索内容包括: 产品标题、简介、标签
-	        $full_content[] = $product['title'].' '.$product['summary'].' '.implode(' ', $product['tags']);
-		}
-		
+        // 获取sku
+        $sku = array();
+        $full_content = array();
+        foreach($row['items'] as $item){
+          $sku[] = $item['sku'];
+          
+          $product = &DoggyX_Model_Mapper::load_model($item['product_id'], 'Sher_Core_Model_Product');
+          if(empty($product)){
+            continue;
+          }
+              // 全文检索内容包括: 产品标题、简介、标签
+              $full_content[] = $product['title'].' '.$product['summary'].' '.implode(' ', $product['tags']);
+        }
+        
         $full_words = Sher_Core_Helper_SCWS::segment_index_word($this->scws, implode(' ', $full_content));
-		
-        return $this->text_index->build_index($row['_id'], $rid, $name, $mobile, $full_words, $sku, $attributes);
+
+        $result = $this->text_index->build_index($row['_id'], $rid, $name, $mobile, $full_words, $sku, $attributes);
+
+        return $result; 
     }
 	
 	/**

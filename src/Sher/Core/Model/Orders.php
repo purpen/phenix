@@ -103,6 +103,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
         # 收货时间
         'delivery_date' => 0,
+
+    # 收货方式: 1.快递；2.自提；3.--
+    'delivery_type' => 1,
 		
 		## 物流信息
 		
@@ -191,7 +194,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
     );
 
 	protected $required_fields = array('rid', 'user_id');
-	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop','exist_sub_order');
+	protected $int_fields = array('user_id','invoice_type','deleted','kind','status','from_app','from_site','is_vop','exist_sub_order','delivery_type');
 
 	protected $joins = array(
 	    'user' => array('user_id' => 'Sher_Core_Model_User'),
@@ -314,8 +317,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
    	 * 创建之前事件
      */
   	protected function before_insert(&$data) {
+      $delivery_type = isset($data['delivery_type']) ? $data['delivery_type'] : 1;
   		//复制收货地址
-    	if(isset($data['addbook_id'])){
+    	if($delivery_type == 1){
 		  	if(empty($data['addbook_id'])){
 			  	throw new Sher_Core_Model_Exception('收货地址为空！');
 		  	}
@@ -363,7 +367,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
                 }
             }   // endif
 	        $data['express_info'] = $add_info;
-    	}
+      }
   	}
 	
 	/**
@@ -1193,7 +1197,13 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             // 更新用户订单提醒状态
             $user_model = new Sher_Core_Model_User();
             $user_model->update_counter_byinc($data['user_id'], 'order_wait_payment', -1);
-            $user_model->update_counter_byinc($data['user_id'], 'order_ready_goods', 1);
+            // 是否是自提订单
+            $delivery_type = isset($data['delivery_type']) ? $data['delivery_type'] : 1;
+            if($delivery_type==1){
+                $user_model->update_counter_byinc($data['user_id'], 'order_ready_goods', 1);
+            }elseif($delivery_type==2){
+                $user_model->update_counter_byinc($data['user_id'], 'order_evaluate', 1);
+            }
 
             // 如果是开普勒，接口对接
             if(isset($data['jd_order_id']) && !empty($data['jd_order_id'])){
