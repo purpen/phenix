@@ -1544,11 +1544,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$rid = $this->stash['rid'];
 		$payaway = $this->stash['payaway'];
 		if (empty($rid)) {
-			return $this->show_message_page('操作不当，请查看购物帮助！');
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
 		if (empty($payaway)){
 			$next_url = Doggy_Config::$vars['app.url.wap'].'/shop/success?rid='.$rid;
-			return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
+			return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
 		$model = new Sher_Core_Model_Orders();
@@ -1572,10 +1572,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				$pay_url = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/payment?rid='.$rid;
 				break;
 			default:
-				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
+			  return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
-		return $this->to_redirect($pay_url);
+		return $this->ajax_json('下订单成功！', false, $next_url);
 	}
 	
 	/**
