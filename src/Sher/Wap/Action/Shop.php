@@ -1547,7 +1547,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
 		if (empty($payaway)){
-			$next_url = Doggy_Config::$vars['app.url.wap'].'/shop/success?rid='.$rid;
 			return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
@@ -1575,7 +1574,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			  return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
-		return $this->ajax_json('下订单成功！', false, $next_url);
+		return $this->ajax_json('下订单成功！', false, $pay_url);
 	}
 	
 	/**
