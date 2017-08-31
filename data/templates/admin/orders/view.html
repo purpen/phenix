@@ -428,19 +428,6 @@
 	</div>
 	
 	<div class="ui bottom attached segment">
-		{% if order_info.status > 14 %}
-		<h3 class="ui dividing header">物流信息</h3>
-		<div class="ui list">
-		  	<div class="item"><label>物流公司：</label> {{ order_info.express_company.title }}</div>
-		  	<div class="item"><label>运单号码：</label> {{ order_info.express_no }}</div>
-		</div>
-		<p>
-			{% if visitor.is_system %}
-			<a href="{{ app_url_admin_base }}/orders/revoke_send?rid={{ order_info.rid }}" class="ui small ajax magenta button">撤销发货</a>
-			{% endif %}
-			<a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui small magenta button">更新物流信息</a>
-		</p>
-		{% endif %}
 		
 		<h3 class="ui dividing header">下单用户</h3>
 		<div class="ui list">
@@ -449,29 +436,50 @@
 				<a href="{{ order_info.user.home_url }}" target="_blank" class="ui magenta link">{{ order_info.user.nickname }}</a>
 			</div>
 		</div>
-		
-		<h3 class="ui dividing header">收货信息</h3>
-    <!--针对老数据及微信-->
-		{% if order_info.express_info %}
-			<div class="ui list">
-			  	<div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
-			  	<div class="item"><label>收货地址：</label> 
-                    {{ order_info.express_info.province }} 
-                    {{ order_info.express_info.city }} 
-                    {{ order_info.express_info.county }} 
-                    {{ order_info.express_info.town }} 
-                    {{ order_info.express_info.address }}</div>
-			  	<div class="item"><label>联系电话：</label> {{ order_info.express_info.phone }}</div>
-			  	<div class="item"><label>邮政编码：</label> {{ order_info.express_info.zip }}</div>
-			</div>
-		{% else %}
-			<div class="ui list">
-			  	<div class="item"><label>姓   名：</label> {{ order_info.addbook.name }}</div>
-			  	<div class="item"><label>收货地址：</label> {{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }}</div>
-			  	<div class="item"><label>联系电话：</label> {{ order_info.addbook.phone }}</div>
-			  	<div class="item"><label>邮政编码：</label> {{ order_info.addbook.zip }}</div>
-			</div>
-		{% endif %}
+
+		<h3 class="ui dividing header">收货方式</h3>
+		<div class="ui list">
+      <div class="item">{% if order_info.delivery_type != 2 %}快递{%else%}自提{%endif%}</div>
+		</div>
+
+    {% if order_info.delivery_type != 2 %}
+      {% if order_info.status > 14 %}
+      <h3 class="ui dividing header">物流信息</h3>
+      <div class="ui list">
+          <div class="item"><label>物流公司：</label> {{ order_info.express_company.title }}</div>
+          <div class="item"><label>运单号码：</label> {{ order_info.express_no }}</div>
+      </div>
+      <p>
+        {% if visitor.is_system %}
+        <a href="{{ app_url_admin_base }}/orders/revoke_send?rid={{ order_info.rid }}" class="ui small ajax magenta button">撤销发货</a>
+        {% endif %}
+        <a href="{{ app_url_admin_base }}/orders/send?rid={{ order_info.rid }}" class="ui small magenta button">更新物流信息</a>
+      </p>
+      {% endif %}
+      
+      <h3 class="ui dividing header">收货信息</h3>
+      <!--针对老数据及微信-->
+      {% if order_info.express_info %}
+        <div class="ui list">
+            <div class="item"><label>姓   名：</label> {{ order_info.express_info.name }}</div>
+            <div class="item"><label>收货地址：</label> 
+                      {{ order_info.express_info.province }} 
+                      {{ order_info.express_info.city }} 
+                      {{ order_info.express_info.county }} 
+                      {{ order_info.express_info.town }} 
+                      {{ order_info.express_info.address }}</div>
+            <div class="item"><label>联系电话：</label> {{ order_info.express_info.phone }}</div>
+            <div class="item"><label>邮政编码：</label> {{ order_info.express_info.zip }}</div>
+        </div>
+      {% else %}
+        <div class="ui list">
+            <div class="item"><label>姓   名：</label> {{ order_info.addbook.name }}</div>
+            <div class="item"><label>收货地址：</label> {{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }} {{ order_info.addbook.address }}</div>
+            <div class="item"><label>联系电话：</label> {{ order_info.addbook.phone }}</div>
+            <div class="item"><label>邮政编码：</label> {{ order_info.addbook.zip }}</div>
+        </div>
+      {% endif %}
+    {%endif%}
 		
 		<h3 class="ui dividing header">发票信息</h3>
 		<div class="ui list">
