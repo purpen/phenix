@@ -592,22 +592,23 @@ span.kefu{
 				<div class="item">
 					<div class="content">
 						<i class="map marker icon"></i>
-						
-						{% if order_info.express_info && order_info.delivery_type != 2 %}
-						<div class="addr ml-2r">
-							<h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
-							<span>{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span>
-							<span>  {{ order_info.express_info.address }}</span>
-							<span>{{ order_info.express_info.phone }}</span>
-						</div>
-					{% else %}
-						<div class="addr ml-2r">
-							<h5 class="ui header pt-r mb-2r">收货人：{{ order_info.addbook.name }}</h5>
-							<span>{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }}</span>
-							<span> {{ order_info.addbook.address }}</span>
-							<span>{{ order_info.addbook.phone }}</span>
-						</div>	
-					{% endif %}			
+            {% if order_info.delivery_type != 2 %}
+              {% if order_info.express_info %}
+              <div class="addr ml-2r">
+                <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.express_info.name }}</h5>
+                <span>{{ order_info.express_info.province }} {{ order_info.express_info.city }} {{ order_info.express_info.county }} {{ order_info.express_info.town }}</span>
+                <span>  {{ order_info.express_info.address }}</span>
+                <span>{{ order_info.express_info.phone }}</span>
+              </div>
+            {% else %}
+              <div class="addr ml-2r">
+                <h5 class="ui header pt-r mb-2r">收货人：{{ order_info.addbook.name }}</h5>
+                <span>{{ order_info.addbook.area_province.city }} {{ order_info.addbook.area_district.city }}</span>
+                <span> {{ order_info.addbook.address }}</span>
+                <span>{{ order_info.addbook.phone }}</span>
+              </div>	
+            {% endif %}
+          {% endif %}
 					 </div>
 				</div>
 			</div>
@@ -647,11 +648,13 @@ span.kefu{
 
                 {% endfor %}
 
-                {% if order_info.status >= 15 && order_info.delivery_type != 2 %}
-                    <div class="desitem mtb-0 detx dealesc">
-                        {{ order_info.express_company.title }} ({{ order_info.express_no }})
-                        <a href="javascript:void(0);" data-company="{{ order_info.express_company.title }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
-                    </div>
+                {% if order_info.delivery_type != 2 %}
+                  {% if order_info.status >= 15 %}
+                      <div class="desitem mtb-0 detx dealesc">
+                          {{ order_info.express_company.title }} ({{ order_info.express_no }})
+                          <a href="javascript:void(0);" data-company="{{ order_info.express_company.title }}" data-caty="{{ order_info.express_caty }}" data-no="{{ order_info.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                      </div>
+                  {% endif %}
                 {% endif %}
 
                 <!--
@@ -702,11 +705,13 @@ span.kefu{
                             {%endif%}
                     {% endfor %}
 
-                    {% if d.is_sended && order_info.delivery_type != 2 %}
-                        <div class="desitem mtb-0 detx dealesc">
-                            {{ d.express_company }} ({{ d.express_no }})
-                            <a href="javascript:void(0);" data-company="{{ d.express_company }}" data-caty="{{ d.express_caty }}" data-no="{{ d.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
-                        </div>
+                    {% if order_info.delivery_type != 2 %}
+                      {% if d.is_sended %}
+                          <div class="desitem mtb-0 detx dealesc">
+                              {{ d.express_company }} ({{ d.express_no }})
+                              <a href="javascript:void(0);" data-company="{{ d.express_company }}" data-caty="{{ d.express_caty }}" data-no="{{ d.express_no }}" class="ui small color-bd logistics inverted button fl-r">查物流</a>
+                          </div>
+                      {% endif %}
                     {% endif %}
 
                 {%endfor%}
