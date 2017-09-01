@@ -241,16 +241,16 @@
 
 {% block jquery %}
 	$('#checkout-form').form({
-		addbook_id_back: {
-			identifier  : 'addbook_id_back',
-			rules: [
-				{
-					type   : 'empty',
-					prompt : '收货地址不能为空'
-				}
-			]
-		},
-	}, {
+    rrid: {
+      identifier  : 'rrid',
+      rules: [
+        {
+            type   : 'empty',
+            prompt : '订单号不能为空'
+        }
+      ]
+    }
+  }, {
 		inline : false,
 	    error: {
 	      method : function(message){
@@ -360,6 +360,21 @@
 			phenix.show_error_note('请输入鸟币数量', 3000);
 		}
 	});
+
+  // 选择收货方式
+  $('[name=delivery_type]').change(function(){
+    var val = $(this).val();
+    if(val==1){
+      $('.express_box').show();
+      $('.self_box').hide();
+      var freight = $('.freight-box').data('freight');
+      $('.freight-box').text(freight);
+    }else if (val==2) {
+      $('.express_box').hide();
+      $('.self_box').show();
+      $('.freight-box').text(0);
+    }
+  });
 	
 {% endblock %}
 
@@ -379,9 +394,35 @@
 			
 			<div class="row pt-0">
 				<div class="column p-0">
-					<div class="ui address mtb-2r segment">
-						<div class="ui vrey relaxed divided address list">
-						
+					
+					{% for product in data.items %}
+					<div class="cartitem" id="cart-product-{{ product.target_id }}">
+						<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
+						<div class="cartinfo">
+							<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
+			        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
+							<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
+			
+						</div>
+					</div>
+					{% endfor %}
+				
+					<div class="ui mtb-2r segment">
+						<div class="ui very relaxed divided list">
+							<div class="item">
+                <span>收货方式：</span>
+								<div class="ui radio checkbox">
+									<input name="delivery_type" type="radio" value="1" checked="checked" />
+									<label><span class="ui text">快递</span></label>
+								</div>
+                &nbsp;&nbsp;&nbsp;
+								<div class="ui radio checkbox">
+									<input name="delivery_type" type="radio" value="2" />
+									<label><span class="ui text">自提</span></label>
+								</div>
+							</div>
+
+							<div class="item express_box">
 							{% if default_addbook %}
 							<div class="addressitem">
 								<div class="item">
@@ -407,26 +448,12 @@
 								</div>
 							</a>
 							{% endif %}
-								
-								
-						</div>
-					</div>
-					
-					{% for product in data.items %}
-					<div class="cartitem" id="cart-product-{{ product.target_id }}">
-						<a href="{{ product.wap_view_url }}" class="img"> <img class="lazy" src="{{ product.cover }}" alt="{{ product.title }}"></a>
-						<div class="cartinfo">
-							<a class="ui link" href="{{ product.wap_view_url }}"><h3 class="title">{{ product.title }}</h3></a>
-			        <p class="checkt">颜色／分类：{% if product.sku_mode %}{{ product.sku_mode }}{%else%}默认{%endif%}  &nbsp;&nbsp;数量＊{{ product.quantity }}</p>
-							<p class="price"><i class="rmb icon"></i>  {{ product.subtotal }}</p>
-			
-						</div>
-					</div>
-					{% endfor %}
-				
-					<div class="ui mtb-2r segment">
-						<div class="ui very relaxed divided list">
+            </div>
+            <div class="item self_box" style="display:none;">
+              <p style="color: red;">* 联系所在店铺工作人员领取该商品</p>
+            </div>
 
+              <!--
 							<div class="item">
 								配送时间：
 							</div>
@@ -448,6 +475,7 @@
 									<label><span class="ui text">星期六、日</span></label>
 								</div>
 							</div>
+              -->
 						</div>
 					</div>
 					
@@ -526,7 +554,7 @@
 								</div>
 							</div>
 							<div class="item">
-								<div class="right floated">
+                <div class="right floated freight-box" data-freight="{{ data.freight }}">
 									<small>￥</small>{{ data.freight }}
 								</div>
 								<div class="content">

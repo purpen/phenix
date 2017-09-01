@@ -46,7 +46,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 当前有登录用户
 		if ($this->visitor->id){
 			//指定入口送抽奖码
-			if($this->stash['evt']=='match2_praise'){
+			if(isset($this->stash['evt']) && $this->stash['evt']=='match2_praise'){
 				$this->send_match_praise((int)$this->visitor->id, (string)$this->visitor->account);
 				//大赛2
 				$redirect_url = Doggy_Config::$vars['app.url.wap.contest'].'/dream2'; 

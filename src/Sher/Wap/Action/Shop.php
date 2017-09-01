@@ -1182,24 +1182,31 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			// 没有临时订单编号，为非法操作
 			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
-        $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
-		if(empty($addbook_id)){
-			return $this->ajax_json('请选择收货地址！', true);
-		}
+    // 是自提还是快递
+    $delivery_type = isset($this->stash['delivery_type']) ? (int)$this->stash['delivery_type'] : 1;
+    $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
 
-        // 抢购商品
-        $is_snatched = false;
-            
+    if($delivery_type==1){
+        if(empty($addbook_id)){
+          return $this->ajax_json('请选择收货地址！', true);
+        }
+
         //验证地址
         $add_book_model = new Sher_Core_Model_DeliveryAddress();
-        $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+        $add_book = $add_book_model->find_by_id($addbook_id);
         if(empty($add_book)){
           return $this->ajax_json('地址不存在！', true);
         }
+    } elseif($delivery_type == 2){
+      $addbook_id = null;
+    }
+
+    // 抢购商品
+    $is_snatched = false;
 
 		$bonus = isset($this->stash['bonus']) ? $this->stash['bonus'] : '';
 		$bonus_code = $this->stash['bonus_code'];
-		$transfer_time = $this->stash['transfer_time'];
+		$transfer_time = isset($this->stash['transfer_time']) ? $this->stash['transfer_time'] : 'a';
 		
 		Doggy_Log_Helper::debug("Submit Mobile Order [$rrid]！");
 		
@@ -1269,9 +1276,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		// 预售订单
 		$order_info['is_presaled'] = $is_presaled;
 		
+    if($delivery_type == 1){
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $this->stash['addbook_id'], array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money']));
-        $order_info['freight'] = $freight;
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $addbook_id, array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money']));
+    }else {
+        $freight = 0;
+    }
+    $order_info['freight'] = $freight;   
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
@@ -1298,9 +1309,11 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 			
 			$order_info['user_id'] = (int)$user_id;
 
-            $order_info['is_vop'] = $is_vop;
+      $order_info['is_vop'] = $is_vop;
 			
-			$order_info['addbook_id'] = $this->stash['addbook_id'];
+			$order_info['addbook_id'] = $addbook_id;
+
+      $order_info['delivery_type'] = $delivery_type;
 			
 			// 来源手机Wap订单
 			$order_info['from_site'] = Sher_Core_Util_Constant::FROM_WAP;
@@ -1392,21 +1405,21 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         //再次验证用户积分并冻结用户相应的积分数量
         $check_bird = Sher_Core_Util_Shopping::check_and_freeze_bird_coin($order_info['bird_coin_count'], $order_info['user_id'], $product_id);
         if(!$check_bird['stat']){
- 				  return 	$this->ajax_json($check_bird['msg'], true);       
+ 				  return 	$this->ajax_json($check_bird['msg'], true);
         }
         
       }
 
 
-            $order_info['jd_order_id'] = null;
-            // 创建开普勒订单
-            if(!empty($order_info['is_vop'])){
-                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
-                if(!$vop_result['success']){
-				    return 	$this->ajax_json($vop_result['message'], true);
-                }
-                $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
-            }
+      $order_info['jd_order_id'] = null;
+      // 创建开普勒订单
+      if(!empty($order_info['is_vop'])){
+          $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+          if(!$vop_result['success']){
+      return 	$this->ajax_json($vop_result['message'], true);
+          }
+          $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
+      }
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功
@@ -1505,7 +1518,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
                 }
                 // 自动处理支付
                 $trade_no = $trade_prefix.rand();
-                $model->update_order_payment_info((string)$order_info['_id'], $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, 1, array('user_id'=>$order_info['user_id']));
+                // 是否是自提订单
+                $delivery_type = isset($order_info['delivery_type']) ? $order_info['delivery_type'] : 1;
+                $new_status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+                if($delivery_type == 2){
+                  $new_status = Sher_Core_Util_Constant::ORDER_EVALUATE;
+                }
+                $model->update_order_payment_info((string)$order_info['_id'], $trade_no, $new_status, 1, array('user_id'=>$order_info['user_id']));
                 $this->stash['card_payed'] = true;
             }       
         }else{
@@ -1525,11 +1544,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$rid = $this->stash['rid'];
 		$payaway = $this->stash['payaway'];
 		if (empty($rid)) {
-			return $this->show_message_page('操作不当，请查看购物帮助！');
+			return $this->ajax_json('操作不当，请查看购物帮助！', true);
 		}
 		if (empty($payaway)){
-			$next_url = Doggy_Config::$vars['app.url.wap'].'/shop/success?rid='.$rid;
-			return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
+			return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
 		$model = new Sher_Core_Model_Orders();
@@ -1553,10 +1571,10 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				$pay_url = Doggy_Config::$vars['app.url.domain'].'/app/wap/jdpay/payment?rid='.$rid;
 				break;
 			default:
-				return $this->show_message_page('请至少选择一种支付方式！', $next_url, 2000);
+			  return $this->ajax_json('请至少选择一种支付方式！', true);
 		}
 		
-		return $this->to_redirect($pay_url);
+		return $this->ajax_json('下订单成功！', false, $pay_url);
 	}
 	
 	/**
