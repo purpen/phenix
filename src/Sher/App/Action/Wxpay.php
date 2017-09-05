@@ -57,7 +57,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = 'https://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
+			$notify_url = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
 			$tools = new Sher_Core_Util_WxPay_WxJsApiPay();
@@ -66,7 +66,7 @@
 			// 统一下单
 			$input = new Sher_Core_Util_WxPay_WxPayData_WxPayUnifiedOrder();
 			
-			$input->SetBody('D3IN'.$order_info['rid'].'的订单'); // 商品描述
+			$input->SetBody('Fiu'.$order_info['rid'].'的订单'); // 商品描述
 			$input->SetOut_trade_no($order_info['rid']); // 商户订单号
 			$input->SetTotal_fee((float)$order_info['pay_money']*100); // 订单总金额,单位为分
 			$input->SetNotify_url($notify_url); // 通知地址
@@ -79,7 +79,7 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = 'https://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
+			$this->stash['url_back'] = 'http://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
