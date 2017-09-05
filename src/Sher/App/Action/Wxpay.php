@@ -57,7 +57,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = Doggy_Config::$vars['app.url.domain'].'/app/site/wxpay/notify';
+			$notify_url = 'https://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/notify';
 			
 			// 获取用户openid
 			$tools = new Sher_Core_Util_WxPay_WxJsApiPay();
@@ -79,7 +79,7 @@
 			
 			$this->stash['jsApiParameters'] = $jsApiParameters;
 			$this->stash['editAddress'] = $editAddress;
-			$this->stash['url_back'] = Doggy_Config::$vars['app.url.domain'].'/app/site/wxpay/direct?rid='.$rid;
+			$this->stash['url_back'] = 'https://'.$_SERVER['HTTP_HOST'].'/app/site/wxpay/direct?rid='.$rid;
 			
 			return $this->to_html_page('wap/wxpay.html');
 		}
