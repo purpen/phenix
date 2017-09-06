@@ -1735,6 +1735,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $user_id = $this->current_user_id;
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
+		$pay_type = isset($this->stash['pay_type'])?(int)$this->stash['pay_type']:1;
 		$app_type = isset($this->stash['app_type'])?(int)$this->stash['app_type']:1;
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
@@ -1765,20 +1766,39 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }else{
       $action_name = 'payment';
     }
-		switch($payaway){
-			case 'alipay':
-        $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			case 'weichat':
-        $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			case 'jdpay':
-        $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			default:
-			  return $this->api_json('找不到支付类型！', 3005);
-				break;
-		}
+
+    if($pay_type == 1){
+      switch($payaway){
+        case 'alipay':
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'weichat':
+          $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'jdpay':
+          $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        default:
+          return $this->api_json('找不到支付类型！', 3005);
+          break;
+      }   
+    }else{
+      switch($payaway){
+        case 'alipay':
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'weichat':
+          $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'jdpay':
+          $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        default:
+          return $this->api_json('找不到支付类型！', 3005);
+          break;
+      }
+    }
+
     return $this->to_redirect($pay_url); 
 	}
 
