@@ -580,11 +580,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     if($delivery_type === 1){
         if($addbook_id){
             $add_book_model = new Sher_Core_Model_DeliveryAddress();
-            $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+            $add_book = $add_book_model->find_by_id($addbook_id);
             if(empty($add_book)){
                 // 兼容老地址
                 $add_book_model = new Sher_Core_Model_AddBooks();
-                $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
+                $add_book = $add_book_model->find_by_id($addbook_id);
             }
             if(empty($add_book)){
                 return $this->api_json('地址不存在！', 3002);
@@ -594,7 +594,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             if(empty($addbook_json)){
                 return $this->api_json('收货地址不存在！', 3020);      
             }
-            $addbook = json_decode($addbook_json);
+            $addbook = json_decode($addbook_json, true);
             $express_info = array(
                 'name' => isset($addbook['name']) ? $addbook['name'] : '',
                 'phone' => isset($addbook['phone']) ? $addbook['phone'] : '',
