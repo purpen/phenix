@@ -454,7 +454,6 @@
 		 * 
 		 */
 		public function scan_fiu_payment(){
-
       require_once "wxpay-sdk/lib/WxPay.Api.php";
       //require_once 'log.php';
 
@@ -498,12 +497,13 @@
       $input->SetBody('D3IN'.$order_info['rid'].'的订单');
       $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
       $input->SetOut_trade_no($order_info['rid']);
+      $input->SetProduct_id($order_info['rid']);
       $input->SetTotal_fee((float)$order_info['pay_money']*100);
       //$input->SetTime_start(date("YmdHis"));
       //$input->SetTime_expire(date("YmdHis", time() + 600));
       //$input->SetGoods_tag("test"); // 商品标记
       $input->SetNotify_url($notify_url);
-      $input->SetTrade_type("JSAPI");
+      $input->SetTrade_type("NATIVE");
       $input->SetDevice_info($uuid); // 终端设备号
       $input->SetSpbill_create_ip($ip); // 终端IP
       $order = WxPayApi::unifiedOrder($input);
@@ -555,6 +555,7 @@
       }else{
         $this->api_json('请求异常!', 3012);
       }
+
 
 
 		}
