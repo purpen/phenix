@@ -2745,12 +2745,28 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     public function fetch_freight(){
         $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null; 
         $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+        $province_id = isset($this->stash['province_id']) ? $this->stash['province_id'] : '';
+        $city_id = isset($this->stash['city_id']) ? $this->stash['city_id'] : '';
+        $county_id = isset($this->stash['county_id']) ? $this->stash['county_id'] : '';
+        $town_id = isset($this->stash['town_id']) ? $this->stash['town_id'] : '';
 
-        if(empty($rid) || empty($addbook_id)){
+        if(empty($rid)){
             return $this->api_json('缺少请求参数!', 3001);
         }
+        $addbook = array();
+        if(empty($addbook_id)){
+            $addbook = array(
+              'province_id' => $province_id,
+              'city_id' => $city_id,
+              'county_id' => $county_id,
+              'town_id' => $town_id,
+            );
+            if(empty($province_id) || empty($city_id)){
+                return $this->api_json('缺少请求参数!', 3002);
+            }
+        }
 
-        $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id);
+        $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id, array('addbook'=>$addbook));
         return $this->api_json('success', 0, array('freight'=>$freight, 'rid'=>$rid));
     }
 

@@ -190,8 +190,14 @@
        
        // 验证订单是否已经付款
        if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+        // 是否是自提订单
+        $delivery_type = isset($order_info['delivery_type']) ? $order_info['delivery_type'] : 1;
+        $new_status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+        if($delivery_type == 2){
+          $new_status = Sher_Core_Util_Constant::ORDER_EVALUATE;
+        }
         // 更新支付状态,付款成功并配货中
-        return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
+        return $model->update_order_payment_info($order_id, $trade_no, $new_status, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
        }else{
         return true;
        }
