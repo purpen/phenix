@@ -20,12 +20,13 @@ class Sher_Core_ViewTag_ZoneProductLinkList extends Doggy_Dt_Tag {
 
         $scene_id = 0;
         $product_id = 0;
+        $tag = '';
         $status = 0;
 		
         $var = 'list';
         $include_pager = 0;
         $pager_var = 'pager';
-		$sort = 0;
+		    $sort = 0;
 
         extract($this->resolve_args($context, $this->argstring, EXTR_IF_EXISTS));
 
@@ -41,6 +42,9 @@ class Sher_Core_ViewTag_ZoneProductLinkList extends Doggy_Dt_Tag {
 
         if($product_id){
           $query['product_id'] = (int)$product_id;         
+        }
+        if($tag){
+          $query['tag'] = (int)$tag;         
         }
 
         if($status){

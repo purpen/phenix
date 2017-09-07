@@ -13,6 +13,7 @@ class Sher_Core_Model_ZoneProductLink extends Sher_Core_Model_Base {
         # 产品id
         'product_id' => 0,
         'type' => 1,
+        'tag' => '',
         # 是否启用
 		'status' => 1,
     );

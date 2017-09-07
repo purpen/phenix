@@ -380,6 +380,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		$data['title'] = $scene['title'];
 		$data['sub_title'] = $scene['sub_title'];
 		$data['category_id'] = $scene['category_id'];
+		$data['product_tags'] = isset($scene['product_tags']) ? $scene['product_tags'] : array();
 		$data['avatar_url'] = $scene['avatar']['thumbnails']['apc']['view_url'];
 		//$data['banner_url'] = $scene['banner']['thumbnails']['aub']['view_url'];
 		$data['created_at'] = Sher_Core_Helper_Util::relative_datetime($scene['created_on']);
@@ -531,6 +532,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
 		// 请求参数
     $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
     $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+    $tag = isset($this->stash['tag']) ? $this->stash['tag'] : '';
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
 		$page = isset($this->stash['page'])?(int)$this->stash['page']:1;
 		$size = isset($this->stash['size'])?(int)$this->stash['size']:8;
@@ -540,7 +542,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
     }
 		
 		$some_fields = array(
-			'_id'=>1, 'scene_id'=>1, 'product_id'=>1, 'user_id'=>1, 'type'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
+			'_id'=>1, 'scene_id'=>1, 'product_id'=>1, 'tag'=>1, 'user_id'=>1, 'type'=>1, 'status'=>1, 'created_on'=>1, 'updated_on'=>1,
 		);
 
 		$product_some_fields = array(
@@ -557,6 +559,9 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
     }
     if($product_id) {
       $query['product_id'] = $product_id;
+    }
+    if($tag) {
+      $query['tag'] = $tag;
     }
 		
 

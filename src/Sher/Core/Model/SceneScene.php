@@ -20,6 +20,8 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
         'type' => 1,
         # 亮点
 		'bright_spot' => array(),
+    # 产品标签
+    'product_tags' => array(),
 		# 情境
 		'sight' => array(),
 		# 标签
@@ -112,14 +114,17 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 	 * 扩展数据
 	 */
 	protected function extra_extend_model_row(&$row) {
-		$row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
-        // 封面图
-        $row['avatar'] = $this->avatar($row);
-        $row['cover'] = $this->cover($row);
-        $row['banner'] = $this->banner($row);
+      $row['tags_s'] = !empty($row['tags']) ? implode(',',$row['tags']) : '';
+      if(isset($row['product_tags']) && !empty($row['product_tags'])){
+          $row['product_tags_s'] = !empty($row['product_tags']) ? implode(',',$row['product_tags']) : '';
+      }
+      // 封面图
+      $row['avatar'] = $this->avatar($row);
+      $row['cover'] = $this->cover($row);
+      $row['banner'] = $this->banner($row);
 
-        // wap_view_url
-        $row['wap_view_url'] = sprintf("%s/storage/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+      // wap_view_url
+      $row['wap_view_url'] = sprintf("%s/storage/view?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
 	}
 	
 	/**
@@ -129,6 +134,9 @@ class Sher_Core_Model_SceneScene extends Sher_Core_Model_Base {
 
 	    if (isset($data['tags']) && !is_array($data['tags'])) {
 	        $data['tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['tags'])));
+	    }
+	    if (isset($data['product_tags']) && !is_array($data['product_tags'])) {
+	        $data['product_tags'] = array_values(array_unique(preg_split('/[,，;；\s]+/u',$data['product_tags'])));
 	    }
 
 	    parent::before_save($data);

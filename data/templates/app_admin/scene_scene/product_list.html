@@ -61,13 +61,14 @@
     $('#add-btn').click(function(){
         var scene_id = $('#add-form input[name=scene_id]').val();
         var product_id = $('#add-form input[name=product_id]').val();
+        var tag = $('#add-form input[name=tag]').val();
 
         if(!scene_id || !product_id){
             phenix.show_error_note('缺少请求参数');
             return false;
         }
 
-        $.post("{{ app_url_app_admin_base }}/scene_scene/add_scene_product", {scene_id:scene_id, product_id:product_id}, function(rs){
+        $.post("{{ app_url_app_admin_base }}/scene_scene/add_scene_product", {scene_id:scene_id, product_id:product_id, tag:tag}, function(rs){
             if(rs.success){
                 phenix.show_ok_note('添加成功!');
             }else{
@@ -124,6 +125,16 @@
 			<div class="ui input">
                 <input placeholder="产品ID" type="text" name="product_id" value="{{ product_id }}" />
 			</div>
+					<div class="ui selection dropdown">
+						<input type="hidden" name="tag" value="" />
+					    <div class="default text">分类标签</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+							{% for d in product_tags %}
+              <div data-value="{{ d }}" class="item">{{ d }}</div>
+							{% endfor %}
+					    </div>
+					</div>
             <div class="ui input">
                 <div class="ui active small green button" id="add-btn">添加</div>
             </div>
@@ -142,6 +153,7 @@
                 <th>ID</th>
                 <th>地盘</th>
                 <th>产品</th>
+                <th>分类标签</th>
                 <th>创建时间</th>
 				<th>管理操作</th>
 			</tr>
@@ -167,7 +179,7 @@
 					</div>
                     <p><a href="{{ d.product.view_url }}" target="_blank">{{ d.product.title }}</a></p>
                 </td>
-
+                <td>{{ d.tag }}</td>
                 <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
 				<td>
                     <a href="{{ app_url_app_admin_base }}/scene_scene/scene_product_delete?id={{ d._id }}" class="ui link item confirm-request">删除</a>

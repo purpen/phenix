@@ -494,7 +494,7 @@
 
 			// 统一下单
       $input = new WxPayUnifiedOrder();
-      $input->SetBody('D3IN'.$order_info['rid'].'的订单');
+      $input->SetBody('D3IN '.$order_info['rid'].'的订单');
       $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
       $input->SetOut_trade_no($order_info['rid']);
       $input->SetProduct_id($order_info['rid']);

@@ -101,6 +101,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		$data['sub_title'] = $this->stash['sub_title'];
 		$data['des'] = $this->stash['des'];
 		$data['tags'] = $this->stash['tags'];
+		$data['product_tags'] = $this->stash['product_tags'];
         $data['city'] = isset($this->stash['city']) ? $this->stash['city'] : '';
         $data['address'] = $this->stash['address'];
         $data['category_id'] = $category_id;
@@ -266,29 +267,29 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 		return $this->to_taconite_page('app_admin/scene_scene/check_ok.html');
 	}
 
-	/**
-	 * 删除
-	 */
-	public function delete() {
-		$id = (int)$this->stash['id'];
-		if(empty($id)){
-			return $this->ajax_note('请求参数为空', true);
-		}
+    /**
+     * 删除
+     */
+    public function delete() {
+      $id = (int)$this->stash['id'];
+      if(empty($id)){
+        return $this->ajax_note('请求参数为空', true);
+      }
 
-        if(!Sher_Core_Helper_Util::is_high_admin($this->visitor->id)){
-            return $this->ajax_notification('没有执行权限!', true);     
-        }
+          if(!Sher_Core_Helper_Util::is_high_admin($this->visitor->id)){
+              return $this->ajax_notification('没有执行权限!', true);     
+          }
 
-		$model = new Sher_Core_Model_SceneScene();
-		$result = $model->load($id);
-		
-		if($result && $model->mark_remove($id)){
-            $model->mock_after_remove($id, $result);
-		}
-		
-		$this->stash['id'] = $id;
-		return $this->to_taconite_page('app_admin/del_ok.html');
-	}
+      $model = new Sher_Core_Model_SceneScene();
+      $result = $model->load($id);
+      
+      if($result && $model->mark_remove($id)){
+              $model->mock_after_remove($id, $result);
+      }
+      
+      $this->stash['id'] = $id;
+      return $this->to_taconite_page('app_admin/del_ok.html');
+    }
 
     /**
      * 产品列表
@@ -301,24 +302,29 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
 
         $query = array();
         $options = array();
-		if($scene_id){
-			$query['scene_id'] = $scene_id;
-		}
+        if($scene_id){
+          $query['scene_id'] = $scene_id;
+        }
+        
+        if($product_id){
+          $query['product_id'] = $product_id;
+        }
 		
-		if($product_id){
-			$query['product_id'] = $product_id;
-		}
-		
-		// 分页参数
+		    // 分页参数
         $options['page'] = $page;
         $options['size'] = $size;
 		
-		// 开启查询
+		    // 开启查询
         $service = Sher_Core_Service_ZoneProductLink::instance();
         $result = $service->get_zone_product_list($query, $options);
 
         $product_model = new Sher_Core_Model_Product();
         $scene_model = new Sher_Core_Model_SceneScene();
+
+
+        // 当前地盘下的分类标签
+        $scene = $scene_model->load($scene_id);
+        $this->stash['product_tags'] = $scene['product_tags'];
 
         // 重新数据
         for($i=0;$i<count($result['rows']);$i++){
@@ -329,11 +335,11 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
             $result['rows'][$i]['scene'] = $scene_model->extend_load($item['scene_id']);
         }
 
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/product_list?scene_id=%d&product_id=%d&page=#p#', $scene_id, $product_id);
-		$this->stash['pager_url'] = $pager_url;
+        $pager_url = sprintf(Doggy_Config::$vars['app.url.app_admin'].'/scene_scene/product_list?scene_id=%d&product_id=%d&page=#p#', $scene_id, $product_id);
+        $this->stash['pager_url'] = $pager_url;
         $this->stash['result'] = $result;
 
-		return $this->to_html_page('app_admin/scene_scene/product_list.html');
+		    return $this->to_html_page('app_admin/scene_scene/product_list.html');
     }
 
 	/**
@@ -362,6 +368,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
     public function add_scene_product(){
         $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
+        $tag = isset($this->stash['tag']) ? $this->stash['tag'] : '';
 		if(empty($product_id) || empty($scene_id)){
 			return $this->ajax_json('请求参数为空!', true);
 		}
@@ -369,6 +376,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
         $row = array(
             'scene_id' => $scene_id,
             'product_id' => $product_id,
+            'tag' => $tag
         );
 		$model = new Sher_Core_Model_ZoneProductLink();
         $item = $model->first(array('scene_id'=>$scene_id, 'product_id'=>$product_id));
