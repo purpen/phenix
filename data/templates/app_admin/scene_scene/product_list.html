@@ -152,7 +152,8 @@
 				</th>
                 <th>ID</th>
                 <th>地盘</th>
-                <th>产品</th>
+                <th>产品图</th>
+                <th>产品名</th>
                 <th>分类标签</th>
                 <th>创建时间</th>
 				<th>管理操作</th>
@@ -174,10 +175,13 @@
                     <p>名称: {{ d.scene.title }}</p>
                 </td>
                 <td>
-					<div class="ui image">
-						<img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
-					</div>
-                    <p><a href="{{ d.product.view_url }}" target="_blank">{{ d.product.title }}</a></p>
+                    <div class="ui image">
+                      <img src="{{ d.product.cover.thumbnails.mini.view_url }}" width="80px" />
+                    </div>             
+                </td>
+                <td>
+                    <p>产品名: <a href="{{ d.product.view_url }}" target="_blank">{{ d.product.title }}</a></p>
+                    <p>产品编号: {{ d.product_id }}</p>
                 </td>
                 <td>{{ d.tag }}</td>
                 <td>{{ d.created_on|date 'Y-m-d H:i'}}</td>
