@@ -605,7 +605,7 @@ class Sher_Api_Action_SceneScene extends Sher_Api_Action_Base {
         }
 		
 		// 过滤多余属性
-        $filter_fields  = array('_id', 'scene_id', 'product_id', 'type', 'status', 'product', 'created_on');
+        $filter_fields  = array('_id', 'scene_id', 'tag', 'product_id', 'type', 'status', 'product', 'created_on');
         $result['rows'] = Sher_Core_Helper_FilterFields::filter_fields($result['rows'], $filter_fields, 1);
 		
 		return $this->api_json('请求成功', 0, $result);
