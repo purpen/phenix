@@ -22,17 +22,19 @@ ini_set('memory_limit','512M');
 
 echo "begin export img match img...\n";
 $stuff_model = new Sher_Core_Model_Stuff();
-$category_model = new Sher_Core_Model_Category();
 $asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 500;
+$fid = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+$from_to = 7;
 $is_end = false;
 $total = 0;
-$fpath = '/home/tianxiaoyi/qsyd2';
-$fpath = '/Users/tian/qsyd2';
+//$fpath = '/home/tianxiaoyi/qsyd3_data';
+$fpath = '/Users/tian/qsyd3_data';
 
 while(!$is_end){
-	$query = array('deleted'=>0);
+
+	$query = array('fid'=>$fid, 'from_to'=>$from_to, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
@@ -42,14 +44,13 @@ while(!$is_end){
 	$max = count($list);
     for ($i=0; $i < $max; $i++) {
         $stuff = $list[$i];
-        $category = $category_model->load($stuff['category_id']);
         $assets = $asset_model->find(array('asset_type'=>70, 'parent_id'=>$stuff['_id']));
         $img_url = array();
         foreach($assets as $k=>$v){
             // 导出图片
             $k = $k+1;
             $file_url = Sher_Core_Helper_Url::asset_qiniu_view_url($v['filepath']);
-            $file_name = sprintf("%s/qsyd2-%d-%d.jpg", $fpath, $stuff['_id'], $k);
+            $file_name = sprintf("%s/%s-%d-%d.jpg", $fpath, $stuff['title'], $stuff['_id'], $k);
             if(file_exists($file_name)){
                 echo "file: $file_name is exist! next...\n";
                 continue;
@@ -67,7 +68,6 @@ while(!$is_end){
 	$page++;
 	echo "page [$page] updated---------\n";
 }
-fclose($fp);
 echo "total $total match img rows export over.\n";
 
 echo "All match img expore done.\n";

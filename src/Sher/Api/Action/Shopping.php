@@ -537,10 +537,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			// 没有临时订单编号，为非法操作
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
 		}
+    // 是自提还是快递
+    $delivery_type = isset($this->stash['delivery_type']) ? (int)$this->stash['delivery_type'] : 1;
+    // 是否来自店铺下单
+    
+    $addbook_id = null;
+    if($delivery_type === 1){
         $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
-		if(empty($addbook_id)){
-            return $this->api_json('请选择收货地址！', 3001);
-        }
+    }
 
     // 抢购商品ID
     $app_snatched_product_id = 0;
@@ -572,15 +576,43 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $transfer = isset($this->stash['transfer']) ? $this->stash['transfer'] : 'a';
 
     //验证地址
-    $add_book_model = new Sher_Core_Model_DeliveryAddress();
-    $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
-    if(empty($add_book)){
-        // 兼容老地址
-        $add_book_model = new Sher_Core_Model_AddBooks();
-        $add_book = $add_book_model->find_by_id($this->stash['addbook_id']);
-    }
-    if(empty($add_book)){
-        return $this->api_json('地址不存在！', 3002);
+    $express_info = array();
+    if($delivery_type === 1){
+        if($addbook_id){
+            $add_book_model = new Sher_Core_Model_DeliveryAddress();
+            $add_book = $add_book_model->find_by_id($addbook_id);
+            if(empty($add_book)){
+                // 兼容老地址
+                $add_book_model = new Sher_Core_Model_AddBooks();
+                $add_book = $add_book_model->find_by_id($addbook_id);
+            }
+            if(empty($add_book)){
+                return $this->api_json('地址不存在！', 3002);
+            }
+        }else{
+            $addbook_json = isset($this->stash['addbook']) ? $this->stash['addbook'] : array();
+            if(empty($addbook_json)){
+                return $this->api_json('收货地址不存在！', 3020);      
+            }
+            $addbook = json_decode($addbook_json, true);
+            $express_info = array(
+                'name' => isset($addbook['name']) ? $addbook['name'] : '',
+                'phone' => isset($addbook['phone']) ? $addbook['phone'] : '',
+                'email' => isset($addbook['email']) ? $addbook['email'] : '',
+                'province' => isset($addbook['province']) ? $addbook['province'] : '',
+                'city' => isset($addbook['city']) ? $addbook['city'] : '',
+                'county' => isset($addbook['county']) ? $addbook['county'] : '',
+                'town' => isset($addbook['town']) ? $addbook['town'] : '',
+                'zip' => isset($addbook['zip']) ? $addbook['zip'] : '',
+                'province_id' => isset($addbook['province_id']) ? $addbook['province_id'] : '',
+                'city_id' => isset($addbook['city_id']) ? $addbook['city_id'] : '',
+                'county_id' => isset($addbook['county_id']) ? $addbook['county_id'] : '',
+                'town_id' => isset($addbook['town_id']) ? $addbook['town_id'] : '',
+            );
+            if(empty($express_info['name']) || empty($express_info['phone']) || empty($express_info['province']) || empty($express_info['city'])){
+                return $this->api_json('收货地址不完整！', 3021);            
+            }
+        }   
     }
 
 		Doggy_Log_Helper::debug("Submit app Order [$rrid]！");
@@ -592,7 +624,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       return $this->api_json('订单已失效，请重新下单！', 3004);
 		}
 
-        $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
+    $is_vop = isset($result['is_vop']) ? $result['is_vop'] : 0;
 		
 		// 订单临时信息
 		$order_info = $result['dict'];
@@ -624,9 +656,14 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		$order_info['is_presaled'] = 0;
 		
-        // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $this->stash['addbook_id'], array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money']));
-        $order_info['freight'] = $freight;
+    // 重新计算邮费
+    if($delivery_type == 1){
+        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $addbook_id, array('items'=>$order_info['items'], 'is_vop'=>$is_vop, 'total_money'=>$order_info['total_money'], 'addbook'=>$express_info));   
+    } else {
+      $freight = 0;
+    }
+
+    $order_info['freight'] = $freight;
 		
 		// 优惠活动金额
 		$coin_money = $order_info['coin_money'];
@@ -663,9 +700,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			
 			$order_info['user_id'] = (int)$user_id;
 			
-			$order_info['addbook_id'] = $this->stash['addbook_id'];
-
-            $order_info['is_vop'] = $is_vop;
+			$order_info['addbook_id'] = $addbook_id;
+			$order_info['express_info'] = $express_info;
+      $order_info['delivery_type'] = $delivery_type;
+      $order_info['is_vop'] = $is_vop;
 			
 			// 订单备注
 			if(isset($this->stash['summary'])){
@@ -1697,6 +1735,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $user_id = $this->current_user_id;
     $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
 		$payaway = isset($this->stash['payaway'])?$this->stash['payaway']:'';
+		$pay_type = isset($this->stash['pay_type'])?(int)$this->stash['pay_type']:1;
 		$app_type = isset($this->stash['app_type'])?(int)$this->stash['app_type']:1;
 		if (empty($rid)) {
 			return $this->api_json('操作不当，请查看购物帮助！', 3000);
@@ -1727,20 +1766,39 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }else{
       $action_name = 'payment';
     }
-		switch($payaway){
-			case 'alipay':
-        $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			case 'weichat':
-        $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			case 'jdpay':
-        $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
-				break;
-			default:
-			  return $this->api_json('找不到支付类型！', 3005);
-				break;
-		}
+
+    if($pay_type == 1){
+      switch($payaway){
+        case 'alipay':
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'weichat':
+          $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'jdpay':
+          $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        default:
+          return $this->api_json('找不到支付类型！', 3005);
+          break;
+      }   
+    }else{
+      switch($payaway){
+        case 'alipay':
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'weichat':
+          $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
+          break;
+        case 'jdpay':
+          $pay_url = sprintf("%s/jdpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          break;
+        default:
+          return $this->api_json('找不到支付类型！', 3005);
+          break;
+      }
+    }
+
     return $this->to_redirect($pay_url); 
 	}
 
@@ -2707,12 +2765,28 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     public function fetch_freight(){
         $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null; 
         $addbook_id = isset($this->stash['addbook_id']) ? $this->stash['addbook_id'] : null;
+        $province_id = isset($this->stash['province_id']) ? $this->stash['province_id'] : '';
+        $city_id = isset($this->stash['city_id']) ? $this->stash['city_id'] : '';
+        $county_id = isset($this->stash['county_id']) ? $this->stash['county_id'] : '';
+        $town_id = isset($this->stash['town_id']) ? $this->stash['town_id'] : '';
 
-        if(empty($rid) || empty($addbook_id)){
+        if(empty($rid)){
             return $this->api_json('缺少请求参数!', 3001);
         }
+        $addbook = array();
+        if(empty($addbook_id)){
+            $addbook = array(
+              'province_id' => $province_id,
+              'city_id' => $city_id,
+              'county_id' => $county_id,
+              'town_id' => $town_id,
+            );
+            if(empty($province_id) || empty($city_id)){
+                return $this->api_json('缺少请求参数!', 3002);
+            }
+        }
 
-        $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id);
+        $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id, array('addbook'=>$addbook));
         return $this->api_json('success', 0, array('freight'=>$freight, 'rid'=>$rid));
     }
 

@@ -503,6 +503,24 @@
        'placeholderColor' : '#666666'
     });
 
+    // 产品分类标签
+    $('#product_tags').tagsInput({
+       //'autocomplete_url': url_to_autocomplete_api,
+        //'autocomplete': { option: value, option: value},
+       'height':'60px',
+       'width':'auto',
+       'interactive':true,
+       'defaultText':'添加分类标签',
+       //'onAddTag':callback_function,
+       //'onRemoveTag':callback_function,
+       //'onChange' : callback_function,
+       'delimiter': [',',';','；','，'],   // Or a string with a single delimiter. Ex: ';'
+       'removeWithBackspace' : true,
+       'minChars' : 2,
+       'maxChars' : 15, // if not provided there is no limit
+       'placeholderColor' : '#666666'
+    });
+
 
 	// 选择分类
 	$('body').on('click', '.category.button', function(){
@@ -654,6 +672,11 @@
             <div class="field">
                 <label>标签</label>
 				<input type="text" id="tags" name="tags" placeholder="添写标签" value="{{ scene.tags_s }}" />
+			</div>
+
+            <div class="field">
+                <label>产品分类标签</label>
+				<input type="text" id="product_tags" name="product_tags" placeholder="添写产品分类标签" value="{{ scene.product_tags_s }}" />
 			</div>
 
         <div class="three fields">

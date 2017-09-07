@@ -96,9 +96,7 @@ class Sher_Core_Helper_Order {
     */
     public static function freight_stat($rid, $addbook_id, $options=array()){
         $freight = (int)Doggy_Config::$vars['app.default_freight'];
-        if(empty($addbook_id)){
-            return $freight;
-        }
+
         $items = isset($options['items']) ? $options['items'] : array();
         $is_vop = isset($options['is_vop']) ? (int)$options['is_vop'] : 0;
         $total_money = isset($options['total_money']) ? (float)$options['total_money'] : 0;
@@ -151,25 +149,41 @@ class Sher_Core_Helper_Order {
                 return 0;
             }
 
+            $add_arr = array();
             //验证地址
-            $add_book_model = new Sher_Core_Model_DeliveryAddress();
-            $add_book = $add_book_model->find_by_id($addbook_id);
+            if ($addbook_id) {
+                $add_book_model = new Sher_Core_Model_DeliveryAddress();
+                $add_book = $add_book_model->find_by_id($addbook_id);
 
-            if(empty($add_book)){
-                return 0;
+                if(empty($add_book)){
+                    return 0;
+                }
+
+                $add_arr = array(
+                    'province' => $add_book['province_id'],
+                    'city' => $add_book['city_id'],
+                    'county' => $add_book['county_id'],
+                    'town' => $add_book['town_id'],
+                );           
+            }else{
+                if(!empty($options['addbook'])){
+                    $add_book = $options['addbook'];
+                    $add_arr = array(
+                        'province' => $add_book['province_id'],
+                        'city' => $add_book['city_id'],
+                        'county' => $add_book['county_id'],
+                        'town' => $add_book['town_id'],
+                    );
+                }
             }
 
-            $add_arr = array(
-                'province' => $add_book['province_id'],
-                'city' => $add_book['city_id'],
-                'county' => $add_book['county_id'],
-                'town' => $add_book['town_id'],
-            );
-            $result = Sher_Core_Util_Vop::fetch_freight($vop_skus, 4, $add_arr);
-            if($result['success'] && isset($result['data']['freight'])){
-                return (float)$result['data']['freight'];
-            }else{
-                return 0;
+            if(!empty($add_arr)){
+                $result = Sher_Core_Util_Vop::fetch_freight($vop_skus, 4, $add_arr);
+                if($result['success'] && isset($result['data']['freight'])){
+                    return (float)$result['data']['freight'];
+                }else{
+                    return 0;
+                }           
             }
         }   // endif is_vop
         

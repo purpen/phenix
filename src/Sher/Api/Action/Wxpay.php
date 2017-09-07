@@ -190,8 +190,14 @@
        
        // 验证订单是否已经付款
        if ($status == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+        // 是否是自提订单
+        $delivery_type = isset($order_info['delivery_type']) ? $order_info['delivery_type'] : 1;
+        $new_status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+        if($delivery_type == 2){
+          $new_status = Sher_Core_Util_Constant::ORDER_EVALUATE;
+        }
         // 更新支付状态,付款成功并配货中
-        return $model->update_order_payment_info($order_id, $trade_no, Sher_Core_Util_Constant::ORDER_READY_GOODS, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
+        return $model->update_order_payment_info($order_id, $trade_no, $new_status, Sher_Core_Util_Constant::TRADE_WEIXIN, array('user_id'=>$order_info['user_id'], 'jd_order_id'=>$jd_order_id));
        }else{
         return true;
        }
@@ -342,7 +348,7 @@
 
 			// 统一下单
       $input = new WxPayUnifiedOrder();
-      $input->SetBody('Fiu'.$order_info['rid'].'的订单');
+      $input->SetBody('D3IN'.$order_info['rid'].'的订单');
       $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
       $input->SetOut_trade_no($order_info['rid']);
       $input->SetTotal_fee((float)$order_info['pay_money']*100);
@@ -440,6 +446,82 @@
  			  Doggy_Log_Helper::warn("app微信~fiu:订单交易返回错误: ".json_encode($notifyInfo));       
 				return false; 
 			}
+		}
+
+
+		/**
+		 * 扫码支付
+		 * 
+		 */
+		public function scan_fiu_payment(){
+      require_once "wxpay-sdk/lib/WxPay.Api.php";
+      //require_once 'log.php';
+
+			$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+			if (empty($rid)){
+				return $this->api_json('操作不当，订单号丢失！', 3001);
+			}
+
+      $user_id = isset($this->stash['user_id']) ? $this->stash['user_id'] : null;
+			if (empty($user_id)){
+				return $this->api_json('用户不存在！', 3002);
+			}
+
+      $uuid = isset($this->stash['uuid']) ? $this->stash['uuid'] : null;
+			if (empty($uuid)){
+				return $this->api_json('设备号不存在！', 3003);
+			}
+
+      $ip = isset($this->stash['ip']) ? $this->stash['ip'] : null;
+			if (empty($ip)){
+				return $this->api_json('终端IP为空！', 3004);
+			}
+			
+			$model = new Sher_Core_Model_Orders();
+			$order_info = $model->find_by_rid($rid);
+			if (empty($order_info)){
+				return $this->api_json('抱歉，系统不存在该订单！', 3005);
+			}
+			$status = $order_info['status'];
+			
+			// 验证订单是否已经付款
+			if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+				return $this->api_json(sprintf("订单[%s]已付款！", $rid), 3006);
+			}
+			
+			// 支付完成通知回调接口
+			$notify_url = sprintf("%s/wxpay/fiu_notify", Doggy_Config::$vars['app.url.api']);
+
+			// 统一下单
+      $input = new WxPayUnifiedOrder();
+      $input->SetBody('D3IN '.$order_info['rid'].'的订单');
+      $input->SetAttach("2"); // 附加信息，数据原样返回 2.表示Fiu
+      $input->SetOut_trade_no($order_info['rid']);
+      $input->SetProduct_id($order_info['rid']);
+      $input->SetTotal_fee((float)$order_info['pay_money']*100);
+      //$input->SetTime_start(date("YmdHis"));
+      //$input->SetTime_expire(date("YmdHis", time() + 600));
+      //$input->SetGoods_tag("test"); // 商品标记
+      $input->SetNotify_url($notify_url);
+      $input->SetTrade_type("NATIVE");
+      $input->SetDevice_info($uuid); // 终端设备号
+      $input->SetSpbill_create_ip($ip); // 终端IP
+      $order = WxPayApi::unifiedOrder($input);
+
+      if(!empty($order)){
+        if($order['return_code'] == 'SUCCESS'){
+          if($order['result_code'] == 'SUCCESS'){
+            return $this->api_json('请求成功!', 0, $order);         
+          }else{
+            return $this->api_json('请求失败!', 3010, $order);          
+          }
+        }else{
+          return $this->api_json('请求失败!', 3011, $order);        
+        }
+      }else{
+        $this->api_json('请求异常!', 3012);
+      }
+
 		}
 
 	}
