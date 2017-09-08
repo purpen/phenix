@@ -454,7 +454,7 @@
 		 * 
 		 */
 		public function scan_fiu_payment(){
-      require_once "wxpay-sdk/lib/WxPay.Api.php";
+      require_once "wxpay-scan-sdk/lib/WxPay.Api.php";
       //require_once 'log.php';
 
 			$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
