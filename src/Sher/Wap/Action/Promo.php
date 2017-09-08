@@ -23,7 +23,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * 奇思勇动3
      */
     public function qsyd3(){
-        /**
         //微信分享
         $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
         $timestamp = $this->stash['timestamp'] = time();
@@ -32,7 +31,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
         $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
         $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
         $this->stash['wxSha1'] = sha1($wxOri);
-        **/
         return $this->to_html_page('wap/promo/qsyd3.html'); 
     }
 
