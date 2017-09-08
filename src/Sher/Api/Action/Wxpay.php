@@ -448,13 +448,50 @@
 			}
 		}
 
+		/**
+		 * 微信支付异步返回通知信息--fiu
+		 */
+		public function scan_fiu_notify(){
+
+      require_once "wxpay-scan-sdk/lib/WxPay.Api.php";
+      require_once 'wxpay-scan-sdk/lib/WxPay.Notify.php';
+      require_once 'wxpay-scan-sdk/lib/WxPay.PayNotifyCallBack.php';
+			
+			// 返回微信支付结果通知信息
+      $notify = new PayNotifyCallBack();
+			$notify->Handle();
+			
+			// 获取通知信息
+			$notifyInfo = $notify->arr_notify; 
+			
+			Doggy_Log_Helper::warn("app微信获取通知信息~fiu: ".json_encode($notifyInfo));
+
+			// 商户订单号
+			$out_trade_no = $notifyInfo['out_trade_no'];
+			// 微信交易号
+			$trade_no = $notifyInfo['transaction_id'];
+			// 交易状态
+			$trade_status = $notifyInfo['result_code'];
+			
+			if($trade_status == 'SUCCESS') {
+				if($this->update_order_process($out_trade_no, $trade_no)){
+					return '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+        }else{
+    			Doggy_Log_Helper::warn("app微信:订单更新失败~fiu!");        
+        }
+			}else{
+ 			  Doggy_Log_Helper::warn("app微信~fiu:订单交易返回错误: ".json_encode($notifyInfo));       
+				return false; 
+			}
+		}
+
 
 		/**
 		 * 扫码支付
 		 * 
 		 */
 		public function scan_fiu_payment(){
-      require_once "wxpay-sdk/lib/WxPay.Api.php";
+      require_once "wxpay-scan-sdk/lib/WxPay.Api.php";
       //require_once 'log.php';
 
 			$rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
@@ -490,7 +527,7 @@
 			}
 			
 			// 支付完成通知回调接口
-			$notify_url = sprintf("%s/wxpay/fiu_notify", Doggy_Config::$vars['app.url.api']);
+			$notify_url = sprintf("%s/wxpay/scan_fiu_notify", Doggy_Config::$vars['app.url.api']);
 
 			// 统一下单
       $input = new WxPayUnifiedOrder();

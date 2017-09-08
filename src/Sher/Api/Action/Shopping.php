@@ -505,7 +505,11 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
 		
         // 重新计算邮费
-        $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));
+        if ($order_info['dict']['addbook_id']){
+          $freight = Sher_Core_Helper_Order::freight_stat($order_info['rid'], $order_info['dict']['addbook_id'], array('items'=>$order_info['dict']['items'], 'is_vop'=>$order_info['is_vop'], 'total_money'=>$order_info['dict']['total_money']));       
+        }else{
+          $freight = 0;
+        }
         $order_info['dict']['freight'] = $freight;
 		
 		// 优惠活动费用
@@ -797,15 +801,18 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $order_info['status'] = Sher_Core_Util_Constant::ORDER_READY_GOODS;
 			}
 
-            $order_info['jd_order_id'] = null;
-            // 创建开普勒订单
-            if(!empty($order_info['is_vop'])){
-                $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
-                if(!$vop_result['success']){
-				    return 	$this->api_json($vop_result['message'], 3030);
-                }
-                $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
-            }
+      $order_info['jd_order_id'] = null;
+      // 创建开普勒订单
+      if(!empty($order_info['is_vop'])){
+          if($delivery_type === 2){
+              return $this->api_json('京东产品不支持自提！', 3032);       
+          }
+          $vop_result = Sher_Core_Util_Vop::create_order($order_info['rid'], array('data'=>$order_info));
+          if(!$vop_result['success']){
+              return 	$this->api_json($vop_result['message'], 3030);
+          }
+          $order_info['jd_order_id'] = $vop_result['data']['jdOrderId'];
+      }
 
 			$ok = $orders->apply_and_save($order_info);
 			// 订单保存成功

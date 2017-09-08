@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus');
 
 	
 	/**
@@ -19,6 +19,39 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 验证cookie是否领取过红包
+   */
+  public function check_recive_bonus() {
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+    $exist = false;
+    if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin'] == $kind){
+      $exist = true;
+    }
+    return $this->ajax_json('success', false, '', array('exist'=>$exist));
+  }
+
+  /**
+   * 奇思甬动领红包
+   */
+  public function recive_bonus() {
+    $kind = isset($this->stash['kind']) ? (int)$this->stash['kind'] : 1;
+    if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin'] == $kind){
+      return $this->ajax_json('不能重复领取!', true);
+    }
+    $bonus = 'a';
+    // 将红包保存至cookie
+    @setcookie('from_origin', $kind, 0, '/');
+    $_COOKIE['from_origin'] = $kind; 
+    // 将红包金额保存至cookie
+    @setcookie('from_origin_val', $bonus, 0, '/');
+    $_COOKIE['from_origin_val'] = $bonus; 
+
+		// 清除cookie值
+		//setcookie('from_origin', '', time()-9999999, '/');
+    return $this->ajax_json('success', false, '', array('bonus'=>$bonus));
+  }
 
     /**
      * 商务合作
