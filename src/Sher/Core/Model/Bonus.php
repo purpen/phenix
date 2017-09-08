@@ -49,6 +49,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'FIU_NEW30', # Fiu新用户送30
         'FIU_DROW', # Fiu抽奖
         'HB_ONE', # 花辨专题
+        'MATCH', # 大赛专题
 	);
 	
     protected $schema = array(

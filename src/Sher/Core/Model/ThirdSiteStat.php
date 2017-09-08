@@ -10,6 +10,7 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
   const KIND_360 = 1;
   const KIND_DB = 2;  // 兑吧
   const KIND_APP_DB = 3;  // app首次下载送9.9红包
+  const KIND_MATCH = 6; // 大赛领红包
 
 	protected $schema = array(
     'user_id' => 0,
@@ -43,6 +44,9 @@ class Sher_Core_Model_ThirdSiteStat extends Sher_Core_Model_Base  {
         break;
       case 5:
         $row['kind_str'] = '花瓣';
+        break;
+      case 6:
+        $row['kind_str'] = '大赛领红包';
         break;
       default:
         $row['kind_str'] = '--';
