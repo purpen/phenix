@@ -22,8 +22,12 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
 				$app_secret = Doggy_Config::$vars['app.wechat.app_secret'];
 				$res = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$app_id.'&secret='.$app_secret);
 				$res = json_decode($res, true);
-				$token = $res['access_token'];
-				$redis->set($token_key, $token, 3600);
+        if(isset($res['errcode']) && !empty($res['errcode'])){
+          return $res['errmsg'];
+        }else{
+          $token = $res['access_token'];
+          $redis->set($token_key, $token, 3600);       
+        }
 		  }else{
 				Doggy_Log_Helper::warn('wechat token is read redis!');  
 		  }
