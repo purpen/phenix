@@ -34,9 +34,9 @@ class WxPayConfig
 	 * API证书下载地址：https://pay.weixin.qq.com/index.php/account/api_cert，下载之前需要安装商户操作证书）
 	 * @var path
 	 */
-	const SSLCERT_PATH = '/opt/project/phenix/lib/wxpay-sdk/cert/apiclient_cert.pem';
-    const SSLKEY_PATH = '/opt/project/phenix/lib/wxpay-sdk/cert/apiclient_key.pem';
-    const CAINFO_PATH = '/opt/project/phenix/lib/wxpay-sdk/cert/rootca.pem';
+	const SSLCERT_PATH = '/opt/project/phenix/lib/wxpay-scan-sdk/cert/apiclient_cert.pem';
+    const SSLKEY_PATH = '/opt/project/phenix/lib/wxpay-scan-sdk/cert/apiclient_key.pem';
+    const CAINFO_PATH = '/opt/project/phenix/lib/wxpay-scan-sdk/cert/rootca.pem';
 	
 	//=======【curl代理设置】===================================
 	/**
