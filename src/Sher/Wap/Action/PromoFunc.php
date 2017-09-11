@@ -69,7 +69,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 		// 清除cookie值
 		//setcookie('from_origin', '', time()-9999999, '/');
     $url = Doggy_Config::$vars['app.url.wap']. '/scene_subject/view?id=148';
-    return $this->ajax_json('success', false, '', array('bonus'=>$bonus));
+    return $this->ajax_json('success', false, $url, array('bonus'=>$bonus));
   }
 
     /**
