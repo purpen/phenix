@@ -66,8 +66,6 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		'asset' => array(),
         # pad banner_id
         'pad_banner_id' => '',
-        'pad_asset' => array(),
-        'pad_asset_count' => 0,
 		# 附件图片数
         'asset_count' => 0,
         # 去底图

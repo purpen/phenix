@@ -362,6 +362,18 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
       }
     }
     $data['png_asset'] = $assets;
+
+    //返回PadBanner图片数据
+    $assets = array();
+    $asset_query = array('parent_id'=>$product['_id'], 'asset_type'=>13);
+    $asset_result = $asset_service->get_asset_list($asset_query, $asset_options);
+
+    if(!empty($asset_result['rows'])){
+      foreach($asset_result['rows'] as $key=>$value){
+        array_push($assets, array('url'=>$value['thumbnails']['hd']['view_url'],'width'=>$value['width'],'height'=>$value['height']));
+      }
+    }
+    $data['pad_asset'] = $assets;
 		
 		// 验证是否还有库存
 		$data['can_saled'] = $model->app_can_saled($product);

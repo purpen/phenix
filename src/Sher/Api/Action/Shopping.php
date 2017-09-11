@@ -1393,6 +1393,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           $key = $some_fields[$i];
           $data[$key] = isset($order_info[$key]) ? $order_info[$key] : null;
         }
+        $data['delivery_type'] = empty($data['delivery_type']) ? 1 : $data['delivery_type'];
 
         $data['_id'] = (string)$data['_id'];
         // 创建时间格式化 

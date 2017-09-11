@@ -369,6 +369,16 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 	}
 
 	/**
+	 * 上传产品PadBanner图
+	 */
+	public function product_pad_banner() {
+		$asset_domain = Sher_Core_Util_Constant::STROAGE_PRODUCT;
+		$asset_type = Sher_Core_Model_Asset::TYPE_PRODUCT_PAD_BANNER;
+		
+		return $this->handle_upload($asset_type, $asset_domain);
+	}
+
+	/**
 	 * 上传SKU cover图
 	 */
 	public function sku_cover() {
