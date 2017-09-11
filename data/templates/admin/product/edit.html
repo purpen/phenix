@@ -633,7 +633,7 @@
 		}else{
 			$('.qq-upload-list').children().eq(id).fadeOut();
 			
-			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=2', {'id': '{{ product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
+			$.get('{{ app_url_action_base }}/uploader/check_upload_product_assets?type=7', {'id': '{{ product._id }}', 'assets': result.data.ids, 'ref': 'onestep' });
 		}
 	});
 
