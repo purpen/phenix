@@ -913,6 +913,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 		    $tpl = 'ajax/check_upload_product_sku_assets.html';
       }elseif($type==6){
 		    $tpl = 'ajax/check_upload_product_avatar_assets.html';
+      }elseif($type==7){
+		    $tpl = 'ajax/check_upload_product_pad_banner_assets.html';
       }else{
 		    $tpl = 'ajax/check_upload_product_assets.html';
       }
@@ -937,6 +939,8 @@ class Sher_App_Action_Uploader extends Sher_App_Action_Base implements Doggy_Dis
 			  $tpl = 'ajax/check_product_sku_onestep.html';
       }elseif($type==6){
 			  $tpl = 'ajax/check_product_avatar_onestep.html';
+      }elseif($type==7){
+			  $tpl = 'ajax/check_product_pad_banner_onestep.html';
       }else{
 			  $tpl = 'ajax/check_product_onestep.html';
       }
