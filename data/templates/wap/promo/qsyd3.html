@@ -165,8 +165,8 @@ $('#pullBonusBtn').click(function(){
       phenix.redirect(res.redirect_url);
     }else{
       phenix.show_error_note('不能重复领取!');     
+      $('#mask').css('display','none');
     }
-    $('#mask').css('display','none');
   }, 'json');
 });
 
@@ -190,7 +190,7 @@ $('#pullBonusBtn').click(function(){
         <p class="title">D³IN全场通用红包</p>
         <div class="con">
           <p class="fl">无限制</p>
-          <p class="fr">¥<span>8</span>.00</p>
+          <p class="fr">¥ <span>8</span>.00</p>
         </div>
         <p class="time">自领取后一个月内有效</p>
       </div>
@@ -198,7 +198,7 @@ $('#pullBonusBtn').click(function(){
         <p class="title">D³IN全场通用红包</p>
         <div class="con">
           <p class="fl">满299可用</p>
-          <p class="fr">¥<span>30</span>.00</p>
+          <p class="fr">¥ <span>30</span>.00</p>
         </div>
         <p class="time">自领取后一个月内有效</p>
       </div>
@@ -206,7 +206,7 @@ $('#pullBonusBtn').click(function(){
         <p class="title">D³IN全场通用红包</p>
         <div class="con">
           <p class="fl">满499可用</p>
-          <p class="fr">¥<span>50</span>.00</p>
+          <p class="fr">¥ <span>50</span>.00</p>
         </div>
         <p class="time">自领取后一个月内有效</p>
       </div>
