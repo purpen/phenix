@@ -57,6 +57,17 @@
       text-decoration: none;
   }
 
+  #asset-pad-banner-list > .block > .image > img {
+      width: 100%;
+  }
+  #asset-pad-banner-list .buttons {
+    background-color: rgba(0, 0, 0, 0.05);
+    padding: 0;
+  }
+  #asset-pad-banner-list .buttons .ui.link:hover {
+      text-decoration: none;
+  }
+
   #asset-png-list > .block > .image > img {
       width: 100%;
   }
@@ -731,7 +742,7 @@
 	});
 
 	// 设置PadBanner封底面图
-	$('#asset-banner-list .ajax-pad-banner').livequery(function(){
+	$('#asset-pad-banner-list .ajax-pad-banner').livequery(function(){
 		$(this).click(function(){
 			$this = $(this);
 			var id = $(this).attr('data-value');
