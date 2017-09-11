@@ -5,6 +5,12 @@
 .sfooter.nav-menu{
 	display: none;
 }
+#mfrbird{
+  margin-top: 0;
+}
+.appiosload{
+    display: none !important;
+}
 
 .banner{
   position: relative;
@@ -20,6 +26,61 @@
     margin:0 32%;
     left:0;
     top:600px;
+  }
+
+  .bonus_bg {
+    position: relative;
+    margin: 0 auto;
+    padding-top: 80px;
+    width: 80%;
+    height: 425px;
+    background-image: url({{ app_url_packaged }}/images/promo/qsyd3/bj.png);
+    background-size: 100%; 
+  }
+  .bonus_bg .bonus-item {
+    margin: 6px auto 6px auto;
+    width: 80%;
+    height: 80px;
+    background-image: url({{ app_url_packaged }}/images/promo/qsyd3/3.png);
+    background-size: 100%; 
+    text-align: left;
+  }
+  img.recive{
+    position:absolute;
+    width:60%;
+    margin:0 22%;
+    left:0;
+    top:360px;
+  }
+
+  .bonus-item p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .bonus-item .title {
+    font-size: 13px;
+    padding: 10px;
+    color: #000;
+  }
+  .bonus-item .con {
+    height: 25px;
+    padding: 0 10px;
+  }
+  .bonus-item .con .fl {
+    float: left;
+    font-size: 12px;
+  }
+  .bonus-item .con .fr {
+    float: right;
+    color: #583399;
+  }
+  .bonus-item .con .fr span {
+    font-size: 20px;
+  }
+  .bonus-item .time {
+    font-size: 10px;
+    padding-left: 30px;
   }
 
 </style>
@@ -93,24 +154,19 @@
 // 验证是否领取过红包
 $.get('{{ app_url_wap }}/app/wap/promo_func/check_recive_bonus', {kind:6}, function(res){
   if(!res.data.exist){
-    // 5秒弹出
-    setTimeout("$('#mask').css('display','')",5000);
+    // 3秒弹出
+    setTimeout("$('#mask').css('display','')",3000);
   }
 }, 'json');
 $('#pullBonusBtn').click(function(){
   $.get('{{ app_url_wap }}/app/wap/promo_func/recive_bonus', {kind:6}, function(res){
     if(res.success){
-      var bonus = '';
-      if(res.data.bonus == 'a'){
-        bonus = 30;
-      }else{
-        bonus = '';  
-      }
-      phenix.show_ok_note('恭喜你领到 '+ bonus +' 元红包!');
+      phenix.show_ok_note('领取成功！');
+      phenix.redirect(res.redirect_url, 3000);
     }else{
       phenix.show_error_note('不能重复领取!');     
+      $('#mask').css('display','none');
     }
-    $('#mask').css('display','none');
   }, 'json');
 });
 
@@ -128,8 +184,34 @@ $('#pullBonusBtn').click(function(){
 
 <!-- 弹出层   -->
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
-  <div class="frideshare" style="text-align: center;padding-top: 30%;">
-    <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/bonus1.png" width="60%" ></a>
+  <div class="frideshare" style="text-align: center;padding-top: 10%;">
+    <div class="bonus_bg">
+      <div class="bonus-item">
+        <p class="title">D³IN全场通用红包</p>
+        <div class="con">
+          <p class="fl">无限制</p>
+          <p class="fr">¥ <span>8</span>.00</p>
+        </div>
+        <p class="time">自领取后一个月内有效</p>
+      </div>
+      <div class="bonus-item">
+        <p class="title">D³IN全场通用红包</p>
+        <div class="con">
+          <p class="fl">满299可用</p>
+          <p class="fr">¥ <span>30</span>.00</p>
+        </div>
+        <p class="time">自领取后一个月内有效</p>
+      </div>
+      <div class="bonus-item">
+        <p class="title">D³IN全场通用红包</p>
+        <div class="con">
+          <p class="fl">满499可用</p>
+          <p class="fr">¥ <span>50</span>.00</p>
+        </div>
+        <p class="time">自领取后一个月内有效</p>
+      </div>
+      <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/2.png" class="recive" ></a>
+    </div>
   </div>
 </div>
 {% endblock %}

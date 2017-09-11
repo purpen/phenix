@@ -64,6 +64,8 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
         # Banner_id
         'banner_id' => '',
 		'asset' => array(),
+        # pad banner_id
+        'pad_banner_id' => '',
 		# 附件图片数
         'asset_count' => 0,
         # 去底图
@@ -909,6 +911,28 @@ class Sher_Core_Model_Product extends Sher_Core_Model_Base {
 		$query = array(
 			'parent_id'  => (int)$row['_id'],
 			'asset_type' => Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER,
+		);
+		$data = $asset->first($query);
+		if(!empty($data)){
+			return $asset->extended_model_row($data);
+		}
+        return null;
+	}
+
+	/**
+	 * 获取Pad Banner图
+	 */
+	public function pad_banner(&$row){
+		// 已设置封面图
+		if(isset($row['pad_banner_id']) && !empty($row['pad_banner_id'])){
+			$asset_model = new Sher_Core_Model_Asset();
+			return $asset_model->extend_load($row['pad_banner_id']);
+		}
+		// 未设置Banner图，获取第一个
+		$asset = new Sher_Core_Model_Asset();
+		$query = array(
+			'parent_id'  => (int)$row['_id'],
+			'asset_type' => Sher_Core_Model_Asset::TYPE_PRODUCT_PAD_BANNER,
 		);
 		$data = $asset->first($query);
 		if(!empty($data)){

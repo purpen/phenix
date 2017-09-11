@@ -242,8 +242,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		
 		// 封面图
 		$data['cover_id'] = $this->stash['cover_id'];
-        // Banner图
-        $data['banner_id'] = $this->stash['banner_id'];
+    // Banner图
+    $data['banner_id'] = $this->stash['banner_id'];
+    // PadBanner图
+    $data['pad_banner_id'] = $this->stash['pad_banner_id'];
 		// 检查是否有附件
 		if(isset($this->stash['asset'])){
 			$data['asset'] = $this->stash['asset'];
@@ -253,8 +255,8 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			$data['asset_count'] = 0;
 		}
 
-        $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
-        $data['number'] = $number;
+    $number = isset($this->stash['number']) ? trim($this->stash['number']) : null;
+    $data['number'] = $number;
 
     // 常见问题 FAQ
     $data['faq'] = array();
@@ -358,6 +360,10 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 			// 上传成功后，更新所属的附件(Banner)
 			if(isset($this->stash['banner_asset']) && !empty($this->stash['banner_asset'])){
 				$asset->update_batch_assets($this->stash['banner_asset'], $id);
+			}
+			// 上传成功后，更新所属的附件(PadBanner)
+			if(isset($this->stash['pad_banner_asset']) && !empty($this->stash['pad_banner_asset'])){
+				$asset->update_batch_assets($this->stash['pad_banner_asset'], $id);
 			}
 
 			// 上传成功后，更新所属的附件(png)
@@ -672,19 +678,21 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
 		$this->stash['token'] = Sher_Core_Util_Image::qiniu_token();
 		$this->stash['pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
+		$this->stash['pad_banner_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 		$this->stash['png_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
 		$this->stash['asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT;
 		$this->stash['banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_BANNER;
+		$this->stash['pad_banner_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PAD_BANNER;
 		$this->stash['png_asset_type'] = Sher_Core_Model_Asset::TYPE_PRODUCT_PNG;
 
 
-        // sku 图片参数
+    // sku 图片参数
 		$this->stash['sku_domain'] = Sher_Core_Util_Constant::STROAGE_SKU;
 		$this->stash['sku_asset_type'] = Sher_Core_Model_Asset::TYPE_SKU_COVER;
 		$this->stash['sku_pid'] = Sher_Core_Helper_Util::generate_mongo_id();
 
-        // 供应商
+    // 供应商
 
 		return $this->to_html_page('admin/product/edit.html');
 	}
