@@ -40,6 +40,24 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin'] == $kind){
       return $this->ajax_json('不能重复领取!', true);
     }
+    $user_id = $this->visitor->id;
+    if($user_id){
+      $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
+      $has = $third_site_stat_model->first(array('user_id'=>$user_id, 'kind'=>$kind));
+      if(!$has){
+        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA50', 'bonus'=>'A', 'min_amounts'=>'H', 'day'=>30));    // 499
+        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA30', 'bonus'=>'C', 'min_amounts'=>'D', 'day'=>30));    // 299
+        Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA08', 'bonus'=>'J', 'min_amounts'=>'C', 'day'=>30));    // 0
+
+        $data = array(
+          'user_id' => $user_id,
+          'kind' => $kind,
+          'target_id' => 1,
+          'ip' => Sher_Core_Helper_Auth::get_ip(),
+        );
+        $third_site_stat_model->create($data);     
+      }
+    }
     $bonus = 'a';
     // 将红包保存至cookie
     @setcookie('from_origin', $kind, 0, '/');
@@ -50,6 +68,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
 		// 清除cookie值
 		//setcookie('from_origin', '', time()-9999999, '/');
+    $url = Doggy_Config::$vars['app.url.wap']. '/scene_subject/view?id=148';
     return $this->ajax_json('success', false, '', array('bonus'=>$bonus));
   }
 

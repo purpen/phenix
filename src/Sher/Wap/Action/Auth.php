@@ -1321,7 +1321,9 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     }
     // 来自大赛送红包
     if($from_origin == 6){
-        $this->give_bonus($user_id, 'MATCH', array('count'=>5, 'xname'=>'MATCH', 'bonus'=>'C', 'min_amounts'=>'I', 'expired_time'=>30));
+      Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA50', 'bonus'=>'A', 'min_amounts'=>'H', 'day'=>30));    // 499 50
+      Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA30', 'bonus'=>'C', 'min_amounts'=>'D', 'day'=>30));    // 299 30
+      Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>5, 'xname'=>'DA08', 'bonus'=>'J', 'min_amounts'=>'C', 'day'=>30));    // 0 8
     }
 		// 清除cookie值
 		setcookie('from_origin', '', time()-9999999, '/');
