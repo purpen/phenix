@@ -162,7 +162,7 @@ $('#pullBonusBtn').click(function(){
   $.get('{{ app_url_wap }}/app/wap/promo_func/recive_bonus', {kind:6}, function(res){
     if(res.success){
       phenix.show_ok_note('领取成功！');
-      phenix.redirect(res.redirect_url);
+      phenix.redirect(res.redirect_url, 3000);
     }else{
       phenix.show_error_note('不能重复领取!');     
       $('#mask').css('display','none');
