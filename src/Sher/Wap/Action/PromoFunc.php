@@ -56,6 +56,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           'ip' => Sher_Core_Helper_Auth::get_ip(),
         );
         $third_site_stat_model->create($data);     
+      }else{
+        return $this->ajax_json('不能重复领取!', true); 
       }
     }
     $bonus = 'a';
