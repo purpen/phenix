@@ -43,35 +43,44 @@
     height: 80px;
     background-image: url({{ app_url_packaged }}/images/promo/qsyd3/3.png);
     background-size: 100%; 
-    
+    text-align: left;
   }
   img.recive{
     position:absolute;
     width:60%;
-    margin:0 23%;
+    margin:0 22%;
     left:0;
-    top:365px;
+    top:360px;
+  }
+
+  .bonus-item p {
+    margin: 0;
+    padding: 0;
   }
 
   .bonus-item .title {
-    font-size: 15px;
+    font-size: 13px;
+    padding: 10px;
+    color: #000;
   }
   .bonus-item .con {
-    height: 30px;
+    height: 25px;
+    padding: 0 10px;
   }
   .bonus-item .con .fl {
     float: left;
+    font-size: 12px;
   }
   .bonus-item .con .fr {
     float: right;
     color: #583399;
   }
   .bonus-item .con .fr span {
-    float: right;
-    font-size: 18px;
+    font-size: 20px;
   }
   .bonus-item .time {
-    
+    font-size: 10px;
+    padding-left: 30px;
   }
 
 </style>
@@ -181,15 +190,25 @@ $('#pullBonusBtn').click(function(){
         <p class="title">D³IN全场通用红包</p>
         <div class="con">
           <p class="fl">无限制</p>
-          <p class="fr">¥<span>10</span>.00</p>
+          <p class="fr">¥<span>8</span>.00</p>
         </div>
-        <p class="time">2017/09/12 - 2017/10/12</p>
+        <p class="time">自领取后一个月内有效</p>
       </div>
       <div class="bonus-item">
-        
+        <p class="title">D³IN全场通用红包</p>
+        <div class="con">
+          <p class="fl">满299可用</p>
+          <p class="fr">¥<span>30</span>.00</p>
+        </div>
+        <p class="time">自领取后一个月内有效</p>
       </div>
       <div class="bonus-item">
-        
+        <p class="title">D³IN全场通用红包</p>
+        <div class="con">
+          <p class="fl">满499可用</p>
+          <p class="fr">¥<span>50</span>.00</p>
+        </div>
+        <p class="time">自领取后一个月内有效</p>
       </div>
       <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/2.png" class="recive" ></a>
     </div>
