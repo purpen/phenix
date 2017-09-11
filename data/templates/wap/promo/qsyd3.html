@@ -30,17 +30,26 @@
 
   .bonus_bg {
     position: relative;
-    width: 100%;
-    height: 540px;
+    margin: 0 auto;
+    width: 80%;
+    height: 425px;
     background-image: url({{ app_url_packaged }}/images/promo/qsyd3/bj.png);
     background-size: 100%; 
   }
+  .bonus_bg .bonus-item {
+    margin: 0 auto;
+    width: 80%;
+    height: 100px;
+    background-image: url({{ app_url_packaged }}/images/promo/qsyd3/bj.png);
+    background-size: 100%; 
+    
+  }
   img.recive{
     position:absolute;
-    width:36%;
-    margin:0 32%;
+    width:50%;
+    margin:0 25%;
     left:0;
-    top:500px;
+    top:365px;
   }
 
 </style>
@@ -144,9 +153,12 @@ $('#pullBonusBtn').click(function(){
 
 <!-- 弹出层   -->
 <div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
-  <div class="frideshare" style="text-align: center;padding-top: 30%;">
+  <div class="frideshare" style="text-align: center;padding-top: 10%;">
     <div class="bonus_bg">
-      <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/2.png" width="60%" class="recive" ></a>
+      <div class="bonus-item">
+        
+      </div>
+      <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/2.png" class="recive" ></a>
     </div>
   </div>
 </div>
