@@ -1367,7 +1367,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         //限制输出字段
 		$some_fields = array(
 			'_id', 'rid', 'items', 'items_count', 'total_money', 'pay_money', 'discount_money',
-			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook',
+			'card_money', 'coin_money', 'freight', 'discount', 'user_id', 'addbook_id', 'addbook', 'delivery_type',
 			'express_info', 'invoice_type', 'invoice_caty', 'invoice_title', 'invoice_content', 'trade_site_name',
 			'payment_method', 'express_caty', 'express_company', 'express_no', 'sended_date','card_code', 'is_presaled',
             'expired_time', 'from_site', 'status', 'gift_code', 'bird_coin_count', 'bird_coin_money', 'summary',
@@ -1401,7 +1401,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         // 收货信息
         if(empty($data['express_info'])){
           $data['express_info'] = null;
-          if(isset($order_info['addbook'])){
+          if(isset($order_info['addbook']) && !empty($order_info['addbook'])){
             $data['express_info']['name'] = $order_info['addbook']['name'];
             $data['express_info']['phone'] = $order_info['addbook']['phone'];
             $data['express_info']['zip'] = $order_info['addbook']['zip'];

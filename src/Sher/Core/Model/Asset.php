@@ -36,6 +36,8 @@ class Sher_Core_Model_Asset extends Sher_Core_Model_Base {
 
     # 产品png图
     const TYPE_PRODUCT_PNG = 12;
+    # 产品pad banner图
+    const TYPE_PRODUCT_PAD_BANNER = 13;
 	const TYPE_EDITOR_PRODUCT = 15;
 	
 	const TYPE_STORE = 25; // 店铺
