@@ -1729,7 +1729,7 @@
 				<input type="hidden" name="pad_banner_id" id="product_pad_banner_id" value="{{ product.pad_banner_id }}" />
 			  	<div id="phenix-pad-banner-uploader"></div>
 			
-				<div id="asset-banner-list" class="ui four blocks">
+				<div id="asset-pad-banner-list" class="ui four blocks">
 					{% if mode == 'edit' %}
 						{% asset_list var:'pad_banner_assets' parent_id:product._id asset_type:13 size:20 %}
 						{% for asset in pad_banner_assets.rows %}
