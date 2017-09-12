@@ -334,6 +334,95 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 			return $this->to_raw('fail');
 		}
 	}
+
+  /**
+   * Fiu 扫码支付流程
+   */
+  public function scan_fiu_payment(){
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		if (empty($rid)){
+			return $this->api_json('订单丢失！', 3001);
+		}
+
+    $user_id = $this->stash['user_id'];
+    if (empty($user_id)){
+      return $this->api_json('用户不存在！', 3002);
+    }
+
+    $uuid = $this->stash['uuid'];
+    if (empty($uuid)){
+      return $this->api_json('设备号不存在！', 3003);
+    }
+		
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($rid);
+		if(empty($order_info)){
+			return $this->api_json('抱歉，系统不存在该订单！', 3004);
+		}
+		$status = $order_info['status'];
+		
+		// 验证订单是否已经付款
+		if ($status != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+			return $this->api_json(sprintf("订单[%s]已付款！", $rid), 3005);
+		}
+		
+        // 支付类型
+        $payment_type = "1";
+
+        // 商户订单号,商户网站订单系统中唯一订单号，必填
+        $out_trade_no = $rid;
+
+        // 订单名称，必填
+        $subject = 'Fiu'.$rid.'订单';
+
+        // 付款金额，必填
+        $total_fee = $order_info['pay_money'];
+
+        // 订单描述
+		
+        $body = 'Fiu'.$rid.'订单';
+		
+        // 商品展示地址,需以http://开头的完整路径
+        $show_url = Doggy_Config::$vars['app.url.shop'];
+
+        //超时时间
+        $it_b_pay = '30m';
+
+		
+		// 支付宝传递参数
+		$parameter = array(
+			"service" => "alipay.trade.page.pay",
+			"partner" => Doggy_Config::$vars['app.alipay.fiu.partner'],
+			"payment_type"	=> $payment_type,
+			"notify_url"	=> Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify',
+			"seller_id"	=> 'home@taihuoniao.com',
+			"out_trade_no"	=> $out_trade_no,
+			"subject"	=> $subject,
+			"total_fee"	=> $total_fee,
+			"body"	=> $body,
+      "show_url"	=> $show_url,
+      "it_b_pay"  =>  $it_b_pay,
+      "qr_pay_mode" => 4,
+			"_input_charset"	=> trim(strtolower($this->alipay_config['input_charset'])),
+		);
+
+		// 合作身份者id，以2088开头的16位纯数字
+		$this->alipay_config['partner'] = Doggy_Config::$vars['app.alipay.fiu.partner'];
+		// ca证书路径地址，用于curl中ssl校验
+		$this->alipay_config['cacert'] = Doggy_Config::$vars['app.alipay.fiu.cacert'];
+		$this->alipay_config['private_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/rsa_private_pkcs8.pem';
+		$this->alipay_config['ali_public_key_path'] = Doggy_Config::$vars['app.alipay.fiu.pendir'].'/alipay_public_key.pem';
+		
+		// 服务器异步通知页面路径
+		$this->alipay_config['notify_url'] = Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify';
+		// 需http://格式的完整路径，不能加?id=123这类自定义参数
+		
+		// 建立请求
+		$alipaySubmit = new Sher_Core_Util_AlipayMobileSubmit($this->alipay_config);
+		$str = $alipaySubmit->buildRequestParaToString($parameter);
+		return $this->api_json('OK', 0, array('str' => $str));
+  }
+
 	
 }
 

@@ -1793,7 +1793,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }else{
       switch($payaway){
         case 'alipay':
-          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
           break;
         case 'weichat':
           $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
