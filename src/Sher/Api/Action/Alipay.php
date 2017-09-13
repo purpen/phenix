@@ -411,7 +411,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     $responseNode = str_replace(".", "_", $request->getApiMethodName()) . "_response";
     $resultCode = $result->$responseNode->code;
     if(!empty($resultCode) && $resultCode == 10000){
-		  return $this->api_json('OK', 0, array('str' => $result));
+		  return $this->api_json('OK', 0, array('str' => $result->$responseNode));
     } else {
 			return $this->api_json('支付失败: ['. $resultCode. ']'.$result->$responseNode->msg.$result->$responseNode->sub_msg, 3011);
     }
