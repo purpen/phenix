@@ -396,10 +396,10 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     //SDK已经封装掉了公共参数，这里只需要传入业务参数
     //此次只是参数展示，未进行字符串转义，实际情况下请转义
     $request->setBizContent("{" .
-    "\"out_trade_no\":". $out_trade_no ."," .
+    "\"out_trade_no\":\"". $out_trade_no ."\"," .
     "\"total_amount\":". $total_fee ."," .
-    "\"subject\":". $subject ."," .
-    "\"store_id\":". $store_id .
+    "\"subject\":\"". $subject ."\"," .
+    "\"store_id\":\"". $store_id . "\"" .
     " }");
     //授权类接口执行API调用时需要带上accessToken
     try{
@@ -413,7 +413,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     if(!empty($resultCode) && $resultCode == 10000){
 		  return $this->api_json('OK', 0, array('str' => $response));
     } else {
-			return $this->api_json('支付失败!', 3011);
+			return $this->api_json('支付失败: ['. $resultCode. ']'.$result->$responseNode->msg.$result->$responseNode->sub_msg, 3011);
     }
   }
 
