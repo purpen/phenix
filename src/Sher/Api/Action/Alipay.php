@@ -339,7 +339,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
    * Fiu 扫码支付流程
    */
   public function scan_fiu_payment(){
-    require_once "alipay-sdk/lib/WxPay.Api.php";
+    require_once "alipay-sdk/AopSdk.php";
 
     $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
 		if (empty($rid)){
@@ -375,7 +375,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     $out_trade_no = $rid;
 
     // 订单名称，必填
-    $subject = 'D3IN'.$rid.'订单';
+    $subject = 'D3IN['.$rid.']订单';
 
     // 付款金额，必填
     $total_fee = $order_info['pay_money'];
@@ -401,19 +401,22 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     $c->signType= "RSA2";
     $c->alipayrsaPublicKey = 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB';
     //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.open.public.template.message.industry.modify
-    $request = new AlipayOpenPublicTemplateMessageIndustryModifyRequest();
+    $request = new AlipayTradePrecreateRequest();
     //SDK已经封装掉了公共参数，这里只需要传入业务参数
     //此次只是参数展示，未进行字符串转义，实际情况下请转义
-    $request->bizContent = {
-        'out_trade_no' => $out_trade_no,
-        'total_amount' => $total_fee,
-        'subject' => $subject,
-        'store_id' => $store_id,
-        'timeout_express' => '30m',
-    };
-    $response= $c->execute($request);
+    $request->setBizContent = "{" .
+    "    \"out_trade_no\":\"23423423423423423424234\"," .
+    "    \"total_amount\":\"0.10\"," .
+    "    \"subject\":\"test\"," .
+    "    \"store_id\":\"0\"," .
+    "    \"timeout_express\":\"90m\"" .
+    " }";
     //授权类接口执行API调用时需要带上accessToken
-    $response = $c->execute($request,"accessToken");
+    try{
+      $response = $c->execute($request,"accessToken");
+    }catch(Exception $e){
+			return $this->api_json($e->getMessage(), 3010);
+    }
 		return $this->api_json('OK', 0, array('str' => $response));
 
   }
