@@ -401,6 +401,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
     "\"subject\":\"". $subject ."\"," .
     "\"store_id\":\"". $store_id . "\"" .
     " }");
+    $request->setNotifyUrl(Doggy_Config::$vars['app.url.api'].'/alipay/fiu_secrete_notify');
     //授权类接口执行API调用时需要带上accessToken
     try{
       $result = $c->execute($request,"accessToken");
