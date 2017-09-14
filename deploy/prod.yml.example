@@ -173,7 +173,6 @@ app.alipay.fiu.partner: '2088511301099072'
 app.alipay.fiu.key: 'd51e530330df4c79bc5f743a9a5c4e01'
 app.alipay.fiu.cacert: '/opt/project/phenix/vendor/alipay_cert/cacert.pem'
 app.alipay.fiu.pendir: '/opt/project/phenix/vendor/alipay_cert'
-app.alipay.fiu.rsa: '/opt/project/phenix/vendor/alipay_fiu_rsa'
 
 # SinaWeibo API
 app.sinaweibo.app_key: '3156984431'
