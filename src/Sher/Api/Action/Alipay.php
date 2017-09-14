@@ -426,7 +426,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 		Doggy_Log_Helper::warn("Alipay fiu api scan notify updated!");
     Doggy_Log_Helper::warn('result:'.json_encode($this->stash));
 
-    $param = $this->stash;
+    $param = $_POST;
 
     $c = new AopClient();
 
@@ -436,7 +436,6 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 		
     Doggy_Log_Helper::warn('verify_result:'.json_encode($verify_result));
 
-    /**
 		if ($verify_result) {//验证成功
 			$out_trade_no = $_POST['out_trade_no'];
 			$trade_no = $_POST['trade_no'];
@@ -446,7 +445,7 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 				// 判断该笔订单是否在商户网站中已经做过处理
 				// 如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 				// 如果有做过处理，不执行商户的业务程序
-				Doggy_Log_Helper::warn("Alipay fiu api secrete notify [$out_trade_no][$trade_no]!");
+				Doggy_Log_Helper::warn("Alipay scan fiu api secrete notify [$out_trade_no][$trade_no]!");
 				
 				return $this->update_alipay_order_process($out_trade_no, $trade_no, true);
 				
@@ -456,15 +455,14 @@ class Sher_Api_Action_Alipay extends Sher_Core_Action_Base implements DoggyX_Act
 				// 2、开通了高级即时到账，从该笔交易成功时间算起，过了签约时的可退款时限
 				//（如：三个月以内可退款、一年以内可退款等）后。
 			} else {
-				Doggy_Log_Helper::warn("Alipay fiu api secrete notify trade status fail!");
+				Doggy_Log_Helper::warn("Alipay scan fiu api secrete notify trade status fail!");
 				return $this->to_raw('fail');
 			}
 		}else{
 			// 验证失败
-			Doggy_Log_Helper::warn("Alipay fiu api secrete notify verify result fail!!!");
+			Doggy_Log_Helper::warn("Alipay scan fiu api secrete notify verify result fail!!!");
 			return $this->to_raw('fail');
     }
-    **/
 	}
 
 	
