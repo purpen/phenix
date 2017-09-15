@@ -530,7 +530,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
                 }
                 $order_phone = $order_info['express_info']['phone'];
                 if(!empty($order_phone)){
-                  Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+                  Sher_Core_Helper_Util::send_yp_defined_mms($order_phone, $order_message);
                 }
               }
 			

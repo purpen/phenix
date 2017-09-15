@@ -1211,7 +1211,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
               // 短信提醒用户
               $order_message = sprintf("亲爱的伙伴，感谢您在本店消费，我们会尽快为您安排配货！");
               if(!empty($order_phone)){
-                Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+                Sher_Core_Helper_Util::send_yp_defined_mms($order_phone, $order_message);
               }
             }
 
