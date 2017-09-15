@@ -154,8 +154,8 @@
 // 验证是否领取过红包
 $.get('{{ app_url_wap }}/app/wap/promo_func/check_recive_bonus', {kind:6}, function(res){
   if(!res.data.exist){
-    // 3秒弹出
-    setTimeout("$('#mask').css('display','')",3000);
+    // 2秒弹出
+    setTimeout("$('#mask').css('display','')",2000);
   }
 }, 'json');
 $('#pullBonusBtn').click(function(){
