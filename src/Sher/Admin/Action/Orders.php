@@ -519,7 +519,15 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
               // 短信提醒用户
               if($ok){
-                $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                // 是否来自iPad店消费
+                $from_site = isset($order_info['from_site']) ? $order_info['from_site'] : Sher_Core_Util_Constant::FROM_LOCAL;
+                $express_company = $model->find_express_category($express_caty);
+                if($from_site == Sher_Core_Util_Constant::FROM_APP_IPAD){
+                    // 如果是店里iPad消费
+                     $order_message = sprintf("亲爱的伙伴：您在D³IN店购买的产品已发货，物流信息: %s[%s]", $express_company, $express_no);                   
+                }else{
+                    $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                }
                 $order_phone = $order_info['express_info']['phone'];
                 if(!empty($order_phone)){
                   Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);

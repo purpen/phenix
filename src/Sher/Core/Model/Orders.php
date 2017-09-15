@@ -1201,6 +1201,20 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $user_model->update_counter_byinc($data['user_id'], 'order_wait_payment', -1);
             // 是否是自提订单
             $delivery_type = isset($data['delivery_type']) ? $data['delivery_type'] : 1;
+            // 是否来自iPad店消费
+            $from_site = isset($data['from_site']) ? $data['from_site'] : Sher_Core_Util_Constant::FROM_LOCAL;
+            // 收货人手机号
+            $order_phone = isset($data['express_info']['phone']) ? $data['express_info']['phone'] : null;
+
+            // 如果是店里iPad消费并且快递方式，给收货人短信提醒
+            if ($from_site == Sher_Core_Util_Constant::FROM_APP_IPAD && $delivery_type == 1){
+              // 短信提醒用户
+              $order_message = sprintf("亲爱的伙伴，感谢您在本店消费，我们会尽快为您安排配货！");
+              if(!empty($order_phone)){
+                Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+              }
+            }
+
             if($delivery_type==1){
                 $user_model->update_counter_byinc($data['user_id'], 'order_ready_goods', 1);
             }elseif($delivery_type==2){
