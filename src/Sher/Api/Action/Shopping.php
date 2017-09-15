@@ -560,7 +560,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 
     $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 7;
-    if(!in_array($from_site, array(7,8))){
+    if(!in_array($from_site, array(7,8,11))){
       return $this->api_json('来源设备不正确！', 3011);     
     }
 

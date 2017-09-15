@@ -507,7 +507,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
                 }
                 $sub_ok = $model->update_set((string)$order_info['_id'], array('sub_orders'=>$order_info['sub_orders']));
                 if(!$sub_ok){
-  				    return $this->ajax_json('更新子订单物流失败！', true);                   
+  				    return $this->ajax_json('更新子订单物流失败！', true);
                 }
             }
 			
@@ -519,7 +519,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
               // 短信提醒用户
               if($ok){
-                $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
                 $order_phone = $order_info['express_info']['phone'];
                 if(!empty($order_phone)){
                   Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
@@ -613,7 +613,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
-          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
+          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID, Sher_Core_Util_Constant::FROM_APP_IPAD))){
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?rid='.$rid;
           }else{
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?rid='.$rid;
@@ -677,7 +677,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
-          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
+          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID, Sher_Core_Util_Constant::FROM_APP_IPAD))){
                 $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
           // 微信小程序
           }elseif($order_info['from_site']==Sher_Core_Util_Constant::FROM_WX_XCX){
@@ -904,7 +904,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
         // 短信提醒用户
         if($ok){
-            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order['rid']);
+            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order['rid']);
             $order_phone = $order['express_info']['phone'];
             if(!empty($order_phone)){
                 Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);

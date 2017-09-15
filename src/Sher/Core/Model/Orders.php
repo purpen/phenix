@@ -164,7 +164,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
-        # 来源app: 1.商城;2.Fiu
+        # 来源app: 1.商城;2.D3IN
         'from_app' => 0,
         # channel_id
         'channel_id' => null,
@@ -278,6 +278,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				break;
 			case Sher_Core_Util_Constant::FROM_WX_XCX:
 				$label = '小程序';
+				break;
+			case Sher_Core_Util_Constant::FROM_APP_IPAD:
+				$label = 'iPad商户';
 				break;
 			default:
 				$label = '其他';
