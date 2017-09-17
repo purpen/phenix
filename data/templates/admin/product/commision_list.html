@@ -165,7 +165,7 @@
                     {%endif%}
 
                         -->
-                        <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id=133">查看二维码>></p>
+                    <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id={{storage_id | default 133}}">查看二维码>></p>
 
 				</td>
                 <td>{{ product.sale_price }}</td>
