@@ -601,7 +601,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }else{
             $addbook_json = isset($this->stash['addbook']) ? $this->stash['addbook'] : array();
             if(empty($addbook_json)){
-                return $this->api_json('收货地址不存在！', 3020);      
+                return $this->api_json('收货地址不存在！', 3020);
             }
             $addbook = json_decode($addbook_json, true);
             $express_info = array(
