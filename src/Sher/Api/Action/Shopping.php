@@ -1391,7 +1391,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 仅查看本人的订单
 		if($user_id != $order_info['user_id']){
-			return $this->api_json('你没有权限查看此订单！', 5000);
+      if($order_info['from_site'] != Sher_Core_Util_Constant::FROM_APP_IPAD){
+			  return $this->api_json('你没有权限查看此订单！', 5000);
+      }
 		}
 
         $product_model = new Sher_Core_Model_Product();
