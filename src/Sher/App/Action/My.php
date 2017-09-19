@@ -1380,7 +1380,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
             Sher_Core_Util_Constant::ORDER_READY_GOODS,
             Sher_Core_Util_Constant::ORDER_SENDED_GOODS,
             Sher_Core_Util_Constant::ORDER_EVALUATE,
-            //Sher_Core_Util_Constant::ORDER_PUBLISHED, 
+            Sher_Core_Util_Constant::ORDER_PUBLISHED, 
         );
         if(!in_array($order['status'], $arr)){
             return $this->ajax_json('不允许的操作!', true);

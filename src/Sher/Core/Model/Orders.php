@@ -1236,7 +1236,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
             $user_ok = $user_model->create($user_info);
 
             if($user_ok){
-              $new_user_id = $user_ok->id;
+              $new_user_id = $user_model->id;
               $is_new_user = true;
             }
 
