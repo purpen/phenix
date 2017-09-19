@@ -640,8 +640,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
-        $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
-        $order_info['referral_code'] = $result['referral_code'];
+    $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
+    $order_info['referral_code'] = $result['referral_code'];
+    $order_info['storage_id'] = $result['storage_id'];
 		
 		// 获取购物金额
 		$total_money = $order_info['total_money'];

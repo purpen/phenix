@@ -1244,6 +1244,14 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
           // 更新订单用户为购物方
           $this->update_set($id, array('user_id'=>$new_user_id));
+          $storage_name = '';
+          $scene_model = new Sher_Core_Model_SceneScene();
+          if(isset($data['storage_id']) && !empty($data['storage_id'])){
+            $scene = $scene_model->load((int)$data['storage_id']);
+            if($scene){
+              $storage_name = $scene['title'];
+            }
+          }
 
           // 给新用户发短信提醒
           $order_message = sprintf("感谢您在太火鸟D³IN%s消费购物，为了便于订单跟踪查询，登录 http://t.cn/RpFNLRS ，输入手机号查询订单", $storage_name);
