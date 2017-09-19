@@ -501,8 +501,7 @@ span.kefu{
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
-						$(event.target).addClass('error');
-						phenix.show_error_note(data.message, event.target);
+						phenix.show_error_note(data.message, 3000);
 					}
 				}
 			});
@@ -535,8 +534,7 @@ span.kefu{
                         phenix.show_ok_note('申请成功，等待客服处理', 3000);
 					}else{
 					    phenix.after_submit();
-						$(event.target).addClass('error');
-						phenix.show_error_note(data.message, event.target);
+						phenix.show_error_note(data.message, 3000);
 					}
 				}
 			});
