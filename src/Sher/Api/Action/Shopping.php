@@ -88,6 +88,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     // 推广码
     $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
 
     // 初始化类型
     $kind = 0;
@@ -120,8 +121,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $n = 1;
       }
 
-        $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
-        $storage_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
+      $r_code = isset($val['referral_code']) ? $val['referral_code'] : '';
+      $s_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
 
       $sku_mode = null;
       $price = 0.0;
@@ -213,8 +214,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'subtotal'  => $total_price,
         'vop_id' => $vop_id,
         'number' => (string)$number,
-        'referral_code' => $referral_code,
-        'storage_id' => $storage_id,
+        'referral_code' => $r_code,
+        'storage_id' => $s_id,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -301,6 +302,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$new_data['is_cart'] = 1;
             $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
             $new_data['referral_code'] = $referral_code;
+            $new_data['storage_id'] = $storage_id;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
@@ -489,6 +491,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }
         if(!empty($referral_code)){
             $options['referral_code'] = $referral_code;
+        }
+        if(!empty($storage_id)){
+            $options['storage_id'] = $storage_id;
         }
 
         $options['disabled_app_reduce'] = $disabled_app_reduce;
@@ -1612,6 +1617,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $new_data['kind'] = $kind;
     $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
     $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
+    $new_data['storage_id'] = isset($options['storage_id']) ? (int)$options['storage_id'] : null;
 		
 		try{
 			$order_info = array();

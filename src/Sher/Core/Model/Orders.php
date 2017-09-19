@@ -176,6 +176,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         #推广码
         'referral_code' => null,
         'referral' => array(),
+        # 商户ID
+        'storage_id' => null,
 
         # 是否含有子订单
         'exist_sub_order' => 0,
