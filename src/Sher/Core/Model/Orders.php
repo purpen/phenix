@@ -1213,7 +1213,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 
         // 如果是使用iPad店里下单、收货方式为快递，则根据收货手机号创建用户
         if ($from_site == Sher_Core_Util_Constant::FROM_APP_IPAD && $delivery_type == 1 && !empty($order_phone)){
-          $user = $user_model->first(array('account' => $account));
+          $user = $user_model->first(array('account' => $order_phone));
           $is_new_user = false;
           $password = '';
           if($user){

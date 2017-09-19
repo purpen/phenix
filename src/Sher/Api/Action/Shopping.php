@@ -621,6 +621,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             if(empty($express_info['name']) || empty($express_info['phone']) || empty($express_info['province']) || empty($express_info['city'])){
                 return $this->api_json('收货地址不完整！', 3021);            
             }
+            // 验证手机号码是否合法
+            if(!preg_match("/1[34578]{1}\d{9}$/",trim($express_info['phone']))){  
+              return $this->api_json('请输入正确的手机号码格式！', 3022); 
+            }
         }   
     }
 
