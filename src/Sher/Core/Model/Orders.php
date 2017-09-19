@@ -1228,12 +1228,12 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
               'state' => Sher_Core_Model_User::STATE_OK
             );
             
-            $profile = $user->get_profile();
+            $profile = $user_model->get_profile();
             $profile['phone'] = $order_phone;
             $profile['realname'] = $order_name;
             $user_info['profile'] = $profile;
             
-            $user_ok = $user->create($user_info);
+            $user_ok = $user_model->create($user_info);
 
             if($user_ok){
               $new_user_id = $user_ok->id;
