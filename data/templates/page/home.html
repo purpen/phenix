@@ -108,10 +108,11 @@
       width: 100%;
     }
 
-    #slides {
-      display:none;
+    .flex-control-nav.flex-control-paging {
+      bottom: 20px;
+      left: 35%;
+      z-index: 99999;
     }
-
 
 </style>
 {% endblock %}
@@ -243,9 +244,13 @@
       $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
 		}
 
-    $("#slides").slidesjs({
-      interval: 3000
-    });
+    // 产品图片沦换
+    $(".slides1").flexslider({
+      slideshowSpeed: 3000
+    }); 
+    $(".slides2").flexslider({
+      slideshowSpeed: 3000
+    }); 
 
 {% endblock %}
 
@@ -387,7 +392,13 @@
             </div>
           </div>
           <div class="eight wide column product-img">
-            <img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" />
+            <div class="slides1">
+              <ul class="slides"> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" /></li> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/swdk02.jpg" /></li> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/swdk03.jpg" /></li> 
+              </ul> 
+            </div>
           </div>
         </div>
       </div>
@@ -395,11 +406,13 @@
       <div class="product">
         <div class="ui responsive relaxed grid">
           <div class="eight wide column product-img">
-            <div id="slides">
-              <img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" />
-              <img src="{{ app_url_packaged }}/images/home/product/sushi02.jpg" />
-              <img src="{{ app_url_packaged }}/images/home/product/sushi03.jpg" />
-              <img src="{{ app_url_packaged }}/images/home/product/sushi04.jpg" />
+            <div class="slides2">
+              <ul class="slides"> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" /></li> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/sushi02.jpg" /></li> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/sushi03.jpg" /></li> 
+                <li><img src="{{ app_url_packaged }}/images/home/product/sushi04.jpg" /></li> 
+              </ul> 
             </div>
           </div>
           <div class="eight wide column">
