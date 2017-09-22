@@ -4,6 +4,115 @@
     .fixed.button{
       display:none !important;
     }
+
+    .saas-box {
+      margin: 20px auto;
+    }
+
+    .banner1 {
+      height: 650px;
+      background: url('{{ app_url_packaged }}/images/home/bg1.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #fff;
+      overflow:hidden;
+      margin: 10px 0;
+    }
+
+    .banner1.right {
+    }
+
+    .banner1 .ui.responsive.grid {
+      position: relative;
+    }
+    .banner1.right .ui.responsive.grid {
+    }
+
+    .banner1 img {
+      position: absolute;
+      width: 55%;
+      right: 0;
+      top: 45%;
+    }
+    .banner1.right img {
+      width: 55%;
+      left: 0;
+      top: 70%;
+    }
+
+    .banner1 .cont {
+      width: 52%;
+      margin: 80px 0 0 0;
+    }
+    .banner1.right .cont {
+      text-align: right;
+      float: right;
+    }
+
+    .banner1 .cont h3 {
+      font-size: 44px;
+      font-weight: 300;
+    }
+    .banner1 .cont p {
+      font-size: 18px;
+      font-weight: 200;
+      line-height: 2;
+      margin: 0;
+      padding: 0;
+    }
+    .banner1 .cont a {
+      margin-top: 20px;
+    }
+
+    .product {
+      padding: 40px 0;
+    }
+    .bg-gray {
+      background: #F9F9F9;
+    }
+
+    .product-box {
+      margin-top: 40px;
+    }
+
+    .product-box h3 {
+      color: #28313E;
+      font-size: 42px;   
+      font-weight: 300;
+    }
+    .product-box p {
+      color: #2A2A2A;
+      font-size: 28px;    
+      line-height: 2;
+      font-weight: 300;
+    }
+    .product-box .brand {
+      margin: 10px 0;
+      color: #28313E;
+      font-size: 30px; 
+      font-weight: 300;
+    }
+    .product-box .brand img {
+      width: 50px;
+      vertical-align: middle;
+    }
+    .product-box .brand span {
+      font-weight: 300;
+    
+    }
+    .product-box .desc {
+      color: #616871;
+      font-size: 18px;
+    }
+    .product-img img {
+      width: 100%;
+    }
+
+    #slides {
+      display:none;
+    }
+
+
 </style>
 {% endblock %}
 {% block jquery %}
@@ -130,16 +239,13 @@
         return false;
       });
 
-
-
-
-
-
-
-
       // 生成二维码
       $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
 		}
+
+    $("#slides").slidesjs({
+      interval: 3000
+    });
 
 {% endblock %}
 
@@ -186,9 +292,11 @@
     <div class="hottips">
         <div class="ui responsive grid">
             <div class="row">
+              <!--
                 <div class="column">
                     <h2 class="ui header">热门推荐</h2>
                 </div>
+              -->
             </div>
             <div class="row">
                 <div class="column">
@@ -219,291 +327,96 @@
         </div>
     </div>
 
-    <!-- Fiu -->
-
-    <section class="ui fiu block">
-        <div class="ui responsive grid">
-            <div class="row">
-                <div class="column">
-                    <h2 class="ui header">Fiu简介</h2>
-                </div>
+    <!--  活动推荐 2张  -->
+    {% ad_list var:'adstick' page:1 state:2 size:2 name:'home_active_stick' sort_field:'latest' %}
+    <div class="ui incub responsive grid">
+      
+      <div class="row">
+        <div class="column">
+          <div class="ui two products cards">
+            {% for d in adstick.rows %}
+            <div class="card">
+              <div class="problock">
+                <a title="{{ d.title }}" href="{{ d.view_url }}" style="padding-top:56.207%;" class="thumb">
+                  <img class="lazy" data-original="{{ d.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
+                </a>
+              </div>
             </div>
-            <a href="{{ app_url_domain }}/fiu" class="row white background">
-                <div class="column">
-                    <img src="{{ app_url_packaged }}/images/homelogo.png" width="144" height="60">
-                    <p>Fiu浮游™是一个致力于发现科技创新产品和分享美学生活方式的情境式图片电商平台。<br>
-                       Fiu浮游™通过大千世界碎片美的情境大片重构，为新中产的生活方式带来全新的诗意体验。</p>
-                    <p>每个人心中都有一个不曾到过的美景，<br>
-                       每个人心中都有一个不曾拥有的美物，<br>
-                       Fiu浮游™带你发现美学科技的力量和感性生活的温度！</p>
-                    <p class="color-be">
-                        科技美学情境式分享社区
-                    </p>
-                    <span><img src="{{ app_url_packaged }}/images/fiu/iosewm.jpg" width="90">
-                    <p class="ui link">Apple iOS下载</p></span>
-                    <span><img src="{{ app_url_packaged }}/images/fiu/andewm.jpg" width="90">
-                    <p class="ui link">Android下载</p></span>
-                </div>
-            </a>
-            <div class="row white fourcards">
-                <div class="column">
-                    <div class="ui four cards">
-                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium1.jpg">
-                            <p>
-                            科技美学
-                            <span>质感碰撞性感的生活态度</span>
-                            </p>
-                        </div>
-                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium2.jpg">
-                            <p>
-                            情景体验
-                            <span>大千世界碎片美的场景<br>
-                            如大片呈现，内容好到尖叫<span>
-                            </p>
-                        </div>
-                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium3.jpg">
-                            <p>社群互动
-                            <span>发现同路人，并让分享变现原创价值</span></p>
-                        </div>
-                        <div class="card bglazy" data-original="{{ app_url_packaged }}/images/fium4.jpg">
-                            <p>地盘定位
-                            <span>我的地盘我做主，开好店搞主题都随意</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
+          </div>
         </div>
-    </section>
-    
-    <!--精选新品-->
-	<section class="ui shoplist block">
-    	<div class="ui newest responsive grid">
-            <div class="row">
-                <div class="column">
-                    <h2 class="ui header">热门商品</h2>
-                </div>
-            </div>
-    		<div class="row">
-    			<div class="column">
-                    {% cache cache_key:'web_index_newest_product' ttl:180 disable_cache:app_disable_cached %}
-                    
-                    {% product_list var:'newest' page:1 type:5 only_onsale:1 size:8 sort:5 %}
-                    {% if newest.rows %}
-                    <div class="ui four products cards">
-    					{% for product in newest.rows %}
-    				  		{% include "block/product_card.html" %}
-    				    {% endfor %}
-                    </div>
-    				{% endif %}
-                    
-                    {% endcache %}
-                </div>
-            </div>
-        </div>
-	</section>
-    
-    <!--社区部分-->
-    <div class="ui hottopic block">
-    	<div class="ui responsive grid">
-            <div class="row">
-                <div class="column">
-                    <h2 class="ui header">社区话题</h2>
-                </div>
-            </div>
-    		<div class="row">
-    			<div class="column">  
-                    {% cache cache_key:'home_page_activity' ttl:600 disable_cache:app_disable_cached %}
-                    
-                    <!--社区试用 活动-->
-                    {% ad_list var:'ads' page:1 size:2 state:2 name:'home_page_activity' %}
-                    {% if ads.rows %}
-                    <div class="ui two products cards">
-                        {% for ad in ads.rows %}
-                            <div class="card special">
-                                <div class="problock">
-                                    <a title="{{ ad.title }}" href="{{ ad.view_url }}" class="thumb" target="_blank">
-                                        <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
-                                    </a>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    
-                    {% endcache %}
-                    
-                    <!--精华话题-->
-                    {% cache cache_key:'web_index_fine_topics' ttl:300 disable_cache:app_disable_cached %}
-                    
-                    {% topic_list var:'topics' published:1 type:2 sort:8 page:1 size:4 %}
-                    <div class="ui socialstick stickcount four blocks">
-                		{% for topic in topics.rows %}
-                        <div class="block">
-                            <a href="{{ topic.view_url }}" target="_blank" style="padding-top: 59.523%;">
-                                <img class="lazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
-                                <div class="sub title">
-                                    <h3>{{ topic.short_title }}</h3>
-                                    <div class="extra count">
-                                        <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                                    </div>
-                                </div>
-                                <div class="transparent"></div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    
-                    {% endcache %}
-                    
-                    <div class="ui four topics cards">
-                        <!--
-                        <div class="card stick">
-                            {% cache cache_key:'home_page_topic' ttl:600 disable_cache:app_disable_cached %}
-                            
-                            {% ad_list var:'ads' page:1 size:3 state:2 name:'home_page_topic' %}                        
-                            <div class="ui socialstick one blocks">
-                                {% for ad in ads.rows %}
-                                <div class="block">
-                        			<div class="image" {% if ad.cover %}style="background-image: url('{{ ad.cover.fileurl }}');height:220px;"{% endif %}>
-                                        <a class="transparent" href="{{ ad.view_url }}" target="_blank">
-                        					<div class="sub title">
-                        						<h3>{{ ad.title }}</h3>
-                        					</div>
-                                        </a>
-                        			</div>
-                                </div>
-                                {% endfor %}
-
-                            </div>
-                            
-                            {% endcache %}
-                        </div>-->
-                        <div class="card group">
-                            {% cache cache_key:'web_index_stick_topics' ttl:180 disable_cache:app_disable_cached %}
-                            
-                            <!--推荐话题-->
-                            {% topic_list var:'topics' published:1 sort:6 type:1 page:1 size:10 %}
-                            <div class="problock">
-            					{% for topic in topics.rows %}
-                                        <div class="topicbox {% if loop.counter == 9 %}noborder{% endif %}">
-                    						
-                                            <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui cover line" target="_blank">
-                                                {% if topic.cover %}
-                    						    <img class="ui image lazy" data-original="{{ topic.cover.thumbnails.acs.view_url }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" alt="{{ topic.title }}--太火鸟智能硬件社区"/>
-                                                <span class="flei">{{ topic.category.title }}</span>
-                                                {% endif %}
-                                            </a>
-                                            <div class="content">
-                                                <h2>
-                                                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
-                                        			    {{ topic.title }}
-                                        		    </a>
-                                                </h2>
-                            					<p class="description">
-                            						{{ topic.strip_description }}
-                            					</p>
-                                
-                                				<p class="author">
-                                                    <span class="mesg">
-                                                        <a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>
-                                                        {{ topic.created_on|relative_datetime }}
-                                                    </span>
-                                                    <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
-                                				</p>
-                                            </div>
-                                        </div>
-                                {% endfor %}
-                            </div>
-                            
-                            {% endcache %}
-                            
-                            <div class="resultbox">
-                                <a href="{{ app_url_topic }}" class="ui magenta inverted large more button">
-                                   <i class="search icon"></i> 查看更多话题 
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-	</div>
-    <!-- 服务 -->
-    <div class="ui service block">
-        <div class="ui responsive grid">
-            <div class="row">
-                <div class="column">
-                    <h2 class="ui header">太火鸟服务</h2>
-                </div>
-            </div>
-            <div class="row thchild">
-                <div class="column">
-                    <div class="ui three cards">
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service#.biao" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef1.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef1.png">
-                                    <p>科技美学</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef2.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef2.png">
-                                    <p>智慧鸟基金</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service#.fuwu" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef3.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef3.png">
-                                    <p>众筹／运营</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service#.yinx" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef4.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef4.png">
-                                    <p>品牌营销</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service#.qudao" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef5.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef5.png">
-                                    <p>渠道分发</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                        <div class="card">
-                            <a href="{{ app_url_domain }}/incubator/service#.wshop" target="_blank">
-                                <img class="lazy" data-original="{{ app_url_packaged }}/images/homef6.jpg" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg">
-                                <div class="flogo">
-                                    <img src="{{ app_url_packaged }}/images/homef6.png">
-                                    <p style="margin-top: 5px;"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>铟立方</p>
-                                </div>
-                                <div class="transprant"></div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
+      
     </div>
+
+    <div class="saas-box">
+      <div class="banner1">
+        <div class="ui responsive grid">
+          <div class="cont">
+            <h3>产品创新</h3>
+            <p>基于大数据和智能匹配的产品创新SaaS平台，吸引1000+家专业设计企业，覆盖2000万创新设计群体。以设计驱动创新，挖掘消费需求，加速消费升级，用创新改变世界。</p>
+            <a href="http://d3ingo.taihuoniao.com" class="ui inverted basic button" target="_blank">发布项目需求</a>
+          </div>
+          <img src="{{ app_url_packaged }}/images/home/d3in.png" />
+        </div>
+      </div>
+
+      <div class="banner1 right">
+        <div class="ui responsive grid">
+          <img src="{{ app_url_packaged }}/images/home/fiu.png" />
+          <div class="cont">
+            <h3>智能分发</h3>
+            <p>连接品牌与自媒体精准分发及内容输出</p>
+            <p> 提供有效的产品技术，数据分析，传播策略，电商运营，客服，仓储和品牌供应链服务，帮助自媒体实现高效的商业闭环。</p>
+            <a href="http://fiu.taihuoniao.com" class="ui inverted basic button" target="_blank">了解详情</a>
+          </div>
+        </div>     
+      </div>
+
+      <div class="product bg-gray">
+        <div class="ui responsive relaxed grid">
+          <div class="eight wide column">
+            <div class="product-box">
+              <h3>洒哇地咔智能拖地机器人</h3>
+              <p>单周销量1500台</p>
+              <div class="brand">
+                <img src="{{ app_url_packaged }}/images/home/logo_swdk.png" />
+                洒哇地咔
+              </div>
+              <p class="desc">重新设计产品图片、输出原创内容，提升品牌格调和销售转化新品开发，重新设计产品外观和功能体验</p>
+            </div>
+          </div>
+          <div class="eight wide column product-img">
+            <img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" />
+          </div>
+        </div>
+      </div>
+
+      <div class="product">
+        <div class="ui responsive relaxed grid">
+          <div class="eight wide column product-img">
+            <div id="slides">
+              <img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" />
+              <img src="{{ app_url_packaged }}/images/home/product/sushi02.jpg" />
+              <img src="{{ app_url_packaged }}/images/home/product/sushi03.jpg" />
+              <img src="{{ app_url_packaged }}/images/home/product/sushi04.jpg" />
+            </div>
+          </div>
+          <div class="eight wide column">
+            <div class="product-box">
+              <h3>素士声波电动牙刷</h3>
+              <p>自媒体销售额约2000万</p>
+              <div class="brand">
+                <img src="{{ app_url_packaged }}/images/home/logo_sushi.png" />
+                素士 Soocare
+              </div>
+              <p class="desc">种子期投资孵化项目，资本助力创业团队搭建和产品开发升级，头部大号攻城掠地、中腰和底部社群全网覆盖战略，已有100＋合作自媒体，助力全渠道分发</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
 </div>
 {% endblock %}

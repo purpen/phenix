@@ -23,7 +23,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * 浙江传统产业设计再造计划金华站对接会
      */
     public function d3ingo_zj() {
-      return $this->to_html_page('wap/promo/qsyd3.html');  
+      return $this->to_html_page('wap/promo/d3ingo_zj.html');  
     }
 
     /**

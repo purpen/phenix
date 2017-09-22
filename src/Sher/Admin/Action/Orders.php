@@ -701,6 +701,49 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 	}
 
   /**
+   * 强行确认退款操作
+   */
+  public function ajax_new_refund_force(){
+ 		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)) {
+			return $this->ajax_notification('缺少请求参数！', true);
+		}
+
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_notification('操作不当，你没有权限！', true);
+		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->ajax_notification('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_notification('退款单状态不符！', true);
+        }
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($refund['order_rid']);
+		//订单不存在
+		if(empty($order_info)){
+			return $this->ajax_notification('订单未找到！', true);
+		}
+
+    $ok = $refund_model->refund_call($id, array('refund_price'=>$refund['refund_price']));
+
+    if($ok){
+      //退款成功
+		  return $this->ajax_json('操作成功', false, '', array());   
+    }else{
+      Doggy_Log_Helper::warn("Alipay fiu refund notify: order_id[$refund_id] refunde_order fail !");
+		  return $this->ajax_json('退款失败!', true);  
+    }
+	}
+
+  /**
    * 强制退款操作－不退款，更改订单状态，用于非支付宝支付的订单或需要人工退款操作的
    */
   public function ajax_do_refund_force(){
