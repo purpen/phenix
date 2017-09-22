@@ -707,29 +707,29 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
  		
 		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
 		if (empty($id)) {
-			return $this->ajax_notification('缺少请求参数！', true);
+			return $this->ajax_json('缺少请求参数！', true);
 		}
 
 		// 检查是否具有权限---有问题
 		if (!$this->visitor->can_admin()) {
-			return $this->ajax_notification('操作不当，你没有权限！', true);
+			return $this->ajax_json('操作不当，你没有权限！', true);
 		}
 
         $refund_model = new Sher_Core_Model_Refund();
         $refund = $refund_model->load($id);
         if(empty($refund)){
- 		    return $this->ajax_notification('退款单不存在！', true);
+ 		    return $this->ajax_json('退款单不存在！', true);
         }
 
         if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
-  		    return $this->ajax_notification('退款单状态不符！', true);
+  		    return $this->ajax_json('退款单状态不符！', true);
         }
 
 		$model = new Sher_Core_Model_Orders();
 		$order_info = $model->find_by_rid($refund['order_rid']);
 		//订单不存在
 		if(empty($order_info)){
-			return $this->ajax_notification('订单未找到！', true);
+			return $this->ajax_json('订单未找到！', true);
 		}
 
     $ok = $refund_model->refund_call($id, array('refund_price'=>$refund['refund_price']));
