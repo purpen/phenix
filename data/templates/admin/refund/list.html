@@ -98,7 +98,7 @@
 			  if(!confirm('强制退款只是更改退款状态，必须手动完成打卡操作，确认执行这个操作吗?')){
 	          return false;
 	      }
-        $.post("{{ app_url_admin }}/refund/ajax_new_refund_force", {id:id}, function(rs){
+        $.post("{{ app_url_admin }}/orders/ajax_new_refund_force", {id:id}, function(rs){
             if(rs.success){
  		        $('.ui.change-price-box.modal').modal('hide');               
                 phenix.show_ok_note('操作成功!');
