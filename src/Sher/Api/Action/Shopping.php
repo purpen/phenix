@@ -1323,6 +1323,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $service = Sher_Core_Service_Orders::instance();
         $result = $service->get_latest_list($query, $options);
 
+        $order_model = new Sher_Core_Model_Orders();
 
     $product_model = new Sher_Core_Model_Product();
     $sku_model = new Sher_Core_Model_Inventory();
@@ -1340,6 +1341,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if(empty($data[$i]['express_info'])){
         $data[$i]['express_info'] = null;
       }
+      // 快递信息
+      $express_name = '';
+      if($data[$i]['express_caty']){
+        $express_obj = $order_model->find_express_category($data[$i]['express_caty']);
+        if($express_obj){
+          $express_name = $express_obj['title'];
+        }
+      }
+      $data[$i]['express_name'] = $express_name;
 
       //商品详情
       if(!empty($result['rows'][$i]['items'])){
