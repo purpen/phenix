@@ -31,6 +31,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->set_target_css_state('page_social');
 		$this->set_target_css_state('page_topic');
 		$this->set_target_css_state('page_sub_topic');
+		$this->set_target_css_state('page_incubator');
+    $this->set_target_css_state('page_cooperate');
         
 		$this->stash['domain'] = Sher_Core_Util_Constant::TYPE_TOPIC;
         
