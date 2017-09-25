@@ -50,21 +50,36 @@
 
 }
 .title-banner h4 {
-  padding: 5px 0 0 40px;
+  padding: 4px 0 0 40px;
   color: #0F7553;
   font-size: 16px;
 }
 
 .slider {
-  height: 100px;
+  margin-bottom: 20px;
+}
+.slider.design {
 }
 
 .item-slide {
   background: #fff;
+  height: 200px;
   border: 1px solid #E6E6E6;
   padding: 20px 10px 40px 10px;
   margin: 20px 10px;
   text-align: center;
+}
+
+.slider.design {
+}
+.slider.design .item-slide {
+  margin-top: 70px;
+  height: 300px;
+
+}
+.slider.design .item-slide .logo {
+  width: 150px;
+  margin-top: -70px;
 }
 
 .item-slide h3 {
@@ -82,6 +97,7 @@
 }
 .item-slide p {
   padding: 10px 20px;
+  text-align: left;
 
 }
 
@@ -92,15 +108,15 @@
 {% block layout_js %}
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
-    var m_name = '2017“奇思甬动”中国创客大赛';
+    var m_name = '浙江传统产业设计再造计划金华站对接会';
     var img_url = '{{ app_url_packaged }}/images/promo/qsyd3/qsyd_logo.jpeg';
     var link = '{{ current_url }}';
-    var desc_str = '智能硬件展销专区';
+    var desc_str = '';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: '{{ app_id }}', // 必填，公众号的唯一标识
-        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
         nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
         signature: '{{ wxSha1 }}',// 必填，签名，见附录1
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
@@ -153,6 +169,20 @@
 
 {% block jquery %}
 
+  var mySwiper = new Swiper ('#slides1', {
+    loop: true,
+    
+    // 如果需要分页器
+    pagination: '.swiper-pagination'
+  }) 
+
+  var mySwiper1 = new Swiper ('#slides2', {
+    loop: true,
+    
+    // 如果需要分页器
+    pagination: '.swiper-pagination1'
+  }) 
+
 {% endblock %}
 
 {% block content %}
@@ -173,15 +203,130 @@
       <h4>传统制造企业</h4>
     </div>
 
-    <div class="slider">
-      <div class="item-slide">
-        <h3>浙江省永康市沃尔康健身器材有限公司</h3>
-        <p>成立于2002年的飞鱼设计，历经10年的发展与积累，已成为国内最具视野和执行能力的策略型创新设计公司，有着极高的市场知名度和客户口碑。飞鱼始终坚持以“策略领先”和“优设计”为理念，服务集设计研究、产品设计、品牌策略及产业化服务于一体，涉及通讯、IT、家电、家居、设备、医疗、服务等领域。</p>
-        <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="#" >http://www.feish.com.cn/</a><p>
+    <div class="slider" id="slides1">
+      <div class="swiper-wrapper">
+        <div class="item-slide swiper-slide">
+          <h3>浙江省永康市沃尔康健身器材有限公司</h3>
+          <p>成立于2002年的飞鱼设计，历经10年的发展与积累，已成为国内最具视野和执行能力的策略型创新设计公司，有着极高的市场知名度和客户口碑。飞鱼始终坚持以“策略领先”和“优设计”为理念，服务集设计研究、产品设计、品牌策略及产业化服务于一体，涉及通讯、IT、家电、家居、设备、医疗、服务等领域。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="#" >http://www.feish.com.cn/</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <h3>测试</h3>
+          <p>成立于2002年的飞鱼设计，历经10年的发展与积累，已成为国内最具视野和执行能力的策略型创新设计公司，有着极高的市场知名度和客户口碑。飞鱼始终坚持以“策略领先”和“优设计”为理念，服务集设计研究、产品设计、品牌策略及产业化服务于一体，涉及通讯、IT、家电、家居、设备、医疗、服务等领域。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="#" >http://www.feish.com.cn/</a><p>
+        </div>
       </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination"></div>
     
     </div>
   </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>设计企业</h4>
+    </div>
+
+    <div class="slider design" id="slides2">
+      <div class="swiper-wrapper">
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/feishi.png" class="logo" />
+          <h3>飞鱼设计</h3>
+          <p>成立于2002年的飞鱼设计，历经10年的发展与积累，已成为国内最具视野和执行能力的策略型创新设计公司，有着极高的市场知名度和客户口碑。飞鱼始终坚持以“策略领先”和“优设计”为理念，服务集设计研究、产品设计、品牌策略及产业化服务于一体，涉及通讯、IT、家电、家居、设备、医疗、服务等领域。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.feish.com.cn" >http://www.feish.com.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/bole.png" class="logo" />
+          <h3>博乐设计</h3>
+          <p>杭州君乐工业设计有限公司隶属于杭州博乐工业设计股份，致力于为成长型中小企业和出口转内销企业提供市场研究分析、品牌策略设计、产品规划创新、终端形象设计制作、数字营销传播等一站式系统服务，被誉为整合设计领导者。公司成立10年来，陆续成立产品设计公司、品牌策划公司、商业展具公司等各级子公司。博乐现为国家级高新技术企业，获评浙江省和杭州市两级工业设计中心。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hzbole.cn" >http://www.hzbole.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/aotu.png" class="logo" />
+          <h3>凹凸设计</h3>
+          <p>杭州凸凹工业设计有限公司，成立于2003年，是一家专业从事用户研究及产品设计，为客户提供产品设计系统解决方案的机构。业务范围有：单款产品策划设计、产品线规划及设计、跨产品线整合设计以及品牌视觉语言规范等。“凸凹”即寓意在设计中激情与理性两者相互吸引，相互依存，在互补互融中和谐共生，组成一个至善至美的构架的过程。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.tao-design.cn" > http://www.tao-design.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/yuanjun.png" class="logo" />
+          <h3>源骏设计</h3>
+          <p>杭州源骏工业设计有限公司致力于为企业提供系统的产品解决方案，包括产品设计策划咨询、产品改良与创新设计、产品形象整合（PI）、结构设计、手板制作，以及品牌策划设计、商业展示设计、模具设计及相关后期配套服务。产品涵盖范围：家电、消费电子、工程机械、专业工具、医疗设备、休闲健身、公共设施、科研设施等。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hzyuanjun.com" >http://www.hzyuanjun.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/pinwu.png" class="logo" />
+          <h3>品物设计</h3>
+          <p>品物设计集团是中国首家秉承“以人为核心，重塑商业价值”的创新咨询与设计集团。在16年的进化历程中，品物不断迸发出最具前瞻性及生命力的思想与观点，创造出优秀的逻辑模型与创新工具，帮助数以百计的企业更深刻地理解他们的用户，改变企业与用户的关系圈，并以此为支点，成功塑造千余款产品与品牌的商业价值，完成了作为行业方法论缔造者与变革者的行业使命。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="https://pinwuid.kuaizhan.com"> https://pinwuid.kuaizhan.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/handu.png" class="logo" />
+          <h3>汉度设计</h3>
+          <p>杭州汉度工业设计有限公司成立与2007年，经过近十年的发展，汉度设计已经从单一的工业设计公司发展为一个综合性的设计平台，涵盖设计服务、产品开发、产品销售三大主要板块，目前已经发展成为一家策略型设计服务机构。杭州汉度工业设计有限公司下设汉度工业设计 、汉度装饰设计 、汉度品牌设计 、汉度科技 、新略信息技术 、集好文化 、艺佳模型 、汉淮钣金几个板块，帮助客户从外观设计到加工落地生产、品牌策划、策略制定到营销的一条龙服务。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://handu.gengfu.net"> http://handu.gengfu.net</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/aoge.png" class="logo" />
+          <h3>奥格设计</h3>
+          <p>奥格工业设计有限公司成立于 2005年，是一家专业的产品创新设计机构，坐落于浙江省杭州市紫东创意产业园。近年来，奥格设计致力于为互联时代创新，聚焦于电器、医疗、日用品、智能硬件行业领导力量的创新合作，为客户提供涵盖产品策略、用户研究、工业设计、品牌设计、交互设计到产品落地、销售的全程整合，是华东地区最具创新力的设计力量。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.augid.com">http://www.augid.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/relang.png" class="logo" />
+          <h3>热浪设计</h3>
+          <p>热浪设计以全球化的视野、精准的产品创新思路和卓越的设计实现策略，融合中国国情，导入设计与管理，帮助志在创新的公司和个人更为成功。多年来获得了包括红星、成功设计、IF、红点等国内外顶级设计大奖。客户包括美国GE、韩国三星等全球500强企业</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hz-hotid.com">http://www.hz-hotid.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/jiechuang.png" class="logo" />
+          <h3>杰创设计</h3>
+          <p>杰创工业产品设计创建于2009年，自成立以来，籍着务实精神和非凡的实力，发展成为规模化、多元化的设计公司，为上百家企业提供过1000多件成功的案例。杰创正以行业改变者的姿态，整合创新资源，稳步推进创新模式的发展。2015年杰创被评为“浙江省十佳设计企业”。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.jiechdesign.com">http://www.jiechdesign.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/yizhi.png" class="logo" />
+          <h3>亿智设计</h3>
+          <p>杭州亿智智能科技有限公司，坐落于由杭州市政府联合中国工业设计协会打造的梦栖小镇设计中心内，业务围绕核心技术的研究与开发，为客户提供整体解决设计服务，以杭州为中心，辐射浙江、江苏、上海等周边省份城市，建立了完备的平台资源整合体系，资金、技术、教育、平台、政策五位一体，打造中国首个兼容性平台化创新型公司。</p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/daye.png" class="logo" />
+          <h3>大业设计</h3>
+          <p>大业设计始创于1992年，由中港双方参股共建的大型工业设计公司，总部设立于广州，在香港、宁波、佛山、中山注册控股子公司，2010年于美国旧金山设立办事处。公司致力于实施“全球化”、“本土化”的战略策略，利用集团化管理的优势，及时汇集各子公司最佳的设计资源，为国内外大中小企业提供一站式工业设计服务。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.daye.hk">http://www.daye.hk</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/spk.png" class="logo" />
+          <h3>斯帕克设计</h3>
+          <p>杭州斯帕克工业设计有限公司成立于2007年。经过10年的发展，建立形成以杭州/温州Spark工业设计有限公司为主体的创新设计平台，以杭州斯美奇品牌管理有限公司为主体的品牌渠道运营平台，以宁波Spark艺术设计有限公司为主体的空间设计平台，以杭州加号创客空间为主体的创新孵化平台，以杭州智乐兮设计咨询有限公司为主体的营销品牌策略平台等，形成了“设计服务、设计品牌、创新孵化器、营销运营 ”等多板块联动发展的综合性创新公司。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.spark-design.cn">http://www.spark-design.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/filo.png" class="logo" />
+          <h3>斐络设计</h3>
+          <p>浙江斐络工业设计有限公司源自米兰，是一家以产品设计为核心，为企业转型升级提供全面战略支持的新型设计公司。公司于2015年1月份被浙江省人民政府授予省级重点工业企业设计院，成为全省首家工业设计领域的设计院、企业研究院。斐络设计院聘请专业的意大利设计师，并与意大利各大著名设计公司、国际知名设计大师建立长期稳定的合作关系，将国际一流的意式设计提供给中国的企业。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://filoitaly.jihui88.com/company.html">http://filoitaly.jihui88.com/company.html</a><p>
+        </div>
+      </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination1"></div>
+    
+    </div>
+  </div>
+
+
 </div>
 
 {% endblock %}
