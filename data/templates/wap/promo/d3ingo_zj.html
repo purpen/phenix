@@ -2,6 +2,9 @@
 {% block title%}浙江传统产业设计再造计划金华站对接会{% endblock %}
 {% block page_css %}
 <style type="text/css">
+body { 
+  background: #fff;
+}
 .sfooter.nav-menu{
 	display: none;
 }
@@ -43,7 +46,7 @@
 .title-banner {
   padding: 10px;
   position: relative;
-  width: 100%;
+  width: 95%;
   height: 50px;
 	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/title_banner.png) no-repeat;
 	background-size: 100%;
@@ -65,8 +68,8 @@
   background: #fff;
   height: 200px;
   border: 1px solid #E6E6E6;
-  padding: 20px 10px 40px 10px;
-  margin: 20px 10px;
+  padding: 20px 0 40px 0;
+  margin: 20px 0;
   text-align: center;
 }
 
@@ -74,20 +77,27 @@
 }
 .slider.design .item-slide {
   margin-top: 70px;
-  height: 300px;
+  height: 400px;
 
 }
 .slider.design .item-slide .logo {
   width: 150px;
   margin-top: -70px;
 }
-
+.link {
+  text-align: center;
+}
+.link img {
+  width: 20px;
+  vertical-align: middle;
+}
 .item-slide h3 {
   text-align: center;
 }
 .item-slide .link {
   text-align: center;
 }
+
 .item-slide .link img {
   width: 20px;
   vertical-align: middle;
@@ -101,10 +111,25 @@
 
 }
 
+.main-img {
+  text-align: center;
+}
+.main-img img {
+  width: 80%;
+  margin: 20px;
+}
+
+.thn-img {
+  text-align: center;
+}
+.thn-img img {
+  width: 50%;
+  margin: 20px;
+}
+
 
 .swipe {  
     overflow: hidden;  
-    visibility: hidden;  
     position: relative;  
 }  
 .swipe-wrap {  
@@ -122,6 +147,59 @@
 }  
 .swiper-slide {  
     margin: 0;/* 对齐，四周宽度都为0，在轮播的时候，以整张图片进行移动 */  
+}
+
+.swiper-pagination1, .swiper-pagination {
+  text-align: center;
+}
+
+.swiper-pagination1 .swiper-pagination-bullet {
+  margin: 0 2px;
+}
+
+.qr-box {
+}
+.qr-box .column p {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.qr-box .column p img {
+  width: 80%;
+}
+
+.foot_bg {
+  margin: 40px auto 0 auto;
+  clear: both;
+  text-align: center;
+  height: 1400px;
+  width: 100%;
+	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/foot_bg.png) no-repeat;
+	background-size: 100%;
+  overflow: hidden;
+}
+
+.foot_bg p {
+  color: #057577;
+  padding: 0 10%;
+  margin: 0;
+  line-height: 1.5;
+}
+.foot_bg p.title {
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 35px;
+}
+.foot_bg p.title {
+  text-align: center;
+  margin: 80px auto 20px auto;
+  font-size: 14px;
+  line-height: 35px;
+  height: 30px;
+  width: 250px;
+	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/foot_title.png) no-repeat;
+	background-size: 100%;
 }
 
 
@@ -350,6 +428,63 @@
     </div>
   </div>
 
+  <div class="section">
+    <div class="title-banner">
+      <h4>线上项目入住流程</h4>
+    </div>
+    <p class="main-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/accross_xq.png" /></p>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>设计公司入住流程</h4>
+    </div>
+    <p class="main-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/accross_server.png" /></p>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>关于太火鸟</h4>
+    </div>
+    <p class="thn-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo_thn.png" /></p>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;太火鸟科技是中国领先的产品创新集群及精准智能分发SaaS平台。太火鸟科技以 [ 技术创新、设计创新、模式创新 ] 三轮驱动，致力于在「智能科技」和「生活美学」新消费升级趋势下，重构产品创新流程、提升孵化投资效率、增强营销分发势能；发掘既有「创新价值」又不失「感性设计」的中国原创产品和品牌；太火鸟科技的愿景是成为中国最大的产品创新策源地，打造科技美学创新产品的新消费生态。</p>
+    <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="https://www.taihuoniao.com">https://www.taihuoniao.com</a><p>
+    <div class="ui grid qr-box">
+      <div class="two column row">
+        <div class="column">
+          <p><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/thn_qr.png" /></p>
+          <p>太火鸟公众号</p>
+        </div>
+        <div class="column">
+          <p><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/d3in_qr.png" /></p>
+          <p>铟果公众号</p>
+        </div>
+      </div>
+    </div>  
+
+  </div>
+
+  <div class="section">
+    <div class="foot_bg">
+      <p class="title">再造伙伴招募</p>
+      <p>消费升级的当下，传统产业通过设计升级转型是必然趋势，亦是创造下一个未来的必经之路。我们寻找有创意，有魄力，更对中国设计产业有使命感的设计公司，</p>
+      <p>一起加入再造计划。</p>
+      <p>同时，</p>
+      <p>如果你有亟待改造升级的潜力项目，也可以加入我们。</p>
+      <p>有意加入设计再造计划的有志之师，</p>
+      <p>可发送参与意向至邮箱</p>
+      <p>&nbsp;</p>
+      <p class="link"> <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/email_icon.png" /> mazhe@taihuoniao.com</p>
+      <p>&nbsp;</p>
+      <p>让我们一起，以设计为发力点，打造优质创意价值链，</p>
+      <p>让好设计发声，塑造全新产业升级的明天。</p>
+      <p>设计再造计划，等待您的参与。</p>
+
+      <p class="title">铟果介绍</p>
+      <p>铟果D³INGO是太火鸟旗下基于大数据和智能匹配的产品创新SaaS平台，链接庞大智能硬件创业群体，吸引100万注册用户，1000+家专业设计企业，覆盖2000万创新设计群体。利用大数据和智能匹配技术连接制造企业和设计服务商，以设计驱动创新，挖掘消费需求，加速消费升级，用创新改变世界。</p>
+    </div>
+
+  </div>
 
 </div>
 
