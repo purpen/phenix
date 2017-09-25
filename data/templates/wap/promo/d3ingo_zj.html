@@ -102,6 +102,29 @@
 }
 
 
+.swipe {  
+    overflow: hidden;  
+    visibility: hidden;  
+    position: relative;  
+}  
+.swipe-wrap {  
+    overflow: hidden;  
+    position: relative;  
+}  
+.swipe-wrap > .swiper-slide {  
+    float: left;  
+    width: 100%;  
+    position: relative;  
+}  
+#slides1, #slides2 {  
+    max-width: 650px;/* 设置最大的宽度 */  
+    margin: 0px auto; /* 居中对齐 */  
+}  
+.swiper-slide {  
+    margin: 0;/* 对齐，四周宽度都为0，在轮播的时候，以整张图片进行移动 */  
+}
+
+
 </style>
 {% endblock %}
 
@@ -198,12 +221,13 @@
     </div>
   </div>
 
+  <!--
   <div class="section">
     <div class="title-banner">
       <h4>传统制造企业</h4>
     </div>
 
-    <div class="slider" id="slides1">
+    <div class="slider swipe" id="slides1">
       <div class="swiper-wrapper">
         <div class="item-slide swiper-slide">
           <h3>浙江省永康市沃尔康健身器材有限公司</h3>
@@ -217,18 +241,18 @@
           <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="#" >http://www.feish.com.cn/</a><p>
         </div>
       </div>
-      <!-- 如果需要分页器 -->
       <div class="swiper-pagination"></div>
     
     </div>
   </div>
+  -->
 
   <div class="section">
     <div class="title-banner">
       <h4>设计企业</h4>
     </div>
 
-    <div class="slider design" id="slides2">
+    <div class="slider design swipe" id="slides2">
       <div class="swiper-wrapper">
         <div class="item-slide swiper-slide">
           <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/feishi.png" class="logo" />
