@@ -97,9 +97,12 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         'fine_on' => 0,
 		
     	'deleted' => 0,
-		# 是否审核，默认未审核
+		# 是否发布，默认未发布
     	'published' => 0,
       'published_on' => 0,
+		# 是否审核，默认未审核
+    	'verifyed' => 0,
+      'verifyed_on' => 0,
 		# 随机数
 		'random' => 0,
 		# 投票id
@@ -118,7 +121,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     );
 	
 	protected $required_fields = array('user_id');
-	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','t_color','vote_id');
+	protected $int_fields = array('user_id','category_id','try_id','fid','gid','deleted','published','verifyed','t_color','vote_id');
 	
 	protected $counter_fields = array('asset_count', 'file_count', 'view_count', 'favorite_count', 'love_count', 'comment_count', 'true_view_count', 'web_view_count', 'wap_view_count', 'app_view_count');
 	
@@ -337,27 +340,25 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 	}
 
     /**
-     * 发布
+     * 审核通过
      */
-    public function mark_as_publish($id, $options=array()) {
-        $ok = $this->update_set($id, array('published' => 1, 'published_on'=>time()));
+    public function mark_as_verify($id, $options=array()) {
+        $ok = $this->update_set($id, array('verifyed' => 1, 'verifyed_on'=>time()));
         if($ok){
             $data = $this->load($id);
-            $service = Sher_Core_Service_Timeline::instance();
-            $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
-
-            // 增长积分
-            $service = Sher_Core_Service_Point::instance();
-            $service->send_event('evt_new_post', $this->data['user_id']);
+            if($data['published']==1){
+                $service = Sher_Core_Service_Timeline::instance();
+                $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);           
+            }
         }
         return $ok;
     }
 	
     /**
-     * 取消发布
+     * 审核拒绝通过
      */
-	public function mark_cancel_publish($id){
-		    $ok = $this->update_set($id, array('published' => 0));
+	public function mark_cancel_verify($id){
+		    $ok = $this->update_set($id, array('verifyed' => 0));
         if($ok){
             //$data = $this->load($id);
         }

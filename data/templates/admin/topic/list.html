@@ -41,7 +41,7 @@
     <a href="{{ app_url_admin_base }}/topic" class="{{ css_all_list }} item">
 			全部
 		</a>
-    <a href="{{ app_url_admin_base }}/topic/get_list?published=-1" class="{{ css_published_list }} item">
+    <a href="{{ app_url_admin_base }}/topic/get_list?verifyed=-1" class="{{ css_verifyed_list }} item">
 			待审核
 		</a>
     <a href="{{ app_url_admin_base }}/topic/get_list?deleted=1" class="{{ css_deleted_list }} item">
@@ -75,7 +75,7 @@
             <label>搜索：</label>
             <input type="hidden" name="sort" value="{{ sort }}" />
             <input type="hidden" name="deleted" value="{{ deleted }}" />
-            <input type="hidden" name="published" value="{{ published }}" />
+            <input type="hidden" name="verifyed" value="{{ verifyed }}" />
             <div class="ui icon input">
                 <input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
                 <i class="calendar icon"></i>
@@ -127,11 +127,12 @@
         <th>创建时间</th>
         <th>推荐</th>
         <th>发布</th>
+        <th>审核</th>
 				<th>管理操作</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% topic_list var:'list' is_top:is_top category_id:category_id s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time published:published deleted:deleted page:page size:100 %}
+			{% topic_list var:'list' is_top:is_top category_id:category_id s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time verifyed:verifyed deleted:deleted page:page size:100 %}
 
 			{% for topic in list.rows %}
 			<tr id="{{ topic._id }}">
@@ -188,6 +189,15 @@
 						{% endif %}
 					</p>
 				</td>
+				<td>
+					<p>
+						{% if topic.verifyed %}
+							<span class="ui small green label">是</span>
+						{% else %}
+							<span class="ui small orange label">否</span>
+						{% endif %}
+					</p>
+				</td>
 
 				<td>
           {% if deleted != 1 %}
@@ -207,13 +217,13 @@
 
 					<p>
 						
-						{% if !topic.published %}
-			          	<a href="{{ app_url_admin }}/topic/ajax_publish?id={{ topic._id }}&evt=1" class="ui ajax link item">
-							发布
+						{% if !topic.verifyed %}
+			          	<a href="{{ app_url_admin }}/topic/ajax_verify?id={{ topic._id }}&evt=1" class="ui ajax link item">
+							审核
 						</a>
 						{% else %}
-			          	<a href="{{ app_url_admin }}/topic/ajax_publish?id={{ topic._id }}&evt=0" class="ui ajax link item">
-							取消发布
+			          	<a href="{{ app_url_admin }}/topic/ajax_verify?id={{ topic._id }}&evt=0" class="ui ajax link item">
+							取消审核
 						</a>
 						{% endif %}
 

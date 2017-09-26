@@ -227,6 +227,23 @@ class Sher_Wap_Action_Social extends Sher_Wap_Action_Base {
 		if(empty($topic) || $topic['deleted']){
 			return $this->show_message_page('访问的主题不存在或已被删除！', $redirect_url);
 		}
+
+		if($topic['verifyed'] == 0){
+      $verify_show = false;
+      if($this->visitor->id){
+        if($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit()){
+          $verify_show = true;
+        }
+      }
+      if(!$verify_show){
+        return $this->show_message_page('访问的话题未审核！', $redirect_url);
+      }
+		}
+		if($topic['published'] == 0){
+      if(!($this->visitor->id && $this->visitor->id == $topic['user_id'])){
+			  return $this->show_message_page('访问的话题未发布！', $redirect_url);
+      }
+		}
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }

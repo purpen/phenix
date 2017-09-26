@@ -122,6 +122,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		}
         
         $query['published'] = 1;
+        $query['verifyed'] = 1;
         $query['deleted'] = 0;
         
 		// 类别
@@ -605,9 +606,20 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($topic) || $topic['deleted']){
 			return $this->show_message_page('访问的主题不存在或已被删除！', $redirect_url);
 		}
+		if($topic['verifyed'] == 0){
+      $verify_show = false;
+      if($this->visitor->id){
+        if($this->visitor->id == $topic['user_id'] || $this->visitor->can_edit()){
+          $verify_show = true;
+        }
+      }
+      if(!$verify_show){
+        return $this->show_message_page('访问的话题未审核！', $redirect_url);
+      }
+		}
 		if($topic['published'] == 0){
       if(!($this->visitor->id && $this->visitor->id == $topic['user_id'])){
-			  return $this->show_message_page('访问的主题未审核！', $redirect_url);
+			  return $this->show_message_page('访问的话题未发布！', $redirect_url);
       }
 		}
         if (!empty($topic)) {
@@ -1172,6 +1184,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$mode = 'create';
 		$data = array();
+    $data['verifyed'] = 0;
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
@@ -1186,9 +1199,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
-    // 临时开启审核功能
-    $data['published'] = 0;
-        $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
+    $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
 		$data['t_color'] = isset($this->stash['t_color'])?(int)$this->stash['t_color']:0;
