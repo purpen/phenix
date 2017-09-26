@@ -41,6 +41,9 @@
     <a href="{{ app_url_admin_base }}/topic" class="{{ css_all_list }} item">
 			全部
 		</a>
+    <a href="{{ app_url_admin_base }}/topic/get_list?deleted=1" class="{{ css_deleted_list }} item">
+			已删除
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -123,7 +126,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% topic_list var:'list' is_top:is_top category_id:category_id s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time page:page size:100 %}
+			{% topic_list var:'list' is_top:is_top category_id:category_id s_type:s s_mark:q sort:sort start_time:start_time end_time:end_time deleted:deleted page:page size:100 %}
 
 			{% for topic in list.rows %}
 			<tr id="{{ topic._id }}">
@@ -182,6 +185,7 @@
 				</td>
 
 				<td>
+          {% if deleted != 1 %}
 					<p>
 						
 						{% if !topic.stick %}
@@ -202,6 +206,7 @@
 						    删除
 					    </a>
 					</P>
+          {%endif%}
 				</td>
 			</tr>
 			{% endfor %}

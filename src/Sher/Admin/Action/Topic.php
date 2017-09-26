@@ -34,11 +34,13 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 	 * 列表--全部
 	 */
 	public function get_list() {
-    $this->set_target_css_state('all_list');
+
 		$page = (int)$this->stash['page'];
 
     $this->stash['start_time'] = isset($this->stash['start_time']) ? (int)$this->stash['start_time'] : 0;
     $this->stash['end_time'] = isset($this->stash['end_time']) ? (int)$this->stash['end_time'] : 0;
+
+    $this->stash['deleted'] = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
 
 		$this->stash['category_id'] = 0;
 		$this->stash['is_top'] = true;
@@ -54,10 +56,16 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     }elseif(!empty($this->stash['end_time'])){
       $this->stash['end_date'] = date('Y-m-d', (int)$this->stash['end_time']);
     }
-		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/get_list?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time']);
+    if($this->stash['deleted'] == 1){
+      $this->set_target_css_state('deleted_list');    
+    }else{
+      $this->set_target_css_state('all_list');   
+    }
+		
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/get_list?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&deleted=%d&page=#p#';
+
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time'], $this->stash['deleted']);
 		
 		return $this->to_html_page('admin/topic/list.html');
 	}
