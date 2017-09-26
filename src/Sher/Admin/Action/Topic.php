@@ -41,6 +41,7 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     $this->stash['end_time'] = isset($this->stash['end_time']) ? (int)$this->stash['end_time'] : 0;
 
     $this->stash['deleted'] = isset($this->stash['deleted']) ? (int)$this->stash['deleted'] : -1;
+    $this->stash['published'] = isset($this->stash['published']) ? (int)$this->stash['published'] : 0;
 
 		$this->stash['category_id'] = 0;
 		$this->stash['is_top'] = true;
@@ -58,14 +59,16 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
     }
 
     if($this->stash['deleted'] == 1){
-      $this->set_target_css_state('deleted_list');    
+      $this->set_target_css_state('deleted_list');
+    }elseif($this->stash['published'] == -1){
+      $this->set_target_css_state('published_list'); 
     }else{
       $this->set_target_css_state('all_list');   
     }
 		
-		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/get_list?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&deleted=%d&page=#p#';
+		$pager_url = Doggy_Config::$vars['app.url.admin'].'/topic/get_list?s=%d&q=%s&sort=%d&start_time=%d&end_time=%d&published=published&deleted=%d&page=#p#';
 
-		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time'], $this->stash['deleted']);
+		$this->stash['pager_url'] = sprintf($pager_url, $this->stash['s'], $this->stash['q'], $this->stash['sort'], $this->stash['start_time'], $this->stash['end_time'], $this->stash['published'], $this->stash['deleted']);
 		
 		return $this->to_html_page('admin/topic/list.html');
 	}
@@ -192,7 +195,38 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
 		
 		foreach($ids as $id){
-			$result = $model->mark_as_stick((int)$id, $evt);
+      if($evt==1){
+			  $result = $model->mark_as_stick((int)$id);
+      }elseif($evt==0){
+ 			  $result = $model->mark_cancel_stick((int)$id);     
+      }
+		}
+		
+		$this->stash['note'] = '操作成功！';
+		
+		return $this->to_taconite_page('ajax/published_ok.html');
+  
+  }
+
+  /**
+   * 推荐／取消
+   */
+  public function ajax_publish(){
+ 		$ids = $this->stash['id'];
+		$evt = isset($this->stash['evt'])?(int)$this->stash['evt']:0;
+		if(empty($ids)){
+			return $this->ajax_notification('缺少Id参数！', true);
+		}
+		
+		$model = new Sher_Core_Model_Topic();
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u',$ids)));
+		
+		foreach($ids as $id){
+      if($evt==1){
+			  $result = $model->mark_as_publish((int)$id);
+      }elseif($evt==0){
+ 			  $result = $model->mark_cancel_publish((int)$id);     
+      }
 		}
 		
 		$this->stash['note'] = '操作成功！';

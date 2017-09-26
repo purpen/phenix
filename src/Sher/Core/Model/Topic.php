@@ -99,6 +99,7 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
     	'deleted' => 0,
 		# 是否审核，默认未审核
     	'published' => 0,
+      'published_on' => 0,
 		# 随机数
 		'random' => 0,
 		# 投票id
@@ -332,6 +333,35 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
             $service = Sher_Core_Service_Point::instance();
             $service->make_money_out($data['user_id'], 2, '话题被取消推荐');
         }
+        return $ok;
+	}
+
+    /**
+     * 发布
+     */
+    public function mark_as_publish($id, $options=array()) {
+        $ok = $this->update_set($id, array('published' => 1, 'published_on'=>time()));
+        if($ok){
+            $data = $this->load($id);
+            $service = Sher_Core_Service_Timeline::instance();
+            $service->broad_topic_post($this->data['user_id'], (int)$this->data['_id']);
+
+            // 增长积分
+            $service = Sher_Core_Service_Point::instance();
+            $service->send_event('evt_new_post', $this->data['user_id']);
+        }
+        return $ok;
+    }
+	
+    /**
+     * 取消发布
+     */
+	public function mark_cancel_publish($id){
+		    $ok = $this->update_set($id, array('published' => 0));
+        if($ok){
+            //$data = $this->load($id);
+        }
+        return $ok;
 	}
 	
     /**
