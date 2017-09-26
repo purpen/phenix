@@ -97,8 +97,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
         'fine_on' => 0,
 		
     	'deleted' => 0,
-		# 是否审核，默认已审核
-    	'published' => 1,
+		# 是否审核，默认未审核
+    	'published' => 0,
 		# 随机数
 		'random' => 0,
 		# 投票id

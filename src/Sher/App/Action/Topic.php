@@ -605,6 +605,11 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		if(empty($topic) || $topic['deleted']){
 			return $this->show_message_page('访问的主题不存在或已被删除！', $redirect_url);
 		}
+		if($topic['published'] == 0){
+      if(!($this->visitor->id && $this->visitor->id == $topic['user_id'])){
+			  return $this->show_message_page('访问的主题未审核！', $redirect_url);
+      }
+		}
         if (!empty($topic)) {
             $topic = $model->extended_model_row($topic);
         }
@@ -1143,7 +1148,6 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function save(){
 		
-		return $this->ajax_json('该功能临时关闭！', true);
 		// 禁用用户无法操作
 		if(!$this->stash["visitor"]['state']){
 			return $this->ajax_json('您不能添加话题信息！', true);
@@ -1182,6 +1186,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$data['try_id'] = $this->stash['try_id'];
 		$data['published'] = (int)$this->stash['published'];
+    // 临时开启审核功能
+    $data['published'] = 0;
         $old_published = isset($this->stash['old_published'])?(int)$this->stash['old_published']:1;
 
 		$data['short_title'] = isset($this->stash['short_title'])?$this->stash['short_title']:'';
