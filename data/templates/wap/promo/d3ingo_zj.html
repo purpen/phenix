@@ -61,26 +61,24 @@ body {
 
 .slider {
   margin-bottom: 20px;
+  height: 370px;
 }
 .slider.design {
-  padding-bottom: 30px;
+  padding-top: 50px;
+  height: 520px;
 }
 
 .item-slide {
   background: #fff;
   margin-top: 30px;
-  height: 300px;
+  box-sizing: border-box;
   border: 1px solid #E6E6E6;
   padding: 20px 0 40px 0;
   margin: 20px 0;
   text-align: center;
 }
 
-.slider.design {
-}
 .slider.design .item-slide {
-  margin-top: 80px;
-  height: 400px;
 }
 .slider.design .item-slide .logo {
   width: 150px;
@@ -151,12 +149,8 @@ body {
     margin: 0;/* 对齐，四周宽度都为0，在轮播的时候，以整张图片进行移动 */  
 }
 
-.swiper-pagination1, .swiper-pagination {
+.swiper-pagination {
   text-align: center;
-}
-
-.swiper-pagination1 .swiper-pagination-bullet {
-  margin: 0 5px;
 }
 
 .qr-box {
@@ -454,7 +448,7 @@ body {
         </div>
       </div>
       <!-- 如果需要分页器 -->
-      <div class="swiper-pagination1"></div>
+      <div class="swiper-pagination swiper-pagination1"></div>
     
     </div>
   </div>
