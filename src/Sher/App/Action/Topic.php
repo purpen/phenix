@@ -1143,6 +1143,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function save(){
 		
+		return $this->ajax_json('该功能临时关闭！', true);
 		// 禁用用户无法操作
 		if(!$this->stash["visitor"]['state']){
 			return $this->ajax_json('您不能添加话题信息！', true);

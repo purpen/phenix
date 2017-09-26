@@ -58,7 +58,9 @@
           {% if visitor.is_login %}
           <div class="actions">
             {% if !comment.deleted %}
+            <!--
             <a class="reply reply-btn" href="javascript:void(0);" comment_id="{{ comment._id }}" floor="{{ comment.floor|default 0 }}" comment_user_id="{{ comment.user_id }}" comment_user_name="{{ comment.user.nickname }}">回复</a>
+            -->
             
             {% if visitor.can_admin %}
               <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>

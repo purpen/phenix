@@ -71,6 +71,7 @@
           <form action="{{ app_url_admin_base }}/topic/get_list" method="get" id="search-form">
             <label>搜索：</label>
             <input type="hidden" name="sort" value="{{ sort }}" />
+            <input type="hidden" name="deleted" value="{{ deleted }}" />
             <div class="ui icon input">
                 <input type="text" name="start_date" placeholder="开始时间" value="{{ start_date }}" class="datepicker" />
                 <i class="calendar icon"></i>
