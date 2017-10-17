@@ -407,6 +407,12 @@ input,input:focus,input:active{
 			$('.third.login').hide();
 		});
 	});
+
+  {% if login_type == 2 %}
+			$(".static-form").hide();
+			$(".dynamic-form").show();
+			$('.third.login').hide();
+  {%endif%}
 	
 	var dynamic_limitime = function(){
 		if(wait == 0){

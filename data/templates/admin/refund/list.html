@@ -94,10 +94,18 @@
 
     // 强行退款
     $('.refund-force').click(function(){
-        var id = $(":input[name=id]").val();
-
-        alert(id);
-    
+        var id = $('div.refund-box [name=id]').val();
+			  if(!confirm('强制退款只是更改退款状态，必须手动完成打卡操作，确认执行这个操作吗?')){
+	          return false;
+	      }
+        $.post("{{ app_url_admin }}/orders/ajax_new_refund_force", {id:id}, function(rs){
+            if(rs.success){
+ 		        $('.ui.change-price-box.modal').modal('hide');               
+                phenix.show_ok_note('操作成功!');
+            }else{
+                phenix.show_error_note(rs.message, 3000);
+            }
+        }, 'json')
     });
 	
 {% endblock %}

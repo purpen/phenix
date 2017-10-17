@@ -1,0 +1,476 @@
+{%extends 'layout/column.html'%}
+{% block title %}会员服务 -{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+
+.memeber-box {
+  height: 800px;
+}
+
+.paybox {
+  width: 150px;
+}
+
+.member_right_container {
+  margin: 40px 0;
+}
+
+.member_right_container .member_right_l {
+    padding-top: 100px;
+    width: 425px;
+    float: left;
+}
+
+.member_right_container .member_title {
+    font-size: 35px;
+    color: #282b31;
+    line-height: 50px;
+}
+.member_right_container .member_txt {
+    line-height: 30px;
+    font-size: 16px;
+    color: #676c75;
+    margin-top: 15px;
+}
+
+.member_right_container .member_active {
+    width: 350px;
+    height: 460px;
+    background: url(http://edu.csdn.net/resource/images/member_bg.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+    transform: translateY(0);
+}
+
+.member_right_container .member_right_detail_box {
+    float: left;
+    width: 335px;
+    height: 430px;
+    box-shadow: 0 1px 3px 0 rgba(32,33,39,.12);
+    border-radius: 12px;
+    transform: translateY(15px);
+    transition: all .3s;
+    padding-top: 30px;
+    margin: 0 10px;
+    position: relative;
+    background-color: #fff;
+}
+
+.member_right_container .member_price .basic_price {
+    font-size: 16px;
+    position: absolute;
+    left: 36px;
+}
+
+.member_right_container .member_active .member_price .basic_price {
+    font-size: 16px;
+    color: #fff;
+    position: absolute;
+    left: 36px;
+}
+
+.member_right_container .member_right_detail_box .member_detail_title {
+    width: 100%;
+    height: 40px;
+    background: #f8f9fa;
+    box-shadow: 0 1px 0 0 #e7e8ea, inset 0 1px 0 0 #e7e8ea;
+    font-size: 14px;
+    color: #676c75;
+    line-height: 40px;
+    text-align: center;
+}
+
+.member_right_container .member_active .member_detail_title {
+    width: 100%;
+    background: rgba(255,255,255,.07);
+    box-shadow: 0 1px 0 0 rgba(255,255,255,.3), inset 0 1px 0 0 rgba(255,255,255,.3);
+    color: #fff;
+    font-size: 16px;
+    position: relative;
+}
+
+.member_right_container .member_detail_title {
+    width: 100%;
+    background: rgba(255,255,255,.07);
+    box-shadow: 0 1px 0 0 rgba(255,255,255,.3), inset 0 1px 0 0 rgba(255,255,255,.3);
+    font-size: 16px;
+    position: relative;
+}
+
+.member_right_container .member_active .member_price {
+    position: relative;
+    margin-top: 20px;
+    height: 46px;
+    line-height: 46px;
+    font-size: 35px;
+    color: #fff;
+}
+.member_right_container .member_right_detail_box .member_price {
+    position: relative;
+    margin-top: 20px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 30px;
+}
+
+.member_right_container .member_active .right_list {
+    margin-top: 25px;
+}
+.member_right_container .right_list {
+    margin-top: 15px;
+}
+
+.member_right_container .right_list li {
+    line-height: 32px;
+    font-size: 14px;
+    padding-left: 52px;
+    position: relative;
+}
+
+.member_right_container .member_active .right_list li {
+    line-height: 32px;
+    font-size: 14px;
+    color: #fff;
+    padding-left: 52px;
+    position: relative;
+}
+
+
+.member_right_container .member_active .right_list .allow:before {
+    width: 14px;
+    height: 8px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    left: 20px;
+    top: 13px;
+}
+.member_right_container .right_list .allow:before {
+    display: block;
+    content: '';
+    width: 14px;
+    height: 8px;
+    border-left: 2px solid #999ea8;
+    border-bottom: 2px solid #999ea8;
+    border-top: none;
+    border-right: none;
+    left: 15px;
+    top: 13px;
+    position: absolute;
+    transform: rotate(317deg);
+}
+
+body, dd, dl, dt, h1, h2, h3, h4, h5, h6, input, li, ol, option, p, select, ul {
+    margin: 0;
+    padding: 0;
+    font-family: 'Microsoft Yahei',Helvetica,'Hiragino Sans GB',Arial,sans-serif;
+    line-height: 24px;
+}
+ul, menu, dir {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+li, ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.member_right_container .member_active .member_btn {
+    position: absolute;
+    background-image: linear-gradient(135deg,#ff8e64 0,#ffe641 100%);
+    width: 250px;
+    font-size: 16px;
+    bottom: 23px;
+    left: 50%;
+    margin-left: -125px;
+}
+.member_right_container .member_btn {
+    position: absolute;
+    height: 50px;
+    line-height: 50px;
+    background-image: linear-gradient(135deg,#009fc5 0,#3cecb0 100%);
+    border-radius: 6px;
+    width: 235px;
+    text-align: center;
+    font-size: 16px;
+    display: block;
+    bottom: 23px;
+    left: 50%;
+    margin-left: -117px;
+    color: #fff;
+}
+
+.SCPayPop_conlist {
+    position: relative;
+    padding-left: 85px;
+    padding-bottom: 25px;
+    font-size: 14px;
+    line-height: 25px;
+    color: #333;
+}
+.SCPayPop_conlist .conlist_tit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 14px;
+}
+b, strong {
+    font-weight: bold;
+}
+.SCPayPop_name span {
+    line-height: 14px;
+    color: #333;
+    vertical-align: middle;
+}
+
+.SCPayPop_conlist h4 span:first-child {
+    font-family: Arial;
+    font-size: 24px;
+    color: #ff5f00;
+    font-weight: 700;
+}
+.SCPayPop_conlist h4 span {
+    font-size: 14px;
+    color: #666;
+    margin-right: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    vertical-align: middle;
+}
+
+.erweima_tabBox {
+    position: relative;
+    z-index: 1002;
+    margin-top: -30px;
+    padding-left: 85px;
+    overflow: hidden;
+}
+
+.erweima_tabBox .erweimaTab_conlist:nth-child(1) {
+    float: left;
+    display: block;
+}
+.erweima_tabBox .erweimaTab_conlist {
+    width: 49%;
+    padding: 0 0 14px;
+    overflow: hidden;
+}
+
+.erweima_tabBox .erweimaTab_conlist:nth-child(1) .erweimaTab_tit {
+    background: #2caa32;
+}
+.erweima_tabBox .erweimaTab_tit {
+    display: block;
+    width: 210px;
+    height: 38px;
+    margin-left: 5px;
+    border-radius: 2px 2px 0 0;
+    text-align: center;
+    line-height: 38px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.erweima_tabBox .erweimaTab_conlist:nth-child(1) .erweima_picBox .erweima_pic {
+    background-image: url(http://edu.csdn.net/resource/images/2017/scanCodePay_wxBg.png);
+}
+.erweima_tabBox .erweima_picBox .erweima_pic {
+    width: 220px;
+    height: 225px;
+    padding: 20px 40px 0;
+    background-repeat: no-repeat;
+    background-position: center top;
+    text-align: center;
+}
+
+.erweima_tabBox .erweimaTab_tit img {
+    margin-top: -2px;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+img {
+    border: none;
+    outline: 0;
+}
+
+.erweima_tabBox .erweimaTab_conlist:nth-child(2) {
+    float: right;
+}
+.erweima_tabBox .erweimaTab_conlist {
+    width: 49%;
+    padding: 0 0 14px;
+    overflow: hidden;
+}
+.erweima_tabBox .erweimaTab_conlist:nth-child(2) .erweimaTab_tit {
+    background: #56abe4;
+}
+
+.erweima_tabBox .erweimaTab_tit {
+    display: block;
+    width: 210px;
+    height: 38px;
+    margin-left: 5px;
+    border-radius: 2px 2px 0 0;
+    text-align: center;
+    line-height: 38px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+}
+.erweima_tabBox .erweimaTab_tit img {
+    margin-top: -2px;
+    margin-right: 5px;
+}
+.erweima_tabBox .erweimaTab_conlist:nth-child(2) .erweima_picBox .erweima_pic {
+    background-image: url(http://edu.csdn.net/resource/images/2017/scanCodePay_zfbBg.png);
+}
+.erweima_tabBox .erweima_picBox .erweima_pic {
+    width: 220px;
+    height: 225px;
+    padding: 20px 40px 0;
+    background-repeat: no-repeat;
+    background-position: center top;
+    text-align: center;
+}
+
+.erweima_tabBox .erweima_picBox .erweima_pic p {
+    padding: 20px 0 15px;
+    font-size: 14px;
+    color: #333;
+    line-height: 15px;
+    text-align: center;
+}
+
+
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+$('.member_btn').click(function(){
+  var type = $(this).data('goodsid');
+  var title, price, o_price
+  if(type==1){
+    title = '超级年度会员';
+    price = '¥199';
+    o_price = '¥299';
+  }else{
+    title = '年度会员'; 
+    price = '¥99';
+    o_price = '¥199';
+  }
+  $('#product_title').text(title);
+  $('.scan_pay_product_price').text(price);
+  $('#oPrice').text(o_price);
+  $('.ui.modal.paybox')
+    .modal('show')
+  ;
+});
+
+
+{% endblock %}
+
+{% block content %}
+  <div class="ui responsive grid">
+
+        <div class="member_right_container">
+          <div class="member_right_box clearfix">
+            <div class="member_right_l">
+              <div class="member_title">太火鸟会员入驻 尊享服务</div>
+              <div class="member_txt">产品打折、免邮、极速退款等诸多福利，体验极致的购物体验，精品文章阅览。</div>
+                            <div class="member_link tracking-ad" data-mod="popu_442"><a href="http://edu.csdn.net/courses/m1" target="_blank"><i class="iconfont icon-rilijiantouyoushuang"></i><span>查看会员专享课程</span></a></div>
+            </div>
+            <div class="member_right_r">
+              <div class="member_right_detail_box member_active J_member_detail tracking-ad" data-mod="popu_441">
+                <div class="member_detail_title">超级年度会员</div>
+                <div class="member_price"><span class="basic_price">
+                    <del>299</del><span>元</span></span><span>199元/年</span></div>
+                <ul class="right_list">
+                  <li class="allow">会员独享  购物包邮服务</li>
+                  <li class="allow">购物无忧  畅享全场9折 优惠</li>
+                  <li class="allow">精品文章  免费看</li>
+                  <li class="allow">尊享会员  专属标识</li>
+                  <li class="allow">先知特权  新品、爆品优先推荐权</li>
+                </ul>
+                <a href="javascript:void(0);" class="member_btn J_member_btn" data-goodsid="1" data-goodstype="7">开通会员</a>
+              </div>
+              <div class="member_right_detail_box J_member_detail tracking-ad" data-mod="popu_448">
+                <div class="member_detail_title">年度会员</div>
+                <div class="member_price"><span class="basic_price">
+                    <del>199</del><span>元</span></span><span>99元/年</span></div>
+                <ul class="right_list">
+                  <li class="allow">会员独享  购物包邮服务</li>
+                  <li class="allow">购物无忧  畅享全场9.5折 优惠</li>
+                  <li class="allow">精品文章  免费看</li>
+                  <li class="allow">尊享会员  专属标识</li>
+                </ul>
+                <a href="javascript:void(0);" class="member_btn J_member_btn" data-goodsid="2" data-goodstype="7">开通会员</a>
+              </div>
+            </div>
+                      </div>
+        </div>
+
+
+<div class="ui small modal paybox">
+  <i class="close icon"></i>
+  <div class="header">扫码支付</div>
+  <div class="content">
+	<div class="SCPayPop_con">
+		<div class="SCPayPop_conlist"><b class="conlist_tit">购买商品：</b><div class="J_goods_name SCPayPop_name"><a class="commodity_name" id="product_title"></a></div></div>
+		<div class="SCPayPop_conlist"><b class="conlist_tit">商品价格：</b>
+      <div class="J_goods_price"><h4><span class="scan_pay_product_price"></span><span>原价: <del id="oPrice"></del></span></h4></div>
+		</div>
+		<div class="SCPayPop_conlist"><b class="conlist_tit">支付方式：</b></div>
+		<div class="erweima_tabBox">
+			<div class="erweimaTab_conlist"><span class="erweimaTab_tit"><img src="http://edu.csdn.net/resource/images/2017/scanCodePay_weixin.png" alt="">微信</span>
+				<div class="erweima_picBox">
+					<div class="erweima_pic">
+						<div id="weixin_qcode">
+              <img src="http://csdnimg.cn/public/static/img/csdn-userimg250.gif" style="width:100%;" />
+						</div>
+						<p>请扫码进行支付</p>
+					</div>
+				</div>
+			</div>
+			<div class="erweimaTab_conlist"><span class="erweimaTab_tit"><img src="http://edu.csdn.net/resource/images/2017/scanCodePay_zfb.png" alt="">支付宝</span>
+				<div class="erweima_picBox">
+					<div class="erweima_pic">
+						<div id="alipay_qcode">
+              <img src="http://csdnimg.cn/public/static/img/csdn-userimg250.gif" style="width:100%;" />
+						</div>
+						<p>请扫码进行支付</p>
+					</div>
+				</div>
+			</div>
+		</div>
+    <!--
+		<div class="order_state">
+			<p class="quick_pay_msg"></p>
+			<p class="quick_pay_timeout">二维码已过期，请<a style="color:#56abe4" class="J_refresh">点击刷新</a></p>
+		</div>
+    -->
+	</div>
+  </div>
+</div>
+
+  </div>
+{% endblock %}

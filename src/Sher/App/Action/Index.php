@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'server');
 	
 	protected $admin_method_list = array();
 	
@@ -35,6 +35,15 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 */
 	public function welcome(){
 		return $this->to_html_page('page/welcome.html');
+	}
+
+	/**
+	 * 服务页
+	 */
+	public function server(){
+		$this->set_target_css_state('page_incubator');
+    $this->set_target_css_state('page_cooperate');
+		return $this->to_html_page('page/server.html');
 	}
 
 	/**

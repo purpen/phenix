@@ -40,7 +40,9 @@
           {% if visitor.is_login %}
           <div class="actions">
             {% if !comment.deleted %}
+            <!--
             <a class="reply showbox" href="#reply_{{ comment._id }}">回复</a>
+            -->
             
             {% if visitor.can_admin %}
               <a class="delete confirm-request" href="{{ app_url_wap }}/app/site/comment/delete?id={{ comment._id }}">屏蔽</a>

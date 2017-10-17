@@ -1,0 +1,516 @@
+{%extends 'layout/shop.html'%}
+{% block title%}浙江传统产业设计再造计划金华站对接会{% endblock %}
+{% block page_css %}
+<style type="text/css">
+body { 
+  background: #fff;
+}
+.sfooter.nav-menu{
+	display: none;
+}
+#mfrbird{
+  margin-top: 0;
+}
+.appiosload{
+    display: none !important;
+}
+
+.banner{
+  position: relative;
+  width: 100%;
+  height: 602px;
+	background: url({{ app_url_packaged }}/images/promo/qsyd3/h5_banner3.jpg) no-repeat;
+	background-size: 100%;
+}
+
+.section {
+}
+.section h3 {
+  color: #222;
+  font-size: 18px;
+}
+.section p {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.section img {
+  width: 100%;
+}
+
+.cont {
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.title-banner {
+  padding: 10px;
+  margin: 0 auto;
+  position: relative;
+  width: 95%;
+  height: 50px;
+	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/title_banner.png) no-repeat;
+	background-size: 100%;
+
+}
+.title-banner h4 {
+  padding: 2px 0 0 40px;
+  color: #0F7553;
+  font-size: 16px;
+}
+
+.slider {
+  margin-bottom: 20px;
+  height: 370px;
+}
+.slider.design {
+  padding-top: 50px;
+  height: 520px;
+}
+
+.item-slide {
+  background: #fff;
+  margin-top: 30px;
+  box-sizing: border-box;
+  border: 1px solid #E6E6E6;
+  padding: 20px 0 40px 0;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.slider.design .item-slide {
+}
+.slider.design .item-slide .logo {
+  width: 150px;
+  margin-top: -70px;
+}
+.link {
+  text-align: center;
+}
+.link img {
+  width: 20px;
+  vertical-align: middle;
+}
+.item-slide h3 {
+  text-align: center;
+}
+.item-slide .link {
+  text-align: center;
+}
+
+.item-slide .link img {
+  width: 20px;
+  vertical-align: middle;
+}
+.item-slide .link a {
+  color: #0F7553;
+}
+.item-slide p {
+  padding: 10px 20px;
+  text-align: left;
+
+}
+
+.main-img {
+  text-align: center;
+}
+.main-img img {
+  width: 80%;
+  margin: 20px;
+}
+
+.thn-img {
+  text-align: center;
+}
+.thn-img img {
+  width: 50%;
+  margin: 20px;
+}
+
+
+.swipe {  
+    overflow: hidden;  
+    position: relative;  
+}  
+.swipe-wrap {  
+    overflow: hidden;  
+    position: relative;  
+}  
+.swipe-wrap > .swiper-slide {  
+    float: left;  
+    width: 100%;  
+    position: relative;  
+}  
+#slides1, #slides2 {  
+    max-width: 650px;/* 设置最大的宽度 */  
+    margin: 0px auto; /* 居中对齐 */  
+}  
+.swiper-slide {  
+    margin: 0;/* 对齐，四周宽度都为0，在轮播的时候，以整张图片进行移动 */  
+}
+
+.swiper-pagination {
+  text-align: center;
+}
+
+.qr-box {
+}
+.qr-box .column p {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.qr-box .column p img {
+  width: 80%;
+}
+
+.foot_bg {
+  margin: 20px auto 0 auto;
+  padding-bottom: 100px;
+  clear: both;
+  text-align: center;
+  width: 100%;
+	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/foot_bg2.png) no-repeat;
+	background-size: 100%;
+  overflow: hidden;
+}
+
+.foot_bg p {
+  color: #057577;
+  padding: 0 3%;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.foot_bg p.title {
+  color: #fff;
+  text-align: center;
+  margin: 40px auto 10px auto;
+  font-size: 14px;
+  line-height: 27px;
+  height: 30px;
+  width: 180px;
+	background: url({{ app_url_packaged }}/images/promo/d3ingo_zj/foot_title.png) no-repeat;
+	background-size: 100%;
+}
+
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" >
+    var m_name = '浙江传统产业设计再造计划金华站对接会';
+    var img_url = '{{ app_url_packaged }}/images/promo/d3ingo_zj/cover.png';
+    var link = '{{ current_url }}';
+    var desc_str = '';
+
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+   });
+
+    wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+  var mySwiper = new Swiper ('#slides1', {
+    loop: true,
+    
+    // 如果需要分页器
+    pagination: '.swiper-pagination'
+  }) 
+
+  var mySwiper1 = new Swiper ('#slides2', {
+    loop: true,
+    
+    // 如果需要分页器
+    pagination: '.swiper-pagination1'
+  }) 
+
+{% endblock %}
+
+{% block content %}
+
+<div class="">
+  <div class="section">
+    <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/b1.jpg" />
+  </div>
+  <div class="section">
+    <div class="cont">
+      <h3>什么是设计再造计划</h3>
+      <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;浙江“传统产业设计再造”计划由浙江省工业设计协会联合相关高校、梦栖工业设计小镇和全省17个省级工业设计示范基地共同发起，由浙江省工业设计创新服务基地运营公司杭州合创共响工业设计管理有限公司负责执行。该计划旨在贯彻落实省政府《浙江省全面改造提升传统制造业行动计划（2017—2020年）》，积极发挥工业设计在改造传统产业中的作用，集聚创新要素，用好创新平台，把浙江近五年集聚的设计优势转化为产业优势、市场优势、竞争优势，整合省内外工业设计产业生态链优势资源，通过工业设计为浙江传统产业注入创新活力，帮助制造企业“增品种、提品质、创品牌”，实现传统产业的转型升级。</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>传统制造企业</h4>
+    </div>
+
+    <div class="slider swipe" id="slides1" style="margin-bottom: 30px;">
+      <div class="swiper-wrapper">
+        <div class="item-slide swiper-slide">
+          <h3>浙江美尔健身器械有限公司</h3>
+          <p>浙江美尔健身器有限公司是一家专业生产各类室内健身器材的外贸型企业，公司成立于96年，拥有自营出口权。公司现有1.5万平方米的标准厂房，一流的钢管加工、冲床加工、外表喷涂等生产流水线和装配流水线，以及先进的检测设备。有独立的产品研发部门和品质管理部门，严格按照ISO9001:2000质量控制体系运行管理。产品通过GS、CE、ROHS等多项检测，并有10多个产品获国家专利。产品现有倒立机、甩脂机、骑马机、健身椅、踏步机等。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.zjmeier.com" >http://www.zjmeier.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <h3>永康威力园林机械股份有限公司</h3>
+          <p>永康威力园林机械公司建于2004年，专业生产汽油链锯、电链锯以及其他园林机械。公司拥有先进的生产设备和完善的检测设备，现代化流水线，公司产品已经获得了CE、GS、EMC认证，主要市场为欧美和澳洲地区。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.validtools.com" >http://www.validtools.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>正阳实业投资股份有限公司</h3>
+          <p>正阳实业投资有限公司于2004年09月21日在永康市市场监督管理局登记成立。公司经营范围包括一般经营项目：实业投资、企业资产管理（不含证券、基金、金融资产管理、财务管理；未经金融等行业监管部门批准不得从事吸收存款、融资担保、代客理财、向社会公众集（融）资等金融业务）等。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.tianxincn.com" >http://www.tianxincn.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>浙江天鑫运动器材有限公司</h3>
+          <p>浙江天鑫运动器材有限公司(原浙江永康市天鑫健身休闲用品有限公司）是专业生产健身器材及休闲用品的外贸型企业。公司成立于80年代，拥有钢管加工、冲床加工、表面处理及车缝加工等生产流水线。公司现有产品10多种系列100多个品种。主要包括跳床、足球门、踏步器、按摩床、仰卧板及其他健身休闲用品。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.zjmeier.com" >http://www.zjmeier.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>浙江浩大科技有限公司</h3>
+          <p>浙江浩大工贸有限公司是一家专业生产铝制和不锈钢系列运动水壶、汽车杯和不锈钢保温杯、塑料杯为一体的优秀生产制造厂家。公司现有员工300余人，公司拥有先进的技术设备，一条龙的生产服务团队。公司的宗旨：诚为信、实为基、人为本，与员工互利、与客户双赢，以谋求发展、利益社会为主题的发展战略目标。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.haodacn.com" >http://www.haodacn.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>浙江三锋实业股份有限公司</h3>
+          <p>浙江三锋实业股份有限公司，坐落于中国五金之都——浙江永康，公司自1992年开始组建，公司拥有固定资产5.56亿元，注册资金1亿元，拥有2个生产厂区，占地8.6万平方米，其中厂房建筑面积12.45万平方米；现有员工700余人，其中大中专毕业生、工程技术人员120多人。经营范围:电动工具、园林工具、内燃机（园林工具类）、电焊机设计、制造、加工、销售及其货物和技术进出口业务。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://gb.safuntool.com" >http://gb.safuntool.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>永康市新多杯业有限公司</h3>
+          <p>永康市新多杯业有限公司于2000年04月25日在永康市市场监督管理局登记成立。公司经营范围包括杯、不锈钢制品、日用塑料制品、日用玻璃制品等。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.chinaxuguang.com" >http://www.chinaxuguang.com</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>顶康科技有限公司</h3>
+          <p>顶康科技有限公司于2012年05月由美国顶健（TOPJSEN）科技集团与“亿健”品牌创始人共同投资设立，依托美国技术和“亿健”名牌优势，以为人类健康提供优质、廉价及舒适的产品为己任，专注于家用及商用豪华跑步机及健康产品的发明、创新、制造及销售。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.zj-dingka" >http://www.zj-dingka</a><p>
+        </div>
+        <div class="item-slide swiper-slide">
+          <h3>浙江飞剑工贸有限公司</h3>
+          <p>浙江飞剑工贸有限公司成立于1998年，是一家集研发、生产、销售运动水具于一体的专业制造商，公司现有生产面积50000多平方米，员工500多人，公司技术力量雄厚，不仅配备大型挤压机、自动缩口机、注塑机、包装流水线等生产设备，还拥有行业领先静电喷涂、丝网印、热转印、气染转印以及UV激光印刷等先进的表面处理技术及设备。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.cnfeijian.com" >http://www.cnfeijian.com</a><p>
+        </div>
+      </div>
+      <div class="swiper-pagination"></div>
+    
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>设计企业</h4>
+    </div>
+
+    <div class="slider design swipe" id="slides2">
+      <div class="swiper-wrapper">
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/feishi.png" class="logo" />
+          <h3>飞鱼设计</h3>
+          <p>成立于2002年的飞鱼设计，历经10年的发展与积累，已成为国内最具视野和执行能力的策略型创新设计公司，有着极高的市场知名度和客户口碑。飞鱼始终坚持以“策略领先”和“优设计”为理念，服务集设计研究、产品设计、品牌策略及产业化服务于一体，涉及通讯、IT、家电、家居、设备、医疗、服务等领域。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.feish.com.cn" >http://www.feish.com.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/bole.png" class="logo" />
+          <h3>博乐设计</h3>
+          <p>杭州君乐工业设计有限公司隶属于杭州博乐工业设计股份，致力于为成长型中小企业和出口转内销企业提供市场研究分析、品牌策略设计、产品规划创新、终端形象设计制作、数字营销传播等一站式系统服务，被誉为整合设计领导者。公司成立10年来，陆续成立产品设计公司、品牌策划公司、商业展具公司等各级子公司。博乐现为国家级高新技术企业，获评浙江省和杭州市两级工业设计中心。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hzbole.cn" >http://www.hzbole.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/aotu.png" class="logo" />
+          <h3>凹凸设计</h3>
+          <p>杭州凸凹工业设计有限公司，成立于2003年，是一家专业从事用户研究及产品设计，为客户提供产品设计系统解决方案的机构。业务范围有：单款产品策划设计、产品线规划及设计、跨产品线整合设计以及品牌视觉语言规范等。“凸凹”即寓意在设计中激情与理性两者相互吸引，相互依存，在互补互融中和谐共生，组成一个至善至美的构架的过程。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.tao-design.cn" > http://www.tao-design.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/yuanjun.png" class="logo" />
+          <h3>源骏设计</h3>
+          <p>杭州源骏工业设计有限公司致力于为企业提供系统的产品解决方案，包括产品设计策划咨询、产品改良与创新设计、产品形象整合（PI）、结构设计、手板制作，以及品牌策划设计、商业展示设计、模具设计及相关后期配套服务。产品涵盖范围：家电、消费电子、工程机械、专业工具、医疗设备、休闲健身、公共设施、科研设施等。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hzyuanjun.com" >http://www.hzyuanjun.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/pinwu.png" class="logo" />
+          <h3>品物设计</h3>
+          <p>品物设计集团是中国首家秉承“以人为核心，重塑商业价值”的创新咨询与设计集团。在16年的进化历程中，品物不断迸发出最具前瞻性及生命力的思想与观点，创造出优秀的逻辑模型与创新工具，帮助数以百计的企业更深刻地理解他们的用户，改变企业与用户的关系圈，并以此为支点，成功塑造千余款产品与品牌的商业价值，完成了作为行业方法论缔造者与变革者的行业使命。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="https://pinwuid.kuaizhan.com"> https://pinwuid.kuaizhan.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/handu.png" class="logo" />
+          <h3>汉度设计</h3>
+          <p>杭州汉度工业设计有限公司成立与2007年，经过近十年的发展，汉度设计已经从单一的工业设计公司发展为一个综合性的设计平台，涵盖设计服务、产品开发、产品销售三大主要板块，目前已经发展成为一家策略型设计服务机构。杭州汉度工业设计有限公司下设汉度工业设计 、汉度装饰设计 、汉度品牌设计 、汉度科技 、新略信息技术 、集好文化 、艺佳模型 、汉淮钣金几个板块，帮助客户从外观设计到加工落地生产、品牌策划、策略制定到营销的一条龙服务。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://handu.gengfu.net"> http://handu.gengfu.net</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/aoge.png" class="logo" />
+          <h3>奥格设计</h3>
+          <p>奥格工业设计有限公司成立于 2005年，是一家专业的产品创新设计机构，坐落于浙江省杭州市紫东创意产业园。近年来，奥格设计致力于为互联时代创新，聚焦于电器、医疗、日用品、智能硬件行业领导力量的创新合作，为客户提供涵盖产品策略、用户研究、工业设计、品牌设计、交互设计到产品落地、销售的全程整合，是华东地区最具创新力的设计力量。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.augid.com">http://www.augid.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/relang.png" class="logo" />
+          <h3>热浪设计</h3>
+          <p>热浪设计以全球化的视野、精准的产品创新思路和卓越的设计实现策略，融合中国国情，导入设计与管理，帮助志在创新的公司和个人更为成功。多年来获得了包括红星、成功设计、IF、红点等国内外顶级设计大奖。客户包括美国GE、韩国三星等全球500强企业</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.hz-hotid.com">http://www.hz-hotid.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/jiechuang.png" class="logo" />
+          <h3>杰创设计</h3>
+          <p>杰创工业产品设计创建于2009年，自成立以来，籍着务实精神和非凡的实力，发展成为规模化、多元化的设计公司，为上百家企业提供过1000多件成功的案例。杰创正以行业改变者的姿态，整合创新资源，稳步推进创新模式的发展。2015年杰创被评为“浙江省十佳设计企业”。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.jiechdesign.com">http://www.jiechdesign.com</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/yizhi.png" class="logo" />
+          <h3>亿智设计</h3>
+          <p>杭州亿智智能科技有限公司，坐落于由杭州市政府联合中国工业设计协会打造的梦栖小镇设计中心内，业务围绕核心技术的研究与开发，为客户提供整体解决设计服务，以杭州为中心，辐射浙江、江苏、上海等周边省份城市，建立了完备的平台资源整合体系，资金、技术、教育、平台、政策五位一体，打造中国首个兼容性平台化创新型公司。</p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/daye.png" class="logo" />
+          <h3>大业设计</h3>
+          <p>大业设计始创于1992年，由中港双方参股共建的大型工业设计公司，总部设立于广州，在香港、宁波、佛山、中山注册控股子公司，2010年于美国旧金山设立办事处。公司致力于实施“全球化”、“本土化”的战略策略，利用集团化管理的优势，及时汇集各子公司最佳的设计资源，为国内外大中小企业提供一站式工业设计服务。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.daye.hk">http://www.daye.hk</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/spk.png" class="logo" />
+          <h3>斯帕克设计</h3>
+          <p>杭州斯帕克工业设计有限公司成立于2007年。经过10年的发展，建立形成以杭州/温州Spark工业设计有限公司为主体的创新设计平台，以杭州斯美奇品牌管理有限公司为主体的品牌渠道运营平台，以宁波Spark艺术设计有限公司为主体的空间设计平台，以杭州加号创客空间为主体的创新孵化平台，以杭州智乐兮设计咨询有限公司为主体的营销品牌策略平台等，形成了“设计服务、设计品牌、创新孵化器、营销运营 ”等多板块联动发展的综合性创新公司。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://www.spark-design.cn">http://www.spark-design.cn</a><p>
+        </div>
+
+        <div class="item-slide swiper-slide">
+          <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo/filo.png" class="logo" />
+          <h3>斐络设计</h3>
+          <p>浙江斐络工业设计有限公司源自米兰，是一家以产品设计为核心，为企业转型升级提供全面战略支持的新型设计公司。公司于2015年1月份被浙江省人民政府授予省级重点工业企业设计院，成为全省首家工业设计领域的设计院、企业研究院。斐络设计院聘请专业的意大利设计师，并与意大利各大著名设计公司、国际知名设计大师建立长期稳定的合作关系，将国际一流的意式设计提供给中国的企业。</p>
+          <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="http://filoitaly.jihui88.com/company.html">http://filoitaly.jihui88.com/company.html</a><p>
+        </div>
+      </div>
+      <!-- 如果需要分页器 -->
+      <div class="swiper-pagination swiper-pagination1"></div>
+    
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>线上项目入住流程</h4>
+    </div>
+    <p class="main-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/accross_xq.png" /></p>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>设计公司入住流程</h4>
+    </div>
+    <p class="main-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/accross_server.png" /></p>
+  </div>
+
+  <div class="section">
+    <div class="title-banner">
+      <h4>关于太火鸟</h4>
+    </div>
+    <p class="thn-img"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/logo_thn.png" /></p>
+    <p style="padding: 0 10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;太火鸟科技是中国领先的产品创新集群及精准智能分发SaaS平台。太火鸟科技以 [ 技术创新、设计创新、模式创新 ] 三轮驱动，致力于在「智能科技」和「生活美学」新消费升级趋势下，重构产品创新流程、提升孵化投资效率、增强营销分发势能；发掘既有「创新价值」又不失「感性设计」的中国原创产品和品牌；太火鸟科技的愿景是成为中国最大的产品创新策源地，打造科技美学创新产品的新消费生态。</p>
+    <p class="link"><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/link.png" /> <a href="https://www.taihuoniao.com">https://www.taihuoniao.com</a><p>
+    <div class="ui grid qr-box" style="padding:0;margin:0;">
+      <div class="two column row">
+        <div class="column">
+          <p><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/thn_qr.png" /></p>
+          <p>太火鸟公众号</p>
+        </div>
+        <div class="column">
+          <p><img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/d3in_qr.png" /></p>
+          <p>铟果公众号</p>
+        </div>
+      </div>
+    </div>  
+
+  </div>
+
+  <div class="section">
+    <div class="foot_bg">
+      <p class="title">再造伙伴招募</p>
+      <p>消费升级的当下，传统产业通过设计升级转型是必然趋势，亦是创造下一个未来的必经之路。我们寻找有创意，有魄力，更对中国设计产业有使命感的设计公司，</p>
+      <p>一起加入再造计划。</p>
+      <p>同时，</p>
+      <p>如果你有亟待改造升级的潜力项目，也可以加入我们。</p>
+      <p>有意加入设计再造计划的有志之师，</p>
+      <p>可发送参与意向至邮箱</p>
+      <p>&nbsp;</p>
+      <p class="link"> <img src="{{ app_url_packaged }}/images/promo/d3ingo_zj/email_icon.png" /> mazhe@taihuoniao.com</p>
+      <p>&nbsp;</p>
+      <p>让我们一起，以设计为发力点，打造优质创意价值链，</p>
+      <p>让好设计发声，塑造全新产业升级的明天。</p>
+      <p>设计再造计划，等待您的参与。</p>
+
+      <p class="title">铟果介绍</p>
+      <p>铟果D³INGO是太火鸟旗下基于大数据和智能匹配的产品创新SaaS平台，链接庞大智能硬件创业群体，吸引100万注册用户，1000+家专业设计企业，覆盖2000万创新设计群体。利用大数据和智能匹配技术连接制造企业和设计服务商，以设计驱动创新，挖掘消费需求，加速消费升级，用创新改变世界。</p>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

@@ -10,7 +10,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
     'floor'=>0,
 	);
 	
-	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces','huaban','hb_draw','gift');
+	protected $exclude_method_list = array('execute', 'coupon', 'dreamk', 'playegg', 'valentine', 'year', 'watch','ces','ajax_stat_sum_record','sz','share','redstar','qixi','rank','rank2','sign','zces', 'android_download','zzces','huaban','hb_draw','gift','member');
 	
 	/**
 	 * 网站入口
@@ -18,6 +18,14 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
 	public function execute(){
 		return $this->coupon();
 	}
+
+  /**
+   * 会员服务
+   */
+  public function member(){
+		$this->set_target_css_state('page_member');
+		return $this->to_html_page('page/promo/member.html');  
+  }
 
 	/**
 	 * 花瓣礼物主题活动

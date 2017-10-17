@@ -235,6 +235,14 @@ class Sher_Core_Helper_Util {
 		$message = "【fiu店】${msg}";
 		return self::send_yp_mms($phone, $message);
 	}
+
+	/**
+	 * 发送短信--自定义 (云片-备选)[D³IN]
+	 */
+	public static function send_yp_defined_d3in_mms($phone, $msg) {
+		$message = "【D³IN】${msg}";
+		return self::send_yp_mms($phone, $message);
+	}
 	
 	/**
 	 * 发送短信息

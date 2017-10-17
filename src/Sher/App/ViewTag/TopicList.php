@@ -31,6 +31,8 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		$category_id = 0;
         // 是否发布状态
         $published = 0;
+    // 是否审核
+    $verifyed = 1;
 		
 		$type = 0;
 		$time = 0;
@@ -72,6 +74,15 @@ class Sher_App_ViewTag_TopicList extends Doggy_Dt_Tag {
 		if($try_id){
 			$query['try_id'] = (int)$try_id;
 		}
+
+        // 是否审核
+        if($verifyed){
+          if((int)$verifyed==-1){
+            $query['verifyed'] = 0;
+          }elseif((int)$verifyed==1){
+            $query['verifyed'] = 1;
+          }
+        }
 
         // 是否发布
         if($published){

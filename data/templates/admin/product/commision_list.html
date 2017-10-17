@@ -28,7 +28,7 @@
     // 获取产品二维码
     $('.fetch_qr').click(function(){
         var str = $(this).data('str');
-        $.get("{{ app_url_admin_base }}/product/fetch_qr", {str:str, referral_code:"{{referral_code}}"}, function(result){
+        $.get("{{ app_url_admin_base }}/product/fetch_qr", {str:str}, function(result){
             //alert(result);
 
             $('#qr_box').html(result);
@@ -60,6 +60,9 @@
 
             <div class="ui icon input">
                 <input placeholder="推广码" type="text" name="referral_code" value="{{ referral_code }}" />
+            </div>
+            <div class="ui icon input">
+                <input placeholder="店铺ID" type="text" name="storage_id" value="{{ storage_id }}" />
             </div>
 
             <span class="" style="margin-left:10px;"></span>
@@ -138,34 +141,9 @@
 		          	<p class="attribute">编号：{{ product._id }}</p>
 		          	<p class="attribute">亮点：{{ product.advantage }}</p>
                     <p class="attribute">推广链接：
-                    <!--
-                        {% if referral_code %}
-                            {% if storage_id %}
-                            {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}&storage_id={{ storage_id }}
-                            {%else%}
-                                {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}
-                            {%endif%}
-                        {%else%}
-                            {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}
-                        {%endif%}
-                        -->
-                        {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id=133
+                    {{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}{{url}}
                     </p>
-
-                    <!--
-                    {% if referral_code %}
-                        {% if storage_id %}
-                            <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}&storage_id={{ storage_id }}">查看二维码>></p>
-                        {%else%}
-                            <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code={{ referral_code }}">查看二维码>></p>
-                        {%endif%}
-
-                    {%else%}
-                        <p class="attribute fetch_qr" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}">查看二维码>></p>
-                    {%endif%}
-
-                        -->
-                        <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}&referral_code=vB3Pz&storage_id=133">查看二维码>></p>
+                    <p class="attribute fetch_qr" style="cursor:pointer;" data-str="{{ app_url_domain }}/qr?infoType=1&infoId={{product._id}}{{url}}">查看二维码>></p>
 
 				</td>
                 <td>{{ product.sale_price }}</td>

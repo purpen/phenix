@@ -853,7 +853,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 		
 		// 获取提交数据, 覆盖默认数据
 		$order_info['payment_method'] = $this->stash['payment_method'];
-		$order_info['transfer'] = $this->stash['transfer'];
+		$order_info['transfer'] = isset($this->stash['transfer']) ? $this->stash['transfer'] : 'a';
 		$order_info['transfer_time'] = $this->stash['transfer_time'];
 		
 		// 需要开具发票，验证开票信息

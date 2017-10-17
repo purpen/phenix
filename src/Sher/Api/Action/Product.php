@@ -370,7 +370,7 @@ class Sher_Api_Action_Product extends Sher_Api_Action_Base {
 
     if(!empty($asset_result['rows'])){
       foreach($asset_result['rows'] as $key=>$value){
-        array_push($assets, array('url'=>$value['thumbnails']['hd']['view_url']));
+        array_push($assets, $value['thumbnails']['hd']['view_url']);
       }
     }
     $data['pad_asset'] = $assets;

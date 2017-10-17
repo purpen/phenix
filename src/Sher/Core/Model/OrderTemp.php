@@ -24,6 +24,7 @@ class Sher_Core_Model_OrderTemp extends Sher_Core_Model_Base  {
     'is_vop' => 0,
     # 推广码 
     'referral_code' => null,
+    'storage_id' => null,
     );
 	
     protected $joins = array();

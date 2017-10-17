@@ -4,20 +4,35 @@
  * @author purpen
  */
 class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
-	public $stash = array(
-		'page'=>1,
-    'sort'=>0,
-    'target_id'=>0,
-	);
-	
-	protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc','wx_cooperate', 'wx_cooperate_success','qsyd3');
+    public $stash = array(
+      'page'=>1,
+      'sort'=>0,
+      'target_id'=>0,
+    );
+    
+    protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc','wx_cooperate', 'wx_cooperate_success','qsyd3', 'd3ingo_zj');
 
-	/**
-	 * 网站入口
-	 */
-	public function execute(){
-		//return $this->coupon();
-  }
+    /**
+     * 网站入口
+     */
+    public function execute(){
+      //return $this->coupon();
+    }
+
+    /**
+     * 浙江传统产业设计再造计划金华站对接会
+     */
+    public function d3ingo_zj() {
+        //微信分享
+        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+        $timestamp = $this->stash['timestamp'] = time();
+        $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+        $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+        $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+        $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+        $this->stash['wxSha1'] = sha1($wxOri);
+        return $this->to_html_page('wap/promo/d3ingo_zj.html');  
+    }
 
     /**
      * 奇思勇动3

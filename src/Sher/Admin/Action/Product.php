@@ -1214,8 +1214,20 @@ class Sher_Admin_Action_Product extends Sher_Admin_Action_Base {
      */
     function commision_list(){
     	$this->set_target_css_state('page_commision');
-		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/product/commision_list?sort=%d&s=%d&q=%s&referral_code=%s&storage_id=%s&page=#p#', $this->stash['sort'], $this->stash['s'], $this->stash['q'], $this->stash['referral_code'], $this->stash['storage_id']);
+      $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : '';
+      $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : '';
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/product/commision_list?sort=%d&s=%d&q=%s&referral_code=%s&storage_id=%s&page=#p#', $this->stash['sort'], $this->stash['s'], $this->stash['q'], $referral_code, $storage_id);
 
+      if(!empty($referral_code) && !empty($storage_id)){
+        $url = sprintf('&referral_code=%s&storage_id=%s', $referral_code, $storage_id);
+      }elseif(!empty($referral_code)){
+        $url = sprintf('&referral_code=%s', $referral_code);     
+      }elseif(!empty($storage_id)){
+        $url = sprintf('&storage_id=%s', $storage_id);     
+      }else{
+        $url = '&referral_code=vB3Pz&storage_id=133';
+      }
+		$this->stash['url'] = $url;
 		$this->stash['pager_url'] = $pager_url;
 		
 		// 判断左栏类型

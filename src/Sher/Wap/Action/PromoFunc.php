@@ -40,6 +40,18 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     if(isset($_COOKIE['from_origin']) && $_COOKIE['from_origin'] == $kind){
       return $this->ajax_json('不能重复领取!', true);
     }
+
+    $bonus = 'a';
+    // 将红包保存至cookie
+    @setcookie('from_origin', $kind, 0, '/');
+    $_COOKIE['from_origin'] = $kind; 
+    // 将红包金额保存至cookie
+    @setcookie('from_origin_val', $bonus, 0, '/');
+    $_COOKIE['from_origin_val'] = $bonus; 
+
+		// 清除cookie值
+		//setcookie('from_origin', '', time()-9999999, '/');
+
     $user_id = $this->visitor->id;
     if($user_id){
       $third_site_stat_model = new Sher_Core_Model_ThirdSiteStat();
@@ -60,16 +72,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         return $this->ajax_json('不能重复领取!', true); 
       }
     }
-    $bonus = 'a';
-    // 将红包保存至cookie
-    @setcookie('from_origin', $kind, 0, '/');
-    $_COOKIE['from_origin'] = $kind; 
-    // 将红包金额保存至cookie
-    @setcookie('from_origin_val', $bonus, 0, '/');
-    $_COOKIE['from_origin_val'] = $bonus; 
 
-		// 清除cookie值
-		//setcookie('from_origin', '', time()-9999999, '/');
     $url = Doggy_Config::$vars['app.url.wap']. '/scene_subject/view?id=148';
     return $this->ajax_json('success', false, $url, array('bonus'=>$bonus));
   }

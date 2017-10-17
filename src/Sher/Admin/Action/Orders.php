@@ -507,7 +507,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
                 }
                 $sub_ok = $model->update_set((string)$order_info['_id'], array('sub_orders'=>$order_info['sub_orders']));
                 if(!$sub_ok){
-  				    return $this->ajax_json('更新子订单物流失败！', true);                   
+  				    return $this->ajax_json('更新子订单物流失败！', true);
                 }
             }
 			
@@ -519,10 +519,19 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 
               // 短信提醒用户
               if($ok){
-                $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                // 是否来自iPad店消费
+                $from_site = isset($order_info['from_site']) ? $order_info['from_site'] : Sher_Core_Util_Constant::FROM_LOCAL;
+                $express_company = $model->find_express_category($express_caty);
+                if($from_site == Sher_Core_Util_Constant::FROM_APP_IPAD){
+                    // 如果是店里iPad消费
+                    //$order_message = sprintf("亲爱的伙伴：您在D³IN店购买的产品已发货，物流信息: %s[%s]", $express_company, $express_no);                   
+                    $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                }else{
+                    $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order_info['rid']);
+                }
                 $order_phone = $order_info['express_info']['phone'];
                 if(!empty($order_phone)){
-                  Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);
+                  Sher_Core_Helper_Util::send_yp_defined_mms($order_phone, $order_message);
                 }
               }
 			
@@ -613,7 +622,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
-          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
+          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID, Sher_Core_Util_Constant::FROM_APP_IPAD))){
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?rid='.$rid;
           }else{
                   $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/refund?rid='.$rid;
@@ -677,7 +686,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		// 跳转微信支付退款
 		if ($order_info['trade_site'] == Sher_Core_Util_Constant::TRADE_WEIXIN){
           // 如果是来自app,则跳转app退款页面(微信的网页支付和app支付没有共用sdk)
-          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID))){
+          if(in_array($order_info['from_site'], array(Sher_Core_Util_Constant::FROM_IAPP, Sher_Core_Util_Constant::FROM_APP_ANDROID, Sher_Core_Util_Constant::FROM_APP_IPAD))){
                 $refund_url = Doggy_Config::$vars['app.url.jsapi.wxpay'].'/fiu_refund?id='.$id;
           // 微信小程序
           }elseif($order_info['from_site']==Sher_Core_Util_Constant::FROM_WX_XCX){
@@ -689,6 +698,49 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
 		}
 		
 		return $this->show_message_page('只支持支付宝退款', true);	
+	}
+
+  /**
+   * 强行确认退款操作
+   */
+  public function ajax_new_refund_force(){
+ 		
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		if (empty($id)) {
+			return $this->ajax_json('缺少请求参数！', true);
+		}
+
+		// 检查是否具有权限---有问题
+		if (!$this->visitor->can_admin()) {
+			return $this->ajax_json('操作不当，你没有权限！', true);
+		}
+
+        $refund_model = new Sher_Core_Model_Refund();
+        $refund = $refund_model->load($id);
+        if(empty($refund)){
+ 		    return $this->ajax_json('退款单不存在！', true);
+        }
+
+        if($refund['stage'] != Sher_Core_Model_Refund::STAGE_ING){
+  		    return $this->ajax_json('退款单状态不符！', true);
+        }
+
+		$model = new Sher_Core_Model_Orders();
+		$order_info = $model->find_by_rid($refund['order_rid']);
+		//订单不存在
+		if(empty($order_info)){
+			return $this->ajax_json('订单未找到！', true);
+		}
+
+    $ok = $refund_model->refund_call($id, array('refund_price'=>$refund['refund_price']));
+
+    if($ok){
+      //退款成功
+		  return $this->ajax_json('操作成功', false, '', array());   
+    }else{
+      Doggy_Log_Helper::warn("Alipay fiu refund notify: order_id[$refund_id] refunde_order fail !");
+		  return $this->ajax_json('退款失败!', true);  
+    }
 	}
 
   /**
@@ -904,7 +956,7 @@ class Sher_Admin_Action_Orders extends Sher_Admin_Action_Base {
         $ok = $model->sended_order((string)$order['_id'], array('express_caty'=>$express_caty, 'express_no'=>$express_no, 'user_id'=>$order['user_id']));
         // 短信提醒用户
         if($ok){
-            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望Fiu为您带去更新鲜的生活方式和更奇妙的生活体验。", $order['rid']);
+            $order_message = sprintf("亲爱的伙伴：我们已将您编号为（%s）的宝贝托付到有颜靠谱的快递小哥手中，希望D³IN为您带去更新鲜的生活方式和更奇妙的生活体验。", $order['rid']);
             $order_phone = $order['express_info']['phone'];
             if(!empty($order_phone)){
                 Sher_Core_Helper_Util::send_yp_defined_fiu_mms($order_phone, $order_message);

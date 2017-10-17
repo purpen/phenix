@@ -88,6 +88,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 
     // 推广码
     $referral_code = isset($this->stash['referral_code']) ? $this->stash['referral_code'] : null;
+    $storage_id = isset($this->stash['storage_id']) ? $this->stash['storage_id'] : null;
 
     // 初始化类型
     $kind = 0;
@@ -120,8 +121,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $n = 1;
       }
 
-        $referral_code = isset($val['referral_code']) ? $val['referral_code'] : '';
-        $storage_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
+      $r_code = isset($val['referral_code']) ? $val['referral_code'] : '';
+      $s_id = isset($val['storage_id']) ? (string)$val['storage_id'] : '';
 
       $sku_mode = null;
       $price = 0.0;
@@ -213,8 +214,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         'subtotal'  => $total_price,
         'vop_id' => $vop_id,
         'number' => (string)$number,
-        'referral_code' => $referral_code,
-        'storage_id' => $storage_id,
+        'referral_code' => $r_code,
+        'storage_id' => $s_id,
       );
       $total_money += $total_price;
       $total_count += 1;
@@ -301,6 +302,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 			$new_data['is_cart'] = 1;
             $new_data['is_vop'] = !empty($vop_count) ? 1 : 0;
             $new_data['referral_code'] = $referral_code;
+            $new_data['storage_id'] = $storage_id;
 			
 			$ok = $model->apply_and_save($new_data);
 			if ($ok) {
@@ -490,6 +492,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         if(!empty($referral_code)){
             $options['referral_code'] = $referral_code;
         }
+        if(!empty($storage_id)){
+            $options['storage_id'] = $storage_id;
+        }
 
         $options['disabled_app_reduce'] = $disabled_app_reduce;
         $order_info = $this->create_temp_order($items, $total_money, $items_count, $kind, $app_type, $options);
@@ -560,7 +565,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		}
 
     $from_site = isset($this->stash['from_site']) ? (int)$this->stash['from_site'] : 7;
-    if(!in_array($from_site, array(7,8))){
+    if(!in_array($from_site, array(7,8,11))){
       return $this->api_json('来源设备不正确！', 3011);     
     }
 
@@ -596,7 +601,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         }else{
             $addbook_json = isset($this->stash['addbook']) ? $this->stash['addbook'] : array();
             if(empty($addbook_json)){
-                return $this->api_json('收货地址不存在！', 3020);      
+                return $this->api_json('收货地址不存在！', 3020);
             }
             $addbook = json_decode($addbook_json, true);
             $express_info = array(
@@ -615,6 +620,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
             );
             if(empty($express_info['name']) || empty($express_info['phone']) || empty($express_info['province']) || empty($express_info['city'])){
                 return $this->api_json('收货地址不完整！', 3021);            
+            }
+            // 验证手机号码是否合法
+            if(!preg_match("/1[34578]{1}\d{9}$/",trim($express_info['phone']))){  
+              return $this->api_json('请输入正确的手机号码格式！', 3022); 
             }
         }   
     }
@@ -635,8 +644,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 获取订单编号
 		$order_info['rid'] = $result['rid'];
-        $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
-        $order_info['referral_code'] = $result['referral_code'];
+    $order_info['is_vop'] = isset($result['is_vop']) ? $result['is_vop'] : 0;
+    $order_info['referral_code'] = $result['referral_code'];
+    $order_info['storage_id'] = $result['storage_id'];
 		
 		// 获取购物金额
 		$total_money = $order_info['total_money'];
@@ -1254,6 +1264,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $user_id = $this->current_user_id;
 		// 订单状态
 		$status  = isset($this->stash['status']) ? (int)$this->stash['status'] : 0;
+		$storage_id  = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : 0;
 		if(empty($user_id)){
 			return $this->api_json('请先登录!', 3000);
 		}
@@ -1264,6 +1275,10 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		// 查询条件
     if($user_id){
         $query['user_id'] = (int)$user_id;
+    }
+
+    if($storage_id){
+        $query['storage_id'] = $storage_id;
     }
 		
 		switch($status){
@@ -1291,8 +1306,8 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     //限制输出字段
 		$some_fields = array(
 			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1, 'discount_money'=>1,
-			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
-			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'storage_id'=>1, 'summary'=>1,
+			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1, 'delivery_type'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
       'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
       'gift_money'=>1, 'status_label'=>1, 'created_on'=>1, 'updated_on'=>1,
@@ -1308,6 +1323,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         $service = Sher_Core_Service_Orders::instance();
         $result = $service->get_latest_list($query, $options);
 
+        $order_model = new Sher_Core_Model_Orders();
 
     $product_model = new Sher_Core_Model_Product();
     $sku_model = new Sher_Core_Model_Inventory();
@@ -1325,6 +1341,15 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       if(empty($data[$i]['express_info'])){
         $data[$i]['express_info'] = null;
       }
+      // 快递信息
+      $express_name = '';
+      if($data[$i]['express_caty']){
+        $express_obj = $order_model->find_express_category($data[$i]['express_caty']);
+        if($express_obj){
+          $express_name = $express_obj['title'];
+        }
+      }
+      $data[$i]['express_name'] = $express_name;
 
       //商品详情
       if(!empty($result['rows'][$i]['items'])){
@@ -1381,7 +1406,9 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
 		
 		// 仅查看本人的订单
 		if($user_id != $order_info['user_id']){
-			return $this->api_json('你没有权限查看此订单！', 5000);
+      if($order_info['from_site'] != Sher_Core_Util_Constant::FROM_APP_IPAD){
+			  return $this->api_json('你没有权限查看此订单！', 5000);
+      }
 		}
 
         $product_model = new Sher_Core_Model_Product();
@@ -1612,6 +1639,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     $new_data['kind'] = $kind;
     $new_data['is_vop'] = isset($options['is_vop']) ? $options['is_vop'] : 0;
     $new_data['referral_code'] = isset($options['referral_code']) ? $options['referral_code'] : null;
+    $new_data['storage_id'] = isset($options['storage_id']) ? (int)$options['storage_id'] : null;
 		
 		try{
 			$order_info = array();
@@ -1793,7 +1821,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
     }else{
       switch($payaway){
         case 'alipay':
-          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
+          $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
           break;
         case 'weichat':
           $pay_url = sprintf("%s/wxpay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);

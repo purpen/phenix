@@ -164,7 +164,7 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         'deleted' => 0,
 		# 来源站点
 		'from_site' => Sher_Core_Util_Constant::FROM_LOCAL,
-        # 来源app: 1.商城;2.Fiu
+        # 来源app: 1.商城;2.D3IN
         'from_app' => 0,
         # channel_id
         'channel_id' => null,
@@ -176,6 +176,8 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
         #推广码
         'referral_code' => null,
         'referral' => array(),
+        # 商户ID
+        'storage_id' => null,
 
         # 是否含有子订单
         'exist_sub_order' => 0,
@@ -278,6 +280,9 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 				break;
 			case Sher_Core_Util_Constant::FROM_WX_XCX:
 				$label = '小程序';
+				break;
+			case Sher_Core_Util_Constant::FROM_APP_IPAD:
+				$label = 'iPad商户';
 				break;
 			default:
 				$label = '其他';
@@ -1187,69 +1192,128 @@ class Sher_Core_Model_Orders extends Sher_Core_Model_Base {
 			$updated['status'] = (int)$status;
 		}
 		
-        $ok = $this->update_set($id, $updated);
-        
-        if($ok){
+      $ok = $this->update_set($id, $updated);
+      
+      if($ok){
+          
+        $data = $this->load($id);
+
+        $user_id = $data['user_id'];
+        $new_user_id = $data['user_id'];
+
+        // 是否是自提订单
+        $delivery_type = isset($data['delivery_type']) ? $data['delivery_type'] : 1;
+        // 是否来自iPad店消费
+        $from_site = isset($data['from_site']) ? $data['from_site'] : Sher_Core_Util_Constant::FROM_LOCAL;
+        // 收货人信息
+        $order_phone = isset($data['express_info']['phone']) ? (string)$data['express_info']['phone'] : null;
+        $order_name = isset($data['express_info']['name']) ? $data['express_info']['name'] : null;
+
+        $user_model = new Sher_Core_Model_User();
+
+        // 如果是使用iPad店里下单、收货方式为快递，则根据收货手机号创建用户
+        if ($from_site == Sher_Core_Util_Constant::FROM_APP_IPAD && $delivery_type == 1 && !empty($order_phone)){
+          $user = $user_model->first(array('account' => $order_phone));
+          $is_new_user = false;
+          $password = '';
+          if($user){
+            $new_user_id = $user['_id'];
+          }else{  // 不存在用户，则创建
+            $password = rand(100000, 999999);
+            $user_info = array(
+              'account' => $order_phone,
+              'nickname' => $order_phone,
+              'password' => sha1($password),
+              'kind' => 22,
+              'state' => Sher_Core_Model_User::STATE_OK
+            );
             
-            $data = $this->load($id);
-
-            // 更新用户订单提醒状态
-            $user_model = new Sher_Core_Model_User();
-            $user_model->update_counter_byinc($data['user_id'], 'order_wait_payment', -1);
-            // 是否是自提订单
-            $delivery_type = isset($data['delivery_type']) ? $data['delivery_type'] : 1;
-            if($delivery_type==1){
-                $user_model->update_counter_byinc($data['user_id'], 'order_ready_goods', 1);
-            }elseif($delivery_type==2){
-                $user_model->update_counter_byinc($data['user_id'], 'order_evaluate', 1);
-            }
-
-            // 如果是开普勒，接口对接
-            if(isset($data['jd_order_id']) && !empty($data['jd_order_id'])){
-                $vop_result = Sher_Core_Util_Vop::sure_order($data['jd_order_id']);
-                // 出现严重错误，发送给管理员
-                if(!$vop_result['success']){
-                    $wrong_msg = "用户下单成功，开普勒更新状态失败！";
-                    Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $data['jd_order_id'], $vop_result['message']));
-                }
-            }
-
-            // 检测是否含有推广记录
-            $is_referral = $is_storage = false;
-            if(!empty($data['referral_code'])) $is_referral = true;
-
-            for($i=0;$i<count($data['items']);$i++){
-                $item = $data['items'][$i];
-                $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
-                if(!empty($storage_id)){
-                    $is_storage = true;
-                    break;
-                }
-            }
-
-            // 如果有佣金或分成，统计到Balance
-            if(!empty($is_referral) || !empty($is_storage)){
-                $balance_model = new Sher_Core_Model_Balance();
-            }
-            if($is_referral){   // 推广佣金
-                $balance_model->record_balance_by_commision($data['rid'], 1, array('order'=>$data));
-            }
-            if($is_storage){    // 地盘分成
-                $balance_model->record_balance_by_divide($data['rid'], 1, array('order'=>$data));
-            }
-
-            $this->sync_order_index($id, $status);
+            $profile = $user_model->get_profile();
+            $profile['phone'] = $order_phone;
+            $profile['realname'] = $order_name;
+            $user_info['profile'] = $profile;
             
-            // 增加积分
-            $service = Sher_Core_Service_Point::instance();
-            // 购买商品增加经验值
-            $service->send_event('evt_buy_goods', $data['user_id']);
-            // 购买商品增加鸟币
-            $amount = ceil($data['pay_money']/20);
-            $service->make_money_in($data['user_id'], $amount, '购买赠送鸟币');
+            $user_ok = $user_model->create($user_info);
+
+            if($user_ok){
+              $new_user_id = $user_model->id;
+              $is_new_user = true;
+            }
+
+          }
+
+          // 更新订单用户为购物方
+          $this->update_set($id, array('user_id'=>$new_user_id));
+          $storage_name = '';
+          $scene_model = new Sher_Core_Model_SceneScene();
+          if(isset($data['storage_id']) && !empty($data['storage_id'])){
+            $scene = $scene_model->load((int)$data['storage_id']);
+            if($scene){
+              $storage_name = $scene['title'];
+            }
+          }
+
+          // 给新用户发短信提醒
+          $order_message = sprintf("感谢您在太火鸟D³IN%s消费购物，为了便于订单跟踪查询，登录 http://t.cn/RpFNLRS ，输入手机号查询订单", $storage_name);
+          Sher_Core_Helper_Util::send_yp_defined_mms($order_phone, $order_message);
 
         }
-        return $ok;
+
+        // 更新用户订单提醒状态
+        $user_model->update_counter_byinc($user_id, 'order_wait_payment', -1);
+
+        if($delivery_type==1){
+            $user_model->update_counter_byinc($new_user_id, 'order_ready_goods', 1);
+        }elseif($delivery_type==2){
+            $user_model->update_counter_byinc($new_user_id, 'order_evaluate', 1);
+        }
+
+        // 如果是开普勒，接口对接
+        if(isset($data['jd_order_id']) && !empty($data['jd_order_id'])){
+            $vop_result = Sher_Core_Util_Vop::sure_order($data['jd_order_id']);
+            // 出现严重错误，发送给管理员
+            if(!$vop_result['success']){
+                $wrong_msg = "用户下单成功，开普勒更新状态失败！";
+                Doggy_Log_Helper::warn(sprintf("确认开普勒预占库存订单失败![%s-%s]", $data['jd_order_id'], $vop_result['message']));
+            }
+        }
+
+        // 检测是否含有推广记录
+        $is_referral = $is_storage = false;
+        if(!empty($data['referral_code'])) $is_referral = true;
+
+        for($i=0;$i<count($data['items']);$i++){
+            $item = $data['items'][$i];
+            $storage_id = isset($item['storage_id']) ? $item['storage_id'] : null;
+            if(!empty($storage_id)){
+                $is_storage = true;
+                break;
+            }
+        }
+
+        // 如果有佣金或分成，统计到Balance
+        if(!empty($is_referral) || !empty($is_storage)){
+            $balance_model = new Sher_Core_Model_Balance();
+        }
+        if($is_referral){   // 推广佣金
+            $balance_model->record_balance_by_commision($data['rid'], 1, array('order'=>$data));
+        }
+        if($is_storage){    // 地盘分成
+            $balance_model->record_balance_by_divide($data['rid'], 1, array('order'=>$data));
+        }
+
+        $this->sync_order_index($id, $status);
+        
+        // 增加积分
+        $service = Sher_Core_Service_Point::instance();
+        // 购买商品增加经验值
+        $service->send_event('evt_buy_goods', $new_user_id);
+        // 购买商品增加鸟币
+        $amount = ceil($data['pay_money']/20);
+        $service->make_money_in($new_user_id, $amount, '购买赠送鸟币');
+
+      }
+      return $ok;
 	}
 	
 	/**

@@ -12,7 +12,7 @@
 		  	</div>
         {% if admin %}
           <div class="item">
-            来源: {{ order.from_site_label }}{%if order.from_app%}[{{ order.from_app_label }}]{%endif%}
+            来源: {{ order.from_site_label }}{%if order.from_site == 11%}[{{ order.storage_id }}]{%endif%}
                   {%if order.channel_id%}[{{ order.channel_id }}]{%endif%}
           </div>
           {% if order.kind == 2 %}

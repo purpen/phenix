@@ -67,7 +67,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const FROM_IAPP = 7;  // iphone,ipad
 	const FROM_APP_ANDROID = 8; // android
 	const FROM_APP_WIN = 9; // win phone
-    const FROM_WX_XCX = 10; // 小程序
+  const FROM_WX_XCX = 10; // 小程序
+  const FROM_APP_IPAD = 11; // IPAD商户下单
     
     /**
      * 事件类型

@@ -1,5 +1,5 @@
 {%extends 'layout/shop.html'%}
-{% block title%}奇思甬动大赛{% endblock %}
+{% block title%}2017“奇思甬动”中国创客大赛{% endblock %}
 {% block page_css %}
 <style type="text/css">
 .sfooter.nav-menu{
@@ -15,17 +15,17 @@
 .banner{
   position: relative;
   width: 100%;
-  height: 667px;
-	background-image: url({{ app_url_packaged }}/images/promo/qsyd3/h5_banner.jpg);
+  height: 602px;
+	background: url({{ app_url_packaged }}/images/promo/qsyd3/h5_banner3.jpg) no-repeat;
 	background-size: 100%;
 }
 
   img.btn{
     position:absolute;
-    width:36%;
-    margin:0 32%;
+    width:45%;
+    margin:0 27%;
     left:0;
-    top:600px;
+    top:500px;
   }
 
   .bonus_bg {
@@ -34,7 +34,7 @@
     padding-top: 80px;
     width: 80%;
     height: 425px;
-    background-image: url({{ app_url_packaged }}/images/promo/qsyd3/bj.png);
+    background-image: url({{ app_url_packaged }}/images/promo/qsyd3/bj.jpg);
     background-size: 100%; 
   }
   .bonus_bg .bonus-item {
@@ -89,10 +89,10 @@
 {% block layout_js %}
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
-    var m_name = '奇思甬动大赛';
+    var m_name = '2017“奇思甬动”中国（宁波）创客大赛';
     var img_url = '{{ app_url_packaged }}/images/promo/qsyd3/qsyd_logo.jpeg';
     var link = '{{ current_url }}';
-    var desc_str = '奇思甬动大赛';
+    var desc_str = '智能硬件展销专区';
 
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -154,8 +154,8 @@
 // 验证是否领取过红包
 $.get('{{ app_url_wap }}/app/wap/promo_func/check_recive_bonus', {kind:6}, function(res){
   if(!res.data.exist){
-    // 3秒弹出
-    setTimeout("$('#mask').css('display','')",3000);
+    // 2秒弹出
+    setTimeout("$('#mask').css('display','')",2000);
   }
 }, 'json');
 $('#pullBonusBtn').click(function(){
@@ -183,7 +183,7 @@ $('#pullBonusBtn').click(function(){
 
 
 <!-- 弹出层   -->
-<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 0.9; display: none; background: rgb(0, 0, 0);">
+<div id="mask" style="position: fixed; width: 100%; height: 100%; z-index: 100; top: 0px; opacity: 1; display: none; background: rgb(0, 0, 0);">
   <div class="frideshare" style="text-align: center;padding-top: 10%;">
     <div class="bonus_bg">
       <div class="bonus-item">
@@ -210,7 +210,7 @@ $('#pullBonusBtn').click(function(){
         </div>
         <p class="time">自领取后一个月内有效</p>
       </div>
-      <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/2.png" class="recive" ></a>
+      <a href="javascript:void(0);" id="pullBonusBtn"><img src="{{ app_url_packaged }}/images/promo/qsyd3/bonus_btn.png" class="recive" ></a>
     </div>
   </div>
 </div>
