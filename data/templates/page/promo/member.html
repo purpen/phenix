@@ -367,6 +367,11 @@ img {
 {% block jquery %}
 
 $('.member_btn').click(function(){
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
   var type = $(this).data('goodsid');
   var title, price, o_price
   if(type==1){
