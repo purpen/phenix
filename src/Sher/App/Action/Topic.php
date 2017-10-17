@@ -585,6 +585,9 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 */
 	public function view(){
 		$id = (int)$this->stash['id'];
+
+		$redirect_url = Doggy_Config::$vars['app.url.promo']. '/member';
+    return $this->to_redirect($redirect_url);
 		
 		$redirect_url = Doggy_Config::$vars['app.url.topic'];
 		if(empty($id)){
