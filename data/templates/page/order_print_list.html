@@ -49,6 +49,7 @@
   // 定时加载
   setInterval(load_orders, 10000);
 
+  // 删除记录
   $('.del-btn').livequery(function(){
     $(this).click(function(){
       var id = $(this).data('id');
@@ -60,6 +61,19 @@
         }
         $('#order-'+id).remove();
       }, 'json');
+    });
+	});
+
+  // 打开预览页面
+  $('.view_btn').livequery(function(){
+    $(this).click(function(){
+      var id = $(this).data('id');
+      var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+      }
+      var url = '{{ app_url_domain }}/order/order_print_show?id=' + id;
+      var params = getParamsOfShareWindow(607, 523);
+      window.open(url, 'D3IN', params);
     });
 	});
 {% endblock %}
@@ -96,6 +110,14 @@
 
 		</div>
 	</div>
+</div>
+
+<div class="ui small modal order-box">
+  <i class="close icon"></i>
+  <div class="header">打印购物清单</div>
+  <div class="content">
+    <div id="print-box"><h1>测试打印购物清单</h1></div>
+  </div>
 </div>
 
 {% endblock %}

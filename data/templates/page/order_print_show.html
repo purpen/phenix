@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+    <title>D3IN</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style class="text/css">
+      html, body {
+        background-color: #fff;
+      }
+
+      .order-box {
+        width: 100%;
+        padding: 5px;
+      }
+
+      .product-list {
+      
+      }
+      .product-list .head {
+        border-bottom: 1px dashed #000;
+      }
+
+      .line {
+        border-bottom: 1px dashed #000;
+      }
+
+    </style>
+
+    <script type="text/javascript" >
+      window.print();
+    </script>
+
+  </head>
+  <body>
+    <div class="order-box">
+      <h2>D3IN</h2>
+      <div class="order">
+        <p>销售单号: {{ order.rid }}</p>
+        <p>交易时间: {{ order.created_at }}</p>
+        <p>&nbsp;</p>
+        <table class="product-list">
+          <tr class="head">
+            <th>商品名称</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>金额</th>
+          </tr>
+          {% for d in order.products %}
+            <tr>
+              <td>{{ d.short_title }}({{ d.sku_mode }})</td>
+              <td>{{ d.sale_price }}</td>
+              <td>{{ d.quantity }}</td>
+              <td>{{ d.total_price }}</td>
+            </tr>
+          {%endfor%}
+
+        </table>
+        <p class="line">&nbsp;</p>
+        <p>总数: {{ order.items_count }}</p>
+        <p>快递: ¥{{ order.freight }}</p>
+        <p>合计: ¥{{ order.total_money }}</p>
+        <p class="line">&nbsp;</p>
+        <p>优惠: ¥{{ order.discount_money }}</p>
+        <p>应付: ¥{{ order.pay_money }}</p>
+        <p>实收: ¥{{ order.pay_money }}</p>
+      </div>
+
+    </div>
+
+  </body>
+</html>
+
