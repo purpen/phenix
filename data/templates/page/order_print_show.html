@@ -6,11 +6,20 @@
     <style class="text/css">
       html, body {
         background-color: #fff;
+        font-size: 12px;
+      }
+
+      p {
+        font-size: 12px;
+        line-height: 0.5;
       }
 
       .order-box {
         width: 100%;
-        padding: 5px;
+      }
+
+      .order-box h2 {
+        font-size: 20px;
       }
 
       .product-list {
@@ -48,9 +57,9 @@
           {% for d in order.products %}
             <tr>
               <td>{{ d.short_title }}({{ d.sku_mode }})</td>
-              <td>{{ d.sale_price }}</td>
+              <td>¥{{ d.sale_price }}</td>
               <td>{{ d.quantity }}</td>
-              <td>{{ d.total_price }}</td>
+              <td>¥{{ d.total_price }}</td>
             </tr>
           {%endfor%}
 
