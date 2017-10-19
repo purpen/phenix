@@ -30,6 +30,10 @@
         border-bottom: 1px dashed #000;
       }
 
+      tr th, tr td {
+        text-align: left;
+      }
+
       .line {
         border-bottom: 1px dashed #000;
       }
@@ -73,6 +77,8 @@
         <p>优惠: ¥{{ order.discount_money }}</p>
         <p>应付: ¥{{ order.pay_money }}</p>
         <p>实收: ¥{{ order.pay_money }}</p>
+        <p class="line">&nbsp;</p>
+        <p style="text-align: center;">谢谢惠顾，欢迎下次光临!</p>
       </div>
 
     </div>
