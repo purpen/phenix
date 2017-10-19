@@ -1106,6 +1106,7 @@ class Sher_App_Action_Shop extends Sher_App_Action_Base implements DoggyX_Action
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+
 	/**
 	 * 编辑器参数
 	 */

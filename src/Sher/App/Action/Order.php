@@ -131,6 +131,7 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
                 $product = $product_model->extend_load($item['product_id']);
                 if(empty($product)) continue;
                 $row['_id'] = $product['_id'];
+                $row['sku'] = $item['sku'];
                 $row['titile'] = $product['title'];
                 $row['short_title'] = $product['short_title'];
                 $row['cover_url'] = $product['cover']['thumbnails']['mini']['view_url'];
@@ -184,6 +185,177 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
         $result['size'] = $size;
         
         return $this->ajax_json('success', false, '', $result);
+    }
+
+    /**
+     * 打印订单列表
+     */
+    public function print_order_list(){
+      return $this->to_html_page("page/order_print_list.html");
+    }
+
+    /**
+     * 打印订单详情
+     */
+    public function order_print_show() {
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数!', 3001);
+        }
+
+        $target_record_model = new Sher_Core_Model_TargetRecord();
+        $target_record = $target_record_model->load($id);
+        if(empty($target_record)){
+            return $this->ajax_json('内容不存在!', 3002);
+        }
+        // 更新已读状态
+        if($target_record['status'] == 0) {
+            $target_record_model->update_set($id, array('status'=>1));
+        }
+        $orders_model = new Sher_Core_Model_Orders();
+        $product_model = new Sher_Core_Model_Product();
+        $inventory_model = new Sher_Core_Model_Inventory();
+
+        $order = $orders_model->find_by_rid($target_record['target_id']);
+        if(!$order){
+            return $this->ajax_json('订单不存在!', 3003);           
+        }
+        $order = $orders_model->extended_model_row($order);
+        $order['created_at'] = date('Y-m-d H:i:s', $order['created_on']);
+        $order['products'] = array();
+        for($j = 0; $j<count($order['items']); $j++) {
+          $item = $order['items'][$j];
+          $row = array();
+          $product = $product_model->extend_load($item['product_id']);
+          if(empty($product)) continue;
+          $row['_id'] = $product['_id'];
+          $row['title'] = $product['title'];
+          $row['short_title'] = $product['short_title'];
+          $row['cover_url'] = $product['cover']['thumbnails']['mini']['view_url'];
+          $row['sale_price']= $item['sale_price'];
+          $row['sku_mode'] = '默认';
+          $row['sku'] = $row['_id'];
+
+          if($item['sku'] != $item['product_id']){
+            $inventory = $inventory_model->load($item['sku']);
+            if($inventory){
+              $row['sku_mode'] = $inventory['mode'];
+              $row['sku'] = $inventory['_id'];
+            }
+          }
+          $row['quantity'] = $item['quantity'];
+          $row['total_price'] = $item['sale_price'] * $item['quantity'];
+          array_push($order['products'], $row);
+        } // endfor
+
+        $this->stash['order'] = $order;
+
+        return $this->to_html_page("page/order_print_show.html");
+    }
+
+    /**
+     * 自动加载获取打印订单
+     */
+    public function ajax_order_print_list(){
+        
+        $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+        $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+        $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 1;
+        $status = isset($this->stash['status']) ? (int)$this->stash['status'] : 0;
+        
+        $query = array('type' => $type);
+        $options = array('page'=>$page,'size'=>$size, 'sort'=>array('created_on'=>-1));
+
+		    $target_record_model = new Sher_Core_Model_TargetRecord();
+        $orders_model = new Sher_Core_Model_Orders();
+        $product_model = new Sher_Core_Model_Product();
+        $inventory_model = new Sher_Core_Model_Inventory();
+
+        $list = $target_record_model->find($query, $options);
+        $data = array();
+        for($i=0; $i<count($list); $i++) {
+          $data[$i] = $list[$i];
+          $data[$i]['_id'] = (string)$list[$i]['_id'];
+          $data[$i]['is_read'] = $list[$i]['status'] == 0 ? true : false;
+          $order_item = array();
+          $order = $orders_model->find_by_rid($list[$i]['target_id']);
+          if($order){
+            $order = $orders_model->extended_model_row($order);
+            $order['created_at'] = date('Y/m/d', $order['created_on']);
+            $order['is_ipad_storage'] = $order['from_site'] == 11 ? true : false;
+            $order['is_trade'] = !empty($order['trade_site_name']) ? true : false;
+            if($order['referral_code']) {
+              $order['is_referral'] = true;
+            }else{
+              $order['is_referral'] = false;
+            }
+            if($order['card_code']) {
+              $order['is_card'] = true;
+            }else{
+              $order['is_card'] = false;
+            }
+            if($order['gift_code']) {
+              $order['is_gift'] = true;
+            }else{
+              $order['is_gift'] = false;           
+            }
+            $order['products'] = array();
+            for($j = 0; $j<count($order['items']); $j++) {
+              $item = $order['items'][$j];
+              $row = array();
+              $product = $product_model->extend_load($item['product_id']);
+              if(empty($product)) continue;
+              $row['_id'] = $product['_id'];
+              $row['title'] = $product['title'];
+              $row['short_title'] = $product['short_title'];
+              $row['cover_url'] = $product['cover']['thumbnails']['mini']['view_url'];
+              $row['wap_view_url'] = $product['wap_view_url'];
+              $row['sale_price']= $item['sale_price'];
+              $row['sku_mode'] = '默认';
+              $row['sku'] = $row['_id'];
+
+              if($item['sku'] != $item['product_id']){
+                $inventory = $inventory_model->load($item['sku']);
+                if($inventory){
+                  $row['sku_mode'] = $inventory['mode'];
+                  $row['sku'] = $inventory['_id'];
+                }
+              }
+              $row['quantity'] = $item['quantity'];
+              array_push($order['products'], $row);
+            } // endfor
+            $order_item = $order;
+          }
+          $data[$i]['order'] = $order_item;
+          
+        } // endfor
+
+        $result['rows'] = $data;
+        $result['type'] = $type;
+        $result['page'] = $page;
+        $result['sort'] = $sort;
+        $result['size'] = $size;
+        
+        return $this->ajax_json('success', false, '', $result);
+    }
+
+    /**
+     * 删除订单记录
+     */
+    public function del_order_print() {
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数!', 3001);
+        }
+
+		    $target_record_model = new Sher_Core_Model_TargetRecord();
+        $ok = $target_record_model->remove($id);
+
+        if(!$ok){
+            return $this->ajax_json('删除失败!', 3002);        
+        }
+        return $this->ajax_json('success', 0, array('id'=>$id));
     }
 
 

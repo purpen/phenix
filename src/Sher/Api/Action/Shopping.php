@@ -2826,6 +2826,39 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
         return $this->api_json('success', 0, array('freight'=>$freight, 'rid'=>$rid));
     }
 
+    /**
+     * 打印订单
+     */
+    public function print_order() {
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+		    $user_id = $this->current_user_id;
+        if(empty($rid)){
+            return $this->api_json('缺少请求参数!', 3001);
+        }
+		    $model = new Sher_Core_Model_Orders();
+		    $order_info = $model->find_by_rid($rid);
+        if(empty($order_info)){
+            return $this->api_json('订单不存在!', 3002);
+        }
+
+		    $target_record_model = new Sher_Core_Model_TargetRecord();
+        $has_one = $target_record_model->first(array('target_id'=>$rid, 'type'=>1));
+        if($has_one){
+            return $this->api_json('不能重复添加!', 3003);       
+        }
+        $data = array(
+          'target_id' => $rid,
+          'type' => 1,
+          'user_id' => $user_id,
+          'status' => 0,
+        );
+        $ok = $target_record_model->save($data);
+        if(!$ok){
+            return $this->api_json('添加失败!', 3004);        
+        }
+        return $this->api_json('success', 0, array('rid'=>$rid));
+    }
+
 	
 }
 

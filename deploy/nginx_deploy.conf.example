@@ -97,6 +97,10 @@ server {
     location /wxpay {
         rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
     }
+
+    location /order {
+        rewrite ^/order(.*)$ /app/wap/order$1 last;
+    }
 	
     location /pay {
 		rewrite ^/pay(.*)$ /app/wap/pay$1 last;
@@ -346,6 +350,9 @@ server {
 		
         location /wxpay {
             rewrite ^/wxpay(.*)$ /app/site/wxpay$1 last;
+        }
+        location /order {
+            rewrite ^/order(.*)$ /app/site/order$1 last;
         }
         location /alipay {
             rewrite ^/alipay(.*)$ /app/site/alipay$1 last;

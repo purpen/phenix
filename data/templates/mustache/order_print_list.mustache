@@ -1,0 +1,88 @@
+{{#rows}}
+
+  <div id="order-{{ _id }}" class="order-item">
+    <div class="ui top attached header">
+      <div class="ui horizontal divided list">
+          <div class="item {{#is_read}}red-point{{/is_read}}">
+             订单号：{{ order.rid }}
+          </div>
+          <div class="item">
+          {{ order.express_info.name }} 
+          </div>
+          <div class="item">
+              下单时间：{{ order.created_at }}
+          </div>
+          <div class="item">
+            来源: {{ order.from_site_label }} 
+            {{#order.is_ipad_storage}}
+              [{{ order.storage_id }}]
+            {{/order.is_ipad_storage}}
+          </div>
+      </div>
+    </div>
+    <div class="middle aligned ui celled white grid">
+      <div class="row">
+        <div class="seven wide column">
+          <table class="ui basic table">
+            <tbody>
+              {{#order.products}}
+              <tr>
+                <td>
+                  <a href="{{ view_url }}" class="ui cover image" target="_blank">
+                        <img src="{{ cover_url }}" alt="{{ title }}" />
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="header">
+                      <a href="{{ view_url }}" class="ui link">{{ title }} ({{ sku_mode }})</a>&nbsp;&nbsp;x {{ quantity }}
+                    </div>
+                    <p class="attribute">编号：{{ sku }}</p>
+                  </div>
+                </td>
+              </tr>
+              {{/order.products}}
+            </tbody>
+          </table>
+        </div>
+        <div class="center aligned three wide column">
+          <p>
+            订单金额：{{ order.pay_money }} 元
+          </p>
+          <p>
+            <small>（运费：{{ order.freight }} 元/优惠：{{ order.discount_money }} 元）</small>
+          </p>
+          {{#order.is_card}}
+            <p>红包码: {{ order.card_code }}</p>
+          {{/order.is_card}}
+          {{#order.is_gift}}
+            <p>礼品券: {{ order.gift_code }}</p>
+          {{/order.is_gift}}
+          {{#order.is_referral}}
+            <p>推广码: {{ order.referral_code }}</p>
+          {{/order.is_referral}}
+        </div>
+        <div class="center aligned three wide column">
+          <div id="order-{{ order.rid }}-label" class="status-label">
+            <p>
+            状态: {{ order.status_label }}
+            </p>
+            {{#order.is_trade}}
+            <p>
+              支付方式: {{ order.trade_site_name }}
+            </p>
+            {{/order.is_trade}}
+          </div>
+        </div>
+        <div class="center aligned three wide column">
+          <div class="status-label">
+            <a href="javascript:void(0);" data-id="{{ _id }}" class="ui link view_btn">打印</a>
+            <a href="javascript:void(0);" data-id="{{ _id }}" class="ui link del-btn">删除</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{{/rows}}
