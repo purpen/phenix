@@ -7,6 +7,7 @@
       html, body {
         background-color: #fff;
         font-size: 10px;
+        font-weight: 300;
       }
 
       p {
@@ -28,9 +29,10 @@
       }
       .product-list .head {
         border-bottom: 1px dashed #000;
+        font-weight: 400;
       }
 
-      tr th, tr td {
+      tr td {
         text-align: left;
       }
 
@@ -54,10 +56,10 @@
         <p>&nbsp;</p>
         <table class="product-list">
           <tr class="head">
-            <th>商品名称</th>
-            <th>单价</th>
-            <th>数量</th>
-            <th>金额</th>
+            <td>商品名称</td>
+            <td>单价</td>
+            <td>数量</td>
+            <td>金额</td>
           </tr>
           {% for d in order.products %}
             <tr>

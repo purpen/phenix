@@ -40,7 +40,7 @@ $html .= '<rss version="2.0">'."\n";
 $html .= '<channel>'."\n";
 $html .= '<title>太火鸟</title>'."\n";
 $html .= '<link>http://www.taihuoniao.com</link>'."\n";
-$html .= '<description>太火鸟是中国火爆的一条龙服务式智能硬件孵化平台。太火鸟致力于帮助设计师和创意者实现商业价值，开启一个全新的众包设计时代，全力打造一个完美的智能硬件创意生态系统。</description>'."\n";
+$html .= '<description>太火鸟科技是中国创新产品策源地，是基于人工智能的产品创新引擎和智能分发SaaS平台。全力打造科技美学创新产品的新消费生态。</description>'."\n";
 
 for($i=0;$i<count($list);$i++){
   $obj = $list[$i];
