@@ -38,7 +38,7 @@ $html = '';
 $html .= '<?xml version="1.0" encoding="utf-8"?>'."\n";
 $html .= '<rss version="2.0">'."\n";
 $html .= '<channel>'."\n";
-$html .= '<title>太火鸟</title>'."\n";
+$html .= '<title>太火鸟-中国创新产品策源地</title>'."\n";
 $html .= '<link>http://www.taihuoniao.com</link>'."\n";
 $html .= '<description>太火鸟科技是中国创新产品策源地，是基于人工智能的产品创新引擎和智能分发SaaS平台。全力打造科技美学创新产品的新消费生态。</description>'."\n";
 
