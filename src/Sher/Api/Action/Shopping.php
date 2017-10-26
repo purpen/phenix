@@ -793,7 +793,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           $app_snatched_product_id = $product['_id'];
         }
 
-      } //endfor
+      } //endfor太火鸟
 
 			// 商品金额
 			$order_info['total_money'] = $total_money;
@@ -1803,7 +1803,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
       $action_name = 'payment';
     }
 
-    if($pay_type == 1){
+    if($pay_type == 1){ // APP支付
       switch($payaway){
         case 'alipay':
           $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], $action_name, $user_id, $rid, $uuid, $ip, $random);
@@ -1818,7 +1818,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json('找不到支付类型！', 3005);
           break;
       }   
-    }else{
+    }elseif($pay_type == 2){  // 扫码支付
       switch($payaway){
         case 'alipay':
           $pay_url = sprintf("%s/alipay/%s?user_id=%d&rid=%d&uuid=%s&ip=%s&r=%s", Doggy_Config::$vars['app.url.api'], 'scan_fiu_payment', $user_id, $rid, $uuid, $ip, $random);
@@ -1833,6 +1833,27 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json('找不到支付类型！', 3005);
           break;
       }
+    }elseif($pay_type == 3){  // 现金支付
+      $model = new Sher_Core_Model_Orders();
+      $order_info = $model->find_by_rid($rid);
+
+      if(empty($order_info)){
+          return $this->api_json('订单不存在!', 3011);
+      }
+      // 检查是否具有权限
+      if ($order_info['user_id'] != $user_id) {
+          return $this->api_json('操作不当，你没有权限！', 3012);
+      }
+      // 检查订单状态是否是待支付
+      if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS) {
+          return $this->api_json('订单状态不正确！', 3013);
+      }
+      // 更改订单支付方式为现金支付
+      $ok = $model->update_set((string)$order_info['_id'], array('trade_site'=>Sher_Core_Util_Constant::TRADE_CASH));
+      if(!$ok){
+        return $this->api_json('订单状态更改失败！', 3014);
+      }
+		  return $this->api_json('请求成功', 0, array('rid'=>$rid));
     }
 
     return $this->to_redirect($pay_url); 

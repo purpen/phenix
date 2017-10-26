@@ -110,6 +110,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const TRADE_WEIXIN = 3;
 	const TRADE_TENPAY = 4;
 	const TRADE_JDPAY = 5;
+  const TRADE_CASH = 9;
 	
 	
 	# 临时订单过期时间， 10小时
