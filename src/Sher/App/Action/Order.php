@@ -30,10 +30,15 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
         $type = isset($this->stash['type']) ? (int)$this->stash['type'] : 0;
         $user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
 		$status = isset($this->stash['status']) ? (int)$this->stash['status'] : 0;
+		$storage_id  = isset($this->stash['storage_id']) ? (int)$this->stash['storage_id'] : 0;
         
         $query = array();
 
-        $query['user_id'] = $this->visitor->id;
+        if(empty($storage_id)){
+            $query['user_id'] = $this->visitor->id;
+        }else{
+            $query['storage_id'] = $storage_id;
+        }
 
         $query['deleted'] = 0;
 		
@@ -85,8 +90,8 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
 
         //限制输出字段
 		$some_fields = array(
-			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1,
-			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1,
+			'_id'=>1, 'rid'=>1, 'items'=>1, 'items_count'=>1, 'total_money'=>1, 'pay_money'=>1, 'trade_site'=>1,
+			'card_money'=>1, 'coin_money'=>1, 'freight'=>1, 'discount'=>1, 'user_id'=>1, 'referral_code'=>1, 'storage_id'=>1,
 			'express_info'=>1, 'invoice_type'=>1, 'invoice_caty'=>1, 'invoice_title'=>1, 'invoice_content'=>1,
 			'payment_method'=>1, 'express_caty'=>1, 'express_no'=>1, 'sended_date'=>1,'card_code'=>1, 'is_presaled'=>1,
             'expired_time'=>1, 'from_site'=>1, 'status'=>1, 'gift_code'=>1, 'bird_coin_count'=>1, 'bird_coin_money'=>1,
@@ -117,13 +122,37 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
             $obj = $result['rows'][$i];
 
             foreach($some_fields as $key=>$value){
-				$data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
-			}
+				        $data[$i][$key] = isset($obj[$key]) ? $obj[$key] : null;
+			      }
 
             $data[$i]['_id'] = (string)$data[$i]['_id'];
 
             // 创建时间格式化 
             $data[$i]['created_at'] = date('Y/m/d', $result['rows'][$i]['created_on']);
+
+            $data[$i]['is_ipad_storage'] = $data[$i]['from_site'] == 11 ? true : false;
+            $data[$i]['is_trade'] = !empty($data[$i]['trade_site_name']) ? true : false;
+            if($data[$i]['referral_code']) {
+              $data[$i]['is_referral'] = true;
+            }else{
+              $data[$i]['is_referral'] = false;
+            }
+            if($data[$i]['card_code']) {
+              $data[$i]['is_card'] = true;
+            }else{
+              $data[$i]['is_card'] = false;
+            }
+            if($data[$i]['gift_code']) {
+              $data[$i]['is_gift'] = true;
+            }else{
+              $data[$i]['is_gift'] = false;           
+            }
+            if((isset($data[$i]['trade_site']) && $data[$i]['trade_site'] == Sher_Core_Util_Constant::TRADE_CASH) && $data[$i]['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+               $data[$i]['sure_cash_payed'] = true;
+            }else{
+               $data[$i]['sure_cash_payed'] = false;
+            }
+
             $data[$i]['products'] = array();
             for($j=0;$j<count($data[$i]['items']);$j++){
                 $item = $data[$i]['items'][$j];
@@ -192,6 +221,25 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
      */
     public function print_order_list(){
       return $this->to_html_page("page/order_print_list.html");
+    }
+
+    /**
+     * 店铺下所有订单列表
+     */
+    public function store_order_list(){
+      $user_id = $this->visitor->id;
+      $user_model = new Sher_Core_Model_User();
+      $user = $user_model->load($user_id);
+
+      $redirect_url = Doggy_Config::$vars['app.url.domain'];
+      if(empty($user)){
+          return $this->show_message_page('用户不存在！', $redirect_url);
+      }
+      if(empty($user['identify']['storage_id'])){
+        return $this->show_message_page('没有权限查看！', $redirect_url);     
+      }
+      $this->stash['storage_id'] = $user['identify']['storage_id'];
+      return $this->to_html_page("page/order_store_list.html");
     }
 
     /**
@@ -356,6 +404,50 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
             return $this->ajax_json('删除失败!', 3002);        
         }
         return $this->ajax_json('success', 0, array('id'=>$id));
+    }
+
+    /**
+     * 确认用户现金已结账
+     */
+    public function sure_cash_payed() {
+        $rid = isset($this->stash['rid']) ? $this->stash['rid'] : null;
+        if(empty($rid)){
+            return $this->ajax_json('缺少请求参数!', 3001);
+        }
+        $user_id = $this->visitor->id;
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->load($user_id);
+
+        if(empty($user)){
+            return $this->ajax_json('删除失败!', 3002); 
+        }
+        if(empty($user['identify']['storage_id'])){
+            return $this->ajax_json('请使用店铺账号操作!', 3003);   
+        }
+
+		    $order_model = new Sher_Core_Model_Orders();
+        $order = $order_model->find_by_rid($rid);
+        if((string)$user['identify']['storage_id'] != (string)$order['storage_id']){
+            return $this->ajax_json('没有权限!', 3004);         
+        }
+
+        if((isset($order['trade_site']) && $order['trade_site'] == Sher_Core_Util_Constant::TRADE_CASH) && $order['status'] == Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT){
+            // 是否是自提订单
+            $delivery_type = isset($order['delivery_type']) ? $order['delivery_type'] : 1;
+            $new_status = Sher_Core_Util_Constant::ORDER_READY_GOODS;
+            if($delivery_type == 2){
+                $new_status = Sher_Core_Util_Constant::ORDER_EVALUATE;
+            }
+            // 更新订单状态
+            $ok = $order_model->update_order_payment_info((string)$order['_id'], '', $new_status, Sher_Core_Util_Constant::TRADE_CASH, array('user_id'=>$order['user_id']));
+            if(!$ok){
+                return $this->ajax_json('更新订单状态失败!', 3005);            
+            }
+        }else{
+            return $this->ajax_json('订单状态不正确!', 3006);  
+        }
+
+        return $this->ajax_json('success', 0, array('rid'=>$rid));
     }
 
 

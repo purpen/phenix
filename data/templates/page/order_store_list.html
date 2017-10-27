@@ -1,5 +1,5 @@
 {%extends 'layout/column.html'%}
-{% block title %}订单打印列表-{% endblock %}
+{% block title %}订单列表-{% endblock %}
 {% block page_css %}
 <style class="text/css">
 
@@ -23,8 +23,8 @@
 <script type="text/javascript" >
     var page = 1;
     function load_orders(){
-        var url = '{{ app_url_domain }}/order/ajax_order_print_list';
-        $.get(url, { page: 1, size: 100, type: 1 }, function(rs){
+        var url = '{{ app_url_domain }}/order/ajax_fetch_more';
+        $.get(url, { page: 1, size: 100, type: 1, storage_id: "{{ storage_id }}" }, function(rs){
             if(rs.data.rows.length == 0) {
             $('#order-box').html('<div class="ui segment"><p>您还没有相关订单</p></div>');
               return;
@@ -32,7 +32,7 @@
 
             console.log(rs.data);
             rs.data['phenix'] = phenix.url;
-            var rendered = phenix.ajax_render_result('#order_print_list_tpl', rs.data);
+            var rendered = phenix.ajax_render_result('#order_list_tpl', rs.data);
             if(page==1){
                 $('#order-box').html(rendered);
             }else{
@@ -49,33 +49,22 @@
   // 定时加载
   setInterval(load_orders, 10000);
 
-  // 删除记录
-  $('.del-btn').livequery(function(){
+  // 确认已收到现金
+  $('.sure_cash_payed_btn').livequery(function(){
     $(this).click(function(){
-      var id = $(this).data('id');
-      var url = '{{ app_url_domain }}/order/del_order_print';
-      $.get(url, { id: id }, function(rs){
+      var rid = $(this).data('rid');
+      var url = '{{ app_url_domain }}/order/sure_cash_payed';
+      $.get(url, { rid: rid }, function(rs){
         if(!rs.success){
           phenix.show_error_note(rs.message);
           return false;
         }
-        $('#order-'+id).remove();
+        phenix.show_ok_note('操作成功！');
+        $('#order-'+rid).find('.sure_cash_payed_btn').hide();
       }, 'json');
     });
 	});
 
-  // 打开预览页面
-  $('.view_btn').livequery(function(){
-    $(this).click(function(){
-      var id = $(this).data('id');
-      var getParamsOfShareWindow = function(width, height) {
-        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
-      }
-      var url = '{{ app_url_domain }}/order/order_print_show?id=' + id;
-      var params = getParamsOfShareWindow(607, 523);
-      window.open(url, 'D3IN', params);
-    });
-	});
 {% endblock %}
 {% block content %}
 <div class="section breadcrumb">
@@ -87,7 +76,7 @@
 						<i class="home icon"></i> 首页
 					</a>
 					<i class="angle right icon divider"></i>
-					<div class="active section">订单打印列表</div>
+					<div class="active section">订单列表</div>
 				</div>
 			</div>
 		</div>
@@ -102,7 +91,7 @@
 			<div class="ui middle aligned grid">
 				<div class="row">
 					<div class="three wide column">
-						<h2 class="ui header">订单打印列表</h2>
+						<h2 class="ui header">订单列表</h2>
 					</div>
 				</div>
 			</div>
@@ -112,15 +101,7 @@
 	</div>
 </div>
 
-<div class="ui small modal order-box">
-  <i class="close icon"></i>
-  <div class="header">打印购物清单</div>
-  <div class="content">
-    <div id="print-box"><h1>测试打印购物清单</h1></div>
-  </div>
-</div>
-
 {% endblock %}
 {% block templates %}
-  {% mustache id:'order_print_list_tpl' tpl:'mustache/order_print_list.mustache' %}
+  {% mustache id:'order_list_tpl' tpl:'mustache/order_list.mustache' %}
 {% endblock %}

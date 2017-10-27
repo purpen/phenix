@@ -1,0 +1,89 @@
+{{#rows}}
+
+  <div id="order-{{ rid }}" class="order-item">
+    <div class="ui top attached header">
+      <div class="ui horizontal divided list">
+          <div class="item">
+             订单号：{{ rid }}
+          </div>
+          <div class="item">
+          {{ express_info.name }} 
+          </div>
+          <div class="item">
+              下单时间：{{ created_at }}
+          </div>
+          <div class="item">
+            来源: {{ from_site_label }} 
+            {{#is_ipad_storage}}
+              [{{ storage_id }}]
+            {{/is_ipad_storage}}
+          </div>
+      </div>
+    </div>
+    <div class="middle aligned ui celled white grid">
+      <div class="row">
+        <div class="seven wide column">
+          <table class="ui basic table">
+            <tbody>
+              {{#products}}
+              <tr>
+                <td>
+                  <a href="{{ view_url }}" class="ui cover image" target="_blank">
+                        <img src="{{ cover_url }}" alt="{{ title }}" />
+                  </a>
+                </td>
+                <td>
+                  <div class="content">
+                    <div class="header">
+                      <a href="{{ view_url }}" class="ui link">{{ title }} ({{ sku_mode }})</a>&nbsp;&nbsp;x {{ quantity }}
+                    </div>
+                    <p class="attribute">编号：{{ sku }}</p>
+                  </div>
+                </td>
+              </tr>
+              {{/products}}
+            </tbody>
+          </table>
+        </div>
+        <div class="center aligned three wide column">
+          <p>
+            订单金额：{{ pay_money }} 元
+          </p>
+          <p>
+            <small>（运费：{{ freight }} 元/优惠：{{ discount_money }} 元）</small>
+          </p>
+          {{#is_card}}
+            <p>红包码: {{ card_code }}</p>
+          {{/is_card}}
+          {{#is_gift}}
+            <p>礼品券: {{ gift_code }}</p>
+          {{/is_gift}}
+          {{#is_referral}}
+            <p>推广码: {{ referral_code }}</p>
+          {{/is_referral}}
+        </div>
+        <div class="center aligned three wide column">
+          <div id="order-{{ rid }}-label" class="status-label">
+            <p>
+            状态: {{ status_label }}
+            </p>
+            {{#is_trade}}
+            <p>
+              支付方式: {{ trade_site_name }}
+            </p>
+            {{/is_trade}}
+          </div>
+        </div>
+        <div class="center aligned three wide column">
+          <div class="status-label">
+            {{#sure_cash_payed}}
+              <a href="javascript:void(0);" data-rid="{{ rid }}" class="ui link sure_cash_payed_btn">确认已收款</a>
+            {{/sure_cash_payed}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{{/rows}}
