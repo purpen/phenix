@@ -16,6 +16,39 @@
       left: 0%;
       margin-left: -10px;
     }
+
+    .print-box {
+      width: 100%;
+      background-color: #fff;
+      font-size: 10px;
+      font-weight: 300;
+    }
+
+    .print-box h2 {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .print-box p {
+      font-size: 10px;
+      line-height: 0.5;
+    }
+
+    .product-list {
+    
+    }
+    .product-list .head {
+      border-bottom: 1px dashed #000;
+      font-weight: 400;
+    }
+
+    tr td {
+      text-align: left;
+    }
+
+    .line {
+      border-bottom: 1px dashed #000;
+    }
     
 </style>
 {% endblock %}
@@ -101,7 +134,7 @@
         }
 
         var html = '';
-        html += '<div class="order-box">';
+        html += '<div class="print-box">';
         html += '<h2>D3IN</h2>';
         html += '<div class="order">';
         html += '<p>销售单号: ' + rs.data.rid + '</p>';
