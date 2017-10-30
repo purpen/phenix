@@ -359,6 +359,32 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
     }
 
     /**
+     * 打印订单详情
+     */
+    public function update_print_status() {
+        $id = isset($this->stash['id']) ? $this->stash['id'] : null;
+        if(empty($id)){
+            return $this->ajax_json('缺少请求参数!', 3001);
+        }
+
+        $target_record_model = new Sher_Core_Model_TargetRecord();
+        $target_record = $target_record_model->load($id);
+        if(empty($target_record)){
+            return $this->ajax_json('内容不存在!', 3002);
+        }
+        // 更新已读状态
+        if($target_record['status'] != 0) {
+            return $this->ajax_json('状态不正确!', 3003);
+        }
+        $ok = $target_record_model->update_set($id, array('status'=>1));
+        if(!$ok){
+            return $this->ajax_json('更新打印状态失败!', 3004);       
+        }
+
+        return $this->ajax_json('success', false, '', array('id'=>$id));
+    }
+
+    /**
      * 自动加载获取打印订单
      */
     public function ajax_order_print_list(){

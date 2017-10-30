@@ -31,6 +31,20 @@
               return;
             }
 
+            // 自动打印
+            for(var i = 0; i < rs.data.rows.length; i++){
+                var item = rs.data.rows[i];
+                if(item.is_read) {
+                    $.get('{{ app_url_domain }}/order/update_print_status', {id: item._id}, function(r){
+                        if(r.success){
+                            // 开始打印
+                            print_order(r.data.id);
+                        }
+                    }, 'json')
+                }
+            
+            }
+
             console.log(rs.data);
             rs.data['phenix'] = phenix.url;
             var rendered = phenix.ajax_render_result('#order_print_list_tpl', rs.data);
@@ -42,7 +56,69 @@
         }, 'json');
     }
 
-  var LODOP;
+  // 打印
+    function print_order(id){
+      var url = '{{ app_url_domain }}/order/ajax_order_print_show';
+
+      $.get(url, { id: id }, function(rs){
+        if(!rs.success){
+          phenix.show_error_note(rs.message);
+          return false;
+        }
+
+        var html = '';
+        html += '<div class="print-box" style="width: 100%;background-color: #fff;font-size: 10px;font-weight: 300;" >';
+        html += '<h2 style="text-align: center;font-size: 13px;">D3IN</h2>';
+        html += '<div class="order">';
+        html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">销售单号: ' + rs.data.rid + '</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">交易时间: ' + rs.data.created_at + '</p>';
+        // html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<table style="width: 100%;">';
+        html += '<tr style="border-bottom: 1px dashed #000;font-weight: 400;">';
+        html += '<th>商品名称</th>';
+        html += '<th>单价</th>';
+        html += '<th>数量</th>';
+        html += '<th>金额</th>';
+        html += '</tr>';
+        
+        for(var i = 0; i < rs.data.products.length; i++){
+          html += '<tr>';
+          html += '<td style="text-align: left;">' + rs.data.products[i].short_title + '('+ rs.data.products[i].sku_mode +')</td>';
+          html += '<td style="text-align: left;">¥'+ rs.data.products[i].sale_price +'</td>';
+          html += '<td style="text-align: left;">'+ rs.data.products[i].quantity +'</td>';
+          html += '<td style="text-align: left;">¥'+ rs.data.products[i].total_price +'</td>';
+          html += '</tr>';
+        } // endfor
+
+        html += '</table>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">总数: '+ rs.data.items_count +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">快递: ¥'+ rs.data.freight +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">合计: ¥'+ rs.data.total_money +'</p>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">优惠: ¥'+ rs.data.discount_money +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">应付: ¥'+ rs.data.pay_money +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">实收: ¥'+ rs.data.pay_money +'</p>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="text-align: center;">谢谢惠顾，欢迎下次光临!</p>';
+        html += '</div>';
+        html += '<div style="height: 20px;"></div>';
+        html += '</div>';
+
+
+        LODOP=getCLodop();
+        LODOP.PRINT_INIT("D3IN");
+
+        LODOP.SET_PRINT_PAGESIZE(3, 580, 45, '');
+        LODOP.ADD_PRINT_HTM("10mm", "1mm", "RightMargin:1mm", "BottomMargin:10mm", html);
+        
+        LODOP.PRINT();
+    
+      }, 'json');
+    }
+
+    var LODOP;
 
 </script>
 {% endblock %}
@@ -91,67 +167,7 @@
   $('.view_btn').livequery(function(){
     $(this).click(function(){
       var id = $(this).data('id');
-
-      var url = '{{ app_url_domain }}/order/ajax_order_print_show';
-
-      $.get(url, { id: id }, function(rs){
-        if(!rs.success){
-          phenix.show_error_note(rs.message);
-          return false;
-        }
-
-
-        var html = '';
-        html += '<div class="print-box" style="width: 100%;background-color: #fff;font-size: 10px;font-weight: 300;" >';
-        html += '<h2 style="text-align: center;font-size: 12px;">D3IN</h2>';
-        html += '<div class="order">';
-        html += '<p style="font-size: 10px;line-height: 0.5;">销售单号: ' + rs.data.rid + '</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">交易时间: ' + rs.data.created_at + '</p>';
-        // html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
-        html += '<table style="width: 100%;">';
-        html += '<tr style="border-bottom: 1px dashed #000;font-weight: 400;">';
-        html += '<th>商品名称</th>';
-        html += '<th>单价</th>';
-        html += '<th>数量</th>';
-        html += '<th>金额</th>';
-        html += '</tr>';
-        
-        for(var i = 0; i < rs.data.products.length; i++){
-          html += '<tr>';
-          html += '<td style="text-align: left;">' + rs.data.products[i].short_title + '('+ rs.data.products[i].sku_mode +')</td>';
-          html += '<td style="text-align: left;">¥'+ rs.data.products[i].sale_price +'</td>';
-          html += '<td style="text-align: left;">'+ rs.data.products[i].quantity +'</td>';
-          html += '<td style="text-align: left;">¥'+ rs.data.products[i].total_price +'</td>';
-          html += '</tr>';
-        } // endfor
-
-        html += '</table>';
-        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">总数: '+ rs.data.items_count +'</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">快递: ¥'+ rs.data.freight +'</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">合计: ¥'+ rs.data.total_money +'</p>';
-        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">优惠: ¥'+ rs.data.discount_money +'</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">应付: ¥'+ rs.data.pay_money +'</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">实收: ¥'+ rs.data.pay_money +'</p>';
-        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
-        html += '<p style="text-align: center;">谢谢惠顾，欢迎下次光临!</p>';
-        html += '</div>';
-        html += '<div style="height: 20px;"></div>';
-        html += '</div>';
-
-
-        LODOP=getCLodop();
-        LODOP.PRINT_INIT("D3IN");
-        //LODOP.SET_PRINT_STYLEA(0,"HOrient",3);
-        //LODOP.SET_PRINT_STYLEA(0,"VOrient",3);
-        //LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
-        //LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
-        LODOP.ADD_PRINT_HTM("1mm", "1mm", "RightMargin:1mm", "BottomMargin:1mm", html);
-        
-        LODOP.PREVIEW();
-
-      }, 'json');
+      print_order(id);
 
     });
 	});
