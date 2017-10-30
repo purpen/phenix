@@ -107,9 +107,14 @@
         html += '<div class="order">';
         html += '<p style="font-size: 10px;line-height: 0.5;">销售单号: ' + rs.data.rid + '</p>';
         html += '<p style="font-size: 10px;line-height: 0.5;">交易时间: ' + rs.data.created_at + '</p>';
-        html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
-        html += '<table class="product-list" style="width: 100%;">';
-        html += '<tr class="head" style="border-bottom: 1px dashed #000;font-weight: 400;"><td>商品名称</td><td>单价</td><td>数量</td><td>金额</td></tr>';
+        // html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<table style="width: 100%;">';
+        html += '<tr style="border-bottom: 1px dashed #000;font-weight: 400;">';
+        html += '<th>商品名称</th>';
+        html += '<th>单价</th>';
+        html += '<th>数量</th>';
+        html += '<th>金额</th>';
+        html += '</tr>';
         
         for(var i = 0; i < rs.data.products.length; i++){
           html += '<tr>';
@@ -132,7 +137,7 @@
         html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
         html += '<p style="text-align: center;">谢谢惠顾，欢迎下次光临!</p>';
         html += '</div>';
-        html += '<div style="height: 10px;"></div>';
+        html += '<div style="height: 20px;"></div>';
         html += '</div>';
 
 
