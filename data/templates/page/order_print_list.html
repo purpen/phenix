@@ -42,10 +42,6 @@
         }, 'json');
     }
 
-    //var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
-    var LODOP=getLodop();
-		LODOP.PRINT_INIT("D3IN");
-
 </script>
 {% endblock %}
 {% block jquery %}
@@ -53,6 +49,9 @@
 	load_orders();
   // 定时加载
   setInterval(load_orders, 10000);
+
+  var LODOP=getLodop();
+	LODOP.PRINT_INIT("D3IN");
 
   // 删除记录
   $('.del-btn').livequery(function(){

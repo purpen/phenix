@@ -10,7 +10,7 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
 	);
 
 	
-	protected $exclude_method_list = array('execute', 'ajax_fetch_more');
+	protected $exclude_method_list = array('execute', 'ajax_fetch_more', 'order_print_show');
 	
 	/**
 	 * 订单
