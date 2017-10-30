@@ -1850,7 +1850,7 @@ class Sher_Api_Action_Shopping extends Sher_Api_Action_Base{
           return $this->api_json('操作不当，你没有权限！', 3012);
       }
       // 检查订单状态是否是待支付
-      if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_READY_GOODS) {
+      if ($order_info['status'] != Sher_Core_Util_Constant::ORDER_WAIT_PAYMENT) {
           return $this->api_json('订单状态不正确！', 3013);
       }
       // 更改订单支付方式为现金支付
