@@ -16,39 +16,6 @@
       left: 0%;
       margin-left: -10px;
     }
-
-    .print-box {
-      width: 100%;
-      background-color: #fff;
-      font-size: 10px;
-      font-weight: 300;
-    }
-
-    .print-box h2 {
-      text-align: center;
-      font-size: 12px;
-    }
-
-    .print-box p {
-      font-size: 10px;
-      line-height: 0.5;
-    }
-
-    .product-list {
-    
-    }
-    .product-list .head {
-      border-bottom: 1px dashed #000;
-      font-weight: 400;
-    }
-
-    tr td {
-      text-align: left;
-    }
-
-    .line {
-      border-bottom: 1px dashed #000;
-    }
     
 </style>
 {% endblock %}
@@ -133,35 +100,43 @@
           return false;
         }
 
+
+            
+      
+            
+      
+      
+      
+
         var html = '';
-        html += '<div class="print-box">';
-        html += '<h2>D3IN</h2>';
+        html += '<div class="print-box" style="width: 100%;background-color: #fff;font-size: 10px;font-weight: 300;" >';
+        html += '<h2 style="text-align: center;font-size: 12px;">D3IN</h2>';
         html += '<div class="order">';
-        html += '<p>销售单号: ' + rs.data.rid + '</p>';
-        html += '<p>交易时间: ' + rs.data.created_at + '</p>';
-        html += '<p>&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">销售单号: ' + rs.data.rid + '</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">交易时间: ' + rs.data.created_at + '</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">&nbsp;</p>';
         html += '<table class="product-list">';
         html += '<tr class="head"><td>商品名称</td><td>单价</td><td>数量</td><td>金额</td></tr>';
         
         for(var i = 0; i < rs.data.products.length; i++){
           html += '<tr>';
-          html += '<td>' + rs.data.products[i].short_title + '('+ rs.data.products[i].sku_mode +')</td>';
-          html += '<td>¥'+ rs.data.products[i].sale_price +'</td>';
-          html += '<td>'+ rs.data.products[i].quantity +'</td>';
-          html += '<td>¥'+ rs.data.products[i].total_price +'</td>';
+          html += '<td style="text-align: left;">' + rs.data.products[i].short_title + '('+ rs.data.products[i].sku_mode +')</td>';
+          html += '<td style="text-align: left;">¥'+ rs.data.products[i].sale_price +'</td>';
+          html += '<td style="text-align: left;">'+ rs.data.products[i].quantity +'</td>';
+          html += '<td style="text-align: left;">¥'+ rs.data.products[i].total_price +'</td>';
           html += '</tr>';
         } // endfor
 
         html += '</table>';
-        html += '<p class="line">&nbsp;</p>';
-        html += '<p>总数: '+ rs.data.items_count +'</p>';
-        html += '<p>快递: ¥'+ rs.data.freight +'</p>';
-        html += '<p>合计: ¥'+ rs.data.total_money +'</p>';
-        html += '<p class="line">&nbsp;</p>';
-        html += '<p>优惠: ¥'+ rs.data.discount_money +'</p>';
-        html += '<p>应付: ¥'+ rs.data.pay_money +'</p>';
-        html += '<p>实收: ¥'+ rs.data.pay_money +'</p>';
-        html += '<p class="line">&nbsp;</p>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">总数: '+ rs.data.items_count +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">快递: ¥'+ rs.data.freight +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">合计: ¥'+ rs.data.total_money +'</p>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">优惠: ¥'+ rs.data.discount_money +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">应付: ¥'+ rs.data.pay_money +'</p>';
+        html += '<p style="font-size: 10px;line-height: 0.5;">实收: ¥'+ rs.data.pay_money +'</p>';
+        html += '<p class="line" style="border-bottom: 1px dashed #000;font-size: 10px;line-height: 0.5;">&nbsp;</p>';
         html += '<p style="text-align: center;">谢谢惠顾，欢迎下次光临!</p>';
         html += '</div>';
         html += '<div style="height: 10px;"></div>';
