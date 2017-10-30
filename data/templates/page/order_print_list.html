@@ -20,6 +20,7 @@
 </style>
 {% endblock %}
 {% block layout_js %}
+<script type="text/javascript" src="https://s3.taihuoniao.com/js/LodopFuncs.js"></script>
 <script type="text/javascript" >
     var page = 1;
     function load_orders(){
@@ -40,6 +41,10 @@
             }
         }, 'json');
     }
+
+    //var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'));
+    var LODOP=getLodop();
+		LODOP.PRINT_INIT("D3IN");
 
 </script>
 {% endblock %}
@@ -72,12 +77,23 @@
         return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
       }
       var url = '{{ app_url_domain }}/order/order_print_show?id=' + id;
-      var params = getParamsOfShareWindow(607, 523);
-      window.open(url, 'D3IN', params);
+
+      LODOP.ADD_PRINT_URL(30,20,746,"95%",url);
+      LODOP.SET_PRINT_STYLEA(0,"HOrient",3);
+      LODOP.SET_PRINT_STYLEA(0,"VOrient",3);
+      //LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
+      //LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
+      LODOP.PREVIEW();
+
+      //var params = getParamsOfShareWindow(607, 523);
+      //window.open(url, 'D3IN', params);
     });
 	});
 {% endblock %}
 {% block content %}
+<object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0> 
+       <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+</object>
 <div class="section breadcrumb">
 	<div class="ui responsive grid">
 		<div class="row">
