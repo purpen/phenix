@@ -161,7 +161,7 @@ class Sher_App_Action_Order extends Sher_App_Action_Base {
                 if(empty($product)) continue;
                 $row['_id'] = $product['_id'];
                 $row['sku'] = $item['sku'];
-                $row['titile'] = $product['title'];
+                $row['title'] = $product['title'];
                 $row['short_title'] = $product['short_title'];
                 $row['cover_url'] = $product['cover']['thumbnails']['mini']['view_url'];
                 $row['wap_view_url'] = $product['wap_view_url'];
