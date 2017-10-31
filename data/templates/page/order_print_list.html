@@ -66,6 +66,7 @@
           return false;
         }
 
+        /**
         var html = '';
         html += '<div class="print-box" style="width: 100%;background-color: #fff;font-size: 10px;font-weight: 300;" >';
         html += '<h2 style="text-align: center;font-size: 16px;font-weight:blod;">D3IN</h2>';
@@ -112,8 +113,50 @@
 
         LODOP.SET_PRINT_PAGESIZE(3, 580, 45, '');
         LODOP.ADD_PRINT_HTM("10mm", "1mm", "RightMargin:1mm", "BottomMargin:10mm", html);
+        **/
+
+        var vTop = 15;
+        var vLeft = 1;
+
+        LODOP=getLodop();  
+        LODOP.PRINT_INIT("D³IN");
+        LODOP.ADD_PRINT_TEXT(vTop,250,100,30,"D³IN");
+        LODOP.SET_PRINT_STYLEA(1,"FontSize",13);
+        LODOP.SET_PRINT_STYLEA(1,"Bold",1);
+        LODOP.ADD_PRINT_TEXT(50,vLeft,100,20,"商品名称/编号");
+        LODOP.SET_PRINT_STYLEA(2,"FontSize",10);
+        LODOP.SET_PRINT_STYLEA(2,"Bold",1);
+        LODOP.ADD_PRINT_TEXT(50,100,100,20,"单价(元)");
+        LODOP.SET_PRINT_STYLEA(3,"FontSize",10);
+        LODOP.SET_PRINT_STYLEA(3,"Bold",1);
+        LODOP.ADD_PRINT_TEXT(50,289,100,20,"数量");
+        LODOP.SET_PRINT_STYLEA(4,"FontSize",10);
+        LODOP.SET_PRINT_STYLEA(4,"Bold",1);
+        LODOP.ADD_PRINT_TEXT(50,409,100,20,"总额(元)");
+        LODOP.SET_PRINT_STYLEA(5,"FontSize",10);
+        LODOP.SET_PRINT_STYLEA(5,"Bold",1);
+        LODOP.ADD_PRINT_LINE(72,14,73,510,0,1);
+
+        var iCurLine=80;//标题行之后的数据从位置80px开始打印
+
+        for(var i = 0; i < rs.data.products.length; i++){
+            LODOP.ADD_PRINT_TEXT(iCurLine,vLeft,580,20,rs.data.products[i].short_title);
+            iCurLine = iCurLine + 20;
+            LODOP.ADD_PRINT_TEXT(iCurLine,149,100,20,rs.data.products[i].sale_price);
+            LODOP.ADD_PRINT_TEXT(iCurLine,289,100,20,rs.data.products[i].quantity);
+            LODOP.ADD_PRINT_TEXT(iCurLine,409,100,20,rs.data.products[i].total_price);
+            iCurLine=iCurLine+25;//每行占25px
+        } // endfor
+
+
+        LODOP.ADD_PRINT_LINE(iCurLine,14,iCurLine,510,0,1);
+        LODOP.ADD_PRINT_TEXT(iCurLine+5,20,300,20,"打印时间："+(new Date()).toLocaleDateString()+" "+(new Date()).toLocaleTimeString());
+        LODOP.ADD_PRINT_TEXT(iCurLine+5,346,150,20,"合计金额："+document.getElementById("HJ").value);				
+        LODOP.SET_PRINT_PAGESIZE(3,1385,45,"");//这里3表示纵向打印且纸高“按内容的高度”；1385表示纸宽138.5mm；45表示页底空白4.5mm
+
         
-        LODOP.PRINT();
+        LODOP.PREVIEW();
+        //LODOP.PRINT();
     
       }, 'json');
     }
