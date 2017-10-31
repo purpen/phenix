@@ -100,8 +100,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		# 是否发布，默认未发布
     	'published' => 0,
       'published_on' => 0,
-		# 是否审核，默认未审核
-    	'verifyed' => 0,
+		# 是否审核，默认审核
+    	'verifyed' => 1,
       'verifyed_on' => 0,
 		# 随机数
 		'random' => 0,

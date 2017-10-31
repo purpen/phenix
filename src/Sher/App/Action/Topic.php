@@ -1182,7 +1182,8 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		
 		$mode = 'create';
 		$data = array();
-    $data['verifyed'] = 0;
+    // 关闭审核状态,默认不审核
+    // $data['verifyed'] = 0;
 		$data['_id'] = $id;
 		$data['title'] = $this->stash['title'];
 		$data['description'] = $this->stash['description'];
