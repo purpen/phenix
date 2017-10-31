@@ -44,6 +44,8 @@ class Sher_Core_Model_Topic extends Sher_Core_Model_Base {
 		'try_id' => 0,
     	# 所属活动
     	'active_id' => 0,
+      # 所属D3in文章ID
+      'd3in_article_id' => 0,
 		
 	    'title' => '',
 		'short_title' => '',
