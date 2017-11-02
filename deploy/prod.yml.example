@@ -238,6 +238,11 @@ app.d3in.vip_money:
   self_year: 3840
   year: 6720
 
+# 铟果文章同步
+app.d3ingo_article_synchro:
+  user_id: 20448
+  category_id: 111
+
 # 临时数据存储目录
 app.storage.tmpdir: '/www/phenix/data/export'
 

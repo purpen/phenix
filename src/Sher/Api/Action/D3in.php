@@ -33,8 +33,8 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         $asset_model = new Sher_Core_Model_Asset();
         $topic = $topic_model->first(array('d3in_article_id'=>$target_id, 'deleted'=>0));
         $topic_id = 0;
-        $user_id = 20448;
-        $category_id = 111;
+        $user_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['user_id'];
+        $category_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['category_id'];
         $asset_id = 0;
         $cover_id = '';
 
