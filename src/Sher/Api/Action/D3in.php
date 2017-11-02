@@ -53,29 +53,27 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         if(empty($topic)){  // 创建
             if($cover_url){
                 // 创建附件
-                $b_file = @file_get_contents($b_url);
+                $b_file = @file_get_contents($cover_url);
                 $arr = Sher_Core_Util_Image::image_info($b_file);
                 if($arr['stat'] != 0){
+                    $asset_model->set_file_content($b_file);
 
-                }
-
-                $asset_model->set_file_content($b_file);
-
-                $img_type = Doggy_Util_File::mime_content_type($handle);
-                $img_info['size'] = filesize($cover_url);
-                $img_info['mime'] = $img_type;
-                $img_info['filename'] = basename($cover_url).'.'.strtolower($arr['format']);
-                $img_info['filepath'] = Sher_Core_Util_Image::gen_path($cover_url, 'topic');
-                $img_info['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
-                $img_info['width'] = $arr['width'];
-                $img_info['height'] = $arr['height'];
-                $img_info['format'] = $arr['format'];
-		
-                Doggy_Log_Helper::warn(json_encode($img_info));
-                $asset_ok = $asset_model->apply_and_save($img_info);
-                if($asset_ok){
-                    $asset_id = (string)$asset_model->id;
-                    $data['cover_id'] = $asset_id;
+                    $img_type = Doggy_Util_File::mime_content_type($handle);
+                    $img_info['size'] = filesize($cover_url);
+                    $img_info['mime'] = $img_type;
+                    $img_info['filename'] = basename($cover_url).'.'.strtolower($arr['format']);
+                    $img_info['filepath'] = Sher_Core_Util_Image::gen_path($cover_url, 'topic');
+                    $img_info['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
+                    $img_info['width'] = $arr['width'];
+                    $img_info['height'] = $arr['height'];
+                    $img_info['format'] = $arr['format'];
+        
+                    Doggy_Log_Helper::warn(json_encode($img_info));
+                    $asset_ok = $asset_model->apply_and_save($img_info);
+                    if($asset_ok){
+                        $asset_id = (string)$asset_model->id;
+                        $data['cover_id'] = $asset_id;
+                    }
                 }
             }
 
