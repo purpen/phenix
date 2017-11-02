@@ -28,8 +28,6 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         if(empty($target_id) || empty($title) || empty($content)){
             return $this->api_json('缺少请求参数！', 3001);           
         }
-        Doggy_Log_helper::warn('------');
-        Doggy_Log_helper::warn($title);
 
         $topic_model = new Sher_Core_Model_Topic();
         $asset_model = new Sher_Core_Model_Asset();
@@ -39,6 +37,12 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         $category_id = 111;
         $asset_id = 0;
         $cover_id = '';
+
+        if($content){
+            $Parsedown = new Parsedown();
+            $content = $Parsedown->text($content);
+            Doggy_Log_Helper::warn($content);
+        }
 
         $data = array(
             'title' => $title,
@@ -54,13 +58,12 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
             if($cover_url){
                 // 创建附件
                 $b_file = @file_get_contents($cover_url);
-                $arr = Sher_Core_Util_Image::image_info($b_file);
+                $arr = Sher_Core_Util_Image::image_info_binary($b_file);
                 if($arr['stat'] != 0){
                     $asset_model->set_file_content($b_file);
 
-                    $img_type = Doggy_Util_File::mime_content_type($handle);
-                    $img_info['size'] = filesize($cover_url);
-                    $img_info['mime'] = $img_type;
+                    $img_info['size'] = strlen($b_file);
+                    $img_info['mime'] = Doggy_Util_File::mime_content_type($cover_url);
                     $img_info['filename'] = basename($cover_url).'.'.strtolower($arr['format']);
                     $img_info['filepath'] = Sher_Core_Util_Image::gen_path($cover_url, 'topic');
                     $img_info['asset_type'] = Sher_Core_Model_Asset::TYPE_TOPIC;
@@ -68,7 +71,7 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
                     $img_info['height'] = $arr['height'];
                     $img_info['format'] = $arr['format'];
         
-                    Doggy_Log_Helper::warn(json_encode($img_info));
+                    // Doggy_Log_Helper::warn(json_encode($img_info));
                     $asset_ok = $asset_model->apply_and_save($img_info);
                     if($asset_ok){
                         $asset_id = (string)$asset_model->id;

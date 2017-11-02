@@ -18,6 +18,7 @@
 		"mailgun/mailgun-php": "~1.7.2",
         "hightman/xunsearch": "*@beta",
 		"endroid/qrcode": "^1.6",
-        "jenner/crontab": "1.0.0"
+        "jenner/crontab": "1.0.0",
+		"erusev/parsedown": "^1.6"
     }
 }
