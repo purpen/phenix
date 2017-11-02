@@ -32,10 +32,11 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         Doggy_Log_helper::warn($title);
 
         $topic_model = new Sher_Core_Model_Topic();
-        $topic = $topic_model->first(array('d3in_article_id'=>$target_id));
+        $asset_model = new Sher_Core_Model_Asset();
+        $topic = $topic_model->first(array('d3in_article_id'=>$target_id, 'deleted'=>0));
         $topic_id = 0;
-        $user_id = 1;
-        $category_id = 1;
+        $user_id = 20448;
+        $category_id = 111;
 
         // 图片上传参数
         $token = Sher_Core_Util_Image::qiniu_token();
@@ -44,17 +45,6 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         $new_file_id = new MongoId();
         $pid = (string)$new_file_id;
         $cover_id = '';
-        if($cover_url){
-            $imgParam = array(
-                'token' => $token,
-                'x:asset_type' => $asset_type,
-                'x:domain' => $domain,
-                'x:pid' => $pid,
-                'x:user_id' => $user_id,
-            );
-            $cover_result = Sher_Core_Util_Image::api_upload($cover_url, $imgParam);
-            Doggy_Log_helper::warn($cover_result);
-        }
 
         $data = array(
             'title' => $title,
@@ -65,14 +55,38 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
             'user_id' => $user_id,
             'tags' => $tags,
         );
-        if($cover_url) {
-          $data['cover_id'] = $pid;
-        }
+
         if(empty($topic)){  // 创建
+            if($cover_url){
+                // 创建附件
+                $arr = Sher_Core_Util_Image::image_info($cover_url);
+
+                $asset_model->set_file_content($cover_url);
+
+                $img_type = Doggy_Util_File::mime_content_type($cover_url);
+                $img_info['size'] = 0;
+                $img_info['mime'] = $img_type;
+                $img_info['filename'] = $cover_url;
+                $img_info['filepath'] = Sher_Core_Util_Image::gen_path($cover_url, 'topic');
+                $img_info['asset_type'] = Sher_Core_Model_Asset::TYPE_AVATAR;
+                $img_info['width'] = $arr['image_info']['width'];
+                $img_info['height'] = $arr['image_info']['height'];
+                $img_info['format'] = $arr['image_info']['format'];
+		
+                Doggy_Log_Helper::warn(json_encode($img_info));
+                $asset_ok = $asset_model->apply_and_save($img_info);
+                if($asset_ok){
+                    $asset_id = $asset_model->id;
+                    $data['cover_id'] = $asset_id;
+                }
+            }
+
             $data['d3in_article_id'] = $target_id;
             $ok = $topic_model->apply_and_save($data);
-            if($ok){
-              $topic_id = $topic_model->id;
+            if($ok) {
+                $topic_id = $topic_model->id;
+                // 更新附件关联ID
+                $asset_model->update_set($pid, array('parent_id' => $topic_id));
             }
 
         } else{   // 更新
