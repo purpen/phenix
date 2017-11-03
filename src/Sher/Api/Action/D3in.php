@@ -42,7 +42,7 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
             $Parsedown = new Parsedown();
             $content = $Parsedown->text($content);
             // 个性化匹配
-            $content = preg_replace('/::: (hljs-left|hljs-center|hljs-right).*\n(.*)\n.*:::.*\n/', '<div class="$1">$2</div>',$content);
+            $content = preg_replace('/::: (hljs-left|hljs-center|hljs-right).*\n((.|\n)*?).*:::.*\n/', '<div class="$1">$2</div>',$content);
             // Doggy_Log_Helper::warn($content);
         }
 
