@@ -41,7 +41,9 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         if($content){
             $Parsedown = new Parsedown();
             $content = $Parsedown->text($content);
-            Doggy_Log_Helper::warn($content);
+            // 个性化匹配
+            $content = preg_replace('/::: (.*)\n(.*)\n:::\n/', '<div class="$1">$2</div>',$content);
+            // Doggy_Log_Helper::warn($content);
         }
 
         $data = array(

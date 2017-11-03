@@ -657,5 +657,13 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     
     }
 
+    // 正则替换
+    public function zz() {
+      $str = "中央工艺美院结业后一直从事平面设计和空间设计工作\n::: hljs-center\n对自己的过去真正不屑才能脱胎换骨\n:::\nendsdfdf\n::: hljs-right\n这是右对齐了\n:::\n其它的。。。。";
+
+      echo preg_replace('/::: (.*)\n(.*)\n:::\n/', '<div class="$1">$2</div>',$str);
+    
+    }
+
 }
 
