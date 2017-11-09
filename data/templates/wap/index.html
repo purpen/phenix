@@ -256,21 +256,6 @@
          {%endif%}
          
          {% endcache %}
-		 
-         {% cache cache_key:'wap_index_topic_stick_slide' ttl:500 disable_cache:app_disable_cached %}
-         
-         {% ad_list var:'adslide3' page:1 size:4 state:2 name:'web_index_topic_stick_slide' %}
-		 {% for ad in adslide3.rows %}
-		<div class="recom-cell">
-			<a href="{{ ad.view_url }}" title="{{ ad.title }}">
-				<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loading.png" title="{{ ad.title }}">
-				<div class="desc">
-                        {{ ad.title }}
-                </div>
-			</a>
-		</div>
-		{% endfor %}
-		{% endcache %}
 		
 	</div>
 	
