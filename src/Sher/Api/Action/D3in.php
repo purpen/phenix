@@ -25,6 +25,7 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         $desc = isset($this->stash['desc']) ? $this->stash['desc'] : '';
         $source_from = isset($this->stash['source_from']) ? $this->stash['source_from'] : '';
         $tags = isset($this->stash['tags']) ? $this->stash['tags'] : '';
+        $target_user_id = isset($this->stash['user_id']) ? (int)$this->stash['user_id'] : 0;
         if(empty($target_id) || empty($title) || empty($content)){
             return $this->api_json('缺少请求参数！', 3001);           
         }
@@ -34,6 +35,16 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
         $topic = $topic_model->first(array('d3in_article_id'=>$target_id, 'deleted'=>0));
         $topic_id = 0;
         $user_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['user_id'];
+        switch($target_user_id){
+            case 28:  // 魏星
+              $user_id = 1158986;
+              break;
+            case 2:
+              $user_id = 20448;
+              break;
+            default: // 马哲
+              $user_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['user_id'];
+        }
         $category_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['category_id'];
         $asset_id = 0;
         $cover_id = '';
