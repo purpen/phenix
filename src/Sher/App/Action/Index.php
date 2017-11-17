@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service', 'en');
 	
 	protected $admin_method_list = array();
 	
@@ -328,6 +328,13 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
     public function fiu_download(){
         $url = "http://frstatic.qiniudn.com/download/app-release_1.9.3.apk";
         return $this->to_redirect($url);
+    }
+
+    /**
+     * 国际版跳转
+     */
+    public function en() {
+      return $this->to_redirect('http://en.taihuoniao.com');
     }
 
     /**
