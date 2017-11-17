@@ -15,7 +15,7 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','qr','fiu_download','surl','d3in_newer','server');
+	protected $exclude_method_list = array('execute','home','twelve','comeon','games','clients','fiu','qr','fiu_download','surl','d3in_newer','service');
 	
 	/**
 	 * 商城入口
@@ -58,8 +58,8 @@ class Sher_Wap_Action_Index extends Sher_Wap_Action_Base {
 	/**
 	 * 服务页面
 	 */
-	public function server(){
-		return $this->to_html_page('wap/server.html');
+	public function service(){
+		return $this->to_html_page('wap/service.html');
 	}
 
 	/**
