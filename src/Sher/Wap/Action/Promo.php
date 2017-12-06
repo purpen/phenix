@@ -10,13 +10,93 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
       'target_id'=>0,
     );
     
-    protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc','wx_cooperate', 'wx_cooperate_success','qsyd3', 'd3ingo_zj');
+    protected $exclude_method_list = array('execute', 'test', 'coupon', 'dreamk', 'chinadesign', 'momo', 'watch', 'year_invite','year','jd','xin','six','zp','zp_share','qixi','hy','din','request','rank', 'fetch_bonus','idea','idea_sign','draw','jdzn','common_sign','db_bonus','coin','coin_submit','hy_sign','rank2','comment_vote_share','sign','xy','mf','source','zces','holiday','hoshow','cappa','android_download','sign_app','zzces','send_bonus','fiu','load_up_img','ym','eleven','theme','fiuinvite','tshare','teeth','lottery','double','esthetics','intelligence','outdoor','clothes','receive_zongzi','receive_zongzi_ok','wx_article','wx_active','wx_try','wx_report','wx_product','wx_zc','wx_cooperate', 'wx_cooperate_success','qsyd3', 'd3ingo_zj','wx_proxy');
 
     /**
      * 网站入口
      */
     public function execute(){
       //return $this->coupon();
+    }
+
+    /**
+     * 微信授权代理
+     */
+    public function wx_proxy() {
+
+        $appid = '';
+        $scope = 'snsapi_login';
+        $state = '';
+        $code = '';
+        $redirect_uri = '';
+        $device = '';
+        $protocol = '';
+        if (Sher_Core_Helper_Util::is_https()) {
+            $protocol = 'https';
+        } else {
+            $protocol = 'http';
+        }
+        if (isset($_GET['device'])) {
+            $device = $_GET['device'];
+        }
+        if (isset($_GET['appid'])) {
+            $appid = $_GET['appid'];
+        }
+        if (isset($_GET['state'])) {
+            $state = $_GET['state'];
+        }
+        if (isset($_GET['redirect_uri'])) {
+            $redirect_uri = $_GET['redirect_uri'];
+        }
+        if (isset($_GET['code'])) {
+            $code = $_GET['code'];
+        }
+        if (isset($_GET['scope'])) {
+            $scope = $_GET['scope'];
+        }
+        if ($code == 'test') {
+            exit;
+        }
+        if (empty($code)) {
+            $authUrl = '';
+            if ($device == 'pc') {
+                $authUrl = 'https://open.weixin.qq.com/connect/qrconnect';
+            } else {
+                $authUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize';
+            }
+            $options = array(
+                $authUrl,
+                '?appid=' . $appid,
+                '&redirect_uri=' . urlencode($protocol . '://' . $_SERVER['HTTP_HOST'] . '/'),
+                '&response_type=code',
+                '&scope=' . $scope,
+                '&state=' . $state,
+                '#wechat_redirect'
+              );
+            //把redirect_uri先写到cookie
+            header(implode('', array(
+                "Set-Cookie: redirect_uri=",
+                urlencode($redirect_uri),
+                "; path=/; domain=",
+                Sher_Core_Helper_Util::get_domain(),
+                "; expires=" . gmstrftime("%A, %d-%b-%Y %H:%M:%S GMT", time() + 60),
+                "; Max-Age=" + 60,
+                "; httponly"
+              )));
+            header('Location: ' . implode('', $options));
+        } else {
+            if (isset($_COOKIE['redirect_uri'])) {
+                $back_url = urldecode($_COOKIE['redirect_uri']);
+                header('Location: ' . implode('', array(
+                        $back_url,
+                        strpos($back_url, '?') ? '&' : '?',
+                        'code=' . $code,
+                        '&state=' . $state
+                      )));
+            }
+        }
+    
+    
     }
 
     /**
