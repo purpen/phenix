@@ -31,7 +31,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
       $redirect_uri = '';
       $device = '';
       $protocol = '';
-      if (Sher_Core_Helper_Util::is_HTTPS()) {
+      if (Sher_Core_Helper_Util::is_https()) {
           $protocol = 'https';
       } else {
           $protocol = 'http';
@@ -64,7 +64,7 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
           } else {
               $authUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize';
           }
-          $options = [
+          $options = array(
               $authUrl,
               '?appid=' . $appid,
               '&redirect_uri=' . urlencode($protocol . '://' . $_SERVER['HTTP_HOST'] . '/'),
@@ -72,9 +72,9 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
               '&scope=' . $scope,
               '&state=' . $state,
               '#wechat_redirect'
-          ];
+            );
           //把redirect_uri先写到cookie
-          header(implode('', [
+          header(implode('', array(
               "Set-Cookie: redirect_uri=",
               urlencode($redirect_uri),
               "; path=/; domain=",
@@ -82,17 +82,17 @@ class Sher_App_Action_Promo extends Sher_App_Action_Base {
               "; expires=" . gmstrftime("%A, %d-%b-%Y %H:%M:%S GMT", time() + 60),
               "; Max-Age=" + 60,
               "; httponly"
-          ]));
+            )));
           header('Location: ' . implode('', $options));
       } else {
           if (isset($_COOKIE['redirect_uri'])) {
               $back_url = urldecode($_COOKIE['redirect_uri']);
-              header('Location: ' . implode('', [
+              header('Location: ' . implode('', array(
                       $back_url,
                       strpos($back_url, '?') ? '&' : '?',
                       'code=' . $code,
                       '&state=' . $state
-                  ]));
+                    )));
           }
       }
   
