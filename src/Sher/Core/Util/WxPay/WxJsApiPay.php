@@ -190,7 +190,7 @@ class Sher_Core_Util_WxPay_WxJsApiPay extends Sher_Core_Util_WxPay_WxPayApi
 		$urlObj["state"] = "STATE"."#wechat_redirect";
 		$bizString = $this->ToUrlParams($urlObj);
 		//return "https://open.weixin.qq.com/connect/oauth2/authorize?".$bizString;
-		return "https://www.taihuoniao.com/promo/wx_proxy?".$bizString;
+		return "https://m.taihuoniao.com/promo/wx_proxy?".$bizString;
 	}
 	
 	/**
