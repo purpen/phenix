@@ -1521,4 +1521,33 @@ class Sher_Core_Helper_Util {
     }
 
 
+    /**
+     * 判断是否是https
+     */
+    public static function is_https() {
+        if (!isset($_SERVER['HTTPS'])) return FALSE;
+
+        if ($_SERVER['HTTPS'] === 1) {  //Apache
+            return TRUE;
+        } elseif ($_SERVER['HTTPS'] === 'on') { //IIS
+            return TRUE;
+        } elseif ($_SERVER['SERVER_PORT'] == 443) { //其他
+            return TRUE;
+        }
+        return FALSE;
+    }
+
+
+    /**
+     * 获取Domain
+     */
+    public static function get_domain() {
+        $server_name = $_SERVER['SERVER_NAME'];
+        if (strpos($server_name, 'www.') !== false) {
+            return substr($server_name, 4);
+        }
+        return $server_name;
+    }
+
+
 }
