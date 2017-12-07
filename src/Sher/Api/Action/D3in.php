@@ -42,6 +42,9 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
             case 7:  // 大师
               $user_id = 3;
               break;
+            case 170:  // 小栗子
+              $user_id = 101033;
+              break;
             case 2: // 田帅
               $user_id = 20448;
               break;
