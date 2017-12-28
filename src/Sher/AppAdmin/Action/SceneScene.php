@@ -296,7 +296,7 @@ class Sher_AppAdmin_Action_SceneScene extends Sher_AppAdmin_Action_Base implemen
      */
     public function product_list(){
         $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
-        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 100;
+        $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 200;
         $product_id = isset($this->stash['product_id']) ? (int)$this->stash['product_id'] : 0;
         $scene_id = isset($this->stash['scene_id']) ? (int)$this->stash['scene_id'] : 0;
 
