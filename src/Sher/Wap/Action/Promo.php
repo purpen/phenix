@@ -23,7 +23,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * d3in-TV 下载
      */
     public function d3in_tv_download(){
-        $url = "https://frstatic.qiniudn.com/download/D3IN_TV_V0.8.0.9.apk";
+        $url = "https://s3.taihuoniao.com/download/D3IN_TV_V0.8.0.9.apk";
         return $this->to_redirect($url);
     }
 
