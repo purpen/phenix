@@ -77,7 +77,7 @@ function deploy_sync($conf_dir){
 	echo "Start to sync files ... \n";
 	echo "$conf_dir...\n";
 	//system("qrsync -skipsym $conf_dir");
-	system("/opt/qiniu/qrsync $conf_dir/frbird.json");
+	system("/opt/qiniu/qshell qupload $conf_dir/frbird.json");
 	
 	echo "Sync files is ok! \n";
 }
