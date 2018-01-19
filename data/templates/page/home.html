@@ -156,6 +156,10 @@
     
     }
 
+    .d3-card .text .desc {
+      height: 50px;
+    }
+
     .d3no-box .item {
       float: left;
       margin: 20px  60px 60px 0;
@@ -316,7 +320,6 @@
      function ajax_load_d3in_stat(){
         var url = '{{ app_url_d3ingo_api }}/block';
         $.get(url, { mark: 'data_number_view' }, function(rs){
-            console.log(rs);
             if (rs.meta.status_code == 200 && rs.data.code) {
                 arr = rs.data.code.split(';');
                 if (arr.length >= 2) {
