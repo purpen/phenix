@@ -20,6 +20,10 @@ app.domain.mobile: '{$app.domain.base}'
 
 app.url.packaged: '{$app.domain.static}'
 
+app.url.d3ingo_api: 'http://sa.taihuoniao.com'
+app.url.d3ingo: 'http://d3ingo.taihuoniao.com'
+app.url.fiu: 'http://fiu.taihuoniao.com'
+
 app.js.use_bundle: 0
 app.css.use_bundle: 0
 

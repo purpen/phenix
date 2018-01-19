@@ -1,12 +1,6 @@
 {%extends 'layout/column.html'%}
 {% block title %}{% endblock %}
-{% block layout_css %}
-	{% if css_use_bundle %}
-        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
-	{% else %}
-        <link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
-	{% endif %}
-{% endblock %}
+
 {% block page_css %}
 <style type="text/css">
     .buy.box p{
