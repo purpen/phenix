@@ -471,7 +471,7 @@ input,input:focus,input:active{
           dynamic_limitime();
           $this = $('#dynamic-verify-code');
 
-          $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}"}, function(result){
+          $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}", 'm_captcha': captcha}, function(result){
             if(result.errorCode == 200){
               $this.removeClass('disabled').text('获取验证码');
             }           
