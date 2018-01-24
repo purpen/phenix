@@ -617,10 +617,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
 		$phone = isset($this->stash['phone']) ? $this->stash['phone'] : null;
 
+    $m_captcha = isset($this->stash['m_captcha']) ? $this->stash['m_captcha'] : null;
     $captcha_code = isset($this->stash['code']) ? $this->stash['code'] : null;
     $type = isset($this->stash['type'])? (int)$this->stash['type'] : 1;
 
-    if(empty($phone) || empty($captcha_code)){
+    if(empty($phone) || empty($captcha_code) || empty($m_captcha)){
       return $this->to_json(403, '缺少请求参数!');   
     }
 
@@ -633,6 +634,12 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     }
 
     if(!$r){
+      return $this->to_json(402, '验证码出错!');  
+    }
+
+    $captchaObj = new Sher_Core_Util_Captcha();
+    $is_true =  $captchaObj->check($m_captcha, 1);
+    if(!$is_true){
       return $this->to_json(403, '验证码不正确!');  
     }
     

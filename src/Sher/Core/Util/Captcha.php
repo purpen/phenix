@@ -21,8 +21,8 @@ class Sher_Core_Util_Captcha{  //class start
       
         $width  = isset($param['width'])? $param['width'] : 15;     //文字宽度  
         $height = isset($param['height'])? $param['height'] : 20;   //文字高度  
-        $pnum   = isset($param['pnum'])? $param['pnum'] : 300;      //干扰象素个数  
-        $lnum   = isset($param['lnum'])? $param['lnum'] : 15;        //干扰线条数  
+        $pnum   = isset($param['pnum'])? $param['pnum'] : 100;      //干扰象素个数  
+        $lnum   = isset($param['lnum'])? $param['lnum'] : 10;        //干扰线条数  
   
         $this->captcha_session($this->sname,$authnum);                //將隨機數寫入session  
   
