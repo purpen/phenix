@@ -1,5 +1,5 @@
 {%extends 'layout/shop.html'%}
-{% block title%}找回密码-{% endblock %}
+{% block title%}找回密码{% endblock %}
 {% block page_css %}
 <style type="text/css">
 body{
@@ -143,15 +143,18 @@ body{
          			  phenix.show_error_note('手机号不存在！');
 	    	        return false;     
               }else{
-                // 添加发送频率
-                limitime();
-            
-                $this = $('#fetch-verify-code');
-
-                $.post('/app/site/auth/verify_code', {'phone': phone, 'code':"{{ captcha_code }}"}, function(result){
+                $.post('/app/site/auth/verify_code', {'phone': phone, 'code':"{{ captcha_code }}", 'm_captcha':captcha}, function(result){
                   if(result.errorCode == 200){
+                    // 添加发送频率
+                    limitime();
+                    $this = $('#fetch-verify-code');
                     $this.removeClass('disabled').text('获取验证码');
-                  }           
+                  }else{
+                    phenix.show_error_note('验证码不正确!!！');
+                    // 刷新验证码
+                    $('#captcha-img img').click();
+                    return false;                
+                  } 
                 }, 'json');
 				$('.fluid.ui.active.magenta.submit.button').addClass('actrue');
               }
