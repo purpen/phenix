@@ -281,14 +281,17 @@ input,input:focus,input:active{
 						$('#captcha-img img').click();
 						return false;
 					}else{
-						// 添加发送频率
-						limitime();
-						$this = $('#fetch-verify-code');
-
             $.post('/app/site/auth/verify_code', {'phone': phone, 'code':"{{ captcha_code }}", 'm_captcha':captcha}, function(result){
               if(result.errorCode == 200){
+                // 添加发送频率
+                limitime();
+                $this = $('#fetch-verify-code');
                 $this.removeClass('disabled').text('获取验证码');
-              }           
+              }else{
+                phenix.show_error_note('验证码不正确!!！');
+                $('#captcha-img img').click();
+	          	  return false;
+              }    
             }, 'json');
 
 					};
@@ -467,14 +470,17 @@ input,input:focus,input:active{
           $('#dynamic-captcha-img img').click();
           return false;
         }else{
-          // 添加发送频率
-          dynamic_limitime();
-          $this = $('#dynamic-verify-code');
-
           $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}", 'm_captcha': captcha}, function(result){
             if(result.errorCode == 200){
+              // 添加发送频率
+              dynamic_limitime();
+              $this = $('#dynamic-verify-code');
               $this.removeClass('disabled').text('获取验证码');
-            }           
+            }else{
+            	phenix.show_error_note('验证码不正确!!！');
+              $('#dynamic-captcha-img').click();
+	          	return false;
+            } 
           }, 'json');
 
         };
