@@ -470,7 +470,7 @@ input,input:focus,input:active{
           $('#dynamic-captcha-img img').click();
           return false;
         }else{
-          $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}", 'm_captcha': captcha}, function(result){
+          $.post('/app/site/auth/verify_code?type=2', {'phone': phone, 'code':"{{ captcha2_code }}", 'm_captcha': dynamic_captcha}, function(result){
             if(result.errorCode == 200){
               // 添加发送频率
               dynamic_limitime();
