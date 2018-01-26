@@ -797,7 +797,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 
 		//验证码验证
 		if($_SESSION['m_captcha'] != strtoupper($this->stash['captcha'])){
-		  return $this->ajax_json('验证码不正确!', true);
+		  // return $this->ajax_json('验证码不正确!', true);
 		}
 
 		// 验证验证码是否有效
