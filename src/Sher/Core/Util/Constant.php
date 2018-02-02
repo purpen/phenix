@@ -437,6 +437,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       23=>'云马试用',
       24=>'--',
       25=>'Fiu介绍',
+      26=>'1分钟答题通关，不花钱办年货',
     );
     if(empty($id)){
       return $array;
