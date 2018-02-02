@@ -2,984 +2,1524 @@
 {% block title %}答题免单{% endblock %}
 {% block page_css %}
 <style type="text/css">
-  html,
-  body,
-  div,
-  span,
-  applet,
-  object,
-  iframe,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  blockquote,
-  pre,
-  a,
-  abbr,
-  acronym,
-  address,
-  big,
-  cite,
-  code,
-  del,
-  dfn,
-  em,
-  img,
-  ins,
-  kbd,
-  q,
-  s,
-  samp,
-  small,
-  strike,
-  strong,
-  sub,
-  sup,
-  tt,
-  var,
-  b,
-  u,
-  i,
-  center,
-  dl,
-  dt,
-  dd,
-  ol,
-  ul,
-  li,
-  fieldset,
-  form,
-  label,
-  legend,
-  table,
-  caption,
-  tbody,
-  tfoot,
-  thead,
-  tr,
-  th,
-  td,
-  article,
-  aside,
-  canvas,
-  details,
-  embed,
-  figure,
-  figcaption,
-  footer,
-  header,
-  hgroup,
-  menu,
-  nav,
-  output,
-  ruby,
-  section,
-  summary,
-  time,
-  mark,
-  audio,
-  video {
-      margin: 0;
-      padding: 0;
-      border: 0;
-      box-sizing:border-box;
-  }
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
 
-  li {
-      list-style: none;
-  }
+li {
+    list-style: none;
+}
 
-  a {
-      text-decoration: none;
-  }
+a {
+    text-decoration: none;
+}
 
-  i {
-      font-style: normal
-  }
+i {
+    font-style: normal
+}
 
-  .clearfix:after {
-      content: '';
-      display: block;
-      clear: both;
-  }
-
-  .fl {
-      float: left;
-  }
-
-  .fr {
-      float: right;
-  }
-
-  a img,
-  :link img,
-  :visited img {
-      border: 0;
-  }
-
-  img {
-      vertical-align: top;
-  }
-
-  input {
-      outline: none;
-  }
-
-  textarea {
-      resize: none;
-  }
-  button:focus { 
-      outline: none;
-  }
-
-  html, body {
-    font-family: "MFYueHei", "PingFang", PingFangSC-Regular, "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-
-  /**
-  @font-face {
-    font-family: 'MFYueHei';
-    src: url('MFYueHei.eot');
-    src: url('MFYueHei.woff2') format('woff2'),
-         url('MFYueHei.eot?#iefix') format('embedded-opentype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-  @font-face {
-    font-family: 'MFYueHei_Noncommercial-Regular';
-    src: url('MFYueHei_Noncommercial-Regular.woff') format('woff'),
-         url('MFYueHei_Noncommercial-Regular.ttf') format('truetype'),
-         url('MFYueHei_Noncommercial-Regular.svg#MFYueHei_Noncommercial-Regular') format('svg');
-    font-weight: normal;
-    font-style: normal;
-  }
-  **/
-
-  body {
-   background: linear-gradient(to bottom, #fb7143, #e9162c);
-  }
-  .container {
-    width: 100vw;
-    margin: 0 auto;
-    height: 100vh;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/background.png") no-repeat;
-    background-size: cover;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .eave {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/eave.png") no-repeat;
-    background-size: contain;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 5.04rem;
-    z-index: 4;
-  }
-
-  .door {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/door.png") no-repeat;
-    background-size: contain;
-    position: absolute;
-    left: -0.52rem;
-    top: 0.84rem;
-    width: 100vw;
-    height: 2.41rem;
-    z-index: 1;
-  }
-
-  .pillar-left {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/pillar.png") no-repeat;
-    background-size: contain;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4.28rem;
-    height: 100vh;
-    z-index: 2;
-  }
-
-  .pillar-right {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/pillar.png") no-repeat;
-    background-size: contain;
-    position: absolute;
-    right: 0;
-    top: 0; 
-    -moz-transform:scaleX(-1);
-    -webkit-transform:scaleX(-1);
-    -o-transform:scaleX(-1);
-    transform:scaleX(-1);
-    width: 4.28rem;
-    height: 100vh;
-    z-index: 2;
-  }
-
-  .lantern-left {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/lantern.png") no-repeat left;
-    background-size: contain;
-    position: absolute;
-    left: -2.8rem;
-    top: -0.53rem;
-    width: 6.21rem;
-    height: 6.91rem;
-    z-index: 3;
-  }
-
-
-  .lantern-right {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/lantern.png") no-repeat left;
-    background-size: contain;
-    -moz-transform:scaleX(-1);
-    -webkit-transform:scaleX(-1);
-    -o-transform:scaleX(-1);
-    transform:scaleX(-1);
-    position: absolute;
-    right: -2.8rem;
-    top: -0.53rem;
-    width: 6.21rem;
-    height: 6.91rem;
-    z-index: 3;
-  }
-
-  .logo {
-    text-indent: -999rem;
-    position: absolute;
-    z-index: 9;
-    left: 50%;
-    margin-left: -1.25rem;
-    top: 1.33rem;
-    width: 3.01rem;
-    height: 2.51rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/logo.png") no-repeat center;
-    background-size: contain;
-  }
-
-  .cloud {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/cloud.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    z-index: 5;
-    left: 1.83rem;
-    top: 3.28rem;
-    width: 3.39rem;
-    height: 1.89rem;
-    transition: .6s all ease;
-  }
-
-  .cloud-center {
-    position: absolute;
-    left: 50%;
-    margin-left: -1.69rem;
-    top: 3.28rem;
-    width: 3.39rem;
-    height: 1.89rem;
-  }
-
-  .right-away {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/right-away.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 3.07rem;
-    top: 11.65rem;
-    width: 3.87rem;
-    height: 1.76rem;
-    z-index: 3;
-  }
-
-  .right-away:active {
-    position: absolute;
-    left: 3.07rem;
-    top: 11.7rem;
-    transform: scale(0.98)
-  }
-
-  .begin {
-    display: none;
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/begin.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 2.75rem;
-    top: 11.09rem;
-    width: 4.71rem;
-    height: 1.73rem;
-    z-index: 3;
-  }
-  .begin:active {
-    position: absolute;
-    left: 2.75rem;
-    top: 11.2rem;
-    transform: scale(0.96)
-  }
-
-  footer {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/footer.png") no-repeat center;
-    background-size: 100%;
-    position: absolute;
-    left: 0;
-    bottom: -0.16rem;
-    width: 100%;
-    height: 4.37rem;
-  }
-
-  .intro {
-    transform: translateX(-100%);
-    font-size: 0.34rem;
-    color: rgb(255, 244, 205);
-    line-height: 1.6;
-    text-shadow: 0px 5px 5px rgba(7, 0, 2, 0.24);
-    margin-top: 5rem;
-    padding: 0 1.2rem 0 1.6rem;
-  }
-
-  .intro-show {
-    transform: translateX(0);
-    transition: 0.6s all ease;
-  }
-
-  .intro span {
-    margin: 0 6px 0 -16px;
-  }
-  .qrcode {
-    margin-top: 0.27rem;
-    text-align: center;
-  }
-  .qrcode img {
-    width: 4rem;
-    height: 1.8rem;
-  }
-
-  .fireworks1 .top {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-top.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 3.75rem;
-    top: 2.75rem;
-    width: 3.6rem;
-    height: 3.91rem;
-  }
-
-  .fireworks1 .right {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-left.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 6.25rem;
-    top: 4.41rem;
-    width: 3.63rem;
-    height: 3.89rem;
-  }
-
-  .fireworks1 .left {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-left.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 0.11rem;
-    top: 6.03rem;
-    width: 4.39rem;
-    height: 4.35rem;
-  }
-
-  .fireworks2 {
-    display: none;
-  }
-
-  .fireworks2 .left {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-left.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: -0.8rem;
-    top: 4.24rem;
-    width: 4.39rem;
-    height: 4.35rem;
-  }
-
-  .fireworks2 .right {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-right.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 7.4rem;
-    top: 3.99rem;
-    width: 3.63rem;
-    height: 3.89rem;
-  }
-
-  .fireworks2 .top {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-top.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 0.95rem;
-    top: 1.81rem;
-    width: 3.6rem;
-    height: 3.91rem;
-  }
-
-  .part {
-    transition: .6s all ease;
-  }
-  .part-hide {
-    transform: translateX(-100%)
-  }
-  /* part1 */
-  .nianhuo {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    z-index: 2;
-    left: 1.35rem;
-    top: 6.59rem;
-    width: 7.17rem;
-    height: 4.08rem;
-  }
-
-  .no-money {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/no-money.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    z-index: 1;
-    left: 1.56rem;
-    top: 4.35rem;
-    width: 6.89rem;
-    height: 3.31rem;
-  }
-
-  .coin-top {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-top.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 6.57rem;
-    top: 3.09rem;
-    width: 1.44rem;
-    height: 1.32rem;
-    z-index: 2;
-  }
-
-  .coin-center {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-center.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 7.24rem;
-    top: 4.09rem;
-    width: 0.96rem;
-    height: 1.07rem;
-    z-index: 3;
-  }
-
-  .coin-bottom {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-bottom.png") no-repeat center;
-    background-size: contain; 
-    position: absolute;
-    left: 4.48rem;
-    top: 7.61rem;
-    width: 0.96rem;
-    height: 1rem;
-    z-index: 3;
-  }
-
-  .pao1 {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao1.png") no-repeat center;
-    background-size: contain; 
-    position: absolute;
-    left: 2.96rem;
-    top: 5.97rem;
-    width: 1.73rem;
-    height: 2.49rem;
-    z-index: 1;
-  }
-
-  .pao2 {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 7.44rem;
-    top: 8.27rem;
-    width: 1.8rem;
-    height: 1.91rem;
-    z-index: 5;
-  }
-  /* part1 end */
-
-  /* part2*/
-  .part2 {
-    position: absolute;
-    top: 6rem;
-    width: 100%;
-    z-index: 3;
-    left: 0;
-  }
-
-  .part2-click {
-    text-indent: -999rem;
-    position: absolute;
-    top: 1.6rem;
-    left: 0;
-    z-index: 3;
-  }
-
-  .coupon50 {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/coupon50.png") no-repeat center;
-    background-size: contain; 
-    position: absolute;
-    left: 2.47rem;
-    top: 2.28rem;
-    width: 2.72rem;
-    height: 2.51rem;
-    z-index: 3;
-  }
-
-  .coupon30 {  
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/coupon30.png") no-repeat center;
-    background-size: contain; 
-    position: absolute;
-    left: 3.76rem;
-    top: 2.33rem;
-    width: 1.88rem;
-    height: 1.75rem;
-    z-index: 3;
-  }
-
-  .clock {  
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/clock.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 4.97rem;
-    top: 2.21rem;
-    width: 2.19rem;
-    height: 2.41rem;
-    z-index: 3;
-  }
-
-  .free-order {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/free-order.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 2.36rem;
-    top: 3.65rem;
-    width: 5.36rem;
-    height: 1.07rem;
-    z-index: 5;
-  }
-
-  .free-order-cover {
-    text-indent: -999rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/free-cover.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 0.71rem;
-    top: 3.24rem;
-    width: 8.63rem;
-    height: 2.97rem;
-    z-index: 4;
-  }
-
-  .top-three {
-    display: none;
-    font-size: 12px;
-    font-family: "PingFang SC Medium";
-    color: rgb(238, 182, 162);
-    line-height: 1;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    left: 0;
-    top: 5rem;
-    z-index: 5;
-  }
-  /* part2 end */
-
-  /* part3*/
-  .part3 {
-    display: none;
-    width: 100%;
-    font-size: 0.52rem;
-    color: rgb(255, 244, 227);
-    line-height: 1.6;
-    text-align: center;
-    text-shadow: 0px 12px 8px rgba(170, 32, 44, 0.91);
-    position: absolute;
-    top: 7rem;
-    z-index: 3;
-  }
-  .part3 i {
+.clearfix:after {
+    content: '';
     display: block;
-  }
-  /* part3 end */
+    clear: both;
+}
 
-  /* part4 */
-  .part4 {
-    text-indent: -999rem;
-    position: absolute;
-    z-index: 3;
-    left: 0;
-    top: 9.8rem;
-    width: 100%;
-    text-align: center;
-    font-size: 3.4rem;
-    font-weight: bold;
-    text-shadow: 0px 5px 5px rgba(7, 0, 2, 0.24);
-    color:rgb(255, 244, 227);
-  }
+.fl {
+    float: left;
+}
 
-  .count-down3 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/3.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 4.09rem;
-    top: 10.6rem;
-    width: 2.15rem;
-    height: 3.03rem;
-  }
+.fr {
+    float: right;
+}
 
-  .count-down2 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 4.05rem;
-    top: 10.6rem;
-    width: 2.23rem;
-    height: 3.01rem;
-  }
+a img,
+:link img,
+:visited img {
+    border: 0;
+}
 
-  .count-down1 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/1.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 4.32rem;
-    top: 10.63rem;
-    width: 1.71rem;
-    height: 2.99rem;
-  }
+img {
+    vertical-align: top;
+}
 
-  /* part4 end*/
+input {
+    outline: none;
+}
 
-  /* .header, .part, .fireworks1 {
-    display: none
-  }
+textarea {
+    resize: none;
+}
+button:focus { 
+    outline: none;
+}
 
-  .fireworks2 {
-    display: block
-  } */
-
-  .question {
-    position: absolute;
-    z-index: 9;
-    top: 0;
-    left: 0;
-    transition: .3s all ease;
-    transform: translateX(100%);
-    width: 100%;
-    height: 100%;
-    overflow: hidden
-  }
+html,body {-webkit-user-select:none; user-select: none; }
+/* 消除transition闪屏 */
+.css {
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	-webkit-perspective: 1000;
+}
 
 
-  .question-show {
-    transform: translateX(0)
-  }
 
-  .question-count {
-    font-family: "PingFangSC-Regular";
-    position: absolute;
-    left: 4.12rem;
-    top: 4.45rem;
-    width: 1.8rem;
-    height: 1.8rem;
-    text-align: center;
-    line-height: 1.8rem;
-    font-size: 1rem;
-    border-radius: 50%;
-    color: #ffe6be;
-    box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.15); 
-    text-shadow: 5px 6px 8px rgba(0, 0, 0, 0.15);
-    border: 2px solid #ffe6be;
-    font-weight: 100;
-  }
+@font-face {
+  font-family: 'MFYueHei';
+  src: url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei.eot');
+  src: url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei.woff2') format('woff2'),
+       url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei.eot?#iefix') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  .question .title {
-    font-size: 0.5rem;
-    font-family: "PingFang";
-    color: #ffffff;
-    line-height: 1.6;
-    text-shadow: 0px 11px 13px rgba(132, 15, 24, 0.6);
-    margin-top: 7.33rem;
-    margin-bottom: 1rem;
-  }
+@font-face {
+  font-family: 'MFYueHei_Noncommercial-Regular';
+  src: url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei_Noncommercial-Regular.woff') format('woff'),
+       url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei_Noncommercial-Regular.ttf') format('truetype'),
+       url('{{ app_url_packaged }}/fonts/zzgf/MFYueHei_Noncommercial-Regular.svg#MFYueHei_Noncommercial-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  .question-list {
-    width: 900%;
-    display: flex;
-    transition: 0.6s all ease
-  }
-  .No1 {
-    flex: 1;
-    padding: 0 1.3rem;
-  }
+.question {
+  position: absolute;
+  z-index: 9;
+  top: 0;
+  left: 0;
+  transition: .3s all ease;
+  transform: translateX(100%);
+  width: 100%;
+  height: 100%;
+  overflow: hidden
+}
 
-  .question .title .number {
-    margin-right: 6px;
-  }
 
-  .option {
-    font-size: 0.45rem;
-    font-family: "PingFang";
-    color: rgb(180, 72, 37);
-  }
+.question-show {
+  transform: translateX(0)
+}
 
-  .option li {
-    height: 1.2rem;
-    line-height: 1.2rem;
-    border-radius: 0.6rem;
-    background: #ffe6be;
-    margin-bottom: 0.16rem;
-    padding-left: 1.2rem;
-    position: relative;
-    font-weight: bold
-  }
+.question-count {
+  font-family: "PingFangSC-Regular";
+  position: absolute;
+  left: 3.09rem;
+  top: 1.74rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  text-align: center;
+  line-height: 1.35rem;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  color: #ffe6be;
+  box-shadow: 7px 6px 10px rgba(0, 0, 0, 0.15); 
+  text-shadow: 7px 6px 8px rgba(0, 0, 0, 0.15);
+  border: 3px solid #ffe6be;
+  font-weight: 100;
+}
 
-  .option li.key {
-    background: #fff9ad
-  }
+.question .title {
+  font-size: 0.38rem;
+  font-family: "PingFang";
+  color: #ffffff;
+  line-height: 1.6;
+  text-shadow: 0px 11px 13px rgba(132, 15, 24, 0.6);
+  margin-top: 3.5rem;
+  margin-bottom: 0.75rem;
+}
 
-  .option li:active {
-    transform: scale(0.98);
-  }
+.question-list {
+  width: 2000%;
+  display: flex;
+  transition: 0.6s all ease
+}
+.No1 {
+  flex: 1;
+  padding: 0 1.1rem;
+}
 
-  .option li::after {
-    content: "A";
-    display: block;
-    position: absolute;
-    left: 0.75rem;
-    top: 0;
-    text-align: left
-  }
+.question .title .number {
+  margin-right: 8px;
+}
 
-  .option li.liB::after {
-    content: "B";
-  }
-  .option li.liC::after {
-    content: "C";
-  }
-  .option li.liD::after {
-    content: "D";
-  }
+.option {
+  font-size: 0.34rem;
+  font-family: "PingFang";
+  color: rgb(180, 72, 37);
+}
 
-  /* ------------------- result ------------------- */
+.option li {
+  height: 0.9rem;
+  line-height: 0.9rem;
+  border-radius: 0.45rem;
+  background: #ffe6be;
+  margin-bottom: 0.12rem;
+  padding-left: 0.9rem;
+  position: relative;
+  font-weight: bold
+}
 
-  .result-cover {
-    display: none;
-    position: absolute;
-    z-index: 10;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.38)
-  }
+.option li.key {
+  background: #fff9ad
+}
 
-  .result {
-    display: none;
-    position: absolute;
-    z-index: 11;
-    left: 0;
-    top: 0;
-    width: 9.24rem;
-    height: 13.01rem;
-    margin: 3.2rem 0.45rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/result-bg.png") no-repeat center;
-    background-size: contain;
-    text-align: center;
-  }
+.option li:active {
+  transform: scale(0.96);
+}
 
-  .overtime, .wrang, .get-free {
-    display: none;
-  }
+.option li::after {
+  content: "A";
+  display: block;
+  position: absolute;
+  left: 0.56rem;
+  top: 0;
+  text-align: left
+}
 
-  .get-free .fire-work1 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-front.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 3.2rem;
-    top: -1.2rem;
-    width: 3.53rem;
-    height: 3.68rem;
-  }
+.option li.liB::after {
+  content: "B";
+}
+.option li.liC::after {
+  content: "C";
+}
+.option li.liD::after {
+  content: "D";
+}
 
-  .get-free .fire-work2 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-front2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 2.8rem;
-    top: -1rem;
-    width: 2.09rem;
-    height: 2.17rem;
-    z-index: 1;
-  }
+/* ------------------- result ------------------- */
 
-  .get-free .free-coin1 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-coin1.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    z-index: 4;
-    left: 4.5rem;
-    top: 0;
-    width: 0.81rem;
-    height: 0.77rem;
-  }
+.result-cover {
+  position: absolute;
+  z-index: 10;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.38);
+  display: none;
+}
 
-  .get-free .free-coin2 {
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-coin2.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 3.5rem;
-    top: -0.3rem;
-    width: 0.6rem;
-    height: 0.57rem;
-    z-index: 4;
-  }
+.result {
+  position: absolute;
+  z-index: 11;
+  left: 0.7rem;
+  top: 1rem;
+  width: 6.13rem;
+  height: 8.96rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/result-bg.png") no-repeat center;
+  background-size: contain;
+  text-align: center;
+  display: none;
+}
 
-  .result-success {
-    color: #e22e2f;
-    font-size: 0.9rem;
-    text-align: center;
-    text-indent: 0.4rem;
-    margin-top: 1.3rem;
-    position: relative;
-    z-index: 4;
-    text-shadow:  0 0 5px #ffe7c0;
-  }
-  .result-success-shadow {
-    text-indent: 0.5rem;
-    font-size: 0.9rem;
-    margin-top: -0.9rem;
-    margin-bottom: 0.4rem;
-    color: #0000;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-  }
+.success-result {
+  position: absolute;
+  z-index: 11;
+  left: 0.7rem;
+  top: 2rem;
+}
 
-  .congratulation, .get-coupon, .share, .circle {
-    color: #ca825e;
-    font-size: 0.46rem;
-    font-family: "PingFang";
-    line-height: 1.8
-  }
+.overtime, .wrang, .get-free {
+  display: none;
+}
 
-  .circle {
-    position: relative;
-  }
+.get-free .fire-work1 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-front.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 2.4rem;
+  top: -0.9rem;
+  width: 2.65rem;
+  height: 2.76rem;
+}
 
-  .arrow {
-    position: absolute;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/arrow.png") no-repeat center;
-    background-size: contain;
-    position: absolute;
-    left: 6rem;
-    top: -0.6rem;
-    width: 1.63rem;
-    height: 0.99rem;
-  }
+.get-free .fire-work2 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-front2.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 2.1rem;
+  top: -0.75rem;
+  width: 1.57rem;
+  height: 1.63rem;
+  z-index: 1;
+}
 
-  .circle span {
-    display: block;
-    font-size: 0.4rem;
-  }
+.get-free .free-coin1 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-coin1.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  z-index: 4;
+  left: 3.38rem;
+  top: 0;
+  width: 0.61rem;
+  height: 0.58rem;
+}
 
-  .get-coupon a {
-    color: #e22e2f;
-    position: relative;
-  }
+.get-free .free-coin2 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/free-coin2.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 2.63rem;
+  top: -0.23rem;
+  width: 0.45rem;
+  height: 0.43rem;
+  z-index: 4;
+}
 
-  .get-coupon a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -2px;
-    height: 1.5px;
-    width: 100%;
-    background: #e22e2f;
-    border-radius: 1px;
-  }
+.result-success {
+  color: #e22e2f;
+  font-size: 0.68rem;
+  text-align: center;
+  text-indent: 0.3rem;
+  margin-top: 0.97rem;
+  position: relative;
+  z-index: 4;
+  text-shadow:  0 0 7px #ffe7c0;
+}
 
-  .share {
-    font-weight: bold;
-  }
+.result-success-shadow {
+  text-indent: 0.38rem;
+  font-size: 0.68rem;
+  margin-top: -0.68rem;
+  margin-bottom: 0.3rem;
+  color: transparent;
+  text-shadow: 0 0 13px rgba(0, 0, 0, 0.3);
+}
 
-  .coupon-30 {
-    display: block;
-    width: 2.24rem;
-    height: 2rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/coupon30.png") no-repeat center;
-    background-size: contain;
-    margin: 0.3rem auto;
-  }
+.congratulation, .get-coupon, .share, .circle {
+  color: #ca825e;
+  font-size: 0.34rem;
+  font-family: "PingFang";
+  line-height: 1.6
+}
 
-  .coupon-50 {
-    display: block;
-    width: 2.24rem;
-    height: 2rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/coupon50.png") no-repeat center;
-    background-size: contain;
-    margin: 0 auto;
-  }
+.congratulation span {
+  font-size: 0.38rem;
+  margin: 0.18rem;
+  color: #e22e2f;
+  font-weight: 600
+}
 
-  .result-qrcode {
-    width: 4.05rem;
-    height: 2.08rem;
-    margin: 0 auto;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/result/qrcode.png") no-repeat center;
-    background-size: contain;
-  }
+.circle {
+  position: relative;
+}
 
-  .wrang-pao2 {
-    position: absolute;
-    left: 5.6rem;
-    top: .5rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao2.png") no-repeat center;
-    background-size: 80%;
-    width: 1.8rem;
-    height: 1.9rem;
-  }
+.arrow {
+  position: absolute;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/arrow.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 4.5rem;
+  top: -0.45rem;
+  width: 1.22rem;
+  height: 0.74rem;
+}
 
-  .overtime-clock {
-    position: absolute;
-    left: 5.6rem;
-    top: .5rem;
-    width: 2.19rem;
-    height: 2.4rem;
-    background: url("{{ app_url_packaged }}/images/promo/sf18/main/clock.png") no-repeat center;
-    background-size: 80%;
+.circle span {
+  display: block;
+  font-size: 0.26rem;
+}
+
+.get-coupon a {
+  color: #e22e2f;
+  position: relative;
+}
+
+.get-coupon a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 2px;
+  width: 100%;
+  background: #e22e2f;
+  border-radius: 1px;
+}
+
+.share {
+  font-weight: bold;
+}
+.share span {
+  display: block
+}
+
+.goods {
+  display: block;
+  width: 5.42rem;
+  height: 1.79rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/goods.png") no-repeat center;
+  background-size: contain;
+  margin: 0 auto 0.3rem;
+}
+
+.result-qrcode {
+  width: 3.04rem;
+  height: 1.56rem;
+  margin: 0 auto;
+}
+
+.result-qrcode img {
+  width: 100%;
+}
+
+.wrang-pao2 {
+  position: absolute;
+  left: 4.2rem;
+  top: 0.38rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao2.png") no-repeat center;
+  background-size: 80%;
+  width: 1.35rem;
+  height: 1.43rem;
+}
+
+.overtime-clock {
+  position: absolute;
+  left: 4.2rem;
+  top: 0.15rem;
+  width: 1.64rem;
+  height: 1.8rem;
+  background: url({{ app_url_packaged }}/images/promo/sf18/result/clock.png) no-repeat center;
+  background-size: 56%;
+}
+
+.buttons-parent {
+  display: none;
+  position: relative;
+  z-index: 99;
+}
+
+.buttons {
+  color: #ffb493;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -1.6rem;
+}
+
+.buttons span {
+  padding: 0.16rem 0.56rem;
+  margin-right: 0.4rem;
+  font-size: 0.3rem;
+  border-radius: 8px;
+  border: 1px solid #ffb493
+}
+.buttons span.again {
+  margin-right: 0;
+}
+
+.buttons span:active {
+  transform: scale(0.98)
+}
+
+/* 动画 */
+@keyframes bottomToTop {
+  from {transform: translateY(100%)}
+  to {transform: translateY(0)}
+}
+
+@keyframes bottomToTop2 {
+  from {transform: translateY(450%)}
+  to {transform: translateY(0)}
+}
+
+@keyframes coupon {
+  0% {opacity: 0; transform: translateY(0.75rem) scale(0.5)}
+  1% {opacity: 1}
+  50% {transform: translateY(-0.15rem) scale(1.2);}
+  100% {opacity: 1;transform: translateY(0);}
+}
+@keyframes coin {
+  0% {transform: translateY(4.5rem)}
+  100% {transform: translateY(0); z-index: 2;}
+}
+
+@keyframes coinCenter {
+  0% {transform: translate(-1.95rem, 11rem)}
+  100% {transform: translate(0); z-index: 3;}
+}
+
+@keyframes coinBottom {
+  0% {transform: translateY(5.7rem)}
+  100% {transform: translate(0); z-index: 3;}
+}
+
+.part {
+  /* position: relative;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%; */
+  transition: .3s all ease;
+}
+.part-hide {
+  transform: translateX(-100%)
+}
+/* part1 */
+.nianhuo {
+  animation: bottomToTop 0.65s;
+  text-indent: -999rem;
+  color: #0000;
+  background: url({{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png) no-repeat center;
+  background-size: contain;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 4.94rem;
+  width: 100%;
+  height: 3.06rem;
+}
+
+.no-money {
+  animation: bottomToTop 0.6s;
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/no-money.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 3.26rem;
+  width: 100%;
+  height: 2.48rem;
+}
+
+.coin-top {
+  animation: coin 0.5s;
+  animation-delay: 0.6s;
+  animation-fill-mode: forwards;
+  transform: translate(0rem, 6rem);
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-top.png") no-repeat center;
+  background-size: 45%;
+  position: absolute;
+  left: 4.65rem;
+  top: 2.4rem;
+  width: 1.08rem;
+  height: 0.99rem;
+}
+
+.coin-center {
+  animation: coinCenter 0.55s;
+  animation-delay: 0.6s;
+  animation-fill-mode: forwards;
+  transform: translate(-1.95rem, 11rem);
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-center.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 5.43rem;
+  top: 3.07rem;
+  width: 0.72rem;
+  height: 0.8rem;
+}
+
+.coin-bottom {
+  animation: coinBottom 0.6s;
+  animation-delay: 0.6s;
+  animation-fill-mode: forwards;
+  transform: translateY(5.7rem);
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/coin-bottom.png") no-repeat center;
+  background-size: contain; 
+  position: absolute;
+  left: 3.36rem;
+  top: 5.71rem;
+  width: 0.72rem;
+  height: 0.75rem;
+}
+
+.pao1 {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao1.png") no-repeat center;
+  background-size: contain; 
+  position: absolute;
+  left: 2.22rem;
+  top: 4.48rem;
+  width: 1.3rem;
+  height: 1.87rem;
+  z-index: 1;
+}
+
+.pao2 {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/pao2.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 5.58rem;
+  top: 6.2rem;
+  width: 1.35rem;
+  height: 1.43rem;
+  z-index: 5;
+}
+/* part1 end */
+
+/* part2*/
+.part2 {
+  position: absolute;
+  top: 4.5rem;
+  width: 100%;
+  z-index: 3;
+  left: 0;
+}
+
+.part2-click {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  position: absolute;
+  top: 1.2rem;
+  left: 0;
+  z-index: 3;
+}
+
+.coupon50 {
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.5);
+  animation: coupon 0.2s;
+  animation-delay: 0.6s;
+  animation-fill-mode: forwards;
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/coupon50.png") no-repeat center;
+  background-size: contain; 
+  position: absolute;
+  left: 1.85rem;
+  top: 1.71rem;
+  width: 2.04rem;
+  height: 1.88rem;
+}
+
+.coupon30 {
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.5);
+  animation: coupon 0.2s;
+  animation-delay: 0.65s;
+  animation-fill-mode: forwards;
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/coupon30.png") no-repeat center;
+  background-size: contain; 
+  position: absolute;
+  left: 2.82rem;
+  top: 1.75rem;
+  width: 1.41rem;
+  height: 1.31rem;
+}
+
+.clock {
+  opacity: 0;
+  transform: translateY(0.75rem) scale(0.3);
+  animation: coupon 0.2s;
+  animation-delay: 0.7s;
+  animation-fill-mode: forwards;
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/clock.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 3.73rem;
+  top: 1.66rem;
+  width: 1.64rem;
+  height: 1.81rem;
+}
+
+.banner {
+  animation: bottomToTop2  0.5s;
+  width: 100%;
+  height: 147px;
+}
+
+.free-order {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/free-order.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 2.74rem;
+  height: 0.8rem;
+  z-index: 5;
+}
+
+.free-order-cover {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/free-cover.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 2.43rem;
+  height: 2.23rem;
+  z-index: 4;
+}
+
+.top-three {
+  animation: bottomToTop  0.7s;
+  font-size: 0.22rem;
+  font-family: "PingFang SC Medium";
+  color: rgb(238, 182, 162);
+  line-height: 1;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  top: 3.75rem;
+  z-index: 5;
+}
+/* part2 end */
+
+/* part3*/
+.part3 {
+  width: 100%;
+  font-size: 0.39rem;
+  color: rgb(255, 244, 227);
+  line-height: 1.6;
+  text-align: center;
+  text-shadow: 0px 12px 8px rgba(170, 32, 44, 0.91);
+  position: absolute;
+  top: 5.25rem;
+  z-index: 3;
+  display: none;
+}
+.part3 i {
+  display: block;
+}
+/* part3 end */
+
+/* part4 */
+.part4, .count-down1, .count-down2, .count-down3 {
+  text-indent: -999rem; color: rgba(0,0,0,0);
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  top: 7.35rem;
+  width: 100%;
+  text-align: center;
+  font-size: 2.55rem;
+  font-weight: bold;
+  text-shadow: 0px 5px 5px rgba(7, 0, 2, 0.24);
+  color:rgb(255, 244, 227);
+}
+
+.count-down3 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/3.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 3.07rem;
+  top: 7.95rem;
+  width: 1.61rem;
+  height: 2.27rem;
+  display: none;
+}
+
+.count-down2 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/2.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 3.04rem;
+  top: 7.95rem;
+  width: 1.67rem;
+  height: 2.26rem;
+  display: none;
+}
+
+.count-down1 {
+  background: url("{{ app_url_packaged }}/images/promo/sf18/count-down/1.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 3.24rem;
+  top: 7.97rem;
+  width: 1.28rem;
+  height: 2.24rem;
+  display: none;
+}
+
+@keyframes music {
+  0% {
+      -webkit-transform: rotateZ(0deg);
   }
+  100% {
+      -webkit-transform: rotateZ(360deg);
+  }
+}
+
+@keyframes cloud {
+2% {
+    transform: translate(.5px, 2.5px) rotate(1.5deg);
+}
+4% {
+    transform: translate(2.5px, 1.5px) rotate(1.5deg);
+}
+6% {
+    transform: translate(1.5px, .5px) rotate(.5deg);
+}
+8% {
+    transform: translate(-1.5px, -1.5px) rotate(-.5deg);
+}
+10% {
+    transform: translate(-1.5px, 2.5px) rotate(1.5deg);
+}
+12% {
+    transform: translate(-1.5px, .5px) rotate(.5deg);
+}
+14% {
+    transform: translate(-1.5px, -1.5px) rotate(-.5deg);
+}
+16% {
+    transform: translate(1.5px, 2.5px) rotate(1.5deg);
+}
+18% {
+    transform: translate(1.5px, -.5px) rotate(1.5deg);
+}
+20% {
+    transform: translate(1.5px, -.5px) rotate(1.5deg);
+}
+22% {
+    transform: translate(-1.5px, .5px) rotate(-.5deg);
+}
+24% {
+    transform: translate(.5px, -1.5px) rotate(-.5deg);
+}
+26% {
+    transform: translate(-1.5px, 2.5px) rotate(1.5deg);
+}
+28% {
+    transform: translate(-.5px, .5px) rotate(-.5deg);
+}
+30% {
+    transform: translate(-1.5px, 2.5px) rotate(.5deg);
+}
+32% {
+    transform: translate(.5px, -1.5px) rotate(1.5deg);
+}
+34% {
+    transform: translate(.5px, -1.5px) rotate(1.5deg);
+}
+36% {
+    transform: translate(2.5px, .5px) rotate(.5deg);
+}
+38% {
+    transform: translate(-.5px, .5px) rotate(-.5deg);
+}
+40% {
+    transform: translate(.5px, .5px) rotate(1.5deg);
+}
+42% {
+    transform: translate(.5px, 1.5px) rotate(1.5deg);
+}
+44% {
+    transform: translate(.5px, 2.5px) rotate(.5deg);
+}
+46% {
+    transform: translate(1.5px, 1.5px) rotate(-.5deg);
+}
+48% {
+    transform: translate(2.5px, .5px) rotate(-.5deg);
+}
+50% {
+    transform: translate(1.5px, 1.5px) rotate(1.5deg);
+}
+52% {
+    transform: translate(1.5px, 2.5px) rotate(1.5deg);
+}
+54% {
+    transform: translate(1.5px, 1.5px) rotate(.5deg);
+}
+56% {
+    transform: translate(.5px, -.5px) rotate(.5deg);
+}
+58% {
+    transform: translate(-1.5px, .5px) rotate(.5deg);
+}
+60% {
+    transform: translate(2.5px, 1.5px) rotate(1.5deg);
+}
+62% {
+    transform: translate(1.5px, 2.5px) rotate(-.5deg);
+}
+64% {
+    transform: translate(.5px, -1.5px) rotate(1.5deg);
+}
+66% {
+    transform: translate(-1.5px, 2.5px) rotate(-.5deg);
+}
+68% {
+    transform: translate(-1.5px, 1.5px) rotate(-.5deg);
+}
+70% {
+    transform: translate(1.5px, -1.5px) rotate(.5deg);
+}
+72% {
+    transform: translate(-.5px, 1.5px) rotate(.5deg);
+}
+74% {
+    transform: translate(-.5px, .5px) rotate(-.5deg);
+}
+76% {
+    transform: translate(2.5px, 1.5px) rotate(-.5deg);
+}
+78% {
+    transform: translate(1.5px, .5px) rotate(1.5deg);
+}
+80% {
+    transform: translate(-1.5px, .5px) rotate(1.5deg);
+}
+82% {
+    transform: translate(2.5px, 1.5px) rotate(1.5deg);
+}
+84% {
+    transform: translate(-.5px, .5px) rotate(-.5deg);
+}
+86% {
+    transform: translate(-1.5px, 2.5px) rotate(-.5deg);
+}
+88% {
+    transform: translate(1.5px, -.5px) rotate(-.5deg);
+}
+90% {
+    transform: translate(-1.5px, 2.5px) rotate(-.5deg);
+}
+92% {
+    transform: translate(-1.5px, 2.5px) rotate(.5deg);
+}
+94% {
+    transform: translate(-.5px, .5px) rotate(-.5deg);
+}
+96% {
+    transform: translate(.5px, -1.5px) rotate(.5deg);
+}
+98% {
+    transform: translate(.5px, .5px) rotate(1.5deg);
+}
+0%, 100% {
+    transform: translate(0, 0) rotate(0);
+}
+}
+
+@keyframes box {2% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+4% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+6% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+8% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+10% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+12% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+14% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+16% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+18% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+20% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+22% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+24% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+26% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+28% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+30% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+32% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+34% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+36% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+38% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+40% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+42% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+44% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+46% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+48% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+50% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+52% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+54% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+56% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+58% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+60% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+62% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+64% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+66% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+68% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+70% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+72% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+74% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+76% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+78% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+80% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+82% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+84% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+86% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+88% {
+    transform: translate(0px, 0px) rotate(.5deg);
+}
+90% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+92% {
+    transform: translate(1px, 1px) rotate(.5deg);
+}
+94% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+96% {
+    transform: translate(1px, 0px) rotate(.5deg);
+}
+98% {
+    transform: translate(0px, 1px) rotate(.5deg);
+}
+0%, 100% {
+    transform: translate(0, 0) rotate(0);
+}
+}
+
+html, body {
+  font-family: "MFYueHei", "PingFang", PingFangSC-Regular, "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+body {
+ background: linear-gradient(to bottom, #fb7143, #e9162c);
+}
+
+.page-cover {
+  /* opacity: 0.5; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom:0;
+  background: #fcbd9b;
+  z-index: 9999;
+}
+
+.gift {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+.gift-head {
+  animation: cloud 5s ease-in-out infinite;
+  width: 1.60rem;
+  margin-bottom: 2px;
+}
+
+.gift-body {
+  width: 2.65rem;
+  animation: box 5s ease-in-out infinite;
+}
+@keyframes light {
+  1% {
+    transform: scale(1);
+  }
+  99% {
+    z-index: 10000;
+  }
+  100% {
+    transform: scale(100);
+    z-index: -1;
+  }
+}
+.gift-light {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 10000;
+  border-radius: 50%;
+  animation: light 0.6s ease;
+  animation-fill-mode: forwards;
+  display: none;
+}
+
+.container {
+  width: 100vw;
+  margin: 0 auto;
+  height: 100%;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/background.png") no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  display: none;
+}
+
+.music {
+  animation: 2.3s music linear infinite;
+  position: absolute;
+  z-index: 99;
+  right: 0;
+  top: 0.34rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/music.png") no-repeat center;
+  background-size: contain;
+}
+.music-pause {
+  animation: none;
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+}
+
+.eave {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/eave.png") repeat-x;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 2.68rem;
+  z-index: 4;
+}
+
+.door {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/door.png") repeat-x;
+  background-size: contain;
+  position: absolute;
+  left:0;
+  top: 0.66rem;
+  width: 100vw;
+  height: 1.28rem;
+}
+
+.pillar-left {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/pillar.png") no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3.21rem;
+  height: 100%;
+  z-index: 1;
+}
+
+.pillar-right {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/pillar.png") no-repeat;
+  background-size: contain;
+  position: absolute;
+  right: 0;
+  top: 0; 
+  -moz-transform:scaleX(-1);
+  -webkit-transform:scaleX(-1);
+  -o-transform:scaleX(-1);
+  transform:scaleX(-1);
+  width: 3.21rem;
+  height: 100%;
+  z-index: 1;
+}
+
+.lantern-left {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/lantern.png") no-repeat left;
+  background-size: contain;
+  position: absolute;
+  left: -2.1rem;
+  top: -0.4rem;
+  width: 4.66rem;
+  height: 5.18rem;
+  z-index: 3;
+}
+
+.lantern-right {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/lantern.png") no-repeat left;
+  background-size: contain;
+  -moz-transform:scaleX(-1);
+  -webkit-transform:scaleX(-1);
+  -o-transform:scaleX(-1);
+  transform:scaleX(-1);
+  position: absolute;
+  right: -2.1rem;
+  top: -0.4rem;
+  width: 4.66rem;
+  height: 5.18rem;
+  z-index: 3;
+
+}
+
+.content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
+  left: 0;
+  top: 0;
+  font-size: 0;
+}
+
+.logo {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  margin-left: -0.94rem;
+  top: 1rem;
+  width: 2.26rem;
+  height: 1.88rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/logo.png") no-repeat center;
+  background-size: contain;
+  display: none;
+}
+
+.cloud {
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: cloud 50s ease-in-out infinite;
+  text-indent: -999rem;
+  color: rgba(0,0,0,0);
+  transition: 0.6s all ease;
+  margin-top: 2.46rem;
+  margin-left: 1.46rem;
+  width: 2.54rem;
+  height: 1.42rem;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/cloud.png") no-repeat center;
+  background-size: cover;
+}
+
+.cloud-center {
+  /* position: absolute;
+  left: 0;
+  right: 0;
+  top: 0; */
+  margin: 2.46rem 0 0 2.6rem;
+}
+
+.right-away {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/right-away.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  top: 8.74rem;
+  width: 100%;
+  height: 1.32rem;
+  z-index: 9;
+}
+
+.right-away:active {
+  position: absolute;
+  top: 8.78rem;
+  transform: scale(0.98)
+}
+
+.begin {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/begin.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 2.06rem;
+  top: 8.32rem;
+  width: 3.53rem;
+  height: 1.3rem;
+  z-index: 3;
+  display: none;
+}
+.begin:active {
+  position: absolute;
+  left: 2.06rem;
+  top: 8.4rem;
+  transform: scale(0.96)
+}
+
+footer {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/footer.png") no-repeat center;
+  background-size: 80%;
+  position: absolute;
+  left: 0;
+  top: 9.94rem;
+  width: 100%;
+  height: 3.28rem;
+}
+
+.intro {
+  transform: translateX(-100%);
+  font-size: 0.26rem;
+  color: rgb(255, 244, 205);
+  line-height: 1.6;
+  text-shadow: 0px 5px 5px rgba(7, 0, 2, 0.24);
+  margin-top: 3.8rem;
+  padding: 0 0.96rem 0 1.28rem;
+}
+
+.intro-show {
+  transform: translateX(0);
+  transition: 0.6s all ease;
+}
+
+.intro p {
+  position: relative;  
+}
+.intro span {
+  position: absolute;
+  left: -0.4rem;
+  top: 0;
+}
+.qrcode {
+  margin-top: 0.2rem;
+  text-align: center;
+}
+.qrcode img {
+  width: 3rem;
+  height: 1.35rem;
+}
+
+.fireworks1 .top {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-top.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 2.81rem;
+  top: 2.06rem;
+  width: 2.7rem;
+  height: 2.93rem;
+}
+
+.fireworks1 .right {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-left.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 4.69rem;
+  top: 3.31rem;
+  width: 2.72rem;
+  height: 2.92rem;
+}
+
+.fireworks1 .left {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire1-left.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0.08rem;
+  top: 4.52rem;
+  width: 3.29rem;
+  height: 3.26rem;
+}
+
+.fireworks2 {
+  display: none;
+}
+
+.fireworks2 .left {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-left.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: -0.6rem;
+  top: 3.18rem;
+  width: 3.29rem;
+  height: 3.26rem;
+}
+
+.fireworks2 .right {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-right.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 5.55rem;
+  top: 2.99rem;
+  width: 2.72rem;
+  height: 2.92rem;
+}
+
+.fireworks2 .top {
+  text-indent: -999rem; 
+  color: rgba(0,0,0,0);
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/fire2-top.png") no-repeat center;
+  background-size: contain;
+  position: absolute;
+  left: 0.71rem;
+  top: 1.36rem;
+  width: 2.7rem;
+  height: 2.93rem;
+}
+
 
 
 </style>
@@ -1059,371 +1599,654 @@
     $.get(url, { target_id: 22, count_name:'count', type: 4, kind:4 });
   };
 	
+; (function (designWidth, maxWidth) {
+  var doc = document,
+    win = window,
+    docEl = doc.documentElement,
+    remStyle = document.createElement("style"),
+    tid;
 
-  !function(e,t){function n(){t.body?t.body.style.fontSize=12*o+"px":t.addEventListener("DOMContentLoaded",n)}function d(){var e=i.clientWidth/10;i.style.fontSize=e+"px"}var i=t.documentElement,o=e.devicePixelRatio||1;if(n(),d(),e.addEventListener("resize",d),e.addEventListener("pageshow",function(e){e.persisted&&d()}),o>=2){var a=t.createElement("body"),s=t.createElement("div");s.style.border=".5px solid transparent",a.appendChild(s),i.appendChild(a),1===s.offsetHeight&&i.classList.add("hairlines"),i.removeChild(a)}}(window,document);
+  function refreshRem() {
+    var width = docEl.getBoundingClientRect().width;
+    maxWidth = maxWidth || 540;
+    width > maxWidth && (width = maxWidth);
+    var rem = width * 100 / designWidth;
+    remStyle.innerHTML = 'html{font-size:' + rem + 'px;}';
+  }
+
+  if (docEl.firstElementChild) {
+    docEl.firstElementChild.appendChild(remStyle);
+  } else {
+    var wrap = doc.createElement("div");
+    wrap.appendChild(remStyle);
+    doc.write(wrap.innerHTML);
+    wrap = null;
+  }
+  //要等 wiewport 设置好后才能执行 refreshRem，不然 refreshRem 会执行2次；
+  refreshRem();
+
+  win.addEventListener("resize", function () {
+    clearTimeout(tid); //防止执行两次
+    tid = setTimeout(refreshRem, 300);
+  }, false);
+
+  win.addEventListener("pageshow", function (e) {
+    if (e.persisted) { // 浏览器后退的时候重新计算
+      clearTimeout(tid);
+      tid = setTimeout(refreshRem, 300);
+    }
+  }, false);
+
+  if (doc.readyState === "complete") {
+    doc.body.style.fontSize = "16px";
+  } else {
+    doc.addEventListener("DOMContentLoaded", function (e) {
+      doc.body.style.fontSize = "16px";
+    }, false);
+  }
+})(750, 750);
+
   
 </script>
 {% endblock %}
 
 {% block jquery %}
 
-  function changeFire() {
-    $('.fireworks1').fadeToggle()
-    $('.fireworks2').fadeToggle()
+/*!
+ * imagesLoaded PACKAGED v4.1.4
+ * JavaScript is all like "You images are done yet or what?"
+ * MIT License
+ */
+
+!function(e,t){"function"==typeof define&&define.amd?define("ev-emitter/ev-emitter",t):"object"==typeof module&&module.exports?module.exports=t():e.EvEmitter=t()}("undefined"!=typeof window?window:this,function(){function e(){}var t=e.prototype;return t.on=function(e,t){if(e&&t){var i=this._events=this._events||{},n=i[e]=i[e]||[];return n.indexOf(t)==-1&&n.push(t),this}},t.once=function(e,t){if(e&&t){this.on(e,t);var i=this._onceEvents=this._onceEvents||{},n=i[e]=i[e]||{};return n[t]=!0,this}},t.off=function(e,t){var i=this._events&&this._events[e];if(i&&i.length){var n=i.indexOf(t);return n!=-1&&i.splice(n,1),this}},t.emitEvent=function(e,t){var i=this._events&&this._events[e];if(i&&i.length){i=i.slice(0),t=t||[];for(var n=this._onceEvents&&this._onceEvents[e],o=0;o<i.length;o++){var r=i[o],s=n&&n[r];s&&(this.off(e,r),delete n[r]),r.apply(this,t)}return this}},t.allOff=function(){delete this._events,delete this._onceEvents},e}),function(e,t){"use strict";"function"==typeof define&&define.amd?define(["ev-emitter/ev-emitter"],function(i){return t(e,i)}):"object"==typeof module&&module.exports?module.exports=t(e,require("ev-emitter")):e.imagesLoaded=t(e,e.EvEmitter)}("undefined"!=typeof window?window:this,function(e,t){function i(e,t){for(var i in t)e[i]=t[i];return e}function n(e){if(Array.isArray(e))return e;var t="object"==typeof e&&"number"==typeof e.length;return t?d.call(e):[e]}function o(e,t,r){if(!(this instanceof o))return new o(e,t,r);var s=e;return"string"==typeof e&&(s=document.querySelectorAll(e)),s?(this.elements=n(s),this.options=i({},this.options),"function"==typeof t?r=t:i(this.options,t),r&&this.on("always",r),this.getImages(),h&&(this.jqDeferred=new h.Deferred),void setTimeout(this.check.bind(this))):void a.error("Bad element for imagesLoaded "+(s||e))}function r(e){this.img=e}function s(e,t){this.url=e,this.element=t,this.img=new Image}var h=e.jQuery,a=e.console,d=Array.prototype.slice;o.prototype=Object.create(t.prototype),o.prototype.options={},o.prototype.getImages=function(){this.images=[],this.elements.forEach(this.addElementImages,this)},o.prototype.addElementImages=function(e){"IMG"==e.nodeName&&this.addImage(e),this.options.background===!0&&this.addElementBackgroundImages(e);var t=e.nodeType;if(t&&u[t]){for(var i=e.querySelectorAll("img"),n=0;n<i.length;n++){var o=i[n];this.addImage(o)}if("string"==typeof this.options.background){var r=e.querySelectorAll(this.options.background);for(n=0;n<r.length;n++){var s=r[n];this.addElementBackgroundImages(s)}}}};var u={1:!0,9:!0,11:!0};return o.prototype.addElementBackgroundImages=function(e){var t=getComputedStyle(e);if(t)for(var i=/url\((['"])?(.*?)\1\)/gi,n=i.exec(t.backgroundImage);null!==n;){var o=n&&n[2];o&&this.addBackground(o,e),n=i.exec(t.backgroundImage)}},o.prototype.addImage=function(e){var t=new r(e);this.images.push(t)},o.prototype.addBackground=function(e,t){var i=new s(e,t);this.images.push(i)},o.prototype.check=function(){function e(e,i,n){setTimeout(function(){t.progress(e,i,n)})}var t=this;return this.progressedCount=0,this.hasAnyBroken=!1,this.images.length?void this.images.forEach(function(t){t.once("progress",e),t.check()}):void this.complete()},o.prototype.progress=function(e,t,i){this.progressedCount++,this.hasAnyBroken=this.hasAnyBroken||!e.isLoaded,this.emitEvent("progress",[this,e,t]),this.jqDeferred&&this.jqDeferred.notify&&this.jqDeferred.notify(this,e),this.progressedCount==this.images.length&&this.complete(),this.options.debug&&a&&a.log("progress: "+i,e,t)},o.prototype.complete=function(){var e=this.hasAnyBroken?"fail":"done";if(this.isComplete=!0,this.emitEvent(e,[this]),this.emitEvent("always",[this]),this.jqDeferred){var t=this.hasAnyBroken?"reject":"resolve";this.jqDeferred[t](this)}},r.prototype=Object.create(t.prototype),r.prototype.check=function(){var e=this.getIsImageComplete();return e?void this.confirm(0!==this.img.naturalWidth,"naturalWidth"):(this.proxyImage=new Image,this.proxyImage.addEventListener("load",this),this.proxyImage.addEventListener("error",this),this.img.addEventListener("load",this),this.img.addEventListener("error",this),void(this.proxyImage.src=this.img.src))},r.prototype.getIsImageComplete=function(){return this.img.complete&&this.img.naturalWidth},r.prototype.confirm=function(e,t){this.isLoaded=e,this.emitEvent("progress",[this,this.img,t])},r.prototype.handleEvent=function(e){var t="on"+e.type;this[t]&&this[t](e)},r.prototype.onload=function(){this.confirm(!0,"onload"),this.unbindEvents()},r.prototype.onerror=function(){this.confirm(!1,"onerror"),this.unbindEvents()},r.prototype.unbindEvents=function(){this.proxyImage.removeEventListener("load",this),this.proxyImage.removeEventListener("error",this),this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype=Object.create(r.prototype),s.prototype.check=function(){this.img.addEventListener("load",this),this.img.addEventListener("error",this),this.img.src=this.url;var e=this.getIsImageComplete();e&&(this.confirm(0!==this.img.naturalWidth,"naturalWidth"),this.unbindEvents())},s.prototype.unbindEvents=function(){this.img.removeEventListener("load",this),this.img.removeEventListener("error",this)},s.prototype.confirm=function(e,t){this.isLoaded=e,this.emitEvent("progress",[this,this.element,t])},o.makeJQueryPlugin=function(t){t=t||e.jQuery,t&&(h=t,h.fn.imagesLoaded=function(e,t){var i=new o(this,e,t);return i.jqDeferred.promise(h(this))})},o.makeJQueryPlugin(),o});
+
+function changeFire() {
+  $('.fireworks1').fadeToggle()
+  $('.fireworks2').fadeToggle()
+}
+
+function hideResult() {
+  $('.buttons-parent').show()
+  $('.result').removeClass('success-result')
+  $('.result-cover').show()
+  $('.result').show()
+  $('.overtime').hide()
+  $('.wrang').hide()
+  $('.get-free').hide()
+}
+
+Array.prototype.shuffle = function () {
+  var input = this;
+
+  for (var i = input.length - 1; i >= 0; i--) {
+
+    var randomIndex = Math.floor(Math.random() * (i + 1));
+    var itemAtIndex = input[randomIndex];
+
+    input[randomIndex] = input[i];
+    input[i] = itemAtIndex;
   }
-
-  function hideResult() {
-    $('.result-cover').show()
-    $('.result').show()
-    $('.overtime').hide()
-    $('.wrang').hide()
-    $('.get-free').hide()
+  return input;
+}
+let List = [
+  {
+    title: '2018年霸占免费游戏排行榜Top1的佛系放置类宠物游戏是？',
+    A: '王者农药',
+    B: '今晚吃鸡',
+    C: '旅かえる',
+    D: '消消乐',
+    key: 'C'
+  },
+  {
+    title: '古诗“总把新桃换旧符”的上一句是什么？',
+    A: '千门万户曈曈日',
+    B: '百门万户曈曈日',
+    C: '万门万户曈曈日',
+    D: '家家户户曈曈日',
+    key: 'A'
+  },
+  {
+    title: '今年的农历大年三十前一天是哪个公历节日？',
+    A: '元旦节',
+    B: '腊八节',
+    C: '元宵节',
+    D: '情人节',
+    key: 'D'
+  },
+  {
+    title: '下列产品哪个获得过著名青年偶像关晓彤推荐？',
+    A: 'AMIRO智能化妆镜',
+    B: '糯言香槟',
+    C: '卡蛙香薰机',
+    D: '素士声波电动牙刷青春版',
+    key: 'A'
+  },
+  {
+    title: '以下哪位是演唱《奔跑》并投资了SWDK不弯腰电动擦地机的著名歌手兼跨界投资人？',
+    A: '胡海泉',
+    B: '陈清泉',
+    C: '李泉',
+    D: '龙清泉',
+    key: 'A'
+  },
+  {
+    title: '素士声波电动牙刷青春版特制的四色彩环共有几种颜色？',
+    A: '一种',
+    B: '二种',
+    C: '三种',
+    D: '四种',
+    key: 'D'
+  },
+  {
+    title: '铟果集的logo是哪一款？',
+    A: '太火鸟',
+    B: '铟果',
+    C: '铟果集',
+    D: 'd3in',
+    key: 'C'
+  },
+  {
+    title: '铟果集隶属公司的名字是哪一个？',
+    A: '太火鸟',
+    B: '大火鸟',
+    C: '大金鸟',
+    D: '火烈鸟',
+    key: 'A'
+  },
+  {
+    title: '即将到来的是农历什么生肖年？',
+    A: '己亥猪年',
+    B: '丁酉鸡年',
+    C: '丙申猴年',
+    D: '戊戌狗年',
+    key: 'D'
+  },
+  {
+    title: '农历十二生肖中，带有反犬旁“犭”的生肖有几个？',
+    A: '3个',
+    B: '4个',
+    C: '5个',
+    D: '6个',
+    key: 'A'
+  },
+  {
+    title: '春节习俗中，除夕放鞭炮是为了什么？',
+    A: '驱避一种叫做“年”的神兽',
+    B: '为了吓哭小孩纸',
+    C: '为了震慑犯罪分子',
+    D: '为了有趣',
+    key: 'A'
+  },
+  {
+    title: '小年腊月二十三所祭祀的神仙是？',
+    A: '玉皇大帝 ',
+    B: '齐天大圣',
+    C: '灶王爷',
+    D: '土地公公',
+    key: 'C'
+  },
+  {
+    title: '南方人认为北方人逢年过节的必吃食物是？',
+    A: '饺子',
+    B: '汤圆',
+    C: '包子',
+    D: '春卷',
+    key: 'A'
+  },
+  {
+    title: '大年三十晚上必备的电视节目是？',
+    A: '打麻将',
+    B: '斗地主',
+    C: '看春晚',
+    D: '抢红包',
+    key: 'C'
+  },
+  {
+    title: '“爆竹声中一岁除”的下一句是？',
+    A: '冬风送暖入屠苏',
+    B: '春风送暖入屠苏',
+    C: '秋风送暖入屠苏',
+    D: '夏风送暖入屠苏',
+    key: 'B'
+  },
+  {
+    title: '农历新年指的是哪一天？',
+    A: '元旦',
+    B: '除夕',
+    C: '大年初一',
+    D: '圣诞节',
+    key: 'C'
+  },
+  {
+    title: '以下哪首诗词是关于春节新年的？',
+    A: '游子吟',
+    B: '春晓',
+    C: '九月九日忆山东兄弟',
+    D: '元日',
+    key: 'D'
+  },
+  {
+    title: '“本命年”的代表色是？',
+    A: '绿色',
+    B: '红色',
+    C: '粉色',
+    D: '灰色',
+    key: 'B'
+  },
+  {
+    title: '“龙抬头”是哪一天？',
+    A: '二月二',
+    B: '二月三',
+    C: '二月四',
+    D: '二月五',
+    key: 'A'
   }
+]
 
-  let questionList = [
-    {
-      title: '2018年霸占免费游戏排行榜Top1的佛系放置类宠物游戏是？',
-      A: '王者农药',
-      B: '今晚吃鸡',
-      C: '旅かえる',
-      D: '消消乐',
-      key: 'C'
-    },
-    {
-      title: '古诗“总把新桃换旧符”的上一句是什么？',
-      A: '千门万户曈曈日',
-      B: '百门万户曈曈日',
-      C: '万门万户曈曈日',
-      D: '家家户户曈曈日',
-      key: 'A'
-    },
-    {
-      title: '今年的农历大年三十前一天是哪个公历节日？',
-      A: '元旦节',
-      B: '腊八节',
-      C: '元宵节',
-      D: '情人节',
-      key: 'D'
-    },
-    {
-      title: '下列产品哪个获得过著名青年偶像关晓彤推荐？',
-      A: 'MIRO智能化妆镜',
-      B: '糯言香槟',
-      C: '卡蛙香薰机',
-      D: '素士声波电动牙刷青春版',
-      key: 'A'
-    },
-    {
-      title: '以下哪位是演唱《奔跑》并投资了SWK不弯腰电动擦地机的著名歌手兼跨界投资人？',
-      A: '胡海泉',
-      B: '陈清泉',
-      C: '李泉',
-      D: '龙清泉',
-      key: 'A'
-    },
-    {
-      title: '素士声波电动牙刷青春版特制的四色彩环共有几种颜色？',
-      A: '一种',
-      B: '二种',
-      C: '三种',
-      D: '四种',
-      key: 'D'
-    },
-    {
-      title: '铟果集的logo是哪一款？',
-      A: '太火鸟',
-      B: '铟果',
-      C: '铟果集',
-      D: 'd3in',
-      key: 'C'
-    },
-    {
-      title: '铟果集隶属公司的名字是哪一个？',
-      A: '太火鸟',
-      B: '大火鸟',
-      C: '大金鸟',
-      D: '火烈鸟',
-      key: 'A'
-    },
-    {
-      title: '即将到来的是农历什么生肖年？',
-      A: '己亥猪年',
-      B: '丁酉鸡年',
-      C: '丙申猴年',
-      D: '戊戌狗年',
-      key: 'D'
-    }
-  ]
+let questionList = []
 
-  $('.right-away').click(function (e) { // 马上办
-    setTimeout(() => {
-      $('.part2').addClass('part2-click')
-      $('.cloud').hide()
-      $('.part1').hide()
-      changeFire()
-      $(this).hide()
-      $('.part3').fadeIn()
-      $('.begin').fadeIn()
-    }, 100)
-  })
-
-  $('.cloud').click(function (e) { // 怎么玩
-    $('.part').toggle()
-    $('.logo').toggle()
-    $(this).toggleClass('cloud-center')
-    $('.intro').toggleClass('intro-show')
+$('.right-away').click(function (e) { // 马上办
+  setTimeout(() => {
+    $('.part2').addClass('part2-click')
+    $('.cloud').hide()
+    $('.part1').hide()
     changeFire()
-  })
+    $(this).hide()
+    $('.part3').fadeIn()
+    $('.begin').fadeIn()
+  }, 100)
+})
 
-  $('.begin').click(function () { // 开始答题
+$('.cloud').click(function (e) { // 怎么玩
+  $('.part').toggle()
+  $(this).toggleClass('cloud-center')
+  $('.intro').toggleClass('intro-show')
+  changeFire()
+})
+
+let isOk2 = true
+let timeOut2 = null
+$('.begin').click(function () { // 开始答题
+  if (isOk2) {
+    isOk2 = false
+    window.clearTimeout(timeOut2)
+    timeOut2 = setTimeout(() => {
+      isOk2 = true
+    }, 300);
     $(this).hide()
     Interval()
-  })
-  let timer = null
-  function Interval() { // 倒计时3秒开始答题
-    let i = 3
-    $('.part4').text(i)
-    $('.part4').addClass('count-down' + i)
-    timer = setInterval(() => {
-      i--
-      $('.part4').text(i)
-      $('.part4').addClass('count-down' + i)
-      if (i == 0) {
-        window.clearInterval(timer)
-        $('.part').addClass('part-hide')
-        $('.question').addClass('question-show')
-        Interval2()
-      }
-    }, 1000)
+  } else {
+    console.log('点太快了')
   }
-  let timer2 = null
-  function Interval2() { // 倒计时1分钟
-    let i = 60;
-    $('.question-count').text(i)
-    timer2 = setInterval(() => {
-      i--
-      $('.question-count').text(i)
-      if (i == 0) { // 超时
-        window.clearInterval(timer2)
-        $('.question-list').off('click', 'li', liClick)
-        hideResult()
-        $('.overtime').show()
-      }
-    }, 1000)
-  }
+})
 
-  let key_i = 0
-  let isOk = true
-  function liClick() { // 答题选项
-    let EleWidth = $(window).width()
-    let index = $(this).parent().attr('index')
-    if (questionList[index].key === $(this).attr('index')) {
-      if (isOk) {
-        isOk = false
-        setTimeout(() => {
-          isOk = true
-        }, 300);
-        $(this).addClass('key')
-        key_i++
-        if (key_i >= questionList.length) { // 全对
-          window.clearInterval(timer2)
-          console.log(60 - Number($('.question-count').text())) // 答题用时
-          hideResult()
-          $('.get-free').show()
-          return 'get-free'
-        }
-        $('.question-list').animate({}, function () {
-          $('.question-list').css({ 'transform': 'translateX(' + -EleWidth * key_i + 'px)' })
-        });
-      } else {
-        return false
-      }
-    } else { // 回答错误
+function countDown() {
+  $('.part4').hide()
+  $('.count-down1').hide()
+  $('.count-down2').hide()
+  $('.count-down3').hide()
+}
+
+let timer = null
+function Interval() { // 倒计时3秒开始答题
+  let i = 3
+  $('.part4').text(i)
+  $('.count-down3').show()
+  timer = setInterval(() => {
+    i--
+    $('.part4').text(i)
+    countDown()
+    $('.count-down' + i).show()
+    if (i <= 0) {
+      window.clearInterval(timer)
+      $('.part').addClass('part-hide')
+      $('.part2').hide()
+      $('.question').addClass('question-show')
+      Interval2()
+    }
+  }, 1000)
+}
+let timer2 = null
+function Interval2() { // 倒计时1分钟
+  window.clearInterval(timer2)
+  let i = 60;
+  $('.question-count').text(i)
+  timer2 = setInterval(() => {
+    i--
+    $('.question-count').text(i)
+    if (i == 0) { // 超时
       window.clearInterval(timer2)
       $('.question-list').off('click', 'li', liClick)
       hideResult()
-      $('.wrang').show()
-      $('.correct').text(key_i)
-      $('.error').text(9 - key_i)
-      return 'wrang'
+      $('.overtime').show()
+    }
+  }, 1000)
+}
+
+let key_i = 0
+let isOk = true
+let timeOut = null
+function liClick() { // 答题选项
+  let EleWidth = $(window).width()
+  let index = $(this).parent().attr('index')
+  let rightKey = questionList[index].key
+  var reg = new RegExp($(this).attr('index'), 'gi')
+  if (reg.test(rightKey)) {
+    if (isOk) {
+      isOk = false
+      window.clearTimeout(timeOut)
+      timeOut = setTimeout(() => {
+        isOk = true
+      }, 300)
+      $(this).addClass('key')
+      key_i++
+      if (key_i >= questionList.length) { // 全对
+        window.clearInterval(timer2)
+        console.log(60 - Number($('.question-count').text())) // 答题用时
+        hideResult()
+        $('.result').addClass('success-result')
+        $('.get-free').show()
+        $('.buttons').hide()
+        return 'get-free'
+      }
+      $('.question-list').animate({}, function () {
+        $('.question-list').css({ 'transform': 'translateX(' + -EleWidth * key_i + 'px)' })
+      });
+    } else {
+      console.log('手机已经跟不上你的手速了')
+    }
+  } else { // 回答错误
+    window.clearInterval(timer2)
+    $('.question-list').off('click', 'li', liClick)
+    hideResult()
+    $('.wrang').show()
+    $('.correct').text(key_i)
+    $('.error').text(20 - key_i)
+    return 'wrang'
+  }
+}
+$('.question-list').on('click', 'li', liClick)
+
+// $('.result-cover').on('click', function () {
+//   $('.result').hide()
+//   $(this).hide()
+// })
+
+function hideQuestion(params) {
+  $('.result-cover').hide()
+  $('.result').hide()
+  $('.question').removeClass('question-show')
+  $('.question-list').empty()
+  $('.question-list').css({ 'transform': 'translateX(0)' })
+  $('.question-list li').removeClass('key')
+  $('.question-list').on('click', 'li', liClick)
+  $('.part').removeClass('part-hide')
+  $('.part2').show()
+  countDown()
+  $('.part4').show()
+  addQuestion()
+  changeFire()
+  $('.buttons-parent').hide()
+}
+
+$('.exit').on('click', function () { // 退出
+  $('.right-away').fadeIn()
+  $('.result').removeClass('success-result')
+  $('.question').removeClass('question-show')
+  hideQuestion()
+  $('.part2').removeClass('part2-click')
+  $('.part3').hide()
+  $('.part1').show()
+  $('.cloud').show()
+})
+
+$('.again').on('click', function () { // 再来一次
+  setTimeout(() => {
+    key_i = 0
+    $('.part2').addClass('part2-click')
+    $('.part3').fadeIn()
+    $('.begin').fadeIn()
+    hideQuestion()
+  }, 100)
+})
+
+function addQuestion() { // 添加题目
+  var random = List.shuffle()
+  questionList = []
+  for (let i = 0; i < random.length; i++) {
+    questionList.push(random[i])
+    if (i >= 18) {
+      break
     }
   }
-  $('.question-list').on('click', 'li', liClick)
+  questionList.push(
+    {
+      title: '小孩子拿到“压岁钱”应该做什么？',
+      A: '充值王者农药',
+      B: '请小伙伴吃鸡',
+      C: '藏在枕头底下',
+      D: '双手交给妈妈',
+      key: 'A,B,C,D'
+    })
+  for (let j = 0; j < questionList.length; j++) {
+    $('<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A + '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D + '</li></ul></div>').appendTo($('.question-list'))
+  }
+}
 
-  $().ready(() => {
-    $('.top-three').show()
-    for (let j = 0; j < questionList.length; j++) {
-      $('<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A + '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D + '</li></ul></div>').appendTo($('.question-list'))
-    }
+function musicControl() {
+  var music = $("audio")[0];
+  music.src = "{{ app_url_packaged }}/music/Slapstick.mp3"
+  document.addEventListener("WeixinJSBridgeReady", function () {
+    music.src = "{{ app_url_packaged }}/music/Slapstick.mp3"
+    music.play()
+  }, false)
+  $(window).one('touchstart', function () {
+    music.play()
   })
 
-  // $('.result-cover').on('click', function () {
-  //   $('.result').hide()
-  //   $(this).hide()
-  // })
+  // 播放音乐
+  $('.music').click(function () {
+    $(this).toggleClass('music-pause')
+    if (music.paused) {
+      music.play()
+    } else {
+      music.pause()
+    }
+  })  
+}
+
+$().ready(() => {
+  addQuestion()
+
+  $('.gift').hide()
+  $('.gift').imagesLoaded(function () {
+    $('.gift').fadeIn()
+  })
+  
+  $('*').imagesLoaded({ background: true }, function () {
+    $('.page-cover').hide()
+    $('.gift-light').show()
+    setTimeout(() => {
+      $('.gift-light').hide()
+      $('.container').show()
+      musicControl()
+    }, 500)
+    console.log('.container background image loaded')
+  });
+})
 
 
 {% endblock %}
 
 {% block content %}
+  <div class="gift-light"></div>
+  <div class="page-cover">
+    <div class="gift">
+      <img class="gift-head" src="{{ app_url_packaged }}/images/promo/sf18/main/box-head.png" alt="礼盒盖子">
+      <img class="gift-body" src="{{ app_url_packaged }}/images/promo/sf18/main/box-body.png" alt="礼盒身体">
+    </div>
+  </div>
   <section class="container">
-    <article>
+    <span class="music"></span>
+    <article class="background">
       <div class="eave">屋檐</div>
       <div class="door">门框</div>
       <span class="pillar-left">柱子左</span>
       <span class="pillar-right">柱子右</span>
       <span class="lantern-left">灯笼左</span>
       <span class="lantern-right">灯笼右</span>
+      <div class="fireworks1">
+        <span class="top">烟花1-top</span>
+        <span class="left">烟花1-left</span>
+        <span class="right">烟花1-right</span>
+      </div>
+      <div class="fireworks2">
+        <span class="top">烟花2-top</span>
+        <span class="left">烟花2-left</span>
+        <span class="right">烟花2-right</span>
+      </div>
     </article>
-    <div class="header">
-      <h1 class="logo">太火鸟答题</h1>
-      <a class="cloud">怎么玩?</a>
-    </div>
-    <div class="part">
-      <div class="part1">
-        <article class="title">
-          <h3 class="no-money">不花钱</h3>
-          <h3 class="nianhuo">办年货</h3>
-        </article>
-        <article class="coin">
-          <span class="coin-top">金币</span>
-          <span class="coin-center">金币</span>
-          <span class="coin-bottom">金币</span>
-        </article>
-        <article class="pao">
-          <span class="pao1">炮仗1</span>
-          <span class="pao2">炮仗2</span>
-        </article>
+    <section class="content">
+      <div class="header">
+        <h1 class="logo">太火鸟答题</h1>
+        <p class="cloud">怎么玩?</p>
       </div>
+      <div class="part">
+        <div class="part1">
+          <article class="title">
+            <h3 class="no-money">不花钱</h3>
+            <h3 class="nianhuo">办年货</h3>
+          </article>
+          <article class="coin">
+            <span class="coin-top">金币</span>
+            <span class="coin-center">金币</span>
+            <span class="coin-bottom">金币</span>
+          </article>
+          <article class="pao">
+            <span class="pao1">炮仗1</span>
+            <span class="pao2">炮仗2</span>
+          </article>
+        </div>
 
-      <div class="part2">
-        <article class="coupon">
-          <span class="coupon50">50元优惠券</span>
-          <span class="coupon30">30元优惠券</span>
-          <span class="clock"></span>
-        </article>
-        <article class="banner">
-          <h2 class="free-order">1分钟通关可免单</h2>
-          <h2 class="free-order-cover">1分钟通关可免单</h2>
-          <p class="top-three">每天前3名</p>
-        </article>
-      </div>
+        <div class="part2">
+          <article class="coupon">
+            <span class="coupon50">50元优惠券</span>
+            <span class="coupon30">30元优惠券</span>
+            <span class="clock"></span>
+          </article>
+          <article class="banner">
+            <h2 class="free-order">1分钟通关可免单</h2>
+            <h2 class="free-order-cover">1分钟通关可免单</h2>
+            <p class="top-three">每天前3名</p>
+          </article>
+        </div>
 
-      <div class="part3">
-        <i>从1月31日起</i>
-        <i>一分钟内答对全部题目</i>
-        <i>每天前3名</i>
-        <i>即可免单!</i>
-      </div>
+        <div class="part3">
+          <i>从1月31日起</i>
+          <i>一分钟内答对全部题目</i>
+          <i>每天前3名</i>
+          <i>即可免单!</i>
+        </div>
 
-      <div class="part4">
+        <div class="part4">
+        </div>
+        <div class="count-down1">
+        </div>
+        <div class="count-down2">
+        </div>
+        <div class="count-down3">
+        </div>
+        <a class="right-away">马上办</a>
+        <a class="begin">开始答题</a>
+        <footer></footer>
       </div>
-      <a class="right-away">马上办</a>
-      <a class="begin">开始答题</a>
-      <footer></footer>
-    </div>
-    <div class="fireworks1">
-      <span class="top">烟花1-top</span>
-      <span class="left">烟花1-left</span>
-      <span class="right">烟花1-right</span>
-    </div>
-    <div class="fireworks2">
-      <span class="top">烟花2-top</span>
-      <span class="left">烟花2-left</span>
-      <span class="right">烟花2-right</span>
-    </div>
-    <div class="intro">
-      <p>
-        <span>1.</span>活动时间1月31日-2月9日24:00，每天前3名1分钟内通关者到铟果集有赞店铺购物即可免单。</p>
-      <p>
-        <span>2.</span>铟果集免单上限为300元人民币，从中奖结果公布之日起，购物免单有效期28天，中奖结果以后台监控数据为准。（春节期间物流停运，下单统一年后发货）</p>
-      <p>
-        <span>3.</span>答题通关，但时间超过1分钟，送30元无门槛优惠券，不可叠加。</p>
-      <p>
-        <span>4.</span>参与活动、转发给好友/朋友圈即送铟果集满199减50元优惠券，下单时截图给客服。</p>
-      <p>
-        <span>5.</span>禁止各种形式作弊，每个用户仅有一次获奖名额，同一ID、IP地址、手机号均视为一个用户，否则视为无效。</p>
-      <p>
-        <span>6.</span>本活动最终解释权归铟果集所有。 </p>
-      <p>
-        <span>7.</span>中奖结果将于“铟&nbsp;&nbsp;果&nbsp;&nbsp;集”微信公众号(taihuoniao_gift) 及时公布，请及时关注。
-      </p>
-      <div class="qrcode">
-        <img src="{{ app_url_packaged }}/images/promo/sf18/main/qrcode.png" alt="铟果公众号">
+      <div class="intro">
+        <p>
+          <span>1.</span>活动时间1月31日-2月9日24:00，每日通关速度最快的前3名可享受免单。</p>
+        <p>
+          <span>2.</span>铟果集免单上限为300元人民币，从中奖结果公布之日起，购物免单有效期28天，中奖结果以后台监控数据为准。（春节期间物流停运，下单统一年后发货）</p>
+        <p>
+          <span>3.</span>答题通关，但时间超过1分钟，送30元无门槛优惠券，不可叠加。</p>
+        <p>
+          <span>4.</span>参与活动、转发给好友/朋友圈即送铟果集满199减50元优惠券，下单时截图给客服。</p>
+        <p>
+          <span>5.</span>禁止各种形式作弊，每个用户仅有一次获奖名额，同一ID、IP地址、手机号均视为一个用户，否则视为无效。</p>
+        <p>
+          <span>6.</span>本活动最终解释权归铟果集所有。 </p>
+        <p>
+          <span>7.</span>中奖结果将于“铟&nbsp;&nbsp;果&nbsp;&nbsp;集”微信公众号(taihuoniao_gift) 及时公布，请及时关注。
+        </p>
+        <div class="qrcode">
+          <img src="{{ app_url_packaged }}/images/promo/sf18/main/qrcode.png" alt="铟果公众号">
+        </div>
       </div>
-    </div>
-    <!-- 答题页面 -->
-    <article class="question">
-      <span class="question-count">60</span>
-      <section class="question-list clearfix">
+      <!-- 答题页面 -->
+      <article class="question">
+        <span class="question-count">60</span>
+        <section class="question-list clearfix">
+        </section>
+      </article>
+      <div class="result-cover"></div>
+      <section class="result">
+        <!-- 全对 -->
+        <article class="get-free">
+          <p>
+            <span class="fire-work1"></span>
+            <span class="free-coin1"></span>
+          </p>
+          <p>
+            <span class="fire-work2"></span>
+            <span class="free-coin2"></span>
+          </p>
+          <p class="result-success">1分钟成功通关！</p>
+          <p class="result-success-shadow">1分钟成功通关！</p>
+          <p class="congratulation">恭喜你一路通关！</p>
+          <p class="get-coupon">送你
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+          <span class="goods"></span>
+        </article>
+
+        <!-- 超时 -->
+        <article class="overtime">
+          <p class="result-success">超时了...</p>
+          <span class="overtime-clock"></span>
+          <p class="result-success-shadow">超时了...</p>
+          <p class="congratulation">您已超时。</p>
+          <p class="get-coupon">
+            送你
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+          <span class="goods"></span>
+        </article>
+        <!-- 答错 -->
+        <article class="wrang">
+          <p class="result-success">答错了...</p>
+          <span class="wrang-pao2"></span>
+          <p class="congratulation">成功答对
+            <span class="correct">3</span>题</p>
+          <p class="congratulation">距离年货免单还有
+            <span class="error">6</span>题的距离</p>
+          <p class="get-coupon">
+            送你
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">满199减50铟果集优惠券</a>!</p>
+          <span class="goods"></span>
+        </article>
+        <p class="share">
+          <span>给TA一个</span>
+          <span>“不花钱办年货”的机会！</span>
+        </p>
+        <div class="result-qrcode">
+          <img src="{{ app_url_packaged }}/images/promo/sf18/result/qrcode.png" alt="铟果集">
+        </div>
       </section>
-    </article>
-    <div class="result-cover"></div>
-    <section class="result">
-      <!-- 全对 -->
-      <article class="get-free">
-        <p>
-          <span class="fire-work1"></span>
-          <span class="free-coin1"></span>
+      <section class="buttons-parent">
+        <p class="buttons">
+          <span class="exit">给钱不要</span>
+          <span class="again">再战一场</span>
         </p>
-        <p>
-          <span class="fire-work2"></span>
-          <span class="free-coin2"></span>
-        </p>
-        <p class="result-success">1分钟成功通关！</p>
-        <p class="result-success-shadow">1分钟成功通关！</p>
-        <p class="congratulation">恭喜你一路通关！</p>
-        <p class="get-coupon">送你
-          <a>30元铟果集无门槛优惠券</a>!</p>
-        <p class="share">
-          <span>多分享！</span>
-          <span>多优惠！</span>
-        </p>
-        <span class="coupon-30"></span>
-      </article>
-
-      <!-- 超时 -->
-      <article class="overtime">
-        <p class="result-success">超时了...</p>
-        <span class="overtime-clock"></span>
-        <p class="result-success-shadow">超时了...</p>
-        <p class="congratulation">您已超时。</p>
-        <p class="get-coupon">
-          送你
-          <a>30元铟果集无门槛优惠券</a>!</p>
-        <p class="share">
-          <span>多分享！</span>
-          <span>多优惠！</span>
-        </p>
-        <span class="coupon-30"></span>
-      </article>
-      <!-- 答错 -->
-      <article class="wrang">
-        <p class="result-success">答错了...</p>
-        <span class="wrang-pao2"></span>
-        <p class="congratulation">成功答对
-          <span class="correct">3</span>题</p>
-        <p class="congratulation">距离年货免单还有
-          <span class="error">6</span>题的距离</p>
-        <p class="get-coupon">
-          送你
-          <a>满199减50铟果集优惠券</a>!</p>
-        <p class="share">
-          <span>多分享！</span>
-          <span>多优惠！</span>
-        </p>
-        <span class="coupon-50"></span>
-      </article>
-      <p class="circle">
-        <i class="arrow"></i>
-        <span>分享到朋友圈，</span>
-        <span> 因你加入答题的好友，</span>
-        <span>可自动获得你拥有的优惠券金额。</span>
-      </p>
-      <div class="result-qrcode"></div>
+      </section>
     </section>
   </section>
-  <audio src="{{ app_url_packaged }}/music/Slapstick.mp3" autoplay loop></audio>
+  <audio autoplay loop></audio>
 {% endblock %}
 
 
