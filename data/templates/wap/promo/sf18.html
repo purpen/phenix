@@ -1,5 +1,5 @@
 {%extends 'layout/mobile_api.html'%}
-{% block title %}答题免单{% endblock %}
+{% block title %}1分钟答题通关，不花钱办年货-太火鸟{% endblock %}
 {% block page_css %}
 <style type="text/css">
 html,
@@ -281,7 +281,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   display: none;
 }
 
-.result {
+.result-question {
   position: absolute;
   z-index: 11;
   left: 0.7rem;
@@ -301,7 +301,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   top: 2rem;
 }
 
-.overtime, .wrang, .get-free {
+.overtime-question, .wrang-question, .get-free {
   display: none;
 }
 
@@ -470,7 +470,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   z-index: 99;
 }
 
-.buttons {
+.buttons-question {
   color: #ffb493;
   display: flex;
   justify-content: center;
@@ -478,18 +478,18 @@ html,body {-webkit-user-select:none; user-select: none; }
   margin-top: -1.6rem;
 }
 
-.buttons span {
+.buttons-question span {
   padding: 0.16rem 0.56rem;
   margin-right: 0.4rem;
   font-size: 0.3rem;
   border-radius: 8px;
   border: 1px solid #ffb493
 }
-.buttons span.again {
+.buttons-question span.again {
   margin-right: 0;
 }
 
-.buttons span:active {
+.buttons-question span:active {
   transform: scale(0.98)
 }
 
@@ -1195,7 +1195,7 @@ body {
   display: none;
 }
 
-.container {
+.container-question {
   width: 100vw;
   margin: 0 auto;
   height: 100%;
@@ -1528,11 +1528,10 @@ footer {
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 	
-	var descrite = '竟然就这样轻松的搞定了三个女人，感觉要走上人生巅峰啦！';
-    var m_name = '如何在妇女节这天，完美搞定三个女人';
+    var m_name = '1分钟答题通关，不花钱办年货';
     var link = '{{ app_url_wap_promo }}/spring_festival18';
-	var img_url = '{{ app_url_packaged }}/images/promo/cappa/fenxiang.jpg';
-    var desc_str = '眼见三月八日又来了，雷锋小编不光教学，还要送大礼啦！';
+	var img_url = '{{ app_url_packaged }}/images/promo/sf18/share.jpeg';
+    var desc_str = '免费办年货，点击分享让TA也试试';
 	
     wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -1667,11 +1666,11 @@ function changeFire() {
 
 function hideResult() {
   $('.buttons-parent').show()
-  $('.result').removeClass('success-result')
+  $('.result-question').removeClass('success-result')
   $('.result-cover').show()
-  $('.result').show()
-  $('.overtime').hide()
-  $('.wrang').hide()
+  $('.result-question').show()
+  $('.overtime-question').hide()
+  $('.wrang-question').hide()
   $('.get-free').hide()
 }
 
@@ -1918,7 +1917,7 @@ function Interval2() { // 倒计时1分钟
       window.clearInterval(timer2)
       $('.question-list').off('click', 'li', liClick)
       hideResult()
-      $('.overtime').show()
+      $('.overtime-question').show()
     }
   }, 1000)
 }
@@ -1944,9 +1943,9 @@ function liClick() { // 答题选项
         window.clearInterval(timer2)
         console.log(60 - Number($('.question-count').text())) // 答题用时
         hideResult()
-        $('.result').addClass('success-result')
+        $('.result-question').addClass('success-result')
         $('.get-free').show()
-        $('.buttons').hide()
+        $('.buttons-question').hide()
         return 'get-free'
       }
       $('.question-list').animate({}, function () {
@@ -1959,7 +1958,7 @@ function liClick() { // 答题选项
     window.clearInterval(timer2)
     $('.question-list').off('click', 'li', liClick)
     hideResult()
-    $('.wrang').show()
+    $('.wrang-question').show()
     $('.correct').text(key_i)
     $('.error').text(20 - key_i)
     return 'wrang'
@@ -1968,13 +1967,13 @@ function liClick() { // 答题选项
 $('.question-list').on('click', 'li', liClick)
 
 // $('.result-cover').on('click', function () {
-//   $('.result').hide()
+//   $('.result-question').hide()
 //   $(this).hide()
 // })
 
 function hideQuestion(params) {
   $('.result-cover').hide()
-  $('.result').hide()
+  $('.result-question').hide()
   $('.question').removeClass('question-show')
   $('.question-list').empty()
   $('.question-list').css({ 'transform': 'translateX(0)' })
@@ -1991,7 +1990,7 @@ function hideQuestion(params) {
 
 $('.exit').on('click', function () { // 退出
   $('.right-away').fadeIn()
-  $('.result').removeClass('success-result')
+  $('.result-question').removeClass('success-result')
   $('.question').removeClass('question-show')
   hideQuestion()
   $('.part2').removeClass('part2-click')
@@ -2068,10 +2067,10 @@ $().ready(() => {
     $('.gift-light').show()
     setTimeout(() => {
       $('.gift-light').hide()
-      $('.container').show()
+      $('.container-question').show()
       musicControl()
     }, 500)
-    console.log('.container background image loaded')
+    console.log('.container-question background image loaded')
   });
 })
 
@@ -2086,7 +2085,7 @@ $().ready(() => {
       <img class="gift-body" src="{{ app_url_packaged }}/images/promo/sf18/main/box-body.png" alt="礼盒身体">
     </div>
   </div>
-  <section class="container">
+  <section class="container-question">
     <span class="music"></span>
     <article class="background">
       <div class="eave">屋檐</div>
@@ -2142,7 +2141,7 @@ $().ready(() => {
         </div>
 
         <div class="part3">
-          <i>从1月31日起</i>
+          <i>从2月2日起</i>
           <i>一分钟内答对全部题目</i>
           <i>每天前3名</i>
           <i>即可免单!</i>
@@ -2162,7 +2161,7 @@ $().ready(() => {
       </div>
       <div class="intro">
         <p>
-          <span>1.</span>活动时间1月31日-2月9日24:00，每日通关速度最快的前3名可享受免单。</p>
+          <span>1.</span>活动时间2月2日-2月9日24:00，每日通关速度最快的前3名可享受免单。</p>
         <p>
           <span>2.</span>铟果集免单上限为300元人民币，从中奖结果公布之日起，购物免单有效期28天，中奖结果以后台监控数据为准。（春节期间物流停运，下单统一年后发货）</p>
         <p>
@@ -2187,7 +2186,7 @@ $().ready(() => {
         </section>
       </article>
       <div class="result-cover"></div>
-      <section class="result">
+      <section class="result-question">
         <!-- 全对 -->
         <article class="get-free">
           <p>
@@ -2207,7 +2206,7 @@ $().ready(() => {
         </article>
 
         <!-- 超时 -->
-        <article class="overtime">
+        <article class="overtime-question">
           <p class="result-success">超时了...</p>
           <span class="overtime-clock"></span>
           <p class="result-success-shadow">超时了...</p>
@@ -2218,7 +2217,7 @@ $().ready(() => {
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
-        <article class="wrang">
+        <article class="wrang-question">
           <p class="result-success">答错了...</p>
           <span class="wrang-pao2"></span>
           <p class="congratulation">成功答对
@@ -2239,7 +2238,7 @@ $().ready(() => {
         </div>
       </section>
       <section class="buttons-parent">
-        <p class="buttons">
+        <p class="buttons-question">
           <span class="exit">给钱不要</span>
           <span class="again">再战一场</span>
         </p>
