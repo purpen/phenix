@@ -289,9 +289,9 @@ html,body {-webkit-user-select:none; user-select: none; }
   width: 6.13rem;
   height: 8.96rem;
   background: url("{{ app_url_packaged }}/images/promo/sf18/result/result-bg.png") no-repeat center;
-  background-size: contain;
+  background-size: cover;
   text-align: center;
-  padding-top: 0.6rem;
+  /* padding-top: 0.6rem; */
   display: none;
 }
 
@@ -349,7 +349,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   z-index: 4;
 }
 
-.result-success {
+.result-question .result-success {
   color: #e22e2f;
   font-size: 0.68rem;
   text-align: center;
@@ -369,7 +369,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   text-shadow: 0 0 13px rgba(0, 0, 0, 0.3);
 }
 
-.congratulation, .get-coupon, .share, .circle {
+.conglation, .get-coupon, .share, .circle {
   color: #ca825e;
   font-size: 0.34rem;
   font-family: "PingFang";
@@ -461,7 +461,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   top: 0.15rem;
   width: 1.64rem;
   height: 1.8rem;
-  background: url({{ app_url_packaged }}/images/promo/sf18/result/clock.png) no-repeat center;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/clock.png") no-repeat center;
   background-size: 56%;
 }
 
@@ -547,7 +547,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   animation: bottomToTop 0.65s;
   text-indent: -999rem;
   color: #0000;
-  background: url({{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png) no-repeat center;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png") no-repeat center;
   background-size: contain;
   position: absolute;
   z-index: 2;
@@ -1339,7 +1339,6 @@ body {
   height: 1.88rem;
   background: url("{{ app_url_packaged }}/images/promo/sf18/logo.png") no-repeat center;
   background-size: contain;
-  display: none;
 }
 
 .cloud {
@@ -1740,15 +1739,15 @@ let List = [
     C: '三种',
     D: '四种',
     key: 'D'
-  },
-  {
-    title: '铟果集的logo是哪一款？',
-    A: '太火鸟',
-    B: '铟果',
-    C: '铟果集',
-    D: 'd3in',
-    key: 'C'
-  },
+  }, 
+  // {
+  //   title: '铟果集的logo是哪一款？',
+  //   A: '太火鸟',
+  //   B: '铟果',
+  //   C: '铟果集',
+  //   D: 'd3in',
+  //   key: 'C'
+  // },
   {
     title: '铟果集隶属公司的名字是哪一个？',
     A: '太火鸟',
@@ -1906,6 +1905,7 @@ function Interval() { // 倒计时3秒开始答题
       $('.part').addClass('part-hide')
       $('.part2').hide()
       $('.question').addClass('question-show')
+      $('.logo').hide()
       Interval2()
     }
   }, 1000)
@@ -1993,21 +1993,23 @@ function hideQuestion(params) {
   $('.buttons-parent').hide()
 }
 
-$('.exit').on('click', function () { // 退出
-  $('.right-away').fadeIn()
-  $('.result-question').removeClass('success-result')
-  $('.question').removeClass('question-show')
-  hideQuestion()
-  $('.part2').removeClass('part2-click')
-  $('.part3').hide()
-  $('.part1').show()
-  $('.cloud').show()
-})
+// $('.exit').on('click', function () { // 退出
+//   $('.right-away').fadeIn()
+//   $('.result').removeClass('success-result')
+//   $('.question').removeClass('question-show')
+//   hideQuestion()
+//   $('.part2').removeClass('part2-click')
+//   $('.part3').hide()
+//   $('.part1').show()
+//   $('.cloud').show()
+//   $('.logo').show()
+// })
 
 $('.again').on('click', function () { // 再来一次
   setTimeout(() => {
     key_i = 0
     $('.part2').addClass('part2-click')
+    $('.logo').show()
     $('.part3').fadeIn()
     $('.begin').fadeIn()
     hideQuestion()
@@ -2206,7 +2208,7 @@ $().ready(() => {
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
           <p class="get-coupon">送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
 
@@ -2218,7 +2220,7 @@ $().ready(() => {
           <p class="congratulation">您已超时。</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
@@ -2231,7 +2233,7 @@ $().ready(() => {
             <span class="error">6</span>题的距离</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">满199减50铟果集优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">满199减50铟果集优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <p class="share">
@@ -2244,7 +2246,7 @@ $().ready(() => {
       </section>
       <section class="buttons-parent">
         <p class="buttons-question">
-          <span class="exit">给钱不要</span>
+          <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank"></a><span class="exit">去办年货</span>
           <span class="again">再战一场</span>
         </p>
       </section>
