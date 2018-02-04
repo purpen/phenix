@@ -33,6 +33,8 @@
 				<th>缩略图</th>
 				<th>ID/number</th>
         <th>信息</th>
+        <th>IP</th>
+        <th>创建时间</th>
         <th>状态</th>
         <th>操作</th>
 			</tr>
@@ -83,6 +85,8 @@
               {%endif%}
 
             </td>
+            <td>{{ f.ip|default '--' }}</td>
+            <td>{{ f.created_on|date 'y-m-d H:m' }}</td>
 
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}

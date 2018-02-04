@@ -340,17 +340,18 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
   public function save_subject_sign(){
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
-    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+
+    $user_id = $this->visitor->id;
 
     if(empty($target_id)){
-      return $this->ajax_json('参数不存在!', true);   
+      return $this->ajax_json('缺少请求参数!', true);   
     }
 
-    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address'])){
+    if(empty($this->stash['realname']) || empty($this->stash['phone'])){
       return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
-    if(!preg_match("/1[3458]{1}\d{9}$/",trim($this->stash['phone']))){  
+    if(!preg_match("/1[3456789]{1}\d{9}$/",trim($this->stash['phone']))){  
       return $this->ajax_json('请输入正确的手机号码格式!', true);     
     }
 
@@ -368,9 +369,21 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $data['ip'] = Sher_Core_Helper_Auth::get_ip();
     $data['info']['realname'] = $this->stash['realname'];
     $data['info']['phone'] = trim($this->stash['phone']);
-    //$data['info']['company'] = $this->stash['company'];
-    //$data['info']['job'] = $this->stash['job'];
-    $data['info']['address'] = $this->stash['address'];
+    if (isset($this->stash['company'])) {
+      $data['info']['company'] = $this->stash['company'];
+    }
+    if (isset($this->stash['job'])) {
+      $data['info']['job'] = $this->stash['job'];
+    }
+    if (isset($this->stash['address'])) {
+      $data['info']['address'] = $this->stash['address'];
+    }
+    if (isset($this->stash['option01'])) {
+      $data['info']['option_01'] = $this->stash['option01'];
+    }
+    if (isset($this->stash['option02'])) {
+      $data['info']['option_01'] = $this->stash['option02'];
+    }
 
     try{
       $ok = $model->apply_and_save($data);
