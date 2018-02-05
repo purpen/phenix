@@ -411,6 +411,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
    * 保存报名信息
    */
   public function save_subject_sign(){
+    session_start();
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
 
@@ -425,6 +426,14 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       $option01 = isset($this->stash['option01']) ? (int)$this->stash['option01'] : 0;
       if ($option01 <= 20 || $option01 >= 60) {
         return $this->ajax_json('请求失败,缺少必要参数!!', true);
+      }
+      $active_festival18 = isset($this->stash['active_festival18']) ? $this->stash['active_festival18'] : null;
+      if(empty($active_festival18)){
+          return $this->ajax_json('没有权限!', true);     
+      }
+
+      if($active_festival18 != $_SESSION['active_festival18']){
+          return $this->ajax_json('没有权限!!', true);      
       }
     }
 
@@ -499,6 +508,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }elseif($target_id==5){
           $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/idea';
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
+        }elseif($target_id==13){
+          unset($_SESSION['active_festival18']); 
         }else{
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
     	    $this->stash['note'] = '操作成功!';

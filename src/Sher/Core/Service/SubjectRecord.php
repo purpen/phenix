@@ -33,4 +33,3 @@ class Sher_Core_Service_SubjectRecord extends Sher_Core_Service_Base {
     }
 	
 }
-?>
