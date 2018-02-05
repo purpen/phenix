@@ -2204,7 +2204,8 @@ $('.submit-question button').on('click', function(){  // 提交分数
   phenix.show_ok_message('提交开始')
   let phone = $('.user-phone input').val()
   console.log(phone)
-  if($('.user-phone input').val()) {
+  if(phone) {
+    console.log(11122)
     if(totalTime < 2) {
       return
     }
@@ -2215,7 +2216,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
         target_id : 13,
         event : 3,
         realname: "thn",
-        phone : $('.user-phone input').val(),
+        phone : phone,
         option01 : totalTime
       }
     }).success(function (response) {
@@ -2232,6 +2233,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
       phenix.show_error_message(err.message)
     })
   } else {
+     console.log(22211)
      phenix.show_error_message('请填写手机号!')
   }
 })
