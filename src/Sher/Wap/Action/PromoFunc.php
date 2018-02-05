@@ -420,6 +420,14 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('缺少请求参数!', true);   
     }
 
+    // 针对18一分钟答题活动
+    if($target_id == 13){
+      $option01 = isset($this->stash['option01']) ? (int)$this->stash['option01'] : 0;
+      if ($option01 <= 20 || $option01 >= 60) {
+        return $this->ajax_json('请求失败,缺少必要参数!!', true);
+      }
+    }
+
     if(empty($this->stash['realname']) || empty($this->stash['phone'])){
       return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
