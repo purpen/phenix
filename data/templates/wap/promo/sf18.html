@@ -2268,6 +2268,8 @@ $('.buttons-question').on('click', '.get-free-coupon', function() { // 提交信
   $('.view-board').hide()
   $('.get-free').hide()
   $('.buttons-question').show()
+  $('#btn-question1').removeClass('get-free-coupon')
+  $('#btn-question1').addClass('jump-board')
 })
 
 $('.buttons-question').on('click', '.jump-board', function(){ // 答错超时跳转排行
