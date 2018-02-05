@@ -2266,6 +2266,9 @@ $('.jump-board').on('click', function(){ // 答错超时跳转排行
   getBoard()
   $('.phone-number').hide()
   $('.view-board').show()
+  $('.overtime-question').hide()
+  $('.wrang-question').hide()
+  $('.get-free').hide()
 })
 
 $('.get-board').on('click', function(){ // 查看排行榜
@@ -2279,7 +2282,6 @@ $('.board-close').on('click', function() { // 关闭排行榜
   $('.result-question').hide()
   $('.result-cover').hide()
   hideQuestion()
-  hideResult()
 })
 
 // $('.exit').on('click', function () { // 退出
