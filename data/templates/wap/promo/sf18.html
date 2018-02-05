@@ -2237,7 +2237,8 @@ function getBoard() {
     data: {
       target_id : 13
     }
-  }).success(function(res){
+  }).success(function(response){
+    let res = JSON.parse(response)
     console.log(res)
   }).error(function (err) {
       console.error(err)
