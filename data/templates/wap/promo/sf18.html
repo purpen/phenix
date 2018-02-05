@@ -2126,6 +2126,8 @@ function Interval2() { // 倒计时1分钟
     i--
     $('.question-count').text(i)
     if (i == 0) { // 超时
+      $('#btn-question1').removeClass('get-free-coupon')
+      $('#btn-question1').addClass('jump-board')
       window.clearInterval(timer2)
       $('.question-list').off('click', 'li', liClick)
       hideResult()
@@ -2153,6 +2155,8 @@ function liClick() { // 答题选项
       $(this).addClass('key')
       key_i++
       if (key_i >= questionList.length) { // 全对
+        $('#btn-question1').addClass('get-free-coupon')
+        $('#btn-question1').removeClass('jump-board')
         window.clearInterval(timer2)
         totalTime = 60 - Number($('.question-count').text()) // 答题用时
         hideResult()
@@ -2167,13 +2171,15 @@ function liClick() { // 答题选项
     } else {
       console.log('手机已经跟不上你的手速了')
     }
-  } else { // 回答错误
+  } else {  // 回答错误
     window.clearInterval(timer2)
     $('.question-list').off('click', 'li', liClick)
     hideResult()
     $('.wrang-question').show()
     $('.correct').text(key_i)
     $('.error').text(20 - key_i)
+    $('#btn-question1').removeClass('get-free-coupon')
+    $('#btn-question1').addClass('jump-board')
     return 'wrang'
   }
 }
@@ -2507,7 +2513,8 @@ $().ready(() => {
           <p class="result-success">1分钟成功通关！</p>
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
-          <p class="get-coupon">送你<a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
+          <!-- <p class="get-coupon">送你<a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p> -->
+          <p class="get-coupon">送你<a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 填写手机号 -->
@@ -2541,7 +2548,7 @@ $().ready(() => {
           <p class="congratulation">您已超时。</p>
           <p class="get-coupon">
             送你
-            <a class="jump-board">30元铟果集无门槛优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
@@ -2554,7 +2561,7 @@ $().ready(() => {
             <span class="error">6</span>题的距离</p>
           <p class="get-coupon">
             送你
-            <a class="jump-board">满199减50铟果集优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">满199减50铟果集优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <p class="share">
@@ -2567,7 +2574,7 @@ $().ready(() => {
       </section>
       <section class="buttons-parent">
         <p class="buttons-question">
-          <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank"><span class="exit">去办年货</span></a>
+          <span id="btn-question1" class="jump-board">查看排名</span>
           <span class="again">再战一场</span>
         </p>
       </section>
