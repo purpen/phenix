@@ -241,6 +241,19 @@ html,body {-webkit-user-select:none; user-select: none; }
   font-weight: bold
 }
 
+.option li.img {
+  float: left;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 40%;
+  height: 2rem;
+  line-height: 2rem;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
 .option li.key {
   background: #fff9ad
 }
@@ -267,7 +280,9 @@ html,body {-webkit-user-select:none; user-select: none; }
 .option li.liD::after {
   content: "D";
 }
-
+.option li.img::after {
+  content: ''
+}
 /* ------------------- result ------------------- */
 
 .result-cover {
@@ -363,7 +378,7 @@ html,body {-webkit-user-select:none; user-select: none; }
 .result-success-shadow {
   text-indent: 0.38rem;
   font-size: 0.68rem;
-  margin-top: -0.68rem;
+  margin-top: -0.9rem;
   margin-bottom: 0.3rem;
   color: transparent;
   text-shadow: 0 0 13px rgba(0, 0, 0, 0.3);
@@ -1740,14 +1755,14 @@ let List = [
     D: '四种',
     key: 'D'
   }, 
-  // {
-  //   title: '铟果集的logo是哪一款？',
-  //   A: '太火鸟',
-  //   B: '铟果',
-  //   C: '铟果集',
-  //   D: 'd3in',
-  //   key: 'C'
-  // },
+  {
+    title: '铟果集的logo是哪一款？',
+    A: '{{ app_url_packaged }}/images/main/taihuoniao.png', // '太火鸟'
+    B: '{{ app_url_packaged }}/images/main/yinguo.png', // '铟果',
+    C: '{{ app_url_packaged }}/images/main/yinguoji.png', // '铟果集',
+    D: '{{ app_url_packaged }}/images/main/d3in.png', // 'd3in',
+    key: 'C'
+  },
   {
     title: '铟果集隶属公司的名字是哪一个？',
     A: '太火鸟',
@@ -2034,9 +2049,14 @@ function addQuestion() { // 添加题目
       D: '双手交给妈妈',
       key: 'A,B,C,D'
     })
-  for (let j = 0; j < questionList.length; j++) {
-    $('<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A + '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D + '</li></ul></div>').appendTo($('.question-list'))
-  }
+   for (let j = 0; j < questionList.length; j++) { if (questionList[j].title===( '铟果集的logo是哪一款？')) { $(
+    '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key +
+    '"><li class="liA img" index="A"><img src="' + questionList[j].A + '"></li><li class="liB img" index="B"><img src="' + questionList[j].B +
+    '"></li><li class="liC img" index="C"><img src="' + questionList[j].C + '"></li><li class="liD img" index="D"><img src="' + questionList[j].D + '"></li></ul></div>').appendTo($(
+    '.question-list')) } else { $( '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title +
+    '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A +
+    '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D
+    + '</li></ul></div>').appendTo($( '.question-list')) } }
 }
 
 function musicControl() {
