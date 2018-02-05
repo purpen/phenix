@@ -2229,8 +2229,8 @@ $('.submit-question button').on('click', function(){  // 提交分数
   }
 })
 
-let boardList = []
 function getBoard() {
+  let boardList = []
   $.ajax({
     type: "POST",
     url: "http://t.taihuoniao.com/app/wap/promo_func/fetch_subject_list",
@@ -2238,8 +2238,16 @@ function getBoard() {
       target_id : 13
     }
   }).success(function(response){
+    $('.result-board-list').empty()
     let res = JSON.parse(response)
-    console.log(res)
+    boardList = res.data.rows
+    for(let i =0; i < boardList.length; i++) {
+      let phone = boardList[i].info.phone
+      let phone2 = phone.substr(0,3)+"****"+phone.substr(7)
+      let time =  boardList[i].info.option_01
+      $('<li><i>'+ (i+1) +'</i><span class="border-phone">'+ phone2 +'</span><b class="board-time">'+
+         time +'s</b></li>').appendTo($('.result-board-list'))
+    }
   }).error(function (err) {
       console.error(err)
       phenix.show_error_message(err.message)
@@ -2311,7 +2319,7 @@ function addQuestion() { // 添加题目
     '.question-list')) } else { $( '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title +
     '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A +
     '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D
-    + '</li></ul></div>').appendTo($( '.question-list')) } }
+    + '</li></ul></div>').appendTo($('.question-list')) } }
 }
 
 function musicControl() {
@@ -2506,7 +2514,7 @@ $().ready(() => {
           <div class="result-board">
             <span class="red-line"></span>
             <ul class="result-board-list">
-              <li>
+              <!-- <li>
                 <i>1</i>
                 <span class="border-phone">155xxxx1111</span>
                 <b class="board-time">45s</b>
@@ -2525,7 +2533,7 @@ $().ready(() => {
                 <i>1</i>
                 <span class="border-phone">155xxxx1111</span>
                 <b class="board-time">45s</b>
-              </li>
+              </li> -->
             </ul>
             <span class="red-line-bottom"></span>
           </div>
