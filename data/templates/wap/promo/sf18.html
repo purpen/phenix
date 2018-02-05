@@ -2095,7 +2095,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
       option01 : 30
     }
   }).success(function (res) {
-    console.log(res)
+    console.log(JSON.parse(res))
   }).error(function (err) {
     console.error(err)
   })
