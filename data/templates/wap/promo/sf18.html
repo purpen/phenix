@@ -293,7 +293,8 @@ html,body {-webkit-user-select:none; user-select: none; }
 .phone-number {
   padding: 0 0.65rem;
 }
-.phone-number .result-success {
+
+.result-question .phone-number .result-success {
   font-size: 0.36rem;
   font-family: "PingFang";
   color: #c52e10;
@@ -359,6 +360,85 @@ html,body {-webkit-user-select:none; user-select: none; }
   text-decoration: underline;
   margin-bottom: 0.36rem;
 }
+
+/* board */
+.view-board {
+  padding: 0 0.8rem
+}
+
+.red-line {
+  position: relative;
+  display: block;
+  height: 0.14rem;
+  border: 0.5px solid #c52e10;
+  border-bottom: none;
+}
+
+.red-line-bottom {
+  position: relative;
+  display: block;
+  height: 0.14rem;
+  border: 0.5px solid #c52e10;
+  border-top: none;
+}
+
+.result-question .view-board .result-success {
+  font-size: 0.28rem;
+  text-align: left;
+  padding-bottom: 0.1rem
+}
+.result-question .view-board .result-success .board-close {
+  width: 0.4rem;
+  height: 0.4rem;
+  float: right;
+  border-radius: 50%;
+  border: 0.5px solid #ca825e;
+  color: #ca825e;
+  text-indent: 0.14rem;
+  font-size: 0.3rem
+}
+.result-board-list {
+  padding: 0.25rem 0;
+  min-height: 4rem;
+  margin-bottom: 0.2rem;
+}
+
+.result-board-list li {
+  line-height: 0.36rem;
+  font-size: 0.36rem;
+  text-align: left;
+  color: #e11730;
+  margin-bottom: 0.25rem;
+}
+
+.result-board-list li:last-child {
+  margin-bottom: 0;  
+}
+
+.result-board-list li i {
+  display: inline-block;
+  width: 0.36rem;
+  height: 0.36rem;
+  font-size: 0.3rem;
+  line-height: 0.36rem;
+  background: #e11730;
+  color: #f4d6b2;
+  text-align: center;
+  margin-right: 0.3rem;
+  font-weight: bold
+}
+
+.result-board-list li b {
+  font-weight: normal;
+  float: right
+}
+.result-board-list li:nth-child(n+4) {
+  color: #ca825e
+}
+.result-board-list li:nth-child(n+4) i {
+  background: #ca825e;
+}
+
 
 .result-cover {
   position: absolute;
@@ -2095,13 +2175,30 @@ $('.submit-question button').on('click', function(){  // 提交分数
       phone : 15525876866,
       option01 : 30
     }
-  }).success(function (res) {
-    console.log(JSON.parse(res))
+  }).success(function (response) {
+    let res = JSON.parse(response))
+    if(res.success) {
+      //$('.phone-number').hide()
+    }
+    if(res.is_error) {
+      phenix.show_error_message(Res.message)
+    }
   }).error(function (err) {
     console.error(err)
+    phenix.show_error_message(err.message)
   })
 })
 
+
+$('.get-board').on('click', function(){ // 查看排行榜
+  $('.phone-number').hide()
+  $('.view-board').show()
+})
+
+$('.board-close').on('click', function() { // 关闭排行榜
+  $('.phone-number').show()
+  $('.view-board').hide()
+})
 
 // $('.exit').on('click', function () { // 退出
 //   $('.right-away').fadeIn()
@@ -2340,6 +2437,35 @@ $().ready(() => {
           <p class="get-board">获取实时排行榜</p>
         </article>
         <!-- 查看排行 -->
+        <article class="view-board">
+          <p class="result-success clearfix">每天凌晨刷新排名<i class="board-close">x</i></p>
+          <div class="result-board">
+            <span class="red-line"></span>
+            <ul class="result-board-list">
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+            </ul>
+            <span class="red-line-bottom"></span>
+          </div>
+        </article>
         <!-- 超时 -->
         <article class="overtime-question">
           <p class="result-success">超时了...</p>
