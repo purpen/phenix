@@ -576,9 +576,47 @@ html,body {-webkit-user-select:none; user-select: none; }
   font-size: 0.26rem;
 }
 
+@keyframes couponA {
+0% {
+    transform: translate(0, 0) rotate(0) scale(0.9);
+}
+10% {
+    transform: translate(0, 0) rotate(6.5deg);
+}
+20% {
+    transform: translate(0, 0) rotate(3.5deg);
+}
+30% {
+    transform: translate(0, 0) rotate(-3.5deg);
+}
+40% {
+    transform: translate(0, 0) rotate(5.5deg);
+}
+50% {
+    transform: translate(0, 0) rotate(-4.5deg);
+}
+60% {
+    transform: translate(0, 0) rotate(-4.5deg);
+}
+70% {
+    transform: translate(0, 0) rotate(-6.5deg);
+}
+80% {
+    transform: translate(0, 0) rotate(2.5deg);
+}
+100% {
+    transform: translate(0, 0) rotate(0) scale(1);
+}
+}
+
 .get-coupon a {
   color: #e22e2f;
   position: relative;
+  display: inline-block;
+  color: #e22e2f;
+  position: relative;
+  animation: couponA 0.5s;
+  animation-fill-mode: forwards;
 }
 
 .get-coupon a::after {
@@ -646,7 +684,6 @@ html,body {-webkit-user-select:none; user-select: none; }
 }
 
 .buttons-question {
-  color: #ffb493;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -654,6 +691,7 @@ html,body {-webkit-user-select:none; user-select: none; }
 }
 
 .buttons-question span {
+  color: #ffb493;
   height: 0.68rem;
   line-height: 0.68rem;
   padding: 0 0.56rem;
@@ -2192,6 +2230,10 @@ $('.submit-question button').on('click', function(){  // 提交分数
   })
 })
 
+$('.get-free-coupon').on('click', function() { // 提交信息
+  $('.phone-number').show()
+  $('.view-board').hide()
+})
 
 $('.get-board').on('click', function(){ // 查看排行榜
   $('.phone-number').hide()
@@ -2423,7 +2465,7 @@ $().ready(() => {
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
           <p class="get-coupon">送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
+            <!-- <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a> --><a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 填写手机号 -->
