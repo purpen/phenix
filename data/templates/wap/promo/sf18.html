@@ -2262,6 +2262,12 @@ $('.get-free-coupon').on('click', function() { // 提交信息
   $('.buttons-question').show()
 })
 
+$('.jump-board').on('click', function(){ // 答错超时跳转排行
+  getBoard()
+  $('.phone-number').hide()
+  $('.view-board').show()
+})
+
 $('.get-board').on('click', function(){ // 查看排行榜
   getBoard()
   $('.phone-number').hide()
@@ -2269,8 +2275,10 @@ $('.get-board').on('click', function(){ // 查看排行榜
 })
 
 $('.board-close').on('click', function() { // 关闭排行榜
-  $('.phone-number').show()
   $('.view-board').hide()
+  $('.result-question').hide()
+  $('.result-cover').hide()
+  hideQuestion()
 })
 
 // $('.exit').on('click', function () { // 退出
@@ -2492,8 +2500,7 @@ $().ready(() => {
           <p class="result-success">1分钟成功通关！</p>
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
-          <p class="get-coupon">送你
-            <!-- <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a> --><a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
+          <p class="get-coupon">送你<a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 填写手机号 -->
@@ -2507,7 +2514,7 @@ $().ready(() => {
             <button>
               <span>提</span>交</button>
           </p>
-          <p class="get-board">获取实时排行榜</p>
+          <!-- <p class="get-board">获取实时排行榜</p> -->
         </article>
         <!-- 查看排行 -->
         <article class="view-board">
@@ -2515,26 +2522,6 @@ $().ready(() => {
           <div class="result-board">
             <span class="red-line"></span>
             <ul class="result-board-list">
-              <!-- <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li> -->
             </ul>
             <span class="red-line-bottom"></span>
           </div>
@@ -2547,7 +2534,7 @@ $().ready(() => {
           <p class="congratulation">您已超时。</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
+            <a class="jump-board">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
@@ -2560,7 +2547,7 @@ $().ready(() => {
             <span class="error">6</span>题的距离</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">满199减50铟果集优惠券</a>!</p>
+            <a class="jump-board">满199减50铟果集优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <p class="share">
