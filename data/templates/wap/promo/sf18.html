@@ -468,13 +468,6 @@ html,body {-webkit-user-select:none; user-select: none; }
   display: none;
 }
 
-.success-result {
-  position: absolute;
-  z-index: 11;
-  left: 0.7rem;
-  top: 2rem;
-}
-
 .overtime-question, .wrang-question, .get-free {
   display: none;
 }
@@ -2124,7 +2117,7 @@ function Interval() { // 倒计时3秒开始答题
 let timer2 = null
 function Interval2() { // 倒计时1分钟
   window.clearInterval(timer2)
-  let i = 600;
+  let i = 60;
   $('.question-count').text(i)
   timer2 = setInterval(() => {
     i--
