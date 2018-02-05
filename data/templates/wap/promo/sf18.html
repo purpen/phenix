@@ -2217,8 +2217,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
         alert(res.message)
       }
       if(res.success) {
-        $('.phone-number').hide()
-        $('.view-board').show()
+        getBoard()
       }
     }).error(function (err) {
       console.error(err)
@@ -2248,6 +2247,8 @@ function getBoard() {
       $('<li><i>'+ (i+1) +'</i><span class="border-phone">'+ phone2 +'</span><b class="board-time">'+
          time +'s</b></li>').appendTo($('.result-board-list'))
     }
+    $('.phone-number').hide()
+    $('.view-board').show()
   }).error(function (err) {
       console.error(err)
       phenix.show_error_message(err.message)
@@ -2262,6 +2263,7 @@ $('.get-free-coupon').on('click', function() { // 提交信息
 })
 
 $('.get-board').on('click', function(){ // 查看排行榜
+  getBoard()
   $('.phone-number').hide()
   $('.view-board').show()
 })
@@ -2345,7 +2347,6 @@ function musicControl() {
 }
 
 $().ready(() => {
-  getBoard()
   addQuestion()
 
   $('.gift').hide()
