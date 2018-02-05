@@ -2131,6 +2131,7 @@ function Interval2() { // 倒计时1分钟
   }, 1000)
 }
 
+let totalTime = 0
 let key_i = 0
 let isOk = true
 let timeOut = null
@@ -2150,7 +2151,7 @@ function liClick() { // 答题选项
       key_i++
       if (key_i >= questionList.length) { // 全对
         window.clearInterval(timer2)
-        console.log(60 - Number($('.question-count').text())) // 答题用时
+        totalTime = 60 - Number($('.question-count').text()) // 答题用时
         hideResult()
         $('.result-question').addClass('success-result')
         $('.get-free').show()
@@ -2199,28 +2200,35 @@ function hideQuestion(params) {
 
 
 $('.submit-question button').on('click', function(){  // 提交分数
-  $.ajax({
-    type: "POST",
-    url: 'http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign',
-    data: {
-      target_id : 13,
-      event : 3,
-      realname: "thn",
-      phone : 15525876866,
-      option01 : 30
+  if($('.user-phone input').val()) {
+    if(totalTime < 2) {
+      return
     }
-  }).success(function (response) {
-    let res = JSON.parse(response)
-    if(res.success) {
-      //$('.phone-number').hide()
-    }
-    if(res.is_error) {
-      phenix.show_error_message(res.message)
-    }
-  }).error(function (err) {
-    console.error(err)
-    phenix.show_error_message(err.message)
-  })
+    $.ajax({
+      type: "POST",
+      url: 'http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign',
+      data: {
+        target_id : 13,
+        event : 3,
+        realname: "thn",
+        phone : $('.user-phone input').val(),
+        option01 : totalTime
+      }
+    }).success(function (response) {
+      let res = JSON.parse(response)
+      if(res.success) {
+        //$('.phone-number').hide()
+      }
+      if(res.is_error) {
+        phenix.show_error_message(res.message)
+      }
+    }).error(function (err) {
+      console.error(err)
+      phenix.show_error_message(err.message)
+    })
+  } else {
+     phenix.show_error_message('请填写手机号!')
+  }
 })
 
 $('.get-free-coupon').on('click', function() { // 提交信息
