@@ -2183,7 +2183,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
       //$('.phone-number').hide()
     }
     if(res.is_error) {
-      phenix.show_error_message(Res.message)
+      phenix.show_error_message(res.message)
     }
   }).error(function (err) {
     console.error(err)
