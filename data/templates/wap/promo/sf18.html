@@ -2205,11 +2205,12 @@ $('.submit-question button').on('click', function(){  // 提交分数
       type: "POST",
       url: "http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign",
       data: {
-        target_id : 13,
-        event : 3,
+        target_id: 13,
+        event: 3,
         realname: "thn",
-        phone : phone,
-        option01 : totalTime
+        phone: phone,
+        option01: totalTime,
+        active_festival18: '{{active_festival18}}'
       }
     }).success(function (response) {
       let res = JSON.parse(response)
@@ -2281,6 +2282,7 @@ $('.board-close').on('click', function() { // 关闭排行榜
   $('.view-board').hide()
   $('.result-question').hide()
   $('.result-cover').hide()
+  $('.begin').show()
   hideQuestion()
 })
 
@@ -2464,7 +2466,7 @@ $().ready(() => {
       </div>
       <div class="intro">
         <p>
-          <span>1.</span>活动时间2月2日-2月9日24:00，每日通关速度最快的前3名可享受免单。</p>
+          <span>1.</span>活动时间2月6日-2月28日24:00，每日通关速度最快的前3名可享受免单。</p>
         <p>
           <span>2.</span>铟果集免单上限为300元人民币，从中奖结果公布之日起，购物免单有效期28天，中奖结果以后台监控数据为准。（春节期间物流停运，下单统一年后发货）</p>
         <p>
