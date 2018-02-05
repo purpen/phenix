@@ -2218,6 +2218,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
       let res = JSON.parse(response)
       if(res.success) {
         //$('.phone-number').hide()
+        phenix.show_ok_message('提交成功')
       }
       if(res.is_error) {
         phenix.show_error_message(res.message)
