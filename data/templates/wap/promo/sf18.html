@@ -609,6 +609,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   color: #e22e2f;
   position: relative;
   animation: couponA 0.5s;
+  animation-delay: 0.6s;
   animation-fill-mode: forwards;
 }
 
@@ -2176,11 +2177,6 @@ function liClick() { // 答题选项
 }
 $('.question-list').on('click', 'li', liClick)
 
-// $('.result-cover').on('click', function () {
-//   $('.result-question').hide()
-//   $(this).hide()
-// })
-
 function hideQuestion(params) {
   $('.result-cover').hide()
   $('.result-question').hide()
@@ -2202,12 +2198,12 @@ function hideQuestion(params) {
 $('.submit-question button').on('click', function(){  // 提交分数
   let phone = $('.user-phone input').val()
   if(phone) {
-//   if(totalTime < 2) {
-//      return
-//    }
+  if(totalTime < 2) {
+     return
+   }
     $.ajax({
       type: "POST",
-      url: 'http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign',
+      url: "http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign",
       data: {
         target_id : 13,
         event : 3,
@@ -2217,21 +2213,37 @@ $('.submit-question button').on('click', function(){  // 提交分数
       }
     }).success(function (response) {
       let res = JSON.parse(response)
-      if(res.success) {
-        //$('.phone-number').hide()
-        phenix.show_ok_message('提交成功')
-      }
       if(res.is_error) {
-        phenix.show_error_message(res.message)
+        alert(res.message)
+      }
+      if(res.success) {
+        $('.phone-number').hide()
+        $('.view-board').show()
       }
     }).error(function (err) {
       console.error(err)
       phenix.show_error_message(err.message)
     })
   } else {
-     phenix.show_error_message('请填写手机号!')
+     alert('请填写手机号!')
   }
 })
+
+let boardList = []
+function getBoard() {
+  $.agax({
+    type: "POST",
+    url: "http://t.taihuoniao.com/app/wap/promo_func/fetch_subject_list",
+    data: {
+      target_id : 13
+    }
+  }).success(function(res){
+    console.log(res)
+  }).error(function (err) {
+      console.error(err)
+      phenix.show_error_message(err.message)
+  })
+}
 
 $('.get-free-coupon').on('click', function() { // 提交信息
   $('.phone-number').show()
@@ -2324,6 +2336,7 @@ function musicControl() {
 }
 
 $().ready(() => {
+  getBoard()
   addQuestion()
 
   $('.gift').hide()
