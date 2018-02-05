@@ -424,7 +424,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     // 针对18一分钟答题活动
     if($target_id == 13){
       $option01 = isset($this->stash['option01']) ? (int)$this->stash['option01'] : 0;
-      if ($option01 <= 20 || $option01 >= 60) {
+      if ($option01 <= 15 || $option01 >= 60) {
         return $this->ajax_json('请求失败,缺少必要参数!!', true);
       }
       $active_festival18 = isset($this->stash['active_festival18']) ? $this->stash['active_festival18'] : null;
