@@ -432,7 +432,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           return $this->ajax_json('没有权限!', true);     
       }
 
-      if(isset($_SESSION['active_festival18']) && $active_festival18 != $_SESSION['active_festival18']){
+      if(!isset($_SESSION['active_festival18']) || $active_festival18 != $_SESSION['active_festival18']){
           return $this->ajax_json('没有权限!!', true);      
       }
     }
