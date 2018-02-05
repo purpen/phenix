@@ -213,7 +213,8 @@ html,body {-webkit-user-select:none; user-select: none; }
 .question-list {
   width: 2000%;
   display: flex;
-  transition: 0.6s all ease
+  transition: 0.6s all ease;
+  margin-bottom: 0;
 }
 .No1 {
   flex: 1;
@@ -239,6 +240,19 @@ html,body {-webkit-user-select:none; user-select: none; }
   padding-left: 0.9rem;
   position: relative;
   font-weight: bold
+}
+
+.option li.img {
+  float: left;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 40%;
+  height: 2rem;
+  line-height: 2rem;
+  padding-left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center
 }
 
 .option li.key {
@@ -267,8 +281,168 @@ html,body {-webkit-user-select:none; user-select: none; }
 .option li.liD::after {
   content: "D";
 }
-
+.option li.img::after {
+  content: ''
+}
 /* ------------------- result ------------------- */
+.result-question input, .result-question button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.phone-number {
+  padding: 0 0.65rem;
+  display: none
+}
+
+.result-question .phone-number .result-success {
+  font-size: 0.36rem;
+  font-family: "PingFang";
+  color: #c52e10;
+}
+.result-question .user-phone {
+  border-bottom: 0.5px solid #c52e10;
+  position: relative;
+  padding: 0.2rem 0 0.1rem;
+  margin-bottom: 0.2rem;
+}
+.result-question .user-phone input {
+  text-align: center;
+  width: 100%;
+  font-size: 0.44rem;
+  color: #c52e10;
+}
+.result-question .user-phone::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  min-width: 1px;
+  min-height: 7x;
+  width: 0.01rem;
+  height: 0.14rem;
+  background: #c52e10;
+}
+.result-question .user-phone::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 1px;
+  min-height: 7x;
+  width: 0.01rem;
+  height: 0.14rem;
+  background: #c52e10;
+}
+
+.phone-number .congratulation {
+  font-size: 0.28rem  
+}
+.submit-question {
+  padding: 0.38rem 0 0.84rem;
+}
+.submit-question button {
+  font-family: "MFYueHei";
+  border: 1px solid #c52e10;
+  color: #c52e10;
+  font-size: 0.4rem;
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  line-height: 0.40rem;
+}
+.submit-question button span{
+  padding-right: 0.2rem;
+}
+.get-board {
+  color: #ca825e;
+  font-size: 0.28rem;
+  font-family: "PingFang";
+  line-height: 1.6;
+  text-decoration: underline;
+  margin-bottom: 0.36rem;
+}
+
+/* board */
+.view-board {
+  padding: 0 0.8rem;
+  display: none;
+}
+
+.red-line {
+  position: relative;
+  display: block;
+  height: 0.14rem;
+  border: 0.5px solid #c52e10;
+  border-bottom: none;
+}
+
+.red-line-bottom {
+  position: relative;
+  display: block;
+  height: 0.14rem;
+  border: 0.5px solid #c52e10;
+  border-top: none;
+}
+
+.result-question .view-board .result-success {
+  font-size: 0.28rem;
+  text-align: left;
+  padding-bottom: 0.1rem;
+  margin-bottom: 0;
+}
+.result-question .view-board .result-success .board-close {
+  width: 0.4rem;
+  height: 0.4rem;
+  float: right;
+  border-radius: 50%;
+  border: 0.5px solid #ca825e;
+  color: #ca825e;
+  text-indent: 0.14rem;
+  font-size: 0.3rem
+}
+.result-board-list {
+  padding: 0.25rem 0;
+  min-height: 4rem;
+  margin-bottom: 0.2rem;
+}
+
+.result-board-list li {
+  line-height: 0.36rem;
+  font-size: 0.36rem;
+  text-align: left;
+  color: #e11730;
+  margin-bottom: 0.25rem;
+}
+
+.result-board-list li:last-child {
+  margin-bottom: 0;  
+}
+
+.result-board-list li i {
+  display: inline-block;
+  width: 0.36rem;
+  height: 0.36rem;
+  font-size: 0.3rem;
+  line-height: 0.36rem;
+  background: #e11730;
+  color: #f4d6b2;
+  text-align: center;
+  margin-right: 0.3rem;
+  font-weight: bold
+}
+
+.result-board-list li b {
+  font-weight: normal;
+  float: right
+}
+.result-board-list li:nth-child(n+4) {
+  color: #ca825e
+}
+.result-board-list li:nth-child(n+4) i {
+  background: #ca825e;
+}
+
 
 .result-cover {
   position: absolute;
@@ -289,17 +463,9 @@ html,body {-webkit-user-select:none; user-select: none; }
   width: 6.13rem;
   height: 8.96rem;
   background: url("{{ app_url_packaged }}/images/promo/sf18/result/result-bg.png") no-repeat center;
-  background-size: contain;
+  background-size: 110%;
   text-align: center;
-  padding-top: 0.6rem;
   display: none;
-}
-
-.success-result {
-  position: absolute;
-  z-index: 11;
-  left: 0.7rem;
-  top: 2rem;
 }
 
 .overtime-question, .wrang-question, .get-free {
@@ -349,7 +515,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   z-index: 4;
 }
 
-.result-success {
+.result-question .result-success {
   color: #e22e2f;
   font-size: 0.68rem;
   text-align: center;
@@ -363,7 +529,7 @@ html,body {-webkit-user-select:none; user-select: none; }
 .result-success-shadow {
   text-indent: 0.38rem;
   font-size: 0.68rem;
-  margin-top: -0.68rem;
+  margin-top: -0.9rem;
   margin-bottom: 0.3rem;
   color: transparent;
   text-shadow: 0 0 13px rgba(0, 0, 0, 0.3);
@@ -403,9 +569,47 @@ html,body {-webkit-user-select:none; user-select: none; }
   font-size: 0.26rem;
 }
 
+@keyframes couponA {
+0% {
+    transform: translate(0, 0) rotate(0) scale(0.9);
+}
+10% {
+    transform: translate(0, 0) rotate(6.5deg);
+}
+20% {
+    transform: translate(0, 0) rotate(3.5deg);
+}
+30% {
+    transform: translate(0, 0) rotate(-3.5deg);
+}
+40% {
+    transform: translate(0, 0) rotate(5.5deg);
+}
+50% {
+    transform: translate(0, 0) rotate(-4.5deg);
+}
+60% {
+    transform: translate(0, 0) rotate(-4.5deg);
+}
+70% {
+    transform: translate(0, 0) rotate(-6.5deg);
+}
+80% {
+    transform: translate(0, 0) rotate(2.5deg);
+}
+100% {
+    transform: translate(0, 0) rotate(0) scale(1);
+}
+}
+
 .get-coupon a {
   color: #e22e2f;
   position: relative;
+  display: inline-block;
+  color: #e22e2f;
+  position: relative;
+  animation: couponA 0.5s;
+  animation-fill-mode: forwards;
 }
 
 .get-coupon a::after {
@@ -461,7 +665,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   top: 0.15rem;
   width: 1.64rem;
   height: 1.8rem;
-  background: url({{ app_url_packaged }}/images/promo/sf18/result/clock.png) no-repeat center;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/result/clock.png") no-repeat center;
   background-size: 56%;
 }
 
@@ -473,14 +677,14 @@ html,body {-webkit-user-select:none; user-select: none; }
 }
 
 .buttons-question {
-  color: #ffb493;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -1.6rem;
+  margin-top: 0.4rem!important;
 }
 
 .buttons-question span {
+  color: #ffb493;
   height: 0.68rem;
   line-height: 0.68rem;
   padding: 0 0.56rem;
@@ -547,7 +751,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   animation: bottomToTop 0.65s;
   text-indent: -999rem;
   color: #0000;
-  background: url({{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png) no-repeat center;
+  background: url("{{ app_url_packaged }}/images/promo/sf18/main/nianhuo.png") no-repeat center;
   background-size: contain;
   position: absolute;
   z-index: 2;
@@ -1339,7 +1543,6 @@ body {
   height: 1.88rem;
   background: url("{{ app_url_packaged }}/images/promo/sf18/logo.png") no-repeat center;
   background-size: contain;
-  display: none;
 }
 
 .cloud {
@@ -1740,13 +1943,13 @@ let List = [
     C: '三种',
     D: '四种',
     key: 'D'
-  },
+  }, 
   {
     title: '铟果集的logo是哪一款？',
-    A: '太火鸟',
-    B: '铟果',
-    C: '铟果集',
-    D: 'd3in',
+    A: '{{ app_url_packaged }}/images/promo/sf18/main/taihuoniao.png', // '太火鸟'
+    B: '{{ app_url_packaged }}/images/promo/sf18/main/yinguo.png', // '铟果',
+    C: '{{ app_url_packaged }}/images/promo/sf18/main/yinguoji.png', // '铟果集',
+    D: '{{ app_url_packaged }}/images/promo/sf18/main/d3in.png', // 'd3in',
     key: 'C'
   },
   {
@@ -1906,6 +2109,7 @@ function Interval() { // 倒计时3秒开始答题
       $('.part').addClass('part-hide')
       $('.part2').hide()
       $('.question').addClass('question-show')
+      $('.logo').hide()
       Interval2()
     }
   }, 1000)
@@ -1993,21 +2197,66 @@ function hideQuestion(params) {
   $('.buttons-parent').hide()
 }
 
-$('.exit').on('click', function () { // 退出
-  $('.right-away').fadeIn()
-  $('.result-question').removeClass('success-result')
-  $('.question').removeClass('question-show')
-  hideQuestion()
-  $('.part2').removeClass('part2-click')
-  $('.part3').hide()
-  $('.part1').show()
-  $('.cloud').show()
+
+$('.submit-question button').on('click', function(){  // 提交分数
+  $.ajax({
+    type: "POST",
+    url: 'http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign',
+    data: {
+      target_id : 13,
+      event : 3,
+      realname: "thn",
+      phone : 15525876866,
+      option01 : 30
+    }
+  }).success(function (response) {
+    let res = JSON.parse(response)
+    if(res.success) {
+      //$('.phone-number').hide()
+    }
+    if(res.is_error) {
+      phenix.show_error_message(res.message)
+    }
+  }).error(function (err) {
+    console.error(err)
+    phenix.show_error_message(err.message)
+  })
 })
+
+$('.get-free-coupon').on('click', function() { // 提交信息
+  $('.phone-number').show()
+  $('.view-board').hide()
+  $('.get-free').hide()
+  $('.buttons-question').show()
+})
+
+$('.get-board').on('click', function(){ // 查看排行榜
+  $('.phone-number').hide()
+  $('.view-board').show()
+})
+
+$('.board-close').on('click', function() { // 关闭排行榜
+  $('.phone-number').show()
+  $('.view-board').hide()
+})
+
+// $('.exit').on('click', function () { // 退出
+//   $('.right-away').fadeIn()
+//   $('.result').removeClass('success-result')
+//   $('.question').removeClass('question-show')
+//   hideQuestion()
+//   $('.part2').removeClass('part2-click')
+//   $('.part3').hide()
+//   $('.part1').show()
+//   $('.cloud').show()
+//   $('.logo').show()
+// })
 
 $('.again').on('click', function () { // 再来一次
   setTimeout(() => {
     key_i = 0
     $('.part2').addClass('part2-click')
+    $('.logo').show()
     $('.part3').fadeIn()
     $('.begin').fadeIn()
     hideQuestion()
@@ -2032,9 +2281,14 @@ function addQuestion() { // 添加题目
       D: '双手交给妈妈',
       key: 'A,B,C,D'
     })
-  for (let j = 0; j < questionList.length; j++) {
-    $('<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A + '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D + '</li></ul></div>').appendTo($('.question-list'))
-  }
+   for (let j = 0; j < questionList.length; j++) { if (questionList[j].title===( '铟果集的logo是哪一款？')) { $(
+    '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title + '</p><ul class="option" index="' + j + '" key="' + questionList[j].key +
+    '"><li class="liA img" index="A"><img src="' + questionList[j].A + '"></li><li class="liB img" index="B"><img src="' + questionList[j].B +
+    '"></li><li class="liC img" index="C"><img src="' + questionList[j].C + '"></li><li class="liD img" index="D"><img src="' + questionList[j].D + '"></li></ul></div>').appendTo($(
+    '.question-list')) } else { $( '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title +
+    '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A +
+    '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D
+    + '</li></ul></div>').appendTo($( '.question-list')) } }
 }
 
 function musicControl() {
@@ -2206,10 +2460,52 @@ $().ready(() => {
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
           <p class="get-coupon">送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+            <!-- <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a> --><a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
-
+        <!-- 填写手机号 -->
+        <article class="phone-number">
+          <p class="result-success">填写你的手机号</p>
+          <p class="user-phone">
+            <input type="text">
+          </p>
+          <p class="congratulation">你的手机号是获取中奖通知的关键信息哦 免单者不可重复参与答题。</p>
+          <p class="submit-question">
+            <button>
+              <span>提</span>交</button>
+          </p>
+          <p class="get-board">获取实时排行榜</p>
+        </article>
+        <!-- 查看排行 -->
+        <article class="view-board">
+          <p class="result-success">每天凌晨刷新排名<i class="board-close">x</i></p>
+          <div class="result-board">
+            <span class="red-line"></span>
+            <ul class="result-board-list">
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+              <li>
+                <i>1</i>
+                <span class="border-phone">155xxxx1111</span>
+                <b class="board-time">45s</b>
+              </li>
+            </ul>
+            <span class="red-line-bottom"></span>
+          </div>
+        </article>
         <!-- 超时 -->
         <article class="overtime-question">
           <p class="result-success">超时了...</p>
@@ -2218,7 +2514,7 @@ $().ready(() => {
           <p class="congratulation">您已超时。</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">30元铟果集无门槛优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
@@ -2231,7 +2527,7 @@ $().ready(() => {
             <span class="error">6</span>题的距离</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400">满199减50铟果集优惠券</a>!</p>
+            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">满199减50铟果集优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <p class="share">
@@ -2244,7 +2540,7 @@ $().ready(() => {
       </section>
       <section class="buttons-parent">
         <p class="buttons-question">
-          <span class="exit">给钱不要</span>
+          <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank"><span class="exit">去办年货</span></a>
           <span class="again">再战一场</span>
         </p>
       </section>
