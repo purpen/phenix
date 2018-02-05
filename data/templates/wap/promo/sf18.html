@@ -2205,7 +2205,7 @@ $('.submit-question button').on('click', function(){  // 提交分数
    }
     $.ajax({
       type: "POST",
-      url: "http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign",
+      url: "{{ app_url_wap }}/app/wap/promo_func/save_subject_sign",
       data: {
         target_id: 13,
         event: 3,
@@ -2235,7 +2235,7 @@ function getBoard() {
   let boardList = []
   $.ajax({
     type: "POST",
-    url: "http://t.taihuoniao.com/app/wap/promo_func/fetch_subject_list",
+    url: "{{ app_url_wap }}/app/wap/promo_func/fetch_subject_list",
     data: {
       target_id : 13
     }
