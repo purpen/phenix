@@ -213,7 +213,8 @@ html,body {-webkit-user-select:none; user-select: none; }
 .question-list {
   width: 2000%;
   display: flex;
-  transition: 0.6s all ease
+  transition: 0.6s all ease;
+  margin-bottom: 0;
 }
 .No1 {
   flex: 1;
@@ -385,7 +386,8 @@ html,body {-webkit-user-select:none; user-select: none; }
 .result-question .view-board .result-success {
   font-size: 0.28rem;
   text-align: left;
-  padding-bottom: 0.1rem
+  padding-bottom: 0.1rem;
+  margin-bottom: 0;
 }
 .result-question .view-board .result-success .board-close {
   width: 0.4rem;
@@ -2438,7 +2440,7 @@ $().ready(() => {
         </article>
         <!-- 查看排行 -->
         <article class="view-board">
-          <p class="result-success clearfix">每天凌晨刷新排名<i class="board-close">x</i></p>
+          <p class="result-success">每天凌晨刷新排名<i class="board-close">x</i></p>
           <div class="result-board">
             <span class="red-line"></span>
             <ul class="result-board-list">
