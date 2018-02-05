@@ -2263,14 +2263,14 @@ function getBoard() {
   })
 }
 
-$('.get-free-coupon').on('click', function() { // 提交信息
+$('.buttons-question').on('click', '.get-free-coupon', function() { // 提交信息
   $('.phone-number').show()
   $('.view-board').hide()
   $('.get-free').hide()
   $('.buttons-question').show()
 })
 
-$('.jump-board').on('click', function(){ // 答错超时跳转排行
+$('.buttons-question').on('click', '.jump-board', function(){ // 答错超时跳转排行
   getBoard()
   $('.phone-number').hide()
   $('.view-board').show()
