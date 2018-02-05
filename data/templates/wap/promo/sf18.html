@@ -2202,6 +2202,8 @@ function hideQuestion(params) {
 $('.submit-question button').on('click', function(){  // 提交分数
   console.log('a')
   phenix.show_ok_message('提交开始')
+  let phone = $('.user-phone input').val()
+  console.log(phone)
   if($('.user-phone input').val()) {
     if(totalTime < 2) {
       return
