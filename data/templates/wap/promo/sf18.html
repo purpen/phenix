@@ -609,6 +609,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   color: #e22e2f;
   position: relative;
   animation: couponA 0.5s;
+  animation-delay: 0.6s;
   animation-fill-mode: forwards;
 }
 
@@ -1879,6 +1880,8 @@ function hideResult() {
   $('.result-question').show()
   $('.overtime-question').hide()
   $('.wrang-question').hide()
+  $('.view-board').hide()
+  $('.phone-number').hide()
   $('.get-free').hide()
 }
 
@@ -2131,6 +2134,7 @@ function Interval2() { // 倒计时1分钟
   }, 1000)
 }
 
+let totalTime = 0
 let key_i = 0
 let isOk = true
 let timeOut = null
@@ -2150,7 +2154,7 @@ function liClick() { // 答题选项
       key_i++
       if (key_i >= questionList.length) { // 全对
         window.clearInterval(timer2)
-        console.log(60 - Number($('.question-count').text())) // 答题用时
+        totalTime = 60 - Number($('.question-count').text()) // 答题用时
         hideResult()
         $('.result-question').addClass('success-result')
         $('.get-free').show()
@@ -2175,11 +2179,6 @@ function liClick() { // 答题选项
 }
 $('.question-list').on('click', 'li', liClick)
 
-// $('.result-cover').on('click', function () {
-//   $('.result-question').hide()
-//   $(this).hide()
-// })
-
 function hideQuestion(params) {
   $('.result-cover').hide()
   $('.result-question').hide()
@@ -2199,29 +2198,65 @@ function hideQuestion(params) {
 
 
 $('.submit-question button').on('click', function(){  // 提交分数
+  let phone = $('.user-phone input').val()
+  if(phone) {
+  if(totalTime < 2) {
+     return
+   }
+    $.ajax({
+      type: "POST",
+      url: "http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign",
+      data: {
+        target_id: 13,
+        event: 3,
+        realname: "thn",
+        phone: phone,
+        option01: totalTime,
+        active_festival18: '{{active_festival18}}'
+      }
+    }).success(function (response) {
+      let res = JSON.parse(response)
+      if(res.is_error) {
+        alert(res.message)
+      }
+      if(res.success) {
+        getBoard()
+      }
+    }).error(function (err) {
+      console.error(err)
+      phenix.show_error_message(err.message)
+    })
+  } else {
+     alert('请填写手机号!')
+  }
+})
+
+function getBoard() {
+  let boardList = []
   $.ajax({
     type: "POST",
-    url: 'http://t.taihuoniao.com/app/wap/promo_func/save_subject_sign',
+    url: "http://t.taihuoniao.com/app/wap/promo_func/fetch_subject_list",
     data: {
-      target_id : 13,
-      event : 3,
-      realname: "thn",
-      phone : 15525876866,
-      option01 : 30
+      target_id : 13
     }
-  }).success(function (response) {
+  }).success(function(response){
+    $('.result-board-list').empty()
     let res = JSON.parse(response)
-    if(res.success) {
-      //$('.phone-number').hide()
+    boardList = res.data.rows
+    for(let i =0; i < boardList.length; i++) {
+      let phone = boardList[i].info.phone
+      let phone2 = phone.substr(0,3)+"****"+phone.substr(7)
+      let time =  boardList[i].info.option_01
+      $('<li><i>'+ (i+1) +'</i><span class="border-phone">'+ phone2 +'</span><b class="board-time">'+
+         time +'s</b></li>').appendTo($('.result-board-list'))
     }
-    if(res.is_error) {
-      phenix.show_error_message(res.message)
-    }
+    $('.phone-number').hide()
+    $('.view-board').show()
   }).error(function (err) {
-    console.error(err)
-    phenix.show_error_message(err.message)
+      console.error(err)
+      phenix.show_error_message(err.message)
   })
-})
+}
 
 $('.get-free-coupon').on('click', function() { // 提交信息
   $('.phone-number').show()
@@ -2230,14 +2265,27 @@ $('.get-free-coupon').on('click', function() { // 提交信息
   $('.buttons-question').show()
 })
 
+$('.jump-board').on('click', function(){ // 答错超时跳转排行
+  getBoard()
+  $('.phone-number').hide()
+  $('.view-board').show()
+  $('.overtime-question').hide()
+  $('.wrang-question').hide()
+  $('.get-free').hide()
+})
+
 $('.get-board').on('click', function(){ // 查看排行榜
+  getBoard()
   $('.phone-number').hide()
   $('.view-board').show()
 })
 
 $('.board-close').on('click', function() { // 关闭排行榜
-  $('.phone-number').show()
   $('.view-board').hide()
+  $('.result-question').hide()
+  $('.result-cover').hide()
+  $('.begin').show()
+  hideQuestion()
 })
 
 // $('.exit').on('click', function () { // 退出
@@ -2288,7 +2336,7 @@ function addQuestion() { // 添加题目
     '.question-list')) } else { $( '<div class="No1"><p class="title"><i class="number">' + (j + 1) + '.</i>' + questionList[j].title +
     '</p><ul class="option" index="' + j + '" key="' + questionList[j].key + '"><li class="liA" index="A">' + questionList[j].A +
     '</li><li class="liB" index="B">' + questionList[j].B + '</li><li class="liC" index="C">' + questionList[j].C + '</li><li class="liD" index="D">' + questionList[j].D
-    + '</li></ul></div>').appendTo($( '.question-list')) } }
+    + '</li></ul></div>').appendTo($('.question-list')) } }
 }
 
 function musicControl() {
@@ -2420,7 +2468,7 @@ $().ready(() => {
       </div>
       <div class="intro">
         <p>
-          <span>1.</span>活动时间2月2日-2月9日24:00，每日通关速度最快的前3名可享受免单。</p>
+          <span>1.</span>活动时间2月6日-2月28日24:00，每日通关速度最快的前3名可享受免单。</p>
         <p>
           <span>2.</span>铟果集免单上限为300元人民币，从中奖结果公布之日起，购物免单有效期28天，中奖结果以后台监控数据为准。（春节期间物流停运，下单统一年后发货）</p>
         <p>
@@ -2459,8 +2507,7 @@ $().ready(() => {
           <p class="result-success">1分钟成功通关！</p>
           <p class="result-success-shadow">1分钟成功通关！</p>
           <p class="congratulation">恭喜你一路通关！</p>
-          <p class="get-coupon">送你
-            <!-- <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a> --><a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
+          <p class="get-coupon">送你<a class="get-free-coupon">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 填写手机号 -->
@@ -2474,7 +2521,7 @@ $().ready(() => {
             <button>
               <span>提</span>交</button>
           </p>
-          <p class="get-board">获取实时排行榜</p>
+          <!-- <p class="get-board">获取实时排行榜</p> -->
         </article>
         <!-- 查看排行 -->
         <article class="view-board">
@@ -2482,26 +2529,6 @@ $().ready(() => {
           <div class="result-board">
             <span class="red-line"></span>
             <ul class="result-board-list">
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
-              <li>
-                <i>1</i>
-                <span class="border-phone">155xxxx1111</span>
-                <b class="board-time">45s</b>
-              </li>
             </ul>
             <span class="red-line-bottom"></span>
           </div>
@@ -2514,7 +2541,7 @@ $().ready(() => {
           <p class="congratulation">您已超时。</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
+            <a class="jump-board">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <!-- 答错 -->
@@ -2527,7 +2554,7 @@ $().ready(() => {
             <span class="error">6</span>题的距离</p>
           <p class="get-coupon">
             送你
-            <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">满199减50铟果集优惠券</a>!</p>
+            <a class="jump-board">满199减50铟果集优惠券</a>!</p>
           <span class="goods"></span>
         </article>
         <p class="share">
