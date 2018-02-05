@@ -8,6 +8,8 @@ class Sher_Core_Service_SubjectRecord extends Sher_Core_Service_Base {
 	
     protected $sort_fields = array(
         'time' => array('created_on' => -1),
+        'option_01_asc' => array('info.option_01' => 1),
+        'option_01_desc' => array('info.option_01' => -1),
     );
 	
     /**

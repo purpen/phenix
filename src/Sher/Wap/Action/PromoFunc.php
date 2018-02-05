@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus','fetch_subject_list');
 
 	
 	/**
@@ -19,6 +19,79 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 获取subjectRecordList
+   */
+  public function fetch_subject_list() {
+      $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+      $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
+      $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+      $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 3;
+      $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+      $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+
+      $query   = array();
+      $options = array();
+      
+      // 查询条件
+      if($target_id){
+          $query['target_id'] = (int)$target_id;
+      }
+
+      if($event){
+          $query['event'] = (int)$event;
+      }
+      
+      if($state){
+          if($state==-1){
+              $query['state'] = 0;
+          }else{
+              $query['state'] = 1;
+          }
+      }
+
+      // 获取某个时段内
+      if($target_id == 13){
+          $start_time = strtotime(date('Y-m-d', time()));
+          $end_time = $start_time + 86400;
+          $query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+      }
+      
+      $options['page'] = $page;
+      $options['size'] = $size;
+
+      // 排序
+      switch ($sort) {
+        case 0:
+          $options['sort_field'] = 'time';
+          break;
+      }
+
+      if ($target_id == 13) {
+          $options['sort_field'] = 'option_01_asc';
+      }
+
+      // 开启查询
+      $service = Sher_Core_Service_SubjectRecord::instance();
+      $result = $service->get_all_list($query, $options);
+
+      // 重建数据结果
+      $data = array();
+      for($i=0; $i < count($result['rows']); $i++){
+          $obj = $result['rows'][$i];
+          $data[$i]['_id'] = (string)$obj['_id'];
+          $data[$i]['user_id'] = $obj['user_id'];
+          $data[$i]['target_id'] = $obj['target_id'];
+          $data[$i]['event'] = $obj['event'];
+          $data[$i]['info'] = $obj['info'];
+          $data[$i]['state'] = $obj['state'];
+          $data[$i]['created_on'] = $obj['created_on'];
+      }
+      $result['rows'] = $data;
+      return $this->ajax_json('success', false, '', $result);
+  }
 
   /**
    * 验证cookie是否领取过红包
