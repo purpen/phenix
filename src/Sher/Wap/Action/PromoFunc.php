@@ -432,7 +432,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           return $this->ajax_json('没有权限!', true);     
       }
 
-      if($active_festival18 != $_SESSION['active_festival18']){
+      if(isset($_SESSION['active_festival18']) && $active_festival18 != $_SESSION['active_festival18']){
           return $this->ajax_json('没有权限!!', true);      
       }
     }
@@ -508,9 +508,10 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }elseif($target_id==5){
           $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/idea';
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
-        }elseif($target_id==13){
-          unset($_SESSION['active_festival18']); 
         }else{
+          if($target_id==13){
+            unset($_SESSION['active_festival18']); 
+          }
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
     	    $this->stash['note'] = '操作成功!';
         }
