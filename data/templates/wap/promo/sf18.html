@@ -2154,14 +2154,14 @@ function liClick() { // 答题选项
       $(this).addClass('key')
       key_i++
       if (key_i >= questionList.length) { // 全对
-        $('#btn-question1').addClass('get-free-coupon')
-        $('#btn-question1').removeClass('jump-board')
         window.clearInterval(timer2)
         totalTime = 60 - Number($('.question-count').text()) // 答题用时
         hideResult()
         $('.result-question').addClass('success-result')
         $('.get-free').show()
         // $('.buttons-question').hide()
+        $('#btn-question1').removeClass('jump-board')
+        $('#btn-question1').addClass('get-free-coupon')
         return 'get-free'
       }
       $('.question-list').animate({}, function () {
@@ -2574,7 +2574,7 @@ $().ready(() => {
       </section>
       <section class="buttons-parent">
         <p class="buttons-question">
-          <span id="btn-question1" class="jump-board">查看排名</span>
+          <span id="btn-question1">查看排名</span>
           <span class="again">再战一场</span>
         </p>
       </section>
