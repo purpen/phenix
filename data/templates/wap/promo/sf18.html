@@ -284,6 +284,81 @@ html,body {-webkit-user-select:none; user-select: none; }
   content: ''
 }
 /* ------------------- result ------------------- */
+.result input, .result button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+.phone-number {
+  padding: 0 0.65rem;
+}
+.phone-number .result-success {
+  font-size: 0.36rem;
+  font-family: "PingFang";
+  color: #c52e10;
+}
+.result .user-phone {
+  border-bottom: 0.5px solid #c52e10;
+  position: relative;
+  padding: 0.2rem 0 0.1rem;
+  margin-bottom: 0.2rem;
+}
+.result .user-phone input {
+  text-align: center;
+  width: 100%;
+  font-size: 0.44rem;
+  color: #c52e10;
+}
+.result .user-phone::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  min-width: 1px;
+  min-height: 7x;
+  width: 0.01rem;
+  height: 0.14rem;
+  background: #c52e10;
+}
+.result .user-phone::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  min-width: 1px;
+  min-height: 7x;
+  width: 0.01rem;
+  height: 0.14rem;
+  background: #c52e10;
+}
+
+.phone-number .congratulation {
+  font-size: 0.28rem  
+}
+.submit-question {
+  padding: 0.38rem 0 0.84rem;
+}
+.submit-question button {
+  font-family: "MFYueHei";
+  border: 1px solid #c52e10;
+  color: #c52e10;
+  font-size: 0.4rem;
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  line-height: 0.40rem;
+}
+.submit-question button span{
+  padding-right: 0.2rem;
+}
+.get-board {
+  color: #ca825e;
+  font-size: 0.28rem;
+  font-family: "PingFang";
+  line-height: 1.6;
+  text-decoration: underline;
+  margin-bottom: 0.36rem;
+}
 
 .result-cover {
   position: absolute;
@@ -307,7 +382,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   background-size: 110%;
   text-align: center;
   /* padding-top: 0.6rem; */
-  display: none;
+  /* display: none; */
 }
 
 .success-result {
@@ -2008,6 +2083,25 @@ function hideQuestion(params) {
   $('.buttons-parent').hide()
 }
 
+
+$('.submit-question button').on('click', function(){  // 提交分数
+  $.ajax({
+    type: "POST",
+    url: 'http://taihuoniao.me/app/wap/promo_func/save_subject_sign',
+    data: {
+      target_id : 13,
+      event : 3,
+      phone : 15525876866,
+      option01 : 30
+    }
+  }).success(function (res) {
+    console.log(res)
+  }).error(function (err) {
+    console.error(err)
+  })
+})
+
+
 // $('.exit').on('click', function () { // 退出
 //   $('.right-away').fadeIn()
 //   $('.result').removeClass('success-result')
@@ -2231,7 +2325,20 @@ $().ready(() => {
             <a href="https://shop18880568.youzan.com/v2/showcase/homepage?kdt_id=18688400" target="_blank">30元铟果集无门槛优惠券</a>!</p>
           <span class="goods"></span>
         </article>
-
+        <!-- 填写手机号 -->
+        <article class="phone-number">
+          <p class="result-success">填写你的手机号</p>
+          <p class="user-phone">
+            <input type="text">
+          </p>
+          <p class="congratulation">你的手机号是获取中奖通知的关键信息哦 免单者不可重复参与答题。</p>
+          <p class="submit-question">
+            <button>
+              <span>提</span>交</button>
+          </p>
+          <p class="get-board">获取实时排行榜</p>
+        </article>
+        <!-- 查看排行 -->
         <!-- 超时 -->
         <article class="overtime-question">
           <p class="result-success">超时了...</p>
