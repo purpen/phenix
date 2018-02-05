@@ -364,7 +364,8 @@ html,body {-webkit-user-select:none; user-select: none; }
 
 /* board */
 .view-board {
-  padding: 0 0.8rem
+  padding: 0 0.8rem;
+  display: none;
 }
 
 .red-line {
@@ -463,8 +464,7 @@ html,body {-webkit-user-select:none; user-select: none; }
   background: url("{{ app_url_packaged }}/images/promo/sf18/result/result-bg.png") no-repeat center;
   background-size: 110%;
   text-align: center;
-  /* padding-top: 0.6rem; */
-  /* display: none; */
+  display: none;
 }
 
 .success-result {
@@ -2085,7 +2085,7 @@ function Interval() { // 倒计时3秒开始答题
 let timer2 = null
 function Interval2() { // 倒计时1分钟
   window.clearInterval(timer2)
-  let i = 60;
+  let i = 600;
   $('.question-count').text(i)
   timer2 = setInterval(() => {
     i--
