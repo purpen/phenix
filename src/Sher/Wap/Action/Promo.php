@@ -23,9 +23,13 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
      * 2018答题免单
      */
     public function spring_festival18(){
+        session_start();
         // 记录浏览数
         $num_mode = new Sher_Core_Model_SumRecord();
         $num_mode->add_record('26', 'view_count', 4, 4); 
+
+        $_SESSION['active_festival18'] = md5(microtime(true));
+        $this->stash['active_festival18'] = $_SESSION['active_festival18'];
 
         //微信分享
         $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];

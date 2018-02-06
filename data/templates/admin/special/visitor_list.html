@@ -136,7 +136,7 @@
               {%endif%}
 
             </td>
-            <td>{{ f.created_on|date 'Y-m-d' }}</td>
+            <td>{{ f.created_on|date 'y-m-d' }}</td>
             <td id="stat-{{ f._id }}">
               {% if f.state == 1 %}
               <label class="ui green label">未抽</label>

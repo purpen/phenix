@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus','fetch_subject_list');
 
 	
 	/**
@@ -19,6 +19,79 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	public function execute(){
 		//return $this->coupon();
 	}
+
+  /**
+   * 获取subjectRecordList
+   */
+  public function fetch_subject_list() {
+      $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+      $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 6;
+      $sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+
+      $event = isset($this->stash['event']) ? (int)$this->stash['event'] : 3;
+      $target_id = isset($this->stash['target_id']) ? (int)$this->stash['target_id'] : 0;
+      $state = isset($this->stash['state']) ? (int)$this->stash['state'] : 0;
+
+      $query   = array();
+      $options = array();
+      
+      // 查询条件
+      if($target_id){
+          $query['target_id'] = (int)$target_id;
+      }
+
+      if($event){
+          $query['event'] = (int)$event;
+      }
+      
+      if($state){
+          if($state==-1){
+              $query['state'] = 0;
+          }else{
+              $query['state'] = 1;
+          }
+      }
+
+      // 获取某个时段内
+      if($target_id == 13){
+          $start_time = strtotime(date('Y-m-d', time()));
+          $end_time = $start_time + 86400;
+          $query['created_on'] = array('$gte' => $start_time, '$lte' => $end_time);
+      }
+      
+      $options['page'] = $page;
+      $options['size'] = $size;
+
+      // 排序
+      switch ($sort) {
+        case 0:
+          $options['sort_field'] = 'time';
+          break;
+      }
+
+      if ($target_id == 13) {
+          $options['sort_field'] = 'option_01_asc';
+      }
+
+      // 开启查询
+      $service = Sher_Core_Service_SubjectRecord::instance();
+      $result = $service->get_all_list($query, $options);
+
+      // 重建数据结果
+      $data = array();
+      for($i=0; $i < count($result['rows']); $i++){
+          $obj = $result['rows'][$i];
+          $data[$i]['_id'] = (string)$obj['_id'];
+          $data[$i]['user_id'] = $obj['user_id'];
+          $data[$i]['target_id'] = $obj['target_id'];
+          $data[$i]['event'] = $obj['event'];
+          $data[$i]['info'] = $obj['info'];
+          $data[$i]['state'] = $obj['state'];
+          $data[$i]['created_on'] = $obj['created_on'];
+      }
+      $result['rows'] = $data;
+      return $this->ajax_json('success', false, '', $result);
+  }
 
   /**
    * 验证cookie是否领取过红包
@@ -338,19 +411,37 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
    * 保存报名信息
    */
   public function save_subject_sign(){
+    session_start();
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
-    $user_id = isset($this->stash['user_id'])?(int)$this->stash['user_id']:0;
+
+    $user_id = $this->visitor->id;
 
     if(empty($target_id)){
-      return $this->ajax_json('参数不存在!', true);   
+      return $this->ajax_json('缺少请求参数!', true);   
     }
 
-    if(empty($this->stash['realname']) || empty($this->stash['phone']) || empty($this->stash['address'])){
+    // 针对18一分钟答题活动
+    if($target_id == 13){
+      $option01 = isset($this->stash['option01']) ? (int)$this->stash['option01'] : 0;
+      if ($option01 <= 15 || $option01 >= 60) {
+        return $this->ajax_json('请求失败,缺少必要参数!!', true);
+      }
+      $active_festival18 = isset($this->stash['active_festival18']) ? $this->stash['active_festival18'] : null;
+      if(empty($active_festival18)){
+          return $this->ajax_json('没有权限!', true);     
+      }
+
+      if(!isset($_SESSION['active_festival18']) || $active_festival18 != $_SESSION['active_festival18']){
+          return $this->ajax_json('没有权限!!', true);      
+      }
+    }
+
+    if(empty($this->stash['realname']) || empty($this->stash['phone'])){
       return $this->ajax_json('请求失败,缺少用户必要参数!', true);
     }
 
-    if(!preg_match("/1[3458]{1}\d{9}$/",trim($this->stash['phone']))){  
+    if(!preg_match("/1[3456789]{1}\d{9}$/",trim($this->stash['phone']))){  
       return $this->ajax_json('请输入正确的手机号码格式!', true);     
     }
 
@@ -368,9 +459,21 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $data['ip'] = Sher_Core_Helper_Auth::get_ip();
     $data['info']['realname'] = $this->stash['realname'];
     $data['info']['phone'] = trim($this->stash['phone']);
-    //$data['info']['company'] = $this->stash['company'];
-    //$data['info']['job'] = $this->stash['job'];
-    $data['info']['address'] = $this->stash['address'];
+    if (isset($this->stash['company'])) {
+      $data['info']['company'] = $this->stash['company'];
+    }
+    if (isset($this->stash['job'])) {
+      $data['info']['job'] = $this->stash['job'];
+    }
+    if (isset($this->stash['address'])) {
+      $data['info']['address'] = $this->stash['address'];
+    }
+    if (isset($this->stash['option01'])) {
+      $data['info']['option_01'] = $this->stash['option01'];
+    }
+    if (isset($this->stash['option02'])) {
+      $data['info']['option_01'] = $this->stash['option02'];
+    }
 
     try{
       $ok = $model->apply_and_save($data);
@@ -406,6 +509,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           $redirect_url = Doggy_Config::$vars['app.url.wap'].'/promo/idea';
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
         }else{
+          if($target_id==13){
+            //unset($_SESSION['active_festival18']); 
+          }
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
     	    $this->stash['note'] = '操作成功!';
         }
