@@ -420,6 +420,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
       return $this->ajax_json('禁止操作！', true);
     }
 
+    $is_get = $_SERVER['REQUEST_METHOD'] == 'GET' ? true : false;
+    if($is_get) {
+      return $this->ajax_json('禁止访问！', true);   
+    }
+
     $user_id = $this->visitor->id;
 
     if(empty($target_id)){
