@@ -415,6 +415,11 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $target_id = isset($this->stash['target_id'])?(int)$this->stash['target_id']:0;
     $event = isset($this->stash['event'])?(int)$this->stash['event']:1;
 
+    $is_mobile = Sher_Core_Helper_Util::is_mobile_client();
+    if (!$is_mobile) {
+      return $this->ajax_json('禁止操作！', true);
+    }
+
     $user_id = $this->visitor->id;
 
     if(empty($target_id)){
