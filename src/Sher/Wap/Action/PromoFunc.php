@@ -510,7 +510,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     	    $this->stash['note'] = '申请已提交，我们会尽快短信通知您审核结果!';
         }else{
           if($target_id==13){
-            unset($_SESSION['active_festival18']); 
+            //unset($_SESSION['active_festival18']); 
           }
           $redirect_url = Doggy_Config::$vars['app.url.wap'];
     	    $this->stash['note'] = '操作成功!';
