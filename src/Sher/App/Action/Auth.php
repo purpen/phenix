@@ -638,7 +638,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     }
 
     $captchaObj = new Sher_Core_Util_Captcha();
-    $is_true =  $captchaObj->check($m_captcha, 1);
+    $is_true =  $captchaObj->check($m_captcha, 0);
     if(!$is_true){
       return $this->to_json(403, '验证码不正确!');  
     }

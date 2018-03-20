@@ -274,7 +274,7 @@ input,input:focus,input:active{
 				}
 				// 验证验证码
 				var url = '/app/site/captcha/check';
-				$.get(url, {code: captcha, type: 1}, function(result){
+				$.get(url, {code: captcha, type: 0}, function(result){
 					if(result == '0'){
 						phenix.show_error_note('验证码不正确！');
 						// 刷新验证码
