@@ -39,7 +39,7 @@
 	        }
 	        // 验证验证码
 	        var url = '/app/site/captcha/check';
-	        $.get(url, {code: captcha, type: 0}, function(result){
+	        $.get(url, {code: captcha, type: 1}, function(result){
 			  if(result == '0'){
 				  phenix.show_error_note('验证码不正确！');
 				  // 刷新验证码
@@ -113,7 +113,7 @@
 				<div class="inline field">
 					<input type="text" name="captcha" placeholder="验证码" id="captcha" />
         			<a href="javascript:void(0);" class="ui gray" id="captcha-img">
-						<img src="/app/site/captcha/view?length=6" onclick="this.src='/app/site/captcha/view?length=6&'+Math.random();" />
+						<img src="/app/site/captcha/view?length=4" onclick="this.src='/app/site/captcha/view?length=4&'+Math.random();" />
 					</a>
 				</div>
 				<div class="inline field">
