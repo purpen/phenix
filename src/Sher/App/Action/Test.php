@@ -665,5 +665,34 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     
     }
 
-}
 
+    // 微信校验
+    public function wx_test() {
+        $length = 32;
+        $url = 'https://apitest.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+        $mch_id = '1322727701';
+
+        $chars = "abcdefghijklmnopqrstuvwxyz0123456789";  
+        $str ="";
+        for ( $i = 0; $i < $length; $i++ )  {  
+          $str .= substr($chars, mt_rand(0, strlen($chars)-1), 1);  
+        } 
+
+        $nonce_str = $str;
+        $nonce_str = '47xqbakf8gb3c7vv7tyvrhv3unlrpzcl';
+        $sign = 'CDCA40ABFDA6FA1B11F7E2C4EF1C4528';
+
+        $param = array(
+          'mch_id' => $mch_id,
+          'nonce_str' => $nonce_str,
+          'sign' => $sign,
+        );
+        $result = Sher_Core_Helper_Util::request($url, $param);
+        Doggy_Log_Helper::warn("info: ".json_encode($result));
+        echo $str."\n";
+        echo json_encode($result);
+        
+    
+    }
+
+}
