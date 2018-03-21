@@ -670,6 +670,7 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
     public function wx_test() {
         $length = 32;
         $url = 'https://apitest.mch.weixin.qq.com/sandboxnew/pay/getsignkey';
+        #$url = 'https://www.baidu.com';
         $mch_id = '1322727701';
 
         $chars = "abcdefghijklmnopqrstuvwxyz0123456789";  
@@ -679,15 +680,27 @@ class Sher_App_Action_Test extends Sher_App_Action_Base {
         } 
 
         $nonce_str = $str;
-        $nonce_str = '47xqbakf8gb3c7vv7tyvrhv3unlrpzcl';
-        $sign = 'CDCA40ABFDA6FA1B11F7E2C4EF1C4528';
+        $nonce_str = 'golvd1zks8r34ed297og5jxne1qgjjh5';
+        $sign = 'F22AD5AAFEC84EFBFCFB9BA9BA306ACF';
 
         $param = array(
           'mch_id' => $mch_id,
           'nonce_str' => $nonce_str,
           'sign' => $sign,
         );
-        $result = Sher_Core_Helper_Util::request($url, $param);
+
+        $xml = "<xml>";
+        foreach ($param as $key=>$val)
+        {
+          if (is_numeric($val)){
+            $xml.="<".$key.">".$val."</".$key.">";
+          }else{
+            $xml.="<".$key."><![CDATA[".$val."]]></".$key.">";
+          }
+        }
+        $xml.="</xml>";
+
+        $result = Sher_Core_Helper_Util::request($url, $xml);
         Doggy_Log_Helper::warn("info: ".json_encode($result));
         echo $str."\n";
         echo json_encode($result);
