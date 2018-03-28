@@ -1,0 +1,219 @@
+{%extends 'layout/mobile_api.html'%}
+{% block title %}“咔嚓”春游记 GIF截屏电动牙刷9元抢！{% endblock %}
+{% block page_css %}
+<style type="text/css">
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  background: url({{ app_url_packaged }}/images/promo/sf18/bj.jpg) center no-repeat #e1f6e5;
+  background-size: contain;
+  position: relative;
+}
+.snapshot {
+  width: 50vw;
+  height: 50vh;
+  background-size: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+</style>
+{% endblock %}
+{% block layout_js %}
+	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+	
+    var m_name = '“咔嚓”春游记 GIF截屏电动牙刷9元抢！';
+    var link = '{{ app_url_wap_promo }}/cyj';
+	var img_url = '{{ app_url_packaged }}/images/promo/cyj/share.jpeg';
+    var desc_str = '0.1秒捕获小幸运，祝你2018春风得意';
+	
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{{ app_id }}', // 必填，公众号的唯一标识
+        timestamp: {{ timestamp }}, // 必填，生成签名的时间戳
+        nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+        signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    });
+
+  wx.ready(function(){
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+     wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });      
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+        record_share_num();
+		$('#mask').css('display','none');
+      }
+    });
+  });
+
+  //记录分享数
+  function record_share_num(){
+  };
+
+
+  let arr = 8
+  let key = 1
+  let block = document.querySelector('div.snapshot')
+  function changeClass() {
+    key++
+    if (key === 9) {
+      key = 1
+    }
+    block.style.background = 'url({{ app_url_packaged }}/images/promo/cyj/' + key + '.png) center no-repeat'
+    block.style.backgroundSize = 'contain'
+  }
+  window.onload = function() {
+    var time = window.setInterval(changeClass, 100)
+  }
+	
+  
+</script>
+{% endblock %}
+
+{% block jquery %}
+
+{% endblock %}
+
+{% block content %}
+	<div class="snapshot">
+	</div>
+
+{% endblock %}
+
+
