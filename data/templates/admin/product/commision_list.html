@@ -1,5 +1,13 @@
 {%extends 'layout/admin.html'%}
 {% block page_css %}
+  <style class="text/css">
+      .qr-box {
+        height: 150px;
+      }
+      .qr-box .container {
+        text-align: center;
+      }
+  </style>
 {% endblock %}
 
 {% block jquery %}
@@ -180,7 +188,7 @@
 	{% endif %}
 
 
-<div class="ui qr-box small modal transition">
+<div class="ui qr-box modal transition">
 	<div class="header" style="position: relative;">
 	    产品二维码
 	    <i class="close icon" style="right: 0.3em !important;top: 0.4em !important;position:absolute;width: 30px;height: 30px;z-index:3;"></i>
