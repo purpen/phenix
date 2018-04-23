@@ -88,7 +88,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		// 微信登录参数
 		$wx_params = array(
 		  'app_id' => 'wx75a9ffb78f202fb3', // 太火鸟智能馆公号appId
-		  'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.url.domain'].'/app/wap/weixin/call_back'),
+		  'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.domain.mobile'].'/app/wap/weixin/call_back'),
 		  'state' => md5($sid),
 		);
 	
