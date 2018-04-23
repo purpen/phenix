@@ -117,8 +117,10 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 
     $redirect_url = null;
   
-    $app_id = Doggy_Config::$vars['app.wx.app_id'];
-    $secret = Doggy_Config::$vars['app.wx.app_secret'];
+    // $app_id = Doggy_Config::$vars['app.wx.app_id'];
+    // $secret = Doggy_Config::$vars['app.wx.app_secret'];
+    $app_id = 'wx75a9ffb78f202fb3';
+    $secret = 'f80ae853ef243f66284ad13781cb69de';
 
     $options = array(
       'app_id' => $app_id,
