@@ -626,7 +626,7 @@ input,input:focus,input:active{
 	                        <div class="ui center aligned three fields">
 	                            <div class="inline field pl-3r" style="text-align:left;">
 	                                {% if is_weixin %}
-	                                <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&amp;redirect_uri={{wx_params.redirect_uri}}&amp;response_type=code&amp;scope=snsapi_login&amp;state={{wx_params.state}}"
+	                                <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid={{wx_params.app_id}}&amp;redirect_uri={{wx_params.redirect_uri}}&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state={{wx_params.state}}"
 	                                class="ui big green circular share icon button m-0">
 	                                    <div class="large weixin logo"><img src="{{ app_url_packaged }}/images/icon/weixin.png"><span>微信</span></div>
 	                                </a>
