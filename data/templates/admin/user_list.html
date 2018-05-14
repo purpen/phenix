@@ -113,6 +113,7 @@
 		<thead>
 			<tr>
 				<th></th>
+        <th>ID</th>
 				<th>用户名</th>
 				<th>联系方式</th>
         <th>关注|粉丝|文章|产品|情景</th>
@@ -132,10 +133,11 @@
 					  	<label></label>
 					</div>
 				</td>
+        <td>{{ user._id }}</td>
 				<td>
 					<a class="ui image label link" href="{{ user.home_url }}" target="_blank">
 					  	<img src="{{ user.mini_avatar_url }}">
-					  	{{ user.nickname }}
+              {{ user.nickname }}[{{ user.account }}]
 					</a>
 					<p>
 						{% if user.sina_uid %}
