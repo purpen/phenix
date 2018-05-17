@@ -37,6 +37,12 @@ $crontab_config = [
         'output' => '/www/phenix/logs/crontab/clean_bonus.log',
         'time' => '* * * 1 *',
     ],
+    'stat' => [ // 每天12：30执行
+        'name' => '数据统计',
+        'cmd' => sprintf("%s cron_workers/stat_worker.php", $php_path),
+        'output' => '/www/phenix/logs/crontab/stat.log',
+        'time' => '0 30 0 * *',
+    ],
 
 ];
 
