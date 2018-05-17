@@ -17,6 +17,10 @@ class Sher_Core_Model_Tracker extends Sher_Core_Model_Base {
 		'onsale_products_count' => 0,
 		'topics_count' => 0,
 		'comments_count' => 0,
+    'topic_view_count' => 0,
+    'topic_true_view_count' => 0,
+    'topic_love_count' => 0,
+    'topic_favorite_count' => 0,
 		'orders_count' => 0,
 		'success_orders_count' => 0,
 	);
@@ -31,14 +35,14 @@ class Sher_Core_Model_Tracker extends Sher_Core_Model_Base {
         'updated_on' => 0,  //最后的汇总时间
     );
     
-	/**
-	 * 重新计算匹配总数
-	 */
-	public function remath_sitedata_counter($id='frbird', $data=array()){
-		if(!empty($id) && !empty($data)){
-			return self::$_db->upsert($this->tracker_sitedata_collection, array('_id' => $id), $data);
-		}
-	}
+    /**
+     * 重新计算匹配总数
+     */
+    public function remath_sitedata_counter($id='frbird', $data=array()){
+      if(!empty($id) && !empty($data)){
+        return self::$_db->upsert($this->tracker_sitedata_collection, array('_id' => $id), array('$set'=>$data));
+      }
+    }
 	
     /**
      * 记录站点总数,及匹配条件下总数

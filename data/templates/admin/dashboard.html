@@ -7,6 +7,11 @@
 	.attribute {
 		margin-top: 0.5em;
 	}
+  .sub.header {
+    color: #000;
+  }
+  .teal.body {
+  }
 </style>
 {% endblock %}
 
@@ -30,6 +35,10 @@
 					  {{ sitedata.topics_count|default 0 }}
 					  <div class="sub header">社区话题</div>
 					</h3>
+          <div class="teal body">
+            <p>浏览数: {{ sitedata.topic_view_count|default 0 }} | 评论数: {{ sitedata.comments_count|default 0 }}</p>
+            <p>点赞数: {{ sitedata.topic_love_count|default 0 }} | 关注数: {{ sitedata.topic_favorite_count|default 0 }}</p>
+          </div>
 				</div>
 			</div>
 			<div class="column">
