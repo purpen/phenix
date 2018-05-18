@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * 合并话题分类
+ * 话题浏览量添充
  */
 $config_file =  dirname(__FILE__).'/../deploy/app_config.php';
 if (!file_exists($config_file)) {

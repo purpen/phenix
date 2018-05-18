@@ -13,7 +13,7 @@ class Sher_App_Action_Social extends Sher_App_Action_Base implements DoggyX_Acti
     'd' => 0,
     'c' => 0,
     'symbol' => -1,
-    'page_title_suffix' => '智能硬件发现专区-太火鸟智能硬件孵化平台',
+    'page_title_suffix' => '智能硬件发现专区-太火鸟',
     'page_keywords_suffix' => '太火鸟,智能硬件孵化,智能硬件创意,创意投票,智品库,十万火计,智能硬件社区,智能硬件话题',
     'page_description_suffix' => '智能硬件发现专区是太火鸟孵化平台特色专区，在这里你可以发起智能硬件创意投票，有很大的智能硬件社区，有很专业的智能硬件测评区智品库，你可以申请新品试用，你可以报名活动-太火鸟发现你所想。',
 	);

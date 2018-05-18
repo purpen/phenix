@@ -26,7 +26,7 @@ function batch_create_user($start=1000){
 
     $user = new Sher_Core_Model_User();
     $data = array();
-    $account_prefix = array(138,168,188,189,186,158);
+    $account_prefix = array(132,133,138,139,150,151,152,158,166,168,182,185,180,181,186,188,189,175,177,199);
     $cities = array('北京','深圳','广州','上海','杭州','南京','苏州','其他');
     $step = 1;
     $end = $start + 50000;
