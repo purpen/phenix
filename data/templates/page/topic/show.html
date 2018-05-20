@@ -540,7 +540,7 @@
 			              {% if topic.source %}
 			              <span>来源: {{ topic.source }}</span> | 
 			              {%endif%}
-										<span class="count">浏览数: {{ topic.view_count }}</span> | <span class="count">回复数: {{ topic.comment_count }}</span>
+                    <span class="count">浏览数: {{ topic.view_count }}</span><!-- | <span class="count">回复数: {{ topic.comment_count }}</span>-->
 									</div>
 								</div>
 							</div>
@@ -783,9 +783,11 @@
 				                            {% endfor %}
 				                        {% endif %}
 				              	  	</div>
+                            <!--
 				                    <p>
 				                        已有 <span id="target-love-count">{{ topic.love_count }}</span> 个人点赞, <span id="target-favorite-count">{{ topic.favorite_count }}</span> 人关注
-				                    </p>                    
+				                    </p>  
+                            -->
 				                </div>
 				                <div class="user share">
 				                	<span><i class="share alternate icon"></i>分享：</span>
