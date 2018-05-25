@@ -1298,6 +1298,12 @@ class Sher_Core_Helper_Util {
       case 1: // topic
         $topic_model = new Sher_Core_Model_Topic();
 
+        $user_model = new Sher_Core_Model_User();
+        $user = $user_model->extend_load((int)$user_id);
+        if ($user && $user['ext_state']['rank_id'] < 3) {
+          return array('success'=>true, 'msg'=>'系统维护中!');
+        }
+
         $last_minute_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-60))));
         // 一分钟内不能大于1条
         if($last_minute_count>=1){
