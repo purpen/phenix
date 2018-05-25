@@ -1301,12 +1301,12 @@ class Sher_Core_Helper_Util {
         $last_minute_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-60))));
         // 一分钟内不能大于1条
         if($last_minute_count>=1){
-          return array('success'=>true, 'msg'=>'发表的话题频率太高，稍后再试吧!');       
+          return array('success'=>true, 'msg'=>'发表的话题频率太高，稍后再试吧!');
         }
 
-        // 一天之内不能大于15条
+        // 一天之内不能大于5条
         $today_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>$today)));
-        if($today_count>=15){
+        if($today_count>=5){
           return array('success'=>true, 'msg'=>'今天发表的话题超限，明天再来吧!');
         }
         break;
