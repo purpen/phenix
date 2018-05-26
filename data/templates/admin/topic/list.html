@@ -54,6 +54,9 @@
 				<i class="add icon"></i>新增话题
 			</a>
       -->
+			<a href="{{ app_url_admin }}/topic/clean_user" class="item ajax-delete">
+				批量禁用户并清空数据
+			</a>
 			<a href="{{ app_url_admin }}/topic/deleted" class="item ajax-delete">
 				批量删除
 			</a>
@@ -113,8 +116,8 @@
 		<thead>
 			<tr>
 				<th>
-					<div class="ui checkbox">
-					  	<input name="ids" type="checkbox" />
+					<div class="ui checkbox" id="checkbox_all_btn">
+					  	<input name="" type="checkbox" />
 					  	<label></label>
 					</div>
 				</th>

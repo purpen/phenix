@@ -1399,34 +1399,36 @@ class Sher_Core_Helper_Util {
      * @param string $url
      * @param array $post_data
      */
-    public static function request($url, $post_data, $options=array()) {
+    public static function request($url, $data, $method = 'GET', $options = array()) {
         if (empty($url)) {
             return false;
         }
-        
+
         $o = "";
-        if(!empty($post_data)){
-            if(is_array($post_data)){
-                foreach ( $post_data as $k => $v ) 
-                { 
-                    $o.= "$k=" . urlencode( $v ). "&" ;
+        if (!empty($data)) {
+            if (is_array($data)) {
+                foreach ($data as $k => $v) {
+                    $o .= "$k=" . urlencode($v) . "&";
                 }
-                $post_data = substr($o,0,-1);           
+                $data = substr($o, 0, -1);
             }
         }
 
-        $postUrl = $url;
-        $curlPost = $post_data;
+        if ($method === 'GET') {
+            $url = $url . '?' . $data;
+        }
         $ch = curl_init();//初始化curl
-        curl_setopt($ch, CURLOPT_URL,$postUrl);//抓取指定网页
+        curl_setopt($ch, CURLOPT_URL, $url);//抓取指定网页
         curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
-        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-        $data = curl_exec($ch);//运行curl
+        if ($method === 'POST') {
+            curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        }
+        $result = curl_exec($ch);//运行curl
         curl_close($ch);
-        
-        return $data;
+
+        return $result;
     }
 
   /**

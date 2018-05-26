@@ -160,6 +160,54 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 		return $this->to_taconite_page('ajax/delete.html');
 	}
 
+	/**
+	 * 禁用清空用户数据
+	 */
+	public function clean_user(){
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			return $this->ajax_notification('话题不存在！', true);
+		}
+
+    // 必须是管理员或特殊账户
+    if(!$this->visitor->is_admin){
+        // 是否允许编辑操作
+        $mark_arr = Sher_Core_Model_Block::mark_safer();
+        if(in_array($block['mark'], $mark_arr)){
+          if(!Sher_Core_Helper_Util::is_high_admin($user_id)){
+            return $this->ajax_notification('没有执行权限!', true);     
+          }
+        }
+    }
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			$user_model = new Sher_Core_Model_User();
+			
+			foreach($ids as $id){
+				$topic = $model->load((int)$id);
+				
+        if (!empty($topic)){
+          $user_id = $topic['user_id'];
+          $ok = $user_model->block_account($user_id);
+          if ($ok){
+            // 设置发送任务
+            Sher_Core_Util_Resque::queue('clean_user_created', 'Sher_Core_Jobs_CleanUser', array('user_id' => $user_id));         
+          }
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
   /**
    * 搜索
    */
