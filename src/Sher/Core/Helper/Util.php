@@ -1300,7 +1300,7 @@ class Sher_Core_Helper_Util {
 
         $user_model = new Sher_Core_Model_User();
         $user = $user_model->extend_load((int)$user_id);
-        if ($user && $user['ext_state']['rank_id'] < 3) {
+        if ($user && $user['ext_state']['rank_id'] < 5) {
           return array('success'=>true, 'msg'=>'系统维护中!');
         }
 
