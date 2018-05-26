@@ -172,7 +172,7 @@
           <p>{{ topic.love_count }}|{{ topic.comment_count }}</p>
           <p>{{ topic.view_count }}|{{ topic.true_view_count|default 0 }}|{{ topic.web_view_count|default 0 }}|{{ topic.wap_view_count|default 0 }}|{{ topic.app_view_count|default 0 }}</p>
         </td>
-        <td>{{ topic.created_on|date 'Y-m-d' }}</td>
+        <td>{{ topic.created_on|date 'Y-m-d H:i' }}</td>
 				<td>
 					<p>
 						{% if topic.stick %}
