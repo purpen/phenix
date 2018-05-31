@@ -1297,24 +1297,26 @@ class Sher_Core_Helper_Util {
     switch((int)$type){
       case 1: // topic
         $topic_model = new Sher_Core_Model_Topic();
+        $day_limit = 10;
+        $minute_limit = 5;
 
-        /**
         $user_model = new Sher_Core_Model_User();
         $user = $user_model->extend_load((int)$user_id);
         if ($user && $user['ext_state']['rank_id'] < 4) {
-          return array('success'=>true, 'msg'=>'系统维护中!');
+          $day_limit = 1;
+          $minute_limit = 1;
+          //return array('success'=>true, 'msg'=>'系统维护中!');
         }
-         */
 
         $last_minute_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>(time()-120))));
         // 2分钟内不能大于1条
-        if($last_minute_count>=2){
+        if($last_minute_count>=$minute_limit){
           return array('success'=>true, 'msg'=>'发表的话题频率太高，稍后再试吧!');
         }
 
-        // 一天之内不能大于5条
+        // 一天之内不能大于10条
         $today_count = $topic_model->count(array('user_id'=>(int)$user_id, 'created_on'=>array('$gt'=>$today)));
-        if($today_count>=5){
+        if($today_count>=$day_limit){
           return array('success'=>true, 'msg'=>'今天发表的话题超限，明天再来吧!');
         }
         break;
