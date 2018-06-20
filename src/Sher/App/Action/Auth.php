@@ -952,7 +952,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
     // 临时关闭微博登录入口
     if ($third_source == 'weibo') {
-       return $this->ajax_note('拒绝访问,请重试！', true); 
+       // return $this->ajax_note('拒绝访问,请重试！', true); 
     }
 
     $uid = isset($this->stash['uid'])?$this->stash['uid']:null;
