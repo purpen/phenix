@@ -761,6 +761,23 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	}
 
 	/**
+	 * 奇思甬动-大赛 4
+	 */
+	public function qsyd_list4(){
+    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_social');
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd4_category_id'];
+    $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd4';
+
+		$this->stash['cid'] = $top_category_id;
+    $this->stash['category_id'] = $category_id;
+		$pager_url = sprintf('%s/qsyd_list4?category_id=%d&page=#p#', Doggy_Config::$vars['app.url.contest'], $category_id);
+		$this->stash['pager_url'] = $pager_url;
+		return $this->to_html_page('match/qsyd_list4.html');
+	}
+
+	/**
 	 * 奇思甬动-大赛 3
 	 */
 	public function qsyd_view3(){
@@ -807,6 +824,56 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 		$this->stash['stuff'] = $stuff;
 
 		return $this->to_html_page('match/qsyd_view3.html');
+	}
+
+	/**
+	 * 奇思甬动-大赛 4
+	 */
+	public function qsyd_view4(){
+		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_social');
+
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		
+		$redirect_url = Doggy_Config::$vars['app.url.contest']."/qsyd4";
+		if(empty($id)){
+			return $this->show_message_page('访问的项目不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的项目不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('web_view_count', 1, $id);
+		
+		// 当前用户是否有管理权限
+		$editable = false;
+		if ($this->visitor->id){
+			if ($this->visitor->id == $stuff['user_id'] || $this->visitor->can_edit){
+				$editable = true;
+			}
+		}
+		
+		// 是否出现后一页按钮
+	    if(isset($this->stash['referer'])){
+            $this->stash['HTTP_REFERER'] = $this->current_page_ref();
+	    }
+		
+		$this->stash['stuff'] = $stuff;
+
+		return $this->to_html_page('match/qsyd_view4.html');
 	}
 
 	/**

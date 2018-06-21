@@ -196,6 +196,8 @@ class Sher_Core_Model_Stuff extends Sher_Core_Model_Base {
           }elseif($row['from_to'] == 7){
             $row['view_url'] = sprintf("%s/qsyd_view3?id=%d", Doggy_Config::$vars['app.url.contest'], $row['_id']);
             $row['wap_view_url'] = sprintf("%s/contest/qsyd_view3?id=%d", Doggy_Config::$vars['app.url.wap'], $row['_id']);
+          }elseif($row['from_to'] == 8){
+            $row['view_url'] = sprintf("%s/qsyd_view4?id=%d", Doggy_Config::$vars['app.url.contest'], $row['_id']);
           }else{
             $row['wap_view_url'] = Sher_Core_Helper_Url::wap_stuff_view_url($row['_id']);
           }

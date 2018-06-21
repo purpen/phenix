@@ -144,7 +144,7 @@
       }
 
       .policy-title{
-          background: url("../images/frame.png")no-repeat;
+          background: url("{{ app_url_packaged }}/images/match/qsyd4/frame.png")no-repeat;
           background-size: 100% 100%;
           position: absolute;
           top: 0;
@@ -265,6 +265,14 @@
           align-items: center;
       }
   }
+   .ellipsis {
+       text-overflow: ellipsis;
+       white-space: nowrap;
+       overflow: hidden;
+   }
+    .height-338{
+        height: 338px;
+    }
   .line-height-42{
       line-height: 42px;
       text-align: center;
@@ -434,7 +442,7 @@
 
   .swiper-list-img img{
       width: 100%;
-      height: 100%;
+      /* height: 100%; */
       position: absolute;
       top: 0;
       left: 0;
@@ -536,7 +544,7 @@
   }
   .collect-img{
       width: 100%;
-      height: 100%;
+      /* height: 100%; */
   }
   .margin-img{
       display: block;
@@ -689,9 +697,12 @@
   .jury .explain{
       margin-bottom: 65px;
   }
+  .supervisor-list li div {
+      overflow: hidden;
+  }
   .supervisor-list li div img{
       width: 100%;
-      height: 100%;
+      /* height: 100%; */
   }
   /*09*/
   .works{
@@ -842,6 +853,10 @@
       letter-spacing: 2px;
   }
 
+  .upload-art-btn {
+      cursor:pointer;
+  }
+
 
 </style>
 {% endblock %}
@@ -879,7 +894,7 @@
               for(var i=0;i<oLi.length;i++){
                 oLi[i].className="";
               }
-              this.classList.add("active","new-content-img","new-content-desc");
+              this.classList.add("qs-active","new-content-img","new-content-desc");
             }
         }
 
@@ -895,36 +910,36 @@
     <div id="wrapper">
         <!--01banner-->
         <div class="banner">
-            <div class="apply">
-                <p class="font-18 color-f line-height-42">立即报名</p>
+            <div class="apply upload-art-btn">
+                <p class="font-18 color-f line-height-42" style="">立即报名</p>
             </div>
         </div>
         <!--02大赛介绍-->
         <div class="present">
             <div class="nav">
                 <ul class="nav-ul">
-                    <a href="#">
+                    <a href="{{ app_url_contest }}/qsyd4">
                         <li>
                             <div class="content-img">
                                 <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
                                 <p class="content-desc">大赛首页</p>
                             </div>
                         </li>
-                    </a><a href="#one">
+                    </a><a href="{{ app_url_contest }}#one">
                         <li>
                             <div class="content-img">
                                 <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
                                 <p class="content-desc">大赛介绍</p>
                             </div>
                         </li>
-                    </a><a href="#two">
+                    </a><a href="{{ app_url_contest }}#two">
                         <li>
                             <div class="content-img">
                                 <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
                                 <p class="content-desc">实时赛况</p>
                             </div>
                         </li>
-                    </a><a href="#three">
+                    </a><a href="{{ app_url_contest }}#three">
                         <li>
                             <div class="content-img">
                                 <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
@@ -1026,7 +1041,7 @@
             <div class="swiper-wrap">
                 <div class="swiper-container container1">
                     <div class="swiper-wrapper">
-                    {% stuff_list var:'list' from_to:7 sort:8 page:1 size:16 %}
+                    {% stuff_list var:'list' from_to:8 sort:8 page:1 size:16 %}
                     {% for d in list.rows %}
                         <div class="swiper-slide">
                             <a href="{{ d.view_url }}" target="_blank">
@@ -1034,7 +1049,7 @@
                                   <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
                                   <div class="swiper-list-desc">
                                       <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
-                                      <p class="font-16 color-f padding-l-30 margin-10 overflow">实时赛况实时赛况实时赛况</p>
+                                      <p class="font-16 color-f padding-l-30 margin-10 overflow ellipsis">{{ d.description }}</p>
                                   </div>
                               </div>
                             </a>
@@ -1301,15 +1316,15 @@
             <div class="swiper-wrap">
                 <div class="swiper-container container2">
                     <div class="swiper-wrapper">
-                    {% stuff_list var:'list' from_to:7 sort:8 page:1 size:16 %}
+                    {% stuff_list var:'list' from_to:8 sort:8 page:1 size:16 %}
                     {% for d in list.rows %}
                         <div class="swiper-slide">
                             <a href="{{ d.view_url }}" target="_blank">
-                              <div class="swiper-list-img height-400">
+                              <div class="swiper-list-img height-338">
                                   <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
                                   <div class="swiper-list-desc">
                                       <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
-                                      <p class="font-16 color-f padding-l-30 margin-10 overflow">实时赛况实时赛况实时赛况</p>
+                                      <p class="font-16 color-f padding-l-30 margin-10 overflow ellipsis">{{ d.description }}</p>
                                   </div>
                               </div>
                             </a>

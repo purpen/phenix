@@ -1,7 +1,12 @@
 {%extends 'layout/column.html'%}
-{% block title %}作品展示-{% endblock %}
+{% block title %}第四届奇思甬动中国创客大赛-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
 @media only screen and (min-width: 1500px){
 	.ui.responsive.grid{
 		width: 1200px;
@@ -11,156 +16,170 @@
 .iosewm{
 	display: none;
 }
-.qsyd2{
-	background: url({{ app_url_packaged }}/images/match/qsyd/bgh.jpg) no-repeat center top;
-	background-color: #000;
+.qsyd4{
+  background: url("{{ app_url_packaged }}/images/match/qsyd4/BG.jpg") no-repeat top / cover
+}
+
+.bg-banner{
+	/* background: url({{ app_url_packaged }}/images/match/qsyd3/banner.jpg) no-repeat center top;
+	background-color: #000; */
+  /* background: url("{{ app_url_packaged }}/images/match/qsyd4/01banner.jpg") no-repeat center;
+  background-size: cover; */
 	width: 100%;
+	/* height: 800px; */
+  padding-top: 716px;
+  text-align: center;
 }
-.pt-570{
-	height: 590px;
+.regs{
+	/* background: url({{ app_url_packaged }}/images/match/qsyd3/bj8.jpg) no-repeat center top;
+	background-color: #000; */
+	/* width: 100%; */
+	/* height: 1953px; */
+  text-align: center;
 }
-.ui.nav{
-	background-color: #fff;
+.nav{
+	background-color: #DD2F8C;
+  width: 1180px;
+  height: 70px;
+  margin: 0 auto;
 }
-.ui.nav .aligned.row{
-	padding: 0;
+.nav ul {
+
 }
-.ui.nav .ui.list>a.active.item, .ui.list>a.item:hover{
-	color: #007087;
+.nav ul li {
+  list-style: none;
+  /* float: right; */
 }
-.ui.nav .ui.horizontal.list>.item {
-    display: inline-block;
-    margin-left: 1em;
-    font-size: 16px;
-    padding: 17px 0px;
-    margin: 0 30px;
-    position: relative;
-    letter-spacing: 2px;
+.nav ul li a {
+  display: block;
+  color: #fff;
+  padding: 0 20px 0 20px;
+  line-height: 68px;
 }
-.ui.nav .ui.list>a.active.item::before,.ui.nav .ui.list>a.item:hover::before{
-	content: '';
-	height: 2px;
+.nav ul li a:hover {
+  display: block;
+  color: #272923;
+  background: #FCD202;
+  border-bottom: 3px solid #585656;
+}
+.nav ul li a.active {
+  display: block;
+  color: #272923;
+  background: #FCD202;
+  border-bottom: 3px solid #585656;
+}
+
+/* .nav.light.fixed{
+	position: fixed;
 	width: 100%;
-	background: #007087;
-	position: absolute;
-	bottom: 0;
+	top: 0;
 	left: 0;
-	transition: all 0.2s ease;
-	-moz-transition: all 0.2s ease;
-	-webkit-transition: all 0.2s ease;
-	-o-transition: all 0.2s ease;
+  z-index: 9999;
 }
-.ui.nav .ui.magenta.button{
-	background: #007087;
-    color: #fff;
-    border: none;
-    border-radius: 0;
-    box-shadow: none !important;
-    font-size: 16px;
-    height: 52px;
-    line-height: 26px;
-    letter-spacing: 2px;
+.nav.light.fixed ul{
+  margin: 0 23% 0 0;
 }
-.product .ui.grid > .row.bgpro{
-	background: url({{ app_url_packaged }}/images/promo/lbg.png);
-	width: 1256px !important;
-	height: 1682px;
-	margin: 50px -28px 50px;
-	padding: 10px 25px;
-	text-align: center;
+.nav.light.fixed ul li{
+  float left;
+} */
+
+.upload-art-btn {
+  margin: 15px 30px 20px 20px;
+  float: right;
 }
-.titlepro{
-	color: #f8bc05;
-    font-size: 30px;
-    font-weight: 400;
-    line-height: 63px;
-    padding-left: 895px;
-    letter-spacing: 4px;
-    margin-bottom: 20px;
-    text-align: left;
+.upload-art-btn p {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #272829;
+  cursor: pointer;
 }
+.upload-art-btn p:hover {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #000;
+  cursor: pointer;
+}
+
+.q-title {
+  color: #fff;
+  padding: 60px 0 20px 0;
+}
+.q-title .title-ch {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+.q-title .spl {
+  width: 30px;
+  border-top: 1px solid #fff;
+  margin: 8px auto;
+}
+.q-title .title-en {
+  font-size: 12px;
+}
+
+.product{
+	width: 1180px !important;
+	/* height: 877px; */
+	/* padding: 10px 0; */
+  text-align: center;
+  margin: 0 auto;
+}
+@media only screen and (min-width: 1500px){
+	.product{
+		width: 1180px;
+	}
+}
+
 .product .ui.items .item .content{
 	text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    text-align: left;
 }
 .product .ui.items .item a.magenta.link{
-	font-size: 16px;
+	font-size: 18px;
 	text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    color: #e5404a;
+    color: #bbb;
     line-height: 30px;
 }
 .product .ui.items .item .content .sub.header{
 	font-size: 14px;
-	line-height: 20px;
-	color: #5e5e5e;
-	margin: 4px 0 10px;
-    font-weight: 400;
-    max-height: 58px;
-    min-height: 58px;
+	color: #999;
+	margin: 4px 0 2px;
     overflow: hidden;
     display: block;
-    white-space: normal;
+}
+.product .ui.items .item .image{
+	height: 250px;
+  overflow: hidden;
+  margin-bottom: 10px;
 }
 .product .ui.items .item .image img{
-	width: 100%;
+  height: 250px;
+  width: 100%;
 }
-.product .ui.allist .i-stats{
-	background: rgba(0,0,0,0);
-	position: relative;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	padding-top: 10px;
-}
-.product .ui.allist .ui.four.items .item .i-stats .schedule {
-    padding-top: 8px;
-}
-.product .ui.allist .ui.four.items .item .i-stats .schedule .status > .like{
-	float: right;
-    line-height: 28px;
-}
-.product .ui.allist .ui.four.items .item .i-stats .schedule .status > .like .like.icon{
-	margin-left: 5px;
-	color: #5d6266;
-	cursor: default;
-	opacity: .75;
-}
-.product .ui.allist .ui.four.items .item .i-stats .schedule .status i.icon{
-	margin-right: 1px;
-}
+
 .product .ui.four.items .item{
 	width: calc(25% - 1em);
 	margin: 0 .5em 1.5em;
 }
-.product .getmore{
-	width: 256px;
-    height: 44px;
-    background: #f8bc05;
-    color: #000;
-    font-size: 18px;
-    line-height: 44px;
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    margin-left: -128px;
-    text-align: center;
-}
 .ui.compact.menu{
 	width: 1180px;
-	margin: 0 auto 30px;
+	margin: 20px 10px 10px 50px;
+  padding: 20px 0;
 	background: rgba(0,0,0,0);
 	border:0;
 }
 .ui.compact.menu .item:hover,.ui.compact.menu .item.active{
 	color: #fff;
-	background: #e63f4a;
+	background: #DD2F8C;
 }
 .ui.compact.menu .item{
     margin: 0 8px;
-    background: #f8bc05;
+    background: #fff;
     text-align: center;
     border-radius: 0.28571429rem !important;
     padding: 0.928571em 19px 0.928571em 19px;
@@ -177,16 +196,20 @@
 	margin-right: 4px;
 }
 .ui.pagination.menu{
-	margin-top: 20px;
+	/* margin-top: 20px; */
 	background: rgba(0,0,0,0);
 }
 .ui.pagination.menu .item{
-	background: #5b5b5b;
-    color: #fff;
+	  background: #fff;
+    color: #929191;
     margin: 0 5px;
+    padding: 0;
+  justify-content: center
 }
 .ui.pagination.menu .item:hover,.ui.pagination.menu .item.active{
-	background: #f8bc05;
+	background: #DD2F8C;
+  padding: 0;
+  color: #fff
 }
 .ui.menu .item.disabled, .ui.menu .item.disabled:hover{
 	background-color: rgba(91,91,91,0.9) !important;
@@ -195,217 +218,463 @@
 .ui.pagination.menu>.item:first-child, .ui.pagination.menu>.item:last-child{
 	border-radius: 0 !important;
 }
-.fllo{
-	color:#fff;
-	padding: 40px 0 100px;
-}
-.fllo p{
-	line-height: 24px;
+
+.bg-footer{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/bj9_1.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 500px;
+  text-align: center;
 }
 
-.product .ui.items .item .image img {
-    width: 100%;
-    height: 145px;
-    overflow: hidden;
-}
-.ui.contact .ui.weibo.button,.ui.contact .ui.weibo.button:hover,.ui.contact .ui.blue.button,.ui.contact .ui.blue.button:hover,.ui.contact .ui.green.button,.ui.contact .ui.green.button:hover{
-	border-color: transparent !important;
-  	background: transparent !important;
-	padding:0;
-}
-.ui.contact .ui.circular.share.button {
-	height: auto;
-  	width: auto;
-}
-.ui.nav.light.fixed{
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
-	z-index: 10;
-}
-.ui.avatar.image + span.count{
-	width: 98px;
-    overflow: hidden;
-    position: absolute;
-    top: 24px;
-    left: 34px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
+
+  .nav{
+      max-width: 1280px;
+      height: 180px;
+      background: #fff;
+      margin: auto;
+  }
+  .nav-ul{
+      padding: 0 1%;
+      margin: 0;
+  }
+  .nav-ul li {
+    list-style: none;
+  }
+  .nav-ul a{
+      display: block;
+      width: 14.2%;
+      float: left;
+  }
+  .nav-ul li:hover .content-img {
+      background: #0038be;
+  }
+  .nav-ul li:hover .content-img img{
+      display: block;
+  }
+  .nav-ul li:hover .content-desc{
+      color: #fff;
+  }
+  .content-img{
+      width: 100%;
+      height: 90px;
+      text-align: center;
+      line-height: 90px;
+  }
+  .content-desc{
+      color: #929191;
+      line-height: 90px;
+      font-size: 18px;
+  }
+  .first-li{
+      background: #0038be;
+  }
+  .content-img img{
+      display: none;
+      margin: 0 auto;
+      padding-top: 15px;
+  }
+  /*//////*/
+  .present{
+      width: 100%;
+      /* height: 590px; */
+      /* background: url("{{ app_url_packaged }}/images/match/qsyd4/02BG.jpg") no-repeat; */
+      background-size: cover;
+      position: relative;
+      background-position: center 0;
+  }
+
+  .present-title-img{
+      display: block;
+      margin: 0 auto;
+  }
+  .present-main{
+      width: 61%;
+      margin: 0 auto;
+  }
+  .present-main p{
+      font-size: 18px;
+      text-indent:1em;
+      letter-spacing: 2px;
+      line-height: 40px;
+      color: #5c5b5b;
+      padding-bottom: 115px;
+  }
+  .introduce-title{
+      font-size: 24px;
+      text-align: center;
+      padding-bottom: 20px;
+  }
+  .color-02{
+      color: #0037bf;
+  }
+  .introduce-eng{
+      margin-left: 50%;
+  }
+  /*11*/
+  .idea{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/11BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .idea .present-title{
+      padding: 75px 0 35px 0;
+  }
+  .idea-content{
+      padding-bottom: 70px;
+  }
+  .idea-content:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .margin-b-50{
+      margin-bottom: 40px;
+  }
+  .color-d2{
+      color: #d2d7ed;
+  }
+  .idea .overflow{
+      line-height: 2;
+  }.idea .letter{
+      letter-spacing: 2px;
+  }
+
+   .margin-t-15{
+       margin-top: 15px;
+   }
+   .dis-flex{
+       display: flex;
+       align-items: center;
+   }
+   /*12*/
+  .law{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/12BG.jpg")no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .law .present-title{
+      padding: 60px 0 40px 0;
+  }
+  .law-main{
+      width: 75%;
+      margin: auto;
+      padding-bottom: 100px;
+  }
+
+  .law .letter{
+      letter-spacing: 2px;
+  }
+  .law .overflow{
+      line-height: 2;
+  }
+  .margin-20{
+      margin: 0 20px;
+  }
+  .letter-2{
+      letter-spacing: 2px;
+  }
+
+  .float-left{
+      float: left;
+      width: 50%;
+  }
+  .font-18{
+      font-size: 18px;
+  }
+  .ui.grid>.row {
+    padding-bottom: 30px
+  }
+  .width-75{
+      width: 75%;
+      margin: auto;
+  }
+  .ui.items {
+    margin: 0
+  }
 </style>
 {% endblock %}
 
 {% block jquery %}
 
-	$('body').visibility({
-    offset         : -$('.ui.nav').offset().top,
+$('body').visibility({
+    offset         : -$('.nav').offset().top,
     observeChanges : false,
     once           : false,
     continuous     : false,
     onTopPassed: function() {
         requestAnimationFrame(function() {
-            $('.ui.nav').addClass('light fixed');
-            $('.pt-570').css('height','640px');
+            $('.nav').addClass('light fixed');
         });
     },
     onTopPassedReverse: function() {
         requestAnimationFrame(function() {
-        	$('.ui.nav').removeClass('light fixed');
-        	$('.pt-570').removeAttr("style");
+        	$('.nav').removeClass('light fixed');
       	});
     }
   });
-  $('html,body').animate({scrollTop:$('.ui.nav').offset().top },800);
+  $('html,body').animate({scrollTop:$('.nav').offset().top },800);
 
   //提交作品按钮
-  $('.ui.attend.button').click(function(){
-    var url = "{{ app_url_contest }}/submit2";
+  $('.upload-art-btn').click(function(){
+    var url = "{{ app_url_contest }}/submit4";
     phenix.redirect(url);
   });
-  phenix.bind_share_list('https://s3.taihuoniao.com/images/match/qsyd/mbg1.jpg');
-	// 生成二维码
-	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_contest }}/qsyd_list2'});
+
 
 {% endblock %}
 
 {% block content %}
-<div class="qsyd2">
-	<section class="pt-570"></section>
-	<section class="ui nav">
-		<div class="ui responsive grid">
-			<div class="middle aligned row">
-				<div class="twelve wide column">
-					<div class="ui horizontal list">
-						<a href="{{ app_url_contest }}/qsyd2" class="ui link item">活动首页</a>
-						<a href="{{ app_url_contest }}/qsyd2#.about" class="ui link item">活动介绍</a>
-						<a href="{{ app_url_contest }}/qsyd2#.time" class="ui link item">大赛议程</a>
-						<a href="{{ app_url_contest }}/qsyd2#.jury" class="ui link item">评选嘉宾</a>
-						<a href="{{ app_url_contest }}/qsyd_list2" class="ui active link item">作品展示</a>
-						<a href="{{ app_url_contest }}/qsyd2#.jgx" class="ui link item">奖项回报</a>
-					</div>
-				</div>
+<div class="qsyd4">
+	<section class="section bg-banner home">
+    <!-- <div class="nav">
+      <div class="upload-art-btn">
+        <p>参赛报名</p>
+      </div>
+      <ul>
+        <li><a class="contact-menu" href="{{ app_url_contest }}/qsyd3#.contact">联系方式</a></li>
+        <li><a class="partner-menu" href="{{ app_url_contest }}/qsyd3#.partner">合作伙伴</a></li>
+        <li><a class="copyright-menu" href="{{ app_url_contest }}/qsyd3#.copyright">版权声明</a></li>
+        <li><a class="awards-menu" href="{{ app_url_contest }}/qsyd3#.awards">奖项回报</a></li>
+        <li><a class="arts-menu active" href="{{ app_url_contest }}/qsyd_list3">项目展示</a></li>
+        <li><a class="time-menu" href="{{ app_url_contest }}/qsyd3#.time">大赛议程</a></li>
+        <li><a class="jury-menu" href="{{ app_url_contest }}/qsyd3#.jury">评委嘉宾</a></li>
+        <li><a class="introduction-menu" href="{{ app_url_contest }}/qsyd3#.introduction">大赛介绍</a></li>
+        <li><a class="home-menu" href="{{ app_url_contest }}/qsyd3">大赛首页</a></li>
+      </ul>
 
-			<div class="right aligned four wide column">
-				<a href="javascript:void(0);" class="ui magenta attend inverted button">
-					<i class="edit icon"></i> 立即报名
-				</a>
-			</div>
-		</div>
-	</section>
-	<section class="product">
-		<div class="ui responsive allist grid">
-			<div class="row bgpro">
-				<div class="titlepro">
-					作品展示
-				</div>
-				{% category_list var:'category' only_open:1 domain:4 pid:cid %}
-				<div class="ui center aligned column">
-					<div class="ui compact menu">
-            <a href="{{ app_url_contest }}/qsyd_list2" class="item {%if category_id==0%}active{%endif%}">
-							Top30
-						</a>
-            {% for d in category.rows %}
-            <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">
-                {{ d.title }}
-              </a>
-            {% endfor %}
-					</div>
-				</div>
-					
-				{% stuff_list var:'list' category_id:category_id page:page size:16 is_prize:is_prize sort:sort %}
-				<div class="column">
-					<div class="ui four items">
-
-            {% for d in list.rows %}
-
-              <div class="item">
-                <div class="content">
-                  <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
-                    {{ d.title }}
-                  </a>
-                  <div class="sub header">
-                    {{ d.description }}
-                  </div>
-                  <div class="image">
-                    <img src="{{ d.cover.thumbnails.aub.view_url }}">
-                  </div>
-
-                  <div class="i-stats">
-                    <div class="schedule">
-                      <div class="status clearfix">
-                        <a class="ui avatar image" href="{{ d.user.home_url }}" target="_blank">
-                          <img src="{{ d.user.medium_avatar_url }}" alt="{{ d.user.nickname }}">
-                        </a>
-                        <span class="count">
-                          <a class="ui small link" href="{{ d.user.home_url }}" target="_blank">
-                                          {{ d.user.nickname }}
-                                      </a>
-                        </span>
-                        <span class="like">
-                                      <i class="unhide icon"></i>
-                                      <span class="count">{{ d.view_count }}</span> 
-                                      <i class="like icon"></i>
-                                      <span class="count love-count">{{ d.love_count }}</span>
-                                    </span>
+    </div> -->
+    <div class="present">
+      <div class="nav">
+          <ul class="nav-ul clearfix">
+              <a href="{{ app_url_contest }}/qsyd4">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">大赛首页</p>
                       </div>
-                      
-                    </div>
-                    
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#one">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">大赛介绍</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#two">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">实时赛况</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#three">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">亮点与条件</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#four">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">征集领域</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#five">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">日程</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#six">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">奖金回馈</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#seven">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">政策直通车</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#enght">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">创意星导师</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#nine">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">创新评审团</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#ten">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">星耀作品</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#eleven">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">参与单位</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#twelve">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">意见反馈</p>
+                      </div>
+                  </li>
+              </a><a href="{{ app_url_contest }}/qsyd4#thirteen">
+                  <li>
+                      <div class="content-img">
+                          <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                          <p class="content-desc">法律声明</p>
+                      </div>
+                  </li>
+              </a>
+          </ul>
+      </div>
+    </div>
+  </section>
+	<section class="regs">
+
+    <div class="attr">
+      <div class="q-title">
+        <p class="title-ch">项目展示</p>
+        <p class="spl"></p>
+        <p class="title-en">SHOW</p>
+      </div>  
+
+      {% category_list var:'category' only_open:1 domain:4 pid:cid %}
+      <div class="ui center aligned column clearfix">
+        <div class="ui compact menu">
+          <a href="{{ app_url_contest }}/qsyd_list4" class="item {%if category_id==0%}active{%endif%}">
+            全部
+          </a>
+          {% for d in category.rows %}
+          <a href="{{ app_url_contest }}/qsyd_list4?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">
+              {{ d.title }}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="column product">
+        <div class="ui four items clearfix">
+				  {% stuff_list var:'list' category_id:category_id from_to:8 page:page size:16 sort:sort %}
+          {% for d in list.rows %}
+
+            <div class="item">
+              <div class="content">
+                <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                  <div class="image">
+                    <img src="{{ d.cover.thumbnails.apc.view_url }}">
                   </div>
+                  {{ d.title }}
+                </a>
+                <div class="sub header">
+                  {{ d.view_count }}次浏览 | {{ d.love_count }}人点赞
+                </div>
+
+                <div class="i-stats">
+                  <div class="schedule">
+                    <div class="status clearfix">
+                      <span class="count">
+                        Design By <a class="ui small link" href="{{ d.user.home_url }}" target="_blank">
+                                        {{ d.user.nickname }}
+                                    </a>
+                      </span>
+
+                    </div>
+                  </div>
+                  
                 </div>
               </div>
+            </div>
 
-            {%endfor%}
+          {%endfor%}
 
-					</div>
-				</div>
-				
-		    	{% if list.total_page %}
-				<div class="ui pagination">
-					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
-					{% include 'block/pager.html' %}
-				</div>
-				{% endif %}
 
-			</div>
-		</div>		
-	</section>
-	<section class="fllo ui contact">
-		<div class="ui responsive grid">
-			<div class="ui eight wide column">
-				<h2>
-					大赛组委会办公室
-				</h2>
-				<p>联系地址:宁波市国家大学科技园管委会<br/>
-					(宁波市中官西路 777 号科创大厦 309,合作发展科) <br/>
-					联络人:应志浩      联系电话:0574-87612065 <br/>
-					电子邮箱:nbchuangke@126.com<br/>
-					*本次大赛的解释权归大赛组委会所有,活动的有关情况请及时与大赛组委会办公室联系
-				</p>
-			</div>
-			<div class="ui five wide column" style="padding: 20px 0 0;">
-				<h2>分享到：</h2>
-				<a href="javascript:void(0);" class="ui weibo circular share icon button" id="sina-share" title="新浪微博" target="_blank">
-					<img src="{{ app_url_packaged }}/images/match/qsyd20.png">
-				</a>
-				<a href="javascript:void(0);" class="ui blue circular share icon button" id="tencent-share" title="腾讯微博" target="_blank">
-					<img src="{{ app_url_packaged }}/images/match/qsyd21.png">
-				</a>
-				<a href="javascript:void(0);" class="ui green circular share wexin icon button" id="wechat-share" title="微信">
-					<img src="{{ app_url_packaged }}/images/match/qsyd23.png">
-				</a>
+        </div>
 
-				<p style="padding: 20px 0 0;">大赛官方QQ交流群:216875757 </p>
-			</div>
-			<div class="ui three wide center aligned column">
-				<img src="{{ app_url_packaged }}/images/match/qsyd/ewm.jpg">
-				<p style="width: 124px;text-align: center;margin: 8px auto 0;line-height: 20px;">更多精彩内容 <br/>尽在太火鸟社区！</p>
-			</div>
-		</div>
+      {% if list.total_page %}
+        <div class="ui pagination">
+          {% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+          {% include 'block/pager.html' %}
+        </div>
+    {% endif %}
+
+      </div>
+
+    
+    </div>
+
+
 	</section>
 
+  <!-- <section class="bg-footer"></section> -->
+      <!--11意见反馈-->
+      <div class="idea" id="twelve">
+        <div class="present-title">
+            <div class="introduce">
+                <p class="introduce-title color-f letter-2">意见反馈</p>
+                <p class="introduce-eng color-f letter-2">INTRODUCTION</p>
+            </div>
+        </div>
+        <div class="width-75 idea-content">
+            <div class="float-left">
+                <div class="content-list">
+                    <p class="content-desc font-18 color-f overflow margin-b-50 letter">本次大赛的解释权归大赛组委会所有，<br>活动的有关情况请及时与大赛组委会办公室联系</p>
+                    <p class="content-iphone font-18 color-d2 overflow letter">大赛组委会办公室<br>联系地址：宁波市大学科技园管委会<br>（宁波市中官西路777号科创大厦204，合作科）<br>大赛组委会联络人：应志浩、顾哲超<br>联系电话：0574-87612121<br>电子信箱：nbchuangke@126.com</p>
+                </div>
+            </div>
+            <div class="float-left">
+                <div class="qrcode">
+                    <div class="float-left text-al">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/QR01.jpg" alt="">
+                        <p class="margin-t-15 font-18 color-d2 text-al letter overflow">宁波市大学科技园<br>官方微信公众号</p>
+                    </div>
+                    <div class="float-left text-al">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/QR02.jpg" alt="">
+                        <p class="margin-t-15 font-18 color-d2 text-al letter overflow">关注Fiu火鸟的礼物<br>获取大赛相关进度</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--11法律-->
+    <div class="law" id="thirteen">
+        <div class="present-title">
+            <div class="introduce">
+                <p class="introduce-title color-f letter-2">法律声明</p>
+                <p class="introduce-eng color-f letter-2">LEGAL NOTICES</p>
+            </div>
+        </div>
+        <div class="law-main">
+            <div class="padd-b-95">
+                <p class="font-18 color-d2 overflow letter">依据国家有关法律法规，凡主动提交项目的 “参赛者” 或 “作者”，主办方认为其已经对所提交的项目版权归属作如下不可撤销声明：</p>
+                <p class="font-18 color-d2 overflow">1、原创声明参赛项目是参赛者原创项目，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权，否则，大赛主办方将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利。</p>
+                <p class="font-18 color-d2 overflow">2、大赛主办方对所有获奖项目拥有展示和宣传等权利，其它任何单位和个人（包括作者本人）未经授权不得已任何形式对项目转让、复制、转载、传播、摘编、出版、发行、许可使用等。</p>
+                <p class="font-18 color-d2 overflow">3、参赛者提交项目之前，已仔细阅读上述条款，充分理解并表示同意，本次大赛的评委会拥有对所有获奖项目的最终裁定权。</p>
+            </div>
+
+        </div>
+    </div>
 </div>
 {% include "block/qrcode.html" %}
 {% endblock %}

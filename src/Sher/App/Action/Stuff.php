@@ -475,7 +475,7 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
           return $this->ajax_json('作品描述不能为空！', true); 
         } 
       // 奇思勇动3
-      }elseif($from_to == 7){
+      }elseif($from_to == 7 || $from_to == 8){
         if(!isset($this->stash['attr']) || empty($this->stash['attr'])){
           return $this->ajax_json('请选择参赛类型！', true); 
         }
@@ -738,8 +738,10 @@ class Sher_App_Action_Stuff extends Sher_App_Action_Base implements DoggyX_Actio
             $redirect_url = sprintf("%s/tshow?id=%d", Doggy_Config::$vars['app.url.stuff'], $id);
         }elseif($data['from_to'] == 6){ // 奇思甬动2
             $redirect_url = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
-        }elseif($data['from_to'] == 7){ // 奇思甬动2
+        }elseif($data['from_to'] == 7){ // 奇思甬动3
             $redirect_url = sprintf("%s/qsyd_view3?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
+        }elseif($data['from_to'] == 8){ // 奇思甬动4
+            $redirect_url = sprintf("%s/qsyd_view4?id=%d", Doggy_Config::$vars['app.url.contest'], $id);
         }else{
    		    $redirect_url = Sher_Core_Helper_Url::stuff_view_url($id);       
         }

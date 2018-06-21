@@ -1,0 +1,699 @@
+{%extends 'layout/column.html'%}
+{% block title %}{{ stuff.title }}-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+@media only screen and (min-width: 1500px){
+	.ui.responsive.grid{
+		width: 1200px;
+	}
+}
+.iosewm{
+	display: none;
+}
+.qsyd4 {
+	background: url("{{ app_url_packaged }}/images/match/qsyd4/BG.jpg") no-repeat center top;
+}
+.bg-banner{
+	width: 100%;
+	height: 800px;
+  padding-top: 716px;
+  text-align: center;
+}
+.regs{
+	/* background: url({{ app_url_packaged }}/images/match/qsyd4/BG.jpg) no-repeat bottom / cover; */
+	/* background-color: #0038be; */
+	width: 100%;
+	height: auto;
+  text-align: center;
+}
+/*
+.nav{
+	background-color: #fff;
+  width: 1180px;
+  height: 70px;
+  margin: 0 auto;
+}
+
+.nav ul li {
+  list-style: none;
+  float: right;
+}
+.nav ul li a {
+  display: block;
+  color: #929191;
+  padding: 0 20px 0 20px;
+  line-height: 68px;
+}
+.nav ul li a:hover {
+  display: block;
+  color: #fff;
+  background: #0038be;
+  border-bottom: 3px solid #585656;
+}
+.nav ul li a.active {
+  display: block;
+  color: #272923;
+  background: #FCD202;
+  border-bottom: 3px solid #585656;
+}
+
+.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+  z-index: 9999;
+}
+.nav.light.fixed ul{
+  margin: 0 23% 0 0;
+}
+.nav.light.fixed ul li{
+  float left;
+}
+*/
+
+
+  .nav{
+      max-width: 1280px;
+      height: 180px;
+      background: #fff;
+      position: absolute;
+      top: -50px;
+      left: 0;
+      right: 0;
+      margin: auto;
+  }
+  .nav-ul{
+      padding: 0 1%;
+      margin: 0;
+  }
+  .nav-ul li {
+    list-style: none;
+  }
+  .nav-ul a{
+      display: block;
+      width: 14.2%;
+      float: left;
+  }
+  .nav-ul li:hover .content-img {
+      background: #0038be;
+  }
+  .nav-ul li:hover .content-img img{
+      display: block;
+  }
+  .nav-ul li:hover .content-desc{
+      color: #fff;
+  }
+  .content-img{
+      width: 100%;
+      height: 90px;
+      text-align: center;
+      line-height: 90px;
+  }
+  .content-desc{
+      color: #929191;
+      line-height: 90px;
+      font-size: 18px;
+  }
+  .first-li{
+      background: #0038be;
+  }
+  .content-img img{
+      display: none;
+      margin: 0 auto;
+      padding-top: 15px;
+  }
+  /*//////*/
+  .present{
+      width: 100%;
+      height: 590px;
+      /* background: url("{{ app_url_packaged }}/images/match/qsyd4/02BG.jpg") no-repeat; */
+      background-size: cover;
+      position: relative;
+      background-position: center 0;
+  }
+
+  .present-title-img{
+      display: block;
+      margin: 0 auto;
+  }
+  .present-main{
+      width: 61%;
+      margin: 0 auto;
+  }
+  .present-main p{
+      font-size: 18px;
+      text-indent:1em;
+      letter-spacing: 2px;
+      line-height: 40px;
+      color: #5c5b5b;
+      padding-bottom: 115px;
+  }
+  .introduce-title{
+      font-size: 24px;
+      text-align: center;
+      padding-bottom: 20px;
+  }
+  .color-02{
+      color: #0037bf;
+  }
+  .introduce-eng{
+      margin-left: 50%;
+  }
+.upload-art-btn {
+  margin: 15px 30px 20px 20px;
+  float: right;
+}
+.upload-art-btn p {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #ff76b0;
+  cursor: pointer;
+}
+.upload-art-btn p:hover {
+  padding: 10px 30px 10px 30px;
+  color: #fff;
+  background: #fa5f9b;
+  cursor: pointer;
+}
+
+.q-title {
+  color: #F9CD0B;
+  padding: 60px 0 20px 0;
+}
+.q-title .title-ch {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 5px;
+}
+.q-title .spl {
+  width: 30px;
+  border-top: 1px solid #F9CD0B;
+  margin: 8px auto;
+}
+.q-title .title-en {
+  font-size: 12px;
+}
+
+.attr {
+  margin: 0 auto;
+}
+
+.content-box{
+  width: 85% !important;
+  background-color: #fff;
+  padding: 35px 70px;
+  margin-left: 7%;
+}
+
+.q-header {
+  padding: 20px;
+  height: 130px;
+  border-bottom: 1px solid #ccc;
+}
+.q-user {
+  float: left;
+}
+.user-content {
+  float: left;
+  margin: 10px 10px 10px 8px;
+}
+.q-name {
+  float: left;
+  height: 80px;
+  border-left: 1px solid #ccc;
+  margin: 5px 5px 5px 60px;
+  padding: 0 0 0 40px;
+
+}
+.q-name h2 {
+  font-size: 20px;
+  color: #333;
+}
+.q-name p {
+  line-height: 1;
+  margin: 10px 0;
+}
+.q-name .ts {
+  color: #0485E0;
+}
+.q-content {
+  padding: 100px 20px 20px 20px;
+  text-align: center;
+}
+.desc {
+  margin-top: 20px;
+  padding: 20px 10px;
+}
+
+.bg-footer{
+	background: url({{ app_url_packaged }}/images/match/qsyd3/bj9_1.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+	height: 500px;
+  text-align: center;
+}
+
+.love-box {
+  width: 117px;
+  height: 76px;
+	background: url({{ app_url_packaged }}/images/match/qsyd3/dz1.jpg) no-repeat center;
+  text-align: center;
+  margin: 100px auto;
+  cursor: pointer;
+  padding-top: 45px;
+  color: #000;
+}
+.love-box.active {
+	background: url({{ app_url_packaged }}/images/match/qsyd3/dz2.jpg) no-repeat center;
+  color: #666;
+}
+  /*11*/
+  .idea{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/11BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .idea .present-title{
+      padding: 75px 0 35px 0;
+  }
+  .idea-content{
+      padding-bottom: 70px;
+  }
+  .idea-content:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .margin-b-50{
+      margin-bottom: 40px;
+  }
+  .color-d2{
+      color: #d2d7ed;
+  }
+  .idea .overflow{
+      line-height: 2;
+  }.idea .letter{
+      letter-spacing: 2px;
+  }
+
+   .margin-t-15{
+       margin-top: 15px;
+   }
+   .dis-flex{
+       display: flex;
+       align-items: center;
+   }
+   /*12*/
+  .law{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/12BG.jpg")no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .law .present-title{
+      padding: 60px 0 40px 0;
+  }
+  .law-main{
+      width: 75%;
+      margin: auto;
+      padding-bottom: 100px;
+  }
+
+  .law .letter{
+      letter-spacing: 2px;
+  }
+  .law .overflow{
+      line-height: 2;
+  }
+  .margin-20{
+      margin: 0 20px;
+  }
+  .letter-2{
+      letter-spacing: 2px;
+  }
+
+  .float-left{
+      float: left;
+      width: 50%;
+  }
+  .font-18{
+      font-size: 18px;
+  }
+  .ui.grid>.row {
+    padding-bottom: 30px
+  }
+  .width-75{
+      width: 75%;
+      margin: auto;
+  }
+</style>
+{% endblock %}
+
+{% block jquery %}
+$('body').visibility({
+    offset         : -$('.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.nav').addClass('light fixed');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.nav').removeClass('light fixed');
+      	});
+    }
+  });
+
+  //提交作品按钮
+  $('.upload-art-btn').click(function(){
+    var url = "{{ app_url_contest }}/submit3";
+    phenix.redirect(url);
+  });
+
+
+	/* 登录用户行为 */
+	{% if visitor.is_login %}
+		// 初始化互动，是否收藏、点赞
+		
+		// 验证点赞
+		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+			if (result.success) {
+				if (result.data.loved) {
+					$('.love-button')
+						.data('mark', 'y')
+						.addClass('active');
+				}
+			}
+		}, 'json');
+		
+		/* 登录用户行为 */
+	{% endif %}
+	
+	// 喜欢
+	$('.love-button').bind('click', function(){
+		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+		// 所有ajax请求，验证是否登录
+		if (!phenix.visitor.is_login){
+			phenix.show_login_box();
+			return false;
+		}
+		if (mark == 'n') {
+			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'y')
+						.addClass('active');
+                    
+					$('.love-button').text(result.data.love_count);
+                    
+                    if(result.data.newadd){
+                    }
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		} else {
+      phenix.show_error_note('您已经点过了~');
+      return false;
+			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+				if (result.success) {
+					$btn
+						.data('mark', 'n')
+						.removeClass('active');
+                    
+					$('.love-button').text(result.data.love_count);
+                    
+				} else {
+					phenix.show_error_note(result.message);
+				}
+			}, 'json');
+		}
+	});
+
+
+
+{% endblock %}
+
+{% block content %}
+<div class="qsyd4">
+	<section class="section bg-banner home">
+<!--   <div class="nav">
+      <div class="upload-art-btn">
+        <p>参赛报名</p>
+      </div>
+      <ul>
+        <li><a class="contact-menu" href="{{ app_url_contest }}/qsyd3#.contact">联系方式</a></li>
+        <li><a class="partner-menu" href="{{ app_url_contest }}/qsyd3#.partner">合作伙伴</a></li>
+        <li><a class="copyright-menu" href="{{ app_url_contest }}/qsyd3#.copyright">版权声明</a></li>
+        <li><a class="awards-menu" href="{{ app_url_contest }}/qsyd3#.awards">奖项回报</a></li>
+        <li><a class="arts-menu" href="{{ app_url_contest }}/qsyd_list3">项目展示</a></li>
+        <li><a class="time-menu" href="{{ app_url_contest }}/qsyd3#.time">大赛议程</a></li>
+        <li><a class="jury-menu" href="{{ app_url_contest }}/qsyd3#.jury">评委嘉宾</a></li>
+        <li><a class="introduction-menu" href="{{ app_url_contest }}/qsyd3#.introduction">大赛介绍</a></li>
+        <li><a class="home-menu" href="{{ app_url_contest }}/qsyd3">大赛首页</a></li>
+      </ul>
+
+    </div>
+  -->
+  <!--02大赛介绍-->
+  <div class="present">
+    <div class="nav">
+        <ul class="nav-ul clearfix">
+            <a href="{{ app_url_contest }}/qsyd4">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">大赛首页</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#one">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">大赛介绍</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#two">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">实时赛况</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#three">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">亮点与条件</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#four">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">征集领域</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#five">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">日程</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#six">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">奖金回馈</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#seven">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">政策直通车</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#enght">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">创意星导师</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#nine">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">创新评审团</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#ten">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">星耀作品</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#eleven">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">参与单位</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#twelve">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">意见反馈</p>
+                    </div>
+                </li>
+            </a><a href="{{ app_url_contest }}/qsyd4#thirteen">
+                <li>
+                    <div class="content-img">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                        <p class="content-desc">法律声明</p>
+                    </div>
+                </li>
+            </a>
+        </ul>
+    </div>
+  </div>
+  </section>
+	<section class="regs">
+
+    <div class="attr">
+      <div class="q-title">
+        <p class="title-ch">项目详情</p>
+        <p class="spl"></p>
+        <p class="title-en">DETAILS</p>
+      </div>  
+    
+    </div>
+
+		<div class="ui responsive grid">
+
+			<div class="row regsbg">
+				<div class="column content-box">
+
+          <div class="q-header">
+            <div class="q-user">
+
+              <div class="ui tiny image" style="float: left;margin: 5px">
+                <a href="javascript:void(0);" style="">
+                  <img src="{{ stuff.user.medium_avatar_url }}">
+                </a>
+              </div>
+              <div class="user-content">
+                <a href="{{ stuff.user.home_url }}">
+                  {{ stuff.user.nickname }}
+                </a>
+                <p style="font-size: 12px;color:#666;padding-top: 5px;">{{ stuff.created_on|relative_datetime }}发布</p>
+
+              </div>
+
+            </div>
+            <div class="q-name">
+              <h2>原创作品:  {{ stuff.title }}</h2>
+              <p>浏览次数：<span class="ts">{{ stuff.view_count }}次</span> &nbsp;&nbsp;&nbsp;&nbsp; 个人归类： <span class="ts">{{ stuff.category.title }}</span></p>
+              <p class="ts">禁止匿名转载；禁止商业使用；禁止个人使用。临摹作品，同人作品原型版权归原作者所有。</p>
+            </div>
+          </div>
+          <div class="q-content">
+
+						{% if stuff.cover %}
+						<p>
+							<img src="{{ stuff.cover.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+						</p>
+						{% endif %}
+						<!--附件列表-->
+						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+						{% if assets.total_rows %}
+							{% for asset in assets.rows %}
+								{% if asset._id != stuff.cover_id %}
+									<p>
+										<img width="" src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+									</p>
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+
+            <p class="desc">{{ stuff.description }}</p>
+
+            <div class="love-box gray love-button" data-id="{{ stuff._id }}" data-mark="n">
+              {{ stuff.love_count }}
+            </div>
+          
+          </div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- <section class="bg-footer"></section> -->
+    <!--11意见反馈-->
+  <div class="idea" id="twelve">
+      <div class="present-title">
+          <div class="introduce">
+              <p class="introduce-title color-f letter-2">意见反馈</p>
+              <p class="introduce-eng color-f letter-2">INTRODUCTION</p>
+          </div>
+      </div>
+      <div class="width-75 idea-content">
+          <div class="float-left">
+              <div class="content-list">
+                  <p class="content-desc font-18 color-f overflow margin-b-50 letter">本次大赛的解释权归大赛组委会所有，<br>活动的有关情况请及时与大赛组委会办公室联系</p>
+                  <p class="content-iphone font-18 color-d2 overflow letter">大赛组委会办公室<br>联系地址：宁波市大学科技园管委会<br>（宁波市中官西路777号科创大厦204，合作科）<br>大赛组委会联络人：应志浩、顾哲超<br>联系电话：0574-87612121<br>电子信箱：nbchuangke@126.com</p>
+              </div>
+          </div>
+          <div class="float-left">
+              <div class="qrcode">
+                  <div class="float-left text-al">
+                      <img src="{{ app_url_packaged }}/images/match/qsyd4/QR01.jpg" alt="">
+                      <p class="margin-t-15 font-18 color-d2 text-al letter overflow">宁波市大学科技园<br>官方微信公众号</p>
+                  </div>
+                  <div class="float-left text-al">
+                      <img src="{{ app_url_packaged }}/images/match/qsyd4/QR02.jpg" alt="">
+                      <p class="margin-t-15 font-18 color-d2 text-al letter overflow">关注Fiu火鸟的礼物<br>获取大赛相关进度</p>
+
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!--11法律-->
+  <div class="law" id="thirteen">
+      <div class="present-title">
+          <div class="introduce">
+              <p class="introduce-title color-f letter-2">法律声明</p>
+              <p class="introduce-eng color-f letter-2">LEGAL NOTICES</p>
+          </div>
+      </div>
+      <div class="law-main">
+          <div class="padd-b-95">
+              <p class="font-18 color-d2 overflow letter">依据国家有关法律法规，凡主动提交项目的 “参赛者” 或 “作者”，主办方认为其已经对所提交的项目版权归属作如下不可撤销声明：</p>
+              <p class="font-18 color-d2 overflow">1、原创声明参赛项目是参赛者原创项目，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权，否则，大赛主办方将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利。</p>
+              <p class="font-18 color-d2 overflow">2、大赛主办方对所有获奖项目拥有展示和宣传等权利，其它任何单位和个人（包括作者本人）未经授权不得已任何形式对项目转让、复制、转载、传播、摘编、出版、发行、许可使用等。</p>
+              <p class="font-18 color-d2 overflow">3、参赛者提交项目之前，已仔细阅读上述条款，充分理解并表示同意，本次大赛的评委会拥有对所有获奖项目的最终裁定权。</p>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+
+{% endblock %}
