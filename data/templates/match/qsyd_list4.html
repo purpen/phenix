@@ -1,0 +1,412 @@
+{%extends 'layout/column.html'%}
+{% block title %}作品展示-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+@media only screen and (min-width: 1500px){
+	.ui.responsive.grid{
+		width: 1200px;
+	}
+}
+
+.iosewm{
+	display: none;
+}
+.qsyd2{
+	background: url({{ app_url_packaged }}/images/match/qsyd/bgh.jpg) no-repeat center top;
+	background-color: #000;
+	width: 100%;
+}
+.pt-570{
+	height: 590px;
+}
+.ui.nav{
+	background-color: #fff;
+}
+.ui.nav .aligned.row{
+	padding: 0;
+}
+.ui.nav .ui.list>a.active.item, .ui.list>a.item:hover{
+	color: #007087;
+}
+.ui.nav .ui.horizontal.list>.item {
+    display: inline-block;
+    margin-left: 1em;
+    font-size: 16px;
+    padding: 17px 0px;
+    margin: 0 30px;
+    position: relative;
+    letter-spacing: 2px;
+}
+.ui.nav .ui.list>a.active.item::before,.ui.nav .ui.list>a.item:hover::before{
+	content: '';
+	height: 2px;
+	width: 100%;
+	background: #007087;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	transition: all 0.2s ease;
+	-moz-transition: all 0.2s ease;
+	-webkit-transition: all 0.2s ease;
+	-o-transition: all 0.2s ease;
+}
+.ui.nav .ui.magenta.button{
+	background: #007087;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+    box-shadow: none !important;
+    font-size: 16px;
+    height: 52px;
+    line-height: 26px;
+    letter-spacing: 2px;
+}
+.product .ui.grid > .row.bgpro{
+	background: url({{ app_url_packaged }}/images/promo/lbg.png);
+	width: 1256px !important;
+	height: 1682px;
+	margin: 50px -28px 50px;
+	padding: 10px 25px;
+	text-align: center;
+}
+.titlepro{
+	color: #f8bc05;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 63px;
+    padding-left: 895px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.product .ui.items .item .content{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.product .ui.items .item a.magenta.link{
+	font-size: 16px;
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #e5404a;
+    line-height: 30px;
+}
+.product .ui.items .item .content .sub.header{
+	font-size: 14px;
+	line-height: 20px;
+	color: #5e5e5e;
+	margin: 4px 0 10px;
+    font-weight: 400;
+    max-height: 58px;
+    min-height: 58px;
+    overflow: hidden;
+    display: block;
+    white-space: normal;
+}
+.product .ui.items .item .image img{
+	width: 100%;
+}
+.product .ui.allist .i-stats{
+	background: rgba(0,0,0,0);
+	position: relative;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	padding-top: 10px;
+}
+.product .ui.allist .ui.four.items .item .i-stats .schedule {
+    padding-top: 8px;
+}
+.product .ui.allist .ui.four.items .item .i-stats .schedule .status > .like{
+	float: right;
+    line-height: 28px;
+}
+.product .ui.allist .ui.four.items .item .i-stats .schedule .status > .like .like.icon{
+	margin-left: 5px;
+	color: #5d6266;
+	cursor: default;
+	opacity: .75;
+}
+.product .ui.allist .ui.four.items .item .i-stats .schedule .status i.icon{
+	margin-right: 1px;
+}
+.product .ui.four.items .item{
+	width: calc(25% - 1em);
+	margin: 0 .5em 1.5em;
+}
+.product .getmore{
+	width: 256px;
+    height: 44px;
+    background: #f8bc05;
+    color: #000;
+    font-size: 18px;
+    line-height: 44px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -128px;
+    text-align: center;
+}
+.ui.compact.menu{
+	width: 1180px;
+	margin: 0 auto 30px;
+	background: rgba(0,0,0,0);
+	border:0;
+}
+.ui.compact.menu .item:hover,.ui.compact.menu .item.active{
+	color: #fff;
+	background: #e63f4a;
+}
+.ui.compact.menu .item{
+    margin: 0 8px;
+    background: #f8bc05;
+    text-align: center;
+    border-radius: 0.28571429rem !important;
+    padding: 0.928571em 19px 0.928571em 19px;
+    color: rgba(0,0,0,.95);
+    letter-spacing: 2px;
+}
+.ui.compact.menu .item::before{
+	content: none;
+}
+.ui.compact.menu .item:first-child{
+	margin-left: 7px;
+}
+.ui.compact.menu .item:last-child{
+	margin-right: 4px;
+}
+.ui.pagination.menu{
+	margin-top: 20px;
+	background: rgba(0,0,0,0);
+}
+.ui.pagination.menu .item{
+	background: #5b5b5b;
+    color: #fff;
+    margin: 0 5px;
+}
+.ui.pagination.menu .item:hover,.ui.pagination.menu .item.active{
+	background: #f8bc05;
+}
+.ui.menu .item.disabled, .ui.menu .item.disabled:hover{
+	background-color: rgba(91,91,91,0.9) !important;
+    color: rgba(255,255,255,0.5);
+}
+.ui.pagination.menu>.item:first-child, .ui.pagination.menu>.item:last-child{
+	border-radius: 0 !important;
+}
+.fllo{
+	color:#fff;
+	padding: 40px 0 100px;
+}
+.fllo p{
+	line-height: 24px;
+}
+
+.product .ui.items .item .image img {
+    width: 100%;
+    height: 145px;
+    overflow: hidden;
+}
+.ui.contact .ui.weibo.button,.ui.contact .ui.weibo.button:hover,.ui.contact .ui.blue.button,.ui.contact .ui.blue.button:hover,.ui.contact .ui.green.button,.ui.contact .ui.green.button:hover{
+	border-color: transparent !important;
+  	background: transparent !important;
+	padding:0;
+}
+.ui.contact .ui.circular.share.button {
+	height: auto;
+  	width: auto;
+}
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+.ui.avatar.image + span.count{
+	width: 98px;
+    overflow: hidden;
+    position: absolute;
+    top: 24px;
+    left: 34px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+</style>
+{% endblock %}
+
+{% block jquery %}
+
+	$('body').visibility({
+    offset         : -$('.ui.nav').offset().top,
+    observeChanges : false,
+    once           : false,
+    continuous     : false,
+    onTopPassed: function() {
+        requestAnimationFrame(function() {
+            $('.ui.nav').addClass('light fixed');
+            $('.pt-570').css('height','640px');
+        });
+    },
+    onTopPassedReverse: function() {
+        requestAnimationFrame(function() {
+        	$('.ui.nav').removeClass('light fixed');
+        	$('.pt-570').removeAttr("style");
+      	});
+    }
+  });
+  $('html,body').animate({scrollTop:$('.ui.nav').offset().top },800);
+
+  //提交作品按钮
+  $('.ui.attend.button').click(function(){
+    var url = "{{ app_url_contest }}/submit2";
+    phenix.redirect(url);
+  });
+  phenix.bind_share_list('https://s3.taihuoniao.com/images/match/qsyd/mbg1.jpg');
+	// 生成二维码
+	$('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_contest }}/qsyd_list2'});
+
+{% endblock %}
+
+{% block content %}
+<div class="qsyd2">
+	<section class="pt-570"></section>
+	<section class="ui nav">
+		<div class="ui responsive grid">
+			<div class="middle aligned row">
+				<div class="twelve wide column">
+					<div class="ui horizontal list">
+						<a href="{{ app_url_contest }}/qsyd2" class="ui link item">活动首页</a>
+						<a href="{{ app_url_contest }}/qsyd2#.about" class="ui link item">活动介绍</a>
+						<a href="{{ app_url_contest }}/qsyd2#.time" class="ui link item">大赛议程</a>
+						<a href="{{ app_url_contest }}/qsyd2#.jury" class="ui link item">评选嘉宾</a>
+						<a href="{{ app_url_contest }}/qsyd_list2" class="ui active link item">作品展示</a>
+						<a href="{{ app_url_contest }}/qsyd2#.jgx" class="ui link item">奖项回报</a>
+					</div>
+				</div>
+
+			<div class="right aligned four wide column">
+				<a href="javascript:void(0);" class="ui magenta attend inverted button">
+					<i class="edit icon"></i> 立即报名
+				</a>
+			</div>
+		</div>
+	</section>
+	<section class="product">
+		<div class="ui responsive allist grid">
+			<div class="row bgpro">
+				<div class="titlepro">
+					作品展示
+				</div>
+				{% category_list var:'category' only_open:1 domain:4 pid:cid %}
+				<div class="ui center aligned column">
+					<div class="ui compact menu">
+            <a href="{{ app_url_contest }}/qsyd_list2" class="item {%if category_id==0%}active{%endif%}">
+							Top30
+						</a>
+            {% for d in category.rows %}
+            <a href="{{ app_url_contest }}/qsyd_list2?category_id={{ d._id }}" class="item {%if category_id==d._id%}active{%endif%}">
+                {{ d.title }}
+              </a>
+            {% endfor %}
+					</div>
+				</div>
+					
+				{% stuff_list var:'list' category_id:category_id page:page size:16 is_prize:is_prize sort:sort %}
+				<div class="column">
+					<div class="ui four items">
+
+            {% for d in list.rows %}
+
+              <div class="item">
+                <div class="content">
+                  <a class="ui magenta link" href="{{ d.view_url }}" target="_blank">
+                    {{ d.title }}
+                  </a>
+                  <div class="sub header">
+                    {{ d.description }}
+                  </div>
+                  <div class="image">
+                    <img src="{{ d.cover.thumbnails.aub.view_url }}">
+                  </div>
+
+                  <div class="i-stats">
+                    <div class="schedule">
+                      <div class="status clearfix">
+                        <a class="ui avatar image" href="{{ d.user.home_url }}" target="_blank">
+                          <img src="{{ d.user.medium_avatar_url }}" alt="{{ d.user.nickname }}">
+                        </a>
+                        <span class="count">
+                          <a class="ui small link" href="{{ d.user.home_url }}" target="_blank">
+                                          {{ d.user.nickname }}
+                                      </a>
+                        </span>
+                        <span class="like">
+                                      <i class="unhide icon"></i>
+                                      <span class="count">{{ d.view_count }}</span> 
+                                      <i class="like icon"></i>
+                                      <span class="count love-count">{{ d.love_count }}</span>
+                                    </span>
+                      </div>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+
+            {%endfor%}
+
+					</div>
+				</div>
+				
+		    	{% if list.total_page %}
+				<div class="ui pagination">
+					{% pager url:pager_url,total_rows:list.total_rows,total_page:list.total_page,current_page:page,var:'pager',pager_size:9 %}
+					{% include 'block/pager.html' %}
+				</div>
+				{% endif %}
+
+			</div>
+		</div>		
+	</section>
+	<section class="fllo ui contact">
+		<div class="ui responsive grid">
+			<div class="ui eight wide column">
+				<h2>
+					大赛组委会办公室
+				</h2>
+				<p>联系地址:宁波市国家大学科技园管委会<br/>
+					(宁波市中官西路 777 号科创大厦 309,合作发展科) <br/>
+					联络人:应志浩      联系电话:0574-87612065 <br/>
+					电子邮箱:nbchuangke@126.com<br/>
+					*本次大赛的解释权归大赛组委会所有,活动的有关情况请及时与大赛组委会办公室联系
+				</p>
+			</div>
+			<div class="ui five wide column" style="padding: 20px 0 0;">
+				<h2>分享到：</h2>
+				<a href="javascript:void(0);" class="ui weibo circular share icon button" id="sina-share" title="新浪微博" target="_blank">
+					<img src="{{ app_url_packaged }}/images/match/qsyd20.png">
+				</a>
+				<a href="javascript:void(0);" class="ui blue circular share icon button" id="tencent-share" title="腾讯微博" target="_blank">
+					<img src="{{ app_url_packaged }}/images/match/qsyd21.png">
+				</a>
+				<a href="javascript:void(0);" class="ui green circular share wexin icon button" id="wechat-share" title="微信">
+					<img src="{{ app_url_packaged }}/images/match/qsyd23.png">
+				</a>
+
+				<p style="padding: 20px 0 0;">大赛官方QQ交流群:216875757 </p>
+			</div>
+			<div class="ui three wide center aligned column">
+				<img src="{{ app_url_packaged }}/images/match/qsyd/ewm.jpg">
+				<p style="width: 124px;text-align: center;margin: 8px auto 0;line-height: 20px;">更多精彩内容 <br/>尽在太火鸟社区！</p>
+			</div>
+		</div>
+	</section>
+
+</div>
+{% include "block/qrcode.html" %}
+{% endblock %}
+

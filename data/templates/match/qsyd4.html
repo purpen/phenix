@@ -1,0 +1,1441 @@
+{%extends 'layout/column.html'%}
+{% block title %}第四届奇思甬动中国创客大赛-{% endblock %}
+{% block page_css %}
+<link rel="stylesheet" href="https://s3.taihuoniao.com/wechat/js/swiper.min.css">
+<style type="text/css">
+
+  /**
+  @charset "utf-8";html{background-color:#fff;color:#000;font-size:12px}
+  body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,figure,form,fieldset,legend,input,textarea,button,p,blockquote,th,td,pre,xmp{margin:0;padding:0}
+  body,input,textarea,button,select,pre,xmp,tt,code,kbd,samp{line-height:1.5;font-family:tahoma,arial,"Hiragino Sans GB",simsun,sans-serif}
+  h1,h2,h3,h4,h5,h6,small,big,input,textarea,button,select{font-size:100%}
+  h1,h2,h3,h4,h5,h6{font-family:tahoma,arial,"Hiragino Sans GB","微软雅黑",simsun,sans-serif}
+  h1,h2,h3,h4,h5,h6,b,strong{font-weight:normal}
+  address,cite,dfn,em,i,optgroup,var{font-style:normal}
+  table{border-collapse:collapse;border-spacing:0;text-align:left}
+  caption,th{text-align:inherit}
+  ul,ol,menu{list-style:none}
+  fieldset,img{border:0}
+  img,object,input,textarea,button,select{vertical-align:middle}
+  article,aside,footer,header,section,nav,figure,figcaption,hgroup,details,menu{display:block}
+  audio,canvas,video{display:inline-block;*display:inline;*zoom:1}
+  blockquote:before,blockquote:after,q:before,q:after{content:"\0020"}
+  textarea{overflow:auto;resize:vertical}
+  input,textarea,button,select,a{outline:0 none;border: none;}
+  button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
+  mark{background-color:transparent}
+  a,ins,s,u,del{text-decoration:none}
+  sup,sub{vertical-align:baseline}
+  html {overflow-x: hidden;height: 100%;font-size: 50px;-webkit-tap-highlight-color: transparent;}
+  body {font-family: Arial, "Microsoft Yahei", "Helvetica Neue", Helvetica, sans-serif;color: #333;font-size: .28em;line-height: 1;-webkit-text-size-adjust: none;}
+  hr {height: .02rem;margin: .1rem 0;border: medium none;border-top: .02rem solid #cacaca;}
+  a {color: #25a4bb;text-decoration: none;}
+  **/
+
+  .swiper-container {
+    margin:0 auto;
+    position:relative;
+    overflow:hidden;
+    direction:ltr;
+    -webkit-backface-visibility:hidden;
+    -moz-backface-visibility:hidden;
+    -ms-backface-visibility:hidden;
+    -o-backface-visibility:hidden;
+    backface-visibility:hidden;
+    /* Fix of Webkit flickering */
+    z-index:1;
+  }
+  .swiper-wrapper {
+    position:relative;
+    width:100%;
+    -webkit-transition-property:-webkit-transform, left, top;
+    -webkit-transition-duration:0s;
+    -webkit-transform:translate3d(0px,0,0);
+    -webkit-transition-timing-function:ease;
+    
+    -moz-transition-property:-moz-transform, left, top;
+    -moz-transition-duration:0s;
+    -moz-transform:translate3d(0px,0,0);
+    -moz-transition-timing-function:ease;
+    
+    -o-transition-property:-o-transform, left, top;
+    -o-transition-duration:0s;
+    -o-transform:translate3d(0px,0,0);
+    -o-transition-timing-function:ease;
+    -o-transform:translate(0px,0px);
+    
+    -ms-transition-property:-ms-transform, left, top;
+    -ms-transition-duration:0s;
+    -ms-transform:translate3d(0px,0,0);
+    -ms-transition-timing-function:ease;
+    
+    transition-property:transform, left, top;
+    transition-duration:0s;
+    transform:translate3d(0px,0,0);
+    transition-timing-function:ease;
+
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+  .swiper-free-mode > .swiper-wrapper {
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -ms-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    margin: 0 auto;
+  }
+  .swiper-slide {
+    float: left;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+  }
+
+  /* IE10 Windows Phone 8 Fixes */
+  .swiper-wp8-horizontal {
+    -ms-touch-action: pan-y;
+  }
+  .swiper-wp8-vertical {
+    -ms-touch-action: pan-x;
+  }
+
+
+  ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,figure,form,fieldset,legend,input,textarea,button,p,blockquote,th,td,pre,xmp{margin:0;padding:0}
+  ul,ol,menu{list-style:none}
+
+
+  @media screen and (min-width: 1920px){
+      .content-desc{
+          font-size: 18px;
+      }
+      .present-title{
+          padding: 105px 0 65px 0;
+      }
+
+      .policy-title{
+          background: url("{{ app_url_packaged }}/images/match/qsyd4/frame.png")no-repeat;
+          background-size: cover;
+          position: absolute;
+          top: 0;
+          right: -1px;
+          left: 0;
+          bottom: 0;
+      }
+      .height-400{
+          height: 400px;
+      }
+      .font-16{
+          font-size: 16px;
+      }
+      .font-22{
+          font-size: 22px;
+      }
+      .font-18{
+          font-size: 18px;
+      }
+  }@media screen and (min-width: 1280px) and (max-width:1920px) {
+      .content-desc{
+          font-size: 18px;
+      }
+      .present-title{
+          padding: 105px 0 65px 0;
+      }
+
+      .policy-title{
+          background: url("../images/frame.png")no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          top: 0;
+          right: -1px;
+          left: 0;
+          bottom: 0;
+      }
+      .height-400{
+          height: 400px;
+      }
+      .font-16{
+          font-size: 16px;
+      }
+      .font-22{
+          font-size: 22px;
+      }
+      .font-18{
+          font-size: 18px;
+      }
+  }
+  @media screen and (min-width: 960px) and (max-width:1280px) {
+      .content-desc{
+          font-size: 18px;
+      }
+      .present-title{
+          padding: 105px 0 65px 0;
+      }
+
+      .policy-title{
+          background: url("{{ app_url_packaged }}/images/match/qsyd4/frame.png")no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          top: 0;
+          right: -1px;
+          left: 0;
+          bottom: 0;
+      }
+      .explain{
+          display: flex;
+          flex-direction: column;
+          margin-top: 35px;
+          padding-bottom: 20px;
+      }
+      .idea-content{
+          flex-direction: column;
+      }
+      .content-list{
+          text-align: center;
+      }
+      .dis-flex{
+          justify-content: center;
+          margin-top: 20px;
+      }
+      .height-400{
+          height: 300px;
+      }
+      .font-16{
+          font-size: 16px;
+      }
+      .font-22{
+          font-size: 22px;
+      }
+      .font-18{
+          font-size: 18px;
+      }
+  }
+  @media screen and (min-width: 375px) and (max-width:960px){
+      .content-desc{
+          font-size: 14px;
+      }
+      .present-title{
+          padding: 40px 0 30px 0;
+      }
+
+      .policy-title{
+          background: url("{{ app_url_packaged }}/images/match/qsyd4/frame.png")no-repeat;
+          background-size: 100% 100%;
+          position: absolute;
+          top: 0;
+          right: -1px;
+          left: 0;
+          bottom: 0;
+      }
+      .explain{
+          display: flex;
+          flex-direction: column;
+          margin-top: 35px;
+          padding-bottom: 20px;
+      }
+      .idea-content{
+          flex-direction: column;
+      }
+      .content-list{
+          text-align: center;
+      }
+      .dis-flex{
+          justify-content: center;
+          margin-top: 20px;
+      }
+      .height-400{
+          height: 300px;
+      }
+      .font-16{
+          font-size: 14px;
+      }
+      .font-22{
+          font-size: 20px;
+      }
+      .font-18{
+          font-size: 14px;
+      }
+      .supervisor-list{
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          flex-direction: column;
+          align-items: center;
+      }
+  }
+  .line-height-42{
+      line-height: 42px;
+      text-align: center;
+  }
+  #btn1{
+      position: absolute;
+      top: 50%;
+      left: -26px;
+      margin-top: -15px;
+  }#btn2{
+      position: absolute;
+      top: 50%;
+      right: -26px;
+      margin-top: -15px;
+
+   }#btn3{
+      position: absolute;
+      top: 50%;
+      left: -26px;
+     margin-top: -15px;
+
+     }#btn4{
+      position: absolute;
+      top: 50%;
+      right: -26px;
+      margin-top: -15px;
+
+         }
+  #wrapper{
+      width: 100%;
+  }
+  .qs-active{
+      background: #0038be;
+  }
+  .new-content-desc p{
+      color: #fff !important;
+  }
+  .new-content-img img{
+      display: block !important;
+  }
+  .banner{
+      width: 100%;
+      height: 590px;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/01banner.jpg") no-repeat;
+      background-size: cover;
+      position: relative;
+      background-position: center 0;
+  }
+  .apply{
+      width: 160px;
+      height: 40px;
+      position: absolute;
+      bottom: 90px;
+      right: 34%;
+      border: 1px solid #ff76b0;
+      border-radius: 20px;
+      background: #ff76b0;
+  }
+
+  .nav{
+      max-width: 1280px;
+      height: 180px;
+      background: #fff;
+      position: absolute;
+      top: -50px;
+      left: 0;
+      right: 0;
+      margin: auto;
+  }
+  .nav-ul{
+      padding: 0 1%;
+  }
+  .nav-ul a{
+      display: block;
+      width: 14.2%;
+      float: left;
+  }
+  .nav-ul li:hover .content-img {
+      background: #0038be;
+  }
+  .nav-ul li:hover .content-img img{
+      display: block;
+  }
+  .nav-ul li:hover .content-desc{
+      color: #fff;
+  }
+  .content-img{
+      width: 100%;
+      height: 90px;
+      text-align: center;
+      line-height: 90px;
+  }
+  .content-desc{
+      color: #929191;
+      line-height: 90px;
+  }
+  .first-li{
+      background: #0038be;
+  }
+  .content-img img{
+      display: none;
+      margin: 0 auto;
+      padding-top: 15px;
+  }
+  /*//////*/
+  .present{
+      width: 100%;
+      height: 590px;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/02BG.jpg") no-repeat;
+      background-size: cover;
+      position: relative;
+      background-position: center 0;
+  }
+
+  .present-title-img{
+      display: block;
+      margin: 0 auto;
+  }
+  .present-main{
+      width: 61%;
+      margin: 0 auto;
+  }
+  .present-main p{
+      font-size: 18px;
+      text-indent:1em;
+      letter-spacing: 2px;
+      line-height: 40px;
+      color: #5c5b5b;
+      padding-bottom: 115px;
+  }
+  .introduce-title{
+      font-size: 24px;
+      text-align: center;
+      padding-bottom: 20px;
+  }
+  .color-02{
+      color: #0037bf;
+  }
+  .introduce-eng{
+      margin-left: 50%;
+  }
+  /*03*/
+  .real-time{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/03BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .swiper-wrap{
+      width: 75%;
+      margin: auto;
+      position: relative;
+  }
+  .swiper-list{
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin: 10px;
+  }
+  .swiper-list-img{
+      position: relative;
+      margin: 10px;
+  }
+  .height-235{
+      height: 235px;
+  }
+
+  .swiper-list-img img{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+  }
+  .swiper-list-desc{
+      width: 100%;
+      height: 75px;
+      background: rgba(92,92,92,.3);
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px 0 10px 0;
+  }
+  .color-f{
+      color: #fff;
+  }
+  .font-20{
+      font-size: 20px;
+  }
+  .margin-10{
+      margin-top: 10px;
+  }
+  .padding-l-30{
+      padding-left: 30px;
+  }
+  .hei-175{
+      width: 100%;
+      height: 175px;
+  }
+  /*swiper箭头*/
+  /*.new-button-prev{*/
+      /*width: 18px;*/
+      /*height: 26px;*/
+      /*margin-top: -9px;*/
+      /*background-size: 18px 26px;*/
+  /*}*/
+  .swiper-button-next, .swiper-container-rtl .swiper-button-prev{
+      right: -30px !important;
+  }
+  .swiper-button-prev, .swiper-container-rtl .swiper-button-next{
+      left: -30px !important;
+  }
+  /*04*/
+  .Stern{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/05BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .Stern-content{
+      width: 61%;
+      margin: auto;
+  }
+  .maker-team{
+
+  }
+  .line-height-47{
+      line-height: 47px;
+  }
+  .maker-team-title{
+      width: 300px;
+      height: 45px;
+      border: 1px solid #ffffff;
+  }
+  .high-level-team{
+
+  }
+  .margin-l-50{
+      margin-left: 50%;
+  }
+  .padd-t-15{
+      padding: 15px 0 50px 0;
+  }
+  .font-24{
+      font-size: 24px;
+  }
+  .margin-auto{
+      margin: auto;
+  }
+  .condition{
+      line-height: 30px;
+  }
+  .padd-b-95{
+      padding-bottom: 95px;
+  }
+  .text-al{
+      text-align: center;
+  }
+  /*05*/
+  .collect{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/collectBG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .collect-img{
+      width: 100%;
+      height: 100%;
+  }
+  .margin-img{
+      display: block;
+      margin: auto;
+      padding-bottom: 70px;
+  }
+  .Stern-content:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .float-left{
+      float: left;
+      width: 50%;
+  }
+  /*06*/
+  .schedule{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/06BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .schedule .present-title {
+      padding: 95px 0 65px 0;
+  }
+  .width-37{
+      width: 37.5%;
+  }
+  .width-810{
+       width: 49.18%;
+      margin: auto;
+   }
+
+  .rc li{
+      width: 25%;
+      float: left;
+      text-align: right;
+  }
+  .text-r p{
+      text-align: center;
+  }
+  .padd-b-35{
+      padding-bottom: 55px;
+  }
+  .padd-b-120{
+      padding-bottom: 125px;
+  }
+  .color-00{
+      color: #0036c5;
+  }
+  .color-58{
+      color: #585858;
+  }
+  .font-14{
+      font-size: 14px;
+  }
+  .margin-b-25{
+      margin-bottom: 25px;
+  }
+  .margin-t-20{
+      margin-top: 20px;
+  }
+  .margin-t-25{
+      margin-top: 25px;
+  }
+  .money{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/moneyBG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  /*07*/
+  .groups{
+      width: 71%;
+      margin: auto;
+  }
+  .padd-b-200{
+      padding-bottom: 200px;
+  }
+  .padd-b-200:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .policy{
+      width: 100%;
+      margin-bottom: -145px;
+      background: #ffffff;
+      position: relative;
+  }
+  .position-r{
+      position: absolute;
+      top: -12px;
+      right: 0;
+      left: 0;
+      bottom: 0;
+  }
+  .content-text{
+      padding: 85px 55px 65px 55px;
+  }
+  .content-text p{
+      font-size: 18px;
+      line-height: 40px;
+      color: #0037bf;
+  }
+  .width-100{
+      width: 100%;
+  }
+  /*08*/
+  .supervisor{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/08BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .padd-0{
+      padding: 0;
+  }
+  .padd-t-270{
+      padding-top: 165px;
+  }
+  .width-75{
+      width: 75%;
+      margin: auto;
+  }
+  .supervisor-list{
+      width: 100%;
+  }
+  .supervisor-list li{
+      width: 25%;
+      float: left;
+  }
+  .supervisor-list:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .explain{
+      display: flex;
+      flex-direction: column;
+      margin-top: 35px;
+  }
+  .explain-corp{
+
+  }
+
+  .letter{
+      letter-spacing: 8px;
+  }
+  .letter-1{
+      letter-spacing: 1px;
+  }
+  .jury{
+      padding-bottom: 175px;
+  }
+  .jury .explain{
+      margin-bottom: 65px;
+  }
+  .supervisor-list li div img{
+      width: 100%;
+      height: 100%;
+  }
+  /*09*/
+  .works{
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/09BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+      padding-bottom: 145px;
+  }
+  .overflow{
+      line-height: 1.5;
+      overflow: hidden
+  }
+  /*10*/
+  .unit{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/10BG.jpg")no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .unit .present-title{
+      padding: 110px 0 100px 0;
+  }
+  .unit-content{
+      width: 50%;
+      height: 40px;
+      margin: auto;
+      padding-bottom: 40px;
+      margin-left: 50%;
+      transform: translate(-25%);
+  }
+  .unit-title{
+      text-align: center;
+      margin: 0 20px;
+      color: #7e7e7e;
+  }
+  .line{
+      width: 140px;
+      height: 1px;
+      background: #ccc;
+      float: left;
+      margin-top: 12px;
+  }
+  .fl{
+      float: left;
+  }
+  .dis-block{
+      display: block;
+      margin: auto;
+  }
+  .padding-150{
+  padding-bottom: 150px;
+  }
+  .host-unit{
+      width: 75%;
+      height: 100%;
+      margin-left: 50%;
+      transform: translate(-50%);
+      padding-bottom: 100px;
+  }
+  .unit-content-a:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .host-unit-ul{
+  display: flex;
+  justify-content: center;
+  }
+  .host-unit-ul li{
+  margin: 0 10px;
+      float: left;
+  }
+  .host-unit-ul li img{
+  width: 100%;
+  height: 100%;
+  }
+  .wid-238{
+      width: 238px;
+      height: 94px;
+      margin: auto;
+  }
+  .wid-hei-100{
+      width: 100%;
+      height: 100%;
+  }
+  .unit-img{
+      padding-bottom: 150px;
+  }
+  /*11*/
+  .idea{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/11BG.jpg") no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .idea .present-title{
+      padding: 75px 0 35px 0;
+  }
+  .idea-content{
+      padding-bottom: 70px;
+  }
+  .idea-content:after{
+      display:block;clear:both;content:"";visibility:hidden;height:0
+  }
+  .margin-b-50{
+      margin-bottom: 40px;
+  }
+  .color-d2{
+      color: #d2d7ed;
+  }
+  .idea .overflow{
+      line-height: 2;
+  }.idea .letter{
+      letter-spacing: 2px;
+  }
+
+   .margin-t-15{
+       margin-top: 15px;
+   }
+   .dis-flex{
+       display: flex;
+       align-items: center;
+   }
+   /*12*/
+  .law{
+      width: 100%;
+      background: url("{{ app_url_packaged }}/images/match/qsyd4/12BG.jpg")no-repeat;
+      background-size: cover;
+      background-position: center 0;
+  }
+  .law .present-title{
+      padding: 60px 0 40px 0;
+  }
+  .law-main{
+      width: 75%;
+      margin: auto;
+      padding-bottom: 100px;
+  }
+
+  .law .letter{
+      letter-spacing: 2px;
+  }
+  .law .overflow{
+      line-height: 2;
+  }
+  .margin-20{
+      margin: 0 20px;
+  }
+  .letter-2{
+      letter-spacing: 2px;
+  }
+
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+	<script src="https://s3.taihuoniao.com/wechat/js/swiper.min-1.js" type="text/javascript"></script>
+  <script type="text/javascript">
+
+
+
+  </script>
+{% endblock %}
+
+{% block jquery %}
+
+      var mySwiper = new Swiper('.container1', {
+        slidesPerView : 3,
+        slidesPerGroup : 3,
+        prevButton:'#btn1',
+        nextButton:'#btn2'
+      })
+
+      var mySwiper2 = new Swiper('.container2', {
+        slidesPerView : 3,
+        slidesPerGroup : 3,
+        prevButton:'#btn3',
+        nextButton:'#btn4'
+      })
+
+
+      var oUl = document.getElementsByClassName("nav-ul")[0]
+      var oLi = oUl.getElementsByTagName("li")
+        for(var i = 0;i<oLi.length;i++){
+            oLi[i].onclick=function(){
+              for(var i=0;i<oLi.length;i++){
+                oLi[i].className="";
+              }
+              this.classList.add("active","new-content-img","new-content-desc");
+            }
+        }
+
+  //提交作品按钮
+  $('.upload-art-btn').click(function(){
+    var url = "{{ app_url_contest }}/submit4";
+    phenix.redirect(url);
+  });
+
+
+{% endblock %}
+{% block content %}
+    <div id="wrapper">
+        <!--01banner-->
+        <div class="banner">
+            <div class="apply">
+                <p class="font-18 color-f line-height-42">立即报名</p>
+            </div>
+        </div>
+        <!--02大赛介绍-->
+        <div class="present">
+            <div class="nav">
+                <ul class="nav-ul">
+                    <a href="#">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">大赛首页</p>
+                            </div>
+                        </li>
+                    </a><a href="#one">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">大赛介绍</p>
+                            </div>
+                        </li>
+                    </a><a href="#two">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">实时赛况</p>
+                            </div>
+                        </li>
+                    </a><a href="#three">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">亮点与条件</p>
+                            </div>
+                        </li>
+                    </a><a href="#four">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">征集领域</p>
+                            </div>
+                        </li>
+                    </a><a href="#five">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">日程</p>
+                            </div>
+                        </li>
+                    </a><a href="#six">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">奖金回馈</p>
+                            </div>
+                        </li>
+                    </a><a href="#seven">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">政策直通车</p>
+                            </div>
+                        </li>
+                    </a><a href="#enght">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">创意星导师</p>
+                            </div>
+                        </li>
+                    </a><a href="#nine">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">创新评审团</p>
+                            </div>
+                        </li>
+                    </a><a href="#ten">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">星耀作品</p>
+                            </div>
+                        </li>
+                    </a><a href="#eleven">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">参与单位</p>
+                            </div>
+                        </li>
+                    </a><a href="#twelve">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">意见反馈</p>
+                            </div>
+                        </li>
+                    </a><a href="#thirteen">
+                        <li>
+                            <div class="content-img">
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/triangle.png" alt="">
+                                <p class="content-desc">法律声明</p>
+                            </div>
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div style="height: 130px"></div>
+            <div class="present-title" id="one">
+                <div class="introduce">
+                    <p class="introduce-title color-02">大赛介绍</p>
+                    <p class="introduce-eng color-02">INTRODUCTION</p>
+                </div>
+            </div>
+            <div class="present-main">
+                <p>“奇思甬动” 中国创客大赛是由中共浙江省委人才办指导，中共宁波市委人才办、宁波市文改办、宁波市经信委、共青团宁波市委员会、宁波市大学科技园管委会主办、太火鸟科技协办，积极搭建集创新设计、技术支持、资源对接、产品推广、创业孵化等资源的创客创新创业生态圈，助力宁波 “中国制造2025” 试点示范城市建设，提升中官路创业创新大街知名度和影响力。</p>
+            </div>
+        </div>
+        <!--03 实时赛况-->
+        <div class="real-time" id="two">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-02 letter-2">实时赛况</p>
+                    <p class="introduce-eng color-02 letter-2">REAL-TIME NEWS</p>
+                </div>
+            </div>
+            <div class="swiper-wrap">
+                <div class="swiper-container container1">
+                    <div class="swiper-wrapper">
+                    {% stuff_list var:'list' from_to:7 sort:8 page:1 size:16 %}
+                    {% for d in list.rows %}
+                        <div class="swiper-slide">
+                            <a href="{{ d.view_url }}" target="_blank">
+                              <div class="swiper-list-img height-235">
+                                  <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
+                                  <div class="swiper-list-desc">
+                                      <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
+                                      <p class="font-16 color-f padding-l-30 margin-10 overflow">实时赛况实时赛况实时赛况</p>
+                                  </div>
+                              </div>
+                            </a>
+                        </div>
+                    {%endfor%}
+                    </div>
+                </div>
+                <div id="btn1"><img src="{{ app_url_packaged }}/images/match/qsyd4/left.png" alt=""></div>
+                <div id="btn2"><img src="{{ app_url_packaged }}/images/match/qsyd4/right.png" alt=""></div>
+            </div>
+            <div class="hei-175"></div>
+        </div>
+        <!--04 亮点与参与条件-->
+        <div class="Stern" id="three">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-f letter-2">亮点与参与条件</p>
+                    <p class="introduce-eng color-f letter-2">HIGHLIGHTS & CONDITIONS</p>
+                </div>
+            </div>
+            <div class="Stern-content">
+                <div class="float-left">
+                    <div class="maker-team-title margin-auto">
+                        <p class="font-24 color-f margin-auto text-al line-height-47">创客人才组</p>
+                    </div>
+                    <p class="margin-l-50 color-f padd-t-15">MAKER TEAM</p>
+                    <div class="condition padd-b-95">
+                        <p class="font-16 color-f text-al">掌握前沿技术、产品或模式的个人<br>产品落地、变现、增值渠道</p>
+                    </div>
+                </div>
+                <div class="float-left">
+                    <div class="maker-team-title margin-auto">
+                        <p class="font-24 color-f margin-auto text-al line-height-47">高层次人才组</p>
+                    </div>
+                    <p class="margin-l-50 color-f padd-t-15">HIGH-LEVEL TEAM</p>
+                    <div class="condition padd-b-95">
+                        <p class="font-16 color-f text-al">掌握前沿技术、产品或模型的<br>高学历创业团队与企业的落地通路</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--05 征集领域-->
+        <div class="collect" id="four">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-f letter-2">征集领域</p>
+                    <p class="introduce-eng color-f letter-2">COLLECTION FIELD</p>
+                </div>
+            </div>
+            <img class="margin-img" src="{{ app_url_packaged }}/images/match/qsyd4/domain.png" alt="">
+        </div>
+        <!--06日程-->
+        <div class="schedule" id="five">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-02 letter-2">日程</p>
+                    <p class="introduce-eng color-02 letter-2">SCHEDULE</p>
+                </div>
+            </div>
+            <img class="margin-img margin-t-20 width-37 padd-b-35" src="{{ app_url_packaged }}/images/match/qsyd4/rc01.png" alt="">
+            <div class="width-810 padd-b-120">
+                <ul class="rc">
+                    <li>
+                        <div class="text-r">
+                            <p class="font-18 color-00 margin-b-25 letter-1">6/22-7/31</p>
+                            <p class="font-18 color-58 letter-1 overflow">启动征集作品</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text-r">
+                            <p class="font-18 color-00 margin-b-25 letter-1">8/01-8/31</p>
+                            <p class="font-18 color-58 letter-1 overflow">入围作品评审<br>初审、复审</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text-r">
+                            <p class="font-18 color-00 margin-b-25 letter-1">九月上旬</p>
+                            <p class="font-18 color-58 letter-1 overflow">作品终审及<br>落地企业走访</p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="text-r">
+                            <p class="font-18 color-00 margin-b-25 letter-1">9/30</p>
+                            <p class="font-18 color-58 letter-1 overflow">颁奖典礼</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--07奖金回馈-->
+        <div class="money" id="six">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-02 letter-2">奖金回馈</p>
+                    <p class="introduce-eng color-02 letter-2">BONUS REWARD</p>
+                </div>
+            </div>
+            <div class="groups">
+                <div class="padd-b-200">
+                    <div class="float-left text-al">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/ck.png" alt="">
+                    </div>
+                    <div class="float-left text-al">
+                        <img src="{{ app_url_packaged }}/images/match/qsyd4/gc.png" alt="">
+                    </div>
+                </div>
+                <div class="policy" id="seven">
+                    <div class="policy-title back-size">
+                        <div class="position-r">
+                            <p class="introduce-title color-02">“人才+项目+资本” 政策</p>
+                            <p class="introduce-eng color-02">POLICY DISPLAY</p>
+                        </div>
+                    </div>
+                    <div class="content-text">
+                        <p>
+                            1、对优秀创业项目有机会获得最高 “600+500+1000” 的政策扶持，特别优秀的项目还可实现 “一事一议” 。其中，“600”  是指600万元启动资金资助，  “500”  是指500万元产业基金，“1000”是指最高1000万元的无抵押贷款及中官路创业创新大街普惠金融信用贷支持。<br>
+                            2、创客人才组和高层次人才组获奖项目，符合宁波市 “3315” 、资本引才、泛 “3315” 和镇海区引进高层次人才创业项目申报条件的，优先推荐以上人才计划的综合评审答辩。如入选镇海区引进高层次人才创业项目的，根据评选结果分期给予100万元以上的创业支持，最高600万元；入选宁波市 “3315” 、资本引才和泛 “3315” 人才计划，根据评选结果给予最高2000万元的创业支持。<br>
+                            3、项目人才和团队（含带头人和成员），通过镇海自主申报入选国家、省 “千人计划” 人才的，国家、省及市县资助合计最高可达1000万元。经自主培养升级成长为宁波市人才分类目录中顶尖人才和特优人才（国家 “千人计划” 人选除外）的，分别给予人才200万元、50万元奖励。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--08 创意星导师-->
+        <div class="supervisor" id="enght">
+            <div class="padd-t-270">
+                <div class="present-title">
+                    <div class="introduce">
+                        <p class="introduce-title color-f letter-2">创意星导师</p>
+                        <p class="introduce-eng color-f letter-2">STAR MENTOR</p>
+                    </div>
+                </div>
+                <div class="width-75">
+                    <!--创意-->
+                    <ul class="supervisor-list">
+                        <li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/01.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">创新工场/创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">李开复</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/02.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">真格基金/创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">徐小平</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/03.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">小米科技/联合创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">黎万强</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/04.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">海泉基金/创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">胡海泉</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="present-title">
+                        <div class="introduce">
+                            <p class="introduce-title color-f letter-2">创新评审团</p>
+                            <p class="introduce-eng color-f letter-2">THE JURY</p>
+                        </div>
+                    </div>
+                    <!--评审团-->
+                    <div class="jury" id="nine">
+                        <ul class="supervisor-list">
+                            <li>
+                                <div>
+                                    <img src="{{ app_url_packaged }}/images/match/qsyd4/11.jpg" alt="">
+                                </div>
+                                <div class="explain">
+                                    <p class="font-16 color-f text-al letter-1 color-d2">创新工场/创始人</p>
+                                    <p class="font-22 color-f margin-10 letter text-al">童玮亮</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <img src="{{ app_url_packaged }}/images/match/qsyd4/12.jpg" alt="">
+                                </div>
+                                <div class="explain">
+                                    <p class="font-16 color-f text-al letter-1 color-d2">真格基金/创始人</p>
+                                    <p class="font-22 color-f margin-10 letter text-al">吴声</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <img src="{{ app_url_packaged }}/images/match/qsyd4/13.jpg" alt="">
+                                </div>
+                                <div class="explain">
+                                    <p class="font-16 color-f text-al letter-1 color-d2">太火鸟科技/创始人</p>
+                                    <p class="font-22 color-f margin-10 letter text-al">雷海波</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <img src="{{ app_url_packaged }}/images/match/qsyd4/14.jpg" alt="">
+                                </div>
+                                <div class="explain">
+                                    <p class="font-16 color-f text-al letter-1 color-d2">瑞德设计/董事长</p>
+                                    <p class="font-22 color-f margin-10 letter text-al">李琦</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <img src="{{ app_url_packaged }}/images/match/qsyd4/15.jpg" alt="">
+                                </div>
+                                <div class="explain">
+                                    <p class="font-16 color-f text-al letter-1 color-d2">YANG DESIGN/创始人</p>
+                                    <p class="font-22 color-f margin-10 letter text-al">杨明洁</p>
+                                </div>
+                            </li><li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/16.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">洛可可设计/创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">贾伟</p>
+                            </div>
+                        </li><li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/17.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">牛电科技/联合创始人</p>
+                                <p class="font-22 color-f margin-10 letter text-al">刘传凯</p>
+                            </div>
+                        </li><li>
+                            <div>
+                                <img src="{{ app_url_packaged }}/images/match/qsyd4/18.jpg" alt="">
+                            </div>
+                            <div class="explain">
+                                <p class="font-16 color-f text-al letter-1 color-d2">锤子科技/工业设计副总监</p>
+                                <p class="font-22 color-f margin-10 letter text-al">李剑叶</p>
+                            </div>
+                        </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--09作品参考-->
+        <div class="works" id="ten">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-02 letter-2">星耀作品参考</p>
+                    <p class="introduce-eng color-02 letter-2">REFERENCE WORK</p>
+                </div>
+            </div>
+            <div class="swiper-wrap">
+                <div class="swiper-container container2">
+                    <div class="swiper-wrapper">
+                    {% stuff_list var:'list' from_to:7 sort:8 page:1 size:16 %}
+                    {% for d in list.rows %}
+                        <div class="swiper-slide">
+                            <a href="{{ d.view_url }}" target="_blank">
+                              <div class="swiper-list-img height-400">
+                                  <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
+                                  <div class="swiper-list-desc">
+                                      <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
+                                      <p class="font-16 color-f padding-l-30 margin-10 overflow">实时赛况实时赛况实时赛况</p>
+                                  </div>
+                              </div>
+                            </a>
+                        </div>
+                    {%endfor%}
+
+                    </div>
+
+                </div>
+                <div id="btn3"><img src="{{ app_url_packaged }}/images/match/qsyd4/left.png" alt=""></div>
+                <div id="btn4"><img src="{{ app_url_packaged }}/images/match/qsyd4/right.png" alt=""></div>
+            </div>
+        </div>
+        <!--10单位-->
+        <div class="unit" id="eleven">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-02 letter-2">参与单位</p>
+                    <p class="introduce-eng color-02 letter-2">PARTICIPANT ORGANIZATION</p>
+                </div>
+            </div>
+            <div class="unit-img">
+                <img class="dis-block" src="{{ app_url_packaged }}/images/match/qsyd4/unit.png" alt="">
+            </div>
+
+                <!--<img class="margin-img" src="./images/unit.png" alt="">-->
+                <!--<div class="unit-content">-->
+                    <!--&lt;!&ndash;<a href="" class="unit-content-a">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="line"></div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="unit-title font-24 letter-2 fl">指导单位</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="line"></div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+
+                    <!--<img src="./images/" alt="">-->
+
+                <!--</div>-->
+                <!--<div class="padd-b-95 wid-238">-->
+                    <!--<img class="dis-block wid-hei-100" src="./images/unit/logo01.jpg" alt="">-->
+                <!--</div>-->
+                <!--<div class="unit-content">-->
+                    <!--<div class="line"></div>-->
+                    <!--<div class="unit-title font-24 letter-2 fl">主办单位</div>-->
+                    <!--<div class="line"></div>-->
+                <!--</div>-->
+                <!--<div class="host-unit">-->
+                    <!--<ul class="host-unit-ul">-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo02.jpg" alt="">-->
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo03.jpg" alt="">-->
+
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo04.jpg" alt="">-->
+
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo05.jpg" alt="">-->
+
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo06.jpg" alt="">-->
+
+                        <!--</li>-->
+                        <!--<li>-->
+                            <!--<img src="./images/unit/logo07.jpg" alt="">-->
+
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+                <!--<div class="unit-content">-->
+                    <!--<div class="line"></div>-->
+                    <!--<div class="unit-title font-24 letter-2 fl">协办单位</div>-->
+                    <!--<div class="line"></div>-->
+                <!--</div>-->
+                <!--<div class="padding-150">-->
+                    <!--<img class="dis-block" src="./images/unit/logo08.png" alt="">-->
+                <!--</div>-->
+        </div>
+        <!--11意见反馈-->
+        <div class="idea" id="twelve">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-f letter-2">意见反馈</p>
+                    <p class="introduce-eng color-f letter-2">INTRODUCTION</p>
+                </div>
+            </div>
+            <div class="width-75 idea-content">
+                <div class="float-left">
+                    <div class="content-list">
+                        <p class="content-desc font-18 color-f overflow margin-b-50 letter">本次大赛的解释权归大赛组委会所有，<br>活动的有关情况请及时与大赛组委会办公室联系</p>
+                        <p class="content-iphone font-18 color-d2 overflow letter">大赛组委会办公室<br>联系地址：宁波市大学科技园管委会<br>（宁波市中官西路777号科创大厦204，合作科）<br>大赛组委会联络人：应志浩、顾哲超<br>联系电话：0574-87612121<br>电子信箱：nbchuangke@126.com</p>
+                    </div>
+                </div>
+                <div class="float-left">
+                    <div class="qrcode">
+                        <div class="float-left text-al">
+                            <img src="{{ app_url_packaged }}/images/match/qsyd4/QR01.jpg" alt="">
+                            <p class="margin-t-15 font-18 color-d2 text-al letter overflow">宁波市大学科技园<br>官方微信公众号</p>
+                        </div>
+                        <div class="float-left text-al">
+                            <img src="{{ app_url_packaged }}/images/match/qsyd4/QR02.jpg" alt="">
+                            <p class="margin-t-15 font-18 color-d2 text-al letter overflow">关注Fiu火鸟的礼物<br>获取大赛相关进度</p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--11法律-->
+        <div class="law" id="thirteen">
+            <div class="present-title">
+                <div class="introduce">
+                    <p class="introduce-title color-f letter-2">法律声明</p>
+                    <p class="introduce-eng color-f letter-2">LEGAL NOTICES</p>
+                </div>
+            </div>
+            <div class="law-main">
+                <div class="padd-b-95">
+                    <p class="font-18 color-d2 overflow letter">依据国家有关法律法规，凡主动提交项目的 “参赛者” 或 “作者”，主办方认为其已经对所提交的项目版权归属作如下不可撤销声明：</p>
+                    <p class="font-18 color-d2 overflow">1、原创声明参赛项目是参赛者原创项目，未侵犯任何他人的任何专利、著作权、商标权及其他知识产权，否则，大赛主办方将取消其参赛、入围与获奖资格，收回奖金、奖品及并保留追究法律责任的权利。</p>
+                    <p class="font-18 color-d2 overflow">2、大赛主办方对所有获奖项目拥有展示和宣传等权利，其它任何单位和个人（包括作者本人）未经授权不得已任何形式对项目转让、复制、转载、传播、摘编、出版、发行、许可使用等。</p>
+                    <p class="font-18 color-d2 overflow">3、参赛者提交项目之前，已仔细阅读上述条款，充分理解并表示同意，本次大赛的评委会拥有对所有获奖项目的最终裁定权。</p>
+                </div>
+
+            </div>
+        </div>
+    </div>{% endblock %}

@@ -638,9 +638,8 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 奇思甬动-大赛 4
 	 */
 	public function qsyd4(){
-		$this->set_target_css_state('page_incubator');
-		$this->stash['dream_category_id'] = Doggy_Config::$vars['app.contest.qsyd_category_id'];
-		
+		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_social');
 		return $this->to_html_page('match/qsyd4.html');
 	}
 
@@ -715,10 +714,11 @@ class Sher_App_Action_Contest extends Sher_App_Action_Base implements DoggyX_Act
 	 * 奇思甬动-大赛 4
 	 */
 	public function submit4(){
-		$this->set_target_css_state('page_incubator');
+		$this->set_target_css_state('page_topic');
+		$this->set_target_css_state('page_social');
 
     $reason = isset($this->stash['season'])?$this->stash['season']:'';
-    $top_category_id = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd4_category_id'];
     $cate_url = Doggy_Config::$vars['app.url.contest'].'/qsyd';
 
 		$this->stash['cid'] = $top_category_id;

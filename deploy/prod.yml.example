@@ -104,6 +104,7 @@ app.contest.dream2_category_id: 49
 # 奇思甬动-大赛
 app.contest.qsyd_category_id: 68
 app.contest.qsyd2_category_id: 37
+app.contest.qsyd4_category_id: 66
 
 # 产品灵感
 app.topic.idea_category_id: 16
