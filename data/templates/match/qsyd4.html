@@ -108,7 +108,7 @@
 
   @media screen and (min-width: 1920px){
       .content-desc{
-          font-size: 18px;
+          font-size: 14px;
       }
       .present-title{
           padding: 105px 0 65px 0;
@@ -137,7 +137,7 @@
       }
   }@media screen and (min-width: 1280px) and (max-width:1920px) {
       .content-desc{
-          font-size: 18px;
+          font-size: 14px;
       }
       .present-title{
           padding: 105px 0 65px 0;
@@ -167,7 +167,7 @@
   }
   @media screen and (min-width: 960px) and (max-width:1280px) {
       .content-desc{
-          font-size: 18px;
+          font-size: 14px;
       }
       .present-title{
           padding: 105px 0 65px 0;
@@ -454,8 +454,8 @@
   }
   .swiper-list-desc{
       width: 100%;
-      height: 75px;
-      background: rgba(92,92,92,.3);
+      height: 50px;
+      background: rgba(92,92,92,.7);
       position: absolute;
       bottom: 0;
       display: flex;
@@ -469,8 +469,17 @@
   .font-20{
       font-size: 20px;
   }
+  .font-14 {
+    font-size: 14px;
+  }
+  .font-16{
+      font-size: 16px;
+  }
   .margin-10{
       margin-top: 10px;
+  }
+  .padding-l-10 {
+    padding-left: 10px;
   }
   .padding-l-30{
       padding-left: 30px;
@@ -1062,28 +1071,25 @@
             <div class="swiper-wrap">
                 <div class="swiper-container container1">
                     <div class="swiper-wrapper">
-                    {% stuff_list var:'list' from_to:8 sort:8 page:1 size:16 %}
-                    {% for d in list.rows %}
+                      <!--
                         <div class="swiper-slide">
-                            <a href="{{ d.view_url }}" target="_blank">
+                            <a href="" target="_blank">
                               <div class="swiper-list-img height-235">
-                                  <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
+                                  <img src="" alt="">
                                   <div class="swiper-list-desc">
-                                      <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
-                                      <p class="font-16 color-f padding-l-30 margin-10 overflow ellipsis">{{ d.description }}</p>
+                                      <p class="font-16 color-f padding-l-10"></p>
+                                      <p class="font-14 color-f padding-l-10 margin-10 overflow ellipsis"></p>
                                   </div>
                               </div>
                             </a>
                         </div>
-                    {%endfor%}
+                        -->
                     </div>
                 </div>
                 <div id="btn1"><img src="{{ app_url_packaged }}/images/match/qsyd4/left.png" alt=""></div>
                 <div id="btn2"><img src="{{ app_url_packaged }}/images/match/qsyd4/right.png" alt=""></div>
             </div>
-            <div class="clear view-arts-box">
-              <p class="view-arts-btn"><a href="{{ app_url_contest }}/qsyd_list4">查看全部项目</a></p>       
-            </div>
+
             <div class="hei-175"></div>
         </div>
         <!--04 亮点与参与条件-->
@@ -1347,8 +1353,8 @@
                               <div class="swiper-list-img height-338">
                                   <img src="{{ d.cover.thumbnails.apc.view_url }}" alt="">
                                   <div class="swiper-list-desc">
-                                      <p class="font-20 color-f padding-l-30">{{ d.title }}</p>
-                                      <p class="font-16 color-f padding-l-30 margin-10 overflow ellipsis">{{ d.description }}</p>
+                                      <p class="font-16 color-f padding-l-10">{{ d.title }}</p>
+                                      <p class="font-14 color-f padding-l-10 margin-10 overflow ellipsis">{{ d.description }}</p>
                                   </div>
                               </div>
                             </a>
@@ -1360,6 +1366,9 @@
                 </div>
                 <div id="btn3"><img src="{{ app_url_packaged }}/images/match/qsyd4/left.png" alt=""></div>
                 <div id="btn4"><img src="{{ app_url_packaged }}/images/match/qsyd4/right.png" alt=""></div>
+            </div>
+            <div class="clear view-arts-box">
+              <p class="view-arts-btn"><a href="{{ app_url_contest }}/qsyd_list4">查看全部项目</a></p>       
             </div>
         </div>
         <!--10单位-->
