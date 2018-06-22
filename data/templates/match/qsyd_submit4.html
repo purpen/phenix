@@ -13,6 +13,7 @@
 }
 .wrap-content{
     width: 75%;
+    max-width: 1280px;
     margin: 0 auto;
     position: relative;
     padding-top: 504px;
@@ -139,7 +140,15 @@
 .mar-l-50{
     margin-left: 50%;
 }
+.shadow-parent {
+    position: relative;
+}
+
+.shadow-parent:hover .shade {
+    opacity: 1;
+}
 .shade{
+    opacity: 0;
     width: 300px;
     height: 45px;
     position: absolute;
@@ -916,7 +925,7 @@ $('#phenix-uploader').fineUploader({
                     </div>
                     <div class="select">
                         <div class="maker wid-50 fl mar-b-47" id="maker">
-                            <div class="wid-300 border-f text-al zindex-2">
+                            <div class="shadow-parent wid-300 border-f text-al zindex-2">
                                 <p class="line-hei-45 font-22 color-f zindex-2">创客人才组</p>
                                 <div class="shade"></div>
                             </div>
@@ -926,8 +935,9 @@ $('#phenix-uploader').fineUploader({
                             </div>
                         </div>
                         <div class="high wid-50 fl" id="high">
-                            <div class="wid-300 border-f text-al">
-                                <p class="line-hei-45 font-22 color-f">高层次人才组</p>
+                            <div class="shadow-parent wid-300 border-f text-al zindex-2">
+                                <p class="line-hei-45 font-22 color-f zindex-2">高层次人才组</p>
+                                <div class="shade"></div>
                             </div>
                             <p class="color-f mar-l-50">HIGH-LEVEL TEAM</p>
                             <div class="mar-t-47">
