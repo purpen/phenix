@@ -320,11 +320,6 @@ body{
 }
 /*导师*/
 .mentor{
-    width: 100%;
-    height: 100vh;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/mentor.jpg")no-repeat;
-    background-size: cover;
-    background-position: center 0;
 }
 /*报名类型*/
 .apply{
@@ -669,7 +664,9 @@ body{
             </div>
         </div>
         <!--导师-->
-        <div class="mentor"></div>
+        <div class="mentor">
+          <img style="width:100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/mentor.jpg" />
+        </div>
         <!--选择报名类型-->
         <div class="apply">
 
@@ -682,7 +679,7 @@ body{
                    <div class="select-apply">
                         <p class="select-name font-14">选择对应人才组报名</p>
 
-                       <a href="#ck">
+                       <a href="javascript:void(0);">
                            <div class="select-maker padd-b-59">
                                <div class="border-1 mar-b-26">
                                    <p class="color-4f text-al font-16">创客人才组</p>
@@ -693,7 +690,7 @@ body{
                                </div>
                            </div>
                        </a>
-                       <a href="#gcc">
+                       <a href="javascript:void(0);">
                            <div class="select-higi padd-b-59">
                                <div class="border-1 mar-b-26">
                                    <p class="color-4f text-al font-16">高层次人才组</p>
