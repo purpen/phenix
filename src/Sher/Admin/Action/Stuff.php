@@ -172,6 +172,26 @@ class Sher_Admin_Action_Stuff extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 	/**
+	 * 列表--奇思甬动4
+	 */
+	public function qsyd4_list() {
+		
+		// 判断左栏类型
+		$this->stash['show_type'] = "community";
+		
+    $this->set_target_css_state('qsyd4_list');
+		$page = (int)$this->stash['page'];
+
+    $this->stash['from_to'] = 8;
+		
+		$pager_url = sprintf(Doggy_Config::$vars['app.url.admin'].'/stuff/qsyd4_list?page=#p#');
+		
+		$this->stash['pager_url'] = $pager_url;
+		
+		return $this->to_html_page('admin/stuff/list.html');
+	}
+
+	/**
 	 * 创建/更新
 	 */
 	public function submit(){

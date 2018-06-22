@@ -351,6 +351,8 @@
       float: left;
   }
   .nav-ul li:hover .content-img {
+      transition: all 1s ease;
+      background: #0038be;
       background: #0038be;
   }
   .nav-ul li:hover .content-img img{
@@ -853,8 +855,24 @@
       letter-spacing: 2px;
   }
 
+  .clear {
+    clear: both;
+  }
+
   .upload-art-btn {
       cursor:pointer;
+  }
+
+  .view-arts-box {
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  .view-arts-btn a{
+    color: #F9CD0B;
+    background-color: #DD2F8D;
+    padding: 10px 40px 10px 40px;
+    width: 100px;
   }
 
 
@@ -1060,6 +1078,9 @@
                 <div id="btn1"><img src="{{ app_url_packaged }}/images/match/qsyd4/left.png" alt=""></div>
                 <div id="btn2"><img src="{{ app_url_packaged }}/images/match/qsyd4/right.png" alt=""></div>
             </div>
+            <div class="clear view-arts-box">
+              <p class="view-arts-btn"><a href="{{ app_url_contest }}/qsyd_list4">查看全部项目</a></p>       
+            </div>
             <div class="hei-175"></div>
         </div>
         <!--04 亮点与参与条件-->
@@ -1235,7 +1256,7 @@
                                     <img src="{{ app_url_packaged }}/images/match/qsyd4/11.jpg" alt="">
                                 </div>
                                 <div class="explain">
-                                    <p class="font-16 color-f text-al letter-1 color-d2">创新工场/创始人</p>
+                                    <p class="font-16 color-f text-al letter-1 color-d2">梧桐树资本/创始合伙人</p>
                                     <p class="font-22 color-f margin-10 letter text-al">童玮亮</p>
                                 </div>
                             </li>
@@ -1244,7 +1265,7 @@
                                     <img src="{{ app_url_packaged }}/images/match/qsyd4/12.jpg" alt="">
                                 </div>
                                 <div class="explain">
-                                    <p class="font-16 color-f text-al letter-1 color-d2">真格基金/创始人</p>
+                                    <p class="font-16 color-f text-al letter-1 color-d2">罗辑思维/联合创始人</p>
                                     <p class="font-22 color-f margin-10 letter text-al">吴声</p>
                                 </div>
                             </li>
@@ -1287,7 +1308,7 @@
                                 <img src="{{ app_url_packaged }}/images/match/qsyd4/17.jpg" alt="">
                             </div>
                             <div class="explain">
-                                <p class="font-16 color-f text-al letter-1 color-d2">牛电科技/联合创始人</p>
+                                <p class="font-16 color-f text-al letter-1 color-d2">牛电科技/副总裁</p>
                                 <p class="font-22 color-f margin-10 letter text-al">刘传凯</p>
                             </div>
                         </li><li>
@@ -1347,7 +1368,7 @@
                 </div>
             </div>
             <div class="unit-img">
-                <img class="dis-block" src="{{ app_url_packaged }}/images/match/qsyd4/unit.png" alt="">
+                <img class="dis-block" src="{{ app_url_packaged }}/images/match/qsyd4/unit1.png" alt="">
             </div>
 
                 <!--<img class="margin-img" src="./images/unit.png" alt="">-->

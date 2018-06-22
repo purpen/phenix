@@ -8,10 +8,10 @@
 			</div>
 			<div class="buttons">
 				<div class="ui links">
-					<a href="/app/site/fever/delete_asset?id={{ id }}&asset_id={{ asset._id }}&asset_domain={{ asset_domain }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+					<a href="/app/site/fever/delete_asset?id={{ id }}&asset_id={{ asset._id }}&asset_domain={{ asset_domain }}" class="ui link ajax pop" title="删除" data-content="删除此缩略图？" data-variation="inverted">
 						<i class="remove icon"></i>
 					</a>
-					<a href="javascript:void(0);" class="ui link ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+					<a href="javascript:void(0);" class="ui link ajax-cover pop" title="设置封面图" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
 						<i class="checkered flag icon"></i>
 					</a>
 					{% if asset_domain == 'try' %}

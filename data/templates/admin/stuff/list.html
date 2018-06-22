@@ -53,6 +53,9 @@
     <a href="{{ app_url_admin_base }}/stuff/qsyd3_list" class="{{ css_qsyd3_list }} item">
 			奇思甬动3
 		</a>
+    <a href="{{ app_url_admin_base }}/stuff/qsyd4_list" class="{{ css_qsyd4_list }} item">
+			奇思甬动4
+		</a>
 
 	  	<div class="right menu">
 			<!--
@@ -109,6 +112,7 @@
 					  	<label></label>
 					</div>
 				</th>
+        <th>ID</th>
 				<th>缩略图</th>
 				<th>名称</th>
         <th>作者</th>
@@ -138,18 +142,18 @@
 					  	<label></label>
 					</div>
 				</td>
+
+        <td>{{ stuff._id }}</td>
 				<td>
 					<div class="ui image">
 						<img src="{{ stuff.cover.thumbnails.mini.view_url }}" width="80px" />
 					</div>
 				</td>
 				<td>
-		          	<div class="header">
-                  <a href="{{ stuff.view_url }}" class="ui link" target="_blank" title="{{ stuff.title }}">
-							{{ stuff.title|truncate, 32 }}
-						</a>
+		        <div class="header">
+              <p>标题: <a href="{{ stuff.view_url }}" class="ui link" target="_blank" title="{{ stuff.title }}">{{ stuff.title|truncate, 32 }}</a>
+            </p>
 					</div>
-            <p class="attribute">ID：{{ stuff._id }}</p>
             {% if load_college %}
               <p class="attribute">大学：{{ stuff.college.name }}</p>
             {%endif%}
@@ -167,6 +171,15 @@
               <p>类型: {% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
             {%endif%}
             {% if stuff.from_to == 7%}
+              <p>参赛人: {{ stuff.name|default '--' }}</p>
+              <p>公司: {{ stuff.company|default '--' }}</p>
+              <p>联系人: {{ stuff.c_name|default '--' }}</p>
+              <p>电话: {{ stuff.tel|default '--' }}</p>
+              <p>邮箱: {{ stuff.email|default '--' }}</p>
+              <p>职位: {{ stuff.position|default '--' }}</p>
+              <p>类型: {% if stuff.attr==1 %}个人{%else%}团体{%endif%}<p>
+            {%endif%}
+            {% if stuff.from_to == 8%}
               <p>参赛人: {{ stuff.name|default '--' }}</p>
               <p>公司: {{ stuff.company|default '--' }}</p>
               <p>联系人: {{ stuff.c_name|default '--' }}</p>
