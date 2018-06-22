@@ -32,7 +32,7 @@
   }
   .products{
     width: 100%;
-    background: url({{ app_url_packaged }}/images/match/qsyd4/wap/h-explain.png);
+    background: url({{ app_url_packaged }}/images/match/qsyd4/wap/h-explain.png) no-repeat #0038be;
     padding: 0;
     background-size: cover;
   }
@@ -42,7 +42,7 @@
     margin-top: 0 !important;
   }
   .recom-item .recom-cell {
-    margin: 0;
+    margin: 4px 0;
   }
   #mpresale .recom-item .recom-cell a{
     background: #fff;
@@ -228,7 +228,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
     category_id = $(this).attr('category_id');
     $('.menuicon').removeClass('active');
     $(this).addClass('active');
-    ajax_load_more(1, type, category_id, 7, sort, size);
+    ajax_load_more(1, type, category_id, 8, sort, size);
   });
 
 {% endblock %}

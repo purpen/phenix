@@ -552,6 +552,7 @@ body{
  </style>
 {% endblock %}
 {% block layout_js %}
+	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
 
     function ajax_load_more(page, type, category_id, from_to, sort, size){
@@ -566,7 +567,7 @@ body{
 
     var m_name = '第四届奇思甬动创客大赛报名火热开启';
     var img_url = '{{ app_url_packaged }}/images/match/qsyd4/wap/qsyd4_cover.png';
-    var link = '{{ app_url_wap }}/contest/qsyd4';
+    var link = '{{ current_url }}';
     var desc_str = '';
 
     wx.config({
@@ -820,7 +821,7 @@ body{
           <div class="header">
               <div class="container">
                   <div class="content">
-                      <p>为了保证活动的专业性，及内容完整度，请用电脑登录太火鸟官网<span style="word-wrap: break-word;">（https://www.taihuoniao.com/contest/qsyd3）</span>报名，移动端仅供浏览。</p>
+                      <p>为了保证活动的专业性，及内容完整度，请用电脑登录太火鸟官网<span style="word-wrap: break-word;">（https://www.taihuoniao.com/contest/qsyd4）</span>报名，移动端仅供浏览。</p>
                   </div>
               </div>
           </div>
