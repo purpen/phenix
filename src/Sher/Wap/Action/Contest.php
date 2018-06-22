@@ -11,7 +11,7 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
 		'category_id' => 0,
 	);
 	
-	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','qsyd2','qsyd_list2','qsyd_view2','qsyd3','qsyd_list3','qsyd_view3');
+	protected $exclude_method_list = array('execute','dream', 'dream2', 'topic', 'allist', 'allist2', 'get_list', 'show', 'rank', 'ajax_fetch_top_province', 'ajax_fetch_top_college', 'ajax_load_colleges','matcht','custom','about3','qsyd2','qsyd_list2','qsyd_view2','qsyd3','qsyd_list3','qsyd_view3','qsyd4','qsyd_list4','qsyd_view4');
 	
 	/**
 	 * 社区入口
@@ -415,6 +415,69 @@ class Sher_Wap_Action_Contest extends Sher_Wap_Action_Base {
     $this->stash['wxSha1'] = sha1($wxOri);
 
 		return $this->to_html_page('wap/contest/qsyd_view3.html');
+	}
+
+	public function qsyd4(){
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+		return $this->to_html_page('wap/contest/qsyd4.html');
+	}
+
+	public function qsyd_list4(){
+    $category_id = isset($this->stash['category_id']) ? (int)$this->stash['category_id'] : 0;
+    $top_category_id = Doggy_Config::$vars['app.contest.qsyd4_category_id'];
+    $this->stash['cid'] = $top_category_id;
+    $this->stash['category_id'] = $category_id;
+
+		return $this->to_html_page('wap/contest/qsyd_list4.html');
+  }
+
+	public function qsyd_view4(){
+
+		$id = isset($this->stash['id']) ? (int)$this->stash['id'] : 0;
+		
+		$redirect_url = Doggy_Config::$vars['app.url.wap']."/contest/qsyd4";
+		if(empty($id)){
+			return $this->show_message_page('访问的作品不存在！', $redirect_url);
+		}
+		if(isset($this->stash['referer'])){
+			$this->stash['referer'] = Sher_Core_Helper_Util::RemoveXSS($this->stash['referer']);
+		}
+		
+		$model = new Sher_Core_Model_Stuff();
+		$stuff = $model->load($id);
+		
+		if(empty($stuff) || $stuff['deleted']){
+			return $this->show_message_page('访问的作品不存在或被删除！', $redirect_url);
+		}
+		
+		$stuff = $model->extended_model_row($stuff);
+		
+		// 增加pv++
+		$inc_ran = rand(1,6);
+		$model->inc_counter('view_count', $inc_ran, $id);
+		$model->inc_counter('true_view_count', 1, $id);
+		$model->inc_counter('wap_view_count', 1, $id);
+		
+		$this->stash['stuff'] = $stuff;
+
+		//微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']; 
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+		return $this->to_html_page('wap/contest/qsyd_view4.html');
 	}
 
 
