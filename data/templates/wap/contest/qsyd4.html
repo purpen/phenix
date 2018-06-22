@@ -25,9 +25,11 @@ button::-moz-focus-inner,input::-moz-focus-inner{padding:0;border:0}
 mark{background-color:transparent}
 a,ins,s,u,del{text-decoration:none}
 sup,sub{vertical-align:baseline}
+/**
 html {height: 100%;font-size: 50px;-webkit-tap-highlight-color: transparent;}
+**/
 body {font-family: Arial, "Microsoft Yahei", "Helvetica Neue", Helvetica, sans-serif;color: #333;font-size: .28em;line-height: 1;-webkit-text-size-adjust: none;}
-hr {height: .02rem;margin: .1rem 0;border: medium none;border-top: .02rem solid #cacaca;}
+hr {height: .02em;margin: .1em 0;border: medium none;border-top: .02em solid #cacaca;}
 a {color: #25a4bb;text-decoration: none;}
 
 .font-12{font-size: 12px}.font-14{font-size: 14px}.font-16{font-size: 16px;}.font-18{font-size: 18px;}.font-20{font-size: 20px;}.font-22{font-size: 22px;}.font-24{font-size: 24px;}
@@ -48,6 +50,10 @@ section{
 }
 .appiosload{
     display: none !important;
+}
+
+#mmfoot{
+  display: none;
 }
 
 
@@ -259,23 +265,23 @@ body{
 }
 .padd-t-140{
     box-sizing: border-box;
-    padding-top: 1.4rem;
+    padding-top: 1.4em;
 }
 .margin-l-50{
     margin-left: 50%;
 }
 .padd-b-22{
-    padding-bottom: 0.22rem;
+    padding-bottom: 0.22em;
 }
 .explain-wrap{
-    padding: 0 1.08rem;
+    padding: 0 1.08em;
 }
 .explain-content{
     font-family:SourceHanSansCN-Light;
     color:rgba(255,255,255,.9);
     font-size: 16px;
-    line-height: 0.48rem;
-    margin-top: .8rem;
+    line-height: 1.5;
+    margin-top: 5px;
 }
 /*奖金*/
 .moeny{
@@ -292,7 +298,7 @@ body{
     display: flex;
     justify-content: space-between;
     flex-direction: column;
-    padding: 0 .65rem;
+    padding: 0 .65em;
 }
 .width-100{
     width: 100%;
@@ -301,10 +307,10 @@ body{
     width: 100%;
 }
 .mar-t-85{
-    margin-top: .85rem;
+    margin-top: .85em;
 }
 .mar-t-100{
-    margin-top: 1rem;
+    margin-top: 1em;
 }
 .posi-re{
     position: relative;
@@ -314,74 +320,71 @@ body{
 }
 /*导师*/
 .mentor{
-    width: 100%;
-    height: 100vh;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/mentor.jpg")no-repeat;
-    background-size: cover;
-    background-position: center 0;
 }
 /*报名类型*/
 .apply{
     width: 100%;
-    height: 100vh;
     background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-apply.png")no-repeat;
     background-size: cover;
     background-position: center 0;
-    padding-top: 4rem;
+    padding-top: 4em;
     box-sizing: border-box;
 }
 .apply-content{
-    padding: 0 0.65rem;
+    padding: 0 0.65em;
 }
 .bg-f{
     width: 100%;
     background: #fff;
 }
 .hei-112{
-    height: 1.2rem;
+    height: 1.2em;
     background: #2615aa;
     display: flex;
     flex-direction: column;
 }
 .padd-t-16{
-    padding-top: 0.32rem;
-    padding-bottom: 0.12rem;
+    padding-top: 0.32em;
+    padding-bottom: 0.12em;
 }
 .select-apply{
 
 }
 .select-name{
-    padding-top: 0.18rem;
+    padding-top: 0.18em;
     text-align: center;
     color: #1A58CA;
-    padding-bottom: .78rem;
+    padding-bottom: .78em;
 }
 .padd-b-59{
-    padding-bottom: .59rem;
+    padding-bottom: .59em;
 }
 .apply-text p{
     line-height: 1.5;
 }
 .mar-b-26{
-    margin-bottom: .26rem;
+    margin-bottom: .26em;
 }
 .select-maker{
     margin: auto;
-    width: 3rem;
+    width: 3em;
 }
 .select-higi{
     margin: auto;
-    width: 3rem;
+    width: 3em;
 }
 .border-1{
-    height: .4rem;
+    height: .4em;
     border: 1px solid #70CAF7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .color-4f{
     color: #004FD3;
 }
 .border-1 p{
-    line-height: .4rem;
+    line-height: 1.2;
 }
 
 /*.创客*/
@@ -397,14 +400,14 @@ body{
     width: 100%;
 }
 .padd-65{
-    padding:.64rem .65rem 0 .65rem;
+    padding:.64em .65em 0 .65em;
 }
 .padd-b-t{
-    padding-top: .55rem;
-    padding-bottom: .2rem;
+    padding-top: .55em;
+    padding-bottom: .2em;
 }
 .lin-hei-32{
-    line-height: .38rem;
+    line-height: 1.5;
     color:rgba(255,255,255,.9);
 }
 .color-f7{
@@ -414,62 +417,68 @@ body{
     color: #F8FF3C;
 }
 .padd-l-80{
-    padding-left: 1.2rem;
+    padding-left: 1.2em;
 }
 .padd-l-62{
-    padding: .19rem .62rem 0 .62rem;
+    padding: .19em .62em 0 .62em;
 }
 .pc-d{
     color:rgba(255,255,255,.9);
-    padding-bottom: 0.13rem;
+    padding-bottom: 0.13em;
 }
 .color-ea{
     color: #00EAFF;
 }
 .wid-258{
-    width: 2.58rem;
-    height: .40rem;
+    width: 2.58em;
+    height: .40em;
     border: 1px solid #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .wid-258 p{
     text-align: center;
-    line-height: .4rem;
+    line-height: 1.2;
 }
 .padd-b-80{
-    padding-bottom: .8rem;
+    padding-bottom: .8em;
 }
 .mar-l-65{
-    margin-left: .65rem;
+    margin-left: .65em;
 }
 .mar-t-22{
-    margin-top: .22rem;
+    margin-top: .22em;
 }
 .padd-b-67{
-    padding-bottom: .67rem;
+    padding-bottom: .67em;
 }
 .padd-b-33{
-    padding-bottom: .33rem;
+    padding-bottom: .33em;
 }
 .min-hei-500{
-    margin-top: .6rem;
-    padding: 0 .65rem;
-    margin-bottom: .72rem;
+    margin-top: .6em;
+    padding: 0 .65em;
+    margin-bottom: .72em;
 
 }
 .back-f{
-    height: 15rem;
+    height: 15em;
     background: #fff;
 }
 .maker-button{
     margin:auto;
-    width: 3.2rem;
-    height: .55rem;
+    width: 3.2em;
+    height: .55em;
     border: 1px solid #70CAF7;
     background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .maker-button p{
     text-align: center;
-    line-height: .55rem;
+    line-height: 1.5;
     color:rgba(1,103,210,1);
     font-size: 14px;
     font-family:SourceHanSansCN-Bold;
@@ -482,24 +491,24 @@ body{
 /*高层次*/
 .higi-content{
     background: #fff;
-    padding: .22rem .32rem 0 .32rem;
+    padding: .22em .32em 0 .32em;
 }
 .higi-submit{
     color:rgba(0,108,208,.8);
     font-size: 12px;
     line-height: 20px;
-    margin-bottom: .23rem;
+    margin-bottom: .23em;
 }
 .higi-email{
     color:rgba(0,108,208,1);
     font-size: 16px;
-    margin-bottom: 0.09rem;
+    margin-bottom: 0.09em;
 
 }
 .higi-stop{
     font-size: 12px;
     color:rgba(0,108,208,.7);
-    margin-bottom: .55rem;
+    margin-bottom: .55em;
 }
 .dis-flex-column{
     display: flex;
@@ -514,17 +523,82 @@ body{
     color:rgba(0,157,239,1);
     font-family:SourceHanSansCN-Bold;
 }
+.download-content a{
+    font-size: 18px;
+}
+
 .download-book{
+    font-size: 18px;
     color:rgba(0,157,239,.8);
     font-family:SourceHanSansCN-Regular;
     border-bottom: 1px solid rgba(0,157,239,.9);
     line-height: 1.5;
 }
 .mar-l-7{
-    margin-left: 0.07rem;
+    margin-left: 0.07em;
 }
 .mar-b-10{
-    margin-bottom: .15rem;
+    margin-bottom: .15em;
+}
+
+.qsyd4-box {
+  font-size: 50px;
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+
+form.ui.form{
+	padding: 20px 50px;
+}
+form.ui.form .field > label{
+	width: 140px !important;
+    text-align: right;
+    font-size: 16px !important;
+    color: #333 !important;
+    margin-right: 15px !important;
+}
+.form.ui.form .inline.fields{
+	margin-bottom: 20px;
+}
+form.ui.form .field .ui.checkbox{
+	margin-right: 20px;
+}
+form.ui.form .field input[type=text].whres{
+	width: 260px;
+	padding: .6rem .8rem;
+}
+.ui.form .field>.selection.dropdown{
+	width: auto !important;
+}
+.ui.form .inline.fields .field textarea{
+	margin-left: 160px;
+    margin-top: -20px;
+}
+#phenix-uploader{
+	margin: -30px 0 0 160px;
+}
+#asset-list{
+	width: 800px;
+    padding-left: 160px;
+}
+.ui.magenta.large.submit.button{
+	margin:30px 160px;
+}
+.ui.nav.light.fixed{
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+label span{
+	position: absolute;
+    left: 310px;
+    width: 400px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 30px;
 }
 
 
@@ -600,6 +674,23 @@ body{
     });
   });
 
+
+    function change_attr(val){
+      if(val == 1){
+        $('.company-box').hide();
+        $('.contact-name-box').hide();
+        $('.contact-title').text('联系地址');
+        $('.tel-title').text('联系电话');
+        $('.position-title').text('职业');
+      }else if(val == 2) {
+        $('.company-box').show();
+        $('.contact-name-box').show();
+        $('.contact-title').text('公司地址');
+        $('.tel-title').text('公司／团队电话');
+        $('.position-title').text('联系人职位');
+      }
+    }
+
 </script>
 {% endblock %}
 
@@ -607,11 +698,138 @@ body{
 
   // 初次加载
   //ajax_load_more(1, 0, 0, 8, 7, 4);
+
+  //提交作品按钮
+  $('.upload-art-btn').click(function(){
+    var url = "{{ app_url_contest }}/submit3";
+    phenix.redirect(url);
+  });
+
+	var file_count = 1;
+	var ord = function(){
+		return file_count++;
+	};
+
+$('#stuff-form').form({
+		title_back: {
+			identifier  : 'title_back',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '名称不能为空'
+				},
+				{
+					type   : 'maxLength[75]',
+					prompt : '名称最多75个字符'
+				}
+			]
+		},
+		description_back: {
+			identifier  : 'description_back',
+			rules: [
+				{
+					type   : 'empty',
+					prompt : '详细描述不能为空'
+				}
+			]
+		}
+	}, {
+		inline : true,
+		onSuccess: function(event){
+			event.preventDefault();
+			$(this).ajaxSubmit({
+				dataType: 'json',
+				beforeSubmit: function(){
+					phenix.before_submit();
+				},
+				success: function(data){
+					phenix.after_submit();
+					
+					if(data.is_error){
+						$(event.target).addClass('error');
+						phenix.show_error_note(data.message, event.target);
+					}else{
+						phenix.redirect(data.redirect_url);
+					}
+				}
+			});
+		}
+	});
+
+$('#phenix-uploader').fineUploader({
+		debug: false,
+      	request: {
+			inputName:'file',
+			params: {'token': '{{ token }}','x:pid': '{{ pid }}', 'x:domain': '{{ domain }}', 'x:ord': ord, 'x:user_id': {{ visitor._id }},'x:asset_type': {{ asset_type }},'x:parent_id': '{{ stuff._id }}','file_id': '{{ pid }}' },
+        	endpoint: '{{ app_url_upload }}/stuff'
+      	},
+		text: {
+            uploadButton: '<a class="ui active magenta inverted labeled icon button" href="javascript:void(0);"><i class="cloud upload icon"></i>选择图片</a>'
+		},
+		template: '<div class="qq-uploader">' +
+					'<pre class="qq-upload-drop-area"><span>{dragZoneText}</span></pre>' +
+					'<div class="qq-upload-button">{uploadButtonText}</div>' +
+					'<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+					'<ul class="qq-upload-list clearfix" style="margin-top: 5px; text-align: center;"></ul>' +
+					'</div>',
+		validation: {
+	        allowedExtensions: ['jpeg', 'jpg', 'png'],
+	        sizeLimit: 5242880 // 5M = 5 * 1024 * 1024 bytes
+	    }
+    }).on('complete', function (event, id, name, result) {
+		if(result.is_error){
+			phenix.show_error_note(result.message);
+		}else{
+			$('.qq-upload-list').children().eq(id).fadeOut();
+			
+			$.get('{{ app_url_action_base }}/uploader/check_upload_assets', {'assets': result.data.ids, 'asset_type': {{ asset_type||default 0 }}, 'asset_domain':'{{ domain }}'});
+		}
+	});
+
+	// 设置封面图
+	$('#asset-list .ajax-cover').livequery(function(){
+		$(this).click(function(){
+			$this = $(this);
+			var id = $(this).attr('data-value');
+			
+			$('#asset-list .ajax-cover.active').removeClass('active');
+			$(this).addClass('active');
+			
+			$('#stuff_cover_id').val(id);
+			return false;
+		});
+	});
+
+  var attr = $(':input[name="attr"]:checked').val();
+  if(attr){
+    change_attr(attr);
+  }
+
+  // 选择类型判断表单内容
+  $(':input[name="attr"]').change(function(){
+    var val = $(this).val();
+    change_attr(val);
+  });
+
+
+        $("#maker").on("click",function(){
+          $(".dis-none").hide()
+          $(".show-maker").show()
+        })
+        $("#high").on("click",function () {
+          $(".dis-none").hide()
+          $(".show-high").show()
+        })
+
+        $(".nav-ul li").mousemove(function () {
+
+        })
+
 {% endblock %}
 {% block content %}
+  <div class="qsyd4-box">
         <!--首屏-->
         <div class="activity back-size-position">
-
         </div>
         <!--大赛介绍-->
         <div class="explain back-size-position">
@@ -644,7 +862,9 @@ body{
             </div>
         </div>
         <!--导师-->
-        <div class="mentor"></div>
+        <div class="mentor">
+          <img style="width:100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/mentor.jpg" />
+        </div>
         <!--选择报名类型-->
         <div class="apply">
 
@@ -657,7 +877,7 @@ body{
                    <div class="select-apply">
                         <p class="select-name font-14">选择对应人才组报名</p>
 
-                       <a href="#ck">
+                       <a href="javascript:void(0);">
                            <div class="select-maker padd-b-59">
                                <div class="border-1 mar-b-26">
                                    <p class="color-4f text-al font-16">创客人才组</p>
@@ -668,7 +888,7 @@ body{
                                </div>
                            </div>
                        </a>
-                       <a href="#gcc">
+                       <a href="javascript:void(0);">
                            <div class="select-higi padd-b-59">
                                <div class="border-1 mar-b-26">
                                    <p class="color-4f text-al font-16">高层次人才组</p>
@@ -704,7 +924,158 @@ body{
 
                 <!--表单-->
                 <div class="min-hei-500">
-                    <div class="back-f"></div>
+                    <div class="back-f">
+                    
+                    
+                     <!--创客表单-->
+                    <div class="maker-from">
+
+				<div class="column">
+					<form action="{{ app_url_action_base }}/stuff/save" class="ui form" method="post" id="stuff-form">
+						<input type="hidden" name="_id" value="{{ stuff._id }}" id="stuff_id" />
+						<input type="hidden" name="file_count" id="file_count" />
+						<input type="hidden" name="from_to" value="8" />
+            <input type="hidden" name="verified" value="1" />
+
+						<div class="inline fields">
+	            			<div class="field">
+								<label for="title">参赛类型</label>
+								<div class="ui checkbox">
+                  <input type="radio" name="attr" tabindex="2" value="2" {%if stuff.attr==2%}checked{%endif%} class="hidden"></input>
+									<label>团队</label>
+								</div>
+								<div class="ui checkbox">
+									<input type="radio" name="attr" tabindex="1" value="1" {%if stuff.attr==1%}checked{%endif%} class="hidden"></input>
+									<label>个人</label>
+								</div>
+							</div>
+						</div>
+
+						<div class="inline fields company-box" style="display:none;">
+							<div class="field">
+								<label for="title">公司／团队名称</label>
+								<input class="whres" type="text" name="company" value="{{ stuff.company }}" />
+							</div>
+						</div>
+
+						<div class="inline fields">
+							<div class="field">
+								<label for="title">参赛者姓名</label>
+								<input class="whres" type="text" name="name" value="{{ stuff.name }}" />
+							</div>
+						</div>
+
+						<div class="inline fields">
+							<div class="field">
+								<label for="title">项目名称</label>
+								<input class="whres" type="text" name="title" value="{{ stuff.title }}" />
+							</div>
+						</div>
+
+						<div class="inline fields">
+							<div class="field">
+                {% category_list var:'category' only_open:1 domain:4 pid:cid current:stuff.category_id %}
+								<label for="title">选择类目</label>
+								<div class="ui selection dropdown" tabindex="0">
+                  <input type="hidden" name="category_id" value="{{ stuff.category_id }}">
+						          	<div class="default text">类型</div>
+						          	<i class="dropdown icon"></i>
+						          	<div class="menu transition hidden" tabindex="-1">
+                            {% for d in category.rows %}
+                            <div class="item" data-value="{{ d._id }}">{{ d.title }}</div>
+                            {% endfor %}
+
+						         	</div>
+						        </div>
+							</div>
+						</div>
+
+						<div class="inline fields contact-name-box" style="display:none;">
+							<div class="field">
+								<label for="title">联系人姓名</label>
+								<input class="whres" type="text" name="c_name" value="{{ stuff.c_name }}" />
+							</div>
+						</div>
+						<div class="inline fields">
+							<div class="field">
+								<label for="title" class="position-title">职业</label>
+								<input class="whres" type="text" name="position" value="{{ stuff.position }}" />
+							</div>
+						</div>
+						<div class="inline fields">
+							<div class="field">
+								<label for="title" class="tel-title">联系电话</label>
+								<input class="whres" type="text" name="tel" value="{{ stuff.tel }}" />
+							</div>
+						</div>
+
+						<div class="inline fields">
+							<div class="field">
+								<label for="title">邮箱</label>
+								<input class="whres" type="text" name="email" value="{{ stuff.email }}" />
+							</div>
+						</div>
+						<div class="inline fields">
+							<div class="field">
+								<label for="title" class="contact-title">联系地址</label>
+								<input class="whres" type="text" name="address" value="{{ stuff.address }}" />
+							</div>
+						</div>
+
+						<div class="inline fields">
+							<div class="field">
+								<label>项目简介</label>
+								<textarea name="description" placeholder="此处输入项目详细描述...">{{ stuff.description }}</textarea>
+							</div>
+						</div>
+						<div class="inlene fields">
+							<div class="field">
+								<label style="position: relative;">设计图/效果图 <span>（图片尺寸要求840x473px，图片小于5M。）</span></label>
+								<input type="hidden" name="cover_id" id="stuff_cover_id" value="{{ stuff.cover_id }}" />
+								<div id="phenix-uploader"></div>
+						
+								<div id="asset-list" class="ui three blocks">
+								{% if mode == 'edit' %}
+									{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+									{% for asset in assets.rows %}
+									<div class="thumb block" id="{{ asset._id }}">
+										<div class="image">
+											<img src="{{ asset.thumbnails.mini.view_url }}" />
+											<input type="hidden" class="asset_id_list" name="asset[]" value="{{ asset._id }}" />
+										</div>
+										<div class="buttons">
+											<div class="ui large links">
+												<a href="{{ app_url_stuff }}/delete_asset?id={{ id }}&asset_id={{ asset._id }}" class="ui link ajax pop" data-content="删除此缩略图？" data-variation="inverted">
+													<i class="remove icon"></i>
+												</a>
+												<a href="javascript:void(0);" class="ui link {%if stuff.cover_id == asset._id %}active{% endif %} ajax-cover pop" data-content="设置封面图" data-variation="inverted" data-value="{{ asset._id }}">
+													<i class="checkered flag icon"></i>
+												</a>
+											</div>
+										</div>
+									</div>
+
+									{% endfor %}
+								{% endif %}
+								</div>
+
+								<div class="ui magenta large submit inverted active button">立即提交</div>
+							</div>
+						</div>
+
+
+            		</form>
+				</div>
+
+
+
+                    </div>
+
+                    
+                    
+                    
+                    
+                    </div>
                 </div>
                 <!--按钮-->
                 <div class="maker-button">
@@ -758,7 +1129,7 @@ body{
                 </div>
             </div>
         </div>
-
+    </div>
 {% endblock %}
 
 {% block templates %}
