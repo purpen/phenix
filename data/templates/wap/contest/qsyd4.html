@@ -546,28 +546,6 @@ body{
 
 {% block jquery %}
 
-    $('.apply').click(function(){
-      $('.ui.type_00.drawmes.modal').modal('setting', 'closable', true).modal('show');
-      //setTimeout("$('.ui.type_00.drawmes.modal').modal('hide');",4000);
-    })
-    $('.view-list-btn').click(function(){
-      var url = "{{ app_wap_contest }}/contest/qsyd_list4";
-      phenix.redirect(url);
-    })
-
-  $('.menuicon').click(function(){
-    $('html,body').animate({scrollTop:$('.reduce').offset().top },100);
-  });
-  $('.timebtn').click(function(){
-    $('html,body').animate({scrollTop:$('.time').offset().top },100);
-  });
-  $('.pweibtn').click(function(){
-    $('html,body').animate({scrollTop:$('.pwei').offset().top },100);
-  });
-  $('.contactbtn').click(function(){
-    $('html,body').animate({scrollTop:$('.contact').offset().top },100);
-  });
-
   // 初次加载
   //ajax_load_more(1, 0, 0, 8, 7, 4);
 {% endblock %}
