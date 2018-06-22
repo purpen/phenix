@@ -32,7 +32,7 @@
   }
   .products{
     width: 100%;
-    background: url({{ app_url_packaged }}/images/match/qsyd3/wap/10.jpg);
+    background: url({{ app_url_packaged }}/images/match/qsyd4/wap/qsyd4-header.png);
     padding: 0;
     background-size: cover;
   }
@@ -100,15 +100,39 @@
   .products .nav-menu{
     background-color: rgba(0,0,0,0);
   }
+  .nav-menu .nav-title {
+    height: 100px;
+    color: #fff;
+    text-align: center
+  }
+  .nav-menu .nav-title {
+    font-size: 20px;
+    position: relative;
+    margin-bottom: 22px;
+  }
+  .nav-menu .nav-title h3:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: -10px;
+    margin: auto;
+    width: 30px;
+    height: 2px;
+    background: #fff
+  }
+  .nav-menu .nav-title p {
+    font-size: 12px;
+  }
   .products .nav-menu .navfelx .childcell .menuicon{
     padding-top: 4px;
-    background: #f8bc05;
+    background: #fff;
     color: rgba(0,0,0,0.95);
     border-radius: 0.28571429rem !important;
   }
   .products .nav-menu .navfelx .childcell .menuicon.active{
     color: #fff;
-    background: #e63f4a;
+    background: #DD2F8C;
   }
   .ui.pagination.menu{
     margin-top: 10px;
@@ -122,7 +146,7 @@
     margin: 0 5px;
   }
   .ui.pagination.menu .item:hover,.ui.pagination.menu .item.active{
-    background: #f8bc05;
+    background: #DD2F8C;
   }
   .ui.menu .item.disabled, .ui.menu .item.disabled:hover{
     background-color: rgba(91,91,91,0.9) !important;
@@ -205,7 +229,7 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
 {% endblock %}
 {% block content %}
 <div class="qsyd">
-  <img src="{{ app_url_packaged }}/images/match/qsyd3/wap/1.jpg" width="100%" align="absmiddle">
+  <img src="{{ app_url_packaged }}/images/match/qsyd4/wap/qsyd4-header.png" width="100%" align="absmiddle">
   <div class="nav-menu">
     <ul class="navfelx" style="padding-bottom: 4px;">
       <!--
@@ -240,14 +264,17 @@ $('html,body').animate({scrollTop:$('.products').offset().top },500);
   <div class="products">
 
     <div class="ui responsive grid">
-      <div class="row" style="background: rgba(0,0,0,0.5);">
+      <div class="row">
         <div class="ui center aligned column">
 
           {% category_list var:'category' only_open:1 domain:4 pid:cid %}
           
           <div class="nav-menu">
-
-            <ul class="navfelx" style="padding-bottom: 4px;margin-top: 100px;">
+            <div class="nav-title">
+              <h3>项目展示</h3>
+              <p>WORKS</p>
+            </div>
+            <ul class="navfelx" style="padding-bottom: 4px;">
               <li class="childcell">
               <a href="javascript:void(0);" category_id="0" class="menuicon category-btn {%if category_id==0%}active{%endif%}">
                   全部
