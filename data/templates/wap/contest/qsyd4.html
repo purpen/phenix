@@ -3752,10 +3752,17 @@
       padding-right: 15px
     }
 
-    h3 {
+    .wrap h3 {
       text-align: center;
       font-size: 18px;
       line-height: 30px;
+      margin: 0;
+    }
+    .wrap p {
+      -webkit-margin-before: 0;
+      -webkit-margin-after: 0;
+      -webkit-margin-start: 0px;
+      -webkit-margin-end: 0px;
     }
     .logo {
       position: absolute;
@@ -3778,6 +3785,9 @@
     }
     .animate-delay {
       animation-delay: 0.6s
+    }
+    .animate-delay-0-8 {
+      animation-delay: 0.8s
     }
     .animate-delay-1-0 {
       animation-delay: 1s
@@ -4139,9 +4149,9 @@
     <i class="arrow-bottom"></i>
     <div class="wrap">
       <section class="screen screen0">
-        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid01.png" class="animated fadeIn solid solid1">
-        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid02.png" class="animated fadeIn solid solid2">
-        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid03.png" class="animated fadeIn solid solid3">
+        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid01.png" class="animated zoomIn solid solid1">
+        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid02.png" class="animated zoomIn solid solid2">
+        <img src="{{ app_url_packaged }}/images/match/qsyd4/h5/solid03.png" class="animated zoomIn solid solid3">
         <img class="triangle" src="{{ app_url_packaged }}/images/match/qsyd4/h5/triangle.png">
         <img class="logo animated bounceIn" src="{{ app_url_packaged }}/images/match/qsyd4/h5/logo.png">
       </section>
@@ -4152,23 +4162,23 @@
       </section>
       <section class="tc-blue screen screen2 hide">
         <h3 class="animated rollIn">奖金回馈</h3>
-        <p class="animated rollIn margin-l-50 margin-b-50">BONUS REWARD</p>
+        <p class="animated rollIn margin-l-50 margin-b-30">BONUS REWARD</p>
         <p class="animate-delay animated animated-fast bounceIn text-center title-qing title-qing1 font-blod fz-16">创客人才组</p>
         <p class="animate-delay animated bounceIn margin-l-50 margin-b-10 fz-12 line-height-double animated-fast">MAKER TEAM</p>
-        <img class="animate-delay-1-0 animated-fast animated slideInUp fadeIn width-100 margin-b-50" src="{{ app_url_packaged }}/images/match/qsyd4/h5/awards01.png">
+        <img class="animate-delay-0-8 animated-fast animated slideInUp fadeIn width-100 margin-b-30" src="{{ app_url_packaged }}/images/match/qsyd4/h5/awards01.png">
 
-        <p class="animate-delay-1-4 animated bounceIn text-center title-qing title-qing2 font-blod fz-16 animated-fast">高层次人才组</p>
-        <p class="animate-delay-1-4 animated bounceIn margin-l-50 margin-b-10 fz-12 line-height-double  animated-fast">HIGH-LEVEL TEAM</p>
-        <img class="animate-delay-1-8 animated-fast animated slideInUp fadeIn width-100 margin-b-50" src="{{ app_url_packaged }}/images/match/qsyd4/h5/awards02.png">
+        <p class="animate-delay-1-2 animated bounceIn text-center title-qing title-qing2 font-blod fz-16 animated-fast">高层次人才组</p>
+        <p class="animate-delay-1-2 animated bounceIn margin-l-50 margin-b-10 fz-12 line-height-double  animated-fast">HIGH-LEVEL TEAM</p>
+        <img class="animate-delay-1-6 animated-fast animated slideInUp fadeIn width-100 margin-b-30" src="{{ app_url_packaged }}/images/match/qsyd4/h5/awards02.png">
       </section>
       <section class="screen screen3 hide">
         <h3 class="animated rollIn">创意星导师</h3>
         <p class="animated rollIn margin-l-50 margin-b-10">STAR MENTOR</p>
-        <img class="animate-delay animated slideInUp fadeIn animated-fast width-100 margin-b-50" src="{{ app_url_packaged }}/images/match/qsyd4/h5/mentor.png">
-        <h3 class="animated rollIn animated-fast animate-delay-1-0">创新评审团</h3>
-        <p class="animated rollIn margin-l-50 margin-b-10 animated-fast animate-delay-1-0">THE JURY</p>
-        <img class="animated-fast animate-delay-1-4 animated slideInUp fadeIn width-100" src="{{ app_url_packaged }}/images/match/qsyd4/h5/jury01.png">
-        <img class="animated-fast animate-delay-1-6 animated slideInUp fadeIn width-100" src="{{ app_url_packaged }}/images/match/qsyd4/h5/jury02.png">
+        <img class="animate-delay animated slideInUp fadeIn animated-fast width-100 margin-b-30" src="{{ app_url_packaged }}/images/match/qsyd4/h5/mentor.png">
+        <h3 class="animated rollIn animated-fast animate-delay-0-8">创新评审团</h3>
+        <p class="animated rollIn margin-l-50 margin-b-10 animated-fast animate-delay-0-8">THE JURY</p>
+        <img class="animated-fast animate-delay-1-2 animated slideInUp fadeIn width-100" src="{{ app_url_packaged }}/images/match/qsyd4/h5/jury01.png">
+        <img class="animated-fast animate-delay-1-4 animated slideInUp fadeIn width-100" src="{{ app_url_packaged }}/images/match/qsyd4/h5/jury02.png">
       </section>
       <section class="screen screen4 hide">
         <img class="animated bounceIn width-50 block margin-auto margin-b-20" src="{{ app_url_packaged }}/images/match/qsyd4/h5/logo01.png">
@@ -4177,14 +4187,14 @@
         <p class="margin-l-50 animated slideInLeft animated-fast animate-delay-1-5">REGISTER</p>
         </div>
         <div class="animated slideInUp animate-delay tc-blue bg-f text-center padding-tb-5">
-          <div class="width-50 margin-auto margin-b-30">
+          <div class="margin-b-30">
             <p class="fz-14 margin-b-10 animated slideInRight animated-fast animate-delay-1-9">选择对应人才组报名</p>
-            <p class="fz-16 margin-b-10 border-1-qing animated slideInLeft animated-fast animate-delay-2-3">创客人才组</p>
+            <p class="fz-16 width-50 margin-auto margin-b-10 border-1-qing animated slideInLeft animated-fast animate-delay-2-3">创客人才组</p>
             <p class="fz-12 animated slideInRight animated-fast animate-delay-2-7">掌握前沿技术、产品或模式的个人</p>
             <p class="fz-12 animated slideInRight animated-fast animate-delay-2-7">产品落地、变现、增值渠道</p>
           </div>
-          <div class="width-50 margin-auto margin-b-30">
-            <p class="fz-14 margin-b-10 border-1-qing animated slideInLeft animated-fast animate-delay-3-1">高层次人才组</p>
+          <div class="margin-b-30">
+            <p class="fz-14 width-50 margin-auto margin-b-10 border-1-qing animated slideInLeft animated-fast animate-delay-3-1">高层次人才组</p>
             <p class="fz-12 animated slideInRight animated-fast animate-delay-3-5">掌握前沿技术、产品或模型的</p>
             <p class="fz-12 animated slideInRight animated-fast animate-delay-3-5">高学历创业团队与企业的落地通路</p>
           </div>
