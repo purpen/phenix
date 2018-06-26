@@ -246,7 +246,7 @@ section{
 .activity{
     width: 100%;
     height: 100%;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-show.png")no-repeat;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-show.jpg")no-repeat;
     background-size: cover;
     background-position: center 0;
 }
@@ -259,7 +259,7 @@ body{
 .explain{
     width: 100%;
     height: 100%;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-explain.png") no-repeat;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-explain.jpg") no-repeat;
     background-size: cover;
     background-position: center 0;
 }
@@ -287,19 +287,19 @@ body{
 .moeny{
     width: 100%;
     height: 100%;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-moeny.png")no-repeat;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/bonus.jpg")no-repeat;
     background-size: cover;
     background-position: center 0;
 }
 .color-00{
     color: #0037BF
 }
-.moeny-list{
+/* .moeny-list{
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     padding: 0 .65em;
-}
+} */
 .width-100{
     width: 100%;
 }
@@ -324,7 +324,7 @@ body{
 /*报名类型*/
 .apply{
     width: 100%;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-apply.png")no-repeat;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-apply.jpg")no-repeat;
     background-size: cover;
     background-position: center 0;
     padding-top: 5em;
@@ -662,10 +662,10 @@ body{
 {% block content %}
   <div class="qsyd4-box">
         <!--首屏-->
-        <div class="activity back-size-position">
+        <div class="activity">
         </div>
         <!--大赛介绍-->
-        <div class="explain back-size-position" id="js">
+        <div class="explain" id="js">
             <div class="padd-t-140">
                 <div class="content-title">
                     <p class="font-20 color-f text-al padd-b-22">大赛介绍</p>
@@ -677,8 +677,8 @@ body{
             </div>
         </div>
         <!--moeny-->
-        <div class="moeny back-size-position posi-re">
-            <!--<img class="posi-ab width-100" src="./images/h-moeny.png" alt="">-->
+        <div class="moeny posi-re">
+            <!-- <img class="posi-ab width-100" src="./images/h-moeny.png" alt="">
             <div class="padd-t-140 posi-ab">
                 <div class="content-title">
                     <p class="font-20 color-00 text-al padd-b-22">奖金回馈</p>
@@ -692,11 +692,12 @@ body{
                         <img src="{{ app_url_packaged }}/images/match/qsyd4/wap/gc-money.png" alt="">
                     </div>
                 </div>
-            </div>
+            </div> -->
+
         </div>
         <!--导师-->
         <div class="mentor" id="jb">
-          <img style="width:100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/mentor.jpg" />
+          <img style="width:100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/mentor1.jpg" />
         </div>
         <!--选择报名类型-->
         <div class="apply">
@@ -813,6 +814,12 @@ body{
                 </div>
             </div>
         </div>
+        <!-- 参与单位 -->
+        <img style="width: 100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/participant.jpg">
+        <!-- 法律声明 -->
+        <img style="width: 100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/legal.jpg">
+        <!-- 意见反馈 -->
+        <img style="width: 100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/feedback.jpg">
     </div>
 
   <!-- 弹出层 -->
