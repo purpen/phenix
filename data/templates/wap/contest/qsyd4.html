@@ -324,9 +324,8 @@ body{
 /*报名类型*/
 .apply{
     width: 100%;
-    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-apply.jpg")no-repeat;
-    background-size: cover;
-    background-position: center 0;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/wap/h-apply.png") no-repeat #eaeaea
+    top / cover;
     padding-top: 5em;
     padding-bottom: 1em;
     box-sizing: border-box;
@@ -484,11 +483,6 @@ body{
     font-size: 14px;
     font-family:SourceHanSansCN-Bold;
 }
-.maker-content{
-    position: absolute;
-    width:100%;
-    top: 0;
-}
 /*高层次*/
 .higi-content{
     background: #fff;
@@ -548,26 +542,28 @@ body{
   -webkit-tap-highlight-color: transparent;
 }
 
-  .ui.page.dimmer .drawmes.modal{
-      width: 256px !important;
-      position: absolute;
-      background: #000;
-      top: 32%;
-      margin-top: -10% !important;
-      left: 50%;
-      margin-left: -128px !important;
-      box-shadow: none;
-      border-radius: 8px;
-  }
-  .drawmes .header{
-      padding: 20px 10px 20px !important;
-      font-size: 16px !important;
-      font-weight: 400 !important;
-  }
-  .drawmes .header .content p{
-      margin:0;
-  }
-
+.ui.page.dimmer .drawmes.modal{
+    width: 256px !important;
+    position: absolute;
+    background: #000;
+    top: 32%;
+    margin-top: -10% !important;
+    left: 50%;
+    margin-left: -128px !important;
+    box-shadow: none;
+    border-radius: 8px;
+}
+.drawmes .header{
+    padding: 20px 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+}
+.drawmes .header .content p{
+    margin:0;
+}
+.ck {
+    background: url({{ app_url_packaged }}/images/match/qsyd4/wap/apply2.jpg) no-repeat center / cover #0037BF;
+}
 
  </style>
 {% endblock %}
@@ -677,7 +673,7 @@ body{
             </div> -->
         </div>
         <!--moeny-->
-        <div class="moeny posi-re">
+        <div class="moeny">
             <!-- <img class="posi-ab width-100" src="./images/h-moeny.png" alt="">
             <div class="padd-t-140 posi-ab">
                 <div class="content-title">
@@ -693,12 +689,15 @@ body{
                     </div>
                 </div>
             </div> -->
-
         </div>
+        <!-- 日程 -->
+        <img style="width: 100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/schedule.jpg"> 
         <!--导师-->
         <div class="mentor" id="jb">
           <img style="width:100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/mentor1.jpg" />
         </div>
+        <!-- 政策 -->
+        <img style="width: 100%;" src="{{ app_url_packaged }}/images/match/qsyd4/wap/policy.jpg">
         <!--选择报名类型-->
         <div class="apply">
 
@@ -738,77 +737,67 @@ body{
             </div>
         </div>
         <!--创客-->
-        <div class="maker posi-re" id="ck">
-            <div class="maker-img">
-                <img class="maker-img-bg" src="{{ app_url_packaged }}/images/match/qsyd4/wap/gcc.jpg" alt="">
+        <div class="maker posi-re ck" id="ck">
+            <div class="padd-65">
+                <p class="font-12 lin-hei-32 padd-b-65">本次参赛创客征集主要面向智能硬件创客、工业设计师、在校大学生、社会公众；希望您有前沿创新的技术、产品或模式；原则上要求项目带头人有本科及以上学历。项目征集领域包括但不限于工业设计、文化体育、时尚创意、电子商务、智能硬件、生活美学等。参赛项目可以以个体或团体名义报名，团队参赛人数不超过5人。参赛项目通过网络平台递交，要求提供项目和团队简介、产品效果图、参赛人员等信息，截止时间7月31日。</p>
+                <p class="mar-t-22 font-20 color-f7">报名通道</p>
+                <div class="padd-l-62">
+                    <p class="font-12 color-f8 padd-b-33">REGISTER</p>
+                    <p class="font-14 pc-d">浏览详情请移步PC端</p>
+                    <p class="font-12 color-ea padd-b-80">https://www.taihuoniao.com/contest/submit4</p>
+                </div>
             </div>
-            <div class="maker-content">
-                <div class="padd-65">
-                    <p class="font-12 lin-hei-32 padd-b-65">本次参赛创客征集主要面向智能硬件创客、工业设计师、在校大学生、社会公众；希望您有前沿创新的技术、产品或模式；原则上要求项目带头人有本科及以上学历。项目征集领域包括但不限于工业设计、文化体育、时尚创意、电子商务、智能硬件、生活美学等。参赛项目可以以个体或团体名义报名，团队参赛人数不超过5人。参赛项目通过网络平台递交，要求提供项目和团队简介、产品效果图、参赛人员等信息，截止时间7月31日。</p>
-                    <p class="mar-t-22 font-20 color-f7">报名通道</p>
-                    <div class="padd-l-62">
-                        <p class="font-12 color-f8 padd-b-33">REGISTER</p>
-                        <p class="font-14 pc-d">浏览详情请移步PC端</p>
-                        <p class="font-12 color-ea padd-b-80">https://www.taihuoniao.com/contest/submit4</p>
-                    </div>
-                </div>
-                <div class="wid-258 mar-l-65">
-                    <p class="color-f font-16">创客人才组</p>
-                </div>
+            <div class="wid-258 mar-l-65">
+                <p class="color-f font-16">创客人才组</p>
+            </div>
 
-                <!--表单-->
-                <!--
-                <div class="min-hei-500">
-                    <div class="back-f"></div>
-                </div>
-                -->
-                <!--按钮-->
-                <div class="maker-button apply1">
-                    <p>立即提交</p>
-                </div>
+            <!--表单-->
+            <!--
+            <div class="min-hei-500">
+                <div class="back-f"></div>
+            </div>
+            -->
+            <!--按钮-->
+            <div class="maker-button apply1">
+                <p>立即提交</p>
             </div>
         </div>
 
         <!--高层次-->
-        <div class="maker posi-re" id="gcc">
-            <div class="maker-img">
-                <img class="maker-img-bg" src="{{ app_url_packaged }}/images/match/qsyd4/wap/gcc.jpg" alt="">
+        <div class="maker posi-re ck" id="gcc">
+            <div class="padd-65">
+                <p class="font-12 lin-hei-32 padd-b-65">主要面向创业项目团队或已经注册的企业；原则上要求项目带头人有海外硕士或者国内博士以上学位，有海外工作经历或者多次创业者优先考虑；有前沿创新的技术、产品或模式，有成熟团队或者已在实际运营产品；项目征集领域：新材料、智能装备、信息技术、人工智能、集成电路等。</p>
+                <p class="mar-t-22 font-20 color-f7">报名通道</p>
+                <div class="padd-l-62">
+                    <p class="font-12 color-f8 padd-b-33">REGISTER</p>
+                    <p class="font-14 pc-d">浏览详情请移步PC端</p>
+                    <p class="font-12 color-ea padd-b-80">https://www.taihuoniao.com/contest/submit4</p>
+                </div>
             </div>
-            <div class="maker-content">
-                <div class="padd-65">
-                    <p class="font-12 lin-hei-32 padd-b-65">主要面向创业项目团队或已经注册的企业；原则上要求项目带头人有海外硕士或者国内博士以上学位，有海外工作经历或者多次创业者优先考虑；有前沿创新的技术、产品或模式，有成熟团队或者已在实际运营产品；项目征集领域：新材料、智能装备、信息技术、人工智能、集成电路等。</p>
-                    <p class="mar-t-22 font-20 color-f7">报名通道</p>
-                    <div class="padd-l-62">
-                        <p class="font-12 color-f8 padd-b-33">REGISTER</p>
-                        <p class="font-14 pc-d">浏览详情请移步PC端</p>
-                        <p class="font-12 color-ea padd-b-80">https://www.taihuoniao.com/contest/submit4</p>
-                    </div>
-                </div>
-                <div class="wid-258 mar-l-65 mar-b-10">
-                    <p class="color-f font-16">高层次人才组</p>
-                </div>
+            <div class="wid-258 mar-l-65 mar-b-10">
+                <p class="color-f font-16">高层次人才组</p>
+            </div>
 
-                <!--表单-->
-                <div class="min-hei-500" style="margin-bottom: 0;margin-top: 0">
-                    <div class="higi-content">
-                        <p class="higi-submit">报名需提交：<br>
-                            参赛项目可以以个体或团体名义报名，<br>
-                            团队参赛人数不超过5人。<br>
-                            在网络平台下载申报书，<br>
-                            把申报书和佐证材料发到以下邮箱：</p>
-                        <p class="higi-email">256345795@qq.com</p>
-                        <p class="higi-stop">截止时间7月31日。</p>
-                        <div class="dis-flex-column padd-b-67">
-                            <div class="dis-flex-start">
-                              <p class="download-content"><a href="https://s3.taihuoniao.com/images/match/qsyd4/%E9%99%84%E4%BB%B6%EF%BC%9A%E9%AB%98%E5%B1%82%E6%AC%A1%E4%BA%BA%E6%89%8D%E7%BB%84%E9%A1%B9%E7%9B%AE%E7%94%B3%E6%8A%A5%E4%B9%A6.docx" target="_blank">下载申报书</a></p>
-                                <img class="mar-l-7" src="{{ app_url_packaged }}/images/match/qsyd4/wap/h-download.png" alt="">
-                            </div>
+            <!--表单-->
+            <div class="min-hei-500" style="margin-bottom: 0;margin-top: 0">
+                <div class="higi-content">
+                    <p class="higi-submit">报名需提交：<br>
+                        参赛项目可以以个体或团体名义报名，<br>
+                        团队参赛人数不超过5人。<br>
+                        在网络平台下载申报书，<br>
+                        把申报书和佐证材料发到以下邮箱：</p>
+                    <p class="higi-email">256345795@qq.com</p>
+                    <p class="higi-stop">截止时间7月31日。</p>
+                    <div class="dis-flex-column padd-b-67">
+                        <div class="dis-flex-start">
+                            <p class="download-content"><a href="https://s3.taihuoniao.com/images/match/qsyd4/%E9%99%84%E4%BB%B6%EF%BC%9A%E9%AB%98%E5%B1%82%E6%AC%A1%E4%BA%BA%E6%89%8D%E7%BB%84%E9%A1%B9%E7%9B%AE%E7%94%B3%E6%8A%A5%E4%B9%A6.docx" target="_blank">下载申报书</a></p>
+                            <img class="mar-l-7" src="{{ app_url_packaged }}/images/match/qsyd4/wap/h-download.png" alt="">
+                        </div>
 
-                            <div class="dis-flex-start">
-                                <p class="download-book">高层次人才组项目申报书</p>
-                                <img class="mar-l-7" src="{{ app_url_packaged }}/images/match/qsyd4/wap/h-book.png" alt="">
+                        <div class="dis-flex-start">
+                            <p class="download-book">高层次人才组项目申报书</p>
+                            <img class="mar-l-7" src="{{ app_url_packaged }}/images/match/qsyd4/wap/h-book.png" alt="">
 
-                            </div>
                         </div>
                     </div>
                 </div>
