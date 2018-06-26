@@ -487,6 +487,7 @@ body{
 .higi-content{
     background: #fff;
     padding: .22em .32em 0 .32em;
+    margin-bottom: 20px;
 }
 .higi-submit{
     color:rgba(0,108,208,.8);
@@ -564,7 +565,9 @@ body{
 .ck {
     background: url({{ app_url_packaged }}/images/match/qsyd4/wap/apply2.jpg) no-repeat center / cover #0037BF;
 }
-
+.over-hide {
+    overflow: hidden;
+}
  </style>
 {% endblock %}
 {% block layout_js %}
@@ -737,7 +740,7 @@ body{
             </div>
         </div>
         <!--创客-->
-        <div class="maker posi-re ck" id="ck">
+        <div class="maker posi-re ck over-hide" id="ck">
             <div class="padd-65">
                 <p class="font-12 lin-hei-32 padd-b-65">本次参赛创客征集主要面向智能硬件创客、工业设计师、在校大学生、社会公众；希望您有前沿创新的技术、产品或模式；原则上要求项目带头人有本科及以上学历。项目征集领域包括但不限于工业设计、文化体育、时尚创意、电子商务、智能硬件、生活美学等。参赛项目可以以个体或团体名义报名，团队参赛人数不超过5人。参赛项目通过网络平台递交，要求提供项目和团队简介、产品效果图、参赛人员等信息，截止时间7月31日。</p>
                 <p class="mar-t-22 font-20 color-f7">报名通道</p>
@@ -779,7 +782,7 @@ body{
             </div>
 
             <!--表单-->
-            <div class="min-hei-500" style="margin-bottom: 0;margin-top: 0">
+            <div class="min-hei-500 over-hide" style="margin-bottom: 0;margin-top: 0">
                 <div class="higi-content">
                     <p class="higi-submit">报名需提交：<br>
                         参赛项目可以以个体或团体名义报名，<br>
