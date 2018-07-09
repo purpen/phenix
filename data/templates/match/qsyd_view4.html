@@ -2,38 +2,41 @@
 {% block title %}{{ stuff.title }}-{% endblock %}
 {% block page_css %}
 <style type="text/css">
+body {
+    background: #0d0190
+}
 .clearfix:after {
   content: '';
   display: block;
   clear: both;
 }
 @media only screen and (min-width: 1500px){
-	.ui.responsive.grid{
-		width: 1200px;
-	}
+    .ui.responsive.grid{
+        width: 1200px;
+    }
 }
 .iosewm{
-	display: none;
+    display: none;
 }
 .qsyd4 {
-	background: url("{{ app_url_packaged }}/images/match/qsyd4/BG.jpg") no-repeat center top;
+    background: url("{{ app_url_packaged }}/images/match/qsyd4/BG.jpg") no-repeat center top;
 }
 .bg-banner{
-	width: 100%;
-	height: 800px;
+    width: 100%;
+    height: 800px;
   padding-top: 716px;
   text-align: center;
 }
 .regs{
-	/* background: url({{ app_url_packaged }}/images/match/qsyd4/BG.jpg) no-repeat bottom / cover; */
-	/* background-color: #0038be; */
-	width: 100%;
-	height: auto;
+    /* background: url({{ app_url_packaged }}/images/match/qsyd4/BG.jpg) no-repeat bottom / cover; */
+    /* background-color: #0038be; */
+    width: 100%;
+    height: auto;
   text-align: center;
 }
 /*
 .nav{
-	background-color: #fff;
+    background-color: #fff;
   width: 1180px;
   height: 70px;
   margin: 0 auto;
@@ -63,10 +66,10 @@
 }
 
 .nav.light.fixed{
-	position: fixed;
-	width: 100%;
-	top: 0;
-	left: 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
   z-index: 9999;
 }
 .nav.light.fixed ul{
@@ -254,17 +257,17 @@
 }
 
 .bg-footer{
-	background: url({{ app_url_packaged }}/images/match/qsyd3/bj9_1.jpg) no-repeat center top;
-	background-color: #000;
-	width: 100%;
-	height: 500px;
+    background: url({{ app_url_packaged }}/images/match/qsyd3/bj9_1.jpg) no-repeat center top;
+    background-color: #000;
+    width: 100%;
+    height: 500px;
   text-align: center;
 }
 
 .love-box {
   width: 117px;
   height: 76px;
-	background: url({{ app_url_packaged }}/images/match/qsyd3/dz1.jpg) no-repeat center;
+    background: url({{ app_url_packaged }}/images/match/qsyd3/dz1.jpg) no-repeat center;
   text-align: center;
   margin: 100px auto;
   cursor: pointer;
@@ -272,7 +275,7 @@
   color: #000;
 }
 .love-box.active {
-	background: url({{ app_url_packaged }}/images/match/qsyd3/dz2.jpg) no-repeat center;
+    background: url({{ app_url_packaged }}/images/match/qsyd3/dz2.jpg) no-repeat center;
   color: #666;
 }
   /*11*/
@@ -369,8 +372,8 @@ $('body').visibility({
     },
     onTopPassedReverse: function() {
         requestAnimationFrame(function() {
-        	$('.nav').removeClass('light fixed');
-      	});
+            $('.nav').removeClass('light fixed');
+          });
     }
   });
 
@@ -381,65 +384,65 @@ $('body').visibility({
   });
 
 
-	/* 登录用户行为 */
-	{% if visitor.is_login %}
-		// 初始化互动，是否收藏、点赞
-		
-		// 验证点赞
-		$.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
-			if (result.success) {
-				if (result.data.loved) {
-					$('.love-button')
-						.data('mark', 'y')
-						.addClass('active');
-				}
-			}
-		}, 'json');
-		
-		/* 登录用户行为 */
-	{% endif %}
-	
-	// 喜欢
-	$('.love-button').bind('click', function(){
-		var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
-		// 所有ajax请求，验证是否登录
-		if (!phenix.visitor.is_login){
-			phenix.show_login_box();
-			return false;
-		}
-		if (mark == 'n') {
-			$.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
-				if (result.success) {
-					$btn
-						.data('mark', 'y')
-						.addClass('active');
+    /* 登录用户行为 */
+    {% if visitor.is_login %}
+        // 初始化互动，是否收藏、点赞
+        
+        // 验证点赞
+        $.get('{{ app_url_favorite }}/ajax_done', {id: {{stuff._id}},type:4,event:2}, function(result){
+            if (result.success) {
+                if (result.data.loved) {
+                    $('.love-button')
+                        .data('mark', 'y')
+                        .addClass('active');
+                }
+            }
+        }, 'json');
+        
+        /* 登录用户行为 */
+    {% endif %}
+    
+    // 喜欢
+    $('.love-button').bind('click', function(){
+        var id = $(this).data('id'),mark = $(this).data('mark'),$btn = $(this);
+        // 所有ajax请求，验证是否登录
+        if (!phenix.visitor.is_login){
+            phenix.show_login_box();
+            return false;
+        }
+        if (mark == 'n') {
+            $.post('{{ app_url_favorite }}/ajax_laud', {id: id, type:4}, function(result){
+                if (result.success) {
+                    $btn
+                        .data('mark', 'y')
+                        .addClass('active');
                     
-					$('.love-button').text(result.data.love_count);
+                    $('.love-button').text(result.data.love_count);
                     
                     if(result.data.newadd){
                     }
                     
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		} else {
+                } else {
+                    phenix.show_error_note(result.message);
+                }
+            }, 'json');
+        } else {
       phenix.show_error_note('您已经点过了~');
       return false;
-			$.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
-				if (result.success) {
-					$btn
-						.data('mark', 'n')
-						.removeClass('active');
+            $.post('{{ app_url_favorite }}/ajax_cancel_laud', {id: id, type:4}, function(result){
+                if (result.success) {
+                    $btn
+                        .data('mark', 'n')
+                        .removeClass('active');
                     
-					$('.love-button').text(result.data.love_count);
+                    $('.love-button').text(result.data.love_count);
                     
-				} else {
-					phenix.show_error_note(result.message);
-				}
-			}, 'json');
-		}
-	});
+                } else {
+                    phenix.show_error_note(result.message);
+                }
+            }, 'json');
+        }
+    });
 
 
 
@@ -447,7 +450,7 @@ $('body').visibility({
 
 {% block content %}
 <div class="qsyd4">
-	<section class="section bg-banner home">
+    <section class="section bg-banner home">
 <!--   <div class="nav">
       <div class="upload-art-btn">
         <p>参赛报名</p>
@@ -573,7 +576,7 @@ $('body').visibility({
     </div>
   </div>
   </section>
-	<section class="regs">
+    <section class="regs">
 
     <div class="attr">
       <div class="q-title">
@@ -584,10 +587,10 @@ $('body').visibility({
     
     </div>
 
-		<div class="ui responsive grid">
+        <div class="ui responsive grid">
 
-			<div class="row regsbg">
-				<div class="column content-box">
+            <div class="row regsbg">
+                <div class="column content-box">
 
           <div class="q-header">
             <div class="q-user">
@@ -614,22 +617,22 @@ $('body').visibility({
           </div>
           <div class="q-content">
 
-						{% if stuff.cover %}
-						<p>
-							<img src="{{ stuff.cover.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
-						</p>
-						{% endif %}
-						<!--附件列表-->
-						{% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
-						{% if assets.total_rows %}
-							{% for asset in assets.rows %}
-								{% if asset._id != stuff.cover_id %}
-									<p>
-										<img width="" src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
-									</p>
-								{% endif %}
-							{% endfor %}
-						{% endif %}
+                        {% if stuff.cover %}
+                        <p>
+                            <img src="{{ stuff.cover.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+                        </p>
+                        {% endif %}
+                        <!--附件列表-->
+                        {% asset_list var:'assets' parent_id:stuff._id sort:'positive' asset_type:70 %}
+                        {% if assets.total_rows %}
+                            {% for asset in assets.rows %}
+                                {% if asset._id != stuff.cover_id %}
+                                    <p>
+                                        <img width="" src="{{ asset.thumbnails.huge.view_url }}" alt="{{ stuff.title }}" />
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
 
             <p class="desc">{{ stuff.description }}</p>
 
@@ -639,14 +642,14 @@ $('body').visibility({
           
           </div>
 
-				</div>
-			</div>
+                </div>
+            </div>
 
-		</div>
+        </div>
 
-	</section>
+    </section>
 
-	<!-- <section class="bg-footer"></section> -->
+    <!-- <section class="bg-footer"></section> -->
     <!--11意见反馈-->
   <div class="idea" id="twelve">
       <div class="present-title">
