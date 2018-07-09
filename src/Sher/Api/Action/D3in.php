@@ -48,7 +48,10 @@ class Sher_Api_Action_D3in extends Sher_Api_Action_Base {
             case 2: // 田帅
               $user_id = 20448;
               break;
-            default: // 马哲
+            case 378: // 成美
+              $user_id = 11731;
+              break;
+            default: // 成美
               $user_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['user_id'];
         }
         $category_id = Doggy_Config::$vars['app.d3ingo_article_synchro']['category_id'];
