@@ -259,9 +259,9 @@
 
 <div id="homepage">
 	<div id="fixedslide" class="frame">
-        {% cache cache_key:'web_index_slide' ttl:600 disable_cache:app_disable_cached %}
+        {% cache cache_key:'pay_web_index_slide' ttl:600 disable_cache:app_disable_cached %}
         
-		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
+		{% ad_list var:'adslide' page:1 size:6 state:2 name:'pay_web_index_slide' %}
 		<div class="ui slide">
 			{% for ad in adslide.rows %}
 			<div class="item">
@@ -306,8 +306,8 @@
             </div>
             <div class="row">
                 <div class="column">
-                    {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
-                    {% ad_list var:'adslide2' page:1 size:8 state:2 name:'web_index_product_stick_slide' %}
+                    {% cache cache_key:'pay_web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+                    {% ad_list var:'adslide2' page:1 size:8 state:2 name:'pay_web_index_product_stick_slide' %}
                     {% if adslide2.rows %}
                     <div class="ui four hotchild cards">
                         {% for ad in adslide2.rows %}

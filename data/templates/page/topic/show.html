@@ -560,7 +560,7 @@
 			            	{% endif %}
 				
 							<div class="post froala-view froala-element clearfix">
-								{{ topic.description }}
+								{{ topic.strip_description|truncate, 500, '' }}
 			                    
 			                    {% if topic.file_asset %}
 			                        <hr style="width:100%;" />
