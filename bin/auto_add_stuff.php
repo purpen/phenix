@@ -33,7 +33,7 @@ $user_count = count($user_arr);
 
 
 while(!$is_end){
-	$query = array('from_to'=>5, 'published'=>1, 'deleted'=>0);
+	$query = array('fid'=>38, 'published'=>1, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
@@ -46,19 +46,20 @@ while(!$is_end){
         $item = $list[$i];
         $category_id = $item['category_id'];
         $new_category_id = 249;
-        if ($category_id == 128 || $category_id == 129) {
+        if ($category_id == 39 || $category_id == 46) {
             $new_category_id = 250;
-        } elseif ($category_id == 127 || $category_id == 132) {
+        } elseif ($category_id == 47 || $category_id == 48) {
             $new_category_id = 246;
-        } elseif ($category_id == 131 || $category_id == 126 || $category_id == 124) {
+        } elseif ($category_id == 45 || $category_id == 43 || $category_id == 41) {
             $new_category_id = 247;
         }
         $row = array(
             'title' => $item['title'],
             'short_title' => $item['short_title'],
             'description' => $item['description'],
+            'cover_id' => $item['cover_id'],
             'published' => 1,
-            'from_to' => 7,
+            'from_to' => 8,
             'attr'=> 1,
             'fid' => 244,
             'category_id' => $new_category_id,
@@ -66,6 +67,12 @@ while(!$is_end){
             'company' => '设计团队',
             'user_id' => $user_arr[rand(0, $user_count)],
         );
+
+        $has_one = $stuff_model->first(array('title'=>$row['title'], 'from_to'=>8));
+        if ($has_one) {
+            echo "重复:$row[title].\n";
+            continue;
+        }
         $ok = $stuff_model->create($row);
         if ($ok) {
           echo "创建成功！$row[title].\n";
