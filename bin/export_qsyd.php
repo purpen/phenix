@@ -34,21 +34,21 @@ $fp = fopen('/home/tianxiaoyi/qsyd2_match.csv', 'a');
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '原图链接', '姓名', '电话', '职业');
+$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '原图链接', '姓名', '电话', '职业', '发布时间');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
 while(!$is_end){
-	$query = array('from_to'=>6, 'deleted'=>0);
+	$query = array('from_to'=>8, 'deleted'=>0);
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
-		echo "get qsyd2 match list is null,exit......\n";
+		echo "get qsyd4 match list is null,exit......\n";
 		break;
 	}
 	$max = count($list);
   for ($i=0; $i < $max; $i++) {
     $stuff = $list[$i];
-    $view_url = sprintf("%s/qsyd_view2?id=%d", Doggy_Config::$vars['app.url.contest'], $stuff['_id']);
+    $view_url = sprintf("%s/qsyd_view4?id=%d", Doggy_Config::$vars['app.url.contest'], $stuff['_id']);
     $category = $category_model->load($stuff['category_id']);
     $cate_name = isset($category['title'])?$category['title']:'--';
       $assets = $asset_model->find(array('asset_type'=>70, 'parent_id'=>$stuff['_id']));
@@ -60,15 +60,16 @@ while(!$is_end){
       $img_urls = implode('@@', $img_url);
 
       $attr_label = $stuff['attr']==1 ? '个人' : '团队'; 
+      $created_at = date('y-m-d', $stuff['created_on']);
 
-      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $img_urls, $stuff['name'], $stuff['tel'], $stuff['position']);
+      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $img_urls, $stuff['name'], $stuff['tel'], $stuff['position'], $created_at);
       fputcsv($fp, $row);
 
 		  $total++;
 
 	}
 	if($max < $size){
-		echo "qsyd2 match list is end!!!!!!!!!,exit.\n";
+		echo "qsyd4 match list is end!!!!!!!!!,exit.\n";
 		break;
 	}
 	$page++;
