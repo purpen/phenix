@@ -1590,4 +1590,22 @@ class Sher_Core_Helper_Util {
     }
 
 
+    /**
+    * 验证手机号是否正确
+    * @author Tian
+    * @param INT $mobile
+    */
+    public static function isMobile($mobile) {
+
+        if (!is_numeric($mobile)) {
+            return false;
+        }
+
+        if (preg_match("/^1[3456789]{1}\d{9}$/", $mobile)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
