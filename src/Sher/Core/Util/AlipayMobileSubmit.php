@@ -13,7 +13,7 @@ class Sher_Core_Util_AlipayMobileSubmit extends Doggy_Object {
 	 *支付宝网关地址
 	 */
 	//var $alipay_gateway_new = 'https://mapi.alipay.com/gateway.do?';
-	public $alipay_gateway_new = 'http://wappaygw.alipay.com/service/rest.htm?';
+	public $alipay_gateway_new = 'https://wappaygw.alipay.com/service/rest.htm?';
 	
 	public function __construct($alipay_config){
 		$this->alipay_config = $alipay_config;

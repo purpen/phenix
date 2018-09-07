@@ -161,6 +161,37 @@ class Sher_Admin_Action_Topic extends Sher_Admin_Action_Base implements DoggyX_A
 	}
 
 	/**
+	 * 恢复
+	 */
+	public function recover(){
+		$id = isset($this->stash['id'])?$this->stash['id']:0;
+		if(empty($id)){
+			return $this->ajax_notification('话题不存在！', true);
+		}
+		
+		$ids = array_values(array_unique(preg_split('/[,，\s]+/u', $id)));
+		
+		try{
+			$model = new Sher_Core_Model_Topic();
+			
+			foreach($ids as $id){
+				$topic = $model->load((int)$id);
+				
+        if (!empty($topic)){
+		      $model->mark_recover((int)$id);
+				}
+			}
+			
+			$this->stash['ids'] = $ids;
+			
+		}catch(Sher_Core_Model_Exception $e){
+			return $this->ajax_notification('操作失败,请重新再试', true);
+		}
+		
+		return $this->to_taconite_page('ajax/delete.html');
+	}
+
+	/**
 	 * 禁用清空用户数据
 	 */
 	public function clean_user(){

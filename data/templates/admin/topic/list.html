@@ -26,6 +26,28 @@
 		return false;
 	});
 
+	// 恢复
+	$('.item.ajax-recover').bind('click', function(){
+		var selected_ids = [];
+    if(!window.confirm('你确定要执行批量删除操作？')){
+      return false;
+    }
+		
+		$('input.checkbox:checked').each(function(){
+			var v = $(this).val();
+			selected_ids.push(v);
+		});
+		
+		if (!selected_ids.length){
+			alert('请选择想删除的灵感');
+		}
+		
+		var url = $(this).attr('href');
+		$.get(url, {id: selected_ids.join(',')});
+		
+		return false;
+	});
+
 	$('.datepicker').pickadate();
 
 	$('.ui.submit.button.search').click(function(){
@@ -57,9 +79,16 @@
 			<a href="{{ app_url_admin }}/topic/clean_user" class="item ajax-delete">
 				批量禁用户并清空数据
 			</a>
-			<a href="{{ app_url_admin }}/topic/deleted" class="item ajax-delete">
-				批量删除
-			</a>
+
+      {% if deleted == 1 %}
+        <a href="{{ app_url_admin }}/topic/recover" class="item ajax-recover">
+          批量恢复
+        </a>
+        {% else %}
+        <a href="{{ app_url_admin }}/topic/deleted" class="item ajax-delete">
+          批量删除
+        </a>
+      {%endif%}
 	    </div>
 	</div>
 
