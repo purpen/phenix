@@ -31,6 +31,7 @@ app.url.packaged: '{$app.url.qiniu.frstatic}'
 app.url.d3ingo_api: 'http://sa.taihuoniao.com'
 app.url.d3ingo: 'http://d3ingo.taihuoniao.com'
 app.url.fiu: 'http://fiu.taihuoniao.com'
+app.url.sso: 'http://sso-dev.taihuoniao.com'
 
 app.ios_version: '1.9.1'
 app.android_version: '1.9.1'

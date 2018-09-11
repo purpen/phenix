@@ -25,16 +25,16 @@ $stuff_model = new Sher_Core_Model_Stuff();
 $asset_model = new Sher_Core_Model_Asset();
 $page = 1;
 $size = 500;
-$fid = Doggy_Config::$vars['app.contest.qsyd2_category_id'];
-$from_to = 7;
+$fid = Doggy_Config::$vars['app.contest.qsyd4_category_id'];
+$from_to = 8;
 $is_end = false;
 $total = 0;
-//$fpath = '/home/tianxiaoyi/qsyd3_data';
-$fpath = '/Users/tian/qsyd3_data';
+//$fpath = '/home/tianxiaoyi/qsyd4_data';
+$fpath = '/Users/tian/qsyd4_data';
 
 while(!$is_end){
 
-	$query = array('fid'=>$fid, 'from_to'=>$from_to, 'deleted'=>0);
+	$query = array('fid'=>$fid, 'from_to'=>$from_to, 'deleted'=>0, 'is_robot_no'=>array('$ne'=>1));
 	$options = array('page'=>$page,'size'=>$size);
 	$list = $stuff_model->find($query, $options);
 	if(empty($list)){
