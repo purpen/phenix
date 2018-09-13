@@ -82,7 +82,7 @@ while(!$is_end){
         'kind' => $user['kind'],
     );
     $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
-    $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/signin';
+    $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/sync';
 
     $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
     $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
