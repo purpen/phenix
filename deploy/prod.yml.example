@@ -31,7 +31,6 @@ app.url.packaged: '{$app.url.qiniu.frstatic}'
 app.url.d3ingo_api: 'http://sa.taihuoniao.com'
 app.url.d3ingo: 'http://d3ingo.taihuoniao.com'
 app.url.fiu: 'http://fiu.taihuoniao.com'
-app.url.sso: 'http://sso-dev.taihuoniao.com'
 
 app.ios_version: '1.9.1'
 app.android_version: '1.9.1'
@@ -65,6 +64,13 @@ app.cache.memcached.default:
       host: '10.10.134.62'
       port: 11211
       weight: 1
+
+# sso 单点登录
+app.sso:
+  url: 'http://sso-dev.taihuoniao.com'
+  validated: 1
+  app_id: '100002'
+  secret_key: 'igh9834ojdfgj020diwerwer'
 
 #xun_search db name
 app.xun_search_db: 'phenix'

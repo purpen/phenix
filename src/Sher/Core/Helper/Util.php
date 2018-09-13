@@ -1399,6 +1399,32 @@ class Sher_Core_Helper_Util {
   }
 
     /**
+     * 请求sso 系统加密接口
+     * @param array 应用参数
+     */
+    public static function api_param_encrypt($app_param) {
+        $sys_param = array(
+            'app_id' => Doggy_Config::$vars['app.sso']['app_id'],
+            'from_to' => 1,
+            'timestamp' => time(),       
+        );
+        $params = array_merge($sys_param, $app_param);
+		    ksort($params);
+        $paramstring = '';
+        foreach($params as $key => $value){
+            if(strlen($paramstring) == 0){
+                $paramstring .= $key . "=" . $value;
+            }else{
+                $paramstring .= "&" . $key . "=" . $value;
+            }
+        }
+        $secret_key = Doggy_Config::$vars['app.sso']['secret_key'];
+        $sign = md5($paramstring. ':'. $secret_key);
+        $params['sign'] = $sign;
+        return $params;
+    }
+
+    /**
      * 模拟post/get进行url请求
      * @param string $url
      * @param array $post_data
@@ -1425,6 +1451,7 @@ class Sher_Core_Helper_Util {
         curl_setopt($ch, CURLOPT_URL, $url);//抓取指定网页
         curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        // curl_setopt($ch, CURLOPT_PORT, 8003); // 端口号
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -1607,5 +1634,17 @@ class Sher_Core_Helper_Util {
             return false;
         }
     }
+
+
+  	//判断是否是正确的邮箱格式
+  	public static function isEmail($email){
+   		  $mode = '/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/';
+   		  if(preg_match($mode, $email)){
+  			    return true;
+ 		    }
+  		  else{
+ 			      return false;
+		    }
+ 	  }
 
 }

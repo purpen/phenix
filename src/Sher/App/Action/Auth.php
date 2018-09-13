@@ -273,17 +273,68 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         if (empty($this->stash['account']) || empty($this->stash['password']) ||empty($this->stash['t'])) {
             return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
         }
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'account' => $this->stash['account'],
+              'password' => $this->stash['password'],
+              'device_to' => 1,
+          );
+          $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
+          $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/signin';
+
+          $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
+          $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
+
+          if (!isset($sso_result['code'])) {
+			        return $this->ajax_json('请求用户系统登录失败!', true);
+          }
+
+          if ($sso_result['code'] != 200) {
+			        return $this->ajax_json($sso_result['message'], true);
+          }
+		      Doggy_Log_Helper::warn('Register request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Register request not pass sso');     
+      }
         
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
+    // 是否请求sso验证
+    if ($sso_validated) {
+        if (empty($result)) {
+            $user_info = array(
+                'account' => $this->stash['account'],
+                'nickname' => $this->stash['account'],
+                'password' => sha1($this->stash['password']),
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+            
+            $profile = $user->get_profile();
+            $profile['phone'] = $this->stash['account'];
+            $user_info['profile'] = $profile;
+
+            $ok = $user->create($user_info);
+            if (!$ok) {
+                return $this->ajax_json('本地创建用户失败!', true);           
+            }
+		        $result = $user->first(array('account'=>$this->stash['account']));
+        }
+    
+    } else {
         if (empty($result)) {
             return $this->ajax_json('帐号不存在!', true);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
             return $this->ajax_json('登录账号和密码不匹配', true);
         }
+    }
+
         $user_id = (int) $result['_id'];
-		$nickname = $result['nickname'];
+		    $nickname = $result['nickname'];
         $user_state = $result['state'];
         
         if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
@@ -297,15 +348,42 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
             return $this->ajax_json('绑定信息有误,请重试!', true);
           }
 
+          $sso_params = array(
+              'name' => $this->stash['account'],
+              'evt' => 1,
+          );
           if($this->stash['third_source']=='weibo'){
-            $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+              $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+              $sso_params['wb_uid'] = $this->stash['uid'];
           }elseif($this->stash['third_source']=='qq'){
-            $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+              $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+              $sso_params['qq_uid'] = $this->stash['uid'];
           }elseif($this->stash['third_source']=='weixin'){
-            $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
+              $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
+              $sso_params['wx_uid'] = $this->stash['uid'];
+              $sso_params['wx_union_id'] = $this->stash['union_id'];
           }else{
-            $third_info = array();
+              $third_info = array();
           }
+
+          // 是否请求sso验证
+          if ($sso_validated) {
+              $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
+              $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/update';
+
+              $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
+              $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
+
+              if (!isset($sso_result['code'])) {
+                  return $this->ajax_json('请求用户系统更新失败!', true);
+              }
+
+              if ($sso_result['code'] != 200) {
+                  return $this->ajax_json($sso_result['message'], true);
+              }
+              Doggy_Log_Helper::warn('Update request sso: success!');
+          }
+
           $third_result = $user->update_set($user_id, $third_info);
           if($third_result){
             $third_info = '绑定成功! ';
@@ -492,6 +570,15 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
 
+      // sso系统参数
+      $sso_params = array(
+        'account' => $this->stash['account'],
+        'phone' => $this->stash['account'],
+        'password' => $this->stash['password'],
+        'status' => 1,
+        'device_to' => 1,
+      );
+
 		//第三方绑定
 		if(isset($this->stash['third_source'])){
 		  if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
@@ -499,15 +586,19 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		  }
   
 		  if($this->stash['third_source']=='weibo'){
-			$user_info['sina_uid'] = (int)$this->stash['uid'];
-			$user_info['sina_access_token'] = $this->stash['access_token'];      
+			  $user_info['sina_uid'] = (int)$this->stash['uid'];
+			  $user_info['sina_access_token'] = $this->stash['access_token'];      
+        $sso_params['wb_uid'] = $this->stash['uid'];
 		  }elseif($this->stash['third_source']=='qq'){
-			$user_info['qq_uid'] = $this->stash['uid'];
-			$user_info['qq_access_token'] = $this->stash['access_token']; 
+			  $user_info['qq_uid'] = $this->stash['uid'];
+			  $user_info['qq_access_token'] = $this->stash['access_token']; 
+        $sso_params['qq_uid'] = $this->stash['uid'];
 		  }elseif($this->stash['third_source']=='weixin'){
-			$user_info['wx_open_id'] = $this->stash['uid'];
-			$user_info['wx_access_token'] = $this->stash['access_token'];
-			$user_info['wx_union_id'] = $this->stash['union_id'];
+			  $user_info['wx_open_id'] = $this->stash['uid'];
+			  $user_info['wx_access_token'] = $this->stash['access_token'];
+			  $user_info['wx_union_id'] = $this->stash['union_id'];
+        $sso_params['wx_union_id'] = $this->stash['union_id'];
+			  $sso_params['wx_uid'] = $this->stash['uid'];
 		  }else{
 			//next_third
 		  }
@@ -519,6 +610,29 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 				$user_info['from_site'] = (int)$this->stash['from_site'];
         $user_info['is_bind'] = 1;
 			}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
+          $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/signup';
+
+          $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
+          $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
+
+          if (!isset($sso_result['code'])) {
+			        return $this->ajax_json('请求用户注册失败!', true);
+          }
+
+          if ($sso_result['code'] != 200) {
+			        return $this->ajax_json($sso_result['message'], true);
+          }
+		      Doggy_Log_Helper::warn('Register request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Register request no pass sso');     
+      }
+
 			
             $ok = $user->create($user_info);
 			if($ok){

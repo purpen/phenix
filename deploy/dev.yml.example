@@ -23,7 +23,6 @@ app.url.packaged: '{$app.domain.static}'
 app.url.d3ingo_api: 'http://sa.taihuoniao.com'
 app.url.d3ingo: 'http://d3ingo.taihuoniao.com'
 app.url.fiu: 'http://fiu.taihuoniao.com'
-app.url.sso: 'http://sso-dev.taihuoniao.com'
 
 app.js.use_bundle: 0
 app.css.use_bundle: 0
@@ -68,6 +67,13 @@ app.cache.memcached.default:
       host: '127.0.0.1'
       port: 11211
       weight: 1
+
+# sso 单点登录
+app.sso:
+  url: 'http://sso-dev.taihuoniao.com'
+  validated: 1
+  app_id: '100002'
+  secret_key: 'igh9834ojdfgj020diwerwer'
 
 #xun_search db name
 app.xun_search_db: 'phenix_dev'
@@ -148,6 +154,7 @@ app.default_freight: 10
 
 # 百度推送 token
 baidu_push_token: ''
+
 
 # 支付宝
 app.alipay.partner: '2088411237666512'
