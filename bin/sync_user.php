@@ -87,6 +87,8 @@ while(!$is_end){
     $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
     $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
 
+    echo "user account: $user[account]\n";
+
     if (!isset($sso_result['code'])) {
         $r = Sher_Core_Util_View::load_block('sso_request_fail');
         $r = $r . ',' . $user['_id'];
