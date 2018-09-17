@@ -463,7 +463,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
     // 是否请求sso验证
     if ($sso_validated) {
         $sso_params = array(
-            'phone' => $this->stash['account'],
+            'name' => $this->stash['account'],
+            'evt' => 2,
             'device_to' => 1,
         );
         $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
