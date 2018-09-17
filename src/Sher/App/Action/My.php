@@ -334,7 +334,7 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
       // 是否请求sso验证
       if ($sso_validated) {
 
-          $user_info = $user->load($user_id);
+          $user_info = $user_model->load($user_id);
           if (!$user_info) {
               return $this->ajax_json('未找到该用户！', true);
           }
