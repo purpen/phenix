@@ -178,6 +178,26 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			if(empty($code)){
 				return $this->ajax_json('验证码有误，请重新获取！', true);
 			}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $phone,
+              'evt' => 2,
+              'password' => $password,
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Update request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Update request not pass sso');     
+      }
 			
 			// 验证是否存在账户
 			$user = new Sher_Core_Model_User();
@@ -223,6 +243,25 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
         if (empty($this->stash['account']) || empty($this->stash['password'])) {
             return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
         }
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'account' => $this->stash['account'],
+              'password' => $password,
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(1, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Update request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Update request not pass sso');     
+      }
 		
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
@@ -283,19 +322,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
               'password' => $this->stash['password'],
               'device_to' => 1,
           );
-          $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
-          $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/signin';
-
-          $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
-          $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
-
-          if (!isset($sso_result['code'])) {
-			        return $this->ajax_json('请求用户系统登录失败!', true);
+          $sso_result = Sher_Core_Util_Sso::common(1, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
           }
 
-          if ($sso_result['code'] != 200) {
-			        return $this->ajax_json($sso_result['message'], true);
-          }
 		      Doggy_Log_Helper::warn('Register request sso: success!');
       } else {
  		      Doggy_Log_Helper::warn('Register request not pass sso');     
@@ -368,20 +399,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
           // 是否请求sso验证
           if ($sso_validated) {
-              $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
-              $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/update';
-
-              $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
-              $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
-
-              if (!isset($sso_result['code'])) {
-                  return $this->ajax_json('请求用户系统更新失败!', true);
+              $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+              if (!$sso_result['success']) {
+                  return $this->ajax_json($sso_result['message'], true); 
+                  Doggy_Log_Helper::warn('Update request sso: success!');
               }
-
-              if ($sso_result['code'] != 200) {
-                  return $this->ajax_json($sso_result['message'], true);
-              }
-              Doggy_Log_Helper::warn('Update request sso: success!');
           }
 
           $third_result = $user->update_set($user_id, $third_info);
@@ -425,12 +447,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		}
 		
 		// 验证手机号码是否合法
-		if(!preg_match("/1[3458]{1}\d{9}$/",trim($account))){  
+		if(!preg_match("/1[345678]{1}\d{9}$/",trim($account))){  
 			return $this->ajax_json('请输入正确的手机号码格式!', true);     
 		}
-		
-		$user = new Sher_Core_Model_User();
-		$result = $user->first(array('account'=>trim($account)));
 		
 		// 验证验证码是否有效
 		$verify_model = new Sher_Core_Model_Verify();
@@ -438,6 +457,28 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		if(empty($has_code)){
 			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'phone' => $this->stash['account'],
+            'device_to' => 1,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->ajax_json($sso_result['message'], true); 
+        }
+
+        Doggy_Log_Helper::warn('Sms Login request sso: success!');
+    } else {
+        Doggy_Log_Helper::warn('Sms Login request not pass sso');     
+    }
+
+
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('account'=>trim($account)));
 		
         if (!empty($result)) {
 			
@@ -615,19 +656,11 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
       // 是否请求sso验证
       if ($sso_validated) {
-          $new_sso_params = Sher_Core_Helper_Util::api_param_encrypt($sso_params);
-          $sso_url = Doggy_Config::$vars['app.sso']['url'].'auth/signup';
-
-          $sso_result = Sher_Core_Helper_Util::request($sso_url, $new_sso_params, 'POST');
-          $sso_result = Sher_Core_Helper_Util::object_to_array(json_decode($sso_result));
-
-          if (!isset($sso_result['code'])) {
-			        return $this->ajax_json('请求用户注册失败!', true);
+          $sso_result = Sher_Core_Util_Sso::common(2, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
           }
 
-          if ($sso_result['code'] != 200) {
-			        return $this->ajax_json($sso_result['message'], true);
-          }
 		      Doggy_Log_Helper::warn('Register request sso: success!');
       } else {
  		      Doggy_Log_Helper::warn('Register request no pass sso');     
@@ -870,6 +903,49 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 
     $user = new Sher_Core_Model_User();
     $user_id = (int)$this->stash['user_id'];
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+
+          $user_info = $user->load($user_id);
+          if (!$user_info) {
+              return $this->ajax_json('未找到该用户！', true);
+          }
+
+          if ($user_info['wx_union_id']) {
+            $sso_evt = 5;
+            $sso_name = $user_info['wx_union_id'];
+          } elseif($user_info['qq_uid']) {
+            $sso_evt = 7;
+            $sso_name = $user_info['qq_uid'];
+          } elseif($user_info['sina_uid']) {
+            $sso_evt = 8;
+            $sso_name = $user_info['sina_uid'];
+          } else {
+              return $this->ajax_json('未找到用户第三方ID！', true);
+          }
+
+          $sso_params = array(
+              'name' => $sso_name,
+              'evt' => $sso_evt,
+              'account' => $this->stash['account'],
+              'phone' => $this->stash['account'],
+              'password' => $this->stash['password'],
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Update request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Update request not pass sso');     
+      }
+
+
     //验证手机号码是否重复
     $has_phone = $user->first(array('account' => $this->stash['account']));
     if(!empty($has_phone)){
@@ -905,14 +981,32 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 	 * 验证手机是否存在
 	 */
   public function check_account(){
-    //验证手机号码是否重复
-		$user = new Sher_Core_Model_User();
-    $has_phone = $user->first(array('account' => $this->stash['phone']));
-    if(!empty($has_phone)){
-      return $this->to_raw('1');
-    }else{
-      return $this->to_raw('0');
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'phone' => $this->stash['phone'],
+            'device_to' => 1,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(6, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->to_raw('0');
+        }else {
+            return $this->to_raw('1');         
+        }
+    } else {
+        //验证手机号码是否重复
+        $user = new Sher_Core_Model_User();
+        $has_phone = $user->first(array('account' => $this->stash['phone']));
+        if(!empty($has_phone)){
+            return $this->to_raw('1');
+        }else{
+            return $this->to_raw('0');
+        }    
     }
+
   }
 	
 	protected function _invitation_is_ok($check_used = true) {
@@ -1118,6 +1212,7 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       'kind' => 20,
     );
 
+    $sso_wx_uid = '';
     //根据第三方来源,更新对应open_id 
     if($third_source=='weibo'){
       $user_data['account'] = (string)$uid;
@@ -1125,12 +1220,16 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
       $user_data['sina_uid'] = (int)$uid;
       $user_data['sina_access_token'] = $access_token;
+      $sso_evt = 8;
+      $sso_name = $uid;
     }elseif($third_source=='qq'){
       $user_data['account'] = (string)$uid;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
       $user_data['qq_uid'] = $uid;
       $user_data['qq_access_token'] = $access_token;
+      $sso_evt = 7;
+      $sso_name = $uid;
     }elseif($third_source=='weixin'){
       $user_data['account'] = (string)$union_id;
       $user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
@@ -1138,11 +1237,34 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
       $user_data['wx_open_id'] = $uid;
       $user_data['wx_access_token'] = $access_token;
       $user_data['wx_union_id'] = $union_id; 
+      $sso_evt = 5;
+      $sso_name = $union_id;
+      $sso_wx_uid = $uid;
     }else{
       return $this->ajax_note('第三方来源不明确！', true);     
     }
 
     try{
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $sso_name,
+              'evt' => $sso_evt,
+              'wx_uid' => $sso_wx_uid,
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Quick sign request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Quick sign request not pass sso');     
+      }
+
       $ok = $user_model->create($user_data);
       if($ok){
         $user = $user_model->get_data();

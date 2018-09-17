@@ -242,6 +242,27 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			if($user['password'] !== sha1($this->stash['password'])){
 				return $this->ajax_json('请输入正确的密码,请更换!', true);
 			}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $user['account'],
+              'evt' => 2,
+              'account' => $this->stash['new_account'],
+              'phone' => $this->stash['new_account'],
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Update request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Update request not pass sso');     
+      }
 			
 			$user_info = array();
 			$user_info['account'] = $this->stash['new_account']; 
@@ -307,6 +328,47 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 			
 			$user_model = new Sher_Core_Model_User();
 			$user_id = (int)$this->visitor->id;
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+
+          $user_info = $user->load($user_id);
+          if (!$user_info) {
+              return $this->ajax_json('未找到该用户！', true);
+          }
+
+          if ($user_info['wx_union_id']) {
+            $sso_evt = 5;
+            $sso_name = $user_info['wx_union_id'];
+          } elseif($user_info['qq_uid']) {
+            $sso_evt = 7;
+            $sso_name = $user_info['qq_uid'];
+          } elseif($user_info['sina_uid']) {
+            $sso_evt = 8;
+            $sso_name = $user_info['sina_uid'];
+          } else {
+              return $this->ajax_json('未找到用户第三方ID！', true);
+          }
+
+          $sso_params = array(
+              'name' => $sso_name,
+              'evt' => $sso_evt,
+              'account' => $this->stash['account'],
+              'phone' => $this->stash['account'],
+              'password' => $this->stash['password'],
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Update request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Update request not pass sso');     
+      }
 	  
 			// 验证账户是否存在
 			$exist_account = $user_model->check_account($this->stash['account']);
@@ -1037,6 +1099,27 @@ class Sher_App_Action_My extends Sher_App_Action_Base implements DoggyX_Action_I
 
 			$user_info['password'] = sha1($password);
 		}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $this->visitor->account,
+              'evt' => 1,
+              'password' => $current_password,
+              'new_password' => $password,
+              'device_to' => 1,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(5, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_notification($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('UpdatePwd request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('UpdatePwd request not pass sso');     
+      }
 
         //更新基本信息
         $this->visitor->save($user_info);
