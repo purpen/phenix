@@ -172,25 +172,69 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * ajax弹出框登录
 	 */
 	public function ajax_login(){
-        if (empty($this->stash['account']) || empty($this->stash['password'])) {
-            return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
-        }
+      if (empty($this->stash['account']) || empty($this->stash['password'])) {
+          return $this->ajax_json('数据错误,请重新登录',true,Doggy_Config::$vars['app.url.login']);
+      }
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'account' => $this->stash['account'],
+              'password' => $this->stash['password'],
+              'device_to' => 2,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(1, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Wap Register request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Wap Register request not pass sso');     
+      }
 		
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
+
+    // 是否请求sso验证
+    if ($sso_validated) {
+        if (empty($result)) {
+            $user_info = array(
+                'account' => $this->stash['account'],
+                'nickname' => $this->stash['account'],
+                'password' => sha1($this->stash['password']),
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+            
+            $profile = $user->get_profile();
+            $profile['phone'] = $this->stash['account'];
+            $user_info['profile'] = $profile;
+
+            $ok = $user->create($user_info);
+            if (!$ok) {
+                return $this->ajax_json('本地创建用户失败!', true);           
+            }
+		        $result = $user->first(array('account'=>$this->stash['account']));
+        }
+    
+    } else {
         if (empty($result)) {
             return $this->ajax_json('帐号不存在!', true);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
             return $this->ajax_json('登录账号和密码不匹配', true);
         }
-        $user_id = (int) $result['_id'];
+    }
+
+    $user_id = (int) $result['_id'];
 		$nickname = $result['nickname'];
-        $user_state = $result['state'];
+    $user_state = $result['state'];
         
-        if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->ajax_json('此帐号涉嫌违规已经被禁用!',true,'/');
-        }
+    if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+        return $this->ajax_json('此帐号涉嫌违规已经被禁用!',true,'/');
+    }
 		
 		Sher_Core_Helper_Auth::create_user_session($user_id);
 		
@@ -299,22 +343,66 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
         if (empty($this->stash['account']) || empty($this->stash['password'])) {
             return $this->ajax_json('数据错误,请重新登录', true, Doggy_Config::$vars['app.url.login']);
         }
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'account' => $this->stash['account'],
+              'password' => $this->stash['password'],
+              'device_to' => 2,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(1, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Wap Login request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Wap Login request not pass sso');     
+      }
         
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
+
+    // 是否请求sso验证
+    if ($sso_validated) {
+        if (empty($result)) {
+            $user_info = array(
+                'account' => $this->stash['account'],
+                'nickname' => $this->stash['account'],
+                'password' => sha1($this->stash['password']),
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+            
+            $profile = $user->get_profile();
+            $profile['phone'] = $this->stash['account'];
+            $user_info['profile'] = $profile;
+
+            $ok = $user->create($user_info);
+            if (!$ok) {
+                return $this->ajax_json('本地创建用户失败!', true);           
+            }
+		        $result = $user->first(array('account'=>$this->stash['account']));
+        }
+    
+    } else {
         if (empty($result)) {
             return $this->ajax_json('帐号不存在!', true);
         }
         if ($result['password'] != sha1($this->stash['password'])) {
             return $this->ajax_json('登录账号和密码不匹配', true);
         }
-        $user_id = (int) $result['_id'];
+    }
+
+    $user_id = (int) $result['_id'];
 		$nickname = $result['nickname'];
-        $user_state = $result['state'];
-        
-        if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
-        }
+    $user_state = $result['state'];
+    
+    if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
+        return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
+    }
 
         $third_info = '';
         //第三方绑定
@@ -322,16 +410,35 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
 			  return $this->ajax_json('绑定信息有误,请重试!', true);
 			}
+
+      $sso_params = array(
+          'name' => $this->stash['account'],
+          'evt' => 1,
+      );
   
 			if($this->stash['third_source']=='weibo'){
 			  $third_info = array('sina_uid'=>(int)$this->stash['uid'], 'sina_access_token'=>$this->stash['access_token']);
+        $sso_params['wb_uid'] = $this->stash['uid'];
 			}elseif($this->stash['third_source']=='qq'){
 			  $third_info = array('qq_uid'=>$this->stash['uid'], 'qq_access_token'=>$this->stash['access_token']);
+        $sso_params['qq_uid'] = $this->stash['uid'];
 			}elseif($this->stash['third_source']=='weixin'){
 			  $third_info = array('wx_open_id'=>$this->stash['uid'], 'wx_access_token'=>$this->stash['access_token'], 'wx_union_id'=>$this->stash['union_id']);
+        $sso_params['wx_uid'] = $this->stash['uid'];
+        $sso_params['wx_union_id'] = $this->stash['union_id'];
 			}else{
 			  $third_info = array();
 			}
+
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+              Doggy_Log_Helper::warn('Wap Update request sso: success!');
+          }
+      }
+
 			$third_result = $user->update_set($user_id, $third_info);
 			if($third_result){
 			  $third_info = '绑定成功! ';
@@ -371,8 +478,6 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			return $this->ajax_json('请输入正确的手机号码格式!', true);     
 		}
 		
-		$user = new Sher_Core_Model_User();
-		$result = $user->first(array('account'=>trim($account)));
 		
 		// 验证验证码是否有效
 		$verify_model = new Sher_Core_Model_Verify();
@@ -380,6 +485,28 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if(empty($has_code)){
 			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'name' => $this->stash['account'],
+            'evt' => 2,
+            'device_to' => 2,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->ajax_json($sso_result['message'], true); 
+        }
+
+        Doggy_Log_Helper::warn('Sms Login request sso: success!');
+    } else {
+        Doggy_Log_Helper::warn('Sms Login request not pass sso');     
+    }
+
+		$user = new Sher_Core_Model_User();
+		$result = $user->first(array('account'=>trim($account)));
 		
         if (!empty($result)) {
 			
@@ -525,6 +652,15 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
 
+      // sso系统参数
+      $sso_params = array(
+        'account' => $this->stash['account'],
+        'phone' => $this->stash['account'],
+        'password' => $this->stash['password'],
+        'status' => 1,
+        'device_to' => 2,
+      );
+
 			//第三方绑定
 			if(isset($this->stash['third_source'])){
 				if(empty($this->stash['uid']) || empty($this->stash['access_token'])){
@@ -534,13 +670,17 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				if($this->stash['third_source']=='weibo'){
 					$user_info['sina_uid'] = (int)$this->stash['uid'];
 					$user_info['sina_access_token'] = $this->stash['access_token'];      
+          $sso_params['wb_uid'] = $this->stash['uid'];
 				}elseif($this->stash['third_source']=='qq'){
 					$user_info['qq_uid'] = $this->stash['uid'];
 					$user_info['qq_access_token'] = $this->stash['access_token']; 
+          $sso_params['qq_uid'] = $this->stash['uid'];
 				}elseif($this->stash['third_source']=='weixin'){
 					$user_info['wx_open_id'] = $this->stash['uid'];
 					$user_info['wx_access_token'] = $this->stash['access_token'];
 					$user_info['wx_union_id'] = $this->stash['union_id'];
+          $sso_params['wx_union_id'] = $this->stash['union_id'];
+          $sso_params['wx_uid'] = $this->stash['uid'];
 				}
 	  
 				$user_info['nickname'] = $this->stash['nickname'];
@@ -550,6 +690,20 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 				$user_info['from_site'] = (int)$this->stash['from_site'];
 				$user_info['is_bind'] = 1;
 			}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_result = Sher_Core_Util_Sso::common(2, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Wap Register request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Wap Register request no pass sso');     
+      }
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -653,6 +807,26 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'name' => $this->stash['account'],
+            'evt' => 2,
+            'device_to' => 2,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->ajax_json($sso_result['message'], true); 
+        }
+
+        Doggy_Log_Helper::warn('Sms Login request sso: success!');
+    } else {
+        Doggy_Log_Helper::warn('Sms Login request not pass sso');     
+    }
+
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -739,6 +913,25 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$profile = $user->get_profile();
 			$profile['phone'] = $this->stash['account'];
 			$user_info['profile'] = $profile;
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'name' => $this->stash['account'],
+            'evt' => 2,
+            'device_to' => 2,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->ajax_json($sso_result['message'], true); 
+        }
+
+        Doggy_Log_Helper::warn('Sms Login request sso: success!');
+    } else {
+        Doggy_Log_Helper::warn('Sms Login request not pass sso');     
+    }
 			
             $ok = $user->create($user_info);
 			if($ok){
@@ -860,13 +1053,60 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 		if(empty($code)){
 			return $this->ajax_json('验证码有误，请重新获取！', true);
 		}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $this->stash['account'],
+              'evt' => 2,
+              'password' => $this->stash['password'],
+              'device_to' => 2,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Wap Update pwd request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Wap Update pwd request not pass sso');     
+      }
 			
 		// 验证是否存在账户
 		$user = new Sher_Core_Model_User();
 		$result = $user->first(array('account'=>$this->stash['account']));
-		if (empty($result)) {
-			return $this->ajax_json('此账户不存在！', true);
-		}
+
+    // 是否请求sso验证
+    if ($sso_validated) {
+        if (empty($result)) {
+            $user_info = array(
+                'account' => $this->stash['account'],
+                'nickname' => $this->stash['account'],
+                'password' => sha1($this->stash['password']),
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+            
+            $profile = $user->get_profile();
+            $profile['phone'] = $this->stash['account'];
+            $user_info['profile'] = $profile;
+
+            $ok = $user->create($user_info);
+            if (!$ok) {
+                return $this->ajax_json('本地创建用户失败!', true);           
+            }
+		        $result = $user->first(array('account'=>$this->stash['account']));
+        }
+    
+    } else {
+        if (empty($result)) {
+            return $this->ajax_json('帐号不存在!', true);
+        }
+        if ($result['password'] != sha1($this->stash['password'])) {
+            return $this->ajax_json('登录账号和密码不匹配', true);
+        }
+    }
   
 		$user_id = $result['_id'];
 	  
@@ -911,15 +1151,32 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 	 * 验证手机是否存在
 	 */
 	public function check_account(){
-		
-		//验证手机号码是否重复
-		$user = new Sher_Core_Model_User();
-		$has_phone = $user->first(array('account' => $this->stash['phone']));
-		if(!empty($has_phone)){
-			return $this->to_raw('1');
-		}else{
-			return $this->to_raw('0');
-		}
+
+    // 请求sso系统
+    $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+    // 是否请求sso验证
+    if ($sso_validated) {
+        $sso_params = array(
+            'phone' => $this->stash['phone'],
+            'device_to' => 2,
+        );
+        $sso_result = Sher_Core_Util_Sso::common(6, $sso_params);
+        if (!$sso_result['success']) {
+            return $this->to_raw('0');
+        }else {
+            return $this->to_raw('1');         
+        }
+    } else {
+        //验证手机号码是否重复
+        $user = new Sher_Core_Model_User();
+        $has_phone = $user->first(array('account' => $this->stash['phone']));
+        if(!empty($has_phone)){
+            return $this->to_raw('1');
+        }else{
+            return $this->to_raw('0');
+        }    
+    }
+
 	}
 
     protected function gen_login_token() {
@@ -1109,6 +1366,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			'kind' => 20,
 		);
   
+    $sso_wx_uid = '';
 		//根据第三方来源,更新对应open_id 
 		if($third_source=='weibo'){
       $user_data['account'] = (string)$uid;
@@ -1116,12 +1374,16 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_WEIBO;
 			$user_data['sina_uid'] = (int)$uid;
 			$user_data['sina_access_token'] = $access_token;
+      $sso_evt = 8;
+      $sso_name = $uid;
 		}elseif($third_source=='qq'){
       $user_data['account'] = (string)$uid;
 			$user_data['password'] = sha1(Sher_Core_Util_Constant::QQ_AUTO_PASSWORD);
       $user_data['from_site'] = Sher_Core_Util_Constant::FROM_QQ;
 			$user_data['qq_uid'] = $uid;
 			$user_data['qq_access_token'] = $access_token;
+      $sso_evt = 7;
+      $sso_name = $uid;
 		}elseif($third_source=='weixin'){
       $user_data['account'] = (string)$union_id;
 			$user_data['password'] = sha1(Sher_Core_Util_Constant::WX_AUTO_PASSWORD);
@@ -1129,11 +1391,33 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
 			$user_data['wx_open_id'] = $uid;
 			$user_data['wx_access_token'] = $access_token;
 			$user_data['wx_union_id'] = $union_id; 
+      $sso_evt = 5;
+      $sso_name = $union_id;
+      $sso_wx_uid = $uid;
 		}else{
 			return $this->ajax_note('第三方来源不明确！', true);     
 		}
   
 		try{
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $sso_name,
+              'evt' => $sso_evt,
+              'wx_uid' => $sso_wx_uid,
+              'device_to' => 2,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(3, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_json($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('Wap Quick sign request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('Wap Quick sign request not pass sso');     
+      }
 			$ok = $user_model->create($user_data);
 			if($ok){
 				$user = $user_model->get_data();

@@ -202,9 +202,36 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 			// 验证是否存在账户
 			$user = new Sher_Core_Model_User();
 			$result = $user->first(array('account'=>$phone));
-	        if (empty($result)) {
-	            return $this->ajax_json('此账户不存在！', true);
-	        }
+
+    // 是否请求sso验证
+    if ($sso_validated) {
+        if (empty($result)) {
+            $user_info = array(
+                'account' => $phone,
+                'nickname' => $phone,
+                'password' => sha1($password),
+                'state' => Sher_Core_Model_User::STATE_OK
+            );
+            
+            $profile = $user->get_profile();
+            $profile['phone'] = $this->stash['account'];
+            $user_info['profile'] = $profile;
+
+            $ok = $user->create($user_info);
+            if (!$ok) {
+                return $this->ajax_json('本地创建用户失败!', true);           
+            }
+		        $result = $user->first(array('account'=>$phone));
+        }
+    
+    } else {
+        if (empty($result)) {
+            return $this->ajax_json('帐号不存在!', true);
+        }
+        if ($result['password'] != sha1($password)) {
+            return $this->ajax_json('登录账号和密码不匹配', true);
+        }
+    }
 		
 			$user_id = $result['_id'];
 		
@@ -327,9 +354,9 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
               return $this->ajax_json($sso_result['message'], true); 
           }
 
-		      Doggy_Log_Helper::warn('Register request sso: success!');
+		      Doggy_Log_Helper::warn('login request sso: success!');
       } else {
- 		      Doggy_Log_Helper::warn('Register request not pass sso');     
+ 		      Doggy_Log_Helper::warn('login request not pass sso');     
       }
         
 		$user = new Sher_Core_Model_User();
