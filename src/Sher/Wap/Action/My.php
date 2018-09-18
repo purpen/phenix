@@ -554,10 +554,17 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 		$repeat_password = $this->stash['repeat_password'];
 
 		if (!empty($current_password) && !empty($password) && !empty($repeat_password)){
-			// 验证当前密码
-			if ($this->visitor->password != sha1($current_password)){
-				return $this->ajax_notification('当前密码不正确！', true);
-			}
+
+      // 请求sso系统
+      $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+      // 是否请求sso验证
+      if (!$sso_validated) {
+          // 验证当前密码
+          if ($this->visitor->password != sha1($current_password)){
+            return $this->ajax_notification('当前密码不正确！', true);
+          }     
+      }
+
       //验证密码长度
       if(strlen($password)<6 || strlen($password)>30){
   		  return $this->ajax_notification('密码长度介于6-30字符内！', true);    
@@ -568,6 +575,26 @@ class Sher_Wap_Action_My extends Sher_Wap_Action_Base implements DoggyX_Action_I
 			}
 
 			$user_info['password'] = sha1($password);
+
+      // 是否请求sso验证
+      if ($sso_validated) {
+          $sso_params = array(
+              'name' => $this->visitor->account,
+              'evt' => 1,
+              'password' => $current_password,
+              'new_password' => $password,
+              'device_to' => 2,
+          );
+          $sso_result = Sher_Core_Util_Sso::common(5, $sso_params);
+          if (!$sso_result['success']) {
+              return $this->ajax_notification($sso_result['message'], true); 
+          }
+
+		      Doggy_Log_Helper::warn('UpdatePwd request sso: success!');
+      } else {
+ 		      Doggy_Log_Helper::warn('UpdatePwd request not pass sso');     
+      }
+
 		}
 
         //更新基本信息
