@@ -890,6 +890,24 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 禁用账户
      */
     public function block_account($id) {
+        // 请求sso系统
+        $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+        // 是否请求sso验证
+        if ($sso_validated) {
+            $user = $this->load((int)$id);
+            if (!$user) {
+                return false;
+            }
+            $sso_params = array(
+                'name' => $user['account'],
+                'evt' => 1,
+                'status' => 0,
+            );
+            $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+            if (!$sso_result['success']) {
+                return false; 
+            }
+        }
         return $this->update_set((int)$id, array('state' => self::STATE_DISABLED));
     }
 
@@ -897,7 +915,25 @@ class Sher_Core_Model_User extends Sher_Core_Model_Base {
      * 解封/激活帐号
      */
     public function active_account($id){
-    	return $this->update_set((int)$id, array('state' => self::STATE_OK));
+        // 请求sso系统
+        $sso_validated = Doggy_Config::$vars['app.sso']['validated'];
+        // 是否请求sso验证
+        if ($sso_validated) {
+            $user = $this->load((int)$id);
+            if (!$user) {
+                return false;
+            }
+            $sso_params = array(
+                'name' => $user['account'],
+                'evt' => 1,
+                'status' => 1,
+            );
+            $sso_result = Sher_Core_Util_Sso::common(4, $sso_params);
+            if (!$sso_result['success']) {
+                return false; 
+            }
+        }
+    	  return $this->update_set((int)$id, array('state' => self::STATE_OK));
     }
 
     /**
