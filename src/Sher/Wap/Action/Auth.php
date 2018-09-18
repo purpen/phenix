@@ -491,7 +491,7 @@ class Sher_Wap_Action_Auth extends Sher_Wap_Action_Base {
     // 是否请求sso验证
     if ($sso_validated) {
         $sso_params = array(
-            'name' => $this->stash['account'],
+            'name' => $account,
             'evt' => 2,
             'device_to' => 2,
         );
