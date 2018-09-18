@@ -395,8 +395,8 @@ class Sher_App_Action_Auth extends Sher_App_Action_Base {
 		    $nickname = $result['nickname'];
         $user_state = $result['state'];
         
-        if ($user_state == Sher_Core_Model_User::STATE_BLOCKED) {
-            return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true);
+        if ($user_state == Sher_Core_Model_User::STATE_BLOCKED || $user_state == Sher_Core_Model_User::STATE_DISABLED) {
+            return $this->ajax_json('此帐号涉嫌违规已经被禁用!', true, '/');
         }
 
         $third_info = '';
