@@ -7,8 +7,11 @@ class Sher_Core_Util_Sso extends Doggy_Object {
 
 
     /**
-      *
-      * 登录
+     * 请求sso系统
+     * @param evt 1.登录；2.注册；3.快捷登录；4.更新；5.修改密码；6.查看；7.清空数据；
+     * @param params 参数集合
+     * @return 返回成功或失败
+     * 
     */
     public static function common($evt, $params = array()){
         $result = array(
@@ -34,6 +37,9 @@ class Sher_Core_Util_Sso extends Doggy_Object {
                 break;
             case 6:
                 $path = 'auth/view';
+                break;
+            case 7:
+                $path = 'auth/clear';
                 break;
         }
         if (!$path) {
