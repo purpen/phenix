@@ -20,7 +20,7 @@ require $cfg_app_rc;
 set_time_limit(0);
 ini_set('memory_limit','512M');
 
-echo "begin export qsyd2 match user info...\n";
+echo "begin export qsyd4 match user info...\n";
 $stuff_model = new Sher_Core_Model_Stuff();
 $user_model = new Sher_Core_Model_User();
 $category_model = new Sher_Core_Model_Category();
@@ -29,12 +29,12 @@ $page = 1;
 $size = 500;
 $is_end = false;
 $total = 0;
-$fp = fopen('/home/tianxiaoyi/qsyd2_match.csv', 'a');
+$fp = fopen('/home/tianxiaoyi/qsyd4_match.csv', 'a');
 // Windows下使用BOM来标记文本文件的编码方式 
 fwrite($fp, chr(0xEF).chr(0xBB).chr(0xBF));
 
 // 输出Excel列名信息
-$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '原图链接', '姓名', '电话', '职业', '发布时间');
+$head = array('作品ID', '作品名称', '链接', '类别', '作品简介', '原图链接', '组织', '姓名', '电话', '职业');
 // 将数据通过fputcsv写到文件句柄
 fputcsv($fp, $head);
 while(!$is_end){
@@ -62,7 +62,7 @@ while(!$is_end){
       $attr_label = $stuff['attr']==1 ? '个人' : '团队'; 
       $created_at = date('y-m-d', $stuff['created_on']);
 
-      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $img_urls, $stuff['name'], $stuff['tel'], $stuff['position'], $created_at);
+      $row = array($stuff['_id'], $stuff['title'], $view_url, $cate_name, $stuff['description'], $img_urls, $attr_label, $stuff['name'], $stuff['tel'], $stuff['position']);
       fputcsv($fp, $row);
 
 		  $total++;
@@ -76,7 +76,7 @@ while(!$is_end){
 	echo "page [$page] updated---------\n";
 }
 fclose($fp);
-echo "total $total qsyd2 match rows export over.\n";
+echo "total $total qsyd4 match rows export over.\n";
 
 echo "All match expore done.\n";
 
