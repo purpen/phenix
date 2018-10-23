@@ -1,0 +1,18 @@
+<?php
+//deployed on: Tue Oct 23 15:05:23 2018
+define('DOGGY_VERSION','v1.3.9-dev');
+define('DOGGY_APP_ROOT','/Users/junjingyi/Documents/php/phenix/dev_root');
+define('DOGGY_APP_CLASS_PATH','/Users/junjingyi/Documents/php/phenix/vendor:/Users/junjingyi/Documents/php/phenix/lib:/Users/junjingyi/Documents/php/phenix/src');
+require '/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy.php';
+// ---------------BEGIN INCLUDE deploy/app.include.php
+
+// composer support
+require 'autoload.php';
+require 'lib_autoload.php';
+
+
+// ---------------END INCLUDE deploy/app.include.php
+
+@require '/Users/junjingyi/Documents/php/phenix/dev_root/var/doggy_app.rc';
+Doggy_Dispatcher_Server::run();
+?>

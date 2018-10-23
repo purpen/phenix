@@ -1,0 +1,15 @@
+*.swf
+.*
+!.gitignore_example
+deploy/dev.yml
+deploy/prod.yml
+deploy/app_config.php
+data/web/app
+dev_root/
+composer.lock
+/vendor
+data/web/packaged/
+var/*
+deploy.sh
+resque.sh
+crontab_manager.php
