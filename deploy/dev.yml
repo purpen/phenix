@@ -19,7 +19,6 @@ app.doggyx.class_path: '/opt/project/php/doggy-x'
 app.domain.mobile: '{$app.domain.base}'
 
 app.url.packaged: '{$app.domain.static}'
-
 app.url.d3ingo: 'http://mc.taihuoniao.com'
 app.url.d3ingo_api: 'https://sa.taihuoniao.com'
 app.url.fiu: 'http://fiu.taihuoniao.com'
