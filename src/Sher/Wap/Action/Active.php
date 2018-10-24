@@ -242,7 +242,6 @@ class Sher_Wap_Action_Active extends Sher_Wap_Action_Base {
    */
   public function ajax_popup(){
     return $this->to_taconite_page('wap/active/ajax_popup_sign.html');
-  
   }
 
   /**

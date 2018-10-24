@@ -1,0 +1,932 @@
+{%extends 'layout/column.html'%}
+
+{% block page_css%}
+<style>
+    /*头图*/
+
+    .banners_index{
+        max-height: 500px;
+        height: 500px;
+        position: relative;
+    }
+
+    .banners_index {
+        max-height: 500px;
+        height: 500px;
+        position: relative;
+        overflow: hidden
+    }
+
+    .banners_index>.ui.slide {
+        height: 100%;
+        width: 100%
+    }
+
+    .banners_index>.ui.slide>.item {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+        float: left;
+        position: relative
+    }
+
+    .banners_index .featured-vendor {
+        background-position: center top;
+        background-repeat: no-repeat;
+        height: 500px;
+        background-size: cover;
+        position: relative;
+        -webkit-transition: all .2s ease 0s;
+        -moz-transition: all .2s ease 0s;
+        -o-transition: all .2s ease 0s;
+        -ms-transition: all .2s ease 0s;
+        transition: all .2s ease 0s
+    }
+
+    .banners_index .featured-vendor .overlay {
+        padding: 95px 8%;
+        text-align: center
+    }
+
+    .banners_index .featured-vendor .overlay h1,.banners_index .featured-vendor .overlay h3 {
+        color: #fff;
+        margin: 0
+    }
+
+    .banners_index .featured-vendor .overlay h1 {
+        font-size: 50px
+    }
+
+    .banners_index .featured-vendor .overlay h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+        color: rgba(255,255,255,.95)
+    }
+
+    .banners_index .featured-vendor .overlay .snippet {
+        color: rgba(255,255,255,.95);
+        display: block;
+        margin: 10px auto;
+        line-height: 1.5em;
+        width: 5in
+    }
+
+    .banners_index .featured-vendor .overlay a {
+        color: rgba(255,255,255,.95);
+        margin-top: 50px;
+        padding: .8em 3.5em
+    }
+
+    .banners_index .featured-vendor .overlay a:hover {
+        color: rgba(0,0,0,.8)
+    }
+
+    .banners_index .featured-vendor.left .overlay {
+        margin-left: 30px;
+        text-align: left
+    }
+
+    .banners_index .featured-vendor.left .overlay .snippet {
+        margin: 10px 0 0
+    }
+
+    .banners_index .featured-vendor .imglink {
+        width: 100%;
+        height: 100%;
+        display: block
+    }
+
+    .banners_index .pages {
+        bottom: 1.5em;
+        margin: 0 auto;
+        position: absolute;
+        width: 100%;
+        text-align: center
+    }
+
+    .banners_index .pages>a {
+        vertical-align: middle;
+        cursor: pointer;
+        display: inline-block;
+        text-indent: -9999px;
+        height: 6px;
+        margin: 0 5px;
+        width: 6px;
+        background-color: rgba(255,255,255,.6);
+        zoom: 1;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%
+    }
+
+    .banners_index .pages>a:hover,.ui.white.background.block {
+        background-color: #fff
+    }
+
+    .banners_index .pages>a.active {
+        background-color: #fff;
+        height: 10px;
+        width: 10px
+    }
+
+    .banners_index .next,#fixedslide .prev {
+        top: 0;
+        color: #FFF;
+        display: block;
+        vertical-align: middle;
+        font-size: 40px;
+        position: absolute;
+        text-decoration: none;
+        height: 500px;
+        line-height: 500px;
+        width: 5pc;
+        -webkit-transition: all .3s ease-in-out 0s;
+        -moz-transition: all .3s ease-in-out 0s;
+        -o-transition: all .3s ease-in-out 0s;
+        -ms-transition: all .3s ease-in-out 0s;
+        transition: all .3s ease-in-out 0s
+    }
+
+    .banners_index .next .icon,#fixedslide .prev .icon {
+        display: inline
+    }
+
+    .banners_index .prev {
+        left: -5pc;
+        text-align: right
+    }
+
+    .banners_index .next {
+        right: -5pc;
+        text-align: left
+    }
+
+    .banners_index:hover .prev {
+        left: 0;
+        background-image: linear-gradient(to left,rgba(255,255,255,0) 0,rgba(0,0,0,.1) 100%)
+    }
+
+    .banners_index:hover .next {
+        right: 0;
+        background-image: linear-gradient(to right,rgba(255,255,255,0) 0,rgba(0,0,0,.1) 100%)
+    }
+
+    .banners_index .featured-vendor .wrap_banner{
+        width: 1162px;
+        max-height: 500px;
+        min-height: 500px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        margin: 0;
+    }
+    .banners_index .featured-vendor .wrap_banner img{
+        float: right;
+        width: 704px;
+        height: 400px;
+        margin: 50px 0;
+    }
+    .banners_index .featured-vendor .wrap_banner ul{
+        width: 400px;
+        height: 240px;
+        margin: 130px 0;
+        float: left;
+        padding: 0;
+    }
+    .banners_index .featured-vendor .wrap_banner ul li{
+        font-weight: 250;
+        font-size: 14px;
+        color: #FFFFFF;
+        line-height: 24px;
+        width: 400px;
+        margin-bottom: 15px;
+        list-style:none;
+        float: left;
+    }
+    .banners_index .featured-vendor .wrap_banner ul li span{
+        font-size: 20px;
+        font-weight: 400;
+    }
+    .banners_index .featured-vendor .wrap_banner ul li.first_header{
+        font-size: 40px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        height: 56px;
+        line-height: 56px;
+    }
+    .banners_index .featured-vendor .wrap_banner ul li:last-child{
+        margin-bottom: 0;
+    }
+    /*三大分销服务*/
+    .distribution{
+        min-width: 720px;
+        max-width: 1162px;
+        margin: 0 auto;
+        height: 200px;
+        margin-bottom: 50px;
+    }
+    .distribution div{
+        box-sizing:border-box;
+        -moz-box-sizing:border-box;
+        -webkit-box-sizing:border-box;
+        width: 33.33%;
+        float:left;
+        position: relative;
+        height: 210px;
+    }
+    .distribution div img{
+        height: 120px;
+        width: 120px;
+        left: 50%;
+        transform: translate(-50%);
+        position: absolute;
+    }
+    .distribution div ul{
+        position: absolute;
+        top: 127px;
+        height: 80px;
+        width: 100%;
+        padding: 0;
+    }
+    .distribution div ul li{
+        list-style:none;
+        font-size: 16px;
+        color: #666666;
+        text-align: center;
+        height: 25px;
+        line-height: 25px;
+        font-weight: 250;
+    }
+    .distribution div ul li.distribution_header{
+        font-size: 20px;
+        color: #222222;
+        height: 30px;
+        line-height: 30px;
+        font-weight: 400;
+        margin-bottom: 15px;
+        font-family: PingFangSC-Light;
+    }
+
+    /*合作*/
+    .company-ava img {
+        width: 70px;
+        margin: 10px 12px 10px 12px;
+        border-radius: 50%;
+        overflow: hidden;
+        vertical-align: middle;
+        border: 1px solid #C8C8C8;
+    }
+    .cooperation{
+        background: #fff;
+    }
+    .cooperation_imgesr{
+        max-width: 1060px;
+        margin: 0 auto 50px auto !important;
+    }
+    .cooperation_padding h2{
+        padding-top: 38px !important;
+    }
+    .cooperation_e_commerce{
+        width: 465px;
+        height: 90px;
+        margin: 0 auto;
+        padding-bottom: 50px;
+    }
+    .cooperation_e_commerce_company{
+        text-align: center;
+    }
+    .cooperation_e_commerce_company img{
+        width: 90px;
+        height: 40px;
+        margin-right: 30px;
+        vertical-align: middle;
+    }
+    .cooperation_e_commerce_company img:last-child{
+        margin-right: 0;
+    }
+    .cooperation_e_member{
+        width: 365px;
+        height: 101px;
+        margin: 0 auto;
+        padding-bottom: 50px;
+    }
+    .cooperation_e_member_imger{
+        text-align: center;
+        margin-right: -31px;
+    }
+    .cooperation_e_member_imger img{
+        width: 50px;
+        height: 50px;
+        vertical-align: middle;
+        margin-right: 40px;
+    }
+    .cooperation_e_member_imger img:last-child{
+        margin-right: 0;
+    }
+    .cooperation_e_member_imger img.last_imger{
+        width: 98px;
+        height: 61px;
+    }
+    .cooperation_e_member_imger img.margin_right_imger{
+        margin-right: 20px;
+    }
+    .cooperation_e_we_media{
+        width: 340px;
+        height: 90px;
+        margin: 0 auto;
+        padding-bottom: 50px;
+    }
+    .cooperation_e_we_media_imger{
+        text-align: center;
+        margin-right: -18px;
+    }
+    .cooperation_e_we_media_imger img{
+        width: 90px;
+        height: 40px;
+        margin-right: 30px;
+        vertical-align: middle;
+    }
+    .cooperation_e_we_media_imger img:last-child{
+        margin-right: 0;
+    }
+    .cooperation_padding_bottom{
+        padding-bottom: 40px;
+    }
+
+    /*品牌案例*/
+
+    .trademark_block h2{
+        padding-top: 10px !important;
+    }
+    .trademark_row{
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 60px !important;
+    }
+    .d3-card .ui.three.cards .card .text>.desc{
+        height: 63px;
+    }
+    .d3-card .ui.three.cards .card .text>.desc>p{
+        -webkit-line-clamp: 3;
+    }
+    .d3-card .ui.three.cards .card .text>.desc>p span{
+        color: #2A2A2A;
+    }
+    .trademark_view_more{
+        position: relative;
+    }
+    .trademark_view_more_div{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: #fff;
+        z-index: 100;
+    }
+    .trademark_view_more_div span{
+        width: 100%;
+        height: 36px;
+        line-height: 36px;
+        position: absolute;
+        z-index: 50;
+        top: 49%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        text-align: center;
+        font-size: 24px;
+        color: #999999;
+    }
+    .trademark_view_more_div a{
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: inline-block;
+        z-index: 99;
+    }
+
+    /*分销政策*/
+    .c-block h2 {
+        text-align: center;
+        font-size: 30px;
+        color: #222;
+        margin: 0 0 30px 0;
+        padding-top: 50px;
+        font-family: PingFangSC-Light;
+    }
+    #homepage{
+        margin-bottom: 0;
+    }
+    .distribution_policy{
+        padding-top: 30px;
+        padding-bottom: 100px;
+        background: #fff;
+    }
+    /*.distribution_policy_marginbottom h2{*/
+        /*margin-bottom: 20px !important;*/
+    /*}*/
+    .distribution_policy_title{
+        width: 100%;
+        font-size: 14px;
+        color: #666666;
+        text-align: center;
+        font-weight: 300;
+        line-height: 18px;
+    }
+    .distribution_policy_center{
+        max-width: 1200px;
+        display: block;
+        position: relative;
+        width: 100%!important;
+        padding: 10px 0;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        font-size: 0;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+    .distribution_policy_center_column{
+        width: 100%;
+        display: block;
+    }
+    .distribution_policy_div{
+        width: calc(25% - 70px);
+        margin: 35px 35px 15px 35px;
+        float: left;
+    }
+    .distribution_policy_div_img{
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 20px auto;
+    }
+    .distribution_policy_div_img img{
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+    }
+    .distribution_policy_div_title{
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
+        font-size: 20px;
+        color: #222222;
+        text-align: center;
+        margin-bottom: 20px;
+        float: left;
+    }
+    .distribution_policy_div_text{
+        width: 100%;
+        line-height: 18px;
+        font-size: 14px;
+        color: #666666;
+        text-align: left;
+        font-weight: 300;
+        float: left;
+        min-height: 110px;
+    }
+    @media only screen and (max-width: 1200px){
+        .distribution_policy_div{
+            width: calc(33.33333% - 70px);
+        }
+        .banners_index .featured-vendor .wrap_banner{
+            width: 1000px;
+        }
+        .banners_index .featured-vendor .wrap_banner img{
+            width: 600px;
+            height: 350px;
+            margin: 75px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul{
+            width: 350px;
+            height: 265px;
+            margin: 118px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li{
+            width: 100%;
+            font-size: 14px;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li.first_header{
+            font-size: 35px;
+        }
+    }
+    @media only screen and (max-width: 1000px){
+        .banners_index .featured-vendor .wrap_banner{
+            width: 800px;
+        }
+        .banners_index .featured-vendor .wrap_banner img{
+            width: 400px;
+            height: 250px;
+            margin: 125px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul{
+            width: 315px;
+            height: 265px;
+            margin: 118px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li{
+            width: 100%;
+            font-size: 14px;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li.first_header{
+            font-size: 30px;
+        }
+    }
+    @media only screen and (max-width: 840px){
+        .banners_index .featured-vendor .wrap_banner{
+            width: 600px;
+        }
+        .banners_index .featured-vendor .wrap_banner img{
+            width: 300px;
+            height: 197px;
+            margin: 152px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul{
+            width: 250px;
+            height: 260px;
+            margin: 120px 0;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li{
+            width: 100%;
+            font-size: 12px;
+            line-height: 20px;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li.first_header{
+            font-size: 25px;
+        }
+        .banners_index .featured-vendor .wrap_banner ul li span{
+            font-size: 16px;
+        }
+    }
+    @media only screen and (max-width: 767px){
+        .distribution_policy_div{
+            width: calc(50% - 70px);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="homepage">
+    <!--头图-->
+    <div class="frame banners_index" style="overflow: hidden;">
+        <div class="ui slide">
+            <div class="item">
+                <!--<div class="featured-vendor " style="background-image: url('imger/index_banner/backgroubd.png'); background-color: ;">-->
+                <div class="featured-vendor " style="background-image: url('{{ app_url_packaged }}/images/home/ingoset/banner/backgroubd.png');">
+                    <!--<a class="imglink" href="https://www.taihuoniao.com/tracker?kid=1101104659611" target="_blank"></a>-->
+                    <!--src="{{ app_url_packaged }}/images/home/product/yunma.jpg"-->
+                    <div class="wrap_banner">
+                        <ul>
+                            <li class="first_header">“铟果集”生活新质感</li>
+                            <li>“尖货选品站，一步进好货”，铟果集为太火鸟科技旗下创新产品采销平台，汇聚行业一手新品、孵化创意爆品。依据太火鸟创新SaaS系统大数据和资深营销专家分析制定产品策略，精准匹配社群、产品、内容、渠道等多维度分销服务。</li>
+                            <li>已签约创新品牌<span> 200+ </span>、头部自媒体电商<span> 200余家 </span>以及数百家B端分销商。</li>
+                        </ul>
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/banner/one_pic.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分销服务-->
+    <div class="c-block ui responsive grid">
+        <h2>三大分销服务</h2>
+        <div class="distribution">
+            <div>
+                <img src="{{ app_url_packaged }}/images/home/ingoset/service/Redefinition.png" alt="数据化重新定义创新产品及品类">
+                <ul>
+                    <li class="distribution_header">重新定义</li>
+                    <li>数据化重新定义创新产品及品类</li>
+                </ul>
+            </div>
+            <div>
+                <img src="{{ app_url_packaged }}/images/home/ingoset/service/hatch.png" alt="数据化重新定义创新产品及品类">
+                <ul>
+                    <li class="distribution_header">孵化营销</li>
+                    <li>营销赋能创新产品及品牌</li>
+                </ul>
+            </div>
+            <div>
+                <img src="{{ app_url_packaged }}/images/home/ingoset/service/channel.png" alt="数据化重新定义创新产品及品类">
+                <ul>
+                    <li class="distribution_header">渠道精分</li>
+                    <li>精准化社群及精选电商分销</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--合作-->
+    <div class="saas-box cooperation">
+        <div class="c-block">
+            <div class="ui responsive grid">
+                <h2>自媒体战略合作矩阵</h2>
+                <div class="content cooperation_imgesr">
+                    <div class="company-ava">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/1.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/2.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/3.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/4.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/5.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/6.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/7.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/8.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/9.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/10.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/11.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/12.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/13.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/14.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/15.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/16.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/17.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/18.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/19.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/20.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/21.png">
+                        <img src="{{ app_url_packaged }}/images/home/ingoset/strategic_cooperation/22.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="c-block">
+            <div class="ui responsive grid cooperation_padding">
+                <h2>精选电商平台</h2>
+            </div>
+            <div class="cooperation_e_commerce">
+                <div class="cooperation_e_commerce_company">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/select_platform/jindongjinxuan.jpg" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/select_platform/taobaoxinxuan.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/select_platform/wangyiyanxuan.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/select_platform/xiaomiyouping.png" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="c-block">
+            <div class="ui responsive grid cooperation_padding">
+                <h2>会员制电商平台</h2>
+            </div>
+            <div class="cooperation_e_member">
+                <div class="cooperation_e_member_imger">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/e_commerce/beidian.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/e_commerce/huanqiubushou.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/e_commerce/huoqiumaishou.png" class="margin_right_imger" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/e_commerce/timg.png" class="last_imger" alt="">
+                </div>
+            </div>
+        </div>
+        <div class="c-block cooperation_padding_bottom">
+            <div class="ui responsive grid cooperation_padding">
+                <h2>自媒体服务平台</h2>
+            </div>
+            <div class="cooperation_e_we_media">
+                <div class="cooperation_e_we_media_imger">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/we_media/youzan.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/we_media/SEE.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/home/ingoset/we_media/LOOK.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--品牌案例-->
+    <div class="d3-card">
+        <div class="ui responsive grid">
+            <div class="c-block trademark_block">
+                <h2>品牌案例</h2>
+            </div>
+            <div class="row trademark_row">
+                <div class="column">
+                    <div class="ui three cards" id="d3ingo-article-box">
+                        <div class="card">
+                            <a href="javascript:void (0);" title="素士 Soocare">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="素士 Soocare">
+                                        <!--target="_blank"-->
+                                        素士 Soocare
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        小米生态链个护首选
+                                        <br/>
+                                        全渠道铺进 <span>200+</span>
+                                        <br/>
+                                        自媒体分销 <span>500W+</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <a href="javascript:void (0);" title="美妆镜 Amiro">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/meizhuangjin.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/meizhuangjin.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="美妆镜 Amiro">
+                                        <!--target="_blank"-->
+                                        美妆镜 Amiro
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        更懂女人的颜值精品
+                                        <br/>
+                                        全渠道铺进 <span>100+</span>
+                                        <br/>
+                                        自媒体分销 <span>200W+</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <a href="javascript:void (0);" title="卡蛙科技">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/kawa.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/kawa.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="卡蛙科技">
+                                        <!--target="_blank"-->
+                                        卡蛙科技
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        设计创新的桌面小电器
+                                        <br/>
+                                        全渠道铺进 <span>100+</span>
+                                        <br/>
+                                        自媒体分销 <span>200W+</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <a href="javascript:void (0);" title="云马 UMA">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/ziranzaowu.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/ziranzaowu.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="云马 UMA">
+                                        <!--target="_blank"-->
+                                        云马 UMA
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        2017年重新定义端午粽，限量10000个粽子一周售罄 ；2018年大过端午，推出龙粽和mini粽两款，销售超80000件
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <a href="javascript:void (0);" title="洒哇地咔 SWDK">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/sawadika.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sawadika.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="洒哇地咔 SWDK">
+                                        <!--target="_blank"-->
+                                        洒哇地咔 SWDK
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        高效绿色，精细洗涤
+                                        <br/>
+                                        重新定义产品，自媒体曝光 <span>100+</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card trademark_view_more">
+                            <div class="trademark_view_more_div">
+                                <span>查看更多</span>
+                                <a href="javascript:void (0);"></a>
+                            </div>
+                            <a href="https://www.d3ingo.com/article/show/334" title="Cybershoes推出VR步行鞋">
+                                <!--target="_blank"-->
+                                <img class="lazy" data-original="{{ app_url_packaged }}/images/home/ingoset/product_pic/sawadika.png" src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sawadika.png" style="display: block;">
+                            </a>
+                            <div class="text">
+                                <h2>
+                                    <a class="ui link" href="javascript:void (0);" title="洒哇地咔 SWDK">
+                                        <!--target="_blank"-->
+                                        洒哇地咔 SWDK
+                                    </a>
+                                </h2>
+                                <div class="desc">
+                                    <p>
+                                        高效绿色，精细洗涤
+                                        <br/>
+                                        重新定义产品，自媒体曝光 <span>100+</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--分销政策-->
+    <div class="distribution_policy">
+        <div class="ui responsive grid">
+            <div class="c-block trademark_block distribution_policy_marginbottom">
+                <h2>分销政策</h2>
+                <div class="distribution_policy_title">
+                    铟果集已入选有赞推荐供应商，有赞金牌服务商。成为铟果集分销方可获得优势：
+                </div>
+                <div class="distribution_policy_center">
+                    <div class="distribution_policy_center_column">
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu3.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">零分销费</div>
+                            <div class="distribution_policy_div_text">
+                                种子期投资孵化项目，资本助力创业团队搭建和产品开发升级头部大号攻城掠地、中腰和底部社群全网覆盖战略，已有100＋合作自媒体，助力全渠道分发。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu2.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">零库存风险</div>
+                            <div class="distribution_policy_div_text">
+                                一件代发，包邮（新疆、西藏等边远地区除外），无需承担库存压力风险。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu1.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">精选产品</div>
+                            <div class="distribution_policy_div_text">
+                                与全国最优质的品牌合作，以铟果设计师平台，定制专属高品质优质设计产品，保证产品品质及用户口碑。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu8.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">售后服务</div>
+                            <div class="distribution_policy_div_text">
+                                完善的服务体系。我们将派驻客服专员进驻贵平台帮助回答客户问题。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu4.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">一手代理</div>
+                            <div class="distribution_policy_div_text">
+                                没有中间商赚差价；利润高：平均利润30%以上，个别产品可达50%（有赞平台规定的最高利润率）。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu5.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">太火鸟整合分销资源</div>
+                            <div class="distribution_policy_div_text">
+                                太火鸟整合分销资源，组建太火鸟新品推荐社群，凡是有赞上线铟果集产品的分销商，均可入群，互通有无，资源互换。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu6.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">营运支持</div>
+                            <div class="distribution_policy_div_text">
+                                专业线上运营、营销、推广、超一流产品营销文案；新品首发：全国范围不间断发现新品，第一时间供应。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/home/ingoset/distribution/fenzu7.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">提供资料</div>
+                            <div class="distribution_policy_div_text">
+                                可开启文章白名单（文章授权微信号：bigshowlhc），均为爆贴文案。100%使用我们的原创推广文章，产品主图、详情图、视频、GIF图一应俱全，产品卖点介绍清晰，可大大提高转化率。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
