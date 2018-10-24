@@ -6,29 +6,33 @@
                 <a href="{{ app_url_domain }}/home" class="{{ css_page_home }}">首页</a>
             </li>
             <li class="nav-item">
-                <a href="{{ app_url_d3ingo }}" target="_blank">产品创新</a>
+                <a href="{{ app_url_domain }}/design" class="{{css_page_design}}">设计交易</a>
             </li>
             <li class="nav-item">
-                <a href="{{ app_url_fiu }}" target="_blank">智能分发</a>
+                <!--<a href="{{ app_url_d3ingo }}" target="_blank">产品创新</a>-->
+                <a href="{{ app_url_d3ingo }}" target="_blank">铟果</a>
             </li>
+            <li class="nav-item">
+                <a href="{{ app_url_fiu }}" target="_blank">铟立方</a>
+            </li>
+
             <li class="nav-item">
                 <a href="{{ app_url_domain }}/ingoset" class="{{ css_page_ingoset }}">铟果集</a>
-                <!--<a href="{{ app_url_domain }}/ingoset" class="{{ css_page_ingoset }}">铟果集</a>-->
             </li>
             <li class="nav-item">
-                <a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区话题</a>
+                <a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区</a>
             </li>
-            <li class="nav-item ui dropdown server" data-url="javascript:void(0);">
+            <li class="nav-item ui dropdown server margin_none" data-url="javascript:void(0);">
                 <a href="{{ app_url_domain }}/service" class="{{ css_page_incubator }}">增值服务
-                  <i class="angle down icon"></i>
+                    <i class="angle down icon"></i>
                 </a>
                 <div class="menu">
-                  <a class="item" href="{{ app_url_domain }}/service#kjmx">科技美学</a>
-                  <a class="item" href="{{ app_url_domain }}/service#tzfh">投资孵化</a>
-                  <a class="item" href="{{ app_url_domain }}/service#zcfw">众筹服务</a>
-                  <a class="item" href="{{ app_url_domain }}/service#ppyx">品牌营销</a>
-                  <a class="item" href="{{ app_url_domain }}/service#d3in_shop">D³IN铟立方·未来店</a>
-                  <a class="item" href="{{ app_url_domain }}/service#d3in_sys">D³IN铟立方·未来实验室</a>
+                    <a class="item" href="{{ app_url_domain }}/service#kjmx">科技美学</a>
+                    <a class="item" href="{{ app_url_domain }}/service#tzfh">投资孵化</a>
+                    <a class="item" href="{{ app_url_domain }}/service#zcfw">众筹服务</a>
+                    <a class="item" href="{{ app_url_domain }}/service#ppyx">品牌营销</a>
+                    <a class="item" href="{{ app_url_domain }}/service#d3in_shop">D³IN铟立方·未来店</a>
+                    <a class="item" href="{{ app_url_domain }}/service#d3in_sys">D³IN铟立方·未来实验室</a>
                 </div>
             </li>
             <!--
@@ -48,12 +52,83 @@
         </ul>
     </div>
     <form class="search item" method="post" action="javascript:void(0);" id="searchbar">
-        
+
         <div class="ui icon input">
             <input name="q" type="text" value="{{ q }}" />
         </div>
         <i class="search icon"></i>
     </form>
-
     {% include "block/header_rightside.html" %}
 </div>
+
+{%block page_css%}
+<style>
+    /*.header.main>.ui.newnav.responsive.grid {*/
+        /*height: 70px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .logobar {*/
+        /*height: 70px;*/
+        /*background-position: 0 14px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .navbar-collapse .navbar-nav .nav-item a {*/
+        /*height: 70px;*/
+        /*line-height: 70px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .navbar-collapse .navbar-nav .nav-item .menu a {*/
+        /*height: 50px;*/
+        /*!*line-height: 70px;*!*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .search.item {*/
+        /*height: 70px;*/
+        /*margin: 0;*/
+        /*line-height: 70px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .search.item .search.icon {*/
+        /*height: 70px;*/
+        /*line-height: 70px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .auth {*/
+        /*height: 70px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .ui.login.button {*/
+        /*margin: 17px 15px 17px 5px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .ui.basket.button .menu {*/
+        /*margin: 3px 2px 0;*/
+    /*}*/
+    /*.header.main>.ui.newnav.responsive.grid .ui.user-setting.button .menu {*/
+        /*margin: 3px 2px 0;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .ui.basket.button {*/
+        /*margin: 17px 0*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .ui.user-setting.button {*/
+        /*margin: 17px 0*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .search.item.search-open {*/
+        /*width: 150px;*/
+    /*}*/
+    /*.header.main>.ui.newnav.responsive.grid .search.item.search-open input {*/
+        /*width: 140px;*/
+    /*}*/
+
+    /*.header.main>.ui.newnav.responsive.grid .search.item.search-open .search.icon {*/
+        /*left: 110px;*/
+    /*}*/
+
+    /*.margin_none i.icon {*/
+        /*margin: 0;*/
+    /*}*/
+</style>
+{%endblock%}
