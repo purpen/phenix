@@ -363,9 +363,16 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 
         return $this->to_redirect($surl['url']);
     }
-
+    // 铟果集
     public function ingoset(){
+    	$this->set_target_css_state('page_ingoset');
         return $this->to_html_page('page/ingoset.html');
+    }
+
+    // 设计交易
+    public function design(){
+    	$this->set_target_css_state('page_design');
+        return $this->to_html_page('page/design.html');
     }
 }
 
