@@ -2459,3 +2459,21 @@
 18-10-23 19:57:05 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_slide missing!
 18-10-23 19:57:05 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
 18-10-23 19:57:05 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_product_stick_slide missing!
+18-10-23 20:02:12 DEBUG  sher - Sher_Core_Util_Cart:getItemCount@/Users/junjingyi/Documents/php/phenix/src/Sher/Core/Util/Cart.php#329 - Cart item count: 0
+18-10-23 20:02:14 DEBUG  sher - Sher_Core_Util_Cart:getItemCount@/Users/junjingyi/Documents/php/phenix/src/Sher/Core/Util/Cart.php#329 - Cart item count: 0
+18-10-23 20:02:14 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-23 20:02:14 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_slide missing!
+18-10-23 20:02:14 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-23 20:02:14 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_product_stick_slide missing!
+18-10-24 09:29:59 DEBUG  sher - DoggyX_Session_Engine_Mongo:build_sequence_no@/Users/junjingyi/Documents/php/phenix/doggy/doggy-x/src/DoggyX/Session/Engine/Mongo.php#118 - Gen to sequence no [2656]
+18-10-24 09:29:59 DEBUG  sher - DoggyX_Session_Engine_Mongo:create_session@/Users/junjingyi/Documents/php/phenix/doggy/doggy-x/src/DoggyX/Session/Engine/Mongo.php#62 - New session 7cc934b6c907e7f9d7e4e8f0d295b132a59bf4b0 is open
+18-10-24 09:30:00 DEBUG  sher - Sher_Core_Util_Cart:getItemCount@/Users/junjingyi/Documents/php/phenix/src/Sher/Core/Util/Cart.php#329 - Cart item count: 0
+18-10-24 09:30:01 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-24 09:30:01 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_slide missing!
+18-10-24 09:30:01 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-24 09:30:01 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_product_stick_slide missing!
+18-10-24 09:30:03 DEBUG  sher - Sher_Core_Util_Cart:getItemCount@/Users/junjingyi/Documents/php/phenix/src/Sher/Core/Util/Cart.php#329 - Cart item count: 0
+18-10-24 09:30:03 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-24 09:30:03 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_slide missing!
+18-10-24 09:30:03 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#40 - cache loaded by self
+18-10-24 09:30:03 DEBUG  sher - Doggy_Dt_Tag_Cache:render@/Users/junjingyi/Documents/php/phenix/doggy/src/Doggy/Dt/Tag/Cache.php#50 - cache web_index_product_stick_slide missing!
