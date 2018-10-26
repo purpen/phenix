@@ -288,6 +288,8 @@
         font-size: 16px;
     }
     .img_wid_100 img {
+        width: 100%;
+        height: 100%;
         position: absolute;
         top: 0;
         right: 0;
@@ -379,12 +381,17 @@
     }
     .img_border {
         border: 1px solid #E6E6E6;
-        min-height: 320px;
+        height: 220px;
         position: relative;
     }
-
+    .img_border a {
+        width: 100%;
+        min-height: 220px;
+        display: block;
+        position: relative;
+    }
     .content {
-        margin-bottom: 65px;
+        margin-bottom: 50px;
     }
     /*设计服务*/
     .service {
@@ -753,10 +760,10 @@
         var item = rs.data[i];
         var company_name = '';
         var company_logo_url = '';
-        if (item.design_company) {
-          company_name = item.design_company.company_abbreviation;
-          if (item.design_company.logo_image) {
-            company_logo_url = item.design_company.logo_image.logo;
+        if (item.cover) {
+          // company_name = item.design_company.company_abbreviation;
+          if (item.cover.middle) {
+            company_logo_url = item.cover.middle;
           }
         }
         // <li>
