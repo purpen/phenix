@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service', 'en', 'ingoset');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service', 'en', 'ingoset', 'design');
 	
 	protected $admin_method_list = array();
 	

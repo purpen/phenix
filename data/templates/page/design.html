@@ -1,0 +1,1543 @@
+{%extends 'layout/column.html'%}
+
+{% block page_css%}
+<style>
+    .banner1 {
+        height: 500px;
+        background: url('{{ app_url_packaged }}/images/home/bg3.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #fff;
+        overflow:hidden;
+    }
+
+    .banner1.right {
+    }
+
+    .banner1 .ui.responsive.grid {
+        position: relative;
+        height: 100%;
+        display: flex;
+    }
+    .banner1.right .ui.responsive.grid {
+    }
+
+    .banner1 img {
+        position: absolute;
+        width: 50%;
+        right: 0;
+        top: 50%;
+        margin-top: -190px;
+    }
+    .banner1.right img {
+        width: 55%;
+        left: 0;
+        top: 25%;
+    }
+
+    .banner1 .cont {
+        width: 52%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .banner1.right .cont {
+        text-align: right;
+        float: right;
+    }
+
+    .banner1 .cont h3 {
+        font-size: 36px;
+        font-weight: 300;
+        text-align: left;
+    }
+    .banner1 .cont p {
+        font-size: 24px;
+        text-align: left;
+        font-weight: 200;
+        line-height: 2;
+        margin: 0;
+        padding: 0;
+    }
+    .banner1 .cont a {
+        margin-top: 20px;
+        height: 50px;
+        width: 180px;
+        display: block;
+        color: #ffffff;
+        font-size: 16px;
+        text-decoration: none;
+        background: #FE5B84;
+        border-radius: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ui.basic.button, .ui.basic.buttons .button{
+        width: 180px;
+        height: 50px;
+        border-radius: 30px;
+    }
+    .ui.basic.inverted.button, .ui.basic.inverted.buttons .button {
+        background: #FE5B84 !important;
+        border: 1px solid #FE5B84;
+        box-shadow: 0 0 0 0 !important;
+    }
+    .font_w {
+        font-weight: 300;
+    }
+    /*企业*/
+    .enterprise {
+        height: 120px;
+        display: flex;
+        background: #222222;
+    }
+    .enterprise_text {
+        width: 100%;
+    }
+    .enterprise ul {
+        height: 100%;
+        padding: 0 102px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .enterprise ul li {
+        color: #ffffff;
+        list-style: none;
+        width: 144px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 14px;
+        font-size: 16px;
+    }
+
+    .enterprise ul li img {
+        width: 100%;
+    }
+
+    /*优势*/
+    .advantage {
+        height: 120px;
+        padding: 0 130px;
+    }
+
+    .advantage .ui.grid {
+        margin: 0;
+        align-items: center;
+        display: flex;
+        height: 100%;
+    }
+
+    .wid-60 {
+        width: 60px;
+        margin-right: 15px;
+    }
+
+    .wid-60 img {
+        width: 100%;
+    }
+    .display_j {
+        display: flex;
+        align-items: center;
+    }
+
+    .display_j_c {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .display_j_e {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    .font_18 {
+        font-size: 18px;
+    }
+
+    .color_000 {
+        color: #000000;
+    }
+
+    .font_16 {
+        font-size: 16px;
+    }
+
+    .color_666 {
+        color: #666666;
+    }
+
+    .p_ling_height p {
+        line-height: 1;
+    }
+
+    /*设计服务级别*/
+    .ui.responsive.grid {
+        text-align: center;
+    }
+    .icon-list .column {
+        margin: 30px 0;
+    }
+    .icon-list .column .column img {
+        width: 60%;
+        margin-bottom: 10px;
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+    .section.gray {
+        opacity: 0.89;
+        background: #F9F9F9;
+    }
+
+    .section h3 {
+        color: #222;
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+    .section p.title {
+        margin: 20px 0;
+    }
+    .section p.desc {
+        color: #666;
+        font-size: 16px;
+        padding: 0 70px;
+        width: 450px;
+        margin: 0 auto;
+        font-weight: 300;
+    }
+    .section .img {
+        margin: 20px 0;
+    }
+    .section .img img {
+        width: 100%;
+    }
+
+    .margin-10 {
+        margin: 0 10px;
+    }
+    .details {
+        height: 435px;
+        background: #FFFFFF;
+        box-shadow: 0 0 20px 0 rgba(0,0,0,0.10);
+        border-radius: 4px;
+    }
+    .gradient {
+        width: 100%;
+        height: 144px;
+        opacity: 0.75;
+        background-image: linear-gradient(-180deg, #8C27CD 4%, #3A11B9 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px 4px 0 0
+    }
+
+    .wid-110 {
+        display: inline-block;
+        width: 110px;
+        height: 34px;
+        background: rgba(255,255,255,0.20);
+        border: 1px solid #FFFFFF;
+        border-radius: 30px;
+        line-height: 34px;
+        color: #ffffff;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .font_24 {
+        font-size: 24px;
+    }
+
+    .color_f {
+        color: #ffffff;
+    }
+
+    .padd-t-25 {
+        padding: 25px 20px 0;
+    }
+
+    .introduce_p p {
+        font-size: 14px;
+        color: #666666;
+        line-height: 24px;
+        text-align: left;
+        font-weight: 300;
+    }
+    /*设计案例*/
+    .c-block h2 {
+        text-align: center;
+        font-size: 30px;
+        color: #222;
+        margin: 0 0 50px 0;
+        padding-top: 50px;
+        font-family: PingFangSC-Light;
+    }
+    .product p:first-child {
+        color: #222222;
+        font-size: 16px;
+    }
+    .img_wid_100 img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+    }
+
+    .d3-card .ui.card, .ui.cards>.card {
+        background-color: #f5f5f5;
+    }
+
+    .d3-card .ui.three.cards .card .text {
+        padding: 11px 15px;
+        margin: 0;
+    }
+
+    .margin_b_20 {
+        margin-bottom: 20px;
+    }
+
+    .display_align {
+        width: 100px;
+        display: flex;
+        align-items: center;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .hei-14 {
+        height: 14px;
+    }
+
+    .margin-r-6 {
+        margin-right: 6px;
+        font-size: 18px;
+        color: #222222;
+    }
+
+    .background_f {
+        background: #ffffff;
+    }
+
+    .color_222 {
+        color: #222222;
+    }
+
+    .d3-card .ui.three.cards .card:hover {
+        /*box-shadow: 0 0 0 0;*/
+        border: none;
+    }
+
+    .brand_sj {
+        padding: 0 120px;
+    }
+    .brand_ul {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+
+    .brand_ul li {
+        list-style: none;
+        width: 33%;
+        padding: 0 10px;
+    }
+
+    .public h3 {
+        padding: 60px;
+        font-size: 30px;
+        color: #222222;
+        text-align: center;
+    }
+
+    .product {
+        text-align: left;
+        padding: 12px 20px;
+        min-height: 120px;
+    }
+    .product_details {
+        margin-top: 10px;
+    }
+
+    .margin_r_10 {
+        margin-right: 10px;
+    }
+    .img_border {
+        border: 1px solid #E6E6E6;
+        height: 220px;
+        position: relative;
+    }
+    .img_border a {
+        width: 100%;
+        min-height: 220px;
+        display: block;
+        position: relative;
+    }
+    .content {
+        margin-bottom: 50px;
+    }
+    /*设计服务*/
+    .service {
+        padding: 0 130px 60px 130px;
+    }
+
+    .margin_t_40 {
+        margin-top: 40px;
+    }
+    .service_gradient {
+        height: 200px;
+        padding: 15px 0 22px 0;
+        opacity: 0.75;
+        background-image: linear-gradient(-180deg, #8C27CD 4%, #3A11B9 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 4px;
+    }
+
+    .service_gradient img {
+        width: 120px;
+        margin-bottom: 15px;
+    }
+
+    .service_gradient span {
+        font-size: 18px;
+        color: #ffffff;
+        font-weight: 300;
+    }
+    .service h3 {
+        font-size: 30px;
+        color: #222222;
+        text-align: center;
+        padding: 10px 0 30px 0;
+    }
+
+    .text_center {
+        text-align: center;
+    }
+
+    .wid-200 {
+        width: 200px;
+        height: 50px;
+        display: inline-block;
+    }
+
+    .wid-200 a {
+        width: 100%;
+        height: 100%;
+    }
+    .wid-200 .ui.button {
+        line-height: 50px;
+        padding: 0;
+    }
+
+    .distribution_policy{
+        padding-top: 30px;
+        padding-bottom: 100px;
+        background: #FAFAFA;
+    }
+    .distribution_policy_center{
+        max-width: 1200px;
+        display: block;
+        position: relative;
+        width: 100%!important;
+        padding-top: 60px;
+        box-sizing: border-box;
+        -o-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        font-size: 0;
+        margin: 0 auto;
+        margin-top: 5px;
+    }
+    .distribution_policy_center_column{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .distribution_policy_div{
+        width: 220px;
+        padding: 0px 20px 15px 10px;
+        float: left;
+    }
+    .distribution_policy_div_img{
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 24px auto;
+    }
+    .distribution_policy_div_img img{
+        width: 120px;
+        height: 120px;
+        vertical-align: middle;
+    }
+
+    .distribution_policy_div_img_90{
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 24px auto;
+    }
+    .distribution_policy_div_img_90 img{
+        width: 90px;
+        height: 90px;
+        vertical-align: middle;
+    }
+    .distribution_policy_div_title{
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
+        font-size: 18px;
+        color: #222222;
+        text-align: center;
+        margin-bottom: 14px;
+        float: left;
+    }
+    .distribution_policy_div_text{
+        width: 100%;
+        line-height: 18px;
+        font-size: 14px;
+        color: #666666;
+        text-align: center;
+        font-weight: 300;
+        float: left;
+        min-height: 110px;
+        line-height: 20px;
+    }
+
+    /*供应商*/
+    .supplier {
+        padding: 60px 120px;
+        text-align: center;
+    }
+
+    .supplier h3 {
+        font-size: 28px;
+        color: #222222;
+        margin-bottom: 50px;
+    }
+
+    .company-ava img {
+        width: 80px;
+        margin: 10px 24px 10px 24px;
+        border-radius: 50%;
+        overflow: hidden;
+        vertical-align: middle;
+        border: 1px solid #C8C8C8;
+    }
+    /*成功案例*/
+    .c-block .content {
+        margin: 0 0 50px 0;
+    }
+
+    .slides1 {
+        position: relative;
+        height: 500px;
+    }
+
+    .flex-control-nav {
+        top: 100%;
+        z-index: 0;
+    }
+
+    .flex-control-nav li a.flex-active {
+        opacity: 1;
+        background: #FF6C70;
+    }
+
+    .flex-control-nav li a {
+        opacity: 0.5;
+        background: rgba(0,0,0,0.40);
+        background: #949494;
+    }
+    .flex-direction-nav {
+        display: block;
+    }
+
+    .flex-direction-nav .flex-prev {
+        left: -60px !important;
+        width: 30px;
+        height: 55px;
+        opacity: 1;
+        font-size: 0;
+    }
+
+    .flex-direction-nav .flex-next {
+        right: -60px !important;
+        width: 30px;
+        height: 55px;
+        opacity: 1;
+        font-size: 0;
+    }
+
+    .product-box {
+        margin-top: 40px;
+    }
+
+    .product-box .brand {
+        margin: 10px 0;
+        color: #28313E;
+        font-size: 20px;
+        font-weight: 300;
+    }
+
+    .product-box .brand img {
+        height: 40px;
+        vertical-align: middle;
+    }
+
+    .product-box h3 {
+        color: #28313E;
+        font-size: 30px;
+        font-weight: 300;
+    }
+
+    .product-box p {
+        color: #666;
+        font-size: 20px;
+        line-height: 1.5;
+        font-weight: 300;
+    }
+
+    .product-box .desc {
+        color: #999;
+        font-size: 16px;
+    }
+
+    .product-img img {
+        width: 100%;
+    }
+
+    /*合作伙伴*/
+    .partners {
+        padding: 60px 120px;
+        text-align: center;
+    }
+
+    .partners h3 {
+        font-size: 28px;
+        color: #222222;
+        margin-bottom: 40px;
+    }
+
+    .padd-260_four {
+        padding: 0 260px;
+    }
+
+    .padd-186_five {
+        padding: 0 186px;
+    }
+
+    .wid_img ul {
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    .wid_img ul li {
+        width: 144px;
+        height: 60px;
+        list-style: none;
+        margin: 15px 10px;
+    }
+
+    .wid_img ul li img {
+        width: 100%
+    }
+    /*成熟的解决方案*/
+    .plan {
+        padding-top: 60px;
+    }
+    .plan h3 {
+        color: #222;
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+    .plan p.title {
+        margin: 20px 0;
+    }
+    .plan p.desc {
+        color: #666;
+        font-size: 16px;
+        padding: 0 70px;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 300;
+    }
+
+    #context2 .ui.segment {
+        font-size: 16px;
+        color: #666666;
+        border:none;
+        background-color: #f5f5f5;
+        margin-top: 30px;
+        line-height: 22px;
+        min-height: 90px;
+        margin-bottom: 45px;
+        padding: 1em 0;
+    }
+    #context2 {
+        padding: 0 120px;
+    }
+    #context2 .ui.menu {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    #context2 .ui.menu .item {
+        width: 220px;
+        height: 60px;
+        margin: 0 auto;
+        background: #FFFFFF;
+        border: 1px solid #E6E6E6;
+        justify-content: center;
+    }
+
+    #context2 .ui.secondary.menu .active.item {
+        background: #FE5B84;
+        border: 1px solid #E6E6E6;
+        color: #ffffff;
+    }
+
+    #context2 .ui.secondary.menu a.item:hover {
+        background: #FE5B84;
+        border: 1px solid #E6E6E6;
+        color: #ffffff;
+    }
+
+    #context2 .ui.secondary.menu .active.item:hover {
+        background: #FE5B84;
+        border: 1px solid #E6E6E6;
+        color: #ffffff;
+    }
+
+    .lin-clamp-3 {
+        display: -webkit-box;
+        /* autoprefixer: off*/
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on*/
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .lin-clamp-1 {
+        display: -webkit-box;
+        /* autoprefixer: off*/
+        -webkit-box-orient: vertical;
+        /* autoprefixer: on*/
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+
+    .min_wid_50 {
+        min-height: 50px;
+    }
+
+    .color_222:hover {
+        color: #222222;
+    }
+</style>
+{% endblock%}
+{% block layout_js %}
+<script>
+  // 获取铟果灵感
+  function ajax_load_d3ingo_case(category_id, type, sort, page, size){
+    var url = '{{ app_url_d3ingo_api }}/designCase/openLists';
+    $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
+      console.log(rs)
+      var html = '';
+      for (var i = 0; i < rs.data.length; i++) {
+        var item = rs.data[i];
+        var company_name = '';
+        var company_logo_url = '';
+        if (item.cover) {
+          // company_name = item.design_company.company_abbreviation;
+          if (item.cover.middle) {
+            company_logo_url = item.cover.middle;
+          }
+        }
+
+        html += '<li>'
+        html += '<div class="content">'
+        html += '<div class="display_align margin_b_20">'
+        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list?'+"type="+item.type+'" class="color_222" target="_blank"><span class="margin_r_10">'+item.type_val+'</span></a>'
+        // html += '<span class="margin_r_10 color_222"><a href="{{ app_url_d3ingo }}/design_case/general_list">'+item.type_val+'</a></span>'
+        html += '<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
+        html += '</div>'
+        html += '<div class="img_wid_100 img_border">'
+        html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank"><img src="'+company_logo_url+'" alt=""</a>'
+        html += '</div>'
+        html += '<div class="product">'
+        // html += '<p class="product_title lin-clamp-1"><a><p></p></a></p>'
+        html += '<a class="" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank"><p class="product_title lin-clamp-1">'+item.title+'</p></a>'
+        html += '<p class="product_details lin-clamp-3">'+item.profile+'</p>'
+        html += '</div>'
+        html += '</div>'
+        html += '</li>'
+        // html += '<div class="card">';
+        // html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
+        // html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        // html += '<div class="text">';
+        // html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
+        // html += '<div class="desc"><p>'+ item.profile +'</p></div>';
+        // html += '<p class="user"><img src="'+ company_logo_url +'" width="30" /> '+ company_name +'</p>';
+        // html += '</div>';
+        // html += '</div>';
+
+      }
+      //
+      $('.brand_ul').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+</script>
+{% endblock %}
+{% block jquery %}
+    // 产品图片沦换
+    $(".slides1").flexslider({
+    slideshowSpeed: 3000
+    });
+
+    // tab
+    $('#context2 .menu .item')
+        .tab({
+        // special keyword works same as above
+        context: 'parent'
+        })
+    ;
+    ajax_load_d3ingo_case(0, 0, 5, 1, 6);
+{% endblock %}
+{% block content%}
+<div>
+    <div class="saas-box">
+        <div class="banner1">
+            <div class="ui responsive grid">
+                <div class="cont">
+                    <h3>太火鸟</h3>
+                    <p>创新产品专业B2B交易服务SaaS平台</p>
+                    <div class="clear">
+                        <a href="{{ app_url_d3ingo }}" class="" target="_blank">发布项目需求</a>
+                    </div>
+                </div>
+                <img src="{{ app_url_packaged }}/images/home/d3in.png" />
+            </div>
+        </div>
+    </div>
+    <div class="enterprise">
+        <div class="ui responsive enterprise_text">
+            <ul>
+                <li>受到500+企业信赖</li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/01@2x.png" alt=""></li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/02@2x.png" alt=""></li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/03@2x.png" alt=""></li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/04@2x.png" alt=""></li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/05@2x.png" alt=""></li>
+                <li><img src="{{ app_url_packaged }}/images/design/500/06@2x.png" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <div class="advantage">
+        <div class="ui stackable three column grid">
+            <div class="column">
+                <div class="display_j">
+                    <div class="wid-60">
+                        <img src="{{ app_url_packaged }}/images/design/icon/major@2x.png" alt="">
+                    </div>
+                    <div class="p_ling_height">
+                        <p class="font_18 color_000">专业服务</p>
+                        <p class="font_16 color_666 font_w">汇聚国内专业设计服务商</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="display_j_c">
+                    <div class="wid-60">
+                        <img src="{{ app_url_packaged }}/images/design/icon/accurate@2x.png" alt="">
+                    </div>
+                    <div class="p_ling_height">
+                        <p class="font_18 color_000">智能精准</p>
+                        <p class="font_16 color_666 font_w">找到适合你的设计服务商</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="display_j_e">
+                    <div class="wid-60">
+                        <img src="{{ app_url_packaged }}/images/design/icon/Design@2x.png" alt="">
+                    </div>
+                    <div class="p_ling_height">
+                        <p class="font_18 color_000">优质设计</p>
+                        <p class="font_16 color_666 font_w">项目协同追踪保证质量</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--找到适合您的设计服务级别-->
+    <div class="section gray">
+        <div class="ui responsive grid">
+            <h3>找到适合您的设计服务级别</h3>
+            <!--<p>每个选项都包括大量顶级设计服务商。-->
+                <!--选择您需要的服务级别。</p>-->
+            <p class="desc">每个选项都包括大量顶级设计服务商。选择您需要的服务级别。</p>
+            <div class="ui grid icon-list">
+                <div class="four column row">
+                    <div class="column">
+                        <div class="margin-10 details">
+                            <div class="gradient">
+                                <p class="wid-110">基础版</p>
+                                <p class="font_24 color_f">4万<span class="font_16">起</span></p>
+                            </div>
+                            <div class="padd-t-25 introduce_p">
+                                <p>1.造型、结构设计二选一。</p>
+                                <p>2.项目时限为平均参考，不同项目设计有差异，以实际合同签约时限为准。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="margin-10 details">
+                            <div class="gradient">
+                                <p class="wid-110">进阶版</p>
+                                <p class="font_24 color_f">8万<span class="font_16">起</span></p>
+                            </div>
+                            <div class="padd-t-25 introduce_p">
+                                <p>1.结构设计复杂程度若涉及行业壁垒、多套精密零配件等高端技术，则需根据实际评估价格额外付费。</p>
+                                <p>2.中型、大型设计二选一，默认中型、若选择大型则跳转至综合版。</p>
+                                <p>3.项目时限为平均参考，不同项目设计有差异，以实际合同签约时限为准。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="margin-10 details">
+                            <div class="gradient">
+                                <p class="wid-110">综合版</p>
+                                <p class="font_24 color_f">15万<span class="font_16">起</span></p>
+                            </div>
+                            <div class="padd-t-25 introduce_p">
+                                <p>1.中型、大型设计二选一，默认中型，若选择大型则跳转至全能版。</p>
+                                <p>2.项目时限为平均参考，不同项目设计有差异，以实际合同签约时限为准。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="margin-10 details">
+                            <div class="gradient">
+                                <p class="wid-110">全能版</p>
+                                <p class="font_24 color_f">30万<span class="font_16">起</span></p>
+                            </div>
+                            <div class="padd-t-25 introduce_p">
+                                <p>1.大型、集团型设计二选一，默认大型，若选择集团型则总价+20%。</p>
+                                <p>2.项目时限为平均参考，不同项目设计有差异，以实际合同签约时限为准。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--成熟的解决方案2222-->
+    <div class="plan gray">
+        <div class="ui responsive grid">
+            <h3>成熟的解决方案</h3>
+            <!--<p>每个选项都包括大量顶级设计服务商。-->
+                <!--选择您需要的服务级别。</p>-->
+            <p class="desc">行业纵深，直达痛点，专业经验为您解决多种业务难题</p>
+            <div id="context2">
+                <div class="ui secondary menu">
+                    <a class="item active" data-tab="zzqy">制造企业</a>
+                    <a class="item" data-tab="zckj">众创空间</a>
+                    <a class="item" data-tab="dspt">电商平台</a>
+                    <a class="item" data-tab="zf">政府</a>
+                </div>
+                <div class="ui active tab segment" data-tab="zzqy">
+                    <p class="font_w min_wid_50">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
+                    <div class="distribution_policy_center">
+                        <div class="distribution_policy_center_column">
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/transaction@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">设计交易</div>
+                                <div class="distribution_policy_div_text">
+                                    企业按需发布项目需求，支付项目设计费用。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/hatch@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">投资孵化</div>
+                                <div class="distribution_policy_div_text">
+                                    联合投资孵化创业团队，
+                                    打造平台产品生态链。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Marketing@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">营销推广</div>
+                                <div class="distribution_policy_div_text">
+                                    根据平台大数据与设计公司、太火鸟联合开发产品。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Definition@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">需求定义</div>
+                                <div class="distribution_policy_div_text">
+                                    联合投资孵化创业团队，
+                                    打造平台产品生态链。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui tab segment" data-tab="zckj">
+                    <p class="font_w min_wid_50">汲取太火鸟多年产品创新和投资孵化经验<br>
+                        帮助众创空间里初创企业、创业团队构建产品创新体系。</p>
+                    <div class="distribution_policy_center">
+                        <div class="distribution_policy_center_column">
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/DesignServices@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">设计服务</div>
+                                <div class="distribution_policy_div_text">
+                                    海量专业设计服务商
+                                    帮助创业团队解决项目设计需求
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/UserPortrait@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">用户画像</div>
+                                <div class="distribution_policy_div_text">
+                                    借助京东云对消费者的洞察
+                                    为创业者提供用户画像咨询
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/ProductDefinition@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">产品定义</div>
+                                <div class="distribution_policy_div_text">
+                                    基于销售大数据
+                                    洞察消费市场
+                                    重新定义创新产品及品类
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Marketing@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">营销推广</div>
+                                <div class="distribution_policy_div_text">
+                                    营销赋能创新产品及品牌
+                                    精准化社群及精选电商分销
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui tab segment" data-tab="dspt">
+                    <p class="font_w min_wid_50">联合精准零售渠道进行联合加速，对于相对成熟的创新项目，将以股权投资以及交易聚集的模式，生成具有爆品潜质的创新产品，并逐渐形成爆款单品集群，建立以“设计+投资+销售”为核心驱动的涵盖各品类的创新产品平台。</p>
+                    <div class="distribution_policy_center">
+                        <div class="distribution_policy_center_column">
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/transaction@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">设计交易</div>
+                                <div class="distribution_policy_div_text">
+                                    企业按需发布项目需求，支付项目设计费用。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Invitations@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">定向邀约</div>
+                                <div class="distribution_policy_div_text">
+                                    邀请知名设计公司，设计代表企业方价值主张的产品
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Development@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">联合开发</div>
+                                <div class="distribution_policy_div_text">
+                                    根据平台大数据与设计公司、太火鸟联合开发产品
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/hatch@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">投资孵化</div>
+                                <div class="distribution_policy_div_text">
+                                    联合投资孵化创业团队
+                                    打造平台产品生态链
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui tab segment" data-tab="zf">
+                    <p class="font_w min_wid_50">太火鸟联合京东云，通过设计创新实现“资源共享、能力互补、供需对接”，构建完善的“产品设计-生产制造-终端销售”全产业链条。助力地方产业转型升级与创新要素聚集。</p>
+                    <div class="distribution_policy_center">
+                        <div class="distribution_policy_center_column">
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/hatch@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">投资孵化</div>
+                                <div class="distribution_policy_div_text">
+                                    通过投资、孵化特色产业中最具活力的高增长企业。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Innovate@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">协同创新</div>
+                                <div class="distribution_policy_div_text">
+                                    整合太火鸟及京东云资源，共建协同创新中心，补齐地方产业新体系要素。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/BrandBuilding@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">品牌打造</div>
+                                <div class="distribution_policy_div_text">
+                                    持续传播产业创新要素、创新人才产品等，打造区域产业品牌。
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/PersonnelTraining@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">人才培养</div>
+                                <div class="distribution_policy_div_text">
+                                    组建创业导师和专家团队，引入行业创新资源，培养优秀创新人才。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--设计案例-->
+    <div class="brand_sj public background_f">
+        <h3>设计案例</h3>
+        <ul class="brand_ul"></ul>
+    </div>
+    <div class="service background_f">
+        <h3>为创新者提供高效的创新设计服务</h3>
+        <div class="ui six column grid">
+            <div class="row tools">
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/ProductDesign@2x.png" />
+                        <span>产品设计</span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/Graphic.png" />
+                        <span>平面设计</span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/UI@2x.png" />
+                        <span>UI/UX设计</span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/H5.png" />
+                        <span>H5设计</span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/Packing.png" />
+                        <span>包装设计</span>
+                    </p>
+                </div>
+                <div class="column">
+                    <p class=" service_gradient">
+                        <img src="{{ app_url_packaged }}/images/design/service/Illustrations.png" />
+                        <span>插画设计</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="text_center margin_t_40">
+            <p class="wid-200"><a href="{{ app_url_d3ingo }}" class="ui magenta inverted active large more button">发布项目需求</a></p>
+        </div>
+    </div>
+    <!--分销政策-->
+    <div class="distribution_policy">
+        <div class="ui responsive grid">
+            <div class="c-block trademark_block distribution_policy_marginbottom">
+                <h2>项目如何开展工作</h2>
+                <div class="distribution_policy_center">
+                    <div class="distribution_policy_center_column">
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/design/work/Release@2x.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">发布项目需求</div>
+                            <div class="distribution_policy_div_text">
+                                告诉我们您的项目需求。我们将您与全国各地或最近的顶尖设计服务商联系起来。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/design/work/matching@2x.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">智能匹配设计服务商</div>
+                            <div class="distribution_policy_div_text">
+                                在24小时内为你智能匹配推荐设计服务商。比较出价，评分和之前的设计案例。选择最合适您的服务商。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/design/work/ProjectProgress@2x.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">轻松协作管理项目进度</div>
+                            <div class="distribution_policy_div_text">
+                                使用项目管理软件，及时查看设计服务商分阶段提交的项目文件，跟踪项目进度并及时沟通项目进度。
+                            </div>
+                        </div>
+                        <div class="distribution_policy_div">
+                            <div class="distribution_policy_div_img">
+                                <img src="{{ app_url_packaged }}/images/design/work/Projectevaluation@2x.png" alt="">
+                            </div>
+                            <div class="distribution_policy_div_title">项目评价</div>
+                            <div class="distribution_policy_div_text">
+                                分阶段确认项目，直到项目结束。针对服务商在项目过程中的服务做出评价。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--入驻设计服务供应商-->
+    <div class="supplier background_f">
+        <h3>入驻设计服务供应商</h3>
+        <div class="content cooperation_imgesr">
+            <div class="company-ava">
+                <img src="{{ app_url_packaged }}/images/design/supplier/01@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/02@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/03@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/04@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/05@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/06@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/07@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/08@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/9@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/10@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/11@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/12@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/13@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/14@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/15@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/16@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/17@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/18@2x.png">
+            </div>
+            <div class="text_center margin_t_40">
+                <p class="wid-200"><a href="https://www.d3ingo.com/server_design" target="_blank" class="ui magenta inverted active large more button">立即入驻</a></p>
+            </div>
+        </div>
+    </div>
+    <!--成功案例-->
+    <div class="c-block">
+        <div class="ui responsive grid">
+            <h2>成功案例</h2>
+            <div class="content">
+
+                <div class="slides1">
+                    <ul class="slides">
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/26" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/logo_swdk.png" />
+                                                    洒哇地咔
+                                                </div>
+                                                <h3>洒哇地咔智能拖地机器人</h3>
+                                                <p>单周销量1500台</p>
+                                                <p class="desc">重新设计产品图片、输出原创内容，提升品牌格调和销售转化新品开发，重新设计产品外观和功能体验</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/25" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand b-exp">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/micoe&WOW@2x.png" />
+
+                                                </div>
+                                                <h3>四季沐歌不插电的WOW净水机</h3>
+                                                <p>众筹总额高达23,134,254元</p>
+                                                <p class="desc">众筹纪录创造者，产品由太火鸟运营众筹，3月27日众筹正式开始便展现了惊人的潜力，众筹表现38分钟众筹金额破百万、4天破千万。经过一个月的众筹，最终的众筹总额高达23,134,254元，支持人数14,804人，2313%完成众筹目标。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/micoe&WOW.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/24" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/xiaoyi@2x.png" />
+                                                    小蚁
+                                                </div>
+                                                <h3>小蚁智能行车记录仪</h3>
+                                                <p>众筹总额高达16,191,730元</p>
+                                                <p class="desc">2015年，太火鸟联合小蚁智能行车记录仪的出品公司小蚁科技，在淘宝众筹首发小蚁智能行车记录仪。太火鸟社区发起“募百人首批小蚁样机体验团”试用活动，申请使用人数突破2300人，3天众筹金额突破1000万。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/yi.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/23" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/ingmeng.png" />
+                                                    婴萌科技
+                                                </div>
+                                                <h3>婴萌智能配奶机</h3>
+                                                <p>众筹总额超过320万人民币</p>
+                                                <p class="desc">北京婴萌科技有限公司设计研发的智能配奶机由太火鸟全程孵化运营，配合卖点提炼、市场定位和针对性营销规划。至今产品已在淘宝众筹平台共筹集320多万人民币，649%达成众筹目标，获得3794多人支持。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/ingmeng.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/22" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/fifish@2x.png" />
+
+                                                </div>
+                                                <h3>飞行鱼-亚特兰蒂斯号FiFish Atlantis</h3>
+                                                <p>属于水下世界的未来消费级产品</p>
+                                                <p class="desc">由太火鸟旗下的“太火鸟深圳D3IN铟立方未来实验室”在2016年推出的全球首款进入消费级市场的ROV智能水下机器人，主要用途为水下摄像，一经推出即获得了2017年美国CES创新大奖和2017年DIA中国智造大奖。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/fifish.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/21" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/logo_sushi.png" />
+                                                    素士 Soocare
+                                                </div>
+                                                <h3>素士声波电动牙刷</h3>
+                                                <p>自媒体销售额约2000万</p>
+                                                <p class="desc">种子期投资孵化项目，资本助力创业团队搭建和产品开发升级，头部大号攻城掠地、中腰和底部社群全网覆盖战略，已有100＋合作自媒体，助力全渠道分发</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/20" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/WOWSTICK@2x.png" />
+                                                    WOWSTICK
+                                                </div>
+                                                <h3>WOWSTICK 1fs电动螺丝刀</h3>
+                                                <p>分销总额超过3,000万元</p>
+                                                <p class="desc">WOWSTICK电动螺丝刀是小米智能家居2016年第42期众筹新品，太火鸟参与运营众筹并担任线上销售总代理，最终筹集金额199万元，2016年12月至2017年4月，该款产品在米家商城/米家有品的销售额高达600万，分销总额超过3,000万元。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/case_lsd.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/19" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/AMIRP_LUX@2x.png" />
+
+                                                </div>
+                                                <h3>AMIRO LUX日光镜</h3>
+                                                <p>俘获众网红芳心的科技生活爆品</p>
+                                                <p class="desc">深圳市宗匠科技有限公司（以下简称宗匠）以智能照明为核心研发对象，发布了高科技智能化妆镜由。2015年，太火鸟参与宗匠天使轮投资，并开放自有电商平台供宗匠产品入驻销售。如今，宗匠已通过研发日光灯、自拍补光灯等产品获得“中国智能化妆镜第一品牌”的称号。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/AMIRO_LUX.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{{ app_url_d3ingo }}/article/show/18" target="_blank">
+                                <div class="product">
+                                    <div class="ui responsive relaxed grid">
+                                        <div class="eight wide column">
+                                            <div class="product-box">
+                                                <div class="brand">
+                                                    <img src="{{ app_url_packaged }}/images/home/product/uma.png" />
+                                                    云马
+                                                </div>
+                                                <h3>云马C1智能电单车</h3>
+                                                <p>太火鸟运营发布的爆款“鼻祖”</p>
+                                                <p class="desc">2015年10月15日，太火鸟协助国内电单车品牌云造科技正式发布云马 C1智能电单车，同步上线淘宝众筹，并助其拓展线上线下及海外营销渠道，不到一个月时间即完成众筹金额破千万的成绩。截止众筹结束，云马C1智行车共取得5879粉丝支持，筹得资金¥11597621，1159%完成众筹目标，渠道直采4万台。</p>
+                                            </div>
+                                        </div>
+                                        <div class="eight wide column product-img">
+                                            <img src="{{ app_url_packaged }}/images/home/product/yunma.jpg" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="partners background_f">
+        <h3>合作伙伴</h3>
+        <div class="padd-260_four wid_img">
+            <ul>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/01@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/02@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/03@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/04@2x.png" />
+                </li>
+            </ul>
+        </div>
+        <div class="padd-186_five wid_img">
+            <ul>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/05@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/06@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/07@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/08@2x.png" />
+                </li>
+                <li>
+                    <img src="{{ app_url_packaged }}/images/design/partners/09@2x.png" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

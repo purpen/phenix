@@ -568,9 +568,67 @@
             width: calc(50% - 70px);
         }
     }
+
+    /*遮罩层*/
+    .wid-600 {
+        width: 600px;
+        height: 400px;
+        background: #ffffff;
+        margin: 0 auto;
+        border-radius: 4px;
+        padding: 32px 120px 40px;
+        position: relative;
+    }
+
+    .wid-600 h3 {
+        margin-bottom: 24px;
+        margin-top: 0;
+        color: #222222;
+    }
+    .font_14 {
+        font-size: 14px;
+    }
+
+    .color_6 {
+        color: #666666;
+    }
+
+    .color_ff {
+        color: #FF3366;
+    }
+    .margin_t_b_18 {
+        margin: 18px 0;
+    }
+
+    .wid_180 {
+        width: 180px;
+    }
+
+    .mask_close {
+        width: 16px;
+        position: absolute;
+        top: 32px;
+        right: 28px;
+        cursor: pointer;
+    }
 </style>
 {% endblock %}
+{% block jquery %}
+    <!--$('.mask_show').on('click', function(e){-->
+    <!--$('.dimmer').dimmer({-->
+            <!--opacity: '.7',-->
+            <!--on: 'click'-->
+        <!--});-->
+    <!--&lt;!&ndash;e.stopPropagation();&ndash;&gt;-->
+    <!--})-->
+        $('.mask_show').click(function(){
+            $('.dimmer').dimmer('show');
+        })
 
+        $('.mask_close').click(function(){
+            $('.dimmer').dimmer('hide');
+        })
+{% endblock %}
 {% block content %}
 <div id="homepage">
     <!--头图-->
@@ -811,7 +869,7 @@
                             </div>
                         </div>
                         <div class="card trademark_view_more">
-                            <div class="trademark_view_more_div">
+                            <div class="trademark_view_more_div mask_show">
                                 <span>查看更多</span>
                                 <a href="javascript:void (0);"></a>
                             </div>
@@ -923,6 +981,20 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui page dimmer opacity_7">
+        <div class="content">
+            <div class="center">
+                <div class="wid-600">
+                    <img class="mask_close" src="{{ app_url_packaged }}/images/home/ingoset/mask/close@2x.png" alt="">
+                    <h3>铟果集二维码</h3>
+                    <span class="font_14 color_6">“铟果集·生活新质感” 太火鸟科技旗下创新产品采销平台
+行业尖货选品站，先人一步进好货！</span>
+                    <p class="color_ff font_14 margin_t_b_18">扫  码  查  看  更  多  ！</p>
+                    <img class="wid_180" src="{{ app_url_packaged }}/images/home/ingoset/mask/QR@2x.png" alt="">
                 </div>
             </div>
         </div>
