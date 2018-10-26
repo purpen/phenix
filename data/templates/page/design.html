@@ -210,7 +210,6 @@
         color: #666;
         font-size: 16px;
         padding: 0 70px;
-        width: 450px;
         margin: 0 auto;
         font-weight: 300;
     }
@@ -281,7 +280,6 @@
         color: #222;
         margin: 0 0 50px 0;
         padding-top: 50px;
-        font-family: PingFangSC-Light;
     }
     .product p:first-child {
         color: #222222;
@@ -475,7 +473,7 @@
         justify-content: space-between;
     }
     .distribution_policy_div{
-        width: 220px;
+        width: 280px;
         padding: 0px 20px 15px 10px;
         float: left;
     }
@@ -684,31 +682,40 @@
     }
 
     #context2 .ui.segment {
+        width: 880px;
         font-size: 16px;
         color: #666666;
         border:none;
         background-color: #f5f5f5;
-        margin-top: 30px;
+        padding-top: 30px;
         line-height: 22px;
         min-height: 90px;
-        margin-bottom: 45px;
-        padding: 1em 0;
+        padding-bottom: 45px;
+        margin: 0 auto;
     }
     #context2 {
         padding: 0 120px;
     }
     #context2 .ui.menu {
-        justify-content: space-between;
+        width: 880px;
+        margin: 0 auto;
+        justify-content: center;
         align-items: center;
     }
 
     #context2 .ui.menu .item {
         width: 220px;
         height: 60px;
-        margin: 0 auto;
+        margin: 0 !important;
         background: #FFFFFF;
         border: 1px solid #E6E6E6;
         justify-content: center;
+        border-right: none;
+        border-radius: 0;
+    }
+
+    #context2 .ui.menu .item:last-child {
+        border-right: 1px solid #E6E6E6;
     }
 
     #context2 .ui.secondary.menu .active.item {
