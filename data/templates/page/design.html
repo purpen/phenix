@@ -746,6 +746,14 @@
         -webkit-line-clamp: 3;
         overflow: hidden;
     }
+
+    .min_wid_50 {
+        min-height: 50px;
+    }
+
+    .color_222:hover {
+        color: #222222;
+    }
 </style>
 {% endblock%}
 {% block layout_js %}
@@ -766,25 +774,12 @@
             company_logo_url = item.cover.middle;
           }
         }
-        // <li>
-        // <div class="content">
-        //   <div class="display_align margin_b_20">
-        //   <span class="margin-r-6">智能硬件</span>
-        //   <img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">
-        //   </div>
-        //   <div class="img_wid_100 img_border">
-        //   <img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">
-        //   </div>
-        //   <div class="product">
-        //   <p class="product_title lin-clamp-1">产品名称</p>
-        //   <p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>
-        //   </div>
-        //   </div>
-        //   </li>
+
         html += '<li>'
         html += '<div class="content">'
         html += '<div class="display_align margin_b_20">'
-        html += '<span class="margin_r_10">'+item.type_val+'</span>'
+        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list" class="color_222"><span class="margin_r_10">'+item.type_val+'</span></a>'
+        // html += '<span class="margin_r_10 color_222"><a href="{{ app_url_d3ingo }}/design_case/general_list">'+item.type_val+'</a></span>'
         html += '<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
         html += '</div>'
         html += '<div class="img_wid_100 img_border">'
@@ -975,7 +970,7 @@
                     <a class="item" data-tab="zf">政府</a>
                 </div>
                 <div class="ui active tab segment" data-tab="zzqy">
-                    <p class="font_w">太火鸟联合京东云，通过设计创新实现“资源共享、能力互补、供需对接”，构建完善的“产品设计-生产制造-终端销售”全产业链条。助力地方产业转型升级与创新要素聚集。</p>
+                    <p class="font_w min_wid_50">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
                     <div class="distribution_policy_center">
                         <div class="distribution_policy_center_column">
                             <div class="distribution_policy_div">
@@ -1020,10 +1015,56 @@
                     </div>
                 </div>
                 <div class="ui tab segment" data-tab="zckj">
-                    <p>Definition@2x.png</p>
+                    <p class="font_w min_wid_50">汲取太火鸟多年产品创新和投资孵化经验<br>
+                        帮助众创空间里初创企业、创业团队构建产品创新体系。</p>
+                    <div class="distribution_policy_center">
+                        <div class="distribution_policy_center_column">
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/DesignServices@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">设计服务</div>
+                                <div class="distribution_policy_div_text">
+                                    海量专业设计服务商
+                                    帮助创业团队解决项目设计需求
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/UserPortrait@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">用户画像</div>
+                                <div class="distribution_policy_div_text">
+                                    借助京东云对消费者的洞察
+                                    为创业者提供用户画像咨询
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/ProductDefinition@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">产品定义</div>
+                                <div class="distribution_policy_div_text">
+                                    基于销售大数据
+                                    洞察消费市场
+                                    重新定义创新产品及品类
+                                </div>
+                            </div>
+                            <div class="distribution_policy_div">
+                                <div class="distribution_policy_div_img_90">
+                                    <img src="{{ app_url_packaged }}/images/design/solve/Marketing@2x.png" alt="">
+                                </div>
+                                <div class="distribution_policy_div_title">营销推广</div>
+                                <div class="distribution_policy_div_text">
+                                    营销赋能创新产品及品牌
+                                    精准化社群及精选电商分销
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="ui tab segment" data-tab="dspt">
-                    <p>联合精准零售渠道进行联合加速，对于相对成熟的创新项目，将以股权投资以及交易聚集的模式，生成具有爆品潜质的创新产品，并逐渐形成爆款单品集群，建立以“设计+投资+销售”为核心驱动的涵盖各品类的创新产品平台。</p>
+                    <p class="font_w min_wid_50">联合精准零售渠道进行联合加速，对于相对成熟的创新项目，将以股权投资以及交易聚集的模式，生成具有爆品潜质的创新产品，并逐渐形成爆款单品集群，建立以“设计+投资+销售”为核心驱动的涵盖各品类的创新产品平台。</p>
                     <div class="distribution_policy_center">
                         <div class="distribution_policy_center_column">
                             <div class="distribution_policy_div">
@@ -1067,7 +1108,7 @@
                     </div>
                 </div>
                 <div class="ui tab segment" data-tab="zf">
-                    <p>太火鸟联合京东云，通过设计创新实现“资源共享、能力互补、供需对接”，构建完善的“产品设计-生产制造-终端销售”全产业链条。助力地方产业转型升级与创新要素聚集。</p>
+                    <p class="font_w min_wid_50">太火鸟联合京东云，通过设计创新实现“资源共享、能力互补、供需对接”，构建完善的“产品设计-生产制造-终端销售”全产业链条。助力地方产业转型升级与创新要素聚集。</p>
                     <div class="distribution_policy_center">
                         <div class="distribution_policy_center_column">
                             <div class="distribution_policy_div">
@@ -1115,143 +1156,7 @@
     <!--设计案例-->
     <div class="brand_sj public background_f">
         <h3>设计案例</h3>
-        <ul class="brand_ul">
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">智能硬件</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">消费电子</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">交通工具</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">厨房厨具</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">医疗设备</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">家具用品</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">办公用品</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">小家电</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-            <!--<li>-->
-                <!--<div class="content">-->
-                    <!--<div class="display_align margin_b_20">-->
-                        <!--<span class="margin-r-6">卫浴</span>-->
-                        <!--<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="img_wid_100 img_border">-->
-                        <!--<img src="{{ app_url_packaged }}/images/home/ingoset/product_pic/sushi.png" alt="">-->
-                    <!--</div>-->
-                    <!--<div class="product">-->
-                        <!--<p class="product_title lin-clamp-1">产品名称</p>-->
-                        <!--<p class="product_details lin-clamp-3">产品名称产品名称产品名称产品名称</p>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</li>-->
-        </ul>
+        <ul class="brand_ul"></ul>
     </div>
     <div class="service background_f">
         <h3>为创新者提供高效的创新设计服务</h3>
