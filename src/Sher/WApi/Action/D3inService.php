@@ -26,6 +26,14 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
    */
   public function payment(){
     Doggy_Log_Helper::warn("获取参数信息: ".json_encode($this->stash));
+    $signature = $this->stash['signature'];
+    $echostr = $this->stash['echostr'];
+    $timestamp = $this->stash['timestamp'];
+    $nonce = $this->stash['nonce'];
+
+    //$check_result = Sher_Core_Util_WxPub::getSHA1();
+
+
     echo "test";
     return "ok";
   }
