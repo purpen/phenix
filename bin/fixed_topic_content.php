@@ -33,7 +33,7 @@ $end_time = strtotime('2015-01-01');
 
 while(!$is_end){
   $query = array('deleted'=>0, 'created_on'=>array('$gte'=>$begin_time, '$lte'=>$end_time));
-	$options = array('field'=>array('_id','status','deleted','content'), 'page'=>$page, 'size'=>$size);
+	$options = array('field'=>array('_id','status','deleted','description'), 'page'=>$page, 'size'=>$size);
 	$list = $topic_model->find($query, $options);
 	if(empty($list)){
 		echo "Topic list is null,exit......\n";
@@ -42,12 +42,11 @@ while(!$is_end){
 	$max = count($list);
   for ($i=0; $i<$max; $i++) {
     $item = $list[$i];
-    if ($item['content']) && strstr($item['content'], 'http://frbird.qiniudn.com') {
-      echo "begin fixed $item[title]...\n";
-      $new_content = str_replace('http://frbird.qiniudn.com', 'https://p4.taihuoniao.com', $topic['content']);
+    if (strstr($item['content'], 'http://frbird.qiniudn.com')) {
+      echo "begin fixed $item[title].$item[_id]..\n";
+      $new_content = str_replace('http://frbird.qiniudn.com', 'https://p4.taihuoniao.com', $item['description']);
       $ok = true;
-      // $ok = $topic_model->update_set($topic['_id'], array('content'=>$new_content));
-      return $ok;
+      // $ok = $topic_model->update_set($item['_id'], array('description'=>$new_content));
     } else {
       continue;
     }
