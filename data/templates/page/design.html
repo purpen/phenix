@@ -317,8 +317,8 @@
         cursor: pointer;
     }
 
-    .hei-14 {
-        height: 14px;
+    .hei-16 {
+        height: 16px;
     }
 
     .margin-r-6 {
@@ -682,7 +682,6 @@
     }
 
     #context2 .ui.segment {
-        width: 880px;
         font-size: 16px;
         color: #666666;
         border:none;
@@ -712,6 +711,8 @@
         justify-content: center;
         border-right: none;
         border-radius: 0;
+        font-size: 18px;
+        font-weight: 300;
     }
 
     #context2 .ui.menu .item:last-child {
@@ -761,6 +762,11 @@
     .color_222:hover {
         color: #222222;
     }
+
+    .wid_880 {
+        width: 880px;
+        margin: 0 auto;
+    }
 </style>
 {% endblock%}
 {% block layout_js %}
@@ -785,9 +791,9 @@
         html += '<li>'
         html += '<div class="content">'
         html += '<div class="display_align margin_b_20">'
-        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list?'+"type="+item.type+'" class="color_222" target="_blank"><span class="margin_r_10">'+item.type_val+'</span></a>'
+        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list?'+"type="+item.type+'" class="color_222" target="_blank"><span class="margin_r_10 font_18">'+item.type_val+'</span></a>'
         // html += '<span class="margin_r_10 color_222"><a href="{{ app_url_d3ingo }}/design_case/general_list">'+item.type_val+'</a></span>'
-        html += '<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
+        html += '<img class="hei-16" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
         html += '</div>'
         html += '<div class="img_wid_100 img_border">'
         html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank"><img src="'+company_logo_url+'" alt=""</a>'
@@ -799,16 +805,6 @@
         html += '</div>'
         html += '</div>'
         html += '</li>'
-        // html += '<div class="card">';
-        // html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
-        // html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
-        // html += '<div class="text">';
-        // html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
-        // html += '<div class="desc"><p>'+ item.profile +'</p></div>';
-        // html += '<p class="user"><img src="'+ company_logo_url +'" width="30" /> '+ company_name +'</p>';
-        // html += '</div>';
-        // html += '</div>';
-
       }
       //
       $('.brand_ul').html(html);
@@ -977,8 +973,8 @@
                     <a class="item" data-tab="zf">政府</a>
                 </div>
                 <div class="ui active tab segment" data-tab="zzqy">
-                    <p class="font_w min_wid_50">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
-                    <div class="distribution_policy_center">
+                    <p class="font_w min_wid_50 wid_880">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
+                    <div class="" style="width: 880px;padding-top: 60px;margin: 0 auto">
                         <div class="distribution_policy_center_column">
                             <div class="distribution_policy_div">
                                 <div class="distribution_policy_div_img_90">
@@ -995,8 +991,7 @@
                                 </div>
                                 <div class="distribution_policy_div_title">投资孵化</div>
                                 <div class="distribution_policy_div_text">
-                                    联合投资孵化创业团队，
-                                    打造平台产品生态链。
+                                    联合投资孵化创业团队，打造平台产品生态链。
                                 </div>
                             </div>
                             <div class="distribution_policy_div">
