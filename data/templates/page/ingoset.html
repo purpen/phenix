@@ -611,6 +611,11 @@
         right: 28px;
         cursor: pointer;
     }
+
+    .shadow_none .ui.three.cards .card{
+        box-shadow: 0 0 0 0 !important;
+        transform: translate3d(0,0,0) !important;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
@@ -751,7 +756,7 @@
         </div>
     </div>
     <!--品牌案例-->
-    <div class="d3-card">
+    <div class="d3-card shadow_none">
         <div class="ui responsive grid">
             <div class="c-block trademark_block">
                 <h2>品牌案例</h2>

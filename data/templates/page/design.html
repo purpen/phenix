@@ -210,9 +210,9 @@
         color: #666;
         font-size: 16px;
         padding: 0 70px;
-        width: 450px;
         margin: 0 auto;
         font-weight: 300;
+        letter-spacing: 1.5px;
     }
     .section .img {
         margin: 20px 0;
@@ -225,7 +225,7 @@
         margin: 0 10px;
     }
     .details {
-        height: 435px;
+        height: 450px;
         background: #FFFFFF;
         box-shadow: 0 0 20px 0 rgba(0,0,0,0.10);
         border-radius: 4px;
@@ -281,7 +281,6 @@
         color: #222;
         margin: 0 0 50px 0;
         padding-top: 50px;
-        font-family: PingFangSC-Light;
     }
     .product p:first-child {
         color: #222222;
@@ -319,8 +318,8 @@
         cursor: pointer;
     }
 
-    .hei-14 {
-        height: 14px;
+    .hei-16 {
+        height: 16px;
     }
 
     .margin-r-6 {
@@ -475,7 +474,7 @@
         justify-content: space-between;
     }
     .distribution_policy_div{
-        width: 220px;
+        width: 280px;
         padding: 0px 20px 15px 10px;
         float: left;
     }
@@ -520,6 +519,7 @@
         float: left;
         min-height: 110px;
         line-height: 20px;
+        letter-spacing: 1.5px;
     }
 
     /*供应商*/
@@ -681,6 +681,7 @@
         text-align: center;
         margin-bottom: 30px;
         font-weight: 300;
+        letter-spacing: 1.5px;
     }
 
     #context2 .ui.segment {
@@ -688,27 +689,37 @@
         color: #666666;
         border:none;
         background-color: #f5f5f5;
-        margin-top: 30px;
+        padding-top: 30px;
         line-height: 22px;
         min-height: 90px;
-        margin-bottom: 45px;
-        padding: 1em 0;
+        padding-bottom: 45px;
+        margin: 0 auto;
     }
     #context2 {
         padding: 0 120px;
     }
     #context2 .ui.menu {
-        justify-content: space-between;
+        width: 880px;
+        margin: 0 auto;
+        justify-content: center;
         align-items: center;
     }
 
     #context2 .ui.menu .item {
         width: 220px;
         height: 60px;
-        margin: 0 auto;
+        margin: 0 !important;
         background: #FFFFFF;
         border: 1px solid #E6E6E6;
         justify-content: center;
+        border-right: none;
+        border-radius: 0;
+        font-size: 18px;
+        font-weight: 300;
+    }
+
+    #context2 .ui.menu .item:last-child {
+        border-right: 1px solid #E6E6E6;
     }
 
     #context2 .ui.secondary.menu .active.item {
@@ -754,6 +765,15 @@
     .color_222:hover {
         color: #222222;
     }
+
+    .wid_880 {
+        width: 880px;
+        margin: 0 auto;
+        letter-spacing: 1.5px;
+    }
+    .introduce_p p {
+        letter-spacing: 1.5px;
+    }
 </style>
 {% endblock%}
 {% block layout_js %}
@@ -778,9 +798,9 @@
         html += '<li>'
         html += '<div class="content">'
         html += '<div class="display_align margin_b_20">'
-        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list?'+"type="+item.type+'" class="color_222" target="_blank"><span class="margin_r_10">'+item.type_val+'</span></a>'
+        html += '<a href="{{ app_url_d3ingo }}/design_case/general_list?'+"type="+item.type+'" class="color_222" target="_blank"><span class="margin_r_10 font_18">'+item.type_val+'</span></a>'
         // html += '<span class="margin_r_10 color_222"><a href="{{ app_url_d3ingo }}/design_case/general_list">'+item.type_val+'</a></span>'
-        html += '<img class="hei-14" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
+        html += '<img class="hei-16" src="{{ app_url_packaged }}/images/icon/shipnext2.png" alt="智能硬件">'
         html += '</div>'
         html += '<div class="img_wid_100 img_border">'
         html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank"><img src="'+company_logo_url+'" alt=""</a>'
@@ -792,16 +812,6 @@
         html += '</div>'
         html += '</div>'
         html += '</li>'
-        // html += '<div class="card">';
-        // html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
-        // html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
-        // html += '<div class="text">';
-        // html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
-        // html += '<div class="desc"><p>'+ item.profile +'</p></div>';
-        // html += '<p class="user"><img src="'+ company_logo_url +'" width="30" /> '+ company_name +'</p>';
-        // html += '</div>';
-        // html += '</div>';
-
       }
       //
       $('.brand_ul').html(html);
@@ -970,8 +980,8 @@
                     <a class="item" data-tab="zf">政府</a>
                 </div>
                 <div class="ui active tab segment" data-tab="zzqy">
-                    <p class="font_w min_wid_50">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
-                    <div class="distribution_policy_center">
+                    <p class="font_w min_wid_50 wid_880">链接制造企业/品牌方/创业团队/流量平台等有设计创新需求的利益相关方，与平台上1000+顶尖设计服务商进行精准匹配，提供高效的AI-D产品创新引擎协助项目精准定义，帮助创新项目从0到1的快速启动。</p>
+                    <div class="" style="width: 880px;padding-top: 60px;margin: 0 auto">
                         <div class="distribution_policy_center_column">
                             <div class="distribution_policy_div">
                                 <div class="distribution_policy_div_img_90">
@@ -988,8 +998,7 @@
                                 </div>
                                 <div class="distribution_policy_div_title">投资孵化</div>
                                 <div class="distribution_policy_div_text">
-                                    联合投资孵化创业团队，
-                                    打造平台产品生态链。
+                                    联合投资孵化创业团队，打造平台产品生态链。
                                 </div>
                             </div>
                             <div class="distribution_policy_div">
@@ -1267,7 +1276,7 @@
                 <img src="{{ app_url_packaged }}/images/design/supplier/08@2x.png">
                 <img src="{{ app_url_packaged }}/images/design/supplier/9@2x.png">
                 <img src="{{ app_url_packaged }}/images/design/supplier/10@2x.png">
-                <img src="{{ app_url_packaged }}/images/design/supplier/11@2x.png">
+                <img src="{{ app_url_packaged }}/images/design/supplier/011@2x.png">
                 <img src="{{ app_url_packaged }}/images/design/supplier/12@2x.png">
                 <img src="{{ app_url_packaged }}/images/design/supplier/13@2x.png">
                 <img src="{{ app_url_packaged }}/images/design/supplier/14@2x.png">
