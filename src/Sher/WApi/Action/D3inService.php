@@ -43,11 +43,11 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
    * 创建菜单
    */
   public function gen_menu(){
-    Doggy_Log_Helper::warn("生成铟立方公众号菜单... ");
+    Doggy_Log_Helper::debug("生成铟立方公众号菜单... ");
 
     $token = Sher_Core_Util_WechatJs::wx_get_token(2);
     Doggy_Log_Helper::debug("获取access token: $token ");
-    $url = "https://api.weixin.qq.com/cgi-bin/menu/create";
+    $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=". $token;
 
     $menu = array(
       "button" => array(
@@ -59,42 +59,66 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         array(
           "name" => "菜单",
           "sub_button" => array(
-            "type" => "view",
-            "name" => "搜索",
-            "url" => "http://www.soso.com/"
-          ),
-          array(
-            "type" => "miniprogram",
-            "name" => "wxa",
-            "url" => "http://mp.weixin.qq.com",
-            "appid" => "wx286b93c14bbf93aa",
-            "pagepath" => "pages/lunar/index"
-          ),
-          array(
-            "type" => "click",
-            "name" => "赞一下我们",
-            "key" => "V1001_GOOD"
+            array(
+              "type" => "view",
+              "name" => "搜索",
+              "url" => "http://www.soso.com/"
+            ),
+            array(
+              "type" => "miniprogram",
+              "name" => "wxa",
+              "url" => "http://mp.weixin.qq.com",
+              "appid" => "wx286b93c14bbf93aa",
+              "pagepath" => "pages/lunar/index"
+            ),
+            array(
+              "type" => "click",
+              "name" => "赞一下我们",
+              "key" => "V1001_GOOD"
+            ),
           ),
         ),
       ),
     );
 
-    $param = array(
-      'access_token' => $token,
-      'body' => $menu,
-    );
+    $menu = json_encode($menu, JSON_UNESCAPED_UNICODE);
 
     try {
-      $result = Sher_Core_Helper_Util::request($url, $param, 'POST');
+      $result = Sher_Core_Helper_Util::request($url, $menu, 'POST');
       $result = json_decode($result, true);
-      echo json_encode($result);
       if ($result['errcode']) {
         echo "创建失败 code: $result[errode], message: $result[errmsg]";
+        return;
       }
-      Doggy_Log_Helper::debug("gen public menu ok!");
+      Doggy_Log_Helper::debug("gen pub menu ok!");
       echo "create ok!";
     } catch(Exception $e) {
       echo "创建失败: " . $e->getMessage();
+    }
+    return "ok";
+  }
+
+  /**
+   * 删除菜单
+   */
+  public function del_menu(){
+    Doggy_Log_Helper::debug("删除铟立方公众号菜单... ");
+
+    $token = Sher_Core_Util_WechatJs::wx_get_token(2);
+    Doggy_Log_Helper::debug("获取access token: $token ");
+    $url = "https://api.weixin.qq.com/cgi-bin/menu/delete;
+
+    try {
+      $result = Sher_Core_Helper_Util::request($url, array('access_token' => $token), 'GET');
+      $result = json_decode($result, true);
+      if ($result['errcode']) {
+        echo "删除失败 code: $result[errode], message: $result[errmsg]";
+        return;
+      }
+      Doggy_Log_Helper::debug("del pub menu ok!");
+      echo "del ok!";
+    } catch(Exception $e) {
+      echo "删除失败: " . $e->getMessage();
     }
     return "ok";
   }
