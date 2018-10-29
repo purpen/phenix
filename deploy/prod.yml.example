@@ -159,6 +159,8 @@ baidu_push_token: ''
 app.d3in_wechat:
     app_id: ''
     app_secret: ''
+    token: ''
+    encoding_aes_key: ''
 
 # 默认邮费
 app.default_freight: 10

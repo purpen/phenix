@@ -25,26 +25,21 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
 	 * @param string $nonce 随机字符串
 	 * @param string $encrypt 密文消息
 	 */
-	public static function getSHA1($token, $timestamp, $nonce, $encrypt_msg)
+	public static function checkSignature($token, $timestamp, $nonce, $signature)
 	{
 		//排序
 		try {
-			$array = array($encrypt_msg, $token, $timestamp, $nonce);
+			$array = array($token, $timestamp, $nonce);
 			sort($array, SORT_STRING);
 			$str = implode($array);
-			return array(self::$OK, sha1($str));
+      if (sha1($str) != $signature) {
+        return false;
+      }
+      return true
 		} catch (Exception $e) {
-			//print $e . "\n";
-			return array(self::$ComputeSignatureError, null);
+        return false
 		}
 	}
 
-  /**
-   * 创建菜单
-   */
-  public static function gen_menu()
-  {
-  
-  }
 
 }

@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements DoggyX_Action_Initialize {
 
-	protected $filter_auth_methods = array('execute', 'gen_menu');
+	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu');
 		
 	/**
 	 * 初始化参数
@@ -25,17 +25,45 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
    * Fiu 
    */
   public function payment(){
-    Doggy_Log_Helper::warn("获取参数信息: ".json_encode($this->stash));
+    include_once "wx-pub-encrypt/wxBizMsgCrypt.php";
+    Doggy_Log_Helper::debug("获取参数信息: ".json_encode($this->stash));
+		//获取通知的数据
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+
     $signature = $this->stash['signature'];
     $echostr = $this->stash['echostr'];
     $timestamp = $this->stash['timestamp'];
     $nonce = $this->stash['nonce'];
     $openid = $this->stash['openid'];
+    $msgSignature = $this->stash['msg_signature'];
 
-    //$check_result = Sher_Core_Util_WxPub::getSHA1();
 
 
-    echo "test";
+    $token = Doggy_Config::$vars['app.d3in_wechat']['token'];
+    $encodingAesKey = Doggy_Config::$vars['app.d3in_wechat']['encoding_aes_key'];
+    $appId = Doggy_Config::$vars['app.d3in_wechat']['app_id'];
+
+
+    $isCheck = Sher_Core_Util_WxPub::checkSignature($token, $timestamp, $nonce, $signature);
+    if (!$isCheck) {
+      Doggy_Log_Helper::debug("验证来源失败！");     
+      return false;
+    }
+
+    $pc = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
+
+
+    // 第三方收到公众号平台发送的消息
+    $msg = '';
+    $errCode = $pc->decryptMsg($msgSignature, $timestamp, $nonce, $xml, $msg);
+    if ($errCode == 0) {
+      Doggy_Log_Helper::debug("解密后: " . $msg);
+    } else {
+      Doggy_Log_Helper::debug("解密报错: " . $errCode);
+    }
+
+
+    echo "end.......";
     return "ok";
   }
 
@@ -63,13 +91,6 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               "type" => "view",
               "name" => "搜索",
               "url" => "http://www.soso.com/"
-            ),
-            array(
-              "type" => "miniprogram",
-              "name" => "wxa",
-              "url" => "http://mp.weixin.qq.com",
-              "appid" => "wx286b93c14bbf93aa",
-              "pagepath" => "pages/lunar/index"
             ),
             array(
               "type" => "click",
@@ -106,7 +127,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
     $token = Sher_Core_Util_WechatJs::wx_get_token(2);
     Doggy_Log_Helper::debug("获取access token: $token ");
-    $url = "https://api.weixin.qq.com/cgi-bin/menu/delete;
+    $url = "https://api.weixin.qq.com/cgi-bin/menu/delete";
 
     try {
       $result = Sher_Core_Helper_Util::request($url, array('access_token' => $token), 'GET');
