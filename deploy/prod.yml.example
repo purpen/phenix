@@ -152,6 +152,14 @@ app.topic_category_user: 17
 # fiuApp下单优惠开关
 app.fiu_order_reduce_switch: 1
 
+# 百度推送 token
+baidu_push_token: ''
+
+# 铟立方未来商店
+app.d3in_wechat:
+    app_id: ''
+    app_secret: ''
+
 # 默认邮费
 app.default_freight: 10
 

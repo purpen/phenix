@@ -155,6 +155,11 @@ app.default_freight: 10
 # 百度推送 token
 baidu_push_token: ''
 
+# 铟立方未来商店
+app.d3in_wechat:
+    app_id: ''
+    app_secret: ''
+
 
 # 支付宝
 app.alipay.partner: '2088411237666512'

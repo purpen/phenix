@@ -12,14 +12,20 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
 	   * 通过此接口返回的token的有效期目前为2小时。令牌失效后，JS-SDK也就不能用了。
 	   * 因此，这里将token值缓存1小时，比2小时小。缓存失效后，再从接口获取新的token，这样就可以避免token失效。
 	   */
-	  public static function wx_get_token() {
+    public static function wx_get_token($evt=1) {
+      if ($evt ==1) {  // 官网
+		    $token_key = 'wx_token';
+				$app_id = Doggy_Config::$vars['app.wechat.app_id'];
+				$app_secret = Doggy_Config::$vars['app.wechat.app_secret'];
+      }elseif($evt == 2) { // 铟立方
+        $token_key = 'wx_d_token';
+				$app_id = Doggy_Config::$vars['app.d3in_wechat']['app_id'];
+				$app_secret = Doggy_Config::$vars['app.d3in_wechat']['app_secret'];
+      }
 		  $redis = new Sher_Core_Cache_Redis();
-		  $token_key = 'wx_token';
 		  $token = $redis->get($token_key);
 		  if (!$token) {
 				Doggy_Log_Helper::warn('wechat token is generate!');
-				$app_id = Doggy_Config::$vars['app.wechat.app_id'];
-				$app_secret = Doggy_Config::$vars['app.wechat.app_secret'];
 				$res = file_get_contents('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$app_id.'&secret='.$app_secret);
 				$res = json_decode($res, true);
         if(isset($res['errcode']) && !empty($res['errcode'])){
@@ -39,11 +45,17 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
 	   * 注意：这里需要将获取到的ticket缓存起来（或写到数据库中）
 	   * ticket和token一样，不能频繁的访问接口来获取，在每次获取后，我们把它保存起来。
 	   */	
-	  public static function wx_get_jsapi_ticket(){
-			$redis = new Sher_Core_Cache_Redis();
-			$token_key = 'wx_token';
-			$ticket_key = 'wx_ticket';
+	  public static function wx_get_jsapi_ticket($evt=1){
+      if ($evt ==1) {  // 官网
+        $token_key = 'wx_token';
+        $ticket_key = 'wx_ticket';
+      }elseif($evt == 2) { // 铟立方
+        $token_key = 'wx_d_token';
+        $ticket_key = 'wx_d_ticket';
+      }
+
 			$ticket = "";
+			$redis = new Sher_Core_Cache_Redis();
 			do{
 				  $ticket = $redis->get($ticket_key);
 				  if (!empty($ticket)) {
@@ -54,7 +66,7 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
 				  }
 				  $token = $redis->get($token_key);
 				  if (empty($token)){
-						$token = self::wx_get_token();
+						$token = self::wx_get_token($evt);
 				  }
 				  if (empty($token)) {
 						Doggy_Log_Helper::error("get wechat access token error.");
@@ -69,4 +81,4 @@ class Sher_Core_Util_WechatJs extends Doggy_Object {
 			return $ticket;
 	  }
 }
-?>
+

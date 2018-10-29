@@ -39,4 +39,12 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
 		}
 	}
 
+  /**
+   * 创建菜单
+   */
+  public static function gen_menu()
+  {
+  
+  }
+
 }
