@@ -28,7 +28,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     include_once "wx-pub-encrypt/wxBizMsgCrypt.php";
     Doggy_Log_Helper::debug("获取参数信息: ".json_encode($this->stash));
 		//获取通知的数据
-		//$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
     $signature = $this->stash['signature'];
     $echostr = $this->stash['echostr'];
@@ -43,7 +43,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
     $isCheck = Sher_Core_Util_WxPub::checkSignature($token, $timestamp, $nonce, $signature);
     if (!$isCheck) {
-      Doggy_Log_Helper::debug("验证来源失败！");     
+      Doggy_Log_Helper::debug("验证来源失败！");
       echo '';
       return false;
     }
@@ -61,16 +61,86 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     Doggy_Log_Helper::debug("解密后: " . $msg);
     $xml_tree = new DOMDocument();
     $xml_tree->loadXML($msg);
+    $to_user_name_arr = $xml_tree->getElementsByTagName('ToUserName');
     $uid_arr = $xml_tree->getElementsByTagName('FromUserName');
+    $c_time_arr = $xml_tree->getElementsByTagName('CreateTime');
     $mtype_arr = $xml_tree->getElementsByTagName('MsgType');
-    $event_arr = $xml_tree->getElementsByTagName('Event');
-    $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
-    $uid = $uid->item(0)->nodeValue;
-    $mtype = $mtype->item(0)->nodeValue;
-    $event = $event->item(0)->nodeValue;
-    $event_key = $event_key_arr->item(0)->nodeValue;
+    $uid = $uid_arr->item(0)->nodeValue;
+    $to_user_name = $to_user_name_arr->item(0)->nodeValue;
+    $c_time = $c_time_arr->item(0)->nodeValue;
+    $mtype = $mtype_arr->item(0)->nodeValue;
 
-    Doggy_Log_Helper::debug(sprintf("解析数据: uid-%s|type-%s|", $uid, $mtype));
+    Doggy_Log_Helper::debug(sprintf("解析数据-类型: %s", $mtype));
+    switch ($mtype) {
+      case 'text':
+        $content_arr = $xml_tree->getElementsByTagName('Content');
+        $msg_id_arr = $xml_tree->getElementsByTagName('MsgId');
+        $msg_id = $msg_id_arr->item(0)->nodeValue;
+        $content = $content_arr->item(0)->nodeValue;
+
+        if ($content == '测试') {
+          $contentStr = '好好测哦~';
+        } elseif($content == 'test') {
+           $contentStr = 'good boy~';       
+        }else{
+          $contentStr = '';
+        }
+
+        if (!$contentStr) {
+          echo "success";
+          return;
+        }
+
+        $textTpl = "<xml>
+            <ToUserName><![CDATA[%s]]></ToUserName>
+            <FromUserName><![CDATA[%s]]></FromUserName>
+            <CreateTime>%s</CreateTime>
+            <MsgType><![CDATA[%s]]></MsgType>
+            <Content><![CDATA[%s]]></Content>
+            <MsgId>![CDATA[%s]]</MsgId>
+            </xml>";
+
+        Doggy_Log_Helper::debug(sprintf("content: %s-%s", $content, $msg_id));
+
+        $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $mtype, $contentStr, $msg_id);
+        echo $resultStr;
+        break;
+      case 'event':
+        $event_arr = $xml_tree->getElementsByTagName('Event');
+        $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
+        $event = $event_arr->item(0)->nodeValue;
+        $event_key = $event_key_arr->item(0)->nodeValue;
+
+        Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
+
+        if ($event == 'unsubscribe') {
+        
+        }else if ($event == 'subscribe') {
+        
+        }
+        break;
+      case 'image':
+        $media_id_arr = $xml_tree->getElementsByTagName('MediaId');
+        $media_id = $media_id_arr->item(0)->nodeValue;
+
+        Doggy_Log_Helper::debug(sprintf("Image: %s", $media_id));
+
+        echo "success";
+        break;
+      case 'voice':
+        $media_id_arr = $xml_tree->getElementsByTagName('MediaId');
+        $media_id = $media_id_arr->item(0)->nodeValue;
+
+        Doggy_Log_Helper::debug(sprintf("Voice: %s", $media_id));
+
+        echo "success";
+        break;
+      default:
+        Doggy_Log_Helper::debug("未知获取类型!");
+        echo "success";
+    }
+
+    return;
 
   }
 
