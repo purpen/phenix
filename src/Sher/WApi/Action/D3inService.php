@@ -176,7 +176,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             ),
           );
           $body = json_encode($body, JSON_UNESCAPED_UNICODE);
-          $body1 = json_encode($body1, JSON_UNESCAPED_UNICODE);
+          //$body1 = json_encode($body1, JSON_UNESCAPED_UNICODE);
           try {
             Sher_Core_Helper_Util::request($url, $body, 'POST');
             Sher_Core_Helper_Util::request($url, $body1, 'POST');
