@@ -35,9 +35,9 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       if (sha1($str) != $signature) {
         return false;
       }
-      return true
+      return true;
 		} catch (Exception $e) {
-        return false
+        return false;
 		}
 	}
 

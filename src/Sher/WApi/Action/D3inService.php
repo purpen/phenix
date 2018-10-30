@@ -18,17 +18,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 	 * 默认入口
 	 */
 	public function execute(){
-		return $this->payment();
+		return $this->entry();
 	}
 
   /**
    * Fiu 
    */
-  public function payment(){
+  public function entry(){
     include_once "wx-pub-encrypt/wxBizMsgCrypt.php";
     Doggy_Log_Helper::debug("获取参数信息: ".json_encode($this->stash));
 		//获取通知的数据
-		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+		//$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 
     $signature = $this->stash['signature'];
     $echostr = $this->stash['echostr'];
@@ -37,34 +37,41 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     $openid = $this->stash['openid'];
     $msgSignature = $this->stash['msg_signature'];
 
-
-
     $token = Doggy_Config::$vars['app.d3in_wechat']['token'];
     $encodingAesKey = Doggy_Config::$vars['app.d3in_wechat']['encoding_aes_key'];
     $appId = Doggy_Config::$vars['app.d3in_wechat']['app_id'];
 
-
     $isCheck = Sher_Core_Util_WxPub::checkSignature($token, $timestamp, $nonce, $signature);
     if (!$isCheck) {
       Doggy_Log_Helper::debug("验证来源失败！");     
+      echo '';
       return false;
     }
 
     $pc = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
 
-
     // 第三方收到公众号平台发送的消息
     $msg = '';
     $errCode = $pc->decryptMsg($msgSignature, $timestamp, $nonce, $xml, $msg);
-    if ($errCode == 0) {
-      Doggy_Log_Helper::debug("解密后: " . $msg);
-    } else {
+    if ($errCode != 0) {
       Doggy_Log_Helper::debug("解密报错: " . $errCode);
+      echo '';
+      return;
     }
+    Doggy_Log_Helper::debug("解密后: " . $msg);
+    $xml_tree = new DOMDocument();
+    $xml_tree->loadXML($msg);
+    $uid_arr = $xml_tree->getElementsByTagName('FromUserName');
+    $mtype_arr = $xml_tree->getElementsByTagName('MsgType');
+    $event_arr = $xml_tree->getElementsByTagName('Event');
+    $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
+    $uid = $uid->item(0)->nodeValue;
+    $mtype = $mtype->item(0)->nodeValue;
+    $event = $event->item(0)->nodeValue;
+    $event_key = $event_key_arr->item(0)->nodeValue;
 
+    Doggy_Log_Helper::debug(sprintf("解析数据: uid-%s|type-%s|", $uid, $mtype));
 
-    echo "end.......";
-    return "ok";
   }
 
   /**
