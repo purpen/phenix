@@ -71,7 +71,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     $mtype = $mtype_arr->item(0)->nodeValue;
 
     Doggy_Log_Helper::debug(sprintf("解析数据-类型: %s", $mtype));
-    switch ($mtype) {
+    switch ($mtype) { // 文字
       case 'text':
         $content_arr = $xml_tree->getElementsByTagName('Content');
         $msg_id_arr = $xml_tree->getElementsByTagName('MsgId');
@@ -81,7 +81,9 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         if ($content == '测试') {
           $contentStr = '好好测哦~';
         } elseif($content == 'test') {
-           $contentStr = 'good boy~';       
+          $contentStr = 'good boy~';
+        }elseif ($content == '超级红包') {
+          $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。";
         }else{
           $contentStr = '';
         }
@@ -105,7 +107,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $mtype, $contentStr, $msg_id);
         echo $resultStr;
         break;
-      case 'event':
+      case 'event': // 事件
         $event_arr = $xml_tree->getElementsByTagName('Event');
         $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
         $event = $event_arr->item(0)->nodeValue;
@@ -114,9 +116,44 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
 
         if ($event == 'unsubscribe') {
+          $obj = $public_number_model->first(array('uid'=> $uid));
+          if ($obj) {
+            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'is_follow'=>0));
+          }
         
         }else if ($event == 'subscribe') {
-        
+          // 记录该用户数据
+          $public_number_model = new Sher_Core_Model_PublicNumber();
+          $obj = $public_number_model->first(array('uid'=> $uid));
+          if ($obj) {
+            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']+1, 'is_follow'=>1));
+          }else{
+            $row = array(
+              'uid' => $uid,
+              'mark' => Sher_Core_Helper_Util::generate_mongo_id(),
+              'is_follow' => 1,
+              'follow_count' => 1,
+              'type' => 1,
+            );
+            $public_number_model->create($row);
+            $obj = $public_number_model->first(array('uid' => $uid));
+          }
+          $mark = '';
+          if ($obj) {
+            $mark = $obj['mark'];
+          }
+
+          $textTpl = "<xml>
+              <ToUserName><![CDATA[%s]]></ToUserName>
+              <FromUserName><![CDATA[%s]]></FromUserName>
+              <CreateTime>%s</CreateTime>
+              <MsgType><![CDATA[%s]]></MsgType>
+              <Content><![CDATA[%s]]></Content>
+              </xml>";
+          $contentStr = "嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳 http://t.taihuoniao.com/app/wap/promo/d3in_draw?mark=$mark  参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。";
+
+          $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, 'text', $contentStr);
+          echo $resultStr;
         }
         break;
       case 'image':
