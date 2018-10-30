@@ -1,0 +1,183 @@
+{%extends 'layout/shop.html'%}
+{% block title%}我的红包-{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+    .appiosload {
+        display: none !important;
+    }
+    .sfooter.nav-menu {
+        display: none;
+    }
+    body {
+        background: #DB2216;
+    }
+    .red_list {
+        background: #DB2216;
+        padding: 33px 13px 24px;
+        height: 100%;
+    }
+
+    .red_list_back {
+        background: #ffffff;
+        padding: 10px 26px;
+        border-radius: 4px;
+        margin-bottom: 17px;
+        box-shadow: 1px 1px 1px 1px #EA8284;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    .text p {
+        color: #D00913;
+        line-height: 1;
+    }
+
+    .text p:last-child {
+        color: #EF5F66;
+    }
+
+    .display_sb {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .margin_b_18 {
+        margin-bottom: 18px;
+    }
+
+    .margin_b_5 {
+        margin-bottom: 5px;
+    }
+
+    .font_12 {
+        font-size: 12px;
+    }
+
+    .font_9 {
+        font-size: 9px;
+    }
+
+    .display_a_c {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .details {
+        width: 68px;
+        background: #D00913;
+        border-radius: 4px;
+        color: #ffffff;
+        border: 1px solid #D00913;
+        font-size: 15px;
+        text-align: center;
+        line-height: 28px;
+    }
+    .details:hover {
+        color: #ffffff;
+    }
+    .margin_l_10 {
+        margin-left: 10px;
+    }
+
+    .introduce {
+        padding: 0 42px;
+        text-align: center;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .introduce p {
+        color: #FFDB29;
+        font-size: 10px;
+    }
+
+    .display_f {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .display_f p {
+        width: 85px;
+        height: 30px;
+        background: #ffffff;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .display_f a {
+        color: #D00913;
+        font-size: 12px;
+    }
+
+    .details a {
+        color: #ffffff;
+    }
+</style>
+{% endblock %}
+
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+<div class="red_list">
+    <div class="red_list_back display_sb">
+        <div class="text">
+            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
+            <p class="font_12 margin_b_5">1500元</p>
+            <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        </div>
+    </div>
+
+    <div class="red_list_back display_sb">
+        <div class="text">
+            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
+            <p class="font_12 margin_b_5">1500元</p>
+            <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        </div>
+    </div>
+
+    <div class="red_list_back display_sb">
+        <div class="text">
+            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
+            <p class="font_12 margin_b_5">1500元</p>
+            <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        </div>
+    </div>
+    <div class="red_list_back display_sb">
+        <div class="text">
+            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
+            <p class="font_12 margin_b_5">1500元</p>
+            <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        </div>
+    </div>
+
+
+    <div class="introduce">
+        <p>点击使用红包购买，下单自动抵扣</p>
+        <div class="display_f">
+            <p><a href="{{ app_url_wap }}/promo/d3in_draw">再次抽奖</a></p>
+            <p><a href="{{ app_url_wap }}/promo/d3in_hi">使用红包</a></p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
