@@ -143,6 +143,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             $mark = $obj['mark'];
           }
 
+          /**
           $textTpl = "<xml>
               <ToUserName><![CDATA[%s]]></ToUserName>
               <FromUserName><![CDATA[%s]]></FromUserName>
@@ -155,6 +156,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
           $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, 'text', $contentStr);
           echo $resultStr;
+          **/
 
           // 给用户发多条记录
           $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
@@ -163,16 +165,21 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             "touser" => $uid,
             "msgtype" => "text",
             "text" => array(
+              "content" => "嗨，欢迎来到铟立方未来商店",
+            ),
+          );
+          $body1 = array(
+            "touser" => $uid,
+            "msgtype" => "text",
+            "text" => array(
               "content" => "转发个人海报，获得好友支持，额外获得2次抽奖机会。",
             ),
           );
           $body = json_encode($body, JSON_UNESCAPED_UNICODE);
+          $body1 = json_encode($body1, JSON_UNESCAPED_UNICODE);
           try {
-            $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
-            $result = json_decode($result, true);
-            if ($result['errcode']) {
-              Doggy_Log_Helper::debug("调用客服接口失败！: $result[errmsg]");
-            }
+            Sher_Core_Helper_Util::request($url, $body, 'POST');
+            Sher_Core_Helper_Util::request($url, $body1, 'POST');
           } catch(Exception $e) {
             Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
           }
