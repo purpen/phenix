@@ -114,8 +114,9 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         $event_key = $event_key_arr->item(0)->nodeValue;
 
         Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
-
+        $public_number_model = new Sher_Core_Model_PublicNumber();
         if ($event == 'unsubscribe') {
+          // 记录该用户数据
           $obj = $public_number_model->first(array('uid'=> $uid));
           if ($obj) {
             $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'is_follow'=>0));
@@ -123,7 +124,6 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         
         }else if ($event == 'subscribe') {
           // 记录该用户数据
-          $public_number_model = new Sher_Core_Model_PublicNumber();
           $obj = $public_number_model->first(array('uid'=> $uid));
           if ($obj) {
             $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']+1, 'is_follow'=>1));
@@ -150,10 +150,32 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               <MsgType><![CDATA[%s]]></MsgType>
               <Content><![CDATA[%s]]></Content>
               </xml>";
-          $contentStr = "嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳 http://t.taihuoniao.com/app/wap/promo/d3in_draw?mark=$mark  参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。";
+          $contentStr = '嗨，欢迎来到铟立方未来商店';
+          //$contentStr = "嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳 http://t.taihuoniao.com/app/wap/promo/d3in_draw?mark=$mark  参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。";
 
           $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, 'text', $contentStr);
           echo $resultStr;
+
+          // 给用户发多条记录
+          $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+          $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $access_token;
+          $body = array(
+            "touser" => $uid,
+            "msgtype" => "text",
+            "text" => array(
+              "content" => "转发个人海报，获得好友支持，额外获得2次抽奖机会。",
+            ),
+          );
+          $body = json_encode($body, JSON_UNESCAPED_UNICODE);
+          try {
+            $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
+            $result = json_decode($result, true);
+            if ($result['errcode']) {
+              Doggy_Log_Helper::debug("调用客服接口失败！: $result[errmsg]");
+            }
+          } catch(Exception $e) {
+            Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
+          }
         }
         break;
       case 'image':
