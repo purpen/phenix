@@ -115,6 +115,25 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               Doggy_Log_Helper::debug(json_encode($result));
 
               $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
+              if ($userResult) {
+                $row = array(
+                  'nickname' => $userResult['nickname'],
+                  'avatar' => $userResult['headimgurl'],
+                  'sex' => $userResult['sex'],
+                  'country' => $userResult['country'],
+                  'province' => $userResult['province'],
+                  'city' => $userResult['city'],
+                  'unionid' => $userResult['unionid'],
+                );
+
+                // 更新到公号用户
+                $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row));
+                if ($userOk) {
+                  Doggy_Log_Helper::debug('更新用户信息成功！');               
+                }else{
+                  Doggy_Log_Helper::debug('更新用户信息失败！');               
+                }
+              }
               Doggy_Log_Helper::debug(json_encode($userResult));
             } catch(Exception $e) {
               Doggy_Log_Helper::debug("获取二维码失败！". $e->getMessage());

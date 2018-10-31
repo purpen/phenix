@@ -28,6 +28,7 @@
 					</div>
 				</th>
         <th>ID</th>
+        <th>头像</th>
         <th>公号信息</th>
         <th>类型</th>
         <th>是否关注</th>
@@ -51,8 +52,20 @@
             </td>
             <td>{{ d._id }}</td>
             <td>
+              <img src="{{ d.user_info.avatar }}" width="50" />
+            </td>
+            <td>
               <p>uid: {{ d.uid }}</p>
               <p>mark: {{ d.mark }}</p>
+              {%if d.user_info%}
+                <p>nickname: {{ d.user_info.nickname }}</p>
+                <p>avatar: {{ d.user_info.avatar }}</p>
+                <p>sex: {{ d.user_info.sex }}</p>
+                <p>country: {{ d.user_info.country }}</p>
+                <p>province: {{ d.user_info.province }}</p>
+                <p>city: {{ d.user_info.city }}</p>
+                <p>unionid: {{ d.user_info.unionid }}</p>
+              {%endif%}
             </td>
             <td>{{ d.type }}</td>
             <td>

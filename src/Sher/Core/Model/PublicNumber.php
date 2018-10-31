@@ -23,12 +23,22 @@ class Sher_Core_Model_PublicNumber extends Sher_Core_Model_Base  {
     # 是否关注当前公号
     'is_follow' => 0, # 0.否；1.是；
     'is_draw' => 0, # 是否领取奖厉：0.否； 1.是；
-		'status' => 1,
+    'status' => 1,
+    # 用户信息
+    'user_info' => array(
+      'nickname' => '',
+      'avatar' => '',
+      'sex' => '',
+      'country' => '',
+      'province' => '',
+      'city' => '',
+      'unionid' => '',
+    ),
     'info' => array(
       'int_01' => 0,
       'int_02' => 0,
-      'str_01' => 0,
-      'str_02' => 0,
+      'str_01' => '',
+      'str_02' => '',
     ),
   );
 

@@ -115,13 +115,12 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
    */
   public static function fetchUserInfo($uid) {
     $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
-    $url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
+    $url = "https://api.weixin.qq.com/cgi-bin/user/info";
     $body = array(
       'access_token' => $access_token,
       'openid' => $uid,
       'lang' => "zh_CN",
     );
-    $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
     $result = Sher_Core_Helper_Util::request($url, $body, 'GET');
     $result = json_decode($result, true);
     return $result;
