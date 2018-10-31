@@ -93,7 +93,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           $mediaId = 'dRfSIOBu6JBL8PBXEY5wB9shXpcJK9GoVeSmc_Qj-ag';
         }
 
-        if ($contentStr && $mediaId && $picUrl) {
+        if (!$contentStr && !$mediaId && !$picUrl) {
           echo "success";
           return;
         }
@@ -121,6 +121,10 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               ),
             );
             $body = json_encode($body, JSON_UNESCAPED_UNICODE);
+
+            // 给用户发多条记录
+            $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $access_token;
             try {
               Sher_Core_Helper_Util::request($url, $body, 'POST');
             } catch(Exception $e) {
