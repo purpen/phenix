@@ -15,11 +15,11 @@
     }
     .red_details {
         background: #DB2216;
-        padding: 27px 13px 21px;
+        padding: 25px 13px 20px;
     }
 
     .red_list {
-        padding: 22px 12px 12px;
+        padding: 10px 12px 12px;
         background: #ffffff;
         text-align: center;
     }
@@ -53,7 +53,6 @@
     }
 
     .money_img p {
-        margin-top: 10px;
         color: #DF3121;
         font-size: 11px;
         font-weight: 700;
@@ -90,16 +89,17 @@
     }
 
     .padding_42 {
-        padding: 20px 42px 0;
+        padding: 10px 42px 0;
     }
 
     .product {
-        display: flex;
-        padding: 0 12px;
         margin-top: 16px;
+        display: none;
+    }
+    .display_f_b {
+        display: flex;
         justify-content: space-between;
     }
-
     .product_details {
         background: #ffffff;
         border-radius: 4px;
@@ -114,6 +114,10 @@
     .product_details p:first-child {
         font-size: 10px;
         color: #161616;
+    }
+
+    .product_details p {
+        font-weight: 700;
     }
 
     .product_details img {
@@ -148,10 +152,47 @@
     .hei_4 {
         height: 4px;
     }
+
+    .show {
+        display: block;
+    }
 </style>
 {% endblock %}
 
 {% block jquery %}
+    //获取参数
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) return decodeURI(r[2]);
+            return null;
+        }
+        var red_id = GetQueryString("red_id");//调用
+        switch(red_id) {
+            case '2':
+                $('#id_2').addClass('show')
+                $('.red_list h3').html('二等奖')
+                $('.red_price').html('1500元红包')
+            break;
+            case '3':
+                $('#id_3').addClass('show')
+                $('.red_list h3').html('三等奖')
+                $('.red_price').html('1100元红包')
+            break;
+            case '4':
+                $('#id_4').addClass('show')
+                $('.red_list h3').html('四等奖')
+                $('.red_price').html('1000元红包')
+            break;
+            case '5':
+                $('#id_5').addClass('show')
+                $('.red_list h3').html('五等奖')
+                $('.red_price').html('500元红包')
+            break;
+            default:
+            <!--不符合条件回抽奖页面-->
+            window.location.href='{{ app_url_wap }}/app/wap/promo/d3in_draw'
+        }
 {% endblock %}
 
 {% block content %}
@@ -161,20 +202,20 @@
         <p class="margin_b_3">有效期至2018-11-12日 23:59分</p>
         <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%" id="address-from">
         <div class="money_title">
-            <p>1500元红包</p>
+            <p class="red_price">1500元红包</p>
         </div>
         <div class="display_f">
             <div class="money_img">
                 <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/500yuan.png" alt="">
-                <p>X1</p>
+                <p class="five_money">X1</p>
             </div>
             <div class="money_img">
                 <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/400yuan.png" alt="">
-                <p>X1</p>
+                <p class="four_money">X1</p>
             </div>
             <div class="money_img">
                 <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/100yuan.png" alt="">
-                <p>X1</p>
+                <p class="one_money">X1</p>
             </div>
         </div>
         <div class="money_details">
@@ -187,23 +228,95 @@
             <p><a href="{{ app_url_wap }}/promo/d3in_hi">使用红包</a></p>
         </div>
     </div>
-    <div class="product">
-        <div class="product_details">
-            <p>奶爸爸S5自动按摩椅</p>
-            <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/anmoyi.png" alt="">
-            <p class="money">红包价：899.00元</p>
-            <div class="display_f click_product">
-                <a href="">立即抢购</a>
-                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+    <!--二等奖-->
+    <div class="product" id="id_2">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>奶爸爸S5自动按摩椅</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/anmoyi.png" alt="">
+                <p class="money">红包价：899.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>戴森Dyson Airwrap卷发棒</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen.png" alt="">
+                <p class="money">红包价：3899.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
             </div>
         </div>
-        <div class="product_details">
-            <p>戴森Dyson Airwrap卷发棒</p>
-            <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen.png" alt="">
-            <p class="money">红包价：3899.00元</p>
-            <div class="display_f click_product">
-                <a href="">立即抢购</a>
-                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+    </div>
+    <!--三等奖-->
+    <div class="product" id="id_3">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>戴森Dyson Airwrap卷发棒</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen.png" alt="">
+                <p class="money">红包价：3899.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>奶爸爸S5自动按摩椅</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/anmoyi.png" alt="">
+                <p class="money">红包价：899.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--四等奖-->
+    <div class="product" id="id_4">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>若琪月石AI蓝牙智能音箱</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/ruoqi.png" alt="">
+                <p class="money">红包价：999.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>AMIRO O系列小白镜</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/xiaobaijing.png" alt="">
+                <p class="money">红包价：299.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--五等奖-->
+    <div class="product" id="id_5">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>AMIRO O系列小白镜</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/xiaobaijing.png" alt="">
+                <p class="money">红包价：299.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>幻想之道多功能榨汁机</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/zhazhiji.png" alt="">
+                <p class="money">红包价：199.00元</p>
+                <div class="display_f click_product">
+                    <a href="">立即抢购</a>
+                    <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
             </div>
         </div>
     </div>

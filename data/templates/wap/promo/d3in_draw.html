@@ -186,7 +186,6 @@
         margin-left: -4.16rem;
         background-image: url({{ app_url_packaged }}/images/fiushop/drew/modalt.png);
         background-size: cover;
-        color: #d82622;
         display: none;
     }
 
@@ -373,6 +372,46 @@
     .color_ce {
         color: #CE0A13;
     }
+
+    .no_winning_img {
+        width: 43px;
+        margin-top: 26px;
+    }
+
+    .winning_text {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .winning_num {
+        padding-top: 22px;
+        margin-bottom: 20px;
+        color: #444444;
+        font-size: 9px;
+    }
+
+    .winning_num span {
+        color: #CF0913;
+        font-weight: 700;
+        font-size: 9px;
+    }
+
+    .winning_share {
+        padding: 38px 10px;
+        margin-bottom: 0;
+        color: #444444;
+        font-size: 9px;
+    }
+
+    .winning_share span {
+        color: #CF0913;
+        font-weight: 700;
+        font-size: 10px;
+    }
+
+    .color_44 {
+        color: #444444;
+    }
 </style>
 {% endblock %}
 
@@ -494,12 +533,14 @@
             $('.ui.messge .money').html(prize_name);  // 多少钱
             $('.ui.modalt.page,.ui.address.messge').addClass('show');
         }else if(prize_event==2){
-            $('.ui.modalt.page,.ui.bounds.messge').addClass('show');
+            $('.ui.modalt.page,#winning').addClass('show');
             if( prize_id == 4 ){
                 $('.ui.bounds p span').html('30元现金红包');
             }else if(prize_id == 8){
                 $('.ui.bounds p span').html('10元现金红包');
             }
+        } else {
+            $('.ui.modalt.page,#num_winning').addClass('show');
         }
         clearTimeout(lottery.timer);
         lottery.prize = -1;
@@ -566,7 +607,7 @@ var click = false;
                 $("#lottery").attr("prize_site", 0);
                 $("#lottery").attr("prize_id", 4);
                 $("#lottery").attr("prize_name", '云马自行车');
-                $("#lottery").attr("prize_event", 2);
+                $("#lottery").attr("prize_event", 1);
                 $(":input[name=sid]").val(3);
                 roll();
                 click = true;
@@ -590,9 +631,18 @@ var click = false;
             }
         });
     });
-
+    <!--关闭按钮-->
     $('.close').click(function(){
         $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+    <!--下方按钮-->
+    $('.btn_close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+
+    <!--我要分享-->
+    $('.click_share').click(function(){
+        $('.ui.modalt.page,#share_winning').addClass('show');
     });
 
     // 保存收货地址
@@ -664,8 +714,8 @@ var click = false;
             </tr>
         </table>
         <div class="display_f margin_15 padding_60">
-            <p><a href="">我要分享</a></p>
-            <p><a href="">我的奖品</a></p>
+            <p><a href="javascript:void(0)" class="click_share">我要分享</a></p>
+            <p><a href="{{ app_url_wap }}/app/wap/promo/red_list">我的奖品</a></p>
         </div>
     </div>
     <div class="descript">
@@ -719,39 +769,52 @@ var click = false;
 
 <!-- 弹出层 -->
 <div class="ui modalt page">
-
-    <div class="ui address messge">
+    <!--抽中-->
+    <div class="ui bounds messge" id="winning">
         <div class="close"></div>
-        <h2 class="ui header">恭喜您</h2>
-        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%" id="address-from">
-        <p>抽中<span></span>一个，请填写收货信息!</p>
-        <form action=" " class="ui form" method="post">
-            <input type="hidden" name="sid" value=""/>
-            <div class="field">
-                <label>姓名</label>
-                <input type="text" name="name" value="">
-            </div>
-            <div class="field">
-                <label>手机</label>
-                <input type="text" name="phone" value="">
-            </div>
-            <div class="field">
-                <label>地址</label>
-                <input type="text" name="address" value="">
-            </div>
-            <div class="ui inverted active submit button" id="address_btn">
-                确认收货地址
-            </div>
-        </form>
-    </div>
-    <div class="ui bounds messge">
-        <div class="close"></div>
+        <!--
+        二等奖内容:锦鲤附体
+        三等奖内容:人品爆发
+        四等奖内容:喜大普奔
+        五等奖内容:再接再厉
+        -->
         <h2 class="ui header">锦鲤附体</h2>
         <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
         <p class="color_cf">恭喜您中了<span>二等奖</span></p>
         <p class="color_ce"><span class="money">1500</span>元红包</p>
-        <a class="ui inverted active view button" href="{{ app_url_wap }}/my/bonus">
+        <a class="ui inverted active view button" href="{{ app_url_wap }}/app/wap/promo/red_list">
             立即查看
+        </a>
+    </div>
+    <!--没中奖-->
+    <div class="ui bounds messge" id="not_winning">
+        <h2 class="ui header">谢谢参与</h2>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <p class="color_cf">啊哦~你没有中奖~</p>
+        <p class="color_44 font_8">没关系，我们为你准备了KSPmini音响 <br>
+            10元包邮，限量抢购，先到先得</p>
+        <a class="ui inverted active view button" href="{{ app_url_wap }}/app/wap/promo/d3in_hi">
+            立即抢购
+        </a>
+    </div>
+
+    <!--抽奖次数用完-->
+    <div class="ui bounds messge" id="num_winning">
+        <div class="close"></div>
+        <h2 class="ui header">您的抽奖机会已用完</h2>
+        <p class=" winning_num">公众号回复 <span>"超级红包"</span>分享专属图片 <br>
+            成功邀请好友关注公众号可额外获得2次抽奖机会</p>
+        <a class="ui inverted active view button btn_close" href="javascript:void(0);">
+            我知道了
+        </a>
+    </div>
+    <!--点击分享-->
+    <div class="ui bounds messge" id="share_winning">
+        <div class="close"></div>
+        <p class=" winning_share">公众号回复 <span>"超级红包"</span>分享专属图片 <br>
+            成功邀请好友关注公众号可额外获得2次抽奖机会</p>
+        <a class="ui inverted active view button btn_close" href="javascript:void(0);">
+            我知道了
         </a>
     </div>
 </div>

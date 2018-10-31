@@ -28,6 +28,7 @@
 
     .title {
         font-size: 18px;
+        font-weight: 700;
     }
 
     .text p {
@@ -119,6 +120,45 @@
     .details a {
         color: #ffffff;
     }
+
+    .not_winning {
+        width: 260px;
+        height: 160px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -130px;
+        margin-top: -80px;
+        background: #ffffff;
+        border-radius: 4px;
+        text-align: center;
+        padding: 20px 0;
+        display: none;
+    }
+
+    .not_winning img {
+        width: 43px;
+    }
+
+    .not_winning p {
+        margin-top: 9px;
+        margin-bottom: 20px;
+        color: #CE0A13;
+        font-size: 12px;
+    }
+
+    .not_winning a {
+        width: 144px;
+        height: 24px;
+        line-height: 24px;
+        margin: 0 auto;
+        font-size: 10px;
+        background: #CF0913;
+        color: #ffffff;
+        text-align: center;
+        display: block;
+        border-radius: 4px;
+    }
 </style>
 {% endblock %}
 
@@ -127,55 +167,65 @@
 
 {% block content %}
 <div class="red_list">
-    <div class="red_list_back display_sb">
+    <!--无红包-->
+    <div class="not_winning">
+        <img class="no_winning_img" src="{{ app_url_packaged }}/images/d3in/d3in_draw/not_winning.png" align="absmiddle" width="100%">
+        <p>您还未中奖，再接再厉哦!</p>
+        <a href="javascript:void(0);">
+        去抽奖
+        </a>
+    </div>
+    <div>
+        <div class="red_list_back display_sb">
         <div class="text">
-            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
-            <p class="font_12 margin_b_5">1500元</p>
-            <p class="font_9">有效期至2018-11-12</p>
+        <p class="title margin_b_18">二等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1500元</p>
+        <p class="font_9">有效期至2018-11-12</p>
         </div>
         <div class="display_a_c">
-            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=2">详情</a>
         </div>
-    </div>
+        </div>
 
-    <div class="red_list_back display_sb">
+        <div class="red_list_back display_sb">
         <div class="text">
-            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
-            <p class="font_12 margin_b_5">1500元</p>
-            <p class="font_9">有效期至2018-11-12</p>
+        <p class="title margin_b_18">三等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1100元</p>
+        <p class="font_9">有效期至2018-11-12</p>
         </div>
         <div class="display_a_c">
-            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details">详情</a>
         </div>
-    </div>
+        </div>
 
-    <div class="red_list_back display_sb">
+        <div class="red_list_back display_sb">
         <div class="text">
-            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
-            <p class="font_12 margin_b_5">1500元</p>
-            <p class="font_9">有效期至2018-11-12</p>
+        <p class="title margin_b_18">四等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1000元</p>
+        <p class="font_9">有效期至2018-11-12</p>
         </div>
         <div class="display_a_c">
-            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details">详情</a>
         </div>
-    </div>
-    <div class="red_list_back display_sb">
+        </div>
+        <div class="red_list_back display_sb">
         <div class="text">
-            <p class="title margin_b_18">二等奖 <span class="font_9 margin_l_10">X1</span></p>
-            <p class="font_12 margin_b_5">1500元</p>
-            <p class="font_9">有效期至2018-11-12</p>
+        <p class="title margin_b_18">五等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">500元</p>
+        <p class="font_9">有效期至2018-11-12</p>
         </div>
         <div class="display_a_c">
-            <a class="details" href="{{ app_url_wap }}/promo/d3in_draw">详情</a>
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details">详情</a>
         </div>
-    </div>
+        </div>
 
 
-    <div class="introduce">
+        <div class="introduce">
         <p>点击使用红包购买，下单自动抵扣</p>
         <div class="display_f">
-            <p><a href="{{ app_url_wap }}/promo/d3in_draw">再次抽奖</a></p>
-            <p><a href="{{ app_url_wap }}/promo/d3in_hi">使用红包</a></p>
+        <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_draw">再次抽奖</a></p>
+        <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_hi">使用红包</a></p>
+        </div>
         </div>
     </div>
 </div>
