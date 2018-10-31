@@ -48,6 +48,8 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
       return false;
     }
 
+    $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+
     $pc = new WXBizMsgCrypt($token, $encodingAesKey, $appId);
 
     // 第三方收到公众号平台发送的消息
@@ -84,10 +86,8 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
         if ($content == '测试') {
           $contentStr = '好好测哦~';
-        } elseif($content == 'test') {
-          $contentStr = 'good boy~';
         }elseif ($content == '超级红包') {
-          $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。";
+          $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。\n↓";
         } elseif($content == '我要嗨购') {
           $rEvent = 'image';
           $mediaId = 'dRfSIOBu6JBL8PBXEY5wB9shXpcJK9GoVeSmc_Qj-ag';
@@ -99,37 +99,22 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         }
 
         if ($rEvent == 'text') {
-          $eventStr = sprintf("<Content><![CDATA[%s]]></Content>", $contentStr);
+          // 给用户发客服回复
+          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>$contentStr));
 
-          $textTpl = "<xml>
-              <ToUserName><![CDATA[%s]]></ToUserName>
-              <FromUserName><![CDATA[%s]]></FromUserName>
-              <CreateTime>%s</CreateTime>
-              <MsgType><![CDATA[%s]]></MsgType>
-              %s
-              </xml>";
+          // 生成海报
+          if ($content == '超级红包') {
+            // 获取用户标识
 
-          $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $rEvent, $eventStr);
-          echo $resultStr;
+            //$url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token;
+            //$body = '{"expire_seconds": 2592000, "action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "test"}}}';
+            //Sher_Core_Helper_Util::request($url, $body, 'POST');
+          }
+
         }elseif($rEvent == 'image') {
           if ($mediaId) {
-            $body = array(
-              "touser" => $uid,
-              "msgtype" => "image",
-              "image" => array(
-                "media_id" => $mediaId,
-              ),
-            );
-            $body = json_encode($body, JSON_UNESCAPED_UNICODE);
-
-            // 给用户发多条记录
-            $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
-            $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $access_token;
-            try {
-              Sher_Core_Helper_Util::request($url, $body, 'POST');
-            } catch(Exception $e) {
-              Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
-            }
+            // 给用户发客服回复
+            Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$mediaId));
           }
         }
 
@@ -186,31 +171,8 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           echo $resultStr;
           **/
 
-          // 给用户发多条记录
-          $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
-          $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $access_token;
-          $body = array(
-            "touser" => $uid,
-            "msgtype" => "text",
-            "text" => array(
-              "content" => "嗨，欢迎来到铟立方未来商店",
-            ),
-          );
-          $body1 = array(
-            "touser" => $uid,
-            "msgtype" => "text",
-            "text" => array(
-              "content" => "转发个人海报，获得好友支持，额外获得2次抽奖机会。",
-            ),
-          );
-          $body = json_encode($body, JSON_UNESCAPED_UNICODE);
-          //$body1 = json_encode($body1, JSON_UNESCAPED_UNICODE);
-          try {
-            Sher_Core_Helper_Util::request($url, $body, 'POST');
-            Sher_Core_Helper_Util::request($url, $body1, 'POST');
-          } catch(Exception $e) {
-            Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
-          }
+          // 给用户发客服回复
+          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
         }
         break;
       case 'image':

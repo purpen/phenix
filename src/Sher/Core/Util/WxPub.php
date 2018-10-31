@@ -5,19 +5,6 @@
  */
 class Sher_Core_Util_WxPub extends Doggy_Object {
 
-	public static $OK = 0;
-	public static $ValidateSignatureError = -40001;
-	public static $ParseXmlError = -40002;
-	public static $ComputeSignatureError = -40003;
-	public static $IllegalAesKey = -40004;
-	public static $ValidateAppidError = -40005;
-	public static $EncryptAESError = -40006;
-	public static $DecryptAESError = -40007;
-	public static $IllegalBuffer = -40008;
-	public static $EncodeBase64Error = -40009;
-	public static $DecodeBase64Error = -40010;
-	public static $GenReturnXmlError = -40011;
-
 	/**
 	 * 用SHA1算法生成安全签名
 	 * @param string $token 票据
@@ -40,6 +27,41 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         return false;
 		}
 	}
+
+  /*
+   * 客服消息接口 
+   */
+  public static function serviceApi($uid, $type, $options=array())
+  {
+    $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+    // 给用户发多条记录
+    $url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" . $access_token;
+    if ($type == 'text') {
+      $body = array(
+        "touser" => $uid,
+        "msgtype" => "text",
+        "text" => array(
+          "content" => $options['content'],
+        ),
+      );
+    } elseif($type == 'image') {
+      $body = array(
+        "touser" => $uid,
+        "msgtype" => "image",
+        "image" => array(
+          "media_id" => $options['media_id'],
+        ),
+      );
+    }
+    $body = json_encode($body, JSON_UNESCAPED_UNICODE);   
+
+    try {
+      Sher_Core_Helper_Util::request($url, $body, 'POST');
+    } catch(Exception $e) {
+      Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
+    }
+  
+  }
 
 
 }
