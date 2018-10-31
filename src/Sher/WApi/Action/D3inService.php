@@ -90,8 +90,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。";
         } elseif($content == '我要嗨购') {
           $rEvent = 'image';
-          $mediaId = '';
-          $picUrl = 'https://p4.taihuoniao.com/asset/181031/5bd90cb020de8d25308b7515-1-hu.jpg';
+          $mediaId = 'dRfSIOBu6JBL8PBXEY5wB9shXpcJK9GoVeSmc_Qj-ag';
         }
 
         if ($contentStr && $mediaId && $picUrl) {
@@ -101,26 +100,36 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
         if ($rEvent == 'text') {
           $eventStr = sprintf("<Content><![CDATA[%s]]></Content>", $contentStr);
+
+          $textTpl = "<xml>
+              <ToUserName><![CDATA[%s]]></ToUserName>
+              <FromUserName><![CDATA[%s]]></FromUserName>
+              <CreateTime>%s</CreateTime>
+              <MsgType><![CDATA[%s]]></MsgType>
+              %s
+              </xml>";
+
+          $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $rEvent, $eventStr);
+          echo $resultStr;
         }elseif($rEvent == 'image') {
           if ($mediaId) {
-            $eventStr = sprintf("<MediaId>![CDATA[%s]]</MediaId>", $mediaId);
-          }elseif($picUrl) {
-            $eventStr = sprintf("<PicUrl>![CDATA[%s]]</PicUrl>", $picUrl);
+            $body = array(
+              "touser" => $uid,
+              "msgtype" => "image",
+              "image" => array(
+                "media_id" => $mediaId,
+              ),
+            );
+            $body = json_encode($body, JSON_UNESCAPED_UNICODE);
+            try {
+              Sher_Core_Helper_Util::request($url, $body, 'POST');
+            } catch(Exception $e) {
+              Doggy_Log_Helper::debug("调用客服接口失败！: ".$e->getMessage());
+            }
           }
         }
 
-        $textTpl = "<xml>
-            <ToUserName><![CDATA[%s]]></ToUserName>
-            <FromUserName><![CDATA[%s]]></FromUserName>
-            <CreateTime>%s</CreateTime>
-            <MsgType><![CDATA[%s]]></MsgType>
-            %s
-            </xml>";
-
         Doggy_Log_Helper::debug(sprintf("content: %s-%s", $content, $msg_id));
-
-        $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $rEvent, $eventStr);
-        echo $resultStr;
         break;
       case 'event': // 事件
         $event_arr = $xml_tree->getElementsByTagName('Event');
@@ -314,21 +323,22 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     $param = array(
       "type" => 'image',
       "offset" => 1,
-      "count" => 100,
+      "count" => 1000,
     );
     $param = json_encode($param, JSON_UNESCAPED_UNICODE);
 
     try {
       $result = Sher_Core_Helper_Util::request($url, $param, 'POST');
       $result = json_decode($result, true);
+      print_r($result);
       if ($result['errcode']) {
-        echo "删除失败 code: $result[errode], message: $result[errmsg]";
+        echo "获取失败 code: $result[errode], message: $result[errmsg]";
         return;
       }
-      Doggy_Log_Helper::debug("del pub menu ok!");
-      echo "del ok!";
+      Doggy_Log_Helper::debug("fetch mertail ok!");
+      echo "fetch material ok!";
     } catch(Exception $e) {
-      echo "删除失败: " . $e->getMessage();
+      echo "获取成功: " . $e->getMessage();
     }
     return "ok";
   }
