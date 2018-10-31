@@ -1,4 +1,5 @@
 {%extends 'layout/shop.html'%}
+{% block title%}全民嗨购{% endblock %}
 {% block layout_js %}
 <script type="text/javascript" src="{{ app_url_packaged }}/javascript/flexible.min.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -79,7 +80,7 @@
         overflow-x: hidden; overflow-y: auto
     }
     a {
-        text-decoration: none;
+        text-decoration: none !important;
     }
     a:visited{text-decoration: none }
     a:focus{text-decoration: none }
