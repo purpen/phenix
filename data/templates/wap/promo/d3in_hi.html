@@ -81,6 +81,7 @@
     a {
         text-decoration: none;
     }
+    a:visited{text-decoration: none }
     .d3in_hi {
         /*background: url('{{ app_url_packaged }}/images/egg/egg_4.jpg');*/
         background: #ff4c46;
@@ -457,6 +458,10 @@
         $('.ui.modalt.page,.ui.messge').addClass('show');
     })
     $('.btn_close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+
+    $('.close').click(function(){
         $('.ui.modalt.page,.ui.messge').removeClass('show');
     });
 {% endblock %}
