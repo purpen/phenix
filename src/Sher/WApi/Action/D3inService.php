@@ -22,7 +22,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 	}
 
   /**
-   * Fiu 
+   * Entry
    */
   public function entry(){
     include_once "wx-pub-encrypt/wxBizMsgCrypt.php";
@@ -105,10 +105,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           // 生成海报
           if ($content == '超级红包') {
             // 获取用户标识
-
-            //$url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token;
-            //$body = '{"expire_seconds": 2592000, "action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "test"}}}';
-            //Sher_Core_Helper_Util::request($url, $body, 'POST');
+            $public_number_model = new Sher_Core_Model_PublicNumber();
+            try {
+              $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
+              $result = Sher_Core_Util_WxPub::genQr(1, array('acene_str'=>$obj['mark']));
+              if(!$result) {
+                Doggy_Log_Helper::debug("获取二维码失败！");
+              }
+              Doggy_Log_Helper::debug(json_encode($result));
+            } catch(Exception $e) {
+              Doggy_Log_Helper::debug("获取二维码失败！". $e->getMessage());
+            }
           }
 
         }elseif($rEvent == 'image') {
@@ -130,46 +137,20 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         $public_number_model = new Sher_Core_Model_PublicNumber();
         if ($event == 'unsubscribe') {
           // 记录该用户数据
-          $obj = $public_number_model->first(array('uid'=> $uid));
+          $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
           if ($obj) {
             $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'is_follow'=>0));
           }
-        
         }else if ($event == 'subscribe') {
           // 记录该用户数据
-          $obj = $public_number_model->first(array('uid'=> $uid));
+          $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
           if ($obj) {
             $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']+1, 'is_follow'=>1));
-          }else{
-            $row = array(
-              'uid' => $uid,
-              'mark' => Sher_Core_Helper_Util::generate_mongo_id(),
-              'is_follow' => 1,
-              'follow_count' => 1,
-              'type' => 1,
-            );
-            $public_number_model->create($row);
-            $obj = $public_number_model->first(array('uid' => $uid));
           }
           $mark = '';
           if ($obj) {
             $mark = $obj['mark'];
           }
-
-          /**
-          $textTpl = "<xml>
-              <ToUserName><![CDATA[%s]]></ToUserName>
-              <FromUserName><![CDATA[%s]]></FromUserName>
-              <CreateTime>%s</CreateTime>
-              <MsgType><![CDATA[%s]]></MsgType>
-              <Content><![CDATA[%s]]></Content>
-              </xml>";
-          $contentStr = '嗨，欢迎来到铟立方未来商店';
-          //$contentStr = "嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳 http://t.taihuoniao.com/app/wap/promo/d3in_draw?mark=$mark  参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。";
-
-          $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, 'text', $contentStr);
-          echo $resultStr;
-          **/
 
           // 给用户发客服回复
           Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));

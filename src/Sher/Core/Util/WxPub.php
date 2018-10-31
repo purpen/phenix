@@ -63,5 +63,52 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   
   }
 
+  /*
+   * 生成二维码接口
+   * param $type 1.临时；2.永久；
+   */
+  public static function genQr($type, $options=array())
+  {
+    $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+    $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token;
+    $body = '{"expire_seconds": 2592000, "action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "test"}}}';
+    $body = array(
+      'expire_seconds' => 2592000,
+      'action_name' => "QR_STR_SCENE",
+      'action_info' => array(
+        'scene' => array(
+          'scene_str' => $options['scene_str']
+        ),
+      ),
+    );
+    $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+    $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
+    $result = json_decode($result, true);
+    return $result;
+  }
+
+  /*
+   * 查询公号统计
+   */
+  public static function fetchOrCreatePublic($uid, &$model=null)
+  {
+    if (!$model) {
+      $model = new Sher_Core_Model_PublicNumber();
+    }
+    $obj = $model->first(array('uid'=> $uid));
+    if (!$obj) {
+      $row = array(
+        'uid' => $uid,
+        'mark' => Sher_Core_Helper_Util::generate_mongo_id(),
+        'is_follow' => 1,
+        'follow_count' => 1,
+        'type' => 1,
+      );
+      $model->create($row);
+      $obj = $model->first(array('uid' => $uid));
+    }
+    return $obj;
+  }
+
 
 }
