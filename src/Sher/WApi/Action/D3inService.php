@@ -77,6 +77,10 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         $msg_id_arr = $xml_tree->getElementsByTagName('MsgId');
         $msg_id = $msg_id_arr->item(0)->nodeValue;
         $content = $content_arr->item(0)->nodeValue;
+        $rEvent = 'text';
+        $contentStr = '';
+        $mediaId = '';
+        $picUrl = '';
 
         if ($content == '测试') {
           $contentStr = '好好测哦~';
@@ -84,13 +88,25 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           $contentStr = 'good boy~';
         }elseif ($content == '超级红包') {
           $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。";
-        }else{
-          $contentStr = '';
+        } elseif($content == '我要嗨购') {
+          $rEvent = 'image';
+          $mediaId = '';
+          $picUrl = 'https://p4.taihuoniao.com/asset/181031/5bd90cb020de8d25308b7515-1-hu.jpg';
         }
 
-        if (!$contentStr) {
+        if ($contentStr && $mediaId && $picUrl) {
           echo "success";
           return;
+        }
+
+        if ($rEvent == 'text') {
+          $eventStr = sprintf("<Content><![CDATA[%s]]></Content>", $contentStr);
+        }elseif($rEvent == 'image') {
+          if ($mediaId) {
+            $eventStr = sprintf("<MediaId>![CDATA[%s]]</MediaId>", $mediaId);
+          }elseif($picUrl) {
+            $eventStr = sprintf("<PicUrl>![CDATA[%s]]</PicUrl>", $picUrl);
+          }
         }
 
         $textTpl = "<xml>
@@ -98,13 +114,12 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             <FromUserName><![CDATA[%s]]></FromUserName>
             <CreateTime>%s</CreateTime>
             <MsgType><![CDATA[%s]]></MsgType>
-            <Content><![CDATA[%s]]></Content>
-            <MsgId>![CDATA[%s]]</MsgId>
+            %s
             </xml>";
 
         Doggy_Log_Helper::debug(sprintf("content: %s-%s", $content, $msg_id));
 
-        $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $mtype, $contentStr, $msg_id);
+        $resultStr = sprintf($textTpl, $uid, $to_user_name, $c_time, $rEvent, $eventStr);
         echo $resultStr;
         break;
       case 'event': // 事件
