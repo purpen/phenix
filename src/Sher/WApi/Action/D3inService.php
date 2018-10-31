@@ -113,6 +113,9 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 Doggy_Log_Helper::debug("获取二维码失败！");
               }
               Doggy_Log_Helper::debug(json_encode($result));
+
+              $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
+              Doggy_Log_Helper::debug(json_encode($userResult));
             } catch(Exception $e) {
               Doggy_Log_Helper::debug("获取二维码失败！". $e->getMessage());
             }
