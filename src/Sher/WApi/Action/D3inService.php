@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements DoggyX_Action_Initialize {
 
-	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu');
+	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu', 'fetch_mertail');
 		
 	/**
 	 * 初始化参数
@@ -289,6 +289,37 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
 
     try {
       $result = Sher_Core_Helper_Util::request($url, array('access_token' => $token), 'GET');
+      $result = json_decode($result, true);
+      if ($result['errcode']) {
+        echo "删除失败 code: $result[errode], message: $result[errmsg]";
+        return;
+      }
+      Doggy_Log_Helper::debug("del pub menu ok!");
+      echo "del ok!";
+    } catch(Exception $e) {
+      echo "删除失败: " . $e->getMessage();
+    }
+    return "ok";
+  }
+
+  /**
+   * 获取素材列表
+   */
+  public function fetch_mertail(){
+    Doggy_Log_Helper::debug("获取素材列表... ");
+
+    $token = Sher_Core_Util_WechatJs::wx_get_token(2);
+    Doggy_Log_Helper::debug("获取access token: $token ");
+    $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=".$token;
+    $param = array(
+      "type" => 'image',
+      "offset" => 1,
+      "count" => 100,
+    );
+    $param = json_encode($param, JSON_UNESCAPED_UNICODE);
+
+    try {
+      $result = Sher_Core_Helper_Util::request($url, $param, 'POST');
       $result = json_decode($result, true);
       if ($result['errcode']) {
         echo "删除失败 code: $result[errode], message: $result[errmsg]";
