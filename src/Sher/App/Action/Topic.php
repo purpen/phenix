@@ -64,7 +64,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$category_id = $this->stash['category_id'];
 		$type = $this->stash['type'];
         $time = $this->stash['time'];
-		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 7;
+		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
         $page = $this->stash['page'];
 
 		// 综合分类

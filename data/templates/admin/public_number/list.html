@@ -59,12 +59,8 @@
               <p>mark: {{ d.mark }}</p>
               {%if d.user_info%}
                 <p>nickname: {{ d.user_info.nickname }}</p>
-                <p>avatar: {{ d.user_info.avatar }}</p>
                 <p>sex: {{ d.user_info.sex }}</p>
-                <p>country: {{ d.user_info.country }}</p>
-                <p>province: {{ d.user_info.province }}</p>
-                <p>city: {{ d.user_info.city }}</p>
-                <p>unionid: {{ d.user_info.unionid }}</p>
+                <p>city: {{ d.user_info.country }}|{{ d.user_info.province }}|{{ d.user_info.city }}</p>
               {%endif%}
             </td>
             <td>{{ d.type }}</td>

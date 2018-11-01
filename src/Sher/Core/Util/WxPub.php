@@ -66,6 +66,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   /*
    * 生成二维码接口
    * param $type 1.临时；2.永久；
+   * qrData 二维码数据流
    */
   public static function genQr($type, $options=array())
   {
@@ -123,6 +124,38 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     );
     $result = Sher_Core_Helper_Util::request($url, $body, 'GET');
     $result = json_decode($result, true);
+    return $result;
+  }
+
+  /**
+   * 生成海报
+   */
+  public static function genPoster($avatar, $qrUrl)
+  {
+    $result = array('code'=> 0, 'message'=> '');
+    try {
+      if ($qrUrl) {
+        $qrGmagick = new Gmagick($qrUrl);
+        $qrGmagick->setImageResolution(0.1,0.3);      //设置图片分辨率
+        $qrParam = $qrGmagick->getImageGeometry();   //获取源图片宽和高  
+        $result['data'] = $qrParam;
+
+        /**
+        if ($QrcodeWH['width']>200) {  
+            $QrcodeW['width'] = 200;  
+            $QrcodeH['height'] = $QrcodeW['width']/$QrcodeWH['width']*$QrcodeWH['height'];  
+         } else {  
+            $QrcodeW['width'] = $QrcodeWH['width'];  
+            $QrcodeH['height'] = $QrcodeWH['height'];  
+         }                                                                                     
+        $qrGmagick->thumbnailImage( $QrcodeW['width'], $QrcodeWH['height'], true );	//按照选定的比例进行缩放
+        **/
+      }
+
+    }catch(Exception $e) {
+      $result['code'] = 500;
+      $result['message'] = $e->getMessage();
+    }
     return $result;
   }
 

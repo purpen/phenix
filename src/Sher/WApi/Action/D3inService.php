@@ -108,12 +108,8 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             $public_number_model = new Sher_Core_Model_PublicNumber();
             try {
               $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
-              $result = Sher_Core_Util_WxPub::genQr(1, array('acene_str'=>$obj['mark']));
-              if(!$result) {
-                Doggy_Log_Helper::debug("获取二维码失败！");
-              }
-              Doggy_Log_Helper::debug(json_encode($result));
 
+              $avatarUrl = '';
               $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
               if ($userResult) {
                 $row = array(
@@ -125,6 +121,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                   'city' => $userResult['city'],
                   'unionid' => $userResult['unionid'],
                 );
+                $avatarUrl = $userResult['headimgurl'];
 
                 // 更新到公号用户
                 $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row));
@@ -135,8 +132,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 }
               }
               Doggy_Log_Helper::debug(json_encode($userResult));
+
+              $qrResult = Sher_Core_Util_WxPub::genQr(1, array('acene_str'=>$obj['mark']));
+              if(!$qrResult) {
+                Doggy_Log_Helper::debug("获取二维码失败！");
+              }
+              $qrUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $qrResult['ticket'];
+              // 生成海报
+              $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+              Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
             } catch(Exception $e) {
-              Doggy_Log_Helper::debug("获取二维码失败！". $e->getMessage());
+              Doggy_Log_Helper::debug("更新用户失败！". $e->getMessage());
             }
           }
 
