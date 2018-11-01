@@ -1,0 +1,236 @@
+{%extends 'layout/shop.html'%}
+{% block title%}我的奖品{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+    .appiosload {
+        display: none !important;
+    }
+    .sfooter.nav-menu {
+        display: none;
+    }
+    body {
+        background: #DB2216;
+    }
+    a {
+        text-decoration: none !important;
+    }
+    .red_list {
+        background: #DB2216;
+        padding: 33px 13px 24px;
+        height: 100%;
+    }
+
+    .red_list_back {
+        background: #ffffff;
+        padding: 10px 26px;
+        border-radius: 4px;
+        margin-bottom: 17px;
+        box-shadow: 1px 1px 1px 1px #EA8284;
+    }
+
+    .title {
+        font-size: 18px;
+        font-weight: 700;
+    }
+
+    .text p {
+        color: #D00913;
+        line-height: 1;
+    }
+
+    .text p:last-child {
+        color: #EF5F66;
+    }
+
+    .display_sb {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .margin_b_18 {
+        margin-bottom: 18px;
+    }
+
+    .margin_b_5 {
+        margin-bottom: 5px;
+    }
+
+    .font_12 {
+        font-size: 12px;
+    }
+
+    .font_9 {
+        font-size: 9px;
+    }
+
+    .display_a_c {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .details {
+        width: 68px;
+        background: #D00913;
+        border-radius: 4px;
+        color: #ffffff;
+        border: 1px solid #D00913;
+        font-size: 15px;
+        text-align: center;
+        line-height: 28px;
+    }
+    .details:hover {
+        color: #ffffff;
+    }
+    .margin_l_10 {
+        margin-left: 10px;
+    }
+
+    .introduce {
+        padding: 0 42px;
+        text-align: center;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .introduce p {
+        color: #FFDB29;
+        font-size: 10px;
+    }
+
+    .display_f {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .display_f p {
+        width: 85px;
+        height: 30px;
+        background: #ffffff;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .display_f a {
+        color: #D00913;
+        font-size: 12px;
+    }
+
+    .details a {
+        color: #ffffff;
+    }
+
+    .not_winning {
+        width: 260px;
+        height: 160px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -130px;
+        margin-top: -80px;
+        background: #ffffff;
+        border-radius: 4px;
+        text-align: center;
+        padding: 20px 0;
+        display: none;
+    }
+
+    .not_winning img {
+        width: 43px;
+    }
+
+    .not_winning p {
+        margin-top: 9px;
+        margin-bottom: 20px;
+        color: #CE0A13;
+        font-size: 12px;
+    }
+
+    .not_winning a {
+        width: 144px;
+        height: 24px;
+        line-height: 24px;
+        margin: 0 auto;
+        font-size: 10px;
+        background: #CF0913;
+        color: #ffffff;
+        text-align: center;
+        display: block;
+        border-radius: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block jquery %}
+{% endblock %}
+
+{% block content %}
+<div class="red_list">
+    <!--无红包-->
+    <div class="not_winning">
+        <img class="no_winning_img" src="{{ app_url_packaged }}/images/d3in/d3in_draw/not_winning.png" align="absmiddle" width="100%">
+        <p>您还未中奖，再接再厉哦!</p>
+        <a href="javascript:void(0);">
+        去抽奖
+        </a>
+    </div>
+    <div>
+        <div class="red_list_back display_sb">
+        <div class="text">
+        <p class="title margin_b_18">二等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1500元</p>
+        <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=2">详情</a>
+        </div>
+        </div>
+
+        <div class="red_list_back display_sb">
+        <div class="text">
+        <p class="title margin_b_18">三等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1100元</p>
+        <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=3">详情</a>
+        </div>
+        </div>
+
+        <div class="red_list_back display_sb">
+        <div class="text">
+        <p class="title margin_b_18">四等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">1000元</p>
+        <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=4">详情</a>
+        </div>
+        </div>
+        <div class="red_list_back display_sb">
+        <div class="text">
+        <p class="title margin_b_18">五等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="font_12 margin_b_5">500元</p>
+        <p class="font_9">有效期至2018-11-12</p>
+        </div>
+        <div class="display_a_c">
+        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=5">详情</a>
+        </div>
+        </div>
+
+
+        <div class="introduce">
+        <p>点击使用红包购买，下单自动抵扣</p>
+        <div class="display_f">
+        <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_draw">再次抽奖</a></p>
+        <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_hi">使用红包</a></p>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,11 +1,13 @@
 {%extends 'layout/shop.html'%}
+{% block title%}全民嗨购{% endblock %}
 {% block layout_js %}
+<script type="text/javascript" src="{{ app_url_packaged }}/javascript/flexible.min.js"></script>
 <script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript" >
-  var m_name = 'fiu店给您列好年会礼品甄选方案';
-  var img_url = '{{ app_url_packaged }}/images/fiushop/drew/intss.jpg';
-  var link = '{{ app_url_wap }}/promo/intelligence';
-  var desc_str = '新年礼品不用愁，美学智能任你选，为您定制专属您的新年礼，成为热门中那个“别人家的公司”';
+  var m_name = '双11提前开抢，72小时嗨购不停';
+  var img_url = '{{ app_url_packaged }}/images/d3in/d3in_hi/72hi.jpg';
+  var link = '{{ app_url_wap }}/promo/d3in_hi';
+  var desc_str = '最高直降 500元，仅限3天';
 
   wx.config({
     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -71,6 +73,15 @@
         display: none;
     }
 
+    body {
+        width: 10rem;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden; overflow-y: auto
+    }
+    a {
+        text-decoration: none !important;
+    }
     .d3in_hi {
         /*background: url('{{ app_url_packaged }}/images/egg/egg_4.jpg');*/
         background: #ff4c46;
@@ -115,7 +126,7 @@
     }
 
     .display_c {
-        padding: 0 29px;
+        padding: 0 25px;
         display: flex;
         justify-content: space-around;
     }
@@ -128,8 +139,8 @@
         width: 140px;
     }
 
-    .wid_102 {
-        width: 102px;
+    .wid_62 {
+        height: 62px;
     }
 
     .wid_102 img {
@@ -157,8 +168,8 @@
         height: 20px;
         margin-bottom: 0;
     }
-    .margin_b_3 {
-        margin-bottom: 3px;
+    .margin_b_5 {
+        margin-bottom: 5px;
     }
     .hei_86 {
         height: 86px;
@@ -220,11 +231,12 @@
     }
 
     .click_product {
-        width: 50px;
-        height: 11px;
+        width: 60px;
+        height: 18px;
         background: #FF3237;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
+        align-items: center;
     }
 
     .click_product a {
@@ -232,7 +244,9 @@
         line-height: 1;
         font-size: 8px;
     }
-
+    .margin_l_3 {
+        margin-left: 3px;
+    }
     .display_s_b {
         display: flex;
         justify-content: space-between;
@@ -244,6 +258,7 @@
     }
 
     .display_fc_ac {
+        width: 152px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -287,7 +302,7 @@
         font-size: 8px;
         color: #ffffff;
         line-height: 1.5;
-        margin-bottom: 0;
+        margin-bottom: 3px;
     }
 
     .hei_16 {
@@ -303,14 +318,175 @@
         margin-bottom: 0;
     }
 
-    .min_h_20 {
-        min-height: 20px;
+    .min_h_18 {
+        min-height: 18px;
+        margin-bottom: 0;
     }
 
     .min_h_68 {
         min-height: 68px;
     }
+    .ui.modalt.page {
+        background: rgba(0, 0, 0, 0.5);
+        width: 10rem;
+        height: 18.76rem;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -5rem;
+        text-align: center;
+        display: none;
+    }
+
+    @-webkit-keyframes zoomIn {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3)
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @keyframes zoomIn {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3)
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    .ui.modalt.page.show {
+        animation: 0.3s fadeIn .5s both;
+        -webkit-animation: 0.3s fadeIn .5s both;
+        display: block;
+    }
+
+
+    .bounds.messge {
+        width: 8.32rem;
+        height: 5.066667rem;
+        position: absolute;
+        top: 5.266667rem;
+        left: 50%;
+        margin-left: -4.16rem;
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/modalt.png);
+        background-size: cover;
+        display: none;
+    }
+
+    .ui.messge.show {
+        animation: 0.3s zoomIn 0.5s both;
+        -webkit-animation: 0.3s zoomIn 0.5s both;
+        display: block;
+    }
+
+    .ui.messge .close {
+        width: 1.066667rem;
+        height: 1.066667rem;
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/close.png);
+        background-size: cover;
+        position: absolute;
+        right: -0.35rem;
+        top: -0.35rem;
+        cursor: pointer;
+    }
+
+    .ui.messge h2.ui.header {
+        font-size: 12px;
+        color: #CE0A13 !important;
+        margin-top: 0.733333rem;
+        margin-bottom: 0.066667rem;
+    }
+
+    .ui.form .ui.submit.button {
+        width: 4.533333rem;
+        height: 0.746667rem;
+        background: #d82622;
+        color: #fff;
+        font-size: 0.32rem;
+        text-align: center;
+        line-height: 0.746667rem;
+        padding: 0;
+        margin: 0.4rem 0 0;
+        border-radius: 4px;
+    }
+
+    .view.button {
+        width: 2.05rem;
+        height: 0.529rem;
+        background: #d82622 !important;
+        color: #fff !important;
+        font-size: 10px;
+        text-align: center;
+        line-height: 0.529rem;
+        padding: 0;
+        border-radius: 4px;
+        display: block;
+    }
+
+    .winning_num {
+        padding-top: 22px;
+        margin-bottom: 35px;
+    }
+
+    .min_h_24 {
+        min-height: 24px;
+    }
+
+    .display_j_s {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .display_j_s a:first-child {
+        background: #BABABA !important;
+    }
+
+    .padding_30 {
+        padding: 0 30px;
+    }
 </style>
+{% endblock %}
+
+{% block jquery %}
+
+    $('#bounced').click(function(){
+        $('.ui.modalt.page,.ui.messge').addClass('show');
+    })
+    $('.btn_close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+
+    $('.close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
 {% endblock %}
 
 {% block content %}
@@ -348,8 +524,8 @@
                         <div class="product_title">
                             <p class="product_price">现价：1.00元</p>
                             <div class="display_f click_product">
-                                <a href="">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <a href="javascript:void(0)" id="bounced">立即抢购</a>
+                                <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -382,8 +558,8 @@
                         <div class="product_title">
                             <p class="product_price">红包价：899.00元</p>
                             <div class="display_f click_product">
-                                <a href="">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <a href="https://www.taihuoniao.com/shop/view-1179960711-1.html">立即抢购</a>
+                                <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -395,30 +571,30 @@
                 <div class="display_s_b">
                     <div class="display_fc_ac">
                         <div class="min_h_68">
-                            <img class="wid_102" src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen2.png" alt="">
+                            <img class="wid_62" src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen2.png" alt="">
                         </div>
                         <div>
-                            <p class="font_9 color_16 margin_b_3">戴森Dyson Airwrap卷发棒</p>
-                            <p class="font_8 color_16 margin_b_3">创新科技，多样造型</p>
+                            <p class="font_9 color_16 min_h_18">戴森Dyson Airwrap卷发棒</p>
+                            <p class="font_8 color_16 margin_b_5">创新科技，多样造型</p>
                             <p class="product_price">红包价：3899.00元 <del class="font_8">原价4299元 </del></p>
                         </div>
                         <div class="display_f click_product margin_t_5">
-                            <a href="">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <a href="https://www.taihuoniao.com/shop/view-1105705251-1.html">立即抢购</a>
+                            <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                     <div class="display_fc_ac">
                         <div class="min_h_68">
-                            <img class="wid_102" src="{{ app_url_packaged }}/images/d3in/d3in_hi/ruoqi.png" alt="">
+                            <img class="wid_62" src="{{ app_url_packaged }}/images/d3in/d3in_hi/ruoqi.png" alt="">
                         </div>
                         <div>
-                            <p class="font_9 color_16 margin_b_3">Rokid Pebble若琪月石AI蓝牙智能音箱</p>
-                            <p class="font_8 color_16 margin_b_3">智能遥控，语音提示</p>
+                            <p class="font_9 color_16 min_h_18">Rokid Pebble若琪月石AI蓝牙智能音箱</p>
+                            <p class="font_8 color_16 margin_b_5">智能遥控，语音提示</p>
                             <p class="product_price">红包价：999.00元 <del class="font_8">原价1399元 </del></p>
                         </div>
                         <div class="display_f click_product margin_t_5">
-                            <a href="">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <a href="https://www.taihuoniao.com/shop/view-1105677354-1.html">立即抢购</a>
+                            <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -430,25 +606,25 @@
                     <div class="display_fc_ac">
                         <img class="wid_140 hei_86" src="{{ app_url_packaged }}/images/d3in/d3in_hi/xiaobaijing.png" alt="">
                         <div>
-                            <p class="font_9 margin_b_5 color_16">AMIRO O系列小白镜</p>
-                            <p class="font_8 margin_b_3">智能感应，超清显色</p>
+                            <p class="font_9 min_h_18 color_16">AMIRO O系列小白镜</p>
+                            <p class="font_8 margin_b_5">智能感应，超清显色</p>
                             <p class="product_price">红包价：299.00元 <del class="font_8">原价399元 </del></p>
                         </div>
                         <div class="display_f click_product margin_t_5">
-                            <a href="">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <a href="https://www.taihuoniao.com/shop/view-1097788479-1.html">立即抢购</a>
+                            <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                     <div class="display_fc_ac">
                         <img class="wid_140 hei_86" src="{{ app_url_packaged }}/images/d3in/d3in_hi/zhazhiji.png" alt="">
                         <div>
-                            <p class="font_9 margin_b_5 color_16">幻想之道多功能榨汁机</p>
-                            <p class="font_8 margin_b_3">榨汁细腻，轻便易携</p>
+                            <p class="font_9 min_h_18 color_16">幻想之道多功能榨汁机</p>
+                            <p class="font_8 margin_b_5">榨汁细腻，轻便易携</p>
                             <p class="product_price">红包价：199.00元 <del class="font_8">原价299元  </del></p>
                         </div>
                         <div class="display_f click_product margin_t_5">
-                            <a href="">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <a href="https://www.taihuoniao.com/shop/view-1177000926-1.html">立即抢购</a>
+                            <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -460,7 +636,7 @@
                         <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/yinxiang.png" alt="">
                     </div>
                     <div class="margin_l_36 wid_144 display_fc">
-                        <p class="font_10 color_16 margin_b_3">KSP mini蓝牙音响</p>
+                        <p class="font_10 color_16 margin_b_5">KSP mini蓝牙音响</p>
                         <div class="display_f">
                             <ul class="margin_padding_none">
                                 <li>
@@ -472,8 +648,8 @@
                             <del class="color_47 font_8">原价49元 </del>
                             <p class="product_price">现价：10.00元</p>
                             <div class="display_f click_product">
-                                <a href="">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <a href="https://www.taihuoniao.com/shop/view-1105758868-1.html">立即抢购</a>
+                                <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -483,17 +659,32 @@
                 <p class="font_9 color_f margin_b_0" style="line-height: 1.5">铟立方未来商店是北京太火红鸟科技有限公司旗下的科技美学新零售平台，致力于通过场景式
                     互动体验帮助消费者享受品质生活方式。</p>
                 <div class="code">
-                    <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/erweima.png" alt="">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/erweima.jpg" alt="">
                     <p class="color_f margin_t_10 font_12">微信服务号</p>
                 </div>
                 <div class="instructions">
                     <p>活动说明：</p>
                     <p>1.本次特卖活动限时3天，活动结束所有商品恢复原价，红包用户可在红包有效期内正常使用。</p>
-                    <p>2.本次特卖活动仅支持微信支付，支订单提交成功之后会在5个工作日之内发货，全场包邮。</p>
+                    <p>2.本次特卖活动支付成功之后会在5个工作日内发货，全场包邮。</p>
                     <p>3.如需退换请联系铟立方工作人员为您处理，或者关注微信公众号，留言与我们联系，联系电话400-108-0751。</p>
                 </div>
             </div>
         </div>
-
     </div>
+<div class="ui modalt page">
+    <div class="ui bounds messge" id="num_winning">
+        <div class="close"></div>
+        <h2 class="ui header">尊敬的用户</h2>
+        <p class=" winning_num font_10">您还没有抽中1元购买资格，快去抽奖吧！</p>
+        <div class="display_j_s padding_30">
+            <a class="ui inverted active view button btn_close" href="javascript:void(0);">
+                取消
+            </a>
+            <a class="ui inverted active view button btn_close" href="{{ app_url_wap }}/app/wap/promo/d3in_draw">
+                去抽奖
+            </a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -1,0 +1,830 @@
+{%extends 'layout/shop.html'%}
+{% block title%}红包享不停{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .appiosload {
+        display: none !important;
+    }
+
+    .sfooter.nav-menu {
+        display: none;
+    }
+
+    ::-webkit-scrollbar { /*隐藏滚轮*/
+        display: none;
+    }
+
+    body {
+        position: relative;
+        margin: 0 auto !important;
+        width: 10rem;
+        -webkit-overflow-scrolling: touch;
+        overflow-x: hidden; overflow-y: auto
+    }
+
+    *, :after, :before {
+        box-sizing: inherit;
+    }
+    a {
+        text-decoration: none !important;
+    }
+    #lottery {
+        width: 10.0rem;
+        height: 14rem;
+        margin: 0 auto;
+        background: url('{{ app_url_packaged }}/images/d3in/d3in_draw/background.png') no-repeat;
+        background-size: cover;
+        /*padding: 0.73rem 0.7981rem;*/
+        padding: 3.833333rem 0.84rem 0;
+    }
+    .color_f {
+        color: #ffffff;
+    }
+    .font_8 {
+        font-size: 8px;
+    }
+
+    .text_center {
+        text-align: center;
+    }
+    #lottery table td {
+        text-align: center;
+        vertical-align: middle;
+        color: #333;
+        font-index: -999;
+        position: relative;
+    }
+
+    #lottery table {
+        width: 8.32rem;
+        height: 8.32rem;
+        background: #d82622;
+    }
+
+    #lottery table td img {
+        /*width:2.02rem;
+        height:2.02rem;*/
+        width: 2.733333rem;
+        height: 2.73333rem;
+        vertical-align: middle;
+    }
+
+    .d1 {
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/d1.jpg);
+        width: 2.733333rem;
+        height: 2.73333rem;
+        vertical-align: middle;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    #lottery table td a {
+        width: 2.733333rem;
+        height: 2.733333rem;
+        display: block;
+        background: url({{ app_url_packaged }}/images/fiushop/drew/go.jpg) no-repeat;
+        background-size: cover;
+        text-decoration: none;
+        vertical-align: middle;
+    }
+
+    #lottery table td.active {
+        /*background-color:#ea0000;*/
+        background: #d82622;
+    }
+
+    #lottery table td .active {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        width: 100%;
+        height: 100%;
+    }
+
+    #lottery table td.active .active {
+        display: block;
+    }
+
+    .ui.modalt.page {
+        background: rgba(0, 0, 0, 0.5);
+        width: 10rem;
+        height: 18.76rem;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        margin-left: -5rem;
+        text-align: center;
+        display: none;
+    }
+
+    @-webkit-keyframes zoomIn {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3)
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @keyframes zoomIn {
+        0% {
+            opacity: 0;
+            -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3)
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1
+        }
+    }
+
+    .ui.modalt.page.show {
+        animation: 0.3s fadeIn .5s both;
+        -webkit-animation: 0.3s fadeIn .5s both;
+        display: block;
+    }
+
+    .address.messge {
+        width: 8.32rem;
+        height: 8.626667rem;
+        position: absolute;
+        top: 3.4rem;
+        left: 50%;
+        margin-left: -4.16rem;
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/modal.png);
+        background-size: cover;
+        color: #d82622;
+        display: none;
+    }
+
+    .bounds.messge {
+        width: 8.32rem;
+        height: 5.066667rem;
+        position: absolute;
+        top: 5.266667rem;
+        left: 50%;
+        margin-left: -4.16rem;
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/modalt.png);
+        background-size: cover;
+        display: none;
+    }
+
+    .ui.messge.show {
+        animation: 0.3s zoomIn .5s both;
+        -webkit-animation: 0.3s zoomIn .5s both;
+        display: block;
+    }
+
+    .ui.messge .close {
+        width: 1.066667rem;
+        height: 1.066667rem;
+        background-image: url({{ app_url_packaged }}/images/fiushop/drew/close.png);
+        background-size: cover;
+        position: absolute;
+        right: -0.35rem;
+        top: -0.35rem;
+        cursor: pointer;
+    }
+
+    .ui.messge h2.ui.header {
+        font-size: 18px;
+        color: #CE0A13 !important;
+        margin-top: 0.733333rem;
+        margin-bottom: 0.066667rem;
+    }
+
+    .ui.messge p:first-child {
+        font-size: 0.32rem;
+        margin-top: 0.066667rem;
+    }
+
+    .ui.form {
+        margin-top: 0.666667rem;
+    }
+
+    .ui.form .field {
+        display: block;
+        margin-bottom: 0.373333rem;
+        font-size: 0;
+    }
+
+    .ui.form .field > label {
+        font-size: 0.266667rem;
+        display: inline-block;
+        margin: 0;
+        color: #d82622;
+        text-transform: none;
+        vertical-align: middle;
+        font-weight: 400;
+        line-height: 0.666667rem;
+    }
+
+    .ui.form .field > input {
+        width: 4.533333rem !important;
+        height: 0.666667rem;
+        padding: 0 0.106667rem !important;
+        margin: 0 0 0 0.24rem !important;
+        border-radius: 4px !important;
+        font-size: 0.266667rem;
+        line-height: 0.666667rem;
+        border: 1px solid rgba(216, 38, 34, 0.5);
+    }
+
+    .ui.form .field > input:focus {
+        border: 1px solid rgba(216, 38, 34, 0.8);
+    }
+
+    .ui.form .ui.submit.button {
+        width: 4.533333rem;
+        height: 0.746667rem;
+        background: #d82622;
+        color: #fff;
+        font-size: 0.32rem;
+        text-align: center;
+        line-height: 0.746667rem;
+        padding: 0;
+        margin: 0.4rem 0 0;
+        border-radius: 4px;
+    }
+
+    .view.button {
+        width: 4.533333rem;
+        height: 0.746667rem;
+        background: #d82622 !important;
+        color: #fff !important;
+        font-size: 0.32rem;
+        text-align: center;
+        line-height: 0.746667rem;
+        padding: 0;
+        border-radius: 4px;
+    }
+
+    .descript {
+        background: #a42f28;
+        padding: 0.6rem 0.5rem 0.6rem 0.5rem;
+    }
+
+    .descript li {
+        font-size: 0.24rem;
+        padding: 0.106667rem 0;
+        color: #fff;
+        list-style-type: none;
+        display: flex;
+    }
+
+    .descript li img {
+        vertical-align: middle;
+        margin-right: 0.08rem;
+        width: 0.106667rem;
+    }
+
+    .descript li.first {
+        padding-top: 0.3rem;
+    }
+
+    .botbg {
+        width: 10rem;
+        height: 1.066667rem;
+        text-align: center;
+        background: #efc87f;
+        color: #a42f28 !important;
+        font-size: 0.453333rem;
+        line-height: 1.066667rem;
+        display: block;
+        font-weight: 700;
+        text-decoration: none !important;
+        vertical-align: middle;
+    }
+
+    .botbg img {
+        width: 0.4rem;
+        height: 1.066667rem;
+        vertical-align: top;
+    }
+
+    .display_f {
+        display: flex;
+        justify-content: space-between;
+    }
+    .display_s_b {
+        display: flex;
+    }
+    .margin_15 {
+        margin:15px 0
+    }
+    .margin_b_3 {
+        margin-bottom: 3px;
+    }
+    .padding_60 {
+        padding: 0 60px;
+    }
+    .display_f p {
+        width: 65px;
+        height: 20px;
+        background: #ffffff;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 20px;
+    }
+    .display_f a {
+        color: #CF0913;
+        font-size: 9px;
+    }
+
+    .display_fc {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .margin_l_50 {
+        margin-left: 50px;
+    }
+
+    .color_cf {
+        color: #CF0913;
+    }
+    .money {
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .color_ce {
+        color: #CE0A13;
+    }
+
+    .no_winning_img {
+        width: 43px;
+        margin-top: 26px;
+    }
+
+    .winning_text {
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+
+    .winning_num {
+        padding-top: 22px;
+        margin-bottom: 20px;
+        color: #444444;
+        font-size: 10px;
+    }
+
+    .winning_num span {
+        color: #CF0913;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .winning_share {
+        padding: 38px 10px;
+        margin-bottom: 0;
+        color: #444444;
+        font-size: 10px;
+    }
+
+    .winning_share span {
+        color: #CF0913;
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .color_44 {
+        color: #444444;
+    }
+
+    .font_10 {
+        font-size: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" src="{{ app_url_packaged }}/javascript/flexible.min.js"></script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+  var m_name = '锦鲤附体，红包拿到你手软';
+  var img_url = '{{ app_url_packaged }}/images/d3in/d3in_draw/jinli.jpg';
+  var link = '{{ app_url_wap }}/promo/d3in_draw';
+  var desc_str = '戴森神仙黑科技，限量1元购，最高抽1500元红包';
+
+  wx.config({
+    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: '{{ app_id }}', // 必填，公众号的唯一标识
+    timestamp: '{{ timestamp }}', // 必填，生成签名的时间戳
+    nonceStr: '{{ wxnonceStr }}', // 必填，生成签名的随机串
+    signature: '{{ wxSha1 }}',// 必填，签名，见附录1
+    jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'hideMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+  });
+
+  wx.ready(function () {
+    // 2.1 监听“分享给朋友”，按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareAppMessage({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.2 监听“分享到朋友圈”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareTimeline({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.3 监听“分享到QQ”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareQQ({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+      }
+    });
+
+    // 2.4 监听“分享到微博”按钮点击、自定义分享内容及分享结果接口
+    wx.onMenuShareWeibo({
+      title: m_name,
+      desc: desc_str,
+      link: link,
+      imgUrl: img_url,
+      success: function (res) {
+
+      }
+    });
+  });
+</script>
+{% endblock %}
+{% block jquery %}
+
+    var cycle = 50;
+    var ua = navigator.userAgent.toLowerCase();
+    if (/android/.test(ua)){
+        cycle = 10;
+    }
+    var lottery = {
+        index: -1, //当前转动到哪个位置，起点位置
+        count: 0, //总共有多少个位置
+        timer: 0, //setTimeout的ID，用clearTimeout清除
+        speed: 20, //初始转动速度
+        times: 0, //转动次数
+        cycle:cycle,
+        prize: -1, //中奖位置
+    init: function(id) {
+        if ($("#" + id).find(".lottery-unit").length > 0) {
+        $lottery = $("#" + id);
+        $units = $lottery.find(".lottery-unit");
+        this.obj = $lottery;
+        this.count = $units.length;
+        $lottery.find(".lottery-unit-" + this.index).addClass("active");
+        }
+    },
+    roll: function() {
+        var index = this.index;
+        var count = this.count;
+        var lottery = this.obj;
+        $(lottery).find(".lottery-unit-" + index).removeClass("active");
+        index += 1;
+        if (index > count - 1) {
+            index = 0;
+        }
+        $(lottery).find(".lottery-unit-" + index).addClass("active");
+        this.index = index;
+        return false;
+    },
+        stop: function(index) {
+            this.prize = index;
+            return false;
+        }
+    };
+
+    function roll() {
+        lottery.times += 1;
+        lottery.roll();
+        var prize_site = $("#lottery").attr("prize_site");
+        if (lottery.times > lottery.cycle + 10 && lottery.index== prize_site ) {
+        var prize_id = $("#lottery").attr("prize_id");
+        var prize_name = $("#lottery").attr("prize_name");
+        var prize_event = $("#lottery").attr("prize_event");
+        if ( prize_event == 3 ){
+            $('.ui.messge p span').html(prize_name);  // 新版几等奖
+            $('.ui.messge .money').html(prize_name);  // 多少钱
+            $('.ui.modalt.page,.ui.address.messge').addClass('show');
+        }else if(prize_event==2){
+            $('.ui.modalt.page,#winning').addClass('show');
+            if( prize_id == 4 ){
+                $('.ui.bounds p span').html('30元现金红包');
+            }else if(prize_id == 8){
+                $('.ui.bounds p span').html('10元现金红包');
+            }
+        } else {
+            $('.ui.modalt.page,#num_winning').addClass('show');
+        }
+        clearTimeout(lottery.timer);
+        lottery.prize = -1;
+        lottery.times = 0;
+        click = false;
+
+    } else {
+        var ua = navigator.userAgent.toLowerCase();
+        if (/iphone|ipad|ipod/.test(ua)) {
+            if (lottery.times < lottery.cycle) {
+                lottery.speed -= 10;
+            } else if (lottery.times == lottery.cycle) {
+                var index = Math.random() * (lottery.count) | 0;
+                lottery.prize = index;
+            } else {
+            if (lottery.times > lottery.cycle + 10 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                lottery.speed += 110;
+            } else {
+                lottery.speed += 20;
+            }
+        }
+    } else if (/android/.test(ua)) {
+        if (lottery.times < lottery.cycle) {
+            lottery.speed -= 8;
+            } else if (lottery.times == lottery.cycle) {
+                var index = Math.random() * (lottery.count) | 0;
+                lottery.prize = index;
+            } else {
+                if (lottery.times > lottery.cycle + 8 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                lottery.speed += 110;
+            } else {
+                lottery.speed += 20;
+            }
+        }
+    }
+
+    if (lottery.speed < 40) {
+        lottery.speed = 40;
+    }
+        lottery.timer = setTimeout(roll, lottery.speed);
+    }
+        return false;
+    }
+
+var click = false;
+
+    $(function() {
+        lottery.init('lottery');
+        $("#lottery .on_click").click(function() {
+            if (click) {
+                return false;
+            } else {
+                // 所有ajax请求，验证是否登录
+                if (!phenix.visitor.is_login){
+                    phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+                    return false;
+                }
+                var ua = navigator.userAgent.toLowerCase();
+                if (/iphone|ipad|ipod/.test(ua)) {
+                    lottery.speed = 100;
+                } else if (/android/.test(ua)) {
+                    lottery.speed = 200;
+                }
+                <!--$("#lottery").attr("prize_site", 0);-->
+                <!--$("#lottery").attr("prize_id", 4);-->
+                <!--$("#lottery").attr("prize_name", '云马自行车');-->
+                <!--$("#lottery").attr("prize_event", 1);-->
+                <!--$(":input[name=sid]").val(3);-->
+                <!--roll();-->
+                <!--click = true;-->
+                <!--return false;-->
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
+                    if(rs.success){
+                        $("#lottery").attr("prize_site", rs.data.prize_site);
+                        $("#lottery").attr("prize_id", rs.data.prize_id);
+                        $("#lottery").attr("prize_name", rs.data.prize_name);
+                        $("#lottery").attr("prize_event", rs.data.event);
+                        $(":input[name=sid]").val(rs.data.sid);
+                        roll();
+                        click = true;
+                        return false;
+                    }else{
+                        phenix.show_error_note(rs.message, 3000);
+                        return false;
+                    }
+                }, "json")
+            }
+        });
+    });
+    <!--关闭按钮-->
+    $('.close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+    <!--下方按钮-->
+    $('.btn_close').click(function(){
+        $('.ui.modalt.page,.ui.messge').removeClass('show');
+    });
+
+    <!--我要分享-->
+    $('.click_share').click(function(){
+        $('.ui.modalt.page,#share_winning').addClass('show');
+        document.body.scrollTop = 0
+    });
+
+    // 保存收货地址
+    $('#address_btn').click(function(){
+    var name = $(':input[name=name]').val();
+    var phone = $(':input[name=phone]').val();
+    var address = $(':input[name=address]').val();
+    var sid = $(':input[name=sid]').val();
+
+    if(!sid || !name || !phone || !address){
+        phenix.show_error_note('请完善收货地址！', 3000);
+        return false;
+    }
+
+    $.post("{{ app_url_wap }}/app/site/promo_func/save_active_draw_address", {sid: sid, name: name, phone: phone, address: address}, function(rs){
+        if(rs.success){
+            $('.ui.modalt.page,.ui.messge').removeClass('show');
+            phenix.show_ok_note('地址保存成功！', 3000);
+        }else{
+            phenix.show_error_note(rs.message, 3000);
+        }
+    }, 'json');
+});
+
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div id="lottery">
+        <p class="color_f font_8 text_center margin_b_3">您还有<span>3</span>次抽奖机会</p>
+        <table border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="lottery-unit lottery-unit-0"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img01.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+                <td class="lottery-unit lottery-unit-1"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img02.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+                <td class="lottery-unit lottery-unit-2"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img03.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-7"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img08.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+                <td class="active"><a href="javascript:void(0);" class="on_click"></a></td>
+                <td class="lottery-unit lottery-unit-3"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img04.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+            </tr>
+            <tr>
+                <td class="lottery-unit lottery-unit-6"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img07.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+                <td class="lottery-unit lottery-unit-5"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img06.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+                <td class="lottery-unit lottery-unit-4"><img
+                        src="{{ app_url_packaged }}/images/d3in/d3in_draw/img05.png"><img class="active"
+                                                                                     src="{{ app_url_packaged }}/images/fiushop/drew/active.png">
+                </td>
+            </tr>
+        </table>
+        <div class="display_f margin_15 padding_60">
+            <p><a href="javascript:void(0)" class="click_share">我要分享</a></p>
+            <p><a href="{{ app_url_wap }}/app/wap/promo/red_list">我的奖品</a></p>
+        </div>
+    </div>
+    <div class="descript">
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/guide.png" style="width:2.133333rem" align="absmiddle">
+        <ul>
+            <li class="first">
+                <span>（1）</span> <span>活动时间：2018年11月8日-11月10日。</span>
+            </li>
+            <li>
+                <!--<img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">-->
+                <span>（2）</span> <span>关注公众号每个ID可获得3次抽奖机会，分享专属图片给好友成功关注公众号，再得2次抽奖机会，以此类推，上不封顶。</span>
+            </li>
+            <li>
+                <span>（3）</span>
+                <div class="display_fc">
+                    <span>豪华大奖阵容：</span>
+                    <span>
+                        <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">一等奖：戴森卷发棒一元购，限10名
+                    </span>
+                    <div class="display_s_b">
+                        <span>
+                            <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">二等奖：1500元组合红包
+                        </span>
+                        <span class="margin_l_50">
+                            <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">三等奖：1100元组合红包
+                        </span>
+                    </div>
+                    <div class="display_s_b">
+                        <span>
+                            <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">四等奖：1000元组合红包
+                        </span>
+                        <span class="margin_l_50">
+                            <img src="{{ app_url_packaged }}/images/fiushop/drew/dian.png">五等奖：500元组合红包
+                        </span>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <span>（4）</span> <span>红包自领取之日起有效期为7天，若特卖活动结束，红包尚未使用，则价格以红包有效期为准。</span>
+            </li>
+            <li>
+                <span>（5）</span> <span>本活动最终解释权归北京铟立方科技有限公司所有。</span>
+            </li>
+        </ul>
+    </div>
+    <!--<a href="{{ app_url_wap }}/promo/double" class="botbg">-->
+        <!--<img src="{{ app_url_packaged }}/images/fiushop/drew/dreturn.png">-->
+        <!--返回主会场-->
+    <!--</a>-->
+</div>
+
+<!-- 弹出层 -->
+<div class="ui modalt page">
+    <!--抽中-->
+    <div class="ui bounds messge" id="winning">
+        <div class="close"></div>
+        <!--
+        二等奖内容:锦鲤附体
+        三等奖内容:人品爆发
+        四等奖内容:喜大普奔
+        五等奖内容:再接再厉
+        -->
+        <h2 class="ui header">锦鲤附体</h2>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <p class="color_cf">恭喜您中了<span>二等奖</span></p>
+        <p class="color_ce"><span class="money">1500</span>元红包</p>
+        <a class="ui inverted active view button" href="{{ app_url_wap }}/app/wap/promo/red_list">
+            立即查看
+        </a>
+    </div>
+    <!--没中奖-->
+    <div class="ui bounds messge" id="not_winning">
+        <h2 class="ui header">谢谢参与</h2>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%">
+        <p class="color_cf margin_b_3">啊哦~你没有中奖~</p>
+        <p class="color_44 font_10">没关系，我们为你准备了KSPmini音响 <br>
+            10元包邮，限量抢购，先到先得</p>
+        <a class="ui inverted active view button" href="{{ app_url_wap }}/app/wap/promo/d3in_hi">
+            立即抢购
+        </a>
+    </div>
+
+    <!--抽奖次数用完-->
+    <div class="ui bounds messge" id="num_winning">
+        <div class="close"></div>
+        <h2 class="ui header">您的抽奖机会已用完</h2>
+        <p class=" winning_num">公众号回复 <span>"超级红包"</span>分享专属图片 <br>
+            成功邀请好友关注公众号可额外获得2次抽奖机会</p>
+        <a class="ui inverted active view button btn_close" href="javascript:void(0);">
+            我知道了
+        </a>
+    </div>
+    <!--点击分享-->
+    <div class="ui bounds messge" id="share_winning">
+        <div class="close"></div>
+        <p class=" winning_share">公众号回复 <span>"超级红包"</span>分享专属图片 <br>
+            成功邀请好友关注公众号可额外获得2次抽奖机会</p>
+        <a class="ui inverted active view button btn_close" href="javascript:void(0);">
+            我知道了
+        </a>
+    </div>
+</div>
+{% endblock %}

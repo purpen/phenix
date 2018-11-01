@@ -1,0 +1,332 @@
+{%extends 'layout/shop.html'%}
+{% block title%}奖品详情{% endblock %}
+{% block page_css %}
+<style type="text/css">
+
+    .appiosload {
+        display: none !important;
+    }
+
+    .sfooter.nav-menu {
+        display: none;
+    }
+    body {
+        background: #DB2216;
+    }
+    a {
+        text-decoration: none !important;
+    }
+    .red_details {
+        background: #DB2216;
+        padding: 25px 13px 20px;
+    }
+
+    .red_list {
+        padding: 10px 12px 12px;
+        background: #ffffff;
+        text-align: center;
+    }
+
+    .margin_b_3 {
+        margin-bottom: 3px;
+    }
+
+    .red_list h3 {
+        color: #D00913;
+        font-weight: 700;
+        font-size: 18px;
+    }
+
+    .money_title {
+        margin-bottom: 20px;
+    }
+    .money_title p{
+        color: #D00913;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .display_f {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .money_img img {
+        width: 66px;
+    }
+
+    .money_img p {
+        color: #DF3121;
+        font-size: 11px;
+        font-weight: 700;
+    }
+    .money_details {
+        padding-top: 20px;
+    }
+    .money_details p {
+        margin-bottom: 5px;
+        color: #444444;
+        font-size: 8px;
+    }
+
+    .display_sb {
+        display: flex;
+        justify-content: space-around;
+    }
+    .display_sb p {
+        width: 85px;
+        height: 30px;
+        background: #DF2F21;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .display_sb p:first-child {
+        background: #ABA3A2;
+    }
+
+    .display_sb a {
+        color: #ffffff;
+        font-size: 12px;
+    }
+
+    .padding_42 {
+        padding: 10px 42px 0;
+    }
+
+    .product {
+        margin-top: 16px;
+        display: none;
+    }
+    .display_f_b {
+        display: flex;
+        justify-content: space-between;
+    }
+    .product_details {
+        background: #ffffff;
+        border-radius: 4px;
+        padding: 8px 5px;
+        text-align: center;
+        width: 140px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product_details p:first-child {
+        font-size: 10px;
+        color: #161616;
+    }
+
+    .product_details p {
+        font-weight: 700;
+    }
+
+    .product_details img {
+        max-height: 59px;
+    }
+
+    .product .product_details:last-child {
+        margin-left: 7px;
+    }
+
+    .money {
+        color: #D00913;
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+
+    .click_product {
+        width: 60px;
+        height: 18px;
+        background: #FF3237;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .click_product a {
+        color: #ffffff;
+        line-height: 1;
+        font-size: 8px;
+    }
+
+    .hei_4 {
+        height: 4px;
+    }
+
+    .show {
+        display: block;
+    }
+
+    .margin_l_3 {
+        margin-left: 3px;
+    }
+</style>
+{% endblock %}
+
+{% block jquery %}
+    //获取参数
+    function GetQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) return decodeURI(r[2]);
+            return null;
+        }
+        var red_id = GetQueryString("red_id");//调用
+        switch(red_id) {
+            case '2':
+                $('#id_2').addClass('show')
+                $('.red_list h3').html('二等奖')
+                $('.red_price').html('1500元红包')
+            break;
+            case '3':
+                $('#id_3').addClass('show')
+                $('.red_list h3').html('三等奖')
+                $('.red_price').html('1100元红包')
+            break;
+            case '4':
+                $('#id_4').addClass('show')
+                $('.red_list h3').html('四等奖')
+                $('.red_price').html('1000元红包')
+            break;
+            case '5':
+                $('#id_5').addClass('show')
+                $('.red_list h3').html('五等奖')
+                $('.red_price').html('500元红包')
+            break;
+            default:
+            <!--不符合条件回抽奖页面-->
+            window.location.href='{{ app_url_wap }}/app/wap/promo/d3in_draw'
+        }
+{% endblock %}
+
+{% block content %}
+<div class="red_details">
+    <div class="red_list">
+        <h3>二等奖</h3>
+        <p class="margin_b_3">有效期至2018-11-12日 23:59分</p>
+        <img src="{{ app_url_packaged }}/images/fiushop/drew/line.png" align="absmiddle" width="100%" id="address-from">
+        <div class="money_title">
+            <p class="red_price">1500元红包</p>
+        </div>
+        <div class="display_f">
+            <div class="money_img">
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/500yuan.png" alt="">
+                <p class="five_money">X1</p>
+            </div>
+            <div class="money_img">
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/400yuan.png" alt="">
+                <p class="four_money">X1</p>
+            </div>
+            <div class="money_img">
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/100yuan.png" alt="">
+                <p class="one_money">X1</p>
+            </div>
+        </div>
+        <div class="money_details">
+            <p>500元红包仅限购买奶爸爸S5按摩椅使用</p>
+            <p>400元红包仅限购买戴森卷发棒和若琪月石使用</p>
+            <p>100元红包仅限购买小白镜和幻想榨汁机使用</p>
+        </div>
+        <div class="display_sb padding_42">
+            <p><a href="{{ app_url_wap }}/app/wap/promo/red_list">返回</a></p>
+            <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_hi">使用红包</a></p>
+        </div>
+    </div>
+    <!--二等奖-->
+    <div class="product" id="id_2">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>奶爸爸S5自动按摩椅</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/anmoyi.png" alt="">
+                <p class="money">红包价：899.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1179960711-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>戴森Dyson Airwrap卷发棒</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen.png" alt="">
+                <p class="money">红包价：3899.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1105705251-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--三等奖-->
+    <div class="product" id="id_3">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>戴森Dyson Airwrap卷发棒</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/daisen.png" alt="">
+                <p class="money">红包价：3899.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1105705251-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>奶爸爸S5自动按摩椅</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/anmoyi.png" alt="">
+                <p class="money">红包价：899.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1179960711-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--四等奖-->
+    <div class="product" id="id_4">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>若琪月石AI蓝牙智能音箱</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/ruoqi.png" alt="">
+                <p class="money">红包价：999.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1105677354-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>AMIRO O系列小白镜</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/xiaobaijing.png" alt="">
+                <p class="money">红包价：299.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1097788479-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--五等奖-->
+    <div class="product" id="id_5">
+        <div class="display_f_b">
+            <div class="product_details">
+                <p>AMIRO O系列小白镜</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/xiaobaijing.png" alt="">
+                <p class="money">红包价：299.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1097788479-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+            <div class="product_details">
+                <p>幻想之道多功能榨汁机</p>
+                <img src="{{ app_url_packaged }}/images/d3in/d3in_hi/zhazhiji.png" alt="">
+                <p class="money">红包价：199.00元</p>
+                <div class="click_product">
+                    <a href="https://www.taihuoniao.com/shop/view-1177000926-1.html">立即抢购</a>
+                    <img class="hei_4 margin_l_3" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
