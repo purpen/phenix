@@ -137,7 +137,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               if(!$qrResult) {
                 Doggy_Log_Helper::debug("获取二维码失败！");
               }
-              $qrUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $qrResult['ticket'];
+              $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
               // 生成海报
               $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
               Doggy_Log_Helper::debug("poster:". json_encode($psoResult));

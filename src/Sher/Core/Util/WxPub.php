@@ -136,35 +136,29 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     try {
       if ($qrUrl) {
         $qrGmagick = new Gmagick($qrUrl);
-		    $oWidth = $gmagick->getimagewidth();
-		    $oHeight = $gmagick->getimageheight();
-
-        if ($oWidth>200) {  
-          $nWidth = 200;  
-          $nHeight = $oWidth/$oWidth*$oHeight;  
-        } else {  
-          $nWidth = $oWidth;  
-          $nHeight = $oHeight;  
-        }
         // 裁剪缩放
-        $qrGmagick->scaleimage($nWidth, $nHeight);
+        $qrGmagick->scaleimage(175, 175);
         
       }
 
       if ($avaUrl) {
-
+        $avaGmagick = new Gmagick($avaUrl);
+        // 裁剪缩放
+        $avaGmagick->scaleimage(170, 170);
       }
 
-      $posUrl = 'https://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+      $posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
       $posGmagick = new Gmagick($posUrl);
-      //$oWidth = $gmagick->getimagewidth();
-      //$oHeight = $gmagick->getimageheight();
       if ($qrUrl) {
-        $posGmagick->compositeimage($qrGmagick, 1, 400, 250);
+        $posGmagick->compositeimage($qrGmagick, 1, 110, 930);
+      }
+      if ($avaUrl) {
+        $posGmagick->compositeimage($avaGmagick, 1, 300, 10);
       }
       $posGmagick->write('/tmp/test_pos.jpg');
 
     }catch(Exception $e) {
+      Doggy_Log_Helper::debug("error: ".$e->getMessage());
       $result['code'] = 500;
       $result['message'] = $e->getMessage();
     }
