@@ -235,7 +235,8 @@
         height: 11px;
         background: #FF3237;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
+        align-items: center;
     }
 
     .click_product a {
@@ -243,7 +244,9 @@
         line-height: 1;
         font-size: 8px;
     }
-
+    .margin_l_2 {
+        margin-left: 2px;
+    }
     .display_s_b {
         display: flex;
         justify-content: space-between;
@@ -378,8 +381,8 @@
     }
 
     .ui.modalt.page.show {
-        animation: 0.3s fadeIn 1s both;
-        -webkit-animation: 0.3s fadeIn 1s both;
+        animation: 0.3s fadeIn .5s both;
+        -webkit-animation: 0.3s fadeIn .5s both;
         display: block;
     }
 
@@ -397,8 +400,8 @@
     }
 
     .ui.messge.show {
-        animation: 0.3s zoomIn 1.1s both;
-        -webkit-animation: 0.3s zoomIn 1.1s both;
+        animation: 0.3s zoomIn 0.5s both;
+        -webkit-animation: 0.3s zoomIn 0.5s both;
         display: block;
     }
 
@@ -414,7 +417,7 @@
     }
 
     .ui.messge h2.ui.header {
-        font-size: 11px;
+        font-size: 12px;
         color: #CE0A13 !important;
         margin-top: 0.733333rem;
         margin-bottom: 0.066667rem;
@@ -443,6 +446,7 @@
         line-height: 0.529rem;
         padding: 0;
         border-radius: 4px;
+        display: block;
     }
 
     .winning_num {
@@ -452,6 +456,19 @@
 
     .min_h_24 {
         min-height: 24px;
+    }
+
+    .display_j_s {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .display_j_s a:first-child {
+        background: #BABABA !important;
+    }
+
+    .padding_30 {
+        padding: 0 30px;
     }
 </style>
 {% endblock %}
@@ -506,7 +523,7 @@
                             <p class="product_price">现价：1.00元</p>
                             <div class="display_f click_product">
                                 <a href="javascript:void(0)" id="bounced">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -540,7 +557,7 @@
                             <p class="product_price">红包价：899.00元</p>
                             <div class="display_f click_product">
                                 <a href="https://www.taihuoniao.com/shop/view-1179960711-1.html">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -561,7 +578,7 @@
                         </div>
                         <div class="display_f click_product margin_t_5">
                             <a href="https://www.taihuoniao.com/shop/view-1105705251-1.html">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                     <div class="display_fc_ac">
@@ -575,7 +592,7 @@
                         </div>
                         <div class="display_f click_product margin_t_5">
                             <a href="https://www.taihuoniao.com/shop/view-1105677354-1.html">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -593,7 +610,7 @@
                         </div>
                         <div class="display_f click_product margin_t_5">
                             <a href="https://www.taihuoniao.com/shop/view-1097788479-1.html">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                     <div class="display_fc_ac">
@@ -605,7 +622,7 @@
                         </div>
                         <div class="display_f click_product margin_t_5">
                             <a href="https://www.taihuoniao.com/shop/view-1177000926-1.html">立即抢购</a>
-                            <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                            <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -630,7 +647,7 @@
                             <p class="product_price">现价：10.00元</p>
                             <div class="display_f click_product">
                                 <a href="https://www.taihuoniao.com/shop/view-1105758868-1.html">立即抢购</a>
-                                <img class="hei_4" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
+                                <img class="hei_4 margin_l_2" src="{{ app_url_packaged }}/images/d3in/d3in_hi/jt.png" alt="">
                             </div>
                         </div>
                     </div>
@@ -656,8 +673,8 @@
     <div class="ui bounds messge" id="num_winning">
         <div class="close"></div>
         <h2 class="ui header">尊敬的用户</h2>
-        <p class=" winning_num font_9">您还没有抽中1元购买资格，快去抽奖吧！</p>
-        <div>
+        <p class=" winning_num font_10">您还没有抽中1元购买资格，快去抽奖吧！</p>
+        <div class="display_j_s padding_30">
             <a class="ui inverted active view button btn_close" href="javascript:void(0);">
                 取消
             </a>
@@ -665,7 +682,6 @@
                 去抽奖
             </a>
         </div>
-
     </div>
 </div>
 
