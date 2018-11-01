@@ -130,27 +130,39 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   /**
    * 生成海报
    */
-  public static function genPoster($avatar, $qrUrl)
+  public static function genPoster($avaUrl, $qrUrl)
   {
     $result = array('code'=> 0, 'message'=> '');
     try {
       if ($qrUrl) {
         $qrGmagick = new Gmagick($qrUrl);
-        $qrGmagick->setImageResolution(0.1,0.3);      //设置图片分辨率
-        $qrParam = $qrGmagick->getImageGeometry();   //获取源图片宽和高  
-        $result['data'] = $qrParam;
+		    $oWidth = $gmagick->getimagewidth();
+		    $oHeight = $gmagick->getimageheight();
 
-        /**
-        if ($QrcodeWH['width']>200) {  
-            $QrcodeW['width'] = 200;  
-            $QrcodeH['height'] = $QrcodeW['width']/$QrcodeWH['width']*$QrcodeWH['height'];  
-         } else {  
-            $QrcodeW['width'] = $QrcodeWH['width'];  
-            $QrcodeH['height'] = $QrcodeWH['height'];  
-         }                                                                                     
-        $qrGmagick->thumbnailImage( $QrcodeW['width'], $QrcodeWH['height'], true );	//按照选定的比例进行缩放
-        **/
+        if ($oWidth>200) {  
+          $nWidth = 200;  
+          $nHeight = $oWidth/$oWidth*$oHeight;  
+        } else {  
+          $nWidth = $oWidth;  
+          $nHeight = $oHeight;  
+        }
+        // 裁剪缩放
+        $qrGmagick->scaleimage($nWidth, $nHeight);
+        
       }
+
+      if ($avaUrl) {
+
+      }
+
+      $posUrl = 'https://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+      $posGmagick = new Gmagick($posUrl);
+      //$oWidth = $gmagick->getimagewidth();
+      //$oHeight = $gmagick->getimageheight();
+      if ($qrUrl) {
+        $posGmagick->compositeimage($qrGmagick, 1, 400, 250);
+      }
+      $posGmagick->write('/tmp/test_pos.jpg');
 
     }catch(Exception $e) {
       $result['code'] = 500;
