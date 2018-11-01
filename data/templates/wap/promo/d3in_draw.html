@@ -608,30 +608,30 @@ var click = false;
                 } else if (/android/.test(ua)) {
                     lottery.speed = 200;
                 }
-                $("#lottery").attr("prize_site", 0);
-                $("#lottery").attr("prize_id", 4);
-                $("#lottery").attr("prize_name", '云马自行车');
-                $("#lottery").attr("prize_event", 1);
-                $(":input[name=sid]").val(3);
-                roll();
-                click = true;
-                return false;
-                <!--var url ="{{ app_url_wap }}/promo/ajax_lottery";-->
-                <!--$.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态-->
-                    <!--if(rs.success){-->
-                        <!--$("#lottery").attr("prize_site", rs.data.prize_site);-->
-                        <!--$("#lottery").attr("prize_id", rs.data.prize_id);-->
-                        <!--$("#lottery").attr("prize_name", rs.data.prize_name);-->
-                        <!--$("#lottery").attr("prize_event", rs.data.event);-->
-                        <!--$(":input[name=sid]").val(rs.data.sid);-->
-                        <!--roll();-->
-                        <!--click = true;-->
-                        <!--return false;-->
-                    <!--}else{-->
-                        <!--phenix.show_error_note(rs.message, 3000);-->
-                        <!--return false;-->
-                    <!--}-->
-                <!--}, "json")-->
+                <!--$("#lottery").attr("prize_site", 0);-->
+                <!--$("#lottery").attr("prize_id", 4);-->
+                <!--$("#lottery").attr("prize_name", '云马自行车');-->
+                <!--$("#lottery").attr("prize_event", 1);-->
+                <!--$(":input[name=sid]").val(3);-->
+                <!--roll();-->
+                <!--click = true;-->
+                <!--return false;-->
+                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
+                    if(rs.success){
+                        $("#lottery").attr("prize_site", rs.data.prize_site);
+                        $("#lottery").attr("prize_id", rs.data.prize_id);
+                        $("#lottery").attr("prize_name", rs.data.prize_name);
+                        $("#lottery").attr("prize_event", rs.data.event);
+                        $(":input[name=sid]").val(rs.data.sid);
+                        roll();
+                        click = true;
+                        return false;
+                    }else{
+                        phenix.show_error_note(rs.message, 3000);
+                        return false;
+                    }
+                }, "json")
             }
         });
     });
