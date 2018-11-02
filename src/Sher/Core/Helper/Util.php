@@ -1452,6 +1452,8 @@ class Sher_Core_Helper_Util {
         curl_setopt($ch, CURLOPT_HEADER, 0);//设置header
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
         curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         // curl_setopt($ch, CURLOPT_PORT, 8003); // 端口号
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
