@@ -159,8 +159,8 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$mediaId));
           }
         }
-
         Doggy_Log_Helper::debug(sprintf("content: %s-%s", $content, $msg_id));
+        echo "success";
         break;
       case 'event': // 事件
         $event_arr = $xml_tree->getElementsByTagName('Event');
@@ -190,6 +190,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           // 给用户发客服回复
           Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
         }
+        echo "success"
         break;
       case 'image':
         $media_id_arr = $xml_tree->getElementsByTagName('MediaId');
@@ -211,7 +212,6 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         Doggy_Log_Helper::debug("未知获取类型!");
         echo "success";
     }
-
     return;
 
   }

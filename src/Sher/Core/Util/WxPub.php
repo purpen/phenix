@@ -196,7 +196,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       $mediaResult = self::uploadMedia('image', $bytes, 1);
       if (!$mediaResult || isset($mediaResult['errcode'])) {
         $result['code'] = 500;
-        $result['message'] = $mediaResult['errcode'];
+        $result['message'] = $mediaResult['errmsg'];
       }
       $result['data'] = $mediaResult;
     }catch(Exception $e) {
