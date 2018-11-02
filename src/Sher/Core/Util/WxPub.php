@@ -104,8 +104,22 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   {
     $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
     $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $access_token. "&type=" . $type;
+
+    if (class_exists('CURLFile')) {
+            Doggy_Log_Helper::debug("is support CURLFIle");
+            $real_path =  new CURLFile(realpath($img));
+    } else {
+            $real_path = '@' . realpath('/tmp/test_pos.jpg');
+            Doggy_Log_Helper::debug("is not support CURLFIle");
+    }
+    $size = filesize($img);
+    $miniType = mime_content_type('/tmp/test_pos.jpg');
+    $real_path->setMimeType($miniType);
+    Doggy_Log_Helper::debug($miniType);
+    Doggy_Log_Helper::debug($size);
+
     $body = array(
-      'media' => $data
+      'media' => $real_path
     );
     $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
     $result = json_decode($result, true);

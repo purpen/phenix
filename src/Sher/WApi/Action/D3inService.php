@@ -79,6 +79,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
       $redis->set($rKey, 1, 15);
     }else{
       echo "success";
+      Doggy_Log_Helper::debug('重复请求，跳过。。。');
       return;
     }
 
@@ -157,7 +158,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               }else{
                 Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
               }
-              Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
+              Doggy_Log_Helper::debug("poster info:". json_encode($psoResult));
             } catch(Exception $e) {
               Doggy_Log_Helper::debug("更新用户失败！". $e->getMessage());
             }
