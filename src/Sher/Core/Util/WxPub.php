@@ -103,7 +103,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   public static function uploadMedia($type, &$data, $evt=1, $options=array())
   {
     $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
-    $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token. "&type=" . $type;
+    $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $access_token. "&type=" . $type;
     $body = array(
       'media' => $data
     );

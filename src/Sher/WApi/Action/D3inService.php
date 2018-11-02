@@ -72,6 +72,16 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     $c_time = $c_time_arr->item(0)->nodeValue;
     $mtype = $mtype_arr->item(0)->nodeValue;
 
+    $redis = new Sher_Core_Cache_Redis();
+    $rKey = sprintf("wx-reply-%s-%s", $uid, $c_time);
+    $hasOne = $redis->get($rKey);
+    if(empty($hasOne)) {
+      $redis->set($rKey, 1, 15);
+    }else{
+      echo "success";
+      return;
+    }
+
     Doggy_Log_Helper::debug(sprintf("解析数据-类型: %s", $mtype));
     switch ($mtype) { // 文字
       case 'text':
@@ -131,7 +141,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                   Doggy_Log_Helper::debug('更新用户信息失败！');               
                 }
               }
-              Doggy_Log_Helper::debug(json_encode($userResult));
+              // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
 
               $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
               if(!$qrResult) {
@@ -146,7 +156,6 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
               }else{
                 Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
-                echo "";
               }
               Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
             } catch(Exception $e) {
@@ -190,7 +199,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           // 给用户发客服回复
           Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
         }
-        echo "success"
+        echo "success";
         break;
       case 'image':
         $media_id_arr = $xml_tree->getElementsByTagName('MediaId');
