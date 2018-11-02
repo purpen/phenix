@@ -1457,7 +1457,6 @@ class Sher_Core_Helper_Util {
         if ($method === 'POST') {
             curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_SAFE_UPLOAD, false);
         }
         $result = curl_exec($ch);//运行curl
         curl_close($ch);

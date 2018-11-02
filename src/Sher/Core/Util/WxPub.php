@@ -106,22 +106,27 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $access_token. "&type=" . $type;
 
     if (class_exists('CURLFile')) {
-            Doggy_Log_Helper::debug("is support CURLFIle");
-            $real_path =  new CURLFile(realpath($img));
+      $real_path =  new CURLFile(realpath('/tmp/test_pos_jpg'));
     } else {
-            $real_path = '@' . realpath('/tmp/test_pos.jpg');
-            Doggy_Log_Helper::debug("is not support CURLFIle");
+      $real_path = '@' . realpath('/tmp/test_pos.jpg');
     }
-    $size = filesize($img);
-    $miniType = mime_content_type('/tmp/test_pos.jpg');
-    $real_path->setMimeType($miniType);
-    Doggy_Log_Helper::debug($miniType);
-    Doggy_Log_Helper::debug($size);
 
     $body = array(
       'media' => $real_path
     );
-    $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
+    $ch = curl_init();
+    $params = array();
+    $params[CURLOPT_URL] = $url;    //请求url地址
+    $params[CURLOPT_HEADER] = false; //是否返回响应头信息
+    $params[CURLOPT_RETURNTRANSFER] = true; //是否将结果返回
+    $params[CURLOPT_FOLLOWLOCATION] = false; //是否重定向
+    $params[CURLOPT_POST] = true;
+    $params[CURLOPT_POSTFIELDS] = $body;
+
+    curl_setopt_array($ch, $params); //传入curl参数
+    $result = curl_exec($ch); //执行
+
+    curl_close($ch); //关闭连接
     $result = json_decode($result, true);
     return $result;
   }
