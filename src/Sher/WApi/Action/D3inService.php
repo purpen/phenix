@@ -140,12 +140,18 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
               // 生成海报
               $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+              if ($posResult && !$posResult['code']) {
+                // 调用客服接口,返回给用户海报
+                Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
+                Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
+              }else{
+                Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
+              }
               Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
             } catch(Exception $e) {
               Doggy_Log_Helper::debug("更新用户失败！". $e->getMessage());
             }
           }
-
         }elseif($rEvent == 'image') {
           if ($mediaId) {
             // 给用户发客服回复

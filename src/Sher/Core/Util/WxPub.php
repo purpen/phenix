@@ -72,7 +72,6 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   {
     $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
     $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token;
-    $body = '{"expire_seconds": 2592000, "action_name": "QR_STR_SCENE", "action_info": {"scene": {"scene_str": "test"}}}';
     $body = array(
       'expire_seconds' => 2592000,
       'action_name' => "QR_STR_SCENE",
@@ -82,7 +81,32 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         ),
       ),
     );
-    $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+    try{
+      $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+      $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
+      $result = json_decode($result, true);   
+    }catch(Exception $e) {
+      $result['errcode'] = '500';
+      $result['errmsg'] = '系统错误';
+    }
+
+    return $result;
+  }
+
+  /*
+   * 上传素材库接口
+   * param $type 1.image；2.voice 3.video; 4.thumb；
+   * param $data 数据流
+   * param $evt 1.临时；2.永久；
+   * qrData 二维码数据流
+   */
+  public static function uploadMedia($type, &$data, $evt=1, $options=array())
+  {
+    $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
+    $url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=" . $access_token. "&type=" . $type;
+    $body = array(
+      'media' => $data
+    );
     $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
     $result = json_decode($result, true);
     return $result;
@@ -145,6 +169,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         $avaGmagick = new Gmagick($avaUrl);
         // 裁剪缩放
         $avaGmagick->scaleimage(170, 170);
+        $bgGmagick = new Gmagick('http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg');
       }
 
       $posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
@@ -153,10 +178,27 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         $posGmagick->compositeimage($qrGmagick, 1, 110, 930);
       }
       if ($avaUrl) {
-        $posGmagick->compositeimage($avaGmagick, 1, 300, 10);
+        $posGmagick->compositeimage($avaGmagick, 1, 290, 10);
+        $posGmagick->compositeimage($bgGmagick, 1, 290, 10);
       }
-      $posGmagick->write('/tmp/test_pos.jpg');
+      $bytes = $posGmagick->getImageBlob();
+      if ($qrUrl) {
+        $qrGmagick->destroy();
+      }
+      if ($avaUrl) {
+        $avaGmagick->destroy();
+        $bgGmagick->destroy();
+      }
+      $posGmagick->destroy();
 
+      //$posGmagick->write('/tmp/test_pos.jpg');
+      // 上传至素材库
+      $mediaResult = self::uploadMedia('image', $bytes, 1);
+      if (!$mediaResult || isset($mediaResult['errcode'])) {
+        $result['code'] = 500;
+        $result['message'] = $mediaResult['errcode'];
+      }
+      $result['data'] = $mediaResult;
     }catch(Exception $e) {
       Doggy_Log_Helper::debug("error: ".$e->getMessage());
       $result['code'] = 500;
