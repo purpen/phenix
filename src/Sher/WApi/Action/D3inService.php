@@ -146,6 +146,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
               }else{
                 Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
+                echo "";
               }
               Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
             } catch(Exception $e) {
