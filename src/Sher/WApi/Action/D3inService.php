@@ -133,7 +133,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               }
               Doggy_Log_Helper::debug(json_encode($userResult));
 
-              $qrResult = Sher_Core_Util_WxPub::genQr(1, array('acene_str'=>$obj['mark']));
+              $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
               if(!$qrResult) {
                 Doggy_Log_Helper::debug("获取二维码失败！");
               }
