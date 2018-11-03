@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements DoggyX_Action_Initialize {
 
-	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu', 'fetch_mertail');
+	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu', 'fetch_mertail', 'test');
 		
 	/**
 	 * 初始化参数
@@ -333,6 +333,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
       echo "获取成功: " . $e->getMessage();
     }
     return "ok";
+  }
+
+  public function test(){
+    $url = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+    $gmagick = new Gmagick($url);
+    $bytes = $gmagick->getImageBlob();
+    //$a = file_get_contents('php://input');
+    var_dump(filesize($bytes));
+    $gmagick->write('/Users/tian/a.jpg');
+    $gmagick->destroy();
+
   }
 
 }

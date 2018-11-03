@@ -100,15 +100,15 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
    * param $evt 1.临时；2.永久；
    * qrData 二维码数据流
    */
-  public static function uploadMedia($type, &$data, $evt=1, $options=array())
+  public static function uploadMedia($type, $path, $evt=1, $options=array())
   {
     $access_token = Sher_Core_Util_WechatJs::wx_get_token(2);
     $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $access_token. "&type=" . $type;
 
     if (class_exists('CURLFile')) {
-      $real_path =  new CURLFile(realpath('/tmp/test_pos.jpg'));
+      $real_path =  new CURLFile(realpath($path));
     } else {
-      $real_path = '@' . realpath('/tmp/test_pos.jpg');
+      $real_path = '@' . realpath($path);
     }
 
     $body = array(
@@ -125,7 +125,8 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
 
     curl_setopt_array($ch, $params); //传入curl参数
     $result = curl_exec($ch); //执行
-
+    // 删除文件
+    unlink($path);
     curl_close($ch); //关闭连接
     $result = json_decode($result, true);
     return $result;
@@ -203,7 +204,6 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         $posGmagick->compositeimage($avaGmagick, 1, 290, 10);
         $posGmagick->compositeimage($bgGmagick, 1, 290, 10);
       }
-      $bytes = $posGmagick->getImageBlob();
       if ($qrUrl) {
         $qrGmagick->destroy();
       }
@@ -211,11 +211,12 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         $avaGmagick->destroy();
         $bgGmagick->destroy();
       }
+      $path = sprintf("/tmp/wx_d3in_%s.jpg", rand(1000,9999));
+      $posGmagick->write($path);
       $posGmagick->destroy();
 
-      //$posGmagick->write('/tmp/test_pos.jpg');
       // 上传至素材库
-      $mediaResult = self::uploadMedia('image', $bytes, 1);
+      $mediaResult = self::uploadMedia('image', $path, 1);
       if (!$mediaResult || isset($mediaResult['errcode'])) {
         $result['code'] = 500;
         $result['message'] = $mediaResult['errmsg'];
