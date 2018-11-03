@@ -55,7 +55,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     }
 
     if(version_compare(PHP_VERSION,'5.4.0','<')){
-      $body = json_encode($array);
+      $body = json_encode($body);
       $body = preg_replace_callback("#\\\u([0-9a-f]{4})#i",function($matchs){
            return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
       },$body);
@@ -91,7 +91,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     );
     try{
       if(version_compare(PHP_VERSION,'5.4.0','<')){
-        $body = json_encode($array);
+        $body = json_encode($body);
         $body = preg_replace_callback("#\\\u([0-9a-f]{4})#i",function($matchs){
              return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
         },$body);
