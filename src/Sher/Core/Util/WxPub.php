@@ -53,7 +53,15 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         ),
       );
     }
-    $body = json_encode($body, JSON_UNESCAPED_UNICODE);   
+
+    if(version_compare(PHP_VERSION,'5.4.0','<')){
+      $body = json_encode($array);
+      $body = preg_replace_callback("#\\\u([0-9a-f]{4})#i",function($matchs){
+           return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
+      },$body);
+    }else{
+      $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+    }
 
     try {
       Sher_Core_Helper_Util::request($url, $body, 'POST');
@@ -82,7 +90,14 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       ),
     );
     try{
-      $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+      if(version_compare(PHP_VERSION,'5.4.0','<')){
+        $body = json_encode($array);
+        $body = preg_replace_callback("#\\\u([0-9a-f]{4})#i",function($matchs){
+             return iconv('UCS-2BE', 'UTF-8', pack('H4', $matchs[1]));
+        },$body);
+      }else{
+        $body = json_encode($body, JSON_UNESCAPED_UNICODE); 
+      }
       $result = Sher_Core_Helper_Util::request($url, $body, 'POST');
       $result = json_decode($result, true);   
     }catch(Exception $e) {
