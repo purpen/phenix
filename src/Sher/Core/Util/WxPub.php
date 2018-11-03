@@ -106,7 +106,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=" . $access_token. "&type=" . $type;
 
     if (class_exists('CURLFile')) {
-      $real_path =  new CURLFile(realpath('/tmp/test_pos_jpg'));
+      $real_path =  new CURLFile(realpath('/tmp/test_pos.jpg'));
     } else {
       $real_path = '@' . realpath('/tmp/test_pos.jpg');
     }
@@ -188,10 +188,13 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         $avaGmagick = new Gmagick($avaUrl);
         // 裁剪缩放
         $avaGmagick->scaleimage(170, 170);
-        $bgGmagick = new Gmagick('http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg');
+        //$ava_bg_url = 'http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg';
+        $ava_bg_url = '/opt/project/static/phenix/wx_d3in/ava_bg.png';
+        $bgGmagick = new Gmagick($ava_bg_url);
       }
 
-      $posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+      //$posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+      $posUrl = '/opt/project/static/phenix/wx_d3in/bg.jpeg';
       $posGmagick = new Gmagick($posUrl);
       if ($qrUrl) {
         $posGmagick->compositeimage($qrGmagick, 1, 110, 930);
