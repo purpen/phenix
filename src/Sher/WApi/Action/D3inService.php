@@ -137,9 +137,9 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 // 更新到公号用户
                 $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row));
                 if ($userOk) {
-                  Doggy_Log_Helper::debug('更新用户信息成功！');               
+                  Doggy_Log_Helper::debug('更新用户信息成功！');
                 }else{
-                  Doggy_Log_Helper::debug('更新用户信息失败！');               
+                  Doggy_Log_Helper::debug('更新用户信息失败！');
                 }
               }
               // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
@@ -191,14 +191,64 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
           if ($obj) {
             $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']+1, 'is_follow'=>1));
-          }
-          $mark = '';
-          if ($obj) {
-            $mark = $obj['mark'];
+
+            $avatarUrl = '';
+            $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
+            if ($userResult) {
+              $row = array(
+                'nickname' => $userResult['nickname'],
+                'avatar' => $userResult['headimgurl'],
+                'sex' => $userResult['sex'],
+                'country' => $userResult['country'],
+                'province' => $userResult['province'],
+                'city' => $userResult['city'],
+                'unionid' => $userResult['unionid'],
+              );
+              $avatarUrl = $userResult['headimgurl'];
+
+              // 更新到公号用户
+              $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row));
+              if ($userOk) {
+                Doggy_Log_Helper::debug('更新用户信息成功！');
+              }else{
+                Doggy_Log_Helper::debug('更新用户信息失败！');
+              }
+            }
+            // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
+            // 给用户发客服回复
+            Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
+
+            $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
+            if(!$qrResult) {
+              Doggy_Log_Helper::debug("获取二维码失败！");
+            }
+            $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
+            // 生成海报
+            $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+            if ($posResult && !$posResult['code']) {
+              // 调用客服接口,返回给用户海报
+              Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
+              Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
+            }else{
+              Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
+            }
+
+            // 记录邀请人
+            if(!empty($event_key)) {
+              $invite_mark = str_replace('qrscene_', '', $event_key);
+              if ($invite_mark) {
+                $hasOne = $public_number_model->first(array('mark'=>$invite_mark));
+                if ($hasOne) {
+                  $public_number_model->inc((string)$hasOne['_id'], 'invite_count', 1);
+                  $invite_uid = $hasOne['uid'];
+                  // 给用户发客服回复
+                  Sher_Core_Util_WxPub::serviceApi($invite_uid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
+                }
+              }
+            }
+
           }
 
-          // 给用户发客服回复
-          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
         }
         echo "success";
         break;
