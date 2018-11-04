@@ -141,9 +141,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     curl_setopt_array($ch, $params); //传入curl参数
     $result = curl_exec($ch); //执行
     // 删除文件
-    if ($options['uid']) {
-      unlink(sprintf("/tmp/wx_d3in/*%s.jpg", $options['uid']));
-    }
+    unlink($path);
     curl_close($ch); //关闭连接
     $result = json_decode($result, true);
     return $result;
@@ -214,9 +212,11 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       }
 
       if ($avaUrl) {
-        //$img = file_get_contents($avaUrl);
+        // 直接用微信链过来的头像，Gmagick解析非常慢，不得已先使用file_get_contents解决
+        $avaBlob = file_get_contents($avaUrl);
         //file_put_contents($ava_gen_path,$img);
-        $avaGmagick = new Gmagick($avaUrl);
+        $avaGmagick = new Gmagick();
+        $avaGmagick->readimageblob($avaBlob);
         // 裁剪缩放
         $avaGmagick->scaleimage(170, 170);
         //$ava_bg_url = 'http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg';
