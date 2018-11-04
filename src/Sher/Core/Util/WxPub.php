@@ -196,35 +196,38 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     $result = array('code'=> 0, 'message'=> '');
     try {
       $uid = $options['uid'];
-      $cmd = '';
-      $gen_path = '/tmp/wx_d3in';
-      //$posUrl = '/opt/project/static/phenix/wx_d3in/bg.jpeg';
-      $posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
-      $final_path = sprintf("%s/final_%s.jpg", $gen_path, $uid);
+      //$cmd = '';
+      //$gen_path = '/tmp/wx_d3in';
+      $posUrl = '/opt/project/static/phenix/wx_d3in/bg.jpeg';
+      //$posUrl = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+      //$final_path = sprintf("%s/final_%s.jpg", $gen_path, $uid);
+
       // 图片处理采用原生命名，加快速度
       if ($qrUrl) {
-        //$qrGmagick = new Gmagick($qrUrl);
+        $qrGmagick = new Gmagick($qrUrl);
         // 裁剪缩放
-        //$qrGmagick->scaleimage(175, 175);
-        $qr_gen_path = sprintf("%s/qr_%s.jpg", $gen_path, $uid);
-        $cmd = sprintf("gm convert %s -thumbnail '175x175^' -gravity center -extent 175x175 %s && gm composite -geometry + 110 + 930 %s %s %s", $qrUrl, $qr_gen_path, $posUrl, $qr_gen_path, $final_path);
-        exec($cmd);
+        $qrGmagick->scaleimage(175, 175);
+        //$qr_gen_path = sprintf("%s/qr_%s.jpg", $gen_path, $uid);
+        //$cmd = sprintf("gm convert %s -thumbnail '175x175^' -gravity center -extent 175x175 %s && gm composite -geometry +110+930 %s %s %s", $qrUrl, $qr_gen_path, $posUrl, $qr_gen_path, $final_path);
+        //exec($cmd);
         
       }
 
       if ($avaUrl) {
-        //$avaGmagick = new Gmagick($avaUrl);
+        //$img = file_get_contents($avaUrl);
+        //file_put_contents($ava_gen_path,$img);
+        $avaGmagick = new Gmagick($avaUrl);
         // 裁剪缩放
-        //$avaGmagick->scaleimage(170, 170);
-        $ava_bg_url = 'http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg';
-        //$ava_bg_url = '/opt/project/static/phenix/wx_d3in/ava_bg.png';
-        //$bgGmagick = new Gmagick($ava_bg_url);
-        $ava_gen_path = sprintf("%s/ava_%s.jpg", $gen_path, $uid);
-        $cmd = sprintf("gm convert %s -thumbnail '170x170^' -gravity center -extent 170x170 %s && gm composite -geometry + 0 + 0 %s %s %s && gm composite -geometry + 290 + 10 %s %s %s", $avaUrl, $ava_gen_path, $ava_gen_path, $ava_bg_url, $ava_gen_path, $posUrl, $ava_gen_path, $final_path);
-        exec($cmd);
+        $avaGmagick->scaleimage(170, 170);
+        //$ava_bg_url = 'http://p4.taihuoniao.com/asset/181102/5bdbb15020de8da74e8b9130-2-hu.jpg';
+        $ava_bg_url = '/opt/project/static/phenix/wx_d3in/ava_bg.png';
+        $bgGmagick = new Gmagick($ava_bg_url);
+        //$ava_gen_path = sprintf("%s/ava_%s.jpg", $gen_path, $uid);
+
+        //$cmd = sprintf("gm convert %s -thumbnail '170x170^' -gravity center -extent 170x170 %s && gm composite -geometry +0+0 %s %s %s && gm composite -geometry +290+10 %s %s %s", $ava_gen_path, $ava_gen_path, $ava_bg_url, $ava_gen_path, $ava_gen_path, $ava_gen_path, $final_path, $final_path);
+        //exec($cmd);
       }
 
-      /**
       $posGmagick = new Gmagick($posUrl);
       if ($qrUrl) {
         $posGmagick->compositeimage($qrGmagick, 1, 110, 930);
@@ -243,9 +246,9 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       $path = sprintf("/tmp/wx_d3in_%s.jpg", rand(1000,9999));
       $posGmagick->write($path);
       $posGmagick->destroy();
-      **/
+
       // 上传至素材库
-      $mediaResult = self::uploadMedia('image', $final_path, 1, array('uid'=>$uid));
+      $mediaResult = self::uploadMedia('image', $path, 1, array('uid'=>$uid));
       if (!$mediaResult || isset($mediaResult['errcode'])) {
         $result['code'] = 500;
         $result['message'] = $mediaResult['errmsg'];
