@@ -150,7 +150,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               }
               $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
               // 生成海报
-              $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+              $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl, array('uid'=>$uid));
               if ($posResult && !$posResult['code']) {
                 // 调用客服接口,返回给用户海报
                 Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
@@ -224,7 +224,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             }
             $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
             // 生成海报
-            $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+            $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl, array('uid'=>$uid));
             if ($posResult && !$posResult['code']) {
               // 调用客服接口,返回给用户海报
               Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
