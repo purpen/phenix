@@ -2279,15 +2279,27 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     */
 
    public function d3in_draw(){
-       //微信分享
-       $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
-       $timestamp = $this->stash['timestamp'] = time();
-       $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
-       $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
-       $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-       $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
-       $this->stash['wxSha1'] = sha1($wxOri);
-       return $this->to_html_page('wap/promo/d3in_draw.html');
+     //微信分享
+    $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
+    $timestamp = $this->stash['timestamp'] = time();
+    $wxnonceStr = $this->stash['wxnonceStr'] = new MongoId();
+    $wxticket = Sher_Core_Util_WechatJs::wx_get_jsapi_ticket();
+    $url = $this->stash['current_url'] = 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+    $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
+    $this->stash['wxSha1'] = sha1($wxOri);
+
+    // 获取当前用户有效抽奖次数
+    $rest_count = 0;
+    if($this->visitor->id && $this->visitor->wx_union_id){
+      $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($this->visitor->wx_union_id);
+      $draw_count = $obj['total_count'] - $obj['draw_count'];
+      if ($draw_count > 0) {
+        $rest_count = $draw_count;
+      }
+      $this->stash['rest_count'] = $rest_count;
+    }
+
+    return $this->to_html_page('wap/promo/d3in_draw.html');
    }
 
    /**
