@@ -185,7 +185,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           // 记录该用户数据
           $obj = $public_number_model->first(array('user_info.oid'=>$uid));
           if ($obj) {
-            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'unfollow_count'=>$obj['unfollow_count']+1, 'is_follow'=>0));
+            $public_number_model->update_set((string)$obj['_id'], array('unfollow_count'=>$obj['unfollow_count']+1, 'is_follow'=>0));
           }
         }else if ($event == 'subscribe') {
           $avatarUrl = '';
