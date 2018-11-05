@@ -20,7 +20,7 @@ class Sher_Core_Model_PublicDrawRecord extends Sher_Core_Model_Base  {
     'status' => 1,
   );
 
-  protected $required_fields = array('user_id');
+  protected $required_fields = array();
 
   protected $int_fields = array('status', 'user_id', 'type', 'draw_count', 'total_count');
 

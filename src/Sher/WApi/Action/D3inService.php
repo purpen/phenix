@@ -239,6 +239,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
               $hasOne = $public_number_model->first(array('mark'=>$invite_mark));
               if ($hasOne) {
                 $public_number_model->inc((string)$hasOne['_id'], 'invite_count', 1);
+                $invite_oid = $hasOne['user_info']['oid'];
                 $invite_uid = $hasOne['uid'];
                 // 送抽奖次数
                 $public_draw_record_model = new Sher_Core_Model_PublicDrawRecord();
@@ -246,7 +247,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 if($hasDraw) {
                   $public_draw_record_model->inc((string)$hasDraw['_id'], 'total_count', 2);                   
                   // 给用户发客服回复
-                  Sher_Core_Util_WxPub::serviceApi($invite_uid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
+                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
                 }
               }
             }
