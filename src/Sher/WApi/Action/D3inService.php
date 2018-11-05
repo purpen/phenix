@@ -183,9 +183,9 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
         if ($event == 'unsubscribe') {
           // 记录该用户数据
-          $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
+          $obj = $public_number_model->first(array('user_info.oid'=>$uid));
           if ($obj) {
-            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'is_follow'=>0));
+            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['unfollow_count']-1, 'is_follow'=>0));
           }
         }else if ($event == 'subscribe') {
           $avatarUrl = '';
