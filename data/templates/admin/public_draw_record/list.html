@@ -44,30 +44,28 @@
         
           <tr id="item-{{ d._id }}">
             <td>
-              <a class="ui image label link" href="{{ d.user.home_url }}" target="_blank">
-                  <img src="{{ d.user.mini_avatar_url }}">
-                  {{ d.user.nickname }}
-              </a>
+              <div class="ui checkbox">
+                  <input name="ids" type="checkbox" value="{{ d._id }}" class="checkbox" />
+                  <label></label>
+              </div>
             </td>
             <td>{{ d._id }}</td>
             <td>
               <div class="ui image">
-                <img src="{{ stuff.cover.thumbnails.mini.view_url }}" width="80px" />
+                <img src="{{ d.user_info.avatar }}" width="80px" />
               </div>
             </td>
             <td>
               <p>uid: {{ d.uid }}</p>
+              {%if d.user_info%}
+                <p>oid: {{ d.user_info.oid }}</p>
+                <p>nickname: {{ d.user_info.nickname }}</p>
+                <p>sex: {{ d.user_info.sex }}</p>
+                <p>city: {{ d.user_info.country }}|{{ d.user_info.province }}|{{ d.user_info.city }}</p>
+              {%endif%}
             </td>
             <td>{{ d.type }}</td>
-            <td>
-              <p>
-                {% if d.is_follow %}
-                  <span class="ui small green label">是</span>
-                {% else %}
-                  <span class="ui small orange label">否</span>
-                {% endif %}
-              </p> 
-            </td>
+
             <td>
               <p>抽奖次数: {{ d.draw_count }}</p>
               <p>获取资格数: {{ d.total_count }}</p>

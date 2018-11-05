@@ -26,13 +26,13 @@ class Sher_Core_Model_PublicNumber extends Sher_Core_Model_Base  {
     'status' => 1,
     # 用户信息
     'user_info' => array(
+      'oid' => '',
       'nickname' => '',
       'avatar' => '',
       'sex' => '',
       'country' => '',
       'province' => '',
       'city' => '',
-      'unionid' => '',
     ),
     'info' => array(
       'int_01' => 0,

@@ -56,9 +56,9 @@
             </td>
             <td>
               <p>uid: {{ d.uid }}</p>
-              <p>oid: {{ d.user_info.oid }}</p>
               <p>mark: {{ d.mark }}</p>
               {%if d.user_info%}
+                <p>oid: {{ d.user_info.oid }}</p>
                 <p>nickname: {{ d.user_info.nickname }}</p>
                 <p>sex: {{ d.user_info.sex }}</p>
                 <p>city: {{ d.user_info.country }}|{{ d.user_info.province }}|{{ d.user_info.city }}</p>

@@ -17,6 +17,16 @@ class Sher_Core_Model_PublicDrawRecord extends Sher_Core_Model_Base  {
     'total_count' => 0,
     //备注
     'remark'  => null,
+    # 用户信息
+    'user_info' => array(
+      'oid' => '',
+      'nickname' => '',
+      'avatar' => '',
+      'sex' => '',
+      'country' => '',
+      'province' => '',
+      'city' => '',
+    ),
     'status' => 1,
   );
 
@@ -25,7 +35,7 @@ class Sher_Core_Model_PublicDrawRecord extends Sher_Core_Model_Base  {
   protected $int_fields = array('status', 'user_id', 'type', 'draw_count', 'total_count');
 
 	protected $joins = array(
-	    'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
+	    //'user'  =>  array('user_id' => 'Sher_Core_Model_User'),
 	);
 
 	/**

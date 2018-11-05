@@ -246,6 +246,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 $hasDraw = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($invite_uid, $public_draw_record_model);
                 if($hasDraw) {
                   $public_draw_record_model->inc((string)$hasDraw['_id'], 'total_count', 2);                   
+                  $public_draw_record_model->update_set((string)$hasDraw['_id'], array('user_info'=>$hasOne['user_info']));
                   // 给用户发客服回复
                   Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
                 }
