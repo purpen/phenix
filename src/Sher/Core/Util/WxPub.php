@@ -248,7 +248,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       $posGmagick->destroy();
 
       // 上传至素材库
-      $mediaResult = self::uploadMedia('image', $path, 1));
+      $mediaResult = self::uploadMedia('image', $path, 1);
       if (!$mediaResult || isset($mediaResult['errcode'])) {
         $result['code'] = 500;
         $result['message'] = $mediaResult['errmsg'];
