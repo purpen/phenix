@@ -494,7 +494,69 @@
         -webkit-line-clamp: 2;
         overflow: hidden;
     }
+    /*业务*/
+    .business {
+        margin-top: 40px;
+    }
+    .display_f_c {
+        display: flex;
+        flex-direction: column;
+    }
+    .display_f_1 {
+        flex: 1;
+        text-align: center;
+        padding: 40px 40px 22px;
+        background: #ffffff;
+        margin-bottom: 20px;
+    }
+    .margin_l_20 {
+        margin-left: 20px;
+    }
+    .font_28 {
+        font-size: 28px;
+    }
 
+    .font_16 {
+        font-size: 16px;
+    }
+
+    .c_2 {
+        color: #222222;
+    }
+
+    .c_6 {
+        color: #666666;
+    }
+
+    .zt_m {
+        margin-top: 10px;
+        margin-bottom: 18px;
+    }
+
+    .m_b_n {
+        margin: 0;
+    }
+
+    .b_s {
+        width: 100px;
+        height: 30px;
+        line-height: 1;
+        border: 1px solid #FE5B84;
+        color: #FE5B84;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 30px;
+    }
+
+    .b_img {
+        width: 100%;
+        margin-top: 30px;
+        max-height: 380px;
+    }
+
+    /*.display_f_c:last-child .display_f {*/
+        /*margin-bottom: 10px;*/
+    /*}*/
 </style>
 {% endblock %}
 
@@ -924,12 +986,37 @@
             </div>
         </div>
     </div>
+    <!--业务-->
     <div class="business">
-        <div class="display_wrap">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
+        <div class="display_f_c">
+            <div class="display_f padd_zt">
+                <div class="display_f_1">
+                    <p class="font_28 c_2 m_b_n">铟果D³INGO</p>
+                    <p class="font_16 c_6 zt_m">一站式设计项目管理协作工具</p>
+                    <a href=""><button class="b_s">立即使用</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/D3ingo@2x.png" alt="铟果D³INGO">
+                </div>
+                <div class="display_f_1 margin_l_20">
+                    <p class="font_28 c_2 m_b_n">设计创新指数</p>
+                    <p class="font_16 c_6 zt_m">全球首个基于人工智能的设计创新企业综合实力指数排行榜</p>
+                    <a href=""><button class="b_s">查看榜单</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/cx@2x.png" alt="设计创新指数">
+                </div>
+            </div>
+            <div class="display_f padd_zt">
+                <div class="display_f_1">
+                    <p class="font_28 c_2 m_b_n">铟果集</p>
+                    <p class="font_16 c_6 zt_m">生活新质感</p>
+                    <a href=""><button class="b_s">了解更多</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/ygj@2x.png" alt="铟果集">
+                </div>
+                <div class="display_f_1 margin_l_20">
+                    <p class="font_28 c_2 m_b_n">铟立方</p>
+                    <p class="font_16 c_6 zt_m">致力于打造科技美学创新产品的新零售服务平台</p>
+                    <a href=""><button class="b_s">立即加盟</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/ylf@2x.png" alt="铟果集">
+                </div>
+            </div>
         </div>
     </div>
     <!--<div class="saas-box">-->
