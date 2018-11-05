@@ -174,13 +174,13 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         echo "success";
         break;
       case 'event': // 事件
+        $public_number_model = new Sher_Core_Model_PublicNumber();
         $event_arr = $xml_tree->getElementsByTagName('Event');
         $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
         $event = $event_arr->item(0)->nodeValue;
         $event_key = $event_key_arr->item(0)->nodeValue;
 
         Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
-        $public_number_model = new Sher_Core_Model_PublicNumber();
         if ($event == 'unsubscribe') {
           // 记录该用户数据
           $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
