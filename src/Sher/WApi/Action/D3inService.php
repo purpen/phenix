@@ -206,7 +206,11 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             // 记录该用户数据
             $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($userResult['unionid'], $public_number_model);
             // 更新到公号用户
-            $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'is_follow'=>1));
+            if ($obj['created']) {
+              $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'is_follow'=>1));
+            }else{
+              $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'follow_count'=>$obj['follow_count']+1, 'is_follow'=>1));
+            }
             if ($userOk) {
               Doggy_Log_Helper::debug('更新用户信息成功！');
             }else{

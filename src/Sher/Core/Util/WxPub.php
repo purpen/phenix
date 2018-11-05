@@ -155,8 +155,10 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
     if (!$model) {
       $model = new Sher_Core_Model_PublicNumber();
     }
+    $created = false;
     $obj = $model->first(array('uid'=> $uid));
     if (!$obj) {
+      $created = true;
       $row = array(
         'uid' => $uid,
         'mark' => Sher_Core_Helper_Util::generate_mongo_id(),
@@ -166,6 +168,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
       );
       $model->create($row);
       $obj = $model->first(array('uid' => $uid));
+      $obj['created'] = $created;
     }
     return $obj;
   }
