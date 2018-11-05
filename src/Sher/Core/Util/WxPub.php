@@ -148,7 +148,7 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
   }
 
   /*
-   * 查询公号统计
+   * 查询公号统计,没有则创建
    */
   public static function fetchOrCreatePublic($uid, &$model=null)
   {
@@ -162,6 +162,27 @@ class Sher_Core_Util_WxPub extends Doggy_Object {
         'mark' => Sher_Core_Helper_Util::generate_mongo_id(),
         'is_follow' => 1,
         'follow_count' => 1,
+        'type' => 1,
+      );
+      $model->create($row);
+      $obj = $model->first(array('uid' => $uid));
+    }
+    return $obj;
+  }
+
+  /*
+   * 查询公号抽奖统计,没有则创建
+   */
+  public static function fetchOrCreatePublicDraw($uid, &$model=null)
+  {
+    if (!$model) {
+      $model = new Sher_Core_Model_PublicDrawRecord();
+    }
+    $obj = $model->first(array('uid'=> $uid));
+    if (!$obj) {
+      $row = array(
+        'uid' => $uid,
+        'total_count' => 3,
         'type' => 1,
       );
       $model->create($row);
