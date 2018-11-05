@@ -275,7 +275,7 @@
     color: red;
   }
   .hottips .ui.four.hotchild.cards .card>a {
-    max-height: 200px;
+    max-height: 160px;
     overflow: hidden;
   }
   .hottips .ui.four.hotchild.cards .card>a img,
@@ -385,6 +385,7 @@
 
 {% block jquery %}
 	var s = e(window).width();
+	<!--var s = 880;-->
 	e("#fixedslide > .ui.slide > .item").width(s);
 	
 	var $frame = $('#fixedslide');
@@ -429,6 +430,7 @@
 	
 	$(window).resize(function() {
 		var s=$(window).width();
+		<!--var s=880-->
 		e("#fixedslide > .ui.slide > .item").width(s);
 		
 		$frame.sly('reload');
@@ -528,42 +530,47 @@
 {% block content %}
 
 <div id="homepage">
-	<div id="fixedslide" class="frame">
-        {% cache cache_key:'web_index_slide' ttl:0 disable_cache:app_disable_cached %}
-        
-		{% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
-		<div class="ui slide">
-			{% for ad in adslide.rows %}
-			<div class="item">
-				<div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
-					{% if ad.mode == 2 %}
-					<div class="overlay">
-						{% if ad.cate_title %}
-						<h3>{{ ad.cate_title }}</h3>
-						{% endif %}
-						<h1>{{ ad.title }}</h1>
-						<p class="snippet">
-							{{ ad.sub_title }}
-						</p>
-						<a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
-					</div>
-					{% else %}
-					<a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>	
-					{% endif %}
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-		<div class="pages"></div>
-		<a class="prev" href="#">
-			<i class="angle left icon"></i>
-		</a>
-		<a class="next" href="#">
-			<i class="angle right icon"></i>
-		</a>
-        
-        {% endcache %}
-	</div>
+    <div>
+        <div id="fixedslide" class="frame">
+            {% cache cache_key:'web_index_slide' ttl:0 disable_cache:app_disable_cached %}
+
+            {% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
+            <div class="ui slide">
+                {% for ad in adslide.rows %}
+                <div class="item">
+                    <div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+                        {% if ad.mode == 2 %}
+                        <div class="overlay">
+                            {% if ad.cate_title %}
+                            <h3>{{ ad.cate_title }}</h3>
+                            {% endif %}
+                            <h1>{{ ad.title }}</h1>
+                            <p class="snippet">
+                                {{ ad.sub_title }}
+                            </p>
+                            <a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+                        </div>
+                        {% else %}
+                        <a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pages"></div>
+            <a class="prev" href="#">
+                <i class="angle left icon"></i>
+            </a>
+            <a class="next" href="#">
+                <i class="angle right icon"></i>
+            </a>
+
+            {% endcache %}
+        </div>
+        <!--<div style="width: 290px;background: red;height: 500px">-->
+
+        <!--</div>-->
+    </div>
     <div class="hottips">
         <div class="ui responsive grid">
             <div class="row">
@@ -657,6 +664,42 @@
             </div>
         </div>
     </div>
+    <!--人物访谈-->
+    <!--<div class="hottips">-->
+        <!--<div class="ui responsive grid">-->
+            <!--<div class="row">-->
+                <!--<div class="column">-->
+                    <!--<h2 class="ui header">人物访谈</h2>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="column">-->
+                    <!--{% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}-->
+                    <!--{% ad_list var:'adslide2' page:1 size:8 state:2 name:'web_index_product_stick_slide' %}-->
+                    <!--{% if adslide2.rows %}-->
+                    <!--<div class="ui four hotchild cards">-->
+                        <!--{% for ad in adslide2.rows %}-->
+                        <!--<div class="card">-->
+                            <!--<a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">-->
+                                <!--<img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >-->
+                            <!--</a>-->
+                            <!--<div class="desc">-->
+                                <!--<h4>-->
+                                    <!--<a class="ui link" href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">-->
+                                        <!--{{ ad.title }}-->
+                                    <!--</a>-->
+                                <!--</h4>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--{%endfor%}-->
+                    <!--</div>-->
+                    <!--{%endif%}-->
+
+                    <!--{% endcache %}-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
     <div class="saas-box">
       <div class="banner1">

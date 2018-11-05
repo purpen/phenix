@@ -19,7 +19,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	protected $page_tab = 'page_index';
 	protected $page_html = 'page/index.html';
 	
-	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service', 'en', 'ingoset', 'design');
+	protected $exclude_method_list = array('execute', 'welcome', 'home', 'coupon', 'fire', 'goccia', 'dm', 'activity', 'verify_code', 'contact', 'comeon','egg','egou','egou_api','fiu','fiu_download', 'qr', 'surl', 'service', 'en', 'ingoset', 'design','hometest');
 	
 	protected $admin_method_list = array();
 	
@@ -149,7 +149,88 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 		
         return $this->to_html_page('page/home.html');
     }
-	
+	/***************
+	/**
+         * 首页测试
+         * @return string
+         */
+        public function hometest() {
+
+    		// 易购网入口部分
+    		if((isset($this->stash['uid']) && !empty($this->stash['uid'])) && (isset($this->stash['hid']) && !empty($this->stash['hid']))){
+
+    			// 清除cookie值
+    			setcookie('egou_uid', '', time() - 3600, '/');
+    			setcookie('egou_hid', '', time() - 3600, '/');
+    			setcookie('egou_finish', '', time() - 3600, '/');
+
+    			$uid = $this->stash['uid'];
+    			$hid = $this->stash['hid'];
+
+    			// 判断e购用户是否已经参加过活动
+    			$model = new Sher_Core_Model_Egoutask();
+    			$egou_show = 0;
+
+    			$date = array();
+    			$date['uid'] = $uid;
+    			$date['hid'] = $hid;
+    			$result = $model->find($date);
+
+    			if(!$result){
+    				// 将易购用户信息保存至cookie
+    				@setcookie('egou_uid', $uid, 0, '/');
+    				$_COOKIE['egou_uid'] = $uid;
+    				@setcookie('egou_hid', $hid, 0, '/');
+    				$_COOKIE['egou_hid'] = $hid;
+    				$egou_show = 1;
+    			}
+
+    			$this->stash['egou_show'] = $egou_show;
+    		}
+
+    		//var_dump($_COOKIE);
+        /**
+        if(isset($_COOKIE['egou_finish'])){
+     		  $this->stash['egou_finish'] = $_COOKIE['egou_finish'];
+        }else{
+      	  $this->stash['egou_finish'] = '';
+        }
+         */
+
+        if($this->visitor->id){
+          //当前用户邀请码
+          $invite_code = Sher_Core_Util_View::fetch_invite_user_code($this->visitor->id);
+          $this->stash['user_invite_code'] = $invite_code;
+        }else{
+          // 如果存在邀请码，存cookie
+          if(isset($this->stash['user_invite_code']) && !empty($this->stash['user_invite_code'])){
+            // 将邀请码保存至cookie
+            @setcookie('user_invite_code', $this->stash['user_invite_code'], 0, '/');
+            $_COOKIE['user_invite_code'] = $this->stash['user_invite_code'];
+          }
+        }
+
+    		$this->set_target_css_state('page_home');
+
+            // 商品推荐列表---取块内容
+            $product_ids = Sher_Core_Util_View::load_block('index_product_stick', 1);
+            $products = array();
+            if($product_ids){
+                $product_model = new Sher_Core_Model_Product();
+                $id_arr = explode(',', $product_ids);
+                foreach(array_slice($id_arr, 0, 8) as $i){
+                    $product = $product_model->extend_load((int)$i);
+                    if(!empty($product)){
+                        array_push($products, $product);
+                    }
+                }
+            }
+            $this->stash['products'] = $products;
+            // 商品图片alt显示标签第一个
+            $this->stash['product_alt_tag'] = 1;
+
+            return $this->to_html_page('page/hometest.html');
+        }
 	/**
 	 * 征集令
 	 */
