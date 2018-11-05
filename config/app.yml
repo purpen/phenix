@@ -196,6 +196,7 @@ app.dt.extension_lib.sher_app:
     's_url_list':'Sher_Core_ViewTag_SUrlList'
     'cooper_list':'Sher_Core_ViewTag_CooperList'
     'public_number_list':'Sher_App_ViewTag_PublicNumberList'
+    'public_draw_record_list':'Sher_Core_ViewTag_PublicDrawRecordList'
   filters: []
 
 app.js.use_bundle: false
