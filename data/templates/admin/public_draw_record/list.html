@@ -7,13 +7,13 @@
 {% endblock %}
 	
 {% block content %}
-	<h3 class="ui header">公众号管理</h3>
+	<h3 class="ui header">公众号抽奖管理</h3>
 	
 	<div class="ui secondary pointing magenta menu">
-    <a href="{{ app_url_admin_base }}/public_number" class="{{ css_all_list }} item">
+    <a href="{{ app_url_admin_base }}/public_draw_record" class="{{ css_all_list }} item">
 			全部
 		</a>
-		<a href="{{ app_url_admin_base }}/public_number?type=1" class="{{ css_d3in_list }} item">
+		<a href="{{ app_url_admin_base }}/public_draw_record?type=1" class="{{ css_d3in_list }} item">
 			铟立方
 		</a>
 	</div>
@@ -29,9 +29,8 @@
 				</th>
         <th>ID</th>
         <th>头像</th>
-        <th>公号信息</th>
+        <th>信息</th>
         <th>类型</th>
-        <th>是否关注</th>
         <th>数量</th>
         <th>时间</th>
         <th>操作</th>
@@ -39,7 +38,7 @@
 		</thead>
 		<tbody>
 
-			{% public_number_list var:'list' uid:uid user_id:user_id type:type page:page size:size %}
+			{% public_draw_record_list var:'list' uid:uid user_id:user_id type:type page:page size:size %}
 
 			{% for d in list.rows %}
         
@@ -52,11 +51,12 @@
             </td>
             <td>{{ d._id }}</td>
             <td>
-              <img src="{{ d.user_info.avatar }}" width="50" />
+              <div class="ui image">
+                <img src="{{ d.user_info.avatar }}" width="80px" />
+              </div>
             </td>
             <td>
               <p>uid: {{ d.uid }}</p>
-              <p>mark: {{ d.mark }}</p>
               {%if d.user_info%}
                 <p>oid: {{ d.user_info.oid }}</p>
                 <p>nickname: {{ d.user_info.nickname }}</p>
@@ -65,25 +65,16 @@
               {%endif%}
             </td>
             <td>{{ d.type }}</td>
+
             <td>
-              <p>
-                {% if d.is_follow %}
-                  <span class="ui small green label">是</span>
-                {% else %}
-                  <span class="ui small orange label">否</span>
-                {% endif %}
-              </p> 
-            </td>
-            <td>
-              <p>邀请数: {{ d.invite_count }}</p>
-              <p>关注数: {{ d.follow_count }}</p>
-              <p>取关数: {{ d.unfollow_count }}</p>
+              <p>抽奖次数: {{ d.draw_count }}</p>
+              <p>获取资格数: {{ d.total_count }}</p>
             </td>
 
             <td>{{ d.created_on|date 'Y-m-d' }}</td>
 
             <td>
-						<a href="{{ app_url_admin }}/public_number/deleted?id={{ d._id }}" class="ui confirm-request link">删除</a>
+						<a href="{{ app_url_admin }}/public_draw_record/deleted?id={{ d._id }}" class="ui confirm-request link">删除</a>
             </td>
           </tr>
 			{% endfor %}

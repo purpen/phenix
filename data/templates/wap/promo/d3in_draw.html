@@ -603,7 +603,7 @@ var click = false;
             } else {
                 // 所有ajax请求，验证是否登录
                 if (!phenix.visitor.is_login){
-                    phenix.redirect('{{ app_url_wap }}/auth/login_signup');
+                    phenix.redirect('{{ wx_login_url }}');
                     return false;
                 }
                 var ua = navigator.userAgent.toLowerCase();
@@ -620,7 +620,7 @@ var click = false;
                 <!--roll();-->
                 <!--click = true;-->
                 <!--return false;-->
-                var url ="{{ app_url_wap }}/promo/ajax_lottery";
+                var url ="{{ app_url_wap }}/app/wap/promo_func/ajax_d3in_draw";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
@@ -630,6 +630,13 @@ var click = false;
                         $(":input[name=sid]").val(rs.data.sid);
                         roll();
                         click = true;
+                        // 减去抽奖次数
+                        var rest_count = parseInt($('#reset-count').text());
+                        rest_count = rest_count - 1;
+                        if(rest_count < 0) {
+                          rest_count = 0;
+                        }
+                        $('#reset-count').text(rest_count);
                         return false;
                     }else{
                         phenix.show_error_note(rs.message, 3000);
@@ -680,7 +687,7 @@ var click = false;
 {% block content %}
 <div class="container">
     <div id="lottery">
-        <p class="color_f font_8 text_center margin_b_3">您还有<span>3</span>次抽奖机会</p>
+      <p class="color_f font_8 text_center margin_b_3">您还有<span id="reset-count">{{ rest_count }}</span>次抽奖机会</p>
         <table border="0" cellpadding="0" cellspacing="0">
             <tr>
                 <td class="lottery-unit lottery-unit-0"><img

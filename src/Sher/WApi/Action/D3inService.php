@@ -5,7 +5,7 @@
  */
 class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements DoggyX_Action_Initialize {
 
-	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu', 'fetch_mertail');
+	protected $filter_auth_methods = array('execute', 'gen_menu', 'del_menu', 'fetch_mertail', 'test');
 		
 	/**
 	 * 初始化参数
@@ -72,6 +72,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
     $c_time = $c_time_arr->item(0)->nodeValue;
     $mtype = $mtype_arr->item(0)->nodeValue;
 
+    $redis = new Sher_Core_Cache_Redis();
+    $rKey = sprintf("wx-reply-%s-%s", $uid, $c_time);
+    $hasOne = $redis->get($rKey);
+    if(empty($hasOne)) {
+      $redis->set($rKey, 1, 15);
+    }else{
+      echo "success";
+      Doggy_Log_Helper::debug('重复请求，跳过。。。');
+      return;
+    }
+
     Doggy_Log_Helper::debug(sprintf("解析数据-类型: %s", $mtype));
     switch ($mtype) { // 文字
       case 'text':
@@ -105,14 +116,12 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           // 生成海报
           if ($content == '超级红包') {
             // 获取用户标识
-            $public_number_model = new Sher_Core_Model_PublicNumber();
             try {
-              $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
-
               $avatarUrl = '';
               $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
               if ($userResult) {
                 $row = array(
+                  'oid' => $uid,
                   'nickname' => $userResult['nickname'],
                   'avatar' => $userResult['headimgurl'],
                   'sex' => $userResult['sex'],
@@ -123,66 +132,133 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 );
                 $avatarUrl = $userResult['headimgurl'];
 
+                $public_number_model = new Sher_Core_Model_PublicNumber();
+                $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($userResult['unionid'], $public_number_model);
+
                 // 更新到公号用户
                 $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row));
                 if ($userOk) {
-                  Doggy_Log_Helper::debug('更新用户信息成功！');               
+                  Doggy_Log_Helper::debug('更新用户信息成功！');
                 }else{
-                  Doggy_Log_Helper::debug('更新用户信息失败！');               
+                  Doggy_Log_Helper::debug('更新用户信息失败！');
                 }
               }
-              Doggy_Log_Helper::debug(json_encode($userResult));
+              // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
 
-              $qrResult = Sher_Core_Util_WxPub::genQr(1, array('acene_str'=>$obj['mark']));
+              $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
               if(!$qrResult) {
                 Doggy_Log_Helper::debug("获取二维码失败！");
               }
-              $qrUrl = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . $qrResult['ticket'];
+              $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
               // 生成海报
               $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
-              Doggy_Log_Helper::debug("poster:". json_encode($psoResult));
+              if ($posResult && !$posResult['code']) {
+                // 调用客服接口,返回给用户海报
+                Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
+                Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
+              }else{
+                Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
+              }
+              Doggy_Log_Helper::debug("poster info:". json_encode($psoResult));
             } catch(Exception $e) {
               Doggy_Log_Helper::debug("更新用户失败！". $e->getMessage());
             }
           }
-
         }elseif($rEvent == 'image') {
           if ($mediaId) {
             // 给用户发客服回复
             Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$mediaId));
           }
         }
-
         Doggy_Log_Helper::debug(sprintf("content: %s-%s", $content, $msg_id));
+        echo "success";
         break;
       case 'event': // 事件
+        $public_number_model = new Sher_Core_Model_PublicNumber();
         $event_arr = $xml_tree->getElementsByTagName('Event');
         $event_key_arr = $xml_tree->getElementsByTagName('EventKey');
         $event = $event_arr->item(0)->nodeValue;
         $event_key = $event_key_arr->item(0)->nodeValue;
 
         Doggy_Log_Helper::debug(sprintf("Event: %s-%s", $event, $event_key));
-        $public_number_model = new Sher_Core_Model_PublicNumber();
         if ($event == 'unsubscribe') {
           // 记录该用户数据
-          $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
+          $obj = $public_number_model->first(array('user_info.oid'=>$uid));
           if ($obj) {
-            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']-1, 'is_follow'=>0));
+            $public_number_model->update_set((string)$obj['_id'], array('unfollow_count'=>$obj['unfollow_count']+1, 'is_follow'=>0));
           }
         }else if ($event == 'subscribe') {
-          // 记录该用户数据
-          $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($uid, $public_number_model);
-          if ($obj) {
-            $public_number_model->update_set((string)$obj['_id'], array('follow_count'=> $obj['follow_count']+1, 'is_follow'=>1));
-          }
-          $mark = '';
-          if ($obj) {
-            $mark = $obj['mark'];
-          }
+          $avatarUrl = '';
+          $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
+          if ($userResult) {
+            $row = array(
+              'oid' => $uid,
+              'nickname' => $userResult['nickname'],
+              'avatar' => $userResult['headimgurl'],
+              'sex' => $userResult['sex'],
+              'country' => $userResult['country'],
+              'province' => $userResult['province'],
+              'city' => $userResult['city'],
+              'unionid' => $userResult['unionid'],
+            );
+            $avatarUrl = $userResult['headimgurl'];
 
+            // 记录该用户数据
+            $obj = Sher_Core_Util_WxPub::fetchOrCreatePublic($userResult['unionid'], $public_number_model);
+            // 更新到公号用户
+            if ($obj['created']) {
+              $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'is_follow'=>1));
+            }else{
+              $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'follow_count'=>$obj['follow_count']+1, 'is_follow'=>1));
+            }
+            if ($userOk) {
+              Doggy_Log_Helper::debug('更新用户信息成功！');
+            }else{
+              Doggy_Log_Helper::debug('更新用户信息失败！');
+            }
+          }
+          // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
           // 给用户发客服回复
           Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
+
+          $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
+          if(!$qrResult) {
+            Doggy_Log_Helper::debug("获取二维码失败！");
+          }
+          $qrUrl = "http://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=" . urlencode($qrResult['ticket']);
+          // 生成海报
+          $posResult = Sher_Core_Util_WxPub::genPoster($avatarUrl, $qrUrl);
+          if ($posResult && !$posResult['code']) {
+            // 调用客服接口,返回给用户海报
+            Sher_Core_Util_WxPub::serviceApi($uid, 'image', array('media_id'=>$posResult['data']['media_id']));
+            Doggy_Log_Helper::debug("生成海报成功 media_id: ". $posResult['data']['media_id']);
+          }else{
+            Doggy_Log_Helper::debug("生成海报失败:". $posResult['message']);
+          }
+
+          // 记录邀请人
+          if(!empty($event_key)) {
+            $invite_mark = str_replace('qrscene_', '', $event_key);
+            if ($invite_mark) {
+              $hasOne = $public_number_model->first(array('mark'=>$invite_mark));
+              if ($hasOne) {
+                $public_number_model->inc((string)$hasOne['_id'], 'invite_count', 1);
+                $invite_oid = $hasOne['user_info']['oid'];
+                $invite_uid = $hasOne['uid'];
+                // 送抽奖次数
+                $public_draw_record_model = new Sher_Core_Model_PublicDrawRecord();
+                $hasDraw = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($invite_uid, $public_draw_record_model);
+                if($hasDraw) {
+                  $public_draw_record_model->inc((string)$hasDraw['_id'], 'total_count', 2);                   
+                  $public_draw_record_model->update_set((string)$hasDraw['_id'], array('user_info'=>$hasOne['user_info']));
+                  // 给用户发客服回复
+                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
+                }
+              }
+            }
+          }
         }
+        echo "success";
         break;
       case 'image':
         $media_id_arr = $xml_tree->getElementsByTagName('MediaId');
@@ -204,7 +280,6 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         Doggy_Log_Helper::debug("未知获取类型!");
         echo "success";
     }
-
     return;
 
   }
@@ -316,6 +391,17 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
       echo "获取成功: " . $e->getMessage();
     }
     return "ok";
+  }
+
+  public function test(){
+    $url = 'http://p4.taihuoniao.com/asset/181101/5bda973320de8d9c4e8b8300-1-hu.jpg';
+    $gmagick = new Gmagick($url);
+    $bytes = $gmagick->getImageBlob();
+    //$a = file_get_contents('php://input');
+    var_dump(filesize($bytes));
+    $gmagick->write('/Users/tian/a.jpg');
+    $gmagick->destroy();
+
   }
 
 }

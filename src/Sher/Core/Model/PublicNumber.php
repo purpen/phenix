@@ -18,6 +18,8 @@ class Sher_Core_Model_PublicNumber extends Sher_Core_Model_Base  {
     'type' => 1,  # 1.铟立方；2.--；
     # 关注次数
     'follow_count' => 0,
+    # 取消关注次数
+    'unfollow_count' => 0,
     # 邀请次数
     'invite_count' => 0,
     # 是否关注当前公号
@@ -26,13 +28,13 @@ class Sher_Core_Model_PublicNumber extends Sher_Core_Model_Base  {
     'status' => 1,
     # 用户信息
     'user_info' => array(
+      'oid' => '',
       'nickname' => '',
       'avatar' => '',
       'sex' => '',
       'country' => '',
       'province' => '',
       'city' => '',
-      'unionid' => '',
     ),
     'info' => array(
       'int_01' => 0,
