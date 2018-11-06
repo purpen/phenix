@@ -179,20 +179,24 @@
         </a>
     </div>
     <div>
-        <div class="red_list_back display_sb">
-        <div class="text">
-        <p class="title margin_b_18">二等奖 <span class="font_12 margin_l_10">X1</span></p>
-        <p class="font_12 margin_b_5">1500元</p>
-        <p class="font_9">有效期至2018-11-12</p>
-        </div>
-        <div class="display_a_c">
-        <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=2">详情</a>
-        </div>
-        </div>
+      {% if record %}
+        {% if record.s02 > 0 %}
+          <div class="red_list_back display_sb">
+          <div class="text">
+            <p class="title margin_b_18">二等奖 <span class="font_12 margin_l_10">X{{ record.s02 }}</span></p>
+          <p class="font_12 margin_b_5">1500元</p>
+          <p class="font_9">有效期至2018-11-12</p>
+          </div>
+          <div class="display_a_c">
+          <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=2">详情</a>
+          </div>
+          </div>
+        {%endif%}
 
+        {% if record.s03 > 0 %}
         <div class="red_list_back display_sb">
         <div class="text">
-        <p class="title margin_b_18">三等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="title margin_b_18">三等奖 <span class="font_12 margin_l_10">X{{ record.s03 }}</span></p>
         <p class="font_12 margin_b_5">1100元</p>
         <p class="font_9">有效期至2018-11-12</p>
         </div>
@@ -200,10 +204,12 @@
         <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=3">详情</a>
         </div>
         </div>
+        {%endif%}
 
+        {% if record.s04 > 0 %}
         <div class="red_list_back display_sb">
         <div class="text">
-        <p class="title margin_b_18">四等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="title margin_b_18">四等奖 <span class="font_12 margin_l_10">X{{ record.s04 }}</span></p>
         <p class="font_12 margin_b_5">1000元</p>
         <p class="font_9">有效期至2018-11-12</p>
         </div>
@@ -211,9 +217,12 @@
         <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=4">详情</a>
         </div>
         </div>
+        {%endif%}
+
+        {% if record.s05 > 0 %}
         <div class="red_list_back display_sb">
         <div class="text">
-        <p class="title margin_b_18">五等奖 <span class="font_12 margin_l_10">X1</span></p>
+        <p class="title margin_b_18">五等奖 <span class="font_12 margin_l_10">X{{ record.s05 }}</span></p>
         <p class="font_12 margin_b_5">500元</p>
         <p class="font_9">有效期至2018-11-12</p>
         </div>
@@ -221,6 +230,13 @@
         <a class="details" href="{{ app_url_wap }}/app/wap/promo/red_details?red_id=5">详情</a>
         </div>
         </div>
+        {%endif%}
+
+
+        {%else%}
+          <!--无抽奖记录-->
+          <p>没有中奖记录〜</p>
+        {%endif%}
 
 
         <div class="introduce">
@@ -230,6 +246,7 @@
         <p><a href="{{ app_url_wap }}/app/wap/promo/d3in_hi">使用红包</a></p>
         </div>
         </div>
+
     </div>
 </div>
 

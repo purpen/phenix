@@ -2321,6 +2321,16 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     */
 
       public function red_list(){
+        if(!$this->visitor->id){
+            //return $this->ajax_json('请先登录！', true);
+        }
+        $record = array();
+        if ($this->visitor->wx_union_id){
+          $model = new Sher_Core_Model_PublicDrawRecord();
+          $obj = $model->first(array('uid'=>$this->visitor->wx_union_id));
+          $record = $obj['info_int'];
+        }
+        $this->stash['record'] = $record;
         return $this->to_html_page('wap/promo/red_list.html');
       }
 

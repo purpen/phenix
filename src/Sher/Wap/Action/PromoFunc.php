@@ -1027,11 +1027,17 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }
 
         if ($isDraw) {
-          $filed = sprintf("info_int.s0%s", $level);
-          $model->inc((string)$obj['_id'], $field, 1);
+          $field = sprintf("info_int.s0%s", $level);
+          if (isset($obj[$field])){
+            $model->inc((string)$obj['_id'], $field, 1);
+          }else{
+            $model->update_set((string)$obj['_id'], array($field=>1));
+          }
         }
         // 抽奖次数-1
-        $model->inc((string)$obj, 'draw_count', -1);
+        if ($obj['total_count']>$obj['draw_count']) {
+          $model->inc((string)$obj['_id'], 'draw_count', 1);
+        }
 
 
         // 直接送红包
