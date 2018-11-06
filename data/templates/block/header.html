@@ -1,18 +1,3 @@
-{% block page_css %}
-<style>
-    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu {
-        margin: 10px 0 0;
-    }
-
-    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu .item {
-        line-height: 1;
-    }
-    .header.main>.ui.newnav.responsive.grid .navbar-collapse .navbar-nav .nav-item a {
-        height: 40px;
-    }
-</style>
-{% endblock %}
-
 <div class="ui newnav responsive grid">
     <a href="{{ app_url_domain }}" title="首页" class="logobar">太火鸟</a>
     <div class="navbar-collapse">
@@ -84,6 +69,16 @@
 
 {%block page_css%}
 <style>
+    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu {
+        margin: 10px 0 0;
+    }
+
+    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu .item {
+        line-height: 1;
+    }
+    .header.main>.ui.newnav.responsive.grid .navbar-collapse .navbar-nav .nav-item a {
+        height: 40px;
+    }
     /*.header.main>.ui.newnav.responsive.grid {*/
         /*height: 70px;*/
     /*}*/

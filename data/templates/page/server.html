@@ -63,16 +63,59 @@
       font-size: 16px;
     }
 
+    .item {
+        cursor: pointer;
+    }
+
+    .removeClass {
+        color: #ffffff;
+    }
 </style>
 {% endblock %}
 {% block jquery %}
+$('.item').click(function(){
+    $(this).addClass('active').siblings().removeClass('active')
+})
 {% endblock %}
 
 {% block content %}
 <div>
-  <div class="banner1" id="stl" name="stl"><img src="{{ app_url_packaged }}/images/server/banner1.jpg" /></div>
+    <div class="ui topicnew-nav page">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="ui center aligned column">
+                    <div class="ui horizontal list">
+                        <a href="{{ app_url_domain }}/service#stq" class="item ui active link">
+                            创新产品生态圈
+                        </a>
+                        <a href="{{ app_url_domain }}/service#kjmx" class="item ui link">
+                            科技美学
+                        </a>
+                        <a href="{{ app_url_domain }}/service#tzfh" class="item ui link">
+                            投资孵化
+                        </a>
+                        <a href="{{ app_url_domain }}/service#cpcx" class="item ui link">
+                            产品创新
+                        </a>
+                        <a href="{{ app_url_domain }}/service#zcfw" class="item ui link">
+                            众筹服务
+                        </a>
+                        <a href="{{ app_url_domain }}/service#ppyx" class="item ui link">
+                            品牌营销
+                        </a>
+                        <a href="{{ app_url_domain }}/service#d3in_sys" class="item ui link">
+                            未来实验室
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner1" id="stq" name="stq"><img src="{{ app_url_packaged }}/images/server/banner1.jpg" /></div>
+    <div name="stq" style="height: 200px;background: red">
 
-  <div class="section" id="kjmx" name="kjmx">
+    </div>
+    <div class="section" id="kjmx" name="kjmx">
     <div class="ui responsive grid">
       <h3>科技美学</h3>
       <p></p>
@@ -115,7 +158,7 @@
     </div>
   </div>
 
-  <div class="section">
+  <div class="section" id="cpcx" name="cpcx">
     <div class="ui responsive grid">
       <h3>产品创新</h3>
       <p>用设计重塑品质生活</p>
@@ -154,34 +197,34 @@
     </div>
   </div>
 
-  <div class="section gray">
-    <div class="ui responsive grid">
-      <h3>智能分发</h3>
-      <p>Fiu SaaS 科技美学创新产品智能分发平台</p>
-      <p class="desc">科技与生活创新品牌发源地,  自媒体和精品电商选品基站渠道分发精准配比内容输出。</p>
-      <div class="ui grid icon-list">
-        <div class="five column row">
-          <div class="column"></div>
-          <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_10.png" /></p>
-            <p>选品加速器</p>
-          </div>
-          <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_11.png" /></p>
-            <p>自营销引擎</p>
-          </div>
-          <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_12.png" /></p>
-            <p>精确渠道分发</p>
-          </div>
-          <div class="column"></div>
-        </div>
-      </div>   
-      <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">销售合作</a>
-      </div>
-    </div>
-  </div>
+  <!--<div class="section gray">-->
+    <!--<div class="ui responsive grid">-->
+      <!--<h3>智能分发</h3>-->
+      <!--<p>Fiu SaaS 科技美学创新产品智能分发平台</p>-->
+      <!--<p class="desc">科技与生活创新品牌发源地,  自媒体和精品电商选品基站渠道分发精准配比内容输出。</p>-->
+      <!--<div class="ui grid icon-list">-->
+        <!--<div class="five column row">-->
+          <!--<div class="column"></div>-->
+          <!--<div class="column">-->
+            <!--<p><img src="{{ app_url_packaged }}/images/server/item_10.png" /></p>-->
+            <!--<p>选品加速器</p>-->
+          <!--</div>-->
+          <!--<div class="column">-->
+            <!--<p><img src="{{ app_url_packaged }}/images/server/item_11.png" /></p>-->
+            <!--<p>自营销引擎</p>-->
+          <!--</div>-->
+          <!--<div class="column">-->
+            <!--<p><img src="{{ app_url_packaged }}/images/server/item_12.png" /></p>-->
+            <!--<p>精确渠道分发</p>-->
+          <!--</div>-->
+          <!--<div class="column"></div>-->
+        <!--</div>-->
+      <!--</div>   -->
+      <!--<div>-->
+        <!--<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">销售合作</a>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
 
   <div class="section" id="zcfw" name="zcfw">
@@ -267,19 +310,19 @@
     </div>
   </div>
 
-  <div class="section">
-    <div class="ui responsive grid" id="d3in_shop" name="d3in_shop">
-      <h3>D³IN铟立方·未来店</h3>
-      <p class="title"></p>
-      <p class="desc">D3IN Store是首个国内科技美学产品的场景式O2O体验店，致力于通过高舒适度、高自由度、高品质的生活场景促进销售。D3IN Store 具有产品新、速度快、品质好的等特色，并有旗舰店、店中店、快闪店三种形态，其设计高度模组化、组合化、年轻化。</p>
-      <div class="img">
-        <img src="{{ app_url_packaged }}/images/server/wshop.jpg" />
-      </div>   
-      <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">D³IN合作</a>
-      </div>
-    </div>
-  </div>
+  <!--<div class="section">-->
+    <!--<div class="ui responsive grid" id="d3in_shop" name="d3in_shop">-->
+      <!--<h3>D³IN铟立方·未来店</h3>-->
+      <!--<p class="title"></p>-->
+      <!--<p class="desc">D3IN Store是首个国内科技美学产品的场景式O2O体验店，致力于通过高舒适度、高自由度、高品质的生活场景促进销售。D3IN Store 具有产品新、速度快、品质好的等特色，并有旗舰店、店中店、快闪店三种形态，其设计高度模组化、组合化、年轻化。</p>-->
+      <!--<div class="img">-->
+        <!--<img src="{{ app_url_packaged }}/images/server/wshop.jpg" />-->
+      <!--</div>   -->
+      <!--<div>-->
+        <!--<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">D³IN合作</a>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <div class="section gray" id="d3in_sys" name="d3in_sys">
     <div class="ui responsive grid">
