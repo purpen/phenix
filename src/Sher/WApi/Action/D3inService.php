@@ -196,6 +196,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         }else if ($event == 'subscribe') {
           $avatarUrl = '';
           $userResult = Sher_Core_Util_WxPub::fetchUserInfo($uid);
+          $is_repeat = false;
           if ($userResult) {
             $row = array(
               'oid' => $uid,
@@ -215,6 +216,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
             if ($obj['created']) {
               $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'is_follow'=>1));
             }else{
+              $is_repeat = true;
               $userOk = $public_number_model->update_set((string)$obj['_id'], array('user_info'=>$row, 'follow_count'=>$obj['follow_count']+1, 'is_follow'=>1));
             }
             if ($userOk) {
@@ -243,7 +245,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           }
 
           // 记录邀请人
-          if(!empty($event_key)) {
+          if(!empty($event_key) && !$is_repeat) {
             $invite_mark = str_replace('qrscene_', '', $event_key);
             if ($invite_mark) {
               $hasOne = $public_number_model->first(array('mark'=>$invite_mark));
