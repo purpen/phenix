@@ -1027,8 +1027,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }
 
         if ($isDraw) {
-          $field = sprintf("info_int.s0%s", $level);
-          if (isset($obj[$field])){
+          $fi = sprintf("s0%s", $level);
+          $field = sprintf("info_int.%s", $fi);
+          if (isset($obj['info_int'][$fi])){
             $model->inc((string)$obj['_id'], $field, 1);
           }else{
             $model->update_set((string)$obj['_id'], array($field=>1));
