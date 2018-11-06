@@ -1003,49 +1003,9 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $data['prize_site'] = $prize_site;//前端奖项从-1开始
         $data['prize_id'] = $prize_id;
 
-
-        if($result['obj']){
-            $sid = (string)$result['obj']['_id'];
-            $row = array(
-                'draw_times' => 2,
-                'event' => $data['event'],
-                'number_id' => $data['prize_id'],
-                'title' => $data['prize_name'],
-                'desc' => '',
-                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
-            );
-            $ok = $model->update_set($sid, $row);
-        }else{
-            //当前日期
-            $today = (int)date('Ymd');
-            $row = array(
-                'user_id' => $user_id,
-                'target_id' => $target_id,
-                'day' => $today,
-                'event' => $data['event'],
-                'ip' => Sher_Core_Helper_Auth::get_ip(),
-                'number_id' => $data['prize_id'],
-                'title' => $data['prize_name'],
-                'desc' => '',
-                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
-                'from_to' => $from_to,
-                'kind' => $kind,
-            );
-            //$ok = true;
-            $ok = $model->apply_and_save($row);
-            if($ok){
-                // 获取抽奖记录ID
-                $active_draw_record = $model->get_data();
-                $sid = (string)$active_draw_record['_id'];  
-            }
-        }
-
         // 记录抽奖ID
-        $data['sid'] = $sid;
+        //$data['sid'] = $sid;
 
-        if(!$ok){
-            return $this->ajax_json("操作失败，请重试!", true);
-        }
 
         // 直接送红包
         if($data['event']==2){
@@ -1057,6 +1017,8 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         }
 
         return $this->ajax_json('success', false, null, $data);
+
+    }
 	
 }
 
