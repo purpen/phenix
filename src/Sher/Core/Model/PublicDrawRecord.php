@@ -27,6 +27,22 @@ class Sher_Core_Model_PublicDrawRecord extends Sher_Core_Model_Base  {
       'province' => '',
       'city' => '',
     ),
+    # 信息
+    'info' => array(
+      's01' => '',
+      's02' => '',
+      's03' => '',
+      's04' => '',
+      's05' => '',
+    ),
+    # 中奖信息
+    'info_int' => array(
+      's01' => 0,
+      's02' => 0,
+      's03' => 0,
+      's04' => 0,
+      's05' => 0,
+    ),
     'status' => 1,
   );
 

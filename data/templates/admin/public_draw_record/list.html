@@ -30,6 +30,7 @@
         <th>ID</th>
         <th>头像</th>
         <th>信息</th>
+        <th>获奖记录</th>
         <th>类型</th>
         <th>数量</th>
         <th>时间</th>
@@ -62,6 +63,20 @@
                 <p>nickname: {{ d.user_info.nickname }}</p>
                 <p>sex: {{ d.user_info.sex }}</p>
                 <p>city: {{ d.user_info.country }}|{{ d.user_info.province }}|{{ d.user_info.city }}</p>
+              {%endif%}
+            </td>
+            <td>
+              {% if d.info_int.s02 %}
+                <p>二等奖: x{{ d.info_int.s02 }}</p>
+              {%endif%}
+              {% if d.info_int.s03 %}
+                <p>三等奖: x{{ d.info_int.s03 }}</p>
+              {%endif%}
+              {% if d.info_int.s04 %}
+                <p>三等奖: x{{ d.info_int.s04 }}</p>
+              {%endif%}
+              {% if d.info_int.s05 %}
+                <p>三等奖: x{{ d.info_int.s05 }}</p>
               {%endif%}
             </td>
             <td>{{ d.type }}</td>
