@@ -19,6 +19,7 @@
       font-size: 30px;
       font-weight: 300;
       margin-bottom: 20px;
+        text-align: center;
     }
     .section p.title {
         margin: 20px 0;
@@ -47,7 +48,7 @@
     }
 
     .ui.responsive.grid {
-      text-align: center;
+      /*text-align: center;*/
     }
 
     .p_100 {
@@ -160,6 +161,10 @@
         margin-top: 20px;
     }
 
+    .m_b_40 {
+        margin-bottom: 40px;
+    }
+
     .cp_s p:last-child {
         font-size: 16px;
         color: #222;
@@ -178,6 +183,16 @@
 
     .p_70 {
         padding: 0 70px !important;
+    }
+
+    .p_t_20 {
+        padding-top: 20px;
+        text-align: center;
+    }
+
+    .ui.list>a.item {
+        color:#101010;
+        font-size: 16px;
     }
 </style>
 {% endblock %}
@@ -358,7 +373,7 @@ $('.item').click(function(){
         <img src="{{ app_url_packaged }}/images/server/biao.png" style="margin-left: -2%;" />
       </div>   
 			<div class="row">
-				<div class="ui center aligned column">
+				<div class="ui center aligned column p_t_20">
 					<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">产品合作</a>
 				</div>
 			</div>
@@ -370,7 +385,7 @@ $('.item').click(function(){
       <h3>投资孵化</h3>
       <p class="title">多项孵化基金，助创业团队解决资金困扰</p>
       <p class="desc">太火鸟设专项基金支持种子项目，单笔投入100万以内美金。目前，太火鸟成功孵化近30个团队，项目总估值超20亿。同时，太火鸟与鑫游资本合作成立 蓝翡·翠鸟科技美学基金 AESTECH (Aesthetics + Technology),首批资金1亿人民币，专业投向以“科技”为驱动力的智能硬件产品及以“创意美学”为驱动力的消费升级产品。投资阶段：种子至A轮。</p>
-      <div class="m_t_20">
+      <div class="m_t_20 m_b_40">
         <!--<div class="four column row">-->
           <!--<div class="column"></div>-->
           <!--<div class="column">-->
@@ -385,7 +400,7 @@ $('.item').click(function(){
         <!--</div>-->
           <img class="w_100" src="{{ app_url_packaged }}/images/server/logo@2x.png" alt="">
       </div>   
-      <div>
+      <div class="p_t_20">
         <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">孵化合作</a>
       </div>
     </div>
@@ -436,7 +451,7 @@ $('.item').click(function(){
           </div>
         </div>
       </div>   
-      <div>
+      <div class="p_t_20">
         <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">商品合作</a>
       </div>
     </div>
@@ -476,7 +491,7 @@ $('.item').click(function(){
     <div class="ui responsive grid p_160">
       <h3>众筹业务</h3>
       <p class="title">玩转科技美学生态圈，权威众筹服务</p>
-      <p class="desc">太火鸟整合行业资源，为智能硬件产品及创意美学产品提供众筹服务，结合自身整合运作能力，针对产品属性进行市场分析、营销策划、创意设计、媒体报道、试用评测、众筹运营等全网营销服务。</p>
+      <p class="desc">太火鸟整合行业资源，为智能硬件产品及创意美学产品提供众筹服务，结合自身整合运作能力，<br> 针对产品属性进行市场分析、营销策划、创意设计、媒体报道、试用评测、众筹运营等全网营销服务。</p>
       <div class="ui grid icon-list">
         <div class="six column row">
           <div class="column">
@@ -517,7 +532,7 @@ $('.item').click(function(){
           </div>
         </div>
       </div>   
-      <div class="d_s_b">
+      <div class="d_s_b p_t_20">
         <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">商务合作</a>
         <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8 m_l_100">市场合作</a>
       </div>
@@ -575,7 +590,7 @@ $('.item').click(function(){
           </div>
         </div>
       </div>   
-      <div>
+      <div class="p_t_20">
         <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">营销合作</a>
       </div>
     </div>
@@ -596,7 +611,7 @@ $('.item').click(function(){
   <!--</div>-->
 
   <div class="section gray" id="d3in_sys" name="d3in_sys">
-    <div class="ui responsive grid">
+    <div class="ui responsive grid p_160">
       <h3>D³IN铟立方·未来实验室</h3>
       <p class="title"></p>
       <p class="desc">太火鸟铟立方D3IN未来实验室致力于打造一个开放专业的智能硬件交流分享平台，实验室拥有全球领先的专业测试设备及行业顶尖的专家顾问团队，为创业者在早期资源欠缺或部分能力不足的阶段提供从研发，ID&MD设计，测试，DFM review，可靠度验证，认证，生产良率把控等全方位的交流空间及系统服务！</p>

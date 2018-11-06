@@ -851,14 +851,6 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pay_money'] = $pay_money;
 		
 		$this->set_extra_params();
-
-    // 判断是否为微信浏览器
-    if ( strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false ) {
-      $is_weixin = true;
-    }else{
-      $is_weixin = false;
-    }
-    $this->stash['is_weixin'] = $is_weixin;
 		
 		return $this->to_html_page('wap/checkout.html');
 	}
