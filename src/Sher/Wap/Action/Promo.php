@@ -2288,14 +2288,10 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 
-		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
-		// 过滤上一步来源为退出链接
-		if(!strpos($return_url,'logout') && !strpos($return_url,'set_passwd')){
-			$this->stash['return_url'] = $return_url;
-		}
-		// 设置cookie
-    if (!empty($this->stash['return_url'])) {
-			@setcookie('auth_return_url', $this->stash['return_url'], 0, '/');
+    if (!$this->visitor->id){
+      $return_url = Doggy_Config::$vars['app.url.wap'].'/app/wap/promo/d3in_draw';
+      // 设置cookie
+      @setcookie('auth_return_url', $return_url, 0, '/');
     }
 
 		// 获取session id
