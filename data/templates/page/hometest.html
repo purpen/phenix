@@ -382,9 +382,6 @@
     .d3-card .ui.three.cards .card {
         border-radius: 4px !important;
     }
-    .d3-card .ui.card>:first-child, .ui.cards>.card>:first-child {
-        border-radius: 4px !important;
-    }
     .hotchild_type span {
         color: #ffffff;
         font-size: 12px;
@@ -554,9 +551,23 @@
         max-height: 380px;
     }
 
+    .ui.two.cards .card:hover {
+        box-shadow: 0 5px 10px 0 #eee;
+    }
+
     /*.display_f_c:last-child .display_f {*/
         /*margin-bottom: 10px;*/
     /*}*/
+    @media only screen and (max-width: 767px) {
+        .ui.two.cards>.card, .ui.two.items>.item {
+            width: 99%;
+        }
+
+        .display_f {
+            display: flex;
+            flex-direction: column;
+        }
+    }
 </style>
 {% endblock %}
 
@@ -844,9 +855,9 @@
     <div class="introduce">
         <div class="introduce_text">
             <span>1000+专业设计服务商</span>
-            <a href=""><button>发布项目需求</button></a>
+            <a href="{{ app_url_d3ingo }}" target="_blank"><button>发布项目需求</button></a>
             <span>受到500+企业信赖</span>
-            <a href=""><button>立即入住</button></a>
+            <a href="{{ app_url_d3ingo }}/server_design" target="_blank"><button>立即入住</button></a>
         </div>
     </div>
     <div class="hottips">
@@ -993,13 +1004,13 @@
                 <div class="display_f_1">
                     <p class="font_28 c_2 m_b_n">铟果D³INGO</p>
                     <p class="font_16 c_6 zt_m">一站式设计项目管理协作工具</p>
-                    <a href=""><button class="b_s">立即使用</button></a>
+                    <a href="{{ app_url_d3ingo }}" target="_blank"><button class="b_s">立即使用</button></a>
                     <img class="b_img" src="{{ app_url_packaged }}/images/home/D3ingo@2x.png" alt="铟果D³INGO">
                 </div>
                 <div class="display_f_1 margin_l_20">
                     <p class="font_28 c_2 m_b_n">设计创新指数</p>
                     <p class="font_16 c_6 zt_m">全球首个基于人工智能的设计创新企业综合实力指数排行榜</p>
-                    <a href=""><button class="b_s">查看榜单</button></a>
+                    <a href="" target="_blank"><button class="b_s">查看榜单</button></a>
                     <img class="b_img" src="{{ app_url_packaged }}/images/home/cx@2x.png" alt="设计创新指数">
                 </div>
             </div>
@@ -1007,13 +1018,13 @@
                 <div class="display_f_1">
                     <p class="font_28 c_2 m_b_n">铟果集</p>
                     <p class="font_16 c_6 zt_m">生活新质感</p>
-                    <a href=""><button class="b_s">了解更多</button></a>
+                    <a href="{{ app_url_domain }}/ingoset" target="_blank"><button class="b_s">了解更多</button></a>
                     <img class="b_img" src="{{ app_url_packaged }}/images/home/ygj@2x.png" alt="铟果集">
                 </div>
                 <div class="display_f_1 margin_l_20">
                     <p class="font_28 c_2 m_b_n">铟立方</p>
                     <p class="font_16 c_6 zt_m">致力于打造科技美学创新产品的新零售服务平台</p>
-                    <a href=""><button class="b_s">立即加盟</button></a>
+                    <a href="{{ app_url_fiu }}" target="_blank"><button class="b_s">立即加盟</button></a>
                     <img class="b_img" src="{{ app_url_packaged }}/images/home/ylf@2x.png" alt="铟果集">
                 </div>
             </div>
@@ -1220,10 +1231,8 @@
             <div class="ui responsive grid">
                 <h2>成功案例</h2>
                 <div class="content">
-
                     <div class="slides1">
                         <ul class="slides">
-
                             <li>
                                 <a href="{{ app_url_d3ingo }}/article/show/26" target="_blank">
                                     <div class="product">
@@ -1292,7 +1301,6 @@
                                     </div>
                                 </a>
                             </li>
-
                             <li>
                                 <a href="{{ app_url_d3ingo }}/article/show/23" target="_blank">
                                     <div class="product">
