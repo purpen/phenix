@@ -142,6 +142,12 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                 }else{
                   Doggy_Log_Helper::debug('更新用户信息失败！');
                 }
+                // 生成抽奖记录
+                $public_draw_record_model = new Sher_Core_Model_PublicDrawRecord();
+                $hasDraw = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($userResult['unionid'], $public_draw_record_model);
+                if($hasDraw) {
+                  $public_draw_record_model->update_set((string)$hasDraw['_id'], array('user_info'=>$row));
+                }
               }
               // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
 

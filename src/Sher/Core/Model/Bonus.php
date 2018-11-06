@@ -50,6 +50,9 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
         'FIU_DROW', # Fiu抽奖
         'HB_ONE', # 花辨专题
         'MATCH', # 大赛专题
+        'D3IN_DROW_500', # 大赛专题
+        'D3IN_DROW_400', # 大赛专题
+        'D3IN_DROW_100', # 大赛专题
 	);
 	
     protected $schema = array(
@@ -332,6 +335,8 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
           'H' => 200,
           'I' => 20,
           'J' => 8,
+          'K' => 500,
+          'L' => 400,
         );
 
         #最低限额
@@ -347,6 +352,7 @@ class Sher_Core_Model_Bonus extends Sher_Core_Model_Base {
           'I' => 30,
           'J' => 100,
           'K' => 10,
+          'L' => 1399,
         );
 		
     for($i=0; $i<$count; $i++){

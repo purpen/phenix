@@ -2277,7 +2277,6 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    /**
     * d3in-2018-抽奖
     */
-
    public function d3in_draw(){
      //微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
