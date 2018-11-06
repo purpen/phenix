@@ -115,8 +115,6 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
       return $this->ajax_note('拒绝访问,请重试！', true);
     }
 
-    $redirect_url = null;
-  
     // $app_id = Doggy_Config::$vars['app.wx.app_id'];
     // $secret = Doggy_Config::$vars['app.wx.app_secret'];
     $app_id = 'wx75a9ffb78f202fb3';
@@ -200,9 +198,7 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
 
       // 实现自动登录
       Sher_Core_Helper_Auth::create_user_session($user_id);
-      if(!$redirect_url){
-        $redirect_url = Doggy_Config::$vars['app.url.wap'];
-      }
+
       $redirect_url = $this->auth_return_url($redirect_url);
       $this->clear_auth_return_url();
       return $this->to_redirect($redirect_url);
