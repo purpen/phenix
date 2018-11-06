@@ -620,7 +620,7 @@ var click = false;
                 <!--roll();-->
                 <!--click = true;-->
                 <!--return false;-->
-                var url ="{{ app_url_wap }}/promo_func/ajax_d3in_draw";
+                var url ="{{ app_url_wap }}/app/wap/promo_func/ajax_d3in_draw";
                 $.post(url, {uid: 1}, function(rs) { //获取奖品，也可以在这里判断是否登陆状态
                     if(rs.success){
                         $("#lottery").attr("prize_site", rs.data.prize_site);
