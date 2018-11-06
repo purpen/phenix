@@ -1,0 +1,1449 @@
+{%extends 'layout/column.html'%}
+
+{% block layout_css %}
+{% if css_use_bundle %}
+<link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.{{ css_bundle_version }}.css" type="text/css" />
+{% else %}
+<link rel="stylesheet" href="{{ app_url_packaged }}/css/froala_editor.min.css" type="text/css" />
+{% endif %}
+{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .fixed.button{
+        display:none !important;
+    }
+    /*.header.main>.ui.newnav.responsive.grid {*/
+    /*height: 70px;*/
+    /*}*/
+    .saas-box {
+        margin: 10px auto;
+    }
+
+    .banner1 {
+        height: 550px;
+        background: url('{{ app_url_packaged }}/images/home/bg3.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #fff;
+        overflow:hidden;
+        margin: 10px 0;
+    }
+
+    .banner1.right {
+    }
+
+    .banner1 .ui.responsive.grid {
+        position: relative;
+    }
+    .banner1.right .ui.responsive.grid {
+    }
+
+    .banner1 img {
+        position: absolute;
+        width: 50%;
+        right: 0;
+        top: 1%;
+    }
+    .banner1.right img {
+        width: 55%;
+        left: 0;
+        top: 25%;
+    }
+
+    .banner1 .cont {
+        width: 52%;
+        margin: 80px 0 0 0;
+    }
+    .banner1.right .cont {
+        text-align: right;
+        float: right;
+    }
+
+    .banner1 .cont h3 {
+        font-size: 44px;
+        font-weight: 300;
+    }
+    .banner1 .cont p {
+        font-size: 18px;
+        font-weight: 200;
+        line-height: 2;
+        margin: 0;
+        padding: 0;
+    }
+    .banner1 .cont a {
+        margin-top: 20px;
+    }
+
+    .product {
+        padding: 40px 0;
+    }
+    .bg-gray {
+        background: #F9F9F9;
+    }
+
+    .product-box {
+        margin-top: 40px;
+    }
+
+    .product-box h3 {
+        color: #28313E;
+        font-size: 30px;
+        font-weight: 300;
+    }
+    .product-box p {
+        color: #666;
+        font-size: 20px;
+        line-height: 1.5;
+        font-weight: 300;
+    }
+    .product-box .brand {
+        margin: 10px 0;
+        color: #28313E;
+        font-size: 20px;
+        font-weight: 300;
+    }
+    .product-box .brand img {
+        height: 40px;
+        vertical-align: middle;
+    }
+    .product-box .brand.b-exp img {
+    }
+    .product-box .brand span {
+        font-weight: 300;
+
+    }
+    .product-box .desc {
+        color: #999;
+        font-size: 16px;
+    }
+    .product-img img {
+        width: 100%;
+    }
+
+    .slides1 {
+        position: relative;
+        height: 500px;
+    }
+
+    /* Direction Nav */
+    .flex-direction-nav{
+        display:block;
+    }
+    .flex-direction-nav .flex-prev{
+        left:-60px !important;
+        width:30px;
+        height:55px;
+        opacity:1;
+        font-size: 0;
+    }
+    .flex-direction-nav .flex-next{
+        right:-60px !important;
+        width:30px;
+        height:55px;
+        opacity:1;
+        font-size: 0;
+    }
+    .flex-direction-nav .flex-next:before,.flexslider.flex-single .flex-direction-nav .flex-prev:before{
+        content:"";
+    }
+    .flex-direction-nav .flex-disabled{
+        opacity:1 !important;
+        cursor:pointer;
+    }
+    .flex-direction-nav a{
+        margin: -15px 0 0;
+        top: 50%;
+    }
+
+    .flex-control-nav {
+        top: 100%;
+        z-index: 0;
+    }
+    .flex-control-nav li a {
+        opacity: 0.5;
+        background: rgba(0,0,0,0.40);
+        background: #949494;
+    }
+    .flex-control-nav li a.flex-active {
+        opacity: 1;
+        background: #FF6C70;
+    }
+
+    .d3no-box {
+
+
+    }
+    .d3-card .text .desc {
+        margin-bottom: 10px;
+    }
+
+    .d3no-box .item {
+        float: left;
+        margin: 20px  60px 40px 0;
+        text-align: center;
+    }
+
+    .d3no-box .item .text {
+        float: left;
+        margin-right: 50px;
+    }
+
+    .d3no-box .item .nu, .fiustat-box .item .nu {
+        font-size: 24px;
+    }
+
+    .d3no-box .item .tex, .fiustat-box .item .tex {
+        font-size: 16px;
+    }
+
+    .d3no-box .item .r-line {
+        height: 35px;
+        width: 1px;
+        float: right;
+        margin-top: 30px;
+        border-right: 1px solid #ccc;
+    }
+
+    .fiustat-box .item {
+        float: right;
+        margin: 40px  0px 40px 60px;
+        text-align: center;
+    }
+
+    .fiustat-box .item .text {
+        float: right;
+        margin-left: 50px;
+    }
+
+    .fiustat-box .item .r-line {
+        height: 35px;
+        width: 1px;
+        float: left;
+        margin-top: 20px;
+        border-left: 1px solid #ccc;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    .c-block .content {
+        margin: 0 0 50px 0;
+    }
+    .c-block h2 {
+        text-align: center;
+        font-size: 30px;
+        color: #222;
+        margin: 0 0 30px 0;
+        padding-top: 50px;
+    }
+    .c-block .tools {
+    }
+
+    .c-block .tools img {
+        width: 80px;
+        margin: 10px 12px 10px 12px;
+        border-radius: 50%;
+        overflow: hidden;
+        vertical-align: middle;
+        border: 1px solid #C8C8C8;
+
+    }
+    .c-block .tools p{
+        font-size: 18px;
+        color: #222;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .company-ava {
+        text-align: center;
+    }
+    .company-ava img {
+        width: 80px;
+        margin: 10px 12px 10px 12px;
+        border-radius: 50%;
+        overflow: hidden;
+        vertical-align: middle;
+        border: 1px solid #C8C8C8;
+    }
+
+    .d3in_btn {
+        margin: 250px;
+        padding: 200px;
+        font-size: 50px;
+        color: red;
+    }
+    .hottips .ui.four.hotchild.cards .card>a {
+        max-height: 160px;
+        overflow: hidden;
+    }
+    .hottips .ui.four.hotchild.cards .card>a img,
+    .d3-card .ui.three.cards .card>a img {
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .d3-card .ui.three.cards .card>a {
+        max-height: 270px;
+        overflow: hidden;
+    }
+    /*------------新版样式------------*/
+    #homepage {
+        margin-top: 20px;
+    }
+
+    #fixedslide {
+        width: 880px;
+        margin-right: 10px;
+        max-height: 420px !important;
+    }
+
+    #fixedslide .featured-vendor {
+        height: 420px !important;
+    }
+
+    #fixedslide .next, #fixedslide .prev {
+        height: 420px !important;
+        line-height: 420px !important;
+    }
+
+    .display_f {
+        display: flex;
+    }
+    .wrap {
+        display: flex;
+        margin: 0 auto;
+        max-width: 1200px;
+        padding: 0 10px;
+    }
+
+    .right_slide {
+        width: 290px;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .overhidden {
+        width: 290px;
+        height: 205px;
+        overflow: hidden;
+    }
+
+    .overhidden img {
+        height: 205px;
+    }
+
+    .introduce {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .introduce div {
+        width: 1180px;
+        padding: 20px 10px;
+        background: #222222;
+        margin: 0 auto;
+    }
+    .introduce span {
+        color: #ffffff;
+        font-size: 16px;
+    }
+
+    .introduce_text button {
+        width: 160px;
+        height: 40px;
+        background: #FE5B84;
+        border: 1px solid #FF3366;
+        border-radius: 4px;
+        color: #ffffff;
+        font-size: 18px;
+        margin: 0 30px 0 20px;
+    }
+
+    .hotchild_type {
+        width: 60px;
+        height: 28px;
+        background: #FF3366;
+        position: absolute;
+        top: 5px;
+        left: 12px;
+        border-radius: 4px !important;
+        text-align: center;
+        opacity: .6;
+    }
+    .hottips .ui.cards>.card>:first-child {
+        border-radius: 0 !important;
+    }
+    .d3-card .ui.three.cards .card {
+        border-radius: 4px !important;
+    }
+    .hotchild_type span {
+        color: #ffffff;
+        font-size: 12px;
+        line-height: 28px;
+    }
+
+    .reading img,.comments img {
+        width: 14px;
+    }
+
+    .reading span,.comments span {
+        font-size: 12px;
+        margin-left: 7px;
+        color: #999999;
+        letter-spacing: 0.32px;
+    }
+
+    .hottips .ui.four.hotchild.cards .card .desc {
+        height: auto;
+        margin: 11px 20px;
+    }
+    .padding_20 {
+        padding: 0 20px 15px;
+    }
+    .reading,.comments {
+        display: flex;
+        align-items: center;
+    }
+    .comments {
+        margin-left: 20px;
+    }
+    .hottips .ui.four.hotchild.cards .card .desc h4 a {
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+    }
+
+    /*专题*/
+    .d3-card .ui.two.cards .card>a {
+        max-height: 320px;
+        overflow: hidden;
+    }
+
+    .d3-card .ui.two.cards .card>a {
+        padding-top: 52%;
+        width: 100%;
+        display: block;
+        position: relative;
+    }
+    .d3-card .ui.two.zt.cards .card>a img {
+        width: 100%;
+        overflow: hidden;
+        position: absolute;
+    }
+    .d3-card .ui.two.cards .card>a img {
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .d3-card .ui.two.cards .card .text {
+        margin: 11px 15px;
+        overflow: hidden;
+    }
+
+    .d3-card .ui.two.cards .card .text>h2 {
+        bottom: 0;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: .15px;
+        overflow: hidden;
+        text-align: left;
+        margin: 0 0 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .d3-card .ui.two.cards .card .text>h2>a {
+        color: #222;
+        letter-spacing: .2px;
+        text-decoration: none;
+        font-size: 18px;
+    }
+    .d3-card .ui.two.cards .card>a img {
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .d3-card .ui.two.zt.cards .card .text>.desc {
+        font-size: 14px;
+        height: auto;
+        letter-spacing: .1px;
+        overflow: hidden;
+        padding: 0;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .d3-card .ui.two.cards .card .text>.desc>p {
+        line-height: 1.5;
+        margin: 0;
+        color: #666;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+    /*业务*/
+    .business {
+        margin-top: 40px;
+    }
+    .display_f_c {
+        display: flex;
+        flex-direction: column;
+    }
+    .display_f_1 {
+        flex: 1;
+        text-align: center;
+        padding: 40px 40px 22px;
+        background: #ffffff;
+        margin-bottom: 20px;
+    }
+    .margin_l_20 {
+        margin-left: 20px;
+    }
+    .font_28 {
+        font-size: 28px;
+    }
+
+    .font_16 {
+        font-size: 16px;
+    }
+
+    .c_2 {
+        color: #222222;
+    }
+
+    .c_6 {
+        color: #666666;
+    }
+
+    .zt_m {
+        margin-top: 10px;
+        margin-bottom: 18px;
+    }
+
+    .m_b_n {
+        margin: 0;
+    }
+
+    .b_s {
+        width: 100px;
+        height: 30px;
+        line-height: 1;
+        border: 1px solid #FE5B84;
+        color: #FE5B84;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 30px;
+    }
+
+    .b_img {
+        width: 100%;
+        margin-top: 30px;
+        max-height: 380px;
+    }
+
+    .ui.two.cards .card:hover {
+        box-shadow: 0 5px 10px 0 #eee;
+    }
+
+    /*.display_f_c:last-child .display_f {*/
+        /*margin-bottom: 10px;*/
+    /*}*/
+    @media only screen and (max-width: 767px) {
+        .ui.two.cards>.card, .ui.two.items>.item {
+            width: 99%;
+        }
+
+        .display_f {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+
+  // 获取铟果文章
+  function ajax_load_d3ingo_article(category_id, type, sort, page, size){
+    var url = '{{ app_url_d3ingo_api }}/article/list';
+    $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
+      var html = '';
+      for (var i = 0; i < rs.data.length; i++) {
+        var item = rs.data[i];
+        html += '<div class="card">';
+        html += '<a href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
+        html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<div class="text">';
+        html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
+        html += '<div class="desc"><p>'+ item.short_content +'</p></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+
+      $('#d3ingo-article-box').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+
+  // 获取铟果灵感
+  function ajax_load_d3ingo_case(category_id, type, sort, page, size){
+    var url = '{{ app_url_d3ingo_api }}/designCase/openLists';
+    $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
+      var html = '';
+      for (var i = 0; i < rs.data.length; i++) {
+        var item = rs.data[i];
+        var company_name = '';
+        var company_logo_url = '';
+        if (item.design_company) {
+          company_name = item.design_company.company_abbreviation;
+          if (item.design_company.logo_image) {
+            company_logo_url = item.design_company.logo_image.logo;
+          }
+        }
+
+        html += '<div class="card">';
+        html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
+        html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<div class="text">';
+        html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
+        html += '<div class="desc"><p>'+ item.profile +'</p></div>';
+        html += '<p class="user"><img src="'+ company_logo_url +'" width="30" /> '+ company_name +'</p>';
+        html += '</div>';
+        html += '</div>';
+
+      }
+
+      $('#d3ingo-case-box').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+
+  // 获取铟果及Fiu数量统计
+  function ajax_load_d3in_stat(){
+    var url = '{{ app_url_d3ingo_api }}/block';
+    $.get(url, { mark: 'data_number_view' }, function(rs){
+      if (rs.meta.status_code == 200 && rs.data.code) {
+        arr = rs.data.code.split(';');
+        if (arr.length >= 2) {
+          var d3 = arr[0].split('|');
+          if (d3.length >= 3) {
+            $('.d3no-box .a').text(d3[0]);
+            $('.d3no-box .b').text(d3[1]);
+            $('.d3no-box .c').text(d3[2]);
+          }
+          var fiu = arr[1].split('|');
+          if (fiu.length >= 3) {
+            $('.fiustat-box .a').text(fiu[0]);
+            $('.fiustat-box .b').text(fiu[1]);
+            $('.fiustat-box .c').text(fiu[2]);
+          }
+        }
+      }
+    }, 'json');
+  }
+
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+    <!--var s = e(window).width();-->
+    var s = 880;
+    e("#fixedslide > .ui.slide > .item").width(s);
+
+    var $frame = $('#fixedslide');
+    // Call Sly on frame
+    $frame.sly({
+        horizontal: 1,
+        itemNav: 'basic',
+        smart: 1,
+        activateMiddle: 1,
+        activateOn: 'click',
+
+        // Automated cycling
+        cycleBy: "items",
+        cycleInterval: 3500,
+        pauseOnHover: 1,
+
+        // Dragging
+        mouseDragging: 1,
+        touchDragging: 1,
+        releaseSwing: 1,
+
+        prev: "#fixedslide .prev",
+        next: "#fixedslide .next",
+
+        pagesBar: $frame.find('.pages'),
+        pageItem: 'items',
+        activatePageOn: 'click',
+        pageBuilder: function(index){
+            return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+        },
+
+        // Mixed options
+        startAt: 0,
+        speed: 300,
+        elasticBounds: 1,
+        easing: 'easeInOutExpo',
+        dragHandle: 1,
+        dynamicHandle: 1,
+        clickBar: 1,
+    });
+
+
+    $(window).resize(function() {
+        <!--var s=$(window).width();-->
+        var s=880
+        e("#fixedslide > .ui.slide > .item").width(s);
+
+        $frame.sly('reload');
+    });
+
+    $('.schedule .count[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            $this.html(event.strftime('%-D'));
+        });
+    });
+    $('.vote .timer[data-countdown]').each(function() {
+        var $this = $(this), finalDate = $(this).data('countdown');
+        $this.countdown(finalDate, function(event) {
+            $this.html(event.strftime('<div class="item"><div class="number">%D</div><div class="unit">天</div></div><div class="item"><div class="number">%H</div><div class="unit">时</div></div> <div class="item"><div class="number">%M</div><div class="unit">分</div></div><div class="green item"><div class="number">%S</div><div class="unit">秒</div></div>'));
+        });
+    });
+
+    skrollr.init({
+        forceHeight: false,
+        mobileCheck:function(){},
+        mobileDeceleration:0.004,
+    });
+
+    // 验证是否登录
+    if (phenix.visitor.is_login){
+        // 分享按钮
+        // 链接，标题，网站名称，子窗口别称，网站链接
+        var link = "{{ app_url_domain }}?user_invite_code={{ user_invite_code }}";
+        var title = '我已成功注册跻身太火鸟英雄汇，这里林子好大，小伙伴们快来哇，成功邀请好友还有红包领取，快来注册并邀请身边好友吧！你们靠谱，我的红包也鼓~~';
+        var source = encodeURIComponent('太火鸟'), windowName = 'tShare', site = 'http://www.taihuoniao.com/';
+        var pic_url = '{{ app_url_packaged }}/images/promo/eginshare.jpg';
+        var getParamsOfShareWindow = function(width, height) {
+        return ['toolbar=0,status=0,resizable=1,width=' + width + ',height=' + height + ',left=',(screen.width-width)/2,',top=',(screen.height-height)/2].join('');
+    }
+
+    $('#wechat-share,#wechat-share-1').click(function() {
+        $('.ui.qrcode.modal').modal('show');
+        return false;
+    });
+
+    $('#sina-share,#sina-share-1').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+    });
+    // 同一个页面出现2个
+    $('#o-share-weibo').click(function() {
+        var url = 'http://v.t.sina.com.cn/share/share.php?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(607, 523);
+        window.open(url, windowName, params);
+        return false;
+    });
+    $('#tencent-share,#tencent-share-1').click(function() {
+        var url = 'http://v.t.qq.com/share/share.php?title=' + title + '&url=' + link + '&site=' + site + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(634, 668);
+        window.open(url, windowName, params);
+        return false;
+    });
+    $('#douban-share').click(function() {
+        var url = 'http://www.douban.com/recommend/?url=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(450, 350);
+        window.open(url, windowName, params);
+        return false;
+    });
+    $('#renren-share,#renren-share-1').click(function() {
+        var url = 'http://share.renren.com/share/buttonshare?link=' + link + '&title=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(626, 436);
+        window.open(url, windowName, params);
+        return false;
+    });
+    $('#kaixin001-share').click(function() {
+        var url = 'http://www.kaixin001.com/repaste/share.php?rurl=' + link + '&rcontent=' + link + '&rtitle=' + title + '&pic=' + pic_url;
+        var params = getParamsOfShareWindow(540, 342);
+        window.open(url, windowName, params);
+        return false;
+    });
+
+    // 生成二维码
+    $('#qrcode').qrcode({width: 256, height: 256, text: '{{ app_url_wap }}/promo/request?user_id='+phenix.visitor.id});
+    }
+
+    // 产品图片沦换
+    $(".slides1").flexslider({
+        slideshowSpeed: 3000
+    });
+    //加载铟果文章
+    ajax_load_d3ingo_article(0, 0, 0, 1, 6);
+    //加载铟果灵感
+    ajax_load_d3ingo_case(0, 0, 5, 1, 6);
+    // 加载统计数据
+    ajax_load_d3in_stat();
+
+{% endblock %}
+
+{% block content %}
+
+<div id="homepage">
+    <div class="wrap">
+        <div id="fixedslide" class="frame" style="width: 880px">
+            {% cache cache_key:'web_index_slide' ttl:0 disable_cache:app_disable_cached %}
+            {% ad_list var:'adslide' page:1 size:6 state:2 name:'web_index_slide' %}
+            <div class="ui slide">
+                {% for ad in adslide.rows %}
+                <div class="item">
+                    <div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+                        {% if ad.mode == 2 %}
+                        <div class="overlay">
+                            {% if ad.cate_title %}
+                            <h3>{{ ad.cate_title }}</h3>
+                            {% endif %}
+                            <h1>{{ ad.title }}</h1>
+                            <p class="snippet">
+                                {{ ad.sub_title }}
+                            </p>
+                            <a class="ui big inverted button" href="{{ ad.view_url }}" target="_blank">{{ ad.btn_title }}</a>
+                        </div>
+                        {% else %}
+                        <a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="pages"></div>
+            <a class="prev" href="#">
+                <i class="angle left icon"></i>
+            </a>
+            <a class="next" href="#">
+                <i class="angle right icon"></i>
+            </a>
+            {% endcache %}
+        </div>
+        <div class="right_slide">
+            <div class="overhidden">
+                <img src="{{ app_url_packaged }}/images/home/d3in.png" alt="">
+            </div>
+            <div class="overhidden">
+                <img src="{{ app_url_packaged }}/images/home/d3in.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="introduce">
+        <div class="introduce_text">
+            <span>1000+专业设计服务商</span>
+            <a href="{{ app_url_d3ingo }}" target="_blank"><button>发布项目需求</button></a>
+            <span>受到500+企业信赖</span>
+            <a href="{{ app_url_d3ingo }}/server_design" target="_blank"><button>立即入住</button></a>
+        </div>
+    </div>
+    <div class="hottips">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="column">
+                    <h2 class="ui header">最新推荐</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+                    {% ad_list var:'adslide2' page:1 size:8 state:2 name:'web_index_product_stick_slide' %}
+                    {% if adslide2.rows %}
+                    <div class="ui four hotchild cards">
+                        {% for ad in adslide2.rows %}
+                        <div class="card">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                                <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                            </a>
+                            <div class="desc">
+                                <h4>
+                                    <a class="ui link" href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                                        {{ ad.title }}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div class="display_f padding_20">
+                                <div class="reading">
+                                    <img src="{{ app_url_packaged }}/images/home/icon/Eye@2x.png" alt="">
+                                    <span>123</span>
+                                </div>
+                                <div class="comments">
+                                    <img src="{{ app_url_packaged }}/images/home/icon/Message@2x.png" alt="">
+                                    <span>123</span>
+                                </div>
+                            </div>
+                            <div class="hotchild_type" style="border-radius: 4px !important;">
+                                <span>动态</span>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                    {%endif%}
+
+                    {% endcache %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d3-card">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="column">
+                    <h2 class="ui header">设计案例</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <div class="ui three cards" id="d3ingo-case-box">
+                        <!--ajax load-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--人物访谈-->
+    <div class="hottips">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="column">
+                    <h2 class="ui header">人物访谈</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    {% cache cache_key:'web_index_product_stick_slide' ttl:600 disable_cache:app_disable_cached %}
+                    {% ad_list var:'adslide2' page:1 size:8 state:2 name:'web_index_product_stick_slide' %}
+                    {% if adslide2.rows %}
+                    <div class="ui four hotchild cards">
+                        {% for ad in adslide2.rows %}
+                        <div class="card">
+                            <a href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                                <img class="lazy" data-original="{{ ad.cover.fileurl }}" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" >
+                            </a>
+                            <div class="desc">
+                                <h4>
+                                    <a class="ui link" href="{{ ad.view_url }}" title="{{ ad.title }}" target="_blank">
+                                        {{ ad.title }}
+                                    </a>
+                                </h4>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                    {%endif%}
+
+                    {% endcache %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d3-card">
+        <div class="ui responsive grid">
+            <div class="row">
+                <div class="column">
+                    <!--<h2 class="ui header">铟果说</h2>-->
+                    <h2 class="ui header">专题</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    <div class="ui two zt cards" id="d3ingo-article-box1">
+                        <!--ajax load-->
+                        <div class="card">
+                            <a href=""><img src="{{ app_url_packaged }}/images/004.jpg" alt=""></a>
+                            <div class="text">
+                                <h2><a href="" title="123" target="_blank">123</a></h2>
+                                <div class="desc">
+                                    <p>12345</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <a href=""><img src="{{ app_url_packaged }}/images/004.jpg" alt=""></a>
+                            <div class="text">
+                                <h2><a href="" title="123" target="_blank">123</a></h2>
+                                <div class="desc">
+                                    <p>12345</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--业务-->
+    <div class="business">
+        <div class="display_f_c">
+            <div class="display_f padd_zt">
+                <div class="display_f_1">
+                    <p class="font_28 c_2 m_b_n">铟果D³INGO</p>
+                    <p class="font_16 c_6 zt_m">一站式设计项目管理协作工具</p>
+                    <a href="{{ app_url_d3ingo }}" target="_blank"><button class="b_s">立即使用</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/D3ingo@2x.png" alt="铟果D³INGO">
+                </div>
+                <div class="display_f_1 margin_l_20">
+                    <p class="font_28 c_2 m_b_n">设计创新指数</p>
+                    <p class="font_16 c_6 zt_m">全球首个基于人工智能的设计创新企业综合实力指数排行榜</p>
+                    <a href="" target="_blank"><button class="b_s">查看榜单</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/cx@2x.png" alt="设计创新指数">
+                </div>
+            </div>
+            <div class="display_f padd_zt">
+                <div class="display_f_1">
+                    <p class="font_28 c_2 m_b_n">铟果集</p>
+                    <p class="font_16 c_6 zt_m">生活新质感</p>
+                    <a href="{{ app_url_domain }}/ingoset" target="_blank"><button class="b_s">了解更多</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/ygj@2x.png" alt="铟果集">
+                </div>
+                <div class="display_f_1 margin_l_20">
+                    <p class="font_28 c_2 m_b_n">铟立方</p>
+                    <p class="font_16 c_6 zt_m">致力于打造科技美学创新产品的新零售服务平台</p>
+                    <a href="{{ app_url_fiu }}" target="_blank"><button class="b_s">立即加盟</button></a>
+                    <img class="b_img" src="{{ app_url_packaged }}/images/home/ylf@2x.png" alt="铟果集">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--<div class="saas-box">-->
+        <!--<div class="banner1">-->
+            <!--<div class="ui responsive grid">-->
+                <!--<div class="cont">-->
+                    <!--<h3>铟果产品创新</h3>-->
+                    <!--<p>基于大数据和智能匹配的产品创新SaaS平台，吸引1000+家专业设计企业，覆盖2000万创新设计群体。以设计驱动创新，挖掘消费需求，加速消费升级，用创新改变世界。</p>-->
+                    <!--<div class="d3no-box">-->
+                        <!--<div class="item">-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu a">100+</p>-->
+                                <!--<p class="tex">专业设计服务商</p>-->
+                            <!--</div>-->
+                            <!--<div class="r-line"></div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu b">20+</p>-->
+                                <!--<p class="tex">成交项目</p>-->
+                            <!--</div>-->
+                            <!--<div class="r-line"></div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu c">200万+</p>-->
+                                <!--<p class="tex">成交金额</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="clear">-->
+                        <!--<a href="{{ app_url_d3ingo }}" class="ui inverted basic big button" target="_blank">发布项目需求</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<img src="{{ app_url_packaged }}/images/home/d3in.png" />-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="c-block ui responsive grid">-->
+        <!--<h2>设计工具</h2>-->
+        <!--<div class="content">-->
+            <!--<div class="ui five column grid">-->
+                <!--<div class="row tools">-->
+                    <!--<div class="column">-->
+                        <!--<p><a href="{{ app_url_d3ingo }}/vcenter/commonly_sites" target="_blank"><img src="{{ app_url_packaged }}/images/home/icon/global@2x1.jpg" /></a></p>-->
+                        <!--<p>常用网站</p>-->
+                    <!--</div>-->
+                    <!--<div class="column">-->
+                        <!--<p><a href="{{ app_url_d3ingo }}/vcenter/veer_image" target="_blank"><img src="{{ app_url_packaged }}/images/home/icon/picture@2x1.jpg" /></a></p>-->
+                        <!--<p>图片素材</p>-->
+                    <!--</div>-->
+                    <!--<div class="column">-->
+                        <!--<p><a href="{{ app_url_d3ingo }}/vcenter/trend_report" target="_blank"><img src="{{ app_url_packaged }}/images/home/icon/data@2x1.jpg" /></a></p>-->
+                        <!--<p>趋势/报告</p>-->
+                    <!--</div>-->
+                    <!--<div class="column">-->
+                        <!--<p><a href="{{ app_url_d3ingo }}/vcenter/exhibition" target="_blank"><img src="{{ app_url_packaged }}/images/home/icon/calendar@2x1.jpg" /></a></p>-->
+                        <!--<p>设计日历</p>-->
+                    <!--</div>-->
+                    <!--<div class="column">-->
+                        <!--<p><a href="{{ app_url_d3ingo }}/design_case/awards_list" target="_blank"><img src="{{ app_url_packaged }}/images/home/icon/prize@2x1.jpg" /></a></p>-->
+                        <!--<p>设计奖项案例</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="saas-box">
+        <!--<div class="banner1 right">-->
+            <!--<div class="ui responsive grid">-->
+                <!--<img src="{{ app_url_packaged }}/images/home/fiu.png" />-->
+                <!--<div class="cont">-->
+                    <!--<h3>Fiu智能分发</h3>-->
+                    <!--<p>连接品牌与自媒体精准分发及内容输出</p>-->
+                    <!--<p> 提供有效的产品技术，数据分析，传播策略，电商运营，客服，仓储和品牌供应链服务，帮助自媒体实现高效的商业闭环。</p>-->
+                    <!--<div class="fiustat-box">-->
+                        <!--<div class="item">-->
+                            <!--<div class="r-line"></div>-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu c">2亿+</p>-->
+                                <!--<p class="tex">分销金额</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<div class="r-line"></div>-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu b">500+</p>-->
+                                <!--<p class="tex">产品SKU</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="item">-->
+                            <!--<div class="text">-->
+                                <!--<p class="nu a">200+</p>-->
+                                <!--<p class="tex">新媒体</p>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="clear">-->
+                        <!--<a href="{{ app_url_fiu }}" class="ui inverted basic big button" target="_blank">了解详情</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="c-block">-->
+            <!--<div class="ui responsive grid">-->
+                <!--<h2>合作新媒体</h2>-->
+                <!--<div class="content">-->
+                    <!--<div class=" company-ava">-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/1@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/2@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/3@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/4@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/5@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/6@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/7@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/8@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/9@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/10@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/11@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/12@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/13@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/14@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/15@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/16@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/17@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/18@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/19@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/20@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/21@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/22@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/23@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/24@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/25@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/26@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/27@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/28@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/29@2x.jpg" />-->
+                        <!--<img src="{{ app_url_packaged }}/images/home/company/30@2x.jpg" />-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        </div>
+
+        <!--
+        <div class="product bg-gray clear">
+          <div class="ui responsive relaxed grid">
+            <div class="eight wide column">
+              <div class="product-box">
+                <h3>洒哇地咔智能拖地机器人</h3>
+                <p>单周销量1500台</p>
+                <div class="brand">
+                  <img src="{{ app_url_packaged }}/images/home/logo_swdk.png" />
+                  洒哇地咔
+                </div>
+                <p class="desc">重新设计产品图片、输出原创内容，提升品牌格调和销售转化新品开发，重新设计产品外观和功能体验</p>
+              </div>
+            </div>
+            <div class="eight wide column product-img">
+              <div class="slides1">
+                <ul class="slides">
+                  <li><img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" /></li>
+                  <li><img src="{{ app_url_packaged }}/images/home/product/swdk02.jpg" /></li>
+                  <li><img src="{{ app_url_packaged }}/images/home/product/swdk03.jpg" /></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product">
+          <div class="ui responsive relaxed grid">
+            <div class="eight wide column product-img">
+              <div class="slides2">
+                <ul class="slides">
+                  <li><img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" /></li>
+                  <li><img src="{{ app_url_packaged }}/images/home/product/sushi02.jpg" /></li>
+                  <li><img src="{{ app_url_packaged }}/images/home/product/sushi03.jpg" /></li>
+                  <li><img src="{{ app_url_packaged }}/images/home/product/sushi04.jpg" /></li>
+                </ul>
+              </div>
+            </div>
+            <div class="eight wide column">
+              <div class="product-box">
+                <h3>素士声波电动牙刷</h3>
+                <p>自媒体销售额约2000万</p>
+                <div class="brand">
+                  <img src="{{ app_url_packaged }}/images/home/logo_sushi.png" />
+                  素士 Soocare
+                </div>
+                <p class="desc">种子期投资孵化项目，资本助力创业团队搭建和产品开发升级，头部大号攻城掠地、中腰和底部社群全网覆盖战略，已有100＋合作自媒体，助力全渠道分发</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        -->
+
+        <div class="c-block" style="background:#fff;margin-bottom: -35px;">
+            <div class="ui responsive grid">
+                <h2>成功案例</h2>
+                <div class="content">
+                    <div class="slides1">
+                        <ul class="slides">
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/26" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/logo_swdk.png" />
+                                                        洒哇地咔
+                                                    </div>
+                                                    <h3>洒哇地咔智能拖地机器人</h3>
+                                                    <p>单周销量1500台</p>
+                                                    <p class="desc">重新设计产品图片、输出原创内容，提升品牌格调和销售转化新品开发，重新设计产品外观和功能体验</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/swdk01.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/25" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand b-exp">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/micoe&WOW@2x.png" />
+
+                                                    </div>
+                                                    <h3>四季沐歌不插电的WOW净水机</h3>
+                                                    <p>众筹总额高达23,134,254元</p>
+                                                    <p class="desc">众筹纪录创造者，产品由太火鸟运营众筹，3月27日众筹正式开始便展现了惊人的潜力，众筹表现38分钟众筹金额破百万、4天破千万。经过一个月的众筹，最终的众筹总额高达23,134,254元，支持人数14,804人，2313%完成众筹目标。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/micoe&WOW.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/24" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/xiaoyi@2x.png" />
+                                                        小蚁
+                                                    </div>
+                                                    <h3>小蚁智能行车记录仪</h3>
+                                                    <p>众筹总额高达16,191,730元</p>
+                                                    <p class="desc">2015年，太火鸟联合小蚁智能行车记录仪的出品公司小蚁科技，在淘宝众筹首发小蚁智能行车记录仪。太火鸟社区发起“募百人首批小蚁样机体验团”试用活动，申请使用人数突破2300人，3天众筹金额突破1000万。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/yi.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/23" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/ingmeng.png" />
+                                                        婴萌科技
+                                                    </div>
+                                                    <h3>婴萌智能配奶机</h3>
+                                                    <p>众筹总额超过320万人民币</p>
+                                                    <p class="desc">北京婴萌科技有限公司设计研发的智能配奶机由太火鸟全程孵化运营，配合卖点提炼、市场定位和针对性营销规划。至今产品已在淘宝众筹平台共筹集320多万人民币，649%达成众筹目标，获得3794多人支持。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/ingmeng.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/22" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/fifish@2x.png" />
+
+                                                    </div>
+                                                    <h3>飞行鱼-亚特兰蒂斯号FiFish Atlantis</h3>
+                                                    <p>属于水下世界的未来消费级产品</p>
+                                                    <p class="desc">由太火鸟旗下的“太火鸟深圳D3IN铟立方未来实验室”在2016年推出的全球首款进入消费级市场的ROV智能水下机器人，主要用途为水下摄像，一经推出即获得了2017年美国CES创新大奖和2017年DIA中国智造大奖。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/fifish.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/21" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/logo_sushi.png" />
+                                                        素士 Soocare
+                                                    </div>
+                                                    <h3>素士声波电动牙刷</h3>
+                                                    <p>自媒体销售额约2000万</p>
+                                                    <p class="desc">种子期投资孵化项目，资本助力创业团队搭建和产品开发升级，头部大号攻城掠地、中腰和底部社群全网覆盖战略，已有100＋合作自媒体，助力全渠道分发</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/sushi01.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/20" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/WOWSTICK@2x.png" />
+                                                        WOWSTICK
+                                                    </div>
+                                                    <h3>WOWSTICK 1fs电动螺丝刀</h3>
+                                                    <p>分销总额超过3,000万元</p>
+                                                    <p class="desc">WOWSTICK电动螺丝刀是小米智能家居2016年第42期众筹新品，太火鸟参与运营众筹并担任线上销售总代理，最终筹集金额199万元，2016年12月至2017年4月，该款产品在米家商城/米家有品的销售额高达600万，分销总额超过3,000万元。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/case_lsd.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/19" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/AMIRP_LUX@2x.png" />
+
+                                                    </div>
+                                                    <h3>AMIRO LUX日光镜</h3>
+                                                    <p>俘获众网红芳心的科技生活爆品</p>
+                                                    <p class="desc">深圳市宗匠科技有限公司（以下简称宗匠）以智能照明为核心研发对象，发布了高科技智能化妆镜由。2015年，太火鸟参与宗匠天使轮投资，并开放自有电商平台供宗匠产品入驻销售。如今，宗匠已通过研发日光灯、自拍补光灯等产品获得“中国智能化妆镜第一品牌”的称号。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/AMIRO_LUX.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ app_url_d3ingo }}/article/show/18" target="_blank">
+                                    <div class="product">
+                                        <div class="ui responsive relaxed grid">
+                                            <div class="eight wide column">
+                                                <div class="product-box">
+                                                    <div class="brand">
+                                                        <img src="{{ app_url_packaged }}/images/home/product/uma.png" />
+                                                        云马
+                                                    </div>
+                                                    <h3>云马C1智能电单车</h3>
+                                                    <p>太火鸟运营发布的爆款“鼻祖”</p>
+                                                    <p class="desc">2015年10月15日，太火鸟协助国内电单车品牌云造科技正式发布云马 C1智能电单车，同步上线淘宝众筹，并助其拓展线上线下及海外营销渠道，不到一个月时间即完成众筹金额破千万的成绩。截止众筹结束，云马C1智行车共取得5879粉丝支持，筹得资金¥11597621，1159%完成众筹目标，渠道直采4万台。</p>
+                                                </div>
+                                            </div>
+                                            <div class="eight wide column product-img">
+                                                <img src="{{ app_url_packaged }}/images/home/product/yunma.jpg" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

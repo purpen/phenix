@@ -31,12 +31,14 @@
                     <i class="angle down icon"></i>
                 </a>
                 <div class="menu">
+                    <a class="item" href="{{ app_url_domain }}/service#stl">创新产品生态链</a>
                     <a class="item" href="{{ app_url_domain }}/service#kjmx">科技美学</a>
                     <a class="item" href="{{ app_url_domain }}/service#tzfh">投资孵化</a>
+                    <a class="item" href="{{ app_url_domain }}/service#cpcx">产品创新</a>
                     <a class="item" href="{{ app_url_domain }}/service#zcfw">众筹服务</a>
                     <a class="item" href="{{ app_url_domain }}/service#ppyx">品牌营销</a>
-                    <a class="item" href="{{ app_url_domain }}/service#d3in_shop">D³IN铟立方·未来店</a>
-                    <a class="item" href="{{ app_url_domain }}/service#d3in_sys">D³IN铟立方·未来实验室</a>
+                    <!--<a class="item" href="{{ app_url_domain }}/service#d3in_shop">D³IN铟立方·未来店</a>-->
+                    <a class="item" href="{{ app_url_domain }}/service#d3in_sys">未来实验室</a>
                 </div>
             </li>
             <!--
@@ -67,6 +69,16 @@
 
 {%block page_css%}
 <style>
+    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu {
+        margin: 10px 0 0;
+    }
+
+    .header.main>.ui.newnav.responsive.grid .nav-item.server .menu .item {
+        line-height: 1;
+    }
+    .header.main>.ui.newnav.responsive.grid .navbar-collapse .navbar-nav .nav-item a {
+        height: 40px;
+    }
     /*.header.main>.ui.newnav.responsive.grid {*/
         /*height: 70px;*/
     /*}*/

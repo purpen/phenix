@@ -288,7 +288,7 @@
     }
     .img_wid_100 img {
         width: 100%;
-        height: 100%;
+        max-height: 220px;
         position: absolute;
         top: 0;
         right: 0;
@@ -346,11 +346,12 @@
     }
     .brand_ul {
         padding: 0;
-        margin: 0;
+        margin: 0 auto;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         text-align: center;
+        max-width: 1200px;
     }
 
     .brand_ul li {
@@ -1286,7 +1287,7 @@
                 <img src="{{ app_url_packaged }}/images/design/supplier/18@2x.png">
             </div>
             <div class="text_center margin_t_40">
-                <p class="wid-200"><a href="https://www.d3ingo.com/server_design" target="_blank" class="ui magenta inverted active large more button">立即入驻</a></p>
+                <p class="wid-200"><a href="{{ app_url_d3ingo }}/server_design" target="_blank" class="ui magenta inverted active large more button">立即入驻</a></p>
             </div>
         </div>
     </div>
