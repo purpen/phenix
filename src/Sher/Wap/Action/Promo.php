@@ -2288,6 +2288,20 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 
+		// 获取session id
+		$service = Sher_Core_Session_Service::instance();
+		$sid = $service->session->id;
+
+		// 微信登录参数
+		$wx_params = array(
+		  'app_id' => 'wx75a9ffb78f202fb3', // 太火鸟智能馆公号appId
+		  'redirect_uri' => $redirect_uri = urlencode(Doggy_Config::$vars['app.domain.mobile'].'/app/wap/weixin/call_back'),
+		  'state' => md5($sid),
+		);
+
+    // 微信授权地址
+    $this->stash['wx_login_url'] = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&amp;redirect_uri=%s&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
+
     // 获取当前用户有效抽奖次数
     $rest_count = 0;
     if($this->visitor->id && $this->visitor->wx_union_id){

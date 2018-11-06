@@ -10,7 +10,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 	);
 	
 
-	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus','fetch_subject_list');
+	protected $exclude_method_list = array('execute', 'save_subject_sign', 'save_common_sign', 'save_hy_sign', 'save_receive_zz','save_cooperate','check_recive_bonus','recive_bonus','fetch_subject_list', 'ajax_d3in_draw');
 
 	
 	/**
@@ -939,6 +939,124 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
     $code_ok = $bonus->give_user($result_code['code'], $user_id, $end_time);
     return $code_ok;
   }
+
+    // 铟立方公号抽奖行为
+    public function ajax_d3in_draw(){
+
+        if(!$this->visitor->id){
+            return $this->ajax_json('请先登录！', true);
+        }
+        $user_id = $this->visitor->id;
+        $uid = $this->visitor->wx_union_id;
+        if (empty($uid)){
+            return $this->ajax_json('请先关注公众号！', true);       
+        }
+
+        // 验证是否还能抽奖
+        $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($uid);
+        $draw_count = $obj['total_count'] - $obj['draw_count'];
+        if ($draw_count <= 0) {
+            return $this->ajax_json('您的抽奖次数已用尽！', true);
+        }
+        $model = new Sher_Core_Model_ActiveDrawRecord();
+
+        //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)
+        $prize_arr = array(
+            //'0' => array('id' => 1, 'event'=>3, 'prize' => '云马C1智行车', 'v' => 5),
+            //'1' => array('id' => 2, 'event'=>3, 'prize' => '小黄鸭', 'v' => 1), // 200个
+            //'2' => array('id' => 3, 'event'=>3, 'prize' => '素士牙刷', 'v' => 5),
+            '3' => array('id' => 4, 'event'=>2, 'prize' => '30元优惠券', 'v' => 25),
+            //'4' => array('id' => 5, 'event'=>3, 'prize' => '电动螺丝刀', 'v' => 5),
+            //'5' => array('id' => 6, 'event'=>3, 'prize' => 'KALAR便携筷子', 'v' => 1),  // 200个
+            //'6' => array('id' => 7, 'event'=>3, 'prize' => '卡片移动电源', 'v' => 1),   // 100个
+            '7' => array('id' => 8, 'event'=>2, 'prize' => '10元优惠券', 'v' => 25),
+        );
+        foreach ($prize_arr as $k=>$v) {
+            $arr[$v['id']] = $v['v'];
+        }
+
+        $rand = '';
+        $proSum = array_sum($arr); //概率数组的总概率精度 
+
+        foreach ($arr as $k => $v) { //概率数组循环
+            $randNum = mt_rand(1, $proSum);
+            if ($randNum <= $v) {
+                $rand = $k;
+                break;
+            } else {
+                $proSum -= $v;
+            }
+        }
+        unset($proArr);
+        $prize_id = $rand;
+
+        foreach($prize_arr as $k=>$v){ //获取前端奖项位置
+            if($v['id'] == $prize_id){
+             $prize_site = $k;
+             break;
+            }
+        }
+        $res = $prize_arr[$prize_id -1]; //中奖项 
+
+        $data['prize_name'] = $res['prize'];
+        $data['event'] = $res['event'];
+        $data['prize_site'] = $prize_site;//前端奖项从-1开始
+        $data['prize_id'] = $prize_id;
+
+
+        if($result['obj']){
+            $sid = (string)$result['obj']['_id'];
+            $row = array(
+                'draw_times' => 2,
+                'event' => $data['event'],
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+            );
+            $ok = $model->update_set($sid, $row);
+        }else{
+            //当前日期
+            $today = (int)date('Ymd');
+            $row = array(
+                'user_id' => $user_id,
+                'target_id' => $target_id,
+                'day' => $today,
+                'event' => $data['event'],
+                'ip' => Sher_Core_Helper_Auth::get_ip(),
+                'number_id' => $data['prize_id'],
+                'title' => $data['prize_name'],
+                'desc' => '',
+                'state' => in_array($data['event'], $model->need_contact_user_event()) ? 0 : 1,
+                'from_to' => $from_to,
+                'kind' => $kind,
+            );
+            //$ok = true;
+            $ok = $model->apply_and_save($row);
+            if($ok){
+                // 获取抽奖记录ID
+                $active_draw_record = $model->get_data();
+                $sid = (string)$active_draw_record['_id'];  
+            }
+        }
+
+        // 记录抽奖ID
+        $data['sid'] = $sid;
+
+        if(!$ok){
+            return $this->ajax_json("操作失败，请重试!", true);
+        }
+
+        // 直接送红包
+        if($data['event']==2){
+            if($data['prize_id']==4){   // 30元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'C', 'min_amounts'=>'B'));
+            }elseif($data['prize_id']==8){  // 10元优惠券
+                $this->give_bonus($user_id, 'FIU_DROW', array('count'=>1, 'xname'=>'FIU_DROW', 'bonus'=>'G', 'min_amounts'=>'K'));
+            }
+        }
+
+        return $this->ajax_json('success', false, null, $data);
 	
 }
 
