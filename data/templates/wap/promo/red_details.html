@@ -163,6 +163,10 @@
     .margin_l_3 {
         margin-left: 3px;
     }
+
+    .d_n {
+        display: none;
+    }
 </style>
 {% endblock %}
 
@@ -180,21 +184,29 @@
                 $('#id_2').addClass('show')
                 $('.red_list h3').html('二等奖')
                 $('.red_price').html('1500元红包')
+                $('#show_n_five').addClass('show')
+                $('#show_n_five').removeClass('d_n')
             break;
             case '3':
                 $('#id_3').addClass('show')
                 $('.red_list h3').html('三等奖')
                 $('.red_price').html('1100元红包')
+                $('#show_n_five').addClass('show')
+                $('#show_n_five').removeClass('d_n')
             break;
             case '4':
                 $('#id_4').addClass('show')
                 $('.red_list h3').html('四等奖')
                 $('.red_price').html('1000元红包')
+                $('#show_n_five').addClass('show')
+                $('#show_n_five').removeClass('d_n')
             break;
             case '5':
                 $('#id_5').addClass('show')
                 $('.red_list h3').html('五等奖')
                 $('.red_price').html('500元红包')
+                $('#show_five').addClass('show')
+                $('#show_five').removeClass('d_n')
             break;
             default:
             <!--不符合条件回抽奖页面-->
@@ -211,19 +223,34 @@
         <div class="money_title">
             <p class="red_price">1500元红包</p>
         </div>
-        <div class="display_f">
-            <div class="money_img">
-                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/500yuan.png" alt="">
-                <p class="five_money">X1</p>
+        <div class="d_n" id="show_n_five">
+            <div class="display_f">
+                <div class="money_img">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/500yuan.png" alt="">
+                    <p class="five_money">X1</p>
+                </div>
+                <div class="money_img">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/400yuan.png" alt="">
+                    <p class="four_money">X1</p>
+                </div>
+                <div class="money_img">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/100yuan.png" alt="">
+                    <p class="one_money">X1</p>
+                </div>
             </div>
-            <div class="money_img">
-                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/400yuan.png" alt="">
-                <p class="four_money">X1</p>
+        </div>
+        <div class="d_n" id="show_five">
+            <div class="display_f">
+                <div class="money_img">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/400yuan.png" alt="">
+                    <p class="four_money">X1</p>
+                </div>
+                <div class="money_img">
+                    <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/100yuan.png" alt="">
+                    <p class="one_money">X1</p>
+                </div>
             </div>
-            <div class="money_img">
-                <img src="{{ app_url_packaged }}/images/d3in/d3in_draw/100yuan.png" alt="">
-                <p class="one_money">X1</p>
-            </div>
+
         </div>
         <div class="money_details">
             <p>500元红包仅限购买奶爸爸S5按摩椅使用</p>
