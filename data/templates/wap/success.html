@@ -160,6 +160,7 @@
 									<div class="right floated">
 										<small>推荐使用支付宝快捷支付</small>
 									</div>
+                  {% if !is_weixin %}
 									<div class="content">
 										<div class="header">
 											<div class="ui radio checkbox">
@@ -169,6 +170,7 @@
 										</div>
 									</div>
 								</div>
+                {% endif %}
 								{% if is_weixin %}
 								<div class="item ptb-3r">
 									<div class="right floated">
