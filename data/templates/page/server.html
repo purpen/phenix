@@ -11,22 +11,24 @@
     }
     .section.gray {
       opacity: 0.89;
-      background: #F9F9F9;
+      background: #ffffff;
     }
 
     .section h3 {
       color: #222;
-      font-size: 44px;
+      font-size: 30px;
       font-weight: 300;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .section p.title {
-      margin: 20px 0;
+        margin: 20px 0;
+        font-size: 20px;
+        color: #222;
+        letter-spacing: .52px;
     }
     .section p.desc {
       color: #666;
-      font-size: 18px;   
-      padding: 0 70px;
+      font-size: 14px;
     }
     .section p {
       color: #222;
@@ -34,11 +36,11 @@
       line-height: 1.8;
       font-weight: 300;
       padding: 0;
-      margin: 0;
+      margin: 0;text-align: center;
     }
 
     .section .img {
-      margin: 20px; 0;
+      margin: 20px 0;
     }
     .section .img img {
       width: 100%;
@@ -48,19 +50,43 @@
       text-align: center;
     }
 
+    .p_100 {
+        padding: 0 100px !important;
+    }
+
     .icon-list .column {
       margin: 40px 0;
     }
     .icon-list .column .column {
     }
     .icon-list .column .column img {
-      width: 60%;
+      width: 100px;
       margin-bottom: 10px;
     }
-    .icon-list .column .column p {
+
+    .s_s img {
+      width: 60px;
+      margin-bottom: 10px;
+    }
+    .f_s p:first-child {
       text-align: center;
-      line-height: 1.5;
-      font-size: 16px;
+      line-height: 1;
+      font-size: 22px;
+        color: #222;
+        margin-bottom: 12px;
+    }
+    .f_s p:last-child {
+        text-align: center;
+        line-height: 1.5;
+        font-size: 12px;
+        color: #666;
+    }
+    .s_s p:last-child {
+      text-align: center;
+      line-height: 1;
+      font-size: 14px;
+        color: #222;
+        margin-bottom: 12px;
     }
 
     .item {
@@ -69,6 +95,89 @@
 
     .removeClass {
         color: #ffffff;
+    }
+    .hx span {
+        display: inline-block;
+        position: relative;
+        font-size: 20px;
+        color: #222;
+    }
+
+    .hx span:before, .hx span:after {
+        content: '';
+        width: 360px;
+        height: 1px;
+        background: #e6e6e6;
+        opacity: .5;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+    }
+    .hx span:before {
+        left: 100px;
+    }
+
+    .hx span:after {
+        right: 100px;
+    }
+
+    .p_b_20 p {
+        padding-bottom:20px;
+    }
+
+    .p_160 {
+        padding: 0 160px !important;
+    }
+
+    .b_t {
+        border-top: 1px solid rgba(230,230,230,.5);
+        margin: 30px 10px 0;
+        padding: 20px 0 !important;
+    }
+
+    .b_t:last-child{
+        margin: 0 10px 0;
+    }
+
+    .t_p_s p:first-child {
+        font-size: 16px;
+        color: #222222;
+    }
+
+    .t_p_s p:last-child {
+        font-size: 14px;
+        color: #666666;
+    }
+    .opacity_8 {
+        opacity: .83;
+    }
+
+    .w_100 {
+        width: 100%;
+    }
+    .m_t_20 {
+        margin-top: 20px;
+    }
+
+    .cp_s p:last-child {
+        font-size: 16px;
+        color: #222;
+    }
+
+    .m_l_100 {
+        margin-left: 100px;
+    }
+
+    .d_s_b {
+        width: 330px;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+    }
+
+    .p_70 {
+        padding: 0 70px !important;
     }
 </style>
 {% endblock %}
@@ -111,88 +220,224 @@ $('.item').click(function(){
             </div>
         </div>
     </div>
-    <div class="banner1" id="stq" name="stq"><img src="{{ app_url_packaged }}/images/server/banner1.jpg" /></div>
-    <div name="stq" style="height: 200px;background: red">
+    <div class="banner1"><img src="{{ app_url_packaged }}/images/server/banner1.jpg" /></div>
+    <div class="section gray" id="stq" name="stq">
+        <div class="ui responsive grid p_160">
+            <h3>创新产品生态圈</h3>
+            <p class="desc">围绕供需双方的核心需求，提供三大核心产品，六大核心能力，深度赋能，资源共享; S2B2C模式，链接设计服务方，创新需求方，以及品质消费者，建立完善的创新设计产品生态系统; 团结20%的Top设计服务方和优质需求方，聚合存量市场，开拓增量市场，形成规模化议价能力。</p>
+            <div class="ui grid icon-list p_100">
+                <div class="five column row">
+                    <div class="column">
+                        <div class="f_s">
+                            <p class="">设计服务方</p>
+                            <p>产品设计创新引擎</p>
+                        </div>
 
+                    </div>
+                    <div class="column">
+                        <div class="f_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Arrow@2x.png" /></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="f_s">
+                            <p>创新需求方</p>
+                            <p>设计企业创新能力指数</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="f_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Arrow@2x.png" /></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="f_s">
+                            <p>品质消费者</p>
+                            <p>设计生产力促进工具</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p_b_20">
+                <p class="hx"><span>S2B2C</span></p>
+            </div>
+            <div class="ui grid">
+                <div class="six column row">
+                    <div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Data@2x.png" /></p>
+                            <p>数据赋能</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Tool@2x.png" /></p>
+                            <p>工具赋能</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Design@2x.png" /></p>
+                            <p>设计赋能</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Manufacture@2x.png" /></p>
+                            <p>制造赋能</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Marketing@2x.png" /></p>
+                            <p>营销赋能</p>
+                        </div>
+                    </div><div class="column">
+                        <div class="s_s">
+                            <p><img src="{{ app_url_packaged }}/images/server/Capital@2x.png" /></p>
+                            <p>资本赋能</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui grid icon-list2">
+                <div class="three column row b_t">
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>AI-D</p>
+                            <p>产品设计创新引擎</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>D3INGO Index</p>
+                            <p>设计企业创新能力指数</p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>AI-T</p>
+                            <p>设计生产力促进工具</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="three column row b_t">
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>AI人工智能</p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>SaaS云计算服务平台</p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="t_p_s">
+                            <p>BigData 大数据</p>
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<div>-->
+                <!--<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">孵化合作</a>-->
+            <!--</div>-->
+        </div>
     </div>
     <div class="section" id="kjmx" name="kjmx">
-    <div class="ui responsive grid">
+    <div class="ui responsive grid p_160">
       <h3>科技美学</h3>
       <p></p>
-      <p class="desc">技术、模式、设计，是驱动创新的三驾马车，在中产阶级消费升级的背景下，</p>
-      <p class="desc">消费者对设计创新的美学产品需求日渐增长，因此在太火鸟成立之初，就提出“科技美学”概念，</p>
-      <p class="desc">意在整合行业资源，实现技术、模式和设计的结合，打造一个完美的创意生态系统！</p>
+      <p class="desc">技术、模式、设计，是驱动创新的三驾马车，在中产阶级消费升级的背景下，消费者对设计创新的美学产品需求日渐增长，因此在太火鸟成立之初，就提出“科技美学”概念，意在整合行业资源，实现技术、模式和设计的结合，打造一个完美的创意生态系统！</p>
+      <!--<p class="desc">消费者对设计创新的美学产品需求日渐增长，因此在太火鸟成立之初，就提出“科技美学”概念，</p>-->
+      <!--<p class="desc">意在整合行业资源，实现技术、模式和设计的结合，打造一个完美的创意生态系统！</p>-->
       <div class="img">
         <img src="{{ app_url_packaged }}/images/server/biao.png" style="margin-left: -2%;" />
       </div>   
 			<div class="row">
 				<div class="ui center aligned column">
-					<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">产品合作</a>
+					<a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">产品合作</a>
 				</div>
 			</div>
     </div>
   </div>
 
   <div class="section gray" id="tzfh" name="tzfh">
-    <div class="ui responsive grid">
+    <div class="ui responsive grid p_160">
       <h3>投资孵化</h3>
       <p class="title">多项孵化基金，助创业团队解决资金困扰</p>
       <p class="desc">太火鸟设专项基金支持种子项目，单笔投入100万以内美金。目前，太火鸟成功孵化近30个团队，项目总估值超20亿。同时，太火鸟与鑫游资本合作成立 蓝翡·翠鸟科技美学基金 AESTECH (Aesthetics + Technology),首批资金1亿人民币，专业投向以“科技”为驱动力的智能硬件产品及以“创意美学”为驱动力的消费升级产品。投资阶段：种子至A轮。</p>
-      <div class="ui grid icon-list">
-        <div class="four column row">
-          <div class="column"></div>
-          <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/fhzj.png" /></p>
-            <p>单笔100万以内美金种子基金</p>
-          </div>
-          <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/fcln.png" /></p>
-            <p>中国首支AESTECH科技美学基金1亿人民币种子至A轮投资基金</p>
-          </div>
-          <div class="column"></div>
-        </div>
+      <div class="m_t_20">
+        <!--<div class="four column row">-->
+          <!--<div class="column"></div>-->
+          <!--<div class="column">-->
+            <!--<p><img src="{{ app_url_packaged }}/images/server/fhzj.png" /></p>-->
+            <!--<p>单笔100万以内美金种子基金</p>-->
+          <!--</div>-->
+          <!--<div class="column">-->
+            <!--<p><img src="{{ app_url_packaged }}/images/server/fcln.png" /></p>-->
+            <!--<p>中国首支AESTECH科技美学基金1亿人民币种子至A轮投资基金</p>-->
+          <!--</div>-->
+          <!--<div class="column"></div>-->
+        <!--</div>-->
+          <img class="w_100" src="{{ app_url_packaged }}/images/server/logo@2x.png" alt="">
       </div>   
       <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">孵化合作</a>
+        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">孵化合作</a>
       </div>
     </div>
   </div>
 
   <div class="section" id="cpcx" name="cpcx">
-    <div class="ui responsive grid">
+    <div class="ui responsive grid p_160">
       <h3>产品创新</h3>
-      <p>用设计重塑品质生活</p>
+      <p class="title">用设计重塑品质生活</p>
       <p class="desc">铟果聚集100+专业设计服务供应商，依托海量消费大数据，帮助客户洞察先机。</p>
       <div class="ui grid icon-list">
         <div class="six column row">
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_01.png" /></p>
-            <p>专业服务</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_01.png" /></p>
+                  <p>专业服务</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_02.png" /></p>
-            <p>精准匹配</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_02.png" /></p>
+                  <p>精准匹配</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_03.png" /></p>
-            <p>便捷高效</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_03.png" /></p>
+                  <p>便捷高效</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_04.png" /></p>
-            <p>需求明确</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_04.png" /></p>
+                  <p>需求明确</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_05.png" /></p>
-            <p>创意变现</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_05.png" /></p>
+                  <p>创意变现</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_06.png" /></p>
-            <p>版权保护</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_06.png" /></p>
+                  <p>版权保护</p>
+              </div>
           </div>
         </div>
       </div>   
       <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">商品合作</a>
+        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">商品合作</a>
       </div>
     </div>
   </div>
@@ -227,85 +472,111 @@ $('.item').click(function(){
   <!--</div>-->
 
 
-  <div class="section" id="zcfw" name="zcfw">
-    <div class="ui responsive grid">
-      <h3>众筹服务</h3>
+  <div class="section gray" id="zcfw" name="zcfw">
+    <div class="ui responsive grid p_160">
+      <h3>众筹业务</h3>
       <p class="title">玩转科技美学生态圈，权威众筹服务</p>
       <p class="desc">太火鸟整合行业资源，为智能硬件产品及创意美学产品提供众筹服务，结合自身整合运作能力，针对产品属性进行市场分析、营销策划、创意设计、媒体报道、试用评测、众筹运营等全网营销服务。</p>
       <div class="ui grid icon-list">
         <div class="six column row">
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_20.png" /></p>
-            <p>市场分析</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_20.png" /></p>
+                  <p>市场分析</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_21.png" /></p>
-            <p>营销策划</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_21.png" /></p>
+                  <p>营销策划</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_22.png" /></p>
-            <p>创意设计</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_22.png" /></p>
+                  <p>创意设计</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_23.png" /></p>
-            <p>媒体报道</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_23.png" /></p>
+                  <p>媒体报道</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_24.png" /></p>
-            <p>众筹运营</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_24.png" /></p>
+                  <p>众筹运营</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_25.png" /></p>
-            <p>试用评测</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_25.png" /></p>
+                  <p>试用评测</p>
+              </div>
           </div>
         </div>
       </div>   
-      <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">众筹合作</a>
+      <div class="d_s_b">
+        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">商务合作</a>
+        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8 m_l_100">市场合作</a>
       </div>
     </div>
   </div>
 
-
-  <div class="section gray" id="ppyx" name="ppyx">
+  <div class="section" id="ppyx" name="ppyx">
     <div class="ui responsive grid">
       <h3>品牌营销</h3>
       <p class="title">整合营销传播 全方位品牌曝光</p>
-      <p class="desc">太火鸟整合营销传播，结合产品特色与人群，将制定独特的营销推广策略，包括社区、内容、设计、众筹、媒体、B D、活动等进行全方位曝光；数百家垂直媒体及自媒体、数千万极客发烧友，确保商品上线的影响力。</p>
-      <div class="ui grid icon-list">
+      <p class="desc p_160">太火鸟整合营销传播，结合产品特色与人群，将制定独特的营销推广策略，包括社区、内容、设计、众筹、媒体、B D、活动等进行全方位曝光；数百家垂直媒体及自媒体、数千万极客发烧友，确保商品上线的影响力。</p>
+      <div class="ui grid icon-list p_70">
         <div class="seven column row">
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_30.png" /></p>
-            <p>社区</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_30.png" /></p>
+                  <p>社区</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_31.png" /></p>
-            <p>内容</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_31.png" /></p>
+                  <p>内容</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_22.png" /></p>
-            <p>设计</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_22.png" /></p>
+                  <p>设计</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_23.png" /></p>
-            <p>媒体</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_23.png" /></p>
+                  <p>媒体</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_34.png" /></p>
-            <p>众筹</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_34.png" /></p>
+                  <p>众筹</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_35.png" /></p>
-            <p>BD</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_35.png" /></p>
+                  <p>BD</p>
+              </div>
           </div>
           <div class="column">
-            <p><img src="{{ app_url_packaged }}/images/server/item_36.png" /></p>
-            <p>活动</p>
+              <div class="cp_s">
+                  <p><img src="{{ app_url_packaged }}/images/server/item_36.png" /></p>
+                  <p>活动</p>
+              </div>
           </div>
         </div>
       </div>   
       <div>
-        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button">营销合作</a>
+        <a href="mailto:products@taihuoniao.com" class="ui magenta inverted active large more button opacity_8">营销合作</a>
       </div>
     </div>
   </div>
