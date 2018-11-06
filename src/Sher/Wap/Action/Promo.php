@@ -2288,6 +2288,16 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     $wxOri = sprintf("jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s", $wxticket, $wxnonceStr, $timestamp, $url);
     $this->stash['wxSha1'] = sha1($wxOri);
 
+		$return_url = isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:Doggy_Config::$vars['app.url.wap'];
+		// 过滤上一步来源为退出链接
+		if(!strpos($return_url,'logout') && !strpos($return_url,'set_passwd')){
+			$this->stash['return_url'] = $return_url;
+		}
+		// 设置cookie
+    if (!empty($this->stash['return_url'])) {
+			@setcookie('auth_return_url', $this->stash['return_url'], 0, '/');
+    }
+
 		// 获取session id
 		$service = Sher_Core_Session_Service::instance();
 		$sid = $service->session->id;
@@ -2300,7 +2310,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 		);
 
     // 微信授权地址
-    $this->stash['wx_login_url'] = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&amp;redirect_uri=%s&amp;response_type=code&amp;scope=snsapi_userinfo&amp;state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
+    $this->stash['wx_login_url'] = sprintf("https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=%s", $wx_params['app_id'], $wx_params['redirect_uri'], $wx_params['state']);
 
     // 获取当前用户有效抽奖次数
     $rest_count = 0;
