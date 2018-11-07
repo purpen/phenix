@@ -440,6 +440,7 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       25=>'Fiu介绍',
       26=>'1分钟答题通关，不花钱办年货',
       27=>'铟立方18年双11抽奖页',
+      28=>'铟立方18年双11特卖区页',
     );
     if(empty($id)){
       return $array;
