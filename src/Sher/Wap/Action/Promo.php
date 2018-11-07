@@ -2310,6 +2310,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     // 获取当前用户有效抽奖次数
     $rest_count = 0;
     $is_login = false;
+    if($this->visitor->id && $this->visitor->wx_union_id){
+      $is_login = true;
+    }
 
     $this->stash['is_login'] = $is_login;
 
