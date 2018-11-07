@@ -311,12 +311,6 @@
 		}
 	});
 
-  product_arr = new Array();
-	{% for d in data.items %}
-    product_arr.push("{{ d.target_id }}");
-  {%endfor%}
-  product_ids = product_arr.join(',');
-
   // 获取可用红包
   $.post('{{ app_url_wap }}/app/site/shopping/ajax_fetch_use_bonus', {not_expired: 1, load_active:1, used:1, rid: '{{ order_info.rid }}'}, function(rs){
     if(rs.success){
@@ -369,7 +363,6 @@
       var code = $(this).attr('code');
       $("input[name='bonus_code']").val(code);
       use_bonus(code);
-      }, 'json');
     });
 	});
 	
