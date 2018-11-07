@@ -1,26 +1,108 @@
+{% block page_css %}
+<style>
+    /*热门活动*/
+    /*.ui.containermain .conright .sellwrap.active .ui.articles.list .item.topicbox .cover {*/
+        /*width: 100%;*/
+        /*max-height: 160px;*/
+        /*overflow: hidden;*/
+    /*}*/
+
+    /*.ui.containermain .conright .sellwrap.active .ui.articles.list .item.topicbox .cover .ui.image {*/
+        /*height: 160px;*/
+    /*}*/
+
+    /*.activity_p {*/
+        /*clear: both;*/
+        /*padding: 12px 0 12px 20px;*/
+    /*}*/
+
+    /*.activity_p p{*/
+        /*font-size: 14px;*/
+        /*color: #2A2A2A;*/
+        /*margin: 0;*/
+        /*line-height: 24px;*/
+    /*}*/
+
+    /*.activity_p p:first-child {*/
+        /*font-size: 16px;*/
+        /*color: #222222;*/
+        /*!*padding-top: 12px;*!*/
+    /*}*/
+    /*.p_n {*/
+        /*padding: 0 !important;*/
+    /*}*/
+    /*.m_n {*/
+        /*margin: 0 !important;*/
+    /*}*/
+
+    /*.hot_title {*/
+        /*font-size: 16px;*/
+        /*height: 50px;*/
+        /*line-height: 50px;*/
+        /*color: #000;*/
+        /*padding-left: 20px;*/
+    /*}*/
+
+    /*.box_s {*/
+        /*box-shadow: 0 2px 4px 0 rgba(204,204,204,0.50);*/
+        /*margin-bottom: 10px !important;*/
+    /*}*/
+    /*.box_s:last-child {*/
+        /*margin: 0 !important;*/
+    /*}*/
+
+    /*.ui.containermain .conright .sellwrap.active .ui.articles.list {*/
+        /*padding-bottom: 0;*/
+    /*}*/
+
+    /*.p_a {*/
+        /*position: absolute;*/
+        /*top: 10px;*/
+        /*left: 10px;*/
+        /*width: 80px;*/
+        /*height: 28px;*/
+        /*line-height: 28px;*/
+        /*text-align: center;*/
+        /*background: #999999;*/
+        /*color: #ffffff;*/
+        /*font-size: 12px;*/
+        /*border-radius: 4px;*/
+    /*}*/
+</style>
+{% endblock %}
 <!--活动推荐-->
-<div class="sellwrap active">
-	<div class="block title">
+<div class="sellwrap active p_n">
+	<!--<div class="hot_title">-->
+		<!--热门活动-->
+    <!--</div>-->
+    <div class="block title">
 		热门活动
     </div>
     {% cache cache_key:'topic_page_active_right' ttl:300 disable_cache:app_disable_cached %}
-      <div class="ui articles list">
+      <div class="ui articles list m_n">
         {% ad_list var:'active_list' page:1 size:5 state:2 name:'topic_right_for_active' %}
         {% for ad in active_list.rows %}
-            <div class="item topicbox">
+            <div class="item topicbox p_n box_s">
               <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui cover" target="_blank">
                 <img class="ui image" src="{{ ad.cover.fileurl }}" alt="{{ ad.title }}">
               </a>
+                <!--<div class="activity_p">-->
+                    <!--<p>123</p>-->
+                    <!--<p>456</p>-->
+                    <!--<p>789</p>-->
+                <!--</div>-->
+                <!--<div class="p_a">-->
+                    <!--<span>已结束</span>-->
+                <!--</div>-->
               <h2>
                 <a href="{{ ad.view_url }}" title="{{ ad.title }}" class="ui link" target="_blank">
                     {{ ad.title }}
                 </a>
               </h2>
               <p class="">
-
-		<a href="{{ ad.view_url }}" class="ui mini blue button" target="_blank">
-		  立即参加<i class="right arrow icon"></i>
-		</a>
+                <a href="{{ ad.view_url }}" class="ui mini blue button" target="_blank">
+                  立即参加<i class="right arrow icon"></i>
+                </a>
               </p>
           
             </div>
