@@ -485,10 +485,10 @@
   });
 
 {% if is_login %}
-  // 定时提示,每次1分钟,最多12次
+  // 定时提示,每次1分钟,最多100次
   var limit_notice_times = 0;
   setInterval(function(){
-      if(limit_notice_times >= 20){
+      if(limit_notice_times >= 100){
           return
       }else{
         // get默认是异步请求async为true
