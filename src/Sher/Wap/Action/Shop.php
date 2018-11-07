@@ -1604,7 +1604,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
 			// 更新临时订单
 			$ok = $model->use_bonus($rid, $code, $card_money);
-			if($ok){
+            if($ok){
+        // 重新获取数据
+        $result = $model->first(array('rid'=>$rid));
 				$dict = $result['dict'];
 				$pay_money = $dict['total_money'] + $dict['freight'] - $dict['coin_money'] - $dict['card_money'] - $dict['gift_money'] - $dict['bird_coin_money'];
 				
@@ -1612,7 +1614,7 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 				if($pay_money < 0){
 					$pay_money = 0.0;
 				}
-				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money'])*-1;
+				$data['discount_money'] = ($dict['coin_money'] +  $dict['card_money'] + $dict['gift_money'] + $dict['bird_coin_money']);
 				$data['pay_money'] = $pay_money;
 			}
 		}catch(Sher_Core_Model_Exception $e){

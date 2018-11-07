@@ -257,6 +257,23 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+	function use_bonus(code){
+			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
+				if(result.success){
+					$('#use-bonus-box').show();
+					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
+					$('#order-discount-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
 	$('#checkout-form').form({
     rrid: {
@@ -293,6 +310,21 @@
 			});
 		}
 	});
+
+  // 获取可用红包
+  $.post('{{ app_url_wap }}/app/site/shopping/ajax_fetch_use_bonus', {not_expired: 1, load_active:1, used:1, rid: '{{ order_info.rid }}'}, function(rs){
+    if(rs.success){
+        rs.data['phenix'] = phenix.url;
+        var rendered = phenix.ajax_render_result('#used_bonus_tpl', rs.data);
+        $('#bonus-box').html(rendered);
+        if(rs.data.max_code){
+          use_bonus(rs.data.max_code);
+        }
+    }else{
+      phenix.show_error_note(result.message, 3000);
+    }
+  }, 'json');
+
 	// 选择填写红包
 	$('#submit-bonus').click(function(){
 		var bonus_code = $('#bonus-code').val();
@@ -304,6 +336,8 @@
 		if(bonus_code){
 			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
+					$('#use-bonus-box').show();
+					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
 					$('#order-discount-money').text(result.data.discount_money);
 					$('#order-pay-money').text(result.data.pay_money);
 				}else{
@@ -314,24 +348,23 @@
 			phenix.show_error_note('请输入红包码', 3000);
 		}
 	});
+
 	// 选择使用红包
-	$('.inbonus').change(function(){
-		var code = $('.inbonus:checked').val();
-		$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
-			if(result.success){
-				$('#order-discount-money').text(result.data.discount_money);
-				$('#order-pay-money').text(result.data.pay_money);
-			}else{
-				phenix.show_error_note(result.message, 3000);
-			}
-		}, 'json');
+	$('.inbonus').livequery(function(){
+    $($this).change(function(){
+      var code = $('.inbonus:checked').val();
+      use_bonus(code);
+    });
 	});
 
-  //插入已存在的红包
-  $('.code-select').click(function(){
-    var code = $(this).attr('code');
-    $("input[name='bonus_code']").val(code);
-  });
+  //选择已存在的红包
+	$('.code-select').livequery(function(){
+    $(this).click(function(){
+      var code = $(this).attr('code');
+      $("input[name='bonus_code']").val(code);
+      use_bonus(code);
+    });
+	});
 	
 	// 选择填写礼品码
 	$('#submit-gift').click(function(){
@@ -502,11 +535,14 @@
   							<i class="dropdown icon"></i>
                             <div class="d_f_sb">
                                 <span>使用红包</span>
-                                <p class="f_12">已使用红包<span>120.00</span>元</p>
+                                <p class="f_12" style="display:none;" id="use-bonus-box">已使用红包:<span class="bonus-num"></span>元</p>
                             </div>
   						</div>
   						<div class="content">
   							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 load_active:1 %}
+                <div id="bonus-box">
+
+                <!--
   							{% for b in bonus.rows %}
   							<div class="bonus item" style="margin-bottom:1em;">
   								<div class="field">
@@ -523,11 +559,15 @@
   								</div>
   							</div>
   							{% endfor %}
+                -->
+              </div>
 						
+              <!--
   							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
   							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
   							  <div class="ui active color-be inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
   							</div>
+              -->
   					  </div>
 					
   						<div class="title d_f_ac">
@@ -610,4 +650,8 @@
 		</div>
 	</form>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'used_bonus_tpl' tpl:'mustache_m/used_bonus.mustache' %}
 {% endblock %}

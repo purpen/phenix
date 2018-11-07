@@ -1,0 +1,25 @@
+{{#rows}}
+
+        <div class="bonus item" style="margin-bottom:1em;">
+          <div class="field">
+            <div class="ui radio checkbox">
+              <!--
+              <input name="bonus" type="hidden" value="{{ code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
+              -->
+              <input name="bonus" type="hidden" value="{{ code }}" class="inbonus"/>
+              <label style="display:inline-block;">
+                <span class="ui color-be link text">{{ amount }}元</span>
+                {{#is_min_amount}}
+                <span><small>(满 {{ min_amount }}元可用)</small></span> 
+                {{/is_min_amount}}
+                {{#is_bonus_active}}
+                <span><small>(只限于 {{ bonus_active.title }} 活动下的产品可用)</small></span> 
+                {{/is_bonus_active}}
+                <small>{{ expired_label }} </small>
+                <a href="javascript:void(0);" class="ui magenta link code-select" code="{{ code }}"> 选择</a>
+              </label>
+            </div>
+          </div>
+        </div>
+
+{{/rows}}

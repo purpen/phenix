@@ -156,7 +156,7 @@ class Sher_Core_Util_Shopping extends Doggy_Object {
 	/**
 	 * 验证红包是否可用--用于app验证
 	 */
-	public static function check_bonus($rid, $code, $user_id, $order_temp=null){
+	public static function check_bonus($rid, $code, $user_id, &$order_temp=null){
 
         $bonus_model = new Sher_Core_Model_Bonus();
         $bonus = $bonus_model->find_by_code($code);
