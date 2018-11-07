@@ -227,7 +227,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           }
           // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
           // 给用户发客服回复
-          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
+          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳https://m.taihuoniao.com/promo/d3in_draw 参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。\n\n转发个人海报，获得好友支持，额外获得2次抽奖机会。"));
 
           $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
           if(!$qrResult) {
