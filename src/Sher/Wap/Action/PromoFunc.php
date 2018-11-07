@@ -1040,6 +1040,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
           $model->inc((string)$obj['_id'], 'draw_count', 1);
         }
 
+        /**
         // 直接送红包
         if($level==2){
           Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>1, 'xname'=>'D3IN_DROW_500', 'bonus'=>'K', 'min_amounts'=>'G', 'product_id'=>1179960711, 'day'=>7));
@@ -1070,6 +1071,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
           Sher_Core_Util_Shopping::give_bonus((int)$user_id, array('count'=>1, 'xname'=>'D3IN_DROW_100', 'bonus'=>'L', 'min_amounts'=>'D', 'active_mark'=>'d3in_draw_100', 'day'=>7));       
         }
+        **/
 
         return $this->ajax_json('success', false, null, $data);
     }
