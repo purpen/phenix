@@ -323,6 +323,9 @@
         rs.data['phenix'] = phenix.url;
         var rendered = phenix.ajax_render_result('#used_bonus_tpl', rs.data);
         $('#bonus-box').html(rendered);
+        if (rs.data.max_code){
+          use_bonus(rs.data.max_code);
+        }
     }else{
       phenix.show_error_note(result.message, 3000);
     }
@@ -365,15 +368,7 @@
     $(this).click(function(){
       var code = $(this).attr('code');
       $("input[name='bonus_code']").val(code);
-      $.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
-        if(result.success){
-          $('#order-discount-money').text(result.data.discount_money);
-					$('#use-bonus-box').show();
-					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
-          $('#order-pay-money').text(result.data.pay_money);
-        }else{
-          phenix.show_error_note(result.message, 3000);
-        }
+      use_bonus(code);
       }, 'json');
     });
 	});

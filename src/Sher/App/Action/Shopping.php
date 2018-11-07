@@ -1581,6 +1581,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
     $result = $service->get_all_list($query,$options);
 
     $data = array();
+    $amount_arr = array();
     for($i=0;$i<count($result['rows']);$i++){
         $row = $result['rows'][$i];
 
@@ -1604,13 +1605,25 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         if($row['min_amount']) $row['is_min_amount'] = true;
         if($row['bonus_active']) $row['is_bonus_active'] = true;
 
+        array_push($amount_arr, $row['amount']);
+
         array_push($data, $row);
     }   // endfor
 
     $some_fields = array('__extend__');
 
+    // 获取最大红包code
+    $max_amount = max($amount_arr);
+    $max_code = '';
+    for($i=0;$i<count($data);$i++){
+      if ($data[$i]['amount'] == $max_amount){
+        $max_code = $data[$i]['code'];
+        break;
+      }
+    }
+
     $data = Sher_Core_Helper_FilterFields::filter_fields($data, $some_fields, 2);
-    return $this->ajax_json('', false, '', array('rows'=>$data));
+    return $this->ajax_json('', false, '', array('rows'=>$data, 'max_code'=>$max_code));
   }
 	
 }
