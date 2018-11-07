@@ -232,9 +232,20 @@
         </div>
         {%endif%}
 
+        {% if record.s02==0 %}
+          {% if record.s03==0 %}
+            {% if record.s04==0 %}
+              {% if record.s05==0 %}
+                <!--无抽奖记录-->
+                <p style="color:#fff;">没有中奖记录〜</p>
+              {%endif%}
+            {%endif%}
+          {%endif%}
+        {%endif%}
+
         {%else%}
           <!--无抽奖记录-->
-          <p style="color:fff;">没有中奖记录〜</p>
+          <p style="color:#fff;">没有中奖记录〜</p>
         {%endif%}
 
 
