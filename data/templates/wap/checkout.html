@@ -348,11 +348,20 @@
     });
 	});
 
-  //插入已存在的红包
+  //选择已存在的红包
 	$('.code-select').livequery(function(){
     $(this).click(function(){
       var code = $(this).attr('code');
       $("input[name='bonus_code']").val(code);
+      $.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
+        if(result.success){
+          $('#order-discount-money').text(result.data.discount_money);
+          $('.bonus-num').text(result.data.discount_money);
+          $('#order-pay-money').text(result.data.pay_money);
+        }else{
+          phenix.show_error_note(result.message, 3000);
+        }
+      }, 'json');
     });
 	});
 	
