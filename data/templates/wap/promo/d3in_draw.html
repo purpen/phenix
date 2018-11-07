@@ -499,12 +499,19 @@
         },'json');
       }
       limit_notice_times += 1;
-  }, 2000);
+  }, 3000);
 {%endif%}
 
 </script>
 {% endblock %}
 {% block jquery %}
+
+    // get默认是异步请求async为true
+    $.get('{{ app_url_wap }}/app/wap/promo_func/ajax_fetch_d3in_draw_count',function(rs){
+        if(rs.success){
+          $('#reset-count').text(rs.data.count);
+        }
+    },'json');
 
     var cycle = 50;
     var ua = navigator.userAgent.toLowerCase();
