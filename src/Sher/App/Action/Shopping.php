@@ -1585,7 +1585,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
     $result = $service->get_all_list($query,$options);
 
-    $new_rows = array();
+    $data = array();
     for($i=0;$i<count($result['rows']);$i++){
         $row = $result['rows'][$i];
         if($load_active){
@@ -1615,14 +1615,20 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
             }
           }
         }
+        $row['_id'] = (string)$row['_id'];
         $row['is_min_amount'] = false;
         $row['is_bonus_active'] = false;
         if($row['min_amount']) $row['is_min_amount'] = true;
         if($row['bonus_active']) $row['is_bonus_active'] = true;
 
-        array_push($new_rows, $row);
+
+        array_push($data, $row);
     }   // endfor
-    return $this->ajax_json('', false, '', $new_rows);
+
+    $some_fields = array('__extend__');
+
+    $data = Sher_Core_Helper_FilterFields::filter_fields($data, $some_fields, 2);
+    return $this->ajax_json('', false, '', array('rows'=>$data));
   }
 	
 }
