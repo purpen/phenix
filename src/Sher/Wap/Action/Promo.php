@@ -2310,16 +2310,7 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     // 获取当前用户有效抽奖次数
     $rest_count = 0;
     $is_login = false;
-    if($this->visitor->id && $this->visitor->wx_union_id){
-      $is_login = true;
-      $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($this->visitor->wx_union_id);
-      $draw_count = $obj['total_count'] - $obj['draw_count'];
-      if ($draw_count > 0) {
-        $rest_count = $draw_count;
-      }
-    }
 
-    $this->stash['rest_count'] = $rest_count;
     $this->stash['is_login'] = $is_login;
 
     return $this->to_html_page('wap/promo/d3in_draw.html');
