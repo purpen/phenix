@@ -349,10 +349,12 @@
 	});
 
   //插入已存在的红包
-  $('.code-select').click(function(){
-    var code = $(this).attr('code');
-    $("input[name='bonus_code']").val(code);
-  });
+	$('.code-select').livequery(function(){
+    $(this).click(function(){
+      var code = $(this).attr('code');
+      $("input[name='bonus_code']").val(code);
+    });
+	});
 	
 	// 选择填写礼品码
 	$('#submit-gift').click(function(){
