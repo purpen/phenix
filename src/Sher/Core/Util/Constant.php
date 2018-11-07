@@ -123,7 +123,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const PRESALE_EXPIRE_TIME = 900;
 	
 	# 普通订单过期时间，48小时
-	const COMMON_EXPIRE_TIME = 172800;
+	#const COMMON_EXPIRE_TIME = 172800;
+  const COMMON_EXPIRE_TIME = 7200;
 
   # 实验室会员支付订单过期时间，15分钟
   const D3IN_EXPIRE_TIME = 900;
