@@ -332,17 +332,20 @@
 			phenix.show_error_note('请输入红包码', 3000);
 		}
 	});
+
 	// 选择使用红包
-	$('.inbonus').change(function(){
-		var code = $('.inbonus:checked').val();
-		$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
-			if(result.success){
-				$('#order-discount-money').text(result.data.discount_money);
-				$('#order-pay-money').text(result.data.pay_money);
-			}else{
-				phenix.show_error_note(result.message, 3000);
-			}
-		}, 'json');
+	$('.inbonus').livequery(function(){
+    $($this).change(function(){
+      var code = $('.inbonus:checked').val();
+      $.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
+        if(result.success){
+          $('#order-discount-money').text(result.data.discount_money);
+          $('#order-pay-money').text(result.data.pay_money);
+        }else{
+          phenix.show_error_note(result.message, 3000);
+        }
+      }, 'json');
+    });
 	});
 
   //插入已存在的红包
@@ -547,10 +550,12 @@
                 -->
               </div>
 						
+              <!--
   							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
   							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
   							  <div class="ui active color-be inverted button" id="submit-bonus" style="display:inline-block;">确定</div>
   							</div>
+              -->
   					  </div>
 					
   						<div class="title d_f_ac">
