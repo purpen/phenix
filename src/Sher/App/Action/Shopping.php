@@ -1531,6 +1531,99 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $freight = Sher_Core_Helper_Order::freight_stat($rid, $addbook_id);
         return $this->ajax_json('success', false, null, array('freight'=>$freight, 'rid'=>$rid));
     }
+
+  /**
+   * 计算可用红包列表
+   */
+  public function ajax_fetch_use_bonus(){
+
+    $not_expired = isset($this->stash['not_expired']) ? (int)$this->stash['not_expired'] : 0;
+    $load_active = isset($this->stash['load_active']) ? (int)$this->stash['load_active'] : 0;
+    $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : '';
+    $used = isset($this->stash['used']) ? (int)$this->stash['used'] : 1;
+		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
+    $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
+    $size = isset($this->stash['size']) ? (int)$this->stash['size'] : 50;
+
+    $query = array();
+    $options = array();
+
+    $query['user_id'] = $this->visitor->id;
+
+    if ($used){
+      $query['used'] = $used;
+    }
+
+		// 未过期的
+		if($not_expired){
+			$query['expired_at'] = array('$gt'=>time());
+		}
+
+    $options['page'] = $page;
+    $options['size'] = $size;
+        
+		// 排序
+		switch ((int)$sort) {
+			case 0:
+				$options['sort_field'] = 'latest';
+				break;
+			case 1:
+				$options['sort_field'] = 'update';
+				break;
+		}
+
+    $service = Sher_Core_Service_Bonus::instance();
+
+    if($load_active){
+        $bonus_active_model = new Sher_Core_Model_BonusActive();
+    }
+
+    $product_arr = array();
+    if ($product_ids){
+      $product_arr = explode(',', $product_ids);
+    }
+
+    $result = $service->get_all_list($query,$options);
+
+    $new_rows = array();
+    for($i=0;$i<count($result['rows']);$i++){
+        $row = $result['rows'][$i];
+        if($load_active){
+            $result['rows'][$i]['bonus_active'] = array();
+            if(isset($row['active_mark']) && !empty($row['active_mark'])){
+                $bonus_active = $bonus_active_model->first(array('mark'=>$row['active_mark']));
+                $result['rows'][$i]['bonus_active'] = $row['bonus_active'] = $bonus_active;
+            }
+        }
+        // 过滤不符合条件红包
+        if ($product_arr) {
+          if (!empty($row['product_id']) && count($product_arr)==1) {
+            if ($product_arr[1] != $row['product_id']){
+              continue;
+            }
+          }
+          if (isset($row['bonus_active']) && !empty($row['bonus_active'])) {
+            $is_active = false;
+            for($j=0; $j<count($product_arr); $j++) {
+              $arr = $row['bonus_active']['product_ids'];
+              if (in_array($product_arr[$j], $arr)) {
+                $is_active = true;
+              }
+            }
+            if(!$is_active) {
+              continue;
+            }
+          }
+        }
+        $row['is_min_amount'] = false;
+        $row['is_bonus_active'] = false;
+        if($row['min_amount']) $row['is_min_amount'] = true;
+        if($row['bonus_active']) $row['is_bonus_active'] = true;
+
+        array_push($new_rows, $row);
+    }   // endfor
+    return $this->ajax_json('', false, '', $new_rows);
+  }
 	
 }
 

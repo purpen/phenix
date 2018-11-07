@@ -293,6 +293,18 @@
 			});
 		}
 	});
+
+  // 获取可用红包
+  $.post('{{ app_url_wap }}/app/site/shopping/ajax_fetch_use_bonus', {rid: '{{ order_info.rid }}', not_expired: 1, load_active:1, used:1, product_ids: "{{ product_ids }}"}, function(rs){
+    if(rs.success){
+        rs.data['phenix'] = phenix.url;
+        var rendered = phenix.ajax_render_result('#used_bonus_tpl', rs.data);
+        $('#bonus-box').html(rendered);
+    }else{
+      phenix.show_error_note(result.message, 3000);
+    }
+  }, 'json');
+
 	// 选择填写红包
 	$('#submit-bonus').click(function(){
 		var bonus_code = $('#bonus-code').val();
@@ -500,13 +512,16 @@
   					<div class="ui styled fluid accordion">
   						<div class="title d_f_ac">
   							<i class="dropdown icon"></i>
-                            <div class="d_f_sb">
+                            <div class="d_f_sb" id="use-bonus">
                                 <span>使用红包</span>
-                                <p class="f_12">已使用红包<span>120.00</span>元</p>
+                                <p class="f_12">已使用红包:<span class="bonus-num"></span>元</p>
                             </div>
   						</div>
   						<div class="content">
   							{% bonus_list var:'bonus' page:1 size:10 user_id:visitor.id used:1 not_expired:1 load_active:1 %}
+                <div id="bonus-box">
+
+                <!--
   							{% for b in bonus.rows %}
   							<div class="bonus item" style="margin-bottom:1em;">
   								<div class="field">
@@ -523,6 +538,8 @@
   								</div>
   							</div>
   							{% endfor %}
+                -->
+              </div>
 						
   							<div class="ui fluid action input" style="display:inline-block;font-size:0;">
   							  <input placeholder="输入红包码..." name="bonus_code" type="text" id="bonus-code" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;" />
@@ -610,4 +627,8 @@
 		</div>
 	</form>
 </div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'used_bonus_tpl' tpl:'mustache_m/used_bonus.mustache' %}
 {% endblock %}
