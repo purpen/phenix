@@ -323,7 +323,7 @@
         rs.data['phenix'] = phenix.url;
         var rendered = phenix.ajax_render_result('#used_bonus_tpl', rs.data);
         $('#bonus-box').html(rendered);
-        if (rs.data.max_code){
+        if(rs.data.max_code){
           use_bonus(rs.data.max_code);
         }
     }else{
