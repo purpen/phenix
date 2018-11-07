@@ -257,6 +257,23 @@
 </style>
 {% endblock %}
 
+{% block layout_js %}
+<script type="text/javascript">
+	function use_bonus(code){
+			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
+				if(result.success){
+					$('#use-bonus-box').show();
+					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
+					$('#order-discount-money').text(result.data.discount_money);
+					$('#order-pay-money').text(result.data.pay_money);
+				}else{
+					phenix.show_error_note(result.message, 3000);
+				}
+			}, 'json');
+  }
+</script>
+{% endblock %}
+
 {% block jquery %}
 	$('#checkout-form').form({
     rrid: {
@@ -322,6 +339,8 @@
 		if(bonus_code){
 			$.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: bonus_code}, function(result){
 				if(result.success){
+					$('#use-bonus-box').show();
+					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
 					$('#order-discount-money').text(result.data.discount_money);
 					$('#order-pay-money').text(result.data.pay_money);
 				}else{
@@ -337,14 +356,7 @@
 	$('.inbonus').livequery(function(){
     $($this).change(function(){
       var code = $('.inbonus:checked').val();
-      $.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
-        if(result.success){
-          $('#order-discount-money').text(result.data.discount_money);
-          $('#order-pay-money').text(result.data.pay_money);
-        }else{
-          phenix.show_error_note(result.message, 3000);
-        }
-      }, 'json');
+      use_bonus(code);
     });
 	});
 
@@ -356,7 +368,8 @@
       $.post('{{ app_url_wap }}/shop/ajax_bonus', {rid: '{{ order_info.rid }}', code: code}, function(result){
         if(result.success){
           $('#order-discount-money').text(result.data.discount_money);
-          $('.bonus-num').text(result.data.discount_money);
+					$('#use-bonus-box').show();
+					$('#use-bonus-box .bonus-num').text(result.data.discount_money);
           $('#order-pay-money').text(result.data.pay_money);
         }else{
           phenix.show_error_note(result.message, 3000);
@@ -532,7 +545,7 @@
   					<div class="ui styled fluid accordion">
   						<div class="title d_f_ac">
   							<i class="dropdown icon"></i>
-                            <div class="d_f_sb" id="use-bonus">
+                            <div class="d_f_sb" id="use-bonus-box">
                                 <span>使用红包</span>
                                 <p class="f_12">已使用红包:<span class="bonus-num"></span>元</p>
                             </div>
