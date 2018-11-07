@@ -98,7 +98,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         if ($content == '测试') {
           $contentStr = '好好测哦~';
         }elseif ($content == '超级红包') {
-          $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。\n↓";
+          $contentStr = "戳https://m.taihuoniao.com/promo/d3in_draw 抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。\n↓";
         } elseif($content == '我要嗨购') {
           $rEvent = 'image';
           $mediaId = 'dRfSIOBu6JBL8PBXEY5wB9shXpcJK9GoVeSmc_Qj-ag';
@@ -260,7 +260,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                   $public_draw_record_model->inc((string)$hasDraw['_id'], 'total_count', 2);                   
                   $public_draw_record_model->update_set((string)$hasDraw['_id'], array('user_info'=>$hasOne['user_info']));
                   // 给用户发客服回复
-                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
+                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳https://m.taihuoniao.com/promo/d3in_draw 赶紧去抽奖吧，超级红包等你来~"));
                 }
               }
             }
