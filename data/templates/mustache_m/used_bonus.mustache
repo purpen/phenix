@@ -3,7 +3,10 @@
         <div class="bonus item" style="margin-bottom:1em;">
           <div class="field">
             <div class="ui radio checkbox">
+              <!--
               <input name="bonus" type="hidden" value="{{ code }}" class="inbonus" style="width:64% !important;max-width:64% !important; font-size:0.95rem;display:inline-block;"/>
+              -->
+              <input name="bonus" type="hidden" value="{{ code }}" class="inbonus"/>
               <label style="display:inline-block;">
                 <span class="ui color-be link text">{{ amount }}元</span>
                 {{#is_min_amount}}

@@ -318,7 +318,7 @@
   product_ids = product_arr.join(',');
 
   // 获取可用红包
-  $.post('{{ app_url_wap }}/app/site/shopping/ajax_fetch_use_bonus', {not_expired: 1, load_active:1, used:1, product_ids: product_ids}, function(rs){
+  $.post('{{ app_url_wap }}/app/site/shopping/ajax_fetch_use_bonus', {not_expired: 1, load_active:1, used:1, rid: '{{ order_info.rid }}'}, function(rs){
     if(rs.success){
         rs.data['phenix'] = phenix.url;
         var rendered = phenix.ajax_render_result('#used_bonus_tpl', rs.data);
@@ -545,9 +545,9 @@
   					<div class="ui styled fluid accordion">
   						<div class="title d_f_ac">
   							<i class="dropdown icon"></i>
-                            <div class="d_f_sb" style="display:none;" id="use-bonus-box">
+                            <div class="d_f_sb">
                                 <span>使用红包</span>
-                                <p class="f_12">已使用红包:<span class="bonus-num"></span>元</p>
+                                <p class="f_12" style="display:none;" id="use-bonus-box">已使用红包:<span class="bonus-num"></span>元</p>
                             </div>
   						</div>
   						<div class="content">

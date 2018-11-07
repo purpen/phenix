@@ -1539,7 +1539,7 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
 
     $not_expired = isset($this->stash['not_expired']) ? (int)$this->stash['not_expired'] : 0;
     $load_active = isset($this->stash['load_active']) ? (int)$this->stash['load_active'] : 0;
-    $product_ids = isset($this->stash['product_ids']) ? $this->stash['product_ids'] : '';
+    $rid = isset($this->stash['rid']) ? $this->stash['rid'] : '';
     $used = isset($this->stash['used']) ? (int)$this->stash['used'] : 1;
 		$sort = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 0;
     $page = isset($this->stash['page']) ? (int)$this->stash['page'] : 1;
@@ -1578,16 +1578,18 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
         $bonus_active_model = new Sher_Core_Model_BonusActive();
     }
 
-    $product_arr = array();
-    if ($product_ids){
-      $product_arr = explode(',', $product_ids);
-    }
-
     $result = $service->get_all_list($query,$options);
 
     $data = array();
     for($i=0;$i<count($result['rows']);$i++){
         $row = $result['rows'][$i];
+
+        $bonus_result = Sher_Core_Util_Shopping::check_bonus($rid, $row['code'], $this->visitor->id);
+        if(!empty($bonus_result['code'])){
+          continue;
+        }
+
+        // 加载红包专题
         if($load_active){
             $result['rows'][$i]['bonus_active'] = array();
             if(isset($row['active_mark']) && !empty($row['active_mark'])){
@@ -1595,32 +1597,12 @@ class Sher_App_Action_Shopping extends Sher_App_Action_Base implements DoggyX_Ac
                 $result['rows'][$i]['bonus_active'] = $row['bonus_active'] = $bonus_active;
             }
         }
-        // 过滤不符合条件红包
-        if ($product_arr) {
-          if (!empty($row['product_id']) && count($product_arr)==1) {
-            if ($product_arr[1] != $row['product_id']){
-              continue;
-            }
-          }
-          if (isset($row['bonus_active']) && !empty($row['bonus_active'])) {
-            $is_active = false;
-            for($j=0; $j<count($product_arr); $j++) {
-              $arr = $row['bonus_active']['product_ids'];
-              if (in_array($product_arr[$j], $arr)) {
-                $is_active = true;
-              }
-            }
-            if(!$is_active) {
-              continue;
-            }
-          }
-        }
+
         $row['_id'] = (string)$row['_id'];
         $row['is_min_amount'] = false;
         $row['is_bonus_active'] = false;
         if($row['min_amount']) $row['is_min_amount'] = true;
         if($row['bonus_active']) $row['is_bonus_active'] = true;
-
 
         array_push($data, $row);
     }   // endfor
