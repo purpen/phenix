@@ -1,0 +1,128 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style type="text/css">
+    .ordby{
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .d3-card {
+        padding: 0;
+    }
+    .p_b_e {
+        padding-bottom: 80px;
+    }
+    .d3-card .ui.three.cards .card>a {
+        padding-top: 79.143%;
+        max-height: 300px;
+        overflow: hidden;
+    }
+    .d3-card .ui.three.cards .card>a img {
+        width: 100%;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script>
+  // 获取铟果文章
+  function ajax_load_d3ingo_article(category_id, type, sort, page, size){
+    var url = '{{ app_url_d3ingo_api }}/article/list';
+    $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
+      var html = '';
+      for (var i = 0; i < rs.data.length; i++) {
+        var item = rs.data[i];
+        html += '<div class="card">';
+        html += '<a href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
+        html += '<img class="lazy" data-original="'+ item.cover.file +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<div class="text">';
+        html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
+        html += '<div class="desc"><p>'+ item.short_content +'</p></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      $('#community-message').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+</script>
+
+{% endblock %}
+
+{% block jquery %}
+    ajax_load_d3ingo_article(0, 0, 0, 1, 6);
+{% endblock %}
+
+{% block content %}
+<div class="ui topicnew-nav page">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/topic/message" class="ui active link">资讯</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui link">社区话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui link">试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">活动</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">创新指数</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/birdegg" class="ui link">蛋年大会</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">灵感</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">产品专辑</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">专题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/contest/qsyd4" class="ui link">大赛</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d3-card">
+    <div class="p_b_e">
+        <div class="ui responsive grid">
+            <!--<div class="row">-->
+            <!--<div class="column">-->
+            <!--<h2 class="ui header">铟果说</h2>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="row">
+                <div class="column">
+                    <div class="ui three cards" id="community-message">
+                        <!--ajax load-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

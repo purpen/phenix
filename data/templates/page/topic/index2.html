@@ -1,0 +1,394 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .ordby{
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .d3-card .ui.four.cards .card {
+        border-radius: 0;
+        -webkit-box-shadow: 0 5px 10px 0 #eee;
+        box-shadow: 0 5px 10px 0 #eee;
+    }
+    .d3-card .ui.four.cards .card>a {
+        padding-top: 57.143%;
+        width: 100%;
+        display: block;
+        position: relative;
+    }
+
+    .d3-card .ui.four.cards .card>a img {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .d3-card .ui.four.cards .card .text {
+        margin: 11px 15px;
+        overflow: hidden;
+    }
+
+    .d3-card .ui.four.cards .card .text>h2 {
+        bottom: 0;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: .15px;
+        overflow: hidden;
+        text-align: left;
+        margin: 0 0 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .d3-card .ui.four.cards .card .text>h2>a {
+        color: #222;
+        letter-spacing: .2px;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .d3-card .ui.four.cards .card .text>.desc {
+        font-size: 14px;
+        height: 42px;
+        letter-spacing: .1px;
+        overflow: hidden;
+        padding: 0;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .d3-card .ui.four.cards .card .text>.desc>p {
+        line-height: 1.5;
+        margin: 0;
+        color: #000;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+
+    .ui.containermain .conleft .topicbox {
+        height: 160px;
+        padding-bottom: 0;
+        border: none;
+    }
+
+    /*右侧话题样式*/
+    .ui.containermain .conright .sellwrap.userinfo .button {
+        height: 50px;
+        line-height: 50px !important;
+        padding: 0;
+    }
+
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script type="text/javascript" >
+  var category_id = "{{ category_id }}";
+  var type = "{{ type }}";
+  var sort = "{{ sort }}";
+  var time = 0;
+  function ajax_load_more(category_id, page, type, time, sort){
+    var url = '{{ app_url_topic }}/ajax_fetch_more';
+    $.get(url, { category_id:category_id, page:page, type:type, time:time, sort:sort, size:10 }, function(rs){
+      rs.data['phenix'] = phenix.url;
+      var rendered = phenix.ajax_render_result('#fetch_more_topics_tpl', rs.data);
+      console.log(rendered)
+      if(page==1){
+        $('#topic-box').html(rendered);
+      }else{
+        $('#topic-box').append(rendered);
+      }
+      //$('#topic-more').before(rendered);
+      if (rs.data.nex_page != 'no'){
+        $('#topic-more').data('status', 0);
+        $('#topic-more').data('page', page);
+        // $('.ui.more.button').html('<i class="search icon"></i> 加载更多话题');
+        $('.ui.more.button').html('加载更多话题');
+      }else{
+        $('.ui.more.button').hide();
+      }
+      $("div.bglazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+
+  // 最热话题
+  function community_hot_topic(category_id, type, sort, page, size){
+    var url = '{{ app_url_d3ingo_api }}/article/list';
+    $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
+      var html = '';
+      for (var i = 0; i < rs.data.length; i++) {
+        var item = rs.data[i];
+        html += '<div class="card">';
+        html += '<a href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
+        html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<div class="text">';
+        // html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
+        html += '<div class="desc"><p>'+ item.short_content +'</p></div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      $('#community-hot-topic').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+    var s = e(window).width();
+        e("#fixedslide > .ui.slide > .item").width(s);
+        var $frame = $('#fixedslide');
+        // Call Sly on frame
+        $frame.sly({
+        horizontal: 1,
+        itemNav: 'basic',
+        smart: 1,
+        activateMiddle: 1,
+        activateOn: 'click',
+
+        // Automated cycling
+        cycleBy: "items",
+        cycleInterval: 3500,
+        pauseOnHover: 1,
+
+        // Dragging
+        mouseDragging: 1,
+        touchDragging: 1,
+        releaseSwing: 1,
+
+        prev: "#fixedslide .prev",
+        next: "#fixedslide .next",
+
+        pagesBar: $frame.find('.pages'),
+        pageItem: 'items',
+        activatePageOn: 'click',
+        pageBuilder: function(index){
+            return '<a href="javascript:void(0);">'+ (index + 1) +'</a>';
+        },
+
+        // Mixed options
+        startAt: 0,
+        speed: 300,
+        elasticBounds: 1,
+        easing: 'easeInOutExpo',
+        dragHandle: 1,
+        dynamicHandle: 1,
+        clickBar: 1,
+        });
+
+        $(window).resize(function() {
+            var s=$(window).width();
+            e("#fixedslide > .ui.slide > .item").width(s);
+
+            $frame.sly('reload');
+        });
+
+        // ajax加载签到数据
+        phenix.signin();
+
+        // 加载更多动态
+        $('.ui.more.button').bind('click',function(){
+            var stat = $('#topic-more').data('status');
+            var page = parseInt($('#topic-more').data('page')) + 1;
+            var type = parseInt($('#topic-more').data('type')), time = parseInt($('#topic-more').data('time')), sort = parseInt($('#topic-more').data('sort'));
+            if(stat == 0){
+                $('#topic-more').data('status', 1);
+                $('.ui.more.button').html('加载中...')
+                ajax_load_more(category_id, page,type,time,sort);
+            }
+        })
+
+        $('.mentors > .avatar a')
+            .popup({
+            hoverable: true,
+            position : 'top center',
+        });
+
+        // 初始加载
+        ajax_load_more(category_id, 1, type, time, sort);
+        <!--最热话题-->
+        community_hot_topic(0, 0, 0, 1, 6);
+{% endblock %}
+
+{% block content %}
+<div class="ui topicnew-nav page">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/topic/message" class="ui link">资讯</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui active link">社区话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui link">试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">活动</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">创新指数</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/birdegg" class="ui link">蛋年大会</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">灵感</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">产品专辑</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">专题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_domain }}/contest/qsyd4" class="ui link">大赛</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui topicnew page">
+    <div id="fixedslide" class="frame" style="margin-bottom: 10px;">
+        {% ad_list var:'adslide' page:1 size:3 state:2 name:'find_home_slide' %}
+        <div class="ui slide">
+            {% for ad in adslide.rows %}
+            <div class="item">
+                <div class="featured-vendor {{ ad.text_align }}" style="background-image: url('{{ ad.cover.fileurl }}'); background-color: {{ ad.bgcolor }};">
+                    <a class="imglink" href="{{ ad.view_url }}" target="_blank"></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="pages"></div>
+        <a class="prev" href="#">
+            <i class="angle left icon"></i>
+        </a>
+        <a class="next" href="#">
+            <i class="angle right icon"></i>
+        </a>
+    </div>
+    <div class="d3-card">
+        <div class="p_b_e">
+            <div class="ui responsive grid">
+                <div class="row">
+                    <div class="column">
+                        <h2 class="ui header">热门话题</h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="ui four cards" id="community-hot-topic">
+                            <!--ajax load-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui inverted secondary pointing menu">
+                    <a class="item {%if category_id==0%}active{%endif%}" href="{{ app_url_topic }}" >最新话题</a>
+                    {% category_list var:'category' only_open:1 domain:2 size:15 %}
+                    {% for cat in category.rows %}
+                    {% if cat.pid %}
+                    <a class="item {%if category_id==cat._id%}active{%endif%}" href="{{ app_url_topic }}?category_id={{ cat._id }}">
+                        {{ cat.title }}
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="column">
+                <div class="ui containermain">
+                    <div class="conleft">
+                        <!--<div class="ordby">-->
+
+                            <!--<div class="ui text menu" style="margin:0;">-->
+                                <!--<div class=" item"><i class="flag icon"></i>条件:</div>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type=0&sort={{sort}}" class="item magenta {{ css_type_all }}">全部 </a>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type=1&sort={{sort}}" class="item magenta {{ css_type_stick }}">编辑推荐 </a>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type=2&sort={{sort}}" class="item magenta {{ css_type_fine }}">精华主题 </a>-->
+                                <!--&lt;!&ndash;-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type=4&sort={{sort}}" class="item magenta {{ css_type_active }}">热门活动 </a>-->
+                                <!--&ndash;&gt;-->
+                            <!--</div>-->
+
+                            <!--<div class="ui text menu" style="margin:0;">-->
+                                <!--<div class=" item"><i class="time icon"></i>排序:</div>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type={{type}}&sort=0" class="item magenta {{ css_sort_default }}">最新主题 </a>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type={{type}}&sort=7" class="item magenta {{ css_sort_update }}">最新回复 </a>-->
+                                <!--<a href="{{ app_url_topic }}?category_id={{category_id}}&type={{type}}&sort=2" class="item magenta {{ css_sort_comment }}">回复最多 </a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        {% if dig_list %}
+                        {% for topic in dig_list %}
+                        {% if topic %}
+                        <!-- 判断话题是否可以显示 -->
+                        {% if topic.published %}
+                        {% include "block/topic_item.html" %}
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
+                        {% for topic in list.rows %}
+                        {% if !topic.top==1 %}<!--过滤置顶帖子-->
+                        {% include "block/topic_item.html" %}
+                        {% endif %}
+                        {% endfor %}
+
+                        <div id="topic-box"><!--ajax-list--></div>
+
+                        <div id="topic-more" data-page="1" data-status="0" data-category_id="{{ category_id }}" data-type="{{ type }}" data-time="{{ time }}" data-sort="{{ sort }}">
+                            <div class="resultbox">
+                                <a href="javascript:void(0);" class="ui magenta inverted large more button">
+                                    <i class="search icon"></i> 查看更多话题
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="conright">
+                        {% include "page/topic/usersign.html" %}
+                        {% include "page/topic/login_user.html" %}
+                        {% include "page/topic/rightbar.html" %}
+                        {% include "page/topic/right_active.html" %}
+                        {% include "page/topic/top_user.html" %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% mustache id:'fetch_more_topics_tpl' tpl:'mustache/fetch_more_topicbox.mustache' %}
+{% endblock %}

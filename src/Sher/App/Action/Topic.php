@@ -53,8 +53,16 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区
 	 */
 	public function execute(){
-		return $this->index();
+		# return $this->index();
+		return $this->index2();
 	}
+
+	/**
+     * 社区资讯
+     */
+    	public function message(){
+    		return $this->to_html_page('page/topic/message.html');
+    	}
 	
 	/**
 	 * 社区首页
@@ -97,6 +105,49 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
         $this->gen_advanced_links($category_id, $type, $time, $sort, $page);
         
 		return $this->to_html_page('page/topic/index.html');
+	}
+
+	/**
+	 * 社区首页测试
+	 */
+	public function index2(){
+
+		$category_id = $this->stash['category_id'];
+		$type = $this->stash['type'];
+        $time = $this->stash['time'];
+		$sort = $this->stash['sort'] = isset($this->stash['sort']) ? (int)$this->stash['sort'] : 1;
+        $page = $this->stash['page'];
+
+		// 综合分类
+		$this->stash['topic_category_official'] = Doggy_Config::$vars['app.topic_category_official'];
+		// 产品分类
+		$this->stash['topic_category_user'] = Doggy_Config::$vars['app.topic_category_user'];
+
+		// 获取置顶列表
+		$diglist = array();
+		$dig_ids = array();
+
+		$digged = new Sher_Core_Model_DigList();
+		$result = $digged->load(Sher_Core_Util_Constant::DIG_TOPIC_TOP);
+		if (!empty($result) && !empty($result['items'])) {
+			$model = new Sher_Core_Model_Topic();
+			$diglist = $model->extend_load_all($result['items']);
+
+	        for ($i=0; $i < count($result['items']); $i++) {
+				$dig_ids[] = is_array($result['items'][$i]) ? $result['items'][$i]['_id'] : $result['items'][$i];
+	        }
+		}
+
+        // 昨天的日期
+        $yesterday = (int)date('Ymd' , strtotime('-1 day'));
+        $this->stash['yesterday'] = $yesterday;
+
+		$this->stash['dig_ids']  = $dig_ids;
+		$this->stash['dig_list'] = $diglist;
+
+        $this->gen_advanced_links($category_id, $type, $time, $sort, $page);
+
+		return $this->to_html_page('page/topic/index2.html');
 	}
     
     /**

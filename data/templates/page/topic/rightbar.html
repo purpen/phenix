@@ -2,11 +2,12 @@
 <div class="sellwrap userinfo">
 	{% if visitor.is_login %}
 		<a href="{{ app_url_topic }}/submit?cid={{ cid }}" class="fluid ui magenta inverted button">
-			<i class="edit icon"></i> 发表新主题
+			<!--<i class="edit icon"></i> 发表新话题-->
+			发表新话题
 		</a>
 	{% else %}
 		<a href="{{ app_url_login }}" class="fluid ui grey inverted pop button" data-content="先登录后，可发表话题">
-			<i class="edit icon"></i> 发表新主题
+			发表新话题
 		</a>
 	{% endif %}
     <p>太火鸟社区致力打造智能硬件圈草根领袖聚集地和很酷很好玩的智品库，搭建创业者和爱好者之间的沟通桥梁。</p>
