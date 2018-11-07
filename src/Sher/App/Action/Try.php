@@ -28,8 +28,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	 * 列表
 	 */
 	public function execute(){
-		# return $this->get_list();
-		return $this->get_list2();
+		return $this->get_list();
+		# return $this->get_list2();
 	}
 	
 	/**
