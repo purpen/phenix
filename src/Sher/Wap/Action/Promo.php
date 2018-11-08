@@ -2263,6 +2263,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
    */
 
    public function d3in_hi(){
+    // 记录浏览数
+	  $num_mode = new Sher_Core_Model_SumRecord();
+	  $num_mode->add_record('28', 'view_count', 4, 4); 
        //微信分享
        $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
        $timestamp = $this->stash['timestamp'] = time();
@@ -2278,6 +2281,9 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
     * d3in-2018-抽奖
     */
    public function d3in_draw(){
+    // 记录浏览数
+	  $num_mode = new Sher_Core_Model_SumRecord();
+	  $num_mode->add_record('27', 'view_count', 4, 4); 
      //微信分享
     $this->stash['app_id'] = Doggy_Config::$vars['app.wechat.app_id'];
     $timestamp = $this->stash['timestamp'] = time();
@@ -2309,14 +2315,12 @@ class Sher_Wap_Action_Promo extends Sher_Wap_Action_Base {
 
     // 获取当前用户有效抽奖次数
     $rest_count = 0;
+    $is_login = false;
     if($this->visitor->id && $this->visitor->wx_union_id){
-      $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($this->visitor->wx_union_id);
-      $draw_count = $obj['total_count'] - $obj['draw_count'];
-      if ($draw_count > 0) {
-        $rest_count = $draw_count;
-      }
-      $this->stash['rest_count'] = $rest_count;
+      $is_login = true;
     }
+
+    $this->stash['is_login'] = $is_login;
 
     return $this->to_html_page('wap/promo/d3in_draw.html');
    }

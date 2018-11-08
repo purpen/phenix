@@ -115,6 +115,8 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
       return $this->ajax_note('拒绝访问,请重试！', true);
     }
 
+    $redirect_url = null;
+
     // $app_id = Doggy_Config::$vars['app.wx.app_id'];
     // $secret = Doggy_Config::$vars['app.wx.app_secret'];
     $app_id = 'wx75a9ffb78f202fb3';
@@ -152,16 +154,13 @@ class Sher_Wap_Action_Weixin extends Sher_Wap_Action_Base {
             return $this->show_message_page('获取用户昵称为空！', $error_redirect_url);
           }
           $union_id = $result['data']['unionid'];
-
-          
-
           $sex = isset($result['data']['sex'])?(int)$result['data']['sex']:0;
           $avatar_url = isset($result['data']['headimgurl'])?$result['data']['headimgurl']:null;
           $nickname = $result['data']['nickname'];
           //验证昵称格式是否正确--正则 仅支持中文、汉字、字母及下划线，不能以下划线开头或结尾
           $e = '/^[\x{4e00}-\x{9fa5}a-zA-Z0-9][\x{4e00}-\x{9fa5}a-zA-Z0-9-_]{0,28}[\x{4e00}-\x{9fa5}a-zA-Z0-9]$/u';
           if (!preg_match($e, $nickname)) {
-            $nickname = (string)$open_id;
+            $nickname = '微信用户-'.(string)rand(10000,99999);
           }
 
           // 检查用户名是否唯一

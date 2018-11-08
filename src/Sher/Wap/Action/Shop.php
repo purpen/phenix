@@ -685,6 +685,16 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
         }else{
             $product_id = (int)$sku;
         }
+
+    // 某些产品临时限制，不允许购买多次
+    if ($product_id == 1105705251 || $product_id == 1105758868){
+      $redis = new Sher_Core_Cache_Redis(); 
+      $limit_key = sprintf("shop:limit:%s:%s", $user_id, $product_id);
+      $hasShoped = $redis->get($limit_key);
+      if ($hasShoped){
+ 			  return $this->show_message_page('此商品不能重复购买！', true);     
+      }
+    }
 		
 		// 获取产品信息
 		$product = new Sher_Core_Model_Product();
@@ -851,6 +861,13 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 		$this->stash['pay_money'] = $pay_money;
 		
 		$this->set_extra_params();
+
+    // 某些产品临时限制，不允许购买多次
+    if ($product_id == 1105705251 || $product_id == 1105758868){
+      $redis = new Sher_Core_Cache_Redis(); 
+      $limit_key = sprintf("shop:limit:%s:%s", $user_id, $product_id);
+      $redis->set($limit_key, 1, 86400);
+    }
 		
 		return $this->to_html_page('wap/checkout.html');
 	}

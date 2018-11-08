@@ -123,7 +123,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
 	const PRESALE_EXPIRE_TIME = 900;
 	
 	# 普通订单过期时间，48小时
-	const COMMON_EXPIRE_TIME = 172800;
+	#const COMMON_EXPIRE_TIME = 172800;
+  const COMMON_EXPIRE_TIME = 7200;
 
   # 实验室会员支付订单过期时间，15分钟
   const D3IN_EXPIRE_TIME = 900;
@@ -438,6 +439,8 @@ class Sher_Core_Util_Constant extends Doggy_Object {
       24=>'--',
       25=>'Fiu介绍',
       26=>'1分钟答题通关，不花钱办年货',
+      27=>'铟立方18年双11抽奖页',
+      28=>'铟立方18年双11特卖区页',
     );
     if(empty($id)){
       return $array;

@@ -98,7 +98,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
         if ($content == '测试') {
           $contentStr = '好好测哦~';
         }elseif ($content == '超级红包') {
-          $contentStr = "戳（链接）抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。\n↓";
+          $contentStr = "戳https://m.taihuoniao.com/promo/d3in_draw 抽奖，一元抢戴森卷发棒\n更有1500元红包限时领。\n转发个人海报，获得好友支持，即可额外获得2次抽奖机会。\n↓";
         } elseif($content == '我要嗨购') {
           $rEvent = 'image';
           $mediaId = 'dRfSIOBu6JBL8PBXEY5wB9shXpcJK9GoVeSmc_Qj-ag';
@@ -227,7 +227,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
           }
           // Doggy_Log_Helper::debug("用户信息：" . json_encode($userResult));
           // 给用户发客服回复
-          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n转发个人海报，获得好友支持，额外获得2次抽奖机会。\n↓"));
+          Sher_Core_Util_WxPub::serviceApi($uid, 'text', array('content'=>"嗨，欢迎来到铟立方未来商店\n先锋设计产品，前沿科技资讯\n新鲜生活方式，智能未来体验\n你的每一次关注，都在为自己喜欢的生活买单。\n铟立方72小时嗨购活动正在进行中，戳https://m.taihuoniao.com/promo/d3in_draw 参与抽奖即有机会1元抢戴森卷发棒，更有1500元红包限时领。\n\n转发个人海报，获得好友支持，额外获得2次抽奖机会。"));
 
           $qrResult = Sher_Core_Util_WxPub::genQr(1, array('scene_str'=>$obj['mark']));
           if(!$qrResult) {
@@ -260,7 +260,7 @@ class Sher_WApi_Action_D3inService extends Sher_WApi_Action_Base implements Dogg
                   $public_draw_record_model->inc((string)$hasDraw['_id'], 'total_count', 2);                   
                   $public_draw_record_model->update_set((string)$hasDraw['_id'], array('user_info'=>$hasOne['user_info']));
                   // 给用户发客服回复
-                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳链接赶紧去抽奖吧，超级红包等你来~"));
+                  Sher_Core_Util_WxPub::serviceApi($invite_oid, 'text', array('content'=>"您的好友$userResult[nickname]通过您的链接成功抽奖，您额外获得2次抽奖机会，戳https://m.taihuoniao.com/promo/d3in_draw 赶紧去抽奖吧，超级红包等你来~"));
                 }
               }
             }

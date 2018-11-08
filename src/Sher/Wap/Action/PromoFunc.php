@@ -1073,6 +1073,22 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
 
         return $this->ajax_json('success', false, null, $data);
     }
+
+  /**
+   * ajax获取抽奖次数
+   */
+  public function ajax_fetch_d3in_draw_count(){
+    $count = 0;
+    if($this->visitor->id && $this->visitor->wx_union_id){
+      $is_login = true;
+      $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($this->visitor->wx_union_id);
+      $draw_count = $obj['total_count'] - $obj['draw_count'];
+      if ($draw_count > 0) {
+        $count = $draw_count;
+      }
+    }
+    return $this->ajax_json('success', false, null, array('count'=>$count));
+  }
 	
 }
 
