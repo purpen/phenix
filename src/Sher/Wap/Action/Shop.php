@@ -688,6 +688,9 @@ class Sher_Wap_Action_Shop extends Sher_Wap_Action_Base {
 
     // 某些产品临时限制，不允许购买多次
     if ($product_id == 1105705251 || $product_id == 1105758868){
+      if ($quantity > 1){
+  			return $this->show_message_page('此商品只能购买一件！', true);        
+      }
       $redis = new Sher_Core_Cache_Redis(); 
       $limit_key = sprintf("shop:limit:%s:%s", $user_id, $product_id);
       $hasShoped = $redis->get($limit_key);
