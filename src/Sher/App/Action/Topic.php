@@ -25,7 +25,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
-	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics');
+	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics', 'message', 'inspiration', 'project', 'competition');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -53,15 +53,38 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	 * 社区
 	 */
 	public function execute(){
-		return $this->index();
-		# return $this->index2();
+		# return $this->index();
+		return $this->index2();
 	}
 
 	/**
-     * 社区资讯
+     * 社区资讯测试
      */
     	public function message(){
+            $this->set_target_css_state('page_message');
     		return $this->to_html_page('page/topic/message.html');
+    	}
+
+    /**
+     * 社区灵感测试
+     */
+    	public function inspiration(){
+            $this->set_target_css_state('page_inspiration');
+    		return $this->to_html_page('page/topic/inspiration.html');
+    	}
+    /**
+     * 社区专题测试
+     */
+    	public function project(){
+            $this->set_target_css_state('page_project');
+    		return $this->to_html_page('page/topic/project.html');
+    	}
+    /**
+     * 社区大赛测试
+     */
+    	public function competition(){
+            $this->set_target_css_state('page_competition');
+    		return $this->to_html_page('page/topic/competition.html');
     	}
 	
 	/**
@@ -146,7 +169,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 		$this->stash['dig_list'] = $diglist;
 
         $this->gen_advanced_links($category_id, $type, $time, $sort, $page);
-
+        $this->set_target_css_state('page_c_topic');
 		return $this->to_html_page('page/topic/index2.html');
 	}
     

@@ -27,7 +27,8 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
 	 * 网站入口
 	 */
 	public function execute(){		
-		return $this->home();
+		#return $this->home();
+		 return $this->hometest();
 	}
 	
 	/**
@@ -150,7 +151,7 @@ class Sher_App_Action_Index extends Sher_App_Action_Base {
         return $this->to_html_page('page/home.html');
     }
 	/***************
-	/**
+	     /**
          * 首页测试
          * @return string
          */

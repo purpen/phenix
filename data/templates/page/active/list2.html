@@ -1,0 +1,227 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+{% block page_css %}
+<style type="text/css">
+    .active_title {
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 0 20px;
+    }
+
+    .active_title span:first-child {
+        font-size: 24px;
+        color: #222;
+    }
+
+    .active_title span a {
+        font-size: 16px;
+        color: #666;
+    }
+
+    .produce_review .report.grid h2.ui.header {
+        color: #000;
+    }
+    .produce_review .report.grid h2.ui.header span a {
+        font-size: 16px;
+        color: #666;
+        float: right;
+    }
+
+    .public_cooperation .nextstep.grid.last {
+        margin-bottom: 40px;
+    }
+
+    .public_cooperation .nextstep.grid .row {
+        padding: 10px;
+    }
+
+    .public_cooperation .nextstep.grid.last .row .column {
+        padding-bottom: 30px;
+    }
+
+    .public_cooperation .nextstep.grid .row .column {
+        background: #fff;
+        text-align: center;
+    }
+
+    .public_cooperation .nextstep.grid .row .column h2.ui.header {
+        color: #000;
+        padding: 30px 0 20px;
+        margin: 0;
+    }
+
+    .public_cooperation .nextstep.grid .row .column h2.ui.header+p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .public_cooperation .nextstep.grid .row .column p {
+        color: #222 !important;
+    }
+</style>
+{% endblock %}
+{% block layout_js %}{% endblock %}
+    {% block jquery %}
+    // ajax加载签到数据
+    //phenix.signin();
+{% endblock %}
+
+{% block content %}
+<!--活动-->
+<div class="ui topicnew-nav page">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/message" class="ui link">资讯</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui link">社区话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui link">试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui active link">活动</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_active }}" class="ui link">创新指数</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/inspiration" class="ui link">灵感</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/project" class="ui link">专题</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/competition" class="ui link">大赛</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui activenew page">
+    <div class="ui responsive grid">
+        <!--<div class="row pt-0">
+            <div class="column">
+                <div class="ui one cat cards">
+                    {% active_list var:'current_list' published:1 deleted:1 step_stat:2 state:2 sort:'stick:asc_created' size:1 %}
+                    {% for active in current_list.rows %}
+                    <div class="card">
+                        <a title="{{ active.title }}" href="{{ active.view_url }}" class="thumb" target="_blank">
+                            <img title="{{ active.title }}" src="{{ active.banner.fileurl }}">
+                        </a>
+                    </div>
+                    {%endfor%}
+                </div>
+            </div>
+        </div>-->
+        <div class="row pt-0">
+            <div class="active_title">
+                <span>活动</span>
+                <span><a href="">更多</a></span>
+            </div>
+            <div class="column">
+                <div class="ui activecard three cards">
+                    {% active_list var:'old_list' ingore_id:current_list.rows.0._id published:1 deleted:1 step_stat:4 state:2 page:page size:12 %}
+                    {% for active in old_list.rows %}
+                    <div class="card">
+                        <a title="{{ active.title }}" href="{{ active.view_url }}" class="thumb bglazy" target="_blank" data-original="{{ active.cover.thumbnails.md.view_url }}" style="background-color: #eee;background-size: cover;">
+                            <div class="ribbons">
+                                {% if active.step_stat == 2 %}
+                                <span class="ribbon end">已结束</span>
+                                {% else %}
+                                <span class="ribbon doing">
+                                    正在进行
+                                </span>
+                                {%endif%}
+                            </div>
+                        </a>
+                        <h2>
+                            <a href="{{ active.view_url }}" title="{{ active.title }}" class="ui line" target="_blank">
+                                {{ active.title }}－{{ active.conduct_city }}站
+                            </a>
+                        </h2>
+                        <div class="excerpt">
+                            <p>时间：{{ active.begin_time|date 'Y/m/d H:i' }}</p>
+                            <p>地址：{{ active.conduct_city }}{{ active.address }}</p>
+                        </div>
+
+                    </div>
+                    {%endfor%}
+                </div>
+                {% if old_list.total_rows %}
+                <div class="ui pagination">
+                    {% pager url:pager_url,total_rows:old_list.total_rows,total_page:old_list.total_page,current_page:page,var:'pager',pager_size:9 %}
+                    {%include 'block/pager.html'%}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!--活动报道-->
+        <div class="produce_review">
+            <div class="ui report responsive grid">
+                <div class="row">
+                    <div class="column">
+                        <h2 class="ui header">活动报道
+                            <span><a href="{{ app_url_topic }}/c18/">更多</a></span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <div class="ui topiccard three cards">
+                            {% topic_list var:'topic_list' published:1 type:5 sort:6 page:1 size:6 %}
+                            {% for topic in topic_list.rows %}
+                            <div class="card">
+                                <div class="problock">
+                                    <a href="{{ topic.view_url }}" title="{{ topic.title }}" target="_blank" class="bglazy" data-original="{{ topic.cover.thumbnails.hm.view_url }}" style="background-color: #eee;background-size:cover;">
+                                    </a>
+                                    <h2>
+                                        <a href="{{ topic.view_url }}" title="{{ topic.title }}" class="ui line" target="_blank">
+                                            {{ topic.title }}
+                                        </a>
+                                    </h2>
+
+                                    <p class="author">
+                                <span class="mesg">
+                                    <a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>
+                                </span>
+                                        <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="heart icon"></i> <span>{{ topic.comment_count }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="public_cooperation">
+            <div class="ui nextstep last responsive grid">
+                <div class="row">
+                    <div class="column">
+                        <h2 class="ui header">合作申请
+                        </h2>
+                        <p>太火鸟新品试用是专注于智能设备的免费试用平台，每1-2周提供一款智能或新奇设备供你免费体验，你的反馈将影响产品的设计，决定产品命运。</p>
+                        <p>合作申请   mail：xudingyi@taihuoniao.com    QQ:418217044</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block templates %}
+{% mustache id:'user_sign_box_tpl' tpl:'mustache/user_sign_box.mustache' %}
+{% endblock %}

@@ -1,0 +1,210 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+    .m_t {
+        margin: 0 10px 20px;
+    }
+
+    .p_n {
+        padding: 0 !important;
+    }
+
+    .m_n {
+        margin: 0 !important;
+    }
+
+    .ui.secondary.pointing.menu {
+        border: none;
+    }
+
+    .ui.secondary.pointing.menu .item {
+        margin: 0 20px -2px;
+        padding: .85714286em 0em;
+        border:none !important;
+    }
+    .ui.secondary.menu .active.item {
+        color: #f36 !important;
+    }
+
+
+    .ui.trycard.three.cards>.card>.problock>a {
+        padding-top: 62%;
+    }
+    .trypagenew .nextstep.grid .row .column p {
+        color: #222 !important;
+    }
+
+    .d3-card {
+        padding-bottom: 30px;
+        padding-top: 0;
+    }
+
+    .ui.menu {
+        justify-content: center;
+    }
+
+    .box_shadow {
+        box-shadow: 0 4px 4px 0 rgba(0,0,0,0.03);
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script>
+  var arr = [1,2,3,4]
+  arr.splice(1,1)
+  console.log('我是' + arr)
+  // 获取铟果灵感
+  function ajax_load_d3ingo_case(isaward, category_id, type, sort, page, size){
+    if (isaward == 0) {
+      var url = '{{ app_url_d3ingo_api }}/designCase/openLists';
+      var row = {
+        category_id:category_id,
+        sort:sort,
+        page:page,
+        type:type,
+        per_page:size
+      }
+    } else {
+      var url = '{{ app_url_d3ingo_api }}/awardCase/list';
+      var row = {
+        sort:sort,
+        page:page,
+        per_page:size
+      }
+    }
+    $.get(url, row, function(rs){
+      var html = '';
+      console.log(rs.data.length)
+      var item = rs.data;
+      if (isaward == 0) {
+        item =  item.filter(function (item,i,arr) {
+          console.log(item)
+          return item.cover && item.design_company.logo_image && item.design_company
+        })
+        console.log(item)
+        for (var i = 0; i < item.length; i++) {
+          html += '<div class="card">';
+          html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">';
+          html += '<img class="lazy" data-original="'+ item[i].cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+          html += '<div class="text">';
+          html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">'+ item[i].title +'</a></h2>';
+          html += '<div class="desc"><p>'+ item[i].profile +'</p></div>';
+          html += '<p class="user"><img src="'+ item[i].design_company.logo_image.logo+'" width="30" /> '+ item[i].design_company.company_abbreviation +'</p>';
+          html += '</div>';
+          html += '</div>';
+        }
+      } else {
+        item =  item.filter(function (item,i,arr) {
+          console.log(item)
+          return item.cover && item.url && item.category_value && item.summary
+        })
+        for (var i = 0; i < item.length; i++) {
+          html += '<div class="card">';
+          html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">';
+          html += '<img class="lazy" data-original="'+ item[i].cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+          html += '<div class="text">';
+          html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">'+ item[i].title +'</a></h2>';
+          html += '<div class="desc"><p>'+ item[i].summary +'</p></div>';
+          html += '<p class="user"><img src="'+ item[i].url+'" width="30" /> '+ item[i].category_value +'</p>';
+          html += '</div>';
+          html += '</div>';
+        }
+      }
+
+      $('.d3ingo-case-box').html(html);
+      $("img.lazy").lazyload({
+        effect : "show"
+      });
+    }, 'json');
+  }
+</script>
+{% endblock %}
+
+{% block jquery %}
+    $('#content .menu .item')
+        .tab({
+        context: 'parent'
+    })
+ajax_load_d3ingo_case(0, 0, 0, 5, 1, 6);
+{% endblock %}
+{% block content %}
+<!--灵感案例-->
+<div class="ui topicnew-nav page box_shadow">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/message" class="ui link">资讯</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui link">社区话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui link">试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">活动</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_active }}" class="ui link">创新指数</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/inspiration" class="ui active link">灵感</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/project" class="ui link">专题</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/competition" class="ui link">大赛</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui trypagenew page">
+    <div class="ui responsive grid" id="content">
+        <!--<div class="m_t p_n">-->
+        <div class="ui pointing secondary menu m_n p_n">
+            <a class="item active" data-tab="case" onclick="ajax_load_d3ingo_case(0, 0, 0, 5, 1, 6)">常规案例</a>
+            <a class="item" data-tab="award_case" onclick="ajax_load_d3ingo_case(1, 0, 0, 2, 1, 6)">奖项案例</a>
+        </div>
+        <div class="ui tab active p_n" data-tab="case">
+            <div class="d3-card">
+                <div class="ui responsive grid">
+                    <div class="row">
+                        <div class="column">
+                            <div class="ui three cards d3ingo-case-box" id="">
+                                <!--ajax load-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui tab p_n" data-tab="award_case">
+            <div class="d3-card">
+                <div class="ui responsive grid">
+                    <div class="row">
+                        <div class="column">
+                            <div class="ui three cards d3ingo-case-box" id="d3ingo-awardCase-box">
+                                <!--ajax load-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h3>奖项案例</h3>
+        </div>
+        <!--end-->
+    </div>
+</div>
+{% endblock %}
+

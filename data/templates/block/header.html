@@ -3,7 +3,7 @@
     <div class="navbar-collapse">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="{{ app_url_domain }}/home" class="{{ css_page_home }}">首页</a>
+                <a href="{{ app_url_domain }}/hometest" class="{{ css_page_home }}">首页</a>
             </li>
             <!--
             <li class="nav-item">
@@ -12,7 +12,7 @@
             -->
             <li class="nav-item">
                 <!--<a href="{{ app_url_d3ingo }}" target="_blank">产品创新</a>-->
-                <a href="{{ app_url_d3ingo }}" target="_blank">铟果</a>
+                <a href="{{ app_url_d3ingo }}"  target="_blank">铟果</a>
             </li>
             <li class="nav-item">
                 <a href="{{ app_url_fiu }}" target="_blank">铟立方</a>
@@ -23,24 +23,25 @@
                 <a href="{{ app_url_domain }}/ingoset" class="{{ css_page_ingoset }}">铟果集</a>
             </li>
             -->
-            <li class="nav-item">
-                <a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区</a>
-            </li>
-            <!--<li class="nav-item ui dropdown server margin_none" data-url="javascript:void(0);">-->
-                <!--<a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区-->
-                    <!--<i class="angle down icon"></i>-->
-                <!--</a>-->
-                <!--<div class="menu">-->
-                    <!--<a class="item" href="{{ app_url_domain }}/topic/message">资讯</a>-->
-                    <!--<a class="item" href="{{ app_url_topic }}">社区话题</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#tzfh">试用</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#cpcx">创新指数</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#zcfw">灵感</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#ppyx">专题</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#d3in_shop">设计工具</a>-->
-                    <!--<a class="item" href="{{ app_url_domain }}/service#d3in_sys">大赛</a>-->
-                <!--</div>-->
+            <!--<li class="nav-item">-->
+                <!--<a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区</a>-->
             <!--</li>-->
+            <li class="nav-item ui dropdown server margin_none" data-url="javascript:void(0);">
+                <a href="{{ app_url_topic }}" class="{{ css_page_social }} {{ css_page_try }} {{ css_page_sub_active }}">社区
+                    <i class="angle down icon"></i>
+                </a>
+                <div class="menu">
+                    <a class="{{ css_page_message }} item" href="{{ app_url_topic }}/message">资讯</a>
+                    <a class="{{ css_page_c_topic }} item" href="{{ app_url_topic }}">社区话题</a>
+                    <a class="{{ css_page_try }} item" href="{{ app_url_try }}">试用</a>
+                    <a class="{{ css_page_active }} item" href="{{ app_url_active }}">活动</a>
+                    <!--<a class="item" href="{{ app_url_domain }}/service#cpcx">创新指数</a>-->
+                    <a class="{{ css_page_inspiration }} item" href="{{ app_url_topic }}/inspiration">灵感</a>
+                    <a class="{{ css_page_project }} item" href="{{ app_url_topic }}/project">专题</a>
+                    <!--<a class="item" href="{{ app_url_domain }}/service#d3in_shop">设计工具</a>-->
+                    <a class="{{ css_page_competition }} item" href="{{ app_url_topic }}/competition">大赛</a>
+                </div>
+            </li>
             <li class="nav-item ui dropdown server margin_none" data-url="javascript:void(0);">
                 <a href="{{ app_url_domain }}/service" class="{{ css_page_incubator }}">增值服务
                     <i class="angle down icon"></i>

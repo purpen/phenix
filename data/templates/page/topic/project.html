@@ -1,0 +1,170 @@
+{%extends 'layout/column.html'%}
+{% block title %}{% endblock %}
+
+{% block page_css %}
+<style class="text/css">
+    .d3-card {
+        padding-bottom: 90px;
+        padding-top: 0;
+    }
+
+    .box_shadow {
+        box-shadow: 0 4px 4px 0 rgba(0,0,0,0.03);
+    }
+
+    .d3-card .ui.two.cards .card>a {
+        padding-top: 52%;
+        width: 100%;
+        display: block;
+        position: relative;
+    }
+
+    .d3-card .ui.two.cards .card>a {
+        max-height: 320px;
+        overflow: hidden;
+    }
+
+    .d3-card .ui.two.zt.cards .card>a img {
+        width: 100%;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    .d3-card .ui.two.cards .card>a img {
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .d3-card .ui.two.cards .card .text {
+        margin: 11px 15px;
+        overflow: hidden;
+        min-height: 91px;
+    }
+
+    .d3-card .ui.two.cards .card .text>h2 {
+        bottom: 0;
+        color: #000;
+        font-weight: 400;
+        letter-spacing: .15px;
+        overflow: hidden;
+        text-align: left;
+        margin: 0 0 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .d3-card .ui.two.cards .card .text>h2>a {
+        color: #222;
+        letter-spacing: .2px;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .d3-card .ui.two.zt.cards .card .text>.desc {
+        font-size: 14px;
+        height: auto;
+        letter-spacing: .1px;
+        overflow: hidden;
+        padding: 0;
+        margin-bottom: 10px;
+        text-align: left;
+    }
+
+    .d3-card .ui.two.cards .card .text>.desc>p {
+        line-height: 1.5;
+        margin: 0;
+        color: #666;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block layout_js %}
+<script>
+
+</script>
+{% endblock %}
+
+{% block jquery %}
+{% endblock %}
+{% block content %}
+<!--专题-->
+<div class="ui topicnew-nav page">
+    <div class="ui responsive grid">
+        <div class="row">
+            <div class="ui center aligned column">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/message" class="ui link">资讯</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}" class="ui link">社区话题</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_try }}" class="ui link">试用</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_active }}" class="ui link">活动</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_active }}" class="ui link">创新指数</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/inspiration" class="ui link">灵感</a>
+                    </div>
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/project" class="ui active link">专题</a>
+                    </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>-->
+                    <!--</div>-->
+                    <div class="item">
+                        <a href="{{ app_url_topic }}/competition" class="ui link">大赛</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d3-card">
+    <div class="ui responsive grid">
+        <!--<div class="row">-->
+            <!--<div class="column">-->
+                <!--&lt;!&ndash;<h2 class="ui header">铟果说</h2>&ndash;&gt;-->
+                <!--<h2 class="ui header">专题</h2>-->
+            <!--</div>-->
+        <!--</div>-->
+        <div class="row">
+            <div class="column">
+                <div class="ui two zt cards" id="d3ingo-article-box1">
+                    <!--ajax load-->
+                    <div class="card">
+                        <a href=""><img src="{{ app_url_packaged }}/images/004.jpg" alt=""></a>
+                        <div class="text">
+                            <h2><a href="" title="123" target="_blank">123</a></h2>
+                            <div class="desc">
+                                <p>12345</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <a href=""><img src="{{ app_url_packaged }}/images/004.jpg" alt=""></a>
+                        <div class="text">
+                            <h2><a href="" title="123" target="_blank">123</a></h2>
+                            <div class="desc">
+                                <p>12345</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -5,7 +5,7 @@
 <style class="text/css">
     .m_t {
         margin: 0 10px 20px;
-        background: #ffffff;
+        background: #ffffff !important;
     }
 
     .p_n {
@@ -14,6 +14,27 @@
 
     .ui.secondary.pointing.menu {
         border: none;
+    }
+
+    .ui.secondary.pointing.menu .item {
+        margin: 0 15px -2px;
+        padding: .85714286em 0em;
+        height: 60px;
+    }
+    .ui.secondary.menu .active.item {
+        color: #f36 !important;
+        border-color: #f36 !important;
+    }
+
+    .h_sixty {
+        height: 60px;
+    }
+
+    .ui.trycard.three.cards>.card>.problock>a {
+        padding-top: 62%;
+    }
+    .trypagenew .nextstep.grid .row .column p {
+        color: #222 !important;
     }
 </style>
 {% endblock %}
@@ -29,22 +50,22 @@
     // ajax加载签到数据
     //phenix.signin();
 
-$('.paths.example .menu .item')
-.tab({
-context: '.paths.example'
-})
-;
+    $('#content .menu .item')
+    .tab({
+        context: 'parent'
+    })
 
 {% endblock %}
 
 {% block content %}
+<!--试用-->
 <div class="ui topicnew-nav page">
     <div class="ui responsive grid">
         <div class="row">
             <div class="ui center aligned column">
                 <div class="ui horizontal list">
                     <div class="item">
-                        <a href="{{ app_url_domain }}/topic/message" class="ui link">资讯</a>
+                        <a href="{{ app_url_topic }}/message" class="ui link">资讯</a>
                     </div>
                     <div class="item">
                         <a href="{{ app_url_topic }}" class="ui link">社区话题</a>
@@ -55,20 +76,20 @@ context: '.paths.example'
                     <div class="item">
                         <a href="{{ app_url_active }}" class="ui link">活动</a>
                     </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_active }}" class="ui link">创新指数</a>-->
+                    <!--</div>-->
                     <div class="item">
-                        <a href="{{ app_url_active }}" class="ui link">创新指数</a>
+                        <a href="{{ app_url_topic }}/inspiration" class="ui link">灵感</a>
                     </div>
                     <div class="item">
-                        <a href="{{ app_url_domain }}/albums" class="ui link">灵感</a>
+                        <a href="{{ app_url_topic }}/project" class="ui link">专题</a>
                     </div>
+                    <!--<div class="item">-->
+                    <!--<a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>-->
+                    <!--</div>-->
                     <div class="item">
-                        <a href="{{ app_url_domain }}/albums" class="ui link">专题</a>
-                    </div>
-                    <div class="item">
-                        <a href="{{ app_url_domain }}/albums" class="ui link">设计工具</a>
-                    </div>
-                    <div class="item">
-                        <a href="{{ app_url_domain }}/contest/qsyd4" class="ui link">大赛</a>
+                        <a href="{{ app_url_topic }}/competition" class="ui link">大赛</a>
                     </div>
                 </div>
             </div>
@@ -76,101 +97,196 @@ context: '.paths.example'
     </div>
 </div>
 <div class="ui trypagenew page">
-    <div class="ui responsive grid">
-        <div class="m_t p_n">
-            <div class="ui pointing secondary menu">
-                <a class="item active" data-tab="ongoing">正在进行</a>
-                <a class="item" data-tab="end">已结束</a>
-            </div>
+    <div class="ui responsive grid" id="content">
+        <!--<div class="m_t p_n">-->
+        <div class="ui pointing secondary menu m_t p_n h_sixty">
+            <a class="item active" data-tab="ongoing">正在进行</a>
+            <a class="item" data-tab="end">已结束</a>
         </div>
-        <div class="row pt-0">
-            <div class="column">
-                <div class="ui trycard three cards">
+        <div class="ui tab segment active p_n" data-tab="ongoing">
+            <div class="row pt-0">
+                <div class="column">
+                    <div class="ui trycard three cards">
 
-                    {% try_list var:'list' ignore_id:try_latest.rows.0._id page:1 state:1 sort:1 size:9 %}
-                    {% for t in list.rows %}
-                    <div class="card">
-                        <div class="problock">
-                            <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" target="_blank" class="bglazy" data-original="{{ t.cover.thumbnails.resp.view_url }}" style="background-color: rgba(0,0,0,0.1);background-size: cover;">
+                        {% try_list var:'list' ignore_id:try_latest.rows.0._id page:1 state:1 sort:1 size:9 %}
+                        {% for t in list.rows %}
+                        <div class="card">
+                            <div class="problock">
+                                <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" target="_blank" class="bglazy" data-original="{{ t.cover.thumbnails.resp.view_url }}" style="background-color: rgba(0,0,0,0.1);background-size: cover;">
 
-                            </a>
-                            <div class="ribbons">
-                                {% if t.season %}
-                                <span class="ribbon season">
+                                </a>
+                                <div class="ribbons">
+                                    {% if t.season %}
+                                    <span class="ribbon season">
                                     {{ t.kind_label }}
                                 </span>
-                                {%endif%}
-                                {%if t.step_stat == 0%}
-                                <span class="ribbon recoe">
+                                    {%endif%}
+                                    {%if t.step_stat == 0%}
+                                    <span class="ribbon recoe">
                                     预热中
                                 </span>
-                                {%endif%}
-                                {%if t.step_stat == 1%}
-                                <span class="ribbon apply">
+                                    {%endif%}
+                                    {%if t.step_stat == 1%}
+                                    <span class="ribbon apply">
                                     申请中
                                 </span>
-                                {%endif%}
-                                {%if t.step_stat == 2%}
-                                <span class="ribbon recoe">
+                                    {%endif%}
+                                    {%if t.step_stat == 2%}
+                                    <span class="ribbon recoe">
                                     名单审核中
                                 </span>
-                                {%endif%}
-                                {%if t.step_stat == 3%}
-                                <span class="ribbon callback">
+                                    {%endif%}
+                                    {%if t.step_stat == 3%}
+                                    <span class="ribbon callback">
                                     报告回收中
                                 </span>
-                                {%endif%}
-                                {%if t.step_stat == 5%}
-                                <span class="ribbon end">
+                                    {%endif%}
+                                    {%if t.step_stat == 5%}
+                                    <span class="ribbon end">
                                     已结束
                                 </span>
-                                {%endif%}
-                            </div>
-                            <div class="ui equal width center aligned padded grid">
-                                <div class="row">
-                                    {% if t.step_stat==0 %}
-                                    <div class="column">{{ t.want_count|default 0 }}人想要</div>
-                                    {%else%}
-                                    <div class="column">{{ t.try_count }}个产品</div>
-                                    <div class="column">{{ t.apply_count }}人申请</div>
                                     {%endif%}
                                 </div>
+                                <div class="ui equal width center aligned padded grid">
+                                    <div class="row">
+                                        {% if t.step_stat==0 %}
+                                        <div class="column">{{ t.want_count|default 0 }}人想要</div>
+                                        {%else%}
+                                        <div class="column">{{ t.try_count }}个产品</div>
+                                        <div class="column">{{ t.apply_count }}人申请</div>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                                <h2>
+                                    <a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+                                        {{ t.title }}<br>{% if t.price %}¥{{ t.price }}{%endif%}
+                                    </a>
+                                </h2>
+                                <div class="cats">
+                                    {% if t.step_stat == 0 %}
+                                    预热中 敬请期待!
+                                    {%endif%}
+                                    {% if t.step_stat == 1 %}
+                                    <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
+                                    {%endif%}
+                                    {% if t.step_stat == 2 %}
+                                    <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
+                                    {% if t.step_stat == 3 %}
+                                    {% if t.report_count==0 %}
+                                    <i class="tasks icon"></i> 试用报告正在回收中...
+                                    {%else%}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                    {%endif%}
+                                    {% endif %}
+                                    {% if t.step_stat == 5 %}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                    {% endif %}
+                                </div>
                             </div>
-                            <h2>
-                                <a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
-                                    {{ t.title }}<br>{% if t.price %}¥{{ t.price }}{%endif%}
-                                </a>
-                            </h2>
-                            <div class="cats">
-                                {% if t.step_stat == 0 %}
-                                预热中 敬请期待!
-                                {%endif%}
-                                {% if t.step_stat == 1 %}
-                                <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
-                                {%endif%}
-                                {% if t.step_stat == 2 %}
-                                <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
-                                {% if t.step_stat == 3 %}
-                                {% if t.report_count==0 %}
-                                <i class="tasks icon"></i> 试用报告正在回收中...
-                                {%else%}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
-                                {%endif%}
-                                {% endif %}
-                                {% if t.step_stat == 5 %}
-                                <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
-                                {% endif %}
-                            </div>
+
                         </div>
+                        {% endfor %}
 
                     </div>
-                    {% endfor %}
-
+                    <div class="ui pagination">
+                        <a href="{{ app_url_try}}/trylist " class="ui magenta inverted large more button">
+                            <i class="search icon"></i> 查看更多
+                        </a>
+                    </div>
                 </div>
-                <div class="ui pagination">
-                    <a href="{{ app_url_try}}/trylist " class="ui magenta inverted large more button">
-                        <i class="search icon"></i> 查看更多
-                    </a>
+            </div>
+        </div>
+        <!--end-->
+        <div class="ui tab segment p_n" data-tab="end">
+            <div class="row pt-0">
+                <div class="column">
+                    <div class="ui trycard three cards">
+
+                        {% try_list var:'list' ignore_id:try_latest.rows.0._id page:1 state:1 sort:1 size:9 %}
+                        {% for t in list.rows %}
+                        <div class="card">
+                            <div class="problock">
+                                <a title="{{ t.title }}" alt="{{ t.title }}" href="{{ t.view_url }}" target="_blank" class="bglazy" data-original="{{ t.cover.thumbnails.resp.view_url }}" style="background-color: rgba(0,0,0,0.1);background-size: cover;">
+
+                                </a>
+                                <div class="ribbons">
+                                    {% if t.season %}
+                                    <span class="ribbon season">
+                                    {{ t.kind_label }}
+                                </span>
+                                    {%endif%}
+                                    {%if t.step_stat == 0%}
+                                    <span class="ribbon recoe">
+                                    预热中
+                                </span>
+                                    {%endif%}
+                                    {%if t.step_stat == 1%}
+                                    <span class="ribbon apply">
+                                    申请中
+                                </span>
+                                    {%endif%}
+                                    {%if t.step_stat == 2%}
+                                    <span class="ribbon recoe">
+                                    名单审核中
+                                </span>
+                                    {%endif%}
+                                    {%if t.step_stat == 3%}
+                                    <span class="ribbon callback">
+                                    报告回收中
+                                </span>
+                                    {%endif%}
+                                    {%if t.step_stat == 5%}
+                                    <span class="ribbon end">
+                                    已结束
+                                </span>
+                                    {%endif%}
+                                </div>
+                                <div class="ui equal width center aligned padded grid">
+                                    <div class="row">
+                                        {% if t.step_stat==0 %}
+                                        <div class="column">{{ t.want_count|default 0 }}人想要</div>
+                                        {%else%}
+                                        <div class="column">{{ t.try_count }}个产品</div>
+                                        <div class="column">{{ t.apply_count }}人申请</div>
+                                        {%endif%}
+                                    </div>
+                                </div>
+                                <h2>
+                                    <a href="{{ t.view_url }}" title="{{ t.title }}" class="ui line" target="_blank">
+                                        {{ t.title }}<br>{% if t.price %}¥{{ t.price }}{%endif%}
+                                    </a>
+                                </h2>
+                                <div class="cats">
+                                    {% if t.step_stat == 0 %}
+                                    预热中 敬请期待!
+                                    {%endif%}
+                                    {% if t.step_stat == 1 %}
+                                    <i class="calendar icon"></i> 试用名单公布：<span> {{ t.publish_time }}</span>
+                                    {%endif%}
+                                    {% if t.step_stat == 2 %}
+                                    <i class="calendar icon"></i> 试用报告 正在回收中···                                                {% endif %}
+                                    {% if t.step_stat == 3 %}
+                                    {% if t.report_count==0 %}
+                                    <i class="tasks icon"></i> 试用报告正在回收中...
+                                    {%else%}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                    {%endif%}
+                                    {% endif %}
+                                    {% if t.step_stat == 5 %}
+                                    <i class="tasks icon"></i> 试用报告已回收 <span> {{ t.report_count }}</span> 份
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                    <div class="ui pagination">
+                        <a href="{{ app_url_try}}/trylist " class="ui magenta inverted large more button">
+                            <i class="search icon"></i> 查看更多
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -202,7 +318,7 @@ context: '.paths.example'
                                 <span class="mesg">
                                     <a href="{{ topic.user.home_url }}" class="ui link">@{{ topic.user.nickname }}</a>
                                 </span>
-                                <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="comments outline icon"></i> <span>{{ topic.comment_count }}</span>
+                                <i class="unhide icon"></i> <span>{{ topic.view_count }}</span> <i class="heart icon"></i> <span>{{ topic.comment_count }}</span>
                             </p>
                         </div>
                     </div>

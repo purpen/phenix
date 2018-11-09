@@ -32,7 +32,8 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 	 * 活动
 	 */
 	public function execute(){
-		return $this->get_list();
+		# return $this->get_list();
+		return $this->get_list2();
 	}
 	
 	/**
@@ -64,6 +65,23 @@ class Sher_App_Action_Active extends Sher_App_Action_Base implements DoggyX_Acti
 		$this->stash['pager_url'] = $pager_url;
 		
 		return $this->to_html_page('page/active/list.html');
+	}
+
+	/**
+	 * 活动列表测试
+	 */
+	public function get_list2(){
+
+		// 综合分类
+		$this->stash['topic_category_official'] = Doggy_Config::$vars['app.topic_category_official'];
+		// 产品分类
+		$this->stash['topic_category_user'] = Doggy_Config::$vars['app.topic_category_user'];
+
+		$pager_url = Sher_Core_Helper_Url::active_list_url($this->stash['category_id']).'p#p#';
+
+		$this->stash['pager_url'] = $pager_url;
+        $this->set_target_css_state('page_active');
+		return $this->to_html_page('page/active/list2.html');
 	}
 
 	

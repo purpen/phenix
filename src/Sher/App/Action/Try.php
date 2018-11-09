@@ -28,8 +28,8 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 	 * 列表
 	 */
 	public function execute(){
-		return $this->get_list();
-		# return $this->get_list2();
+		# return $this->get_list();
+		return $this->get_list2();
 	}
 	
 	/**
@@ -81,12 +81,10 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 		return $this->to_html_page('page/try/list.html');
 	}
 
-	/**
+	    /**
     	 * 评测列表
     	 */
     	public function get_list2(){
-    		$this->set_target_css_state('page_try');
-
         /**
         // 记录其它地过来用户注册统计
         if(isset($this->stash['from'])){
@@ -116,7 +114,7 @@ class Sher_App_Action_Try extends Sher_App_Action_Base implements DoggyX_Action_
 
     		// 评测报告分类
     		$this->stash['report_category_id'] = Doggy_Config::$vars['app.try.report_category_id'];
-
+            $this->set_target_css_state('page_try');
     		return $this->to_html_page('page/try/list2.html');
     	}
 	

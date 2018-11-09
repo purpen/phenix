@@ -1,6 +1,17 @@
+{% block page_css %}
+<style>
+    #ft .ui.list .menuitem .item {
+        font-size: 14px;
+        color: #000;
+    }
+    #ft .ui.list div.active.item {
+        color: #000;
+    }
+</style>
+{% endblock %}
 <div id="ft">
     <div class="ui responsive grid">
-        <div class="four column row">
+        <div class="five column row">
             <div class="column">
 				<div class="ui link list">
                     <div class="active item">关于太火鸟</div>
@@ -22,25 +33,42 @@
 				</div>
             </div>
             <div class="column">
-				<div class="ui link list">
+                <div class="ui link list">
                     <div class="active item">服务</div>
                     <div class="menuitem">
-                    	<a href="{{ app_url_domain }}/service#kjmx" class="{{ css_page_incubator }} item">科技美学</a>
+                        <a href="{{ app_url_domain }}/design" class="{{ css_page_design }} item">设计交易</a>
                     </div>
                     <div class="menuitem">
-                    	<a href="{{ app_url_domain }}/service#tzfh" class=" item">投资孵化</a>
+                        <a href="{{ app_url_d3ingo }}" class="item" target="_blank">铟果</a>
                     </div>
                     <div class="menuitem">
-                    	<a href="{{ app_url_domain }}/service#zcfw" class=" item">众筹服务</a>
+                        <a href="{{ app_url_domain }}/ingoset" class="{{ css_page_ingoset }} item">铟果集</a>
                     </div>
                     <div class="menuitem">
-                    	<a href="{{ app_url_domain }}/service#ppyx" class="item">品牌营销</a>
+                        <a href="{{ app_url_fiu }}" class="item" target="_blank">铟立方</a>
                     </div>
                     <div class="menuitem">
-                      <a href="{{ app_url_domain }}/service#d3in_shop" class=" item">D³IN铟立方·未来店</a>
+                        <a href="{{ app_url_domain }}/service" class="{{ css_page_incubator }} item">增值服务</a>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+				<div class="ui link list">
+                    <div class="active item">社区</div>
+                    <div class="menuitem">
+                    	<a href="{{ app_url_topic }}" class="{{ css_page_c_topic }} item">话题</a>
                     </div>
                     <div class="menuitem">
-                    	<a href="{{ app_url_domain }}/service#d3in_sys" class="item">D³IN铟立方·未来实验室</a>
+                    	<a href="{{ app_url_domain }}/topic/message" class=" {{ css_page_message }} item">资讯</a>
+                    </div>
+                    <div class="menuitem">
+                    	<a href="{{ app_url_try }}" class=" {{ css_page_try }} item">试用</a>
+                    </div>
+                    <div class="menuitem">
+                    	<a href="{{ app_url_active }}" class="{{ css_page_active }} item">活动</a>
+                    </div>
+                    <div class="menuitem">
+                      <a href="{{ app_url_topic }}/competition" class=" {{ css_page_competition }} item">大赛</a>
                     </div>
                     <!--
 					<div class="menuitem">
@@ -61,6 +89,46 @@
 					-->
 				</div>
             </div>
+            <!--<div class="column">-->
+				<!--<div class="ui link list">-->
+                    <!--<div class="active item">服务</div>-->
+                    <!--<div class="menuitem">-->
+                    	<!--<a href="{{ app_url_domain }}/service#kjmx" class="{{ css_page_incubator }} item">科技美学</a>-->
+                    <!--</div>-->
+                    <!--<div class="menuitem">-->
+                    	<!--<a href="{{ app_url_domain }}/service#tzfh" class=" item">投资孵化</a>-->
+                    <!--</div>-->
+                    <!--<div class="menuitem">-->
+                    	<!--<a href="{{ app_url_domain }}/service#zcfw" class=" item">众筹服务</a>-->
+                    <!--</div>-->
+                    <!--<div class="menuitem">-->
+                    	<!--<a href="{{ app_url_domain }}/service#ppyx" class="item">品牌营销</a>-->
+                    <!--</div>-->
+                    <!--<div class="menuitem">-->
+                      <!--<a href="{{ app_url_domain }}/service#d3in_shop" class=" item">D³IN铟立方·未来店</a>-->
+                    <!--</div>-->
+                    <!--<div class="menuitem">-->
+                    	<!--<a href="{{ app_url_domain }}/service#d3in_sys" class="item">D³IN铟立方·未来实验室</a>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;-->
+					<!--<div class="menuitem">-->
+						<!--<a href="{{ app_url_d3in }}" class="{{ css_page_d3in }} item"><span style="letter-spacing: 1px;">D<span style="font-size: 12px;vertical-align: top;line-height: 4px;">3</span>IN</span>实验室</a>-->
+					<!--</div>-->
+					<!--<div class="menuitem">-->
+						<!--<a href="{{ app_url_domain }}/fire" class="{{ css_page_fire }} item">创意征集</a>-->
+					<!--</div>-->
+					<!--<div class="menuitem">-->
+						<!--<a href="{{ app_url_domain }}/try" class="{{ css_page_try }} item">新品试用</a>-->
+					<!--</div>-->
+					<!--<div class="menuitem">-->
+						<!--<a href="{{ app_url_contest }}" class="{{ css_page_custom }} item">反向定制</a>-->
+					<!--</div>-->
+					<!--<div class="menuitem">-->
+						<!--<a href="{{ app_url_incubator }}" class="{{ css_page_incubator }} item">产品合作</a>-->
+					<!--</div>-->
+					<!--&ndash;&gt;-->
+				<!--</div>-->
+            <!--</div>-->
             <div class="column">
 				<div class="ui link list">
                     <div class="active item">帮助中心</div>
