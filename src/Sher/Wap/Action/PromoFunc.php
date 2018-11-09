@@ -957,7 +957,7 @@ class Sher_Wap_Action_PromoFunc extends Sher_Wap_Action_Base {
         $obj = Sher_Core_Util_WxPub::fetchOrCreatePublicDraw($uid, $model);
         $draw_count = $obj['total_count'] - $obj['draw_count'];
         if ($draw_count <= 0) {
-            return $this->ajax_json('您的抽奖次数已用尽！', true);
+            return $this->ajax_json('啊哦，你的抽奖机会用完了，去公众号回复“超级红包”，推荐好友成功关注额外获得2次抽奖机会。', true);
         }
 
         //prize表示奖项内容，v表示中奖几率(若数组中七个奖项的v的总和为100，如果v的值为1，则代表中奖几率为1%，依此类推)

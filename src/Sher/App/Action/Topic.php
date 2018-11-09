@@ -237,7 +237,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 				$options['sort_field'] = 'latest';
 				break;
 			case 1:
-				$options['sort_field'] = 'update';
+				$options['sort_field'] = 'latest';
 				break;
 			case 2:
 				$options['sort_field'] = 'comment';
