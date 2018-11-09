@@ -547,7 +547,17 @@
     .ui.two.cards .card:hover {
         box-shadow: 0 5px 10px 0 #eee;
     }
+    .d3-card .ui.three.cards .card>a {
+        padding-top: 75%;
+    }
 
+    .d3-card .ui.three.cards .card .text>.desc {
+        height: 41px;
+    }
+
+    .d3-card .ui.three.cards .card .text>.user img {
+        margin-right: 5px;
+    }
     /*.display_f_c:last-child .display_f {*/
         /*margin-bottom: 10px;*/
     /*}*/
@@ -596,24 +606,28 @@
     var url = '{{ app_url_d3ingo_api }}/designCase/openLists';
     $.get(url, { category_id:category_id, sort:sort, page:page, type:type, per_page:size }, function(rs){
       var html = '';
-      for (var i = 0; i < rs.data.length; i++) {
-        var item = rs.data[i];
-        var company_name = '';
-        var company_logo_url = '';
-        if (item.design_company) {
-          company_name = item.design_company.company_abbreviation;
-          if (item.design_company.logo_image) {
-            company_logo_url = item.design_company.logo_image.logo;
-          }
-        }
+      var item = rs.data;
+      item =  item.filter(function (item,i,arr) {
+        console.log(item)
+        return item.cover && item.design_company.logo_image && item.design_company
+      })
+      for (var i = 0; i < item.length; i++) {
+        // var company_name = '';
+        // var company_logo_url = '';
+        // if (item.design_company) {
+        //   company_name = item.design_company.company_abbreviation;
+        //   if (item.design_company.logo_image) {
+        //     company_logo_url = item.design_company.logo_image.logo;
+        //   }
+        // }
 
         html += '<div class="card">';
-        html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
-        html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<a href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">';
+        html += '<img class="lazy" data-original="'+ item[i].cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
         html += '<div class="text">';
-        html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
-        html += '<div class="desc"><p>'+ item.profile +'</p></div>';
-        html += '<p class="user"><img src="'+ company_logo_url +'" width="30" /> '+ company_name +'</p>';
+        html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/design_case/show/'+ item[i].id +'" title="'+ item[i].title +'" target="_blank">'+ item[i].title +'</a></h2>';
+        html += '<div class="desc"><p>'+ item[i].profile +'</p></div>';
+        html += '<p class="user"><img src="'+ item[i].design_company.logo_image.logo +'" width="30" /> '+ item[i].design_company.company_abbreviation +'</p>';
         html += '</div>';
         html += '</div>';
 
