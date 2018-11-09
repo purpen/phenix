@@ -287,7 +287,7 @@
     }
 
     .d3-card .ui.three.cards .card>a {
-        max-height: 270px;
+        max-height: 285px;
         overflow: hidden;
     }
     /*------------新版样式------------*/
@@ -547,9 +547,6 @@
     .ui.two.cards .card:hover {
         box-shadow: 0 5px 10px 0 #eee;
     }
-    .d3-card .ui.three.cards .card>a {
-        padding-top: 75%;
-    }
 
     .d3-card .ui.three.cards .card .text>.desc {
         height: 41px;
@@ -586,7 +583,7 @@
         var item = rs.data[i];
         html += '<div class="card">';
         html += '<a href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">';
-        html += '<img class="lazy" data-original="'+ item.cover.middle +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
+        html += '<img class="lazy" data-original="'+ item.cover.big +'" src="{{ app_url_packaged }}/images/icon/loadbg0.jpg" /></a>';
         html += '<div class="text">';
         html += '<h2><a class="ui link" href="{{ app_url_d3ingo }}/article/show/'+ item.id +'" title="'+ item.title +'" target="_blank">'+ item.title +'</a></h2>';
         html += '<div class="desc"><p>'+ item.short_content +'</p></div>';
