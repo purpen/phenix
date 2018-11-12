@@ -25,7 +25,7 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
 	
 	protected $page_tab = 'page_topic';
 	protected $page_html = 'page/topic/index.html';
-	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics', 'message', 'inspiration', 'project', 'competition');
+	protected $exclude_method_list = array('execute', 'index', 'ajax_fetch_more', 'get_list', 'view', 'ajax_guess_topics', 'message', 'inspiration', 'project', 'competition', 'innovation');
 	
 	public function _init() {
 		$this->set_target_css_state('page_social');
@@ -85,6 +85,13 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     	public function competition(){
             $this->set_target_css_state('page_competition');
     		return $this->to_html_page('page/topic/competition.html');
+    	}
+    /**
+     * 社区创新指数测试
+     */
+    	public function innovation(){
+            $this->set_target_css_state('page_innovation');
+    		return $this->to_html_page('page/topic/innovation.html');
     	}
 	
 	/**
