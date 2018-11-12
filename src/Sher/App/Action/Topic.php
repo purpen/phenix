@@ -89,10 +89,10 @@ class Sher_App_Action_Topic extends Sher_App_Action_Base implements DoggyX_Actio
     /**
      * 社区创新指数测试
      */
-    	public function innovation(){
-            $this->set_target_css_state('page_innovation');
-    		return $this->to_html_page('page/topic/innovation.html');
-    	}
+    	#public function innovation(){
+        #    $this->set_target_css_state('page_innovation');
+    	#	return $this->to_html_page('page/topic/innovation.html');
+    	#}
 	
 	/**
 	 * 社区首页
